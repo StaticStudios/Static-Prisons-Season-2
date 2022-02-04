@@ -1,0 +1,38 @@
+name: Static-Prisons
+version: '${project.version}'
+main: me.staticstudios.prisons.Main
+api-version: 1.17
+depend: [ WorldEdit ]
+commands:
+  test:
+    description: a
+    permission: static.staff.developer
+  setplayerrank:
+    description: a
+    permission: static.staff.admin
+  addchattag:
+    description: a
+    permission: static.staff.admin
+  addallchattags:
+    description: a
+    permission: static.staff.sradmin
+  removechattag:
+    description: a
+    permission: static.staff.admin
+  setstaffrank:
+    description: a
+    permission: static.staff.sradmin
+  getnewpickaxe:
+    description: a
+  sell:
+    description: a
+  rankup:
+    description: a
+  rankupmax:
+    description: a
+  gui:
+    description: a
+  chattags:
+    aliases:
+      - tags
+    description: a
