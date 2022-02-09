@@ -27,6 +27,9 @@ public class GUIPage {
         classes.add(RankUpMenus.class);
         classes.add(WarpsMenus.class);
         classes.add(ChatTagsMenus.class);
+        classes.add(PrestigeMenus.class);
+        classes.add(BackpackMenus.class);
+        classes.add(AuctionHouseMenus.class);
         for (Class c : classes) {
             //Method[] methods = Main.class.getDeclaredMethods();
             Method[] methods = c.getDeclaredMethods();

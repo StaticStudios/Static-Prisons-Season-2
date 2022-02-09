@@ -67,91 +67,90 @@ public class WarpsMenus {
                 menuItems = new ArrayList<>();
                 for (int i = 0; i < 26; i++) {
                     if (playerData.getMineRank() >= i) {
-                        menuItems.add(GUI.createMenuItem(identifier, publicMineWarpMaterials[i / 3], ChatColor.GREEN + "" + ChatColor.BOLD + "Mine " + Utils.getMineRankLetterFromMineRank(i), ChatColor.GREEN + "Click to warp!"));
-                    } else menuItems.add(GUI.createMenuItem(identifier, Material.RED_STAINED_GLASS, ChatColor.RED + "" + ChatColor.BOLD + "Mine " + Utils.getMineRankLetterFromMineRank(i), ChatColor.RED + "You do not have this mine unlocked!"));
+                        menuItems.add(GUI.createMenuItem(identifier, publicMineWarpMaterials[i / 3], ChatColor.GREEN + "" + ChatColor.BOLD + "Mine " + Utils.getMineRankLetterFromMineRank(i), ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
+                    } else menuItems.add(GUI.createMenuItem(identifier, Material.RED_STAINED_GLASS, ChatColor.RED + "" + ChatColor.BOLD + "Mine " + Utils.getMineRankLetterFromMineRank(i), ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
                 }
                 int currentPMine;
                 currentPMine = 0;
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(9, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(9, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
-                currentPMine = 14;
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(17, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(17, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(9, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
+                } else menuItems.add(9, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
                 currentPMine = 1;
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(18, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(18, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
-                currentPMine = 13;
+                    menuItems.add(17, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
+                } else menuItems.add(17, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
+               currentPMine = 2;
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(26, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(26, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
-                currentPMine = 2;
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(27, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(27, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(25, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
+                } else menuItems.add(25, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
                 currentPMine = 3;
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(28, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(28, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(26, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
+                } else menuItems.add(26, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
                 currentPMine = 4;
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(29, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(29, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
-                currentPMine = 10;
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
-                currentPMine = 11;
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
-                currentPMine = 12;
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
-                menuItems.add(GUI.createLightGrayPlaceholderItem());
-                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                    menuItems.add(27, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
+                } else menuItems.add(27, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 69x98x69"));
+                for (int i = 0; i < 5; i++) menuItems.add(GUI.createLightGrayPlaceholderItem());
                 currentPMine = 5;
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
+                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
                 currentPMine = 6;
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
+                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
                 currentPMine = 7;
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
+                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
                 currentPMine = 8;
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
+                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
                 currentPMine = 9;
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
-                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
+                } else menuItems.add(GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
+                currentPMine = 10;
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
+                    menuItems.set(31, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 109x98x109"));
+                } else menuItems.set(31, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 109x98x109"));
+                currentPMine = 11;
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
+                    menuItems.set(32, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 109x98x109"));
+                } else menuItems.set(32, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 109x98x109"));
+                currentPMine = 12;
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
+                    menuItems.set(33, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 109x98x109"));
+                } else menuItems.set(33, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 109x98x109"));
+                currentPMine = 13;
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
+                    menuItems.add(25, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 109x98x109"));
+                } else menuItems.add(25, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 109x98x109"));
+                currentPMine = 14;
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine])) > -1) {
+                    menuItems.add(17, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 151x98x151"));
+                } else menuItems.add(17, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 151x98x151"));
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
-                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.ENCHANTING_TABLE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Event Mine", ChatColor.AQUA + "Warp to the event mine"));
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.ENCHANTING_TABLE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Event Mine" + ChatColor.GRAY + " (not finished)", ChatColor.AQUA + "Warp to the event mine"));
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 if (playerData.getPlayerRanks().contains("warrior")) {
-                    menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_COAL_ORE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Warrior Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "warrior" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_COAL_ORE, ChatColor.RED + "" + ChatColor.BOLD + "Warrior Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "warrior" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_COAL_ORE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Warrior Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "warrior" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 79x98x79"));
+                } else menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_COAL_ORE, ChatColor.RED + "" + ChatColor.BOLD + "Warrior Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "warrior" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 79x98x79"));
                 if (playerData.getPlayerRanks().contains("master")) {
-                    menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_IRON_ORE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Master Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "master" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_IRON_ORE, ChatColor.RED + "" + ChatColor.BOLD + "Master Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "master" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_IRON_ORE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Master Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "master" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
+                } else menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_IRON_ORE, ChatColor.RED + "" + ChatColor.BOLD + "Master Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "master" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 89x98x89"));
                 if (playerData.getPlayerRanks().contains("mythic")) {
-                    menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_GOLD_ORE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Mythic Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "mythic" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_GOLD_ORE, ChatColor.RED + "" + ChatColor.BOLD + "Mythic Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "mythic" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_GOLD_ORE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Mythic Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "mythic" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 99x98x99"));
+                } else menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_GOLD_ORE, ChatColor.RED + "" + ChatColor.BOLD + "Mythic Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "mythic" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 99x98x99"));
                 if (playerData.getPlayerRanks().contains("static")) {
-                    menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_DIAMOND_ORE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Static Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "static" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_DIAMOND_ORE, ChatColor.RED + "" + ChatColor.BOLD + "Static Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "static" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_DIAMOND_ORE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Static Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "static" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 129x98x129"));
+                } else menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_DIAMOND_ORE, ChatColor.RED + "" + ChatColor.BOLD + "Static Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "static" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 129x98x129"));
                 if (playerData.getPlayerRanks().contains("staticp")) {
-                    menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_EMERALD_ORE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Static+ Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "static+" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.GREEN + "Click to warp!"));
-                } else menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_EMERALD_ORE, ChatColor.RED + "" + ChatColor.BOLD + "Static+ Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "static+" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.RED + "You do not have this mine unlocked!"));
+                    menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_EMERALD_ORE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Static+ Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "static+" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 151x98x151"));
+                } else menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_EMERALD_ORE, ChatColor.RED + "" + ChatColor.BOLD + "Static+ Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "static+" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 151x98x151"));
             }
             @Override
             public void item0Clicked(InventoryClickEvent e) {
@@ -330,7 +329,7 @@ public class WarpsMenus {
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
-            public void item29Clicked(InventoryClickEvent e) {
+            public void item25Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getMineRank() >= 22) {
@@ -366,7 +365,159 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[0])) > -1) {
-                    Warps.warpToMine(player, 25);
+                    Warps.warpPrestigeMine(player, 0);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item18Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[1])) > -1) {
+                    Warps.warpPrestigeMine(player, 1);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item27Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[2])) > -1) {
+                    Warps.warpPrestigeMine(player, 2);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item28Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[3])) > -1) {
+                    Warps.warpPrestigeMine(player, 3);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item29Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[4])) > -1) {
+                    Warps.warpPrestigeMine(player, 4);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item38Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[5])) > -1) {
+                    Warps.warpPrestigeMine(player, 5);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item39Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[6])) > -1) {
+                    Warps.warpPrestigeMine(player, 6);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item40Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[7])) > -1) {
+                    Warps.warpPrestigeMine(player, 7);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item41Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[8])) > -1) {
+                    Warps.warpPrestigeMine(player, 8);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item42Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[9])) > -1) {
+                    Warps.warpPrestigeMine(player, 9);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item33Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[10])) > -1) {
+                    Warps.warpPrestigeMine(player, 10);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item34Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[11])) > -1) {
+                    Warps.warpPrestigeMine(player, 11);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item35Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[12])) > -1) {
+                    Warps.warpPrestigeMine(player, 12);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item26Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[13])) > -1) {
+                    Warps.warpPrestigeMine(player, 13);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item17Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.amountOfPrestigesRequiredForPrestigeMines[14])) > -1) {
+                    Warps.warpPrestigeMine(player, 14);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item47Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPlayerRanks().contains("warrior")) {
+                    Warps.warpRankMine(player, 0);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item48Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPlayerRanks().contains("master")) {
+                    Warps.warpRankMine(player, 1);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item49Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPlayerRanks().contains("mythic")) {
+                    Warps.warpRankMine(player, 2);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item50Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPlayerRanks().contains("static")) {
+                    Warps.warpRankMine(player, 3);
+                } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item51Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                if (playerData.getPlayerRanks().contains("staticp")) {
+                    Warps.warpRankMine(player, 4);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
         };

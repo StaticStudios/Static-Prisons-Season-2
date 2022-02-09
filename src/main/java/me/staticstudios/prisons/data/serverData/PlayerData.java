@@ -4,17 +4,18 @@ package me.staticstudios.prisons.data.serverData;
 import me.staticstudios.prisons.data.PlayerBackpack;
 import me.staticstudios.prisons.data.dataHandling.Data;
 import me.staticstudios.prisons.data.dataHandling.DataSet;
-import me.staticstudios.prisons.data.dataHandling.DataSets;
 import me.staticstudios.prisons.data.dataHandling.DataTypes;
 import me.staticstudios.prisons.utils.Utils;
-import org.bukkit.ChatColor;
+import org.apache.commons.lang.SerializationUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,16 +44,16 @@ public class PlayerData extends DataSet {
 
     //Money
     public BigInteger getMoney() {
-        if (getData("money").object == null) {
+        if (getData("money").bigInteger == null) {
             Data newData = new Data();
-            newData.object = BigInteger.ZERO;;
+            newData.bigInteger = BigInteger.ZERO;
             setData("money", newData);
         }
-        return ((BigInteger) getData("money").object);
+        return (getData("money").bigInteger);
     }
     public Data setMoney(BigInteger value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.bigInteger = value;
         return setData("money", newData);
     }
     public Data addMoney(BigInteger value) {
@@ -64,16 +65,16 @@ public class PlayerData extends DataSet {
 
     //Tokens
     public BigInteger getTokens() {
-        if (getData("tokens").object == null) {
+        if (getData("tokens").bigInteger == null) {
             Data newData = new Data();
-            newData.object = BigInteger.ZERO;;
+            newData.bigInteger = BigInteger.ZERO;
             setData("tokens", newData);
         }
-        return ((BigInteger) getData("tokens").object);
+        return (getData("tokens").bigInteger);
     }
     public Data setTokens(BigInteger value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.bigInteger = value;
         return setData("tokens", newData);
     }
     public Data addTokens(BigInteger value) {
@@ -85,16 +86,16 @@ public class PlayerData extends DataSet {
 
     //Time played
     public BigInteger getTimePlayed() {
-        if (getData("timePlayed").object == null) {
+        if (getData("timePlayed").bigInteger == null) {
             Data newData = new Data();
-            newData.object = BigInteger.ZERO;;
+            newData.bigInteger = BigInteger.ZERO;
             setData("timePlayed", newData);
         }
-        return ((BigInteger) getData("timePlayed").object);
+        return (getData("timePlayed").bigInteger);
     }
     public Data setTimePlayed(BigInteger value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.bigInteger = value;
         return setData("timePlayed", newData);
     }
     public Data addTimePlayed(BigInteger value) {
@@ -106,16 +107,16 @@ public class PlayerData extends DataSet {
 
     //Raw blocks mined
     public BigInteger getRawBlocksMined() {
-        if (getData("rawBlocksMined").object == null) {
+        if (getData("rawBlocksMined").bigInteger == null) {
             Data newData = new Data();
-            newData.object = BigInteger.ZERO;;
+            newData.bigInteger = BigInteger.ZERO;
             setData("rawBlocksMined", newData);
         }
-        return ((BigInteger) getData("rawBlocksMined").object);
+        return (getData("rawBlocksMined").bigInteger);
     }
     public Data setRawBlocksMined(BigInteger value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.bigInteger = value;
         return setData("rawBlocksMined", newData);
     }
     public Data addRawBlocksMined(BigInteger value) {
@@ -127,16 +128,16 @@ public class PlayerData extends DataSet {
 
     //Blocks Mined
     public BigInteger getBlocksMined() {
-        if (getData("blocksMined").object == null) {
+        if (getData("blocksMined").bigInteger == null) {
             Data newData = new Data();
-            newData.object = BigInteger.ZERO;;
+            newData.bigInteger = BigInteger.ZERO;;
             setData("blocksMined", newData);
         }
-        return ((BigInteger) getData("blocksMined").object);
+        return (getData("blocksMined").bigInteger);
     }
     public Data setBlocksMined(BigInteger value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.bigInteger = value;
         return setData("blocksMined", newData);
     }
     public Data addBlocksMined(BigInteger value) {
@@ -164,12 +165,12 @@ public class PlayerData extends DataSet {
 
     //Prestige
     public BigInteger getPrestige() {
-        if (getData("prestige").object == null) return BigInteger.ZERO;
-        return (BigInteger) getData("prestige").object;
+        if (getData("prestige").bigInteger == null) return BigInteger.ZERO;
+        return getData("prestige").bigInteger;
     }
     public Data setPrestige(BigInteger value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.bigInteger = value;
         return setData("prestige", newData);
     }
     public Data addPrestige(BigInteger value) {
@@ -181,12 +182,17 @@ public class PlayerData extends DataSet {
 
     //Backpack
     public PlayerBackpack getBackpack() {
-        if (getData("backpack").object != null) return (PlayerBackpack) getData("backpack").object;
-        return new PlayerBackpack();
+        if (getData("backpack").byteArr == null) return new PlayerBackpack();
+            try {
+                return (PlayerBackpack) new ObjectInputStream(new ByteArrayInputStream(getData("backpack").byteArr)).readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            }
     }
     public Data setBackpack(PlayerBackpack value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.byteArr = SerializationUtils.serialize(value);
         return setData("backpack", newData);
     }
     public void addBlocksToBackpack(Material type, BigInteger amount) {
@@ -298,16 +304,16 @@ public class PlayerData extends DataSet {
     public Data setChatTags(List<String> value) {
         Data newData = new Data();
         value = Utils.removeDuplicatesInArrayList(value);
-        newData.object = value;
+        newData.list = value;
         setData("chatTags", newData);
         return getData("chatTags");
     }
     public List<String> getChatTags() {
         Data newData = new Data();
-        if (getData("chatTags").object == null) {
+        if (getData("chatTags").list == null) {
             setChatTags(new ArrayList<>());
         }
-        return (List<String>) getData("chatTags").object;
+        return (List<String>) getData("chatTags").list;
     }
 
     public void removeChatTag(String value) {

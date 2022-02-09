@@ -18,6 +18,8 @@ public class ChatTags {
     public static final String STREAMER = ChatColor.translateAlternateColorCodes('&', "&8[&dStreamer&8] ");
     public static final String BUILDER = ChatColor.translateAlternateColorCodes('&', "&8[&b&lBuilder&8] ");
     public static final String DEV = ChatColor.translateAlternateColorCodes('&', "&8[&b&lDev&8] ");
+    public static final String IM_RICH = ChatColor.translateAlternateColorCodes('&', "&8[&f&l$&8] ");
+    public static final String SIMP = ChatColor.translateAlternateColorCodes('&', "&8[&dS.I.M.P&8] ");
     static {
         chatTags.put("weewoo", WEEWOO);
         chatTags.put("mr.yuh", MR_YUH);
@@ -30,6 +32,8 @@ public class ChatTags {
         chatTags.put("streamer", STREAMER);
         chatTags.put("builder", BUILDER);
         chatTags.put("dev", DEV);
+        chatTags.put("rich", IM_RICH);
+        chatTags.put("simp", SIMP);
     }
 
     public static String getChatTagFromID(String id) {

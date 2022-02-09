@@ -1,6 +1,10 @@
 package me.staticstudios.prisons.utils;
 
 import me.staticstudios.prisons.Main;
+import me.staticstudios.prisons.data.serverData.PlayerData;
+import net.luckperms.api.model.data.DataMutateResult;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.Node;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -22,9 +26,32 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Utils {
+    public static void updateLuckPermsForPlayerRanks(Player player) {
+        PlayerData playerData = new PlayerData(player);
+        User user = Main.luckPerms.getPlayerAdapter(Player.class).getUser(player);
+        user.data().remove(Node.builder("group.prisons-donator-staticp").build());
+        user.data().remove(Node.builder("group.prisons-donator-static").build());
+        user.data().remove(Node.builder("group.prisons-donator-mythic").build());
+        user.data().remove(Node.builder("group.prisons-donator-master").build());
+        user.data().remove(Node.builder("group.prisons-donator-warrior").build());
+        switch (playerData.getPlayerRank()) {
+            case "staticp":
+                user.data().add(Node.builder("group.prisons-donator-staticp").build());
+            case "static":
+                user.data().add(Node.builder("group.prisons-donator-static").build());
+            case "mythic":
+                user.data().add(Node.builder("group.prisons-donator-mythic").build());
+            case "master":
+                user.data().add(Node.builder("group.prisons-donator-master").build());
+            case "warrior":
+                user.data().add(Node.builder("group.prisons-donator-warrior").build());
+        }
+        Main.luckPerms.getUserManager().saveUser(user);
+    }
     public static boolean writeToAFile(String filePath, List<String> linesToWrite, boolean append) {
         try {
             File file = new File(filePath);
+            file.mkdirs();
             if (!file.exists()) file.createNewFile();
             StringBuilder contents = new StringBuilder();
             if (append) {

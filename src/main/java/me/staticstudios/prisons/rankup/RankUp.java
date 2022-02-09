@@ -18,7 +18,7 @@ public class RankUp {
         BigInteger offset;
         if (playerData.getPrestige().equals(BigInteger.ZERO)) {
             offset = BigInteger.ONE;
-        } else offset = playerData.getPrestige().multiply(BigInteger.TWO);
+        } else offset = playerData.getPrestige().divide(BigInteger.TEN);
         for (int i = playerData.getMineRank() + 1; i <= rankToGoTo; i++) {
             price = price.add(RankUpPrices.getBaseRankUpPriceForRank(i));
         }

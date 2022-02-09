@@ -35,16 +35,16 @@ public class ServerData extends DataSet {
 
     //PlayersWhoHaveJoined
     public List<String> getAllJoinedPlayersUUIDs() {
-        if (getData("allJoinedPlayersUUIDs").object == null) {
+        if (getData("allJoinedPlayersUUIDs").list == null) {
             Data newData = new Data();
-            newData.object = new ArrayList<>();
+            newData.list = new ArrayList<>();
             setData("allJoinedPlayersUUIDs", newData);
         }
-        return (List<String>) getData("allJoinedPlayersUUIDs").object;
+        return (List<String>) getData("allJoinedPlayersUUIDs").list;
     }
     public Data setAllJoinedPlayersUUIDs(List<String> value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.list = value;
         return setData("allJoinedPlayersUUIDs", newData);
     }
     public Data addJoinedPlayersUUID(String value) {
@@ -59,31 +59,31 @@ public class ServerData extends DataSet {
     }
 
     public Map<String, String> getPlayerNamesToUUIDsMap() {
-        if (getData("playerNamesToUUIDs").object == null) {
+        if (getData("playerNamesToUUIDs").map == null) {
             Data newData = new Data();
-            newData.object = new HashMap<>();
+            newData.map = new HashMap<>();
             setData("playerNamesToUUIDs", newData);
         }
-        return (Map<String, String>) getData("playerNamesToUUIDs").object;
+        return (Map<String, String>) getData("playerNamesToUUIDs").map;
     }
 
     public Map<String, String> getPlayerUUIDsToNamesMap() {
-        if (getData("playerUUIDsToNames").object == null) {
+        if (getData("playerUUIDsToNames").map == null) {
             Data newData = new Data();
-            newData.object = new HashMap<>();
+            newData.map = new HashMap<>();
             setData("playerUUIDsToNames", newData);
         }
-        return (Map<String, String>) getData("playerUUIDsToNames").object;
+        return (Map<String, String>) getData("playerUUIDsToNames").map;
     }
 
     public Data setPlayerNamesToUUIDsMap(Map<String, String> value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.map = value;
         return setData("playerNamesToUUIDs", newData);
     }
     public Data setPlayerUUIDsToNamesMap(Map<String, String> value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.map = value;
         return setData("playerUUIDsToNames", newData);
     }
 
@@ -123,16 +123,16 @@ public class ServerData extends DataSet {
 
 
     public Map<String, String> getCellNamesToUUIDsMap() {
-        if (getData("skyblockIslandNamesToUUIDsMap").object == null) {
+        if (getData("skyblockIslandNamesToUUIDsMap").map == null) {
             Data newData = new Data();
-            newData.object = new HashMap<>();
+            newData.map = new HashMap<>();
             setData("skyblockIslandNamesToUUIDsMap", newData);
         }
-        return (Map<String, String>) getData("skyblockIslandNamesToUUIDsMap").object;
+        return (Map<String, String>) getData("skyblockIslandNamesToUUIDsMap").map;
     }
     public Data setCellNamesToUUIDsMap(Map<String, String> value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.map = value;
         return setData("skyblockIslandNamesToUUIDsMap", newData);
     }
     public Data putCellNameToUUID(String name, String uuid) {
@@ -148,16 +148,16 @@ public class ServerData extends DataSet {
 
 
     public Map<String, String> getCellUUIDsToNamesMap() {
-        if (getData("cellUUIDsToNamesMap").object == null) {
+        if (getData("cellUUIDsToNamesMap").map == null) {
             Data newData = new Data();
-            newData.object = new HashMap<>();
+            newData.map = new HashMap<>();
             setData("cellUUIDsToNamesMap", newData);
         }
-        return (Map<String, String>) getData("cellUUIDsToNamesMap").object;
+        return (Map<String, String>) getData("cellUUIDsToNamesMap").map;
     }
     public Data setCellUUIDsToNamesMap(Map<String, String> value) {
         Data newData = new Data();
-        newData.object = value;
+        newData.map = value;
         return setData("cellUUIDsToNamesMap", newData);
     }
     public Data putCellUUIDToName(String uuid, String name) {

@@ -1,5 +1,13 @@
 package me.staticstudios.prisons.blockBroken;
 
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.regions.Region;
+import com.sk89q.worldedit.world.block.BlockTypes;
+import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.mines.BaseMine;
 import me.staticstudios.prisons.mines.MineManager;
 import org.bukkit.Bukkit;
@@ -27,7 +35,7 @@ public class MultiDirectional {
      *
      * @return all the blocks that were removed
      */
-    public Map<Material, BigInteger> destroySection(int fromY, int minY) {
+    public Map<Material, BigInteger> destroySection(int fromY, int minY, int xCord, int zCord) {
         Map<Material, BigInteger> blocksBroken = new HashMap<>();
         int totalBlocksBroken = 0;
         int blockZ = loc.getBlockZ();
@@ -53,7 +61,19 @@ public class MultiDirectional {
                 }
             }
         }
-        if (!mine.brokeBlocksInMine(totalBlocksBroken)) BlockChange.addMultiDirectionalBlockChange(Bukkit.getWorld("mines"), (int) mine.minLocation.getX(), (int) loc.getY(), (int) mine.minLocation.getZ(), (int) mine.maxLocation.getX(), minY, (int) mine.maxLocation.getZ(), (int) loc.getX(), (int) loc.getZ());
+        if (!mine.brokeBlocksInMine(totalBlocksBroken)) {
+            Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+                Region region = new CuboidRegion(BukkitAdapter.adapt(mine.minLocation.getWorld()), BlockVector3.at(mine.minLocation.getX(), minY, zCord), BlockVector3.at(mine.maxLocation.getX(), fromY, zCord));
+                EditSession editSession = WorldEdit.getInstance().newEditSession(region.getWorld());
+                editSession.setBlocks(region, BlockTypes.AIR);
+                editSession.close();
+                region = new CuboidRegion(BukkitAdapter.adapt(mine.minLocation.getWorld()), BlockVector3.at(xCord, minY, mine.maxLocation.getZ()), BlockVector3.at(xCord, fromY, mine.minLocation.getZ()));
+                editSession.setBlocks(region, BlockTypes.AIR);
+                editSession.close();
+            });
+        }
+
+        //BlockChange.addMultiDirectionalBlockChange(Bukkit.getWorld("mines"), (int) mine.minLocation.getX(), (int) loc.getY(), (int) mine.minLocation.getZ(), (int) mine.maxLocation.getX(), minY, (int) mine.maxLocation.getZ(), (int) loc.getX(), (int) loc.getZ());
         return blocksBroken;
     }
 }

@@ -1,10 +1,14 @@
 name: Static-Prisons
 version: '${project.version}'
+description: This plugin allows static prisons to run!
 main: me.staticstudios.prisons.Main
 api-version: 1.17
-depend: [ WorldEdit ]
+depend: [ WorldEdit, WorldGuard, LuckPerms ]
 commands:
   test:
+    description: a
+    permission: static.staff.developer
+  test2:
     description: a
     permission: static.staff.developer
   setplayerrank:
@@ -22,6 +26,11 @@ commands:
   setstaffrank:
     description: a
     permission: static.staff.sradmin
+  modifystats:
+    description: a
+    aliases:
+      - modstats
+    permission: static.staff.admin
   getnewpickaxe:
     description: a
   sell:
@@ -36,3 +45,24 @@ commands:
     aliases:
       - tags
     description: a
+  prestige:
+    description: a
+  enderchest:
+    description: a
+    aliases:
+      - echest
+  enderchestsee:
+    description: a
+    permission: static.staff.admin
+    aliases:
+      - echestsee
+  renameitem:
+    description: a
+    permission: static.staff.mod
+    aliases:
+      - nameitem
+  auctionhouse:
+    description: a
+    aliases:
+      - ah
+      - auction

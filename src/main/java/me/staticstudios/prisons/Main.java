@@ -2,16 +2,15 @@ package me.staticstudios.prisons;
 
 import me.staticstudios.prisons.blockBroken.BlockBreakEvent;
 import me.staticstudios.prisons.commands.*;
+import me.staticstudios.prisons.commands.test.Test2Command;
 import me.staticstudios.prisons.commands.test.TestCommand;
 import me.staticstudios.prisons.data.dataHandling.DataWriter;
 import me.staticstudios.prisons.gui.GUIListener;
 import me.staticstudios.prisons.gui.GUIPage;
 import me.staticstudios.prisons.mines.MineManager;
-import me.staticstudios.prisons.misc.scoreboard.CustomScoreboard;
 import me.staticstudios.prisons.misc.tablist.TabList;
-import me.staticstudios.prisons.utils.StaticVars;
+import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,6 +23,7 @@ public final class Main extends JavaPlugin implements Listener {
         return main;
     }
     private static Main main;
+    public static LuckPerms luckPerms;
 
     private boolean hasLoaded = false;
 
@@ -35,6 +35,7 @@ public final class Main extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         main = this;
+        luckPerms = getServer().getServicesManager().load(LuckPerms.class);
         getServer().getPluginManager().registerEvents(this, main);
 
         Bukkit.getScheduler().runTaskLater(this, new Runnable() {
@@ -45,7 +46,7 @@ public final class Main extends JavaPlugin implements Listener {
                 //Load all worlds in
                 loadAllMines();
                 //Refill all public mines
-                MineManager.createAllPublicMines();
+                MineManager.initialize();
                 //Register tablist teams
                 TabList.initialize();
                 //Initialize GUI pages
@@ -59,13 +60,22 @@ public final class Main extends JavaPlugin implements Listener {
 
 
                 //Register Commands
+                //--Staff Commands
                 getCommand("test").setExecutor(new TestCommand());
-                getCommand("chattags").setExecutor(new ChatTagsCommand());
+                getCommand("test2").setExecutor(new Test2Command());
+                getCommand("modifystats").setExecutor(new ModifyStatsCommand());
                 getCommand("setplayerrank").setExecutor(new SetPlayerRankCommand());
                 getCommand("setstaffrank").setExecutor(new SetStaffRankCommand());
                 getCommand("addchattag").setExecutor(new AddPlayerChatTagCommand());
                 getCommand("addallchattags").setExecutor(new AddAllPlayerChatTagsCommand());
                 getCommand("removechattag").setExecutor(new RemovePlayerChatTagCommand());
+                getCommand("enderchestsee").setExecutor(new EnderChestSeeCommand());
+                getCommand("renameitem").setExecutor(new RenameItemCommand());
+                //--Normal Commands
+                getCommand("auctionhouse").setExecutor(new AuctionHouseCommand());
+                getCommand("prestige").setExecutor(new PrestigeCommand());
+                getCommand("enderchest").setExecutor(new EnderChestCommand());
+                getCommand("chattags").setExecutor(new ChatTagsCommand());
                 getCommand("getnewpickaxe").setExecutor(new GetNewPickaxeCommand());
                 getCommand("sell").setExecutor(new SellCommand());
                 getCommand("rankup").setExecutor(new RankUpCommand());
@@ -86,7 +96,7 @@ public final class Main extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        DataWriter.saveData();
+        //DataWriter.saveData();
     }
 
     static void loadAllMines() {

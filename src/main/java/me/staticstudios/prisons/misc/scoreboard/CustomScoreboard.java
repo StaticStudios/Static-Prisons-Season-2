@@ -2,6 +2,7 @@ package me.staticstudios.prisons.misc.scoreboard;
 
 import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.misc.scoreboard.fastBoard.FastBoard;
+import me.staticstudios.prisons.rankup.RankUp;
 import me.staticstudios.prisons.rankup.RankUpPrices;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
@@ -103,7 +104,7 @@ public class CustomScoreboard {
                 ChatColor.RED + "",
                 colorDark + "" + ChatColor.BOLD + "Mine Rank",
                 colorLight + "│ " + colorBase + "Current Rank: " + colorLight + Utils.getMineRankLetterFromMineRank(playerData.getMineRank()),
-                colorLight + "│ " + colorBase + "RankUp Cost: " + colorLight + "$" + Utils.prettyNum(RankUpPrices.getBaseRankUpPriceForRank(playerData.getMineRank() + 1)),
+                colorLight + "│ " + colorBase + "RankUp Cost: " + colorLight + "$" + Utils.prettyNum(RankUp.calculatePriceToRankUpTo(playerData, Math.min(25, playerData.getMineRank() + 1))),
                 ChatColor.BLUE + "",
                 colorDark + "" + ChatColor.BOLD + player.getName() ,
                 colorLight + "│ " + colorBase + "Rank: " + colorLight + playerData.getSidebarRank(),

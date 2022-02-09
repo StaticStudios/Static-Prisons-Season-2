@@ -1,5 +1,6 @@
 package me.staticstudios.prisons;
 
+import me.staticstudios.prisons.auctionHouse.AuctionHouseManager;
 import me.staticstudios.prisons.blockBroken.BlockChange;
 import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.mines.MineManager;
@@ -17,44 +18,23 @@ public class TimedTasks {
 
     public static void initializeTasks() {
         //Manages mine refills
-        Bukkit.getScheduler().runTaskTimer(Main.getMain(), new Runnable() {
-            @Override
-            public void run() {
-                MineManager.refillManager();
-            }
-        }, 0, 2);
-        //Manages block changes
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getMain(), new Runnable() {
-            @Override
-            public void run() {
-                BlockChange.worker();
-            }
-        }, 20, 1);
+        Bukkit.getScheduler().runTaskTimer(Main.getMain(), () -> MineManager.refillManager(), 0, 2);
         //Show all players their backpacks
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getMain(), new Runnable() {
-            @Override
-            public void run() {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    PlayerData playerData = new PlayerData(p);
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Your Backpack: " + Utils.addCommasToBigInteger(playerData.getBackpack().getItemCount()) + "/" + Utils.addCommasToBigInteger(playerData.getBackpack().getSize()) + " Blocks"));
-                }
+        Bukkit.getScheduler().runTaskTimer(Main.getMain(), () -> {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                PlayerData playerData = new PlayerData(p);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Your Backpack: " + Utils.addCommasToBigInteger(playerData.getBackpack().getItemCount()) + "/" + Utils.addCommasToBigInteger(playerData.getBackpack().getSize()) + " Blocks"));
             }
         }, 0, 1);
         //Scoreboard
-        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), new Runnable() {
-            @Override
-            public void run() {
-                CustomScoreboard.updateAllScoreboards();
-            }
-        }, 0, 2);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), CustomScoreboard::updateAllScoreboards, 0, 2);
         //Update tablist for all players
-        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), new Runnable() {
-            @Override
-            public void run() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    TabList.updateTabList(player);
-                }
+        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), () -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                TabList.updateTabList(player);
             }
         }, 0, 60);
+        //Update Expired Auctions
+        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), AuctionHouseManager::expireAllExpiredAuctions, 120, 60);
     }
 }

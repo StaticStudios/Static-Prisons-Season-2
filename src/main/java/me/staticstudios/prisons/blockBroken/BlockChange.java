@@ -84,6 +84,7 @@ public class BlockChange {
                 Material block = blockChange.blockType;
                 switch (blockChange.type) {
                     case JACKHAMMER -> {
+                        System.out.println(blockChange.currentIteration + " | " + blockChange.maxAmountOfIterations);
                         for (int t = 0; t < 5; t++) {
                             //Loop through the X direction t amount of times before checking if it can no longer run due to TPS limits
                             int amountOfIterationsInTheX = Math.abs(blockChange.startX) + Math.abs(blockChange.endX) + 1; //add 1 because it crosses 0

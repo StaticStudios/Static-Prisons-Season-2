@@ -11,15 +11,12 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlayerBackpack implements Serializable {
-
+public final class PlayerBackpack implements Serializable {
+//DO NOT CHANGE THIS FILE, IT WILL BREAK SERVER DATA SERIALIZATION
     private Map<Material, BigInteger> contents = new HashMap<>();
     private BigInteger itemCount = BigInteger.ZERO;
     private BigInteger size = BigInteger.valueOf(25000);
     private boolean isFull;
-
-
-
     public BigInteger getAmountOf(Material mat) {
         if (!contents.containsKey(mat)) return BigInteger.ZERO;
         return contents.get(mat);
@@ -33,15 +30,12 @@ public class PlayerBackpack implements Serializable {
         setAmountOf(mat, getAmountOf(mat).add(amount));
         itemCount = itemCount.add(amount);
     }
-
     public BigInteger getItemCount() {
         return itemCount;
     }
-
     public BigInteger getSize() {
         return size;
     }
-
     public void setSize(BigInteger size) {
         this.size = size;
     }
@@ -51,8 +45,10 @@ public class PlayerBackpack implements Serializable {
     public boolean isFull() {
         return isFull;
     }
-
-
+    public boolean updateIsFull() {
+        isFull = size == itemCount;
+        return isFull;
+    }
     public void sellBackpack(Player player, boolean sendChatMessage) {
         BigInteger totalSellPrice = BigInteger.ZERO;
         if (getItemCount().compareTo(BigInteger.ZERO) > 0) {
@@ -64,10 +60,8 @@ public class PlayerBackpack implements Serializable {
         if (sendChatMessage) {
             player.sendMessage(ChatColor.GREEN + "Sold " + Utils.addCommasToBigInteger(itemCount) + " blocks for: $" + Utils.addCommasToBigInteger(totalSellPrice));
         }
-
         isFull = false;
         itemCount = BigInteger.ZERO;
         contents = new HashMap<>();
     }
-
 }

@@ -72,9 +72,8 @@ public class BlockBreakEvent implements Listener {
                     //Enchant should activate
 
                     //Calculate how deep multi-directional should go
-                    int howDeepToGo = Math.max(1, e.getBlock().getY() - (multiDirectionalLevel / PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL * 500));
-
-                    blocksBroken.putAll(new MultiDirectional(mine, e.getBlock().getLocation()).destroySection(e.getBlock().getY(), howDeepToGo));
+                    int howDeepToGo = Math.max(1, e.getBlock().getY() - multiDirectionalLevel * 500 / PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL);
+                    blocksBroken.putAll(new MultiDirectional(mine, e.getBlock().getLocation()).destroySection(e.getBlock().getY(), howDeepToGo, e.getBlock().getX(), e.getBlock().getZ()));
                 }
             }
         }

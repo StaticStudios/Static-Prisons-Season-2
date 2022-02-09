@@ -8,6 +8,7 @@ public class DataSet implements Serializable {
     public Map<String, DataContainer> dataSet = new HashMap<>();
     DataTypes type;
     String containerKey;
+    public DataSet() {}
     public DataSet(DataTypes type, String containerKey) {
         this.type = type;
         this.containerKey = containerKey;

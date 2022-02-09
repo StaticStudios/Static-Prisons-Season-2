@@ -1,5 +1,14 @@
 package me.staticstudios.prisons.blockBroken;
 
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.regions.Region;
+import com.sk89q.worldedit.world.block.BlockType;
+import com.sk89q.worldedit.world.block.BlockTypes;
+import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.mines.BaseMine;
 import me.staticstudios.prisons.mines.MineManager;
 import org.bukkit.Bukkit;
@@ -38,7 +47,16 @@ public class JackHammer {
                 }
             }
         }
-        if (!mine.brokeBlocksInMine(totalBlocksBroken)) BlockChange.addJackHammerBlockChange(Bukkit.getWorld("mines"), (int) mine.minLocation.getX(), yLevel, (int) mine.minLocation.getZ(), (int) mine.maxLocation.getX(), (int) mine.maxLocation.getZ());
+        if (!mine.brokeBlocksInMine(totalBlocksBroken)) {
+            Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+                Region region = new CuboidRegion(BukkitAdapter.adapt(mine.minLocation.getWorld()), BlockVector3.at(mine.minLocation.getX(), yLevel, mine.minLocation.getZ()), BlockVector3.at(mine.maxLocation.getX(), yLevel, mine.maxLocation.getZ()));
+                EditSession editSession = WorldEdit.getInstance().newEditSession(region.getWorld());
+                editSession.setBlocks(region, BlockTypes.AIR);
+                editSession.close();
+            });
+        }
+
+        //BlockChange.addJackHammerBlockChange(Bukkit.getWorld("mines"), (int) mine.minLocation.getX(), yLevel, (int) mine.minLocation.getZ(), (int) mine.maxLocation.getX(), (int) mine.maxLocation.getZ());
         return blocksBroken;
     }
 }

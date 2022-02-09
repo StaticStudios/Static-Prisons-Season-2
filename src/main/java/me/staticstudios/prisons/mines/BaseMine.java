@@ -4,10 +4,18 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.function.pattern.RandomPattern;
+import com.sk89q.worldedit.internal.annotation.Selection;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.block.BlockType;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import me.staticstudios.prisons.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -24,7 +32,7 @@ public abstract class BaseMine {
 
     private int timeBetweenRefills = MineManager.defaultMineRefillTime;
     public int timeUntilNextRefill;
-    public int autoRefillTimeOffset = 0;
+    //public int autoRefillTimeOffset = 0;
     private boolean refillsOnTimer = false;
 
     private final int amountOfBlocksRequiredToBeBrokenToRefill;
@@ -62,6 +70,7 @@ public abstract class BaseMine {
         blocksInMine = 0;
         amountOfBlocksRequiredToBeBrokenToRefill = maxBlocksInMine * percentOfMineToBeDestroyedBeforeRefill / 100;
 
+        registerWorldGuard();
         MineManager.registerMine(this, false);
     }
 
@@ -87,8 +96,7 @@ public abstract class BaseMine {
     public void setIfRefillsOnTimer(boolean value) {
         if (value) {
             refillsOnTimer = true;
-            timeUntilNextRefill = autoRefillTimeOffset;
-            autoRefillTimeOffset = 0;
+            timeUntilNextRefill = 0;
             MineManager.minesThatShouldRefillOnTimer.put(mineID, this);
         } else {
             refillsOnTimer = false;
@@ -118,15 +126,22 @@ public abstract class BaseMine {
             type = BukkitAdapter.asBlockType(mineBlocks[0].type);
         } else createRandomPattern(mineBlocks);
     }
+
+    public void registerWorldGuard() {
+        ProtectedCuboidRegion region = new ProtectedCuboidRegion(mineID + "-MINE", BlockVector3.at(minLocation.getX(), minLocation.getY(), minLocation.getZ()), BlockVector3.at(maxLocation.getX(), maxLocation.getY(), maxLocation.getZ()));
+        region.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
+        region.setPriority(1);
+        WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld("mines"))).addRegion(region);
+    }
     public void refill() {
         Bukkit.getLogger().log(Level.INFO, "Mine Refilled: " + mineID);
-        EditSession editSession = WorldEdit.getInstance().newEditSession(this.region.getWorld());
-        if (singleType) {
-            editSession.setBlocks(this.region, type);
-        } else {
-            editSession.setBlocks(this.region, this.randomPattern);
-        }
-        editSession.close();
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+            EditSession editSession = WorldEdit.getInstance().newEditSession(region.getWorld());
+            if (singleType) {
+                editSession.setBlocks(region, type);
+            } else editSession.setBlocks(region, randomPattern);
+            editSession.close();
+        });
         for (Player p : Bukkit.getWorld("mines").getPlayers()) {
             if (isPlayerInMine(p)) p.teleport(whereToTpPlayerOnRefill);
             if (p.getLocation().getX() >= mineOffset - distanceBetweenMines / 2 && p.getLocation().getX() <= mineOffset + distanceBetweenMines / 2) p.sendMessage(ChatColor.LIGHT_PURPLE + "This mine has been refilled!");

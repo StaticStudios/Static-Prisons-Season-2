@@ -13,7 +13,7 @@ public class AddAllPlayerChatTagsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (args.length < 1) {
-            sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/addallchattag <player> <chat tag>"));
+            sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/addallchattags <player>"));
             return false;
         }
         if (!new ServerData().getPlayerNamesToUUIDsMap().containsKey(args[0])) {

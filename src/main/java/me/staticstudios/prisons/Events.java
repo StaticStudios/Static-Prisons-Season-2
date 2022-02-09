@@ -37,6 +37,9 @@ public class Events implements Listener {
         TabList.onJoin(player);
         //Set up the player's scoreboard
         CustomScoreboard.updateSingleScoreboard(player);
+
+        //Update lukperms for player ranks
+        Utils.updateLuckPermsForPlayerRanks(player);
     }
     @EventHandler
     void playerQuit(PlayerQuitEvent e) {

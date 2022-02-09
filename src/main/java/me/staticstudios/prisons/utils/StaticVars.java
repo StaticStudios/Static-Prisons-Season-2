@@ -1,22 +1,24 @@
 package me.staticstudios.prisons.utils;
 
+import java.math.BigInteger;
+
 public class StaticVars {
     public static final Long[] amountOfPrestigesRequiredForPrestigeMines = {
-            1L,
-            2L,
-            3L,
-            4L,
             5L,
-            6L,
-            7L,
-            8L,
-            9L,
-            10L,
-            11L,
-            12L,
-            13L,
-            14L,
-            15L,
+            50L,
+            100L,
+            250L,
+            750L,
+            1500L,
+            5000L,
+            15000L,
+            30000L,
+            50000L,
+            75000L,
+            150000L,
+            250000L,
+            500000L,
+            100000L,
     };
     public static final String[] publicMineWorldNames = {
             "publicmine-a",
@@ -74,4 +76,5 @@ public class StaticVars {
             'Y',
             'Z',
     };
+
 }
