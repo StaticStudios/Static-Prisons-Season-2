@@ -1,51 +1,33 @@
 package me.staticstudios.prisons.data.dataHandling;
 
+import com.owlike.genson.GenericType;
+import com.owlike.genson.GensonBuilder;
+import me.staticstudios.prisons.utils.Utils;
+
 import java.io.*;
 import java.time.Instant;
 import java.util.HashMap;
 
 public class DataWriter {
     static void changeOldData() {
-        File oldData = new File("./serverData.db");
+        File oldData = new File("./data.json");
         if (oldData.exists()) {
-            oldData.renameTo(new File("./data/old/" + Instant.now().toEpochMilli() + ".db"));
+            oldData.renameTo(new File("./data/old/" + Instant.now().toEpochMilli() + ".json"));
         }
     }
     public static void saveData() {
         changeOldData();
-        try
-        {
-            FileOutputStream fos = new FileOutputStream("serverData.db");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(DataSets.dataSets);
-            oos.close();
-            fos.close();
-        }catch(IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
+        GensonBuilder gensonBuilder = new GensonBuilder();
+        gensonBuilder.useClassMetadata(true);
+        Utils.writeToAFile("data.json", gensonBuilder.create().serialize(DataSets.dataSets, new GenericType<HashMap<DataTypes, DataSet>>(){}));
     }
 
     /**
      * This will OVERWRITE any data that is currently loaded!
      */
     public static void loadData() {
-        try
-        {
-            FileInputStream fis = new FileInputStream("serverData.db");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            DataSets.dataSets = (HashMap) ois.readObject();
-            ois.close();
-            fis.close();
-        }catch(IOException ioe)
-        {
-            ioe.printStackTrace();
-            return;
-        }catch(ClassNotFoundException c)
-        {
-            System.out.println("Class not found");
-            c.printStackTrace();
-            return;
-        }
+        GensonBuilder gensonBuilder = new GensonBuilder();
+        gensonBuilder.useClassMetadata(true);
+        DataSets.dataSets = gensonBuilder.create().deserialize(Utils.getFileContents("data.json"), new GenericType<HashMap<DataTypes, DataSet>>(){});
     }
 }

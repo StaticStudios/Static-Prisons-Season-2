@@ -23,9 +23,6 @@ public class Test2Command implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player)) return false;
-        GensonBuilder gensonBuilder = new GensonBuilder();
-        gensonBuilder.useClassMetadata(true);
-        DataSets.dataSets = gensonBuilder.create().deserialize(Utils.getFileContents("data.json"), new GenericType<HashMap<DataTypes, DataSet>>(){});
         return false;
     }
 }

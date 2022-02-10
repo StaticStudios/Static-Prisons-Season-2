@@ -36,9 +36,6 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player)) return false;
         //AuctionHouseManager.saveAllAuctions();
-        GensonBuilder gensonBuilder = new GensonBuilder();
-        gensonBuilder.useClassMetadata(true);
-        Utils.writeToAFile("data.json", gensonBuilder.create().serialize(DataSets.dataSets, new GenericType<HashMap<DataTypes, DataSet>>(){}));
         return false;
     }
 }
