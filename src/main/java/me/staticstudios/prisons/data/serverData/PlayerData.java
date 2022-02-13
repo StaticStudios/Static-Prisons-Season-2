@@ -1,6 +1,7 @@
 package me.staticstudios.prisons.data.serverData;
 
 
+import me.staticstudios.prisons.auctionHouse.SerializableAuctionItem;
 import me.staticstudios.prisons.data.PlayerBackpack;
 import me.staticstudios.prisons.data.dataHandling.Data;
 import me.staticstudios.prisons.data.dataHandling.DataSet;
@@ -9,14 +10,13 @@ import me.staticstudios.prisons.utils.Utils;
 import org.apache.commons.lang.SerializationUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class PlayerData extends DataSet {
@@ -346,7 +346,54 @@ public class PlayerData extends DataSet {
         return getData("chatTag2")._string;
     }
 
+    //This method is inefficient and can take multiple milliseconds to execute, this should eventually be changed
+    public List<ItemStack> getExpiredAuctions() {
+        if (getData("expiredAuctions").list == null) {
+            Data newDate = new Data();
+            newDate.list = new ArrayList<>();
+            setData("expiredAuctions", newDate);
+        }
+        List<ItemStack> items = new ArrayList<>();
+        for (String str : (List<String>) getData("expiredAuctions").list) {
+            items.add(SerializableAuctionItem.itemStackFromBase64(str));
+        }
+        return items;
+    }
+    public int getExpiredAuctionsAmount() {
+        return getData("expiredAuctionsAmount")._int;
+    }
 
+    private void setExpiredAuctionsAmount(int value) {
+        Data newData = new Data();
+        newData._int = value;
+        setData("expiredAuctionsAmount", newData);
+    }
 
+    //This method is inefficient and can take multiple milliseconds to execute, this should eventually be changed
+    public Data setExpiredAuctions(List<ItemStack> value) {
+        setExpiredAuctionsAmount(value.size());
+        //Limits this list to 64 items, removes the first item(s) from the list while its big
+        while (value.size() > 64) value.remove(0);
+        Data newDate = new Data();
+        List<String> strs = new ArrayList<>();
+        for (ItemStack item : value) {
+            strs.add(SerializableAuctionItem.itemStackToBase64(item));
+        }
+        newDate.list = strs;
+        return setData("expiredAuctions", newDate);
+    }
 
+    //This method is inefficient and can take multiple milliseconds to execute, this should eventually be changed
+    public Data removeExpiredAuction(int index) {
+        List<ItemStack> items = getExpiredAuctions();
+        items.remove(index);
+        return setExpiredAuctions(items);
+    }
+
+    //This method is inefficient and can take multiple milliseconds to execute, this should eventually be changed
+    public Data addExpiredAuction(ItemStack item) {
+        List<ItemStack> items = getExpiredAuctions();
+        items.add(item);
+        return setExpiredAuctions(items);
+    }
 }

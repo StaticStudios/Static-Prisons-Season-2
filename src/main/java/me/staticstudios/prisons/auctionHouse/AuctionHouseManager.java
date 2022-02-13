@@ -1,13 +1,22 @@
 package me.staticstudios.prisons.auctionHouse;
 
-import com.google.gson.Gson;
+import com.owlike.genson.GenericType;
+import com.owlike.genson.Genson;
+import com.owlike.genson.GensonBuilder;
+import me.staticstudios.prisons.data.dataHandling.DataSet;
+import me.staticstudios.prisons.data.dataHandling.DataSets;
+import me.staticstudios.prisons.data.dataHandling.DataTypes;
+import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.io.BukkitObjectOutputStream;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -46,10 +55,10 @@ public class AuctionHouseManager {
     public static void expireAllExpiredAuctions() {
         for (UUID uuid : auctions.keySet()) {
             if (!checkIfAuctionShouldExpire(uuid)) continue;
-            if (Bukkit.getPlayer(uuid) != null) Bukkit.getPlayer(uuid).sendMessage(ChatColor.AQUA + "One of your auctions (" + ChatColor.WHITE + Utils.getPrettyItemName(getAuction(uuid).getItem()) + ChatColor.AQUA + ") has expired!");
+            if (Bukkit.getPlayer(getAuction(uuid).getOwnerUUID()) != null) Bukkit.getPlayer(getAuction(uuid).getOwnerUUID()).sendMessage(ChatColor.AQUA + "One of your auctions (" + ChatColor.WHITE + Utils.getPrettyItemName(getAuction(uuid).getItem()) + ChatColor.AQUA + ") has expired!");
+            PlayerData playerData = new PlayerData(getAuction(uuid).getOwnerUUID());
+            playerData.addExpiredAuction(getAuction(uuid).getItem());
             removeAuction(uuid);
-
-            //TODO: add to the player's expired auctions
         }
     }
     public static void removeAuction(UUID auctionUuid) {
@@ -64,13 +73,25 @@ public class AuctionHouseManager {
         return playerAuctionUUIDs.get(playerUuid);
     }
 
-
-    //TODO: use YAML/JSON
     public static void saveAllAuctions() {
-        Utils.writeToAFile("data/auctionHouse/all.json", new Gson().toJson(auctions));
+        List<SerializableAuctionItem> list = new ArrayList<>();
+        for (UUID key : auctions.keySet()) {
+            list.add(SerializableAuctionItem.fromAuction(auctions.get(key)));
+        }
+        Utils.writeToAFile("data/auctionHouse.json", new Genson().serialize(list, new GenericType<List<SerializableAuctionItem>>(){}));
+        Utils.writeToAFile("data/auctionHouse-playerAuctions.json", new Genson().serialize(playerAuctionUUIDs, new GenericType<Map<UUID, List<UUID>>>(){}));
     }
     public static void loadAllAuctions() {
-        auctions = (LinkedHashMap<UUID, Auction>) new Gson().fromJson(Utils.getFileContents("data/auctionHouse/all.json"), HashMap.class);
+        try {
+            List<SerializableAuctionItem> list = new Genson().deserialize(Utils.getFileContents("data/auctionHouse.json"), new GenericType<>() {});
+            for (SerializableAuctionItem s : list) {
+                auctions.put(s.uuid, SerializableAuctionItem.toAuction(s));
+            }
+            playerAuctionUUIDs = new Genson().deserialize(Utils.getFileContents("data/auctionHouse-playerAuctions.json"), new GenericType<>() {});
+        } catch (Exception e) {
+            e.printStackTrace();
+            auctions = new LinkedHashMap<>();
+        }
     }
 
 }

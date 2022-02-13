@@ -3,6 +3,7 @@ package me.staticstudios.prisons;
 import me.staticstudios.prisons.auctionHouse.AuctionHouseManager;
 import me.staticstudios.prisons.blockBroken.BlockChange;
 import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.enchants.EnchantEffects;
 import me.staticstudios.prisons.mines.MineManager;
 import me.staticstudios.prisons.misc.scoreboard.CustomScoreboard;
 import me.staticstudios.prisons.misc.tablist.TabList;
@@ -27,14 +28,17 @@ public class TimedTasks {
             }
         }, 0, 1);
         //Scoreboard
-        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), CustomScoreboard::updateAllScoreboards, 0, 2);
+        Bukkit.getScheduler().runTaskTimer(Main.getMain(), CustomScoreboard::updateAllScoreboards, 0, 2);
         //Update tablist for all players
-        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), () -> {
+        Bukkit.getScheduler().runTaskTimer(Main.getMain(), () -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 TabList.updateTabList(player);
             }
         }, 0, 60);
         //Update Expired Auctions
-        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), AuctionHouseManager::expireAllExpiredAuctions, 120, 60);
+        Bukkit.getScheduler().runTaskTimer(Main.getMain(), AuctionHouseManager::expireAllExpiredAuctions, 120, 2);
+        //Give everyone with potion enchants their effect(s)
+        Bukkit.getScheduler().runTaskTimer(Main.getMain(), EnchantEffects::giveEffects, 10, 400);
+
     }
 }

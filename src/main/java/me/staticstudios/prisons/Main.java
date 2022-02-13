@@ -1,5 +1,6 @@
 package me.staticstudios.prisons;
 
+import me.staticstudios.prisons.auctionHouse.AuctionHouseManager;
 import me.staticstudios.prisons.blockBroken.BlockBreakEvent;
 import me.staticstudios.prisons.commands.*;
 import me.staticstudios.prisons.commands.test.Test2Command;
@@ -42,11 +43,12 @@ public final class Main extends JavaPlugin implements Listener {
             @Override
             public void run() {
                 DataWriter.loadData();
-
                 //Load all worlds in
                 loadAllMines();
                 //Refill all public mines
                 MineManager.initialize();
+                //Load the AH
+                AuctionHouseManager.loadAllAuctions();
                 //Register tablist teams
                 TabList.initialize();
                 //Initialize GUI pages
@@ -95,8 +97,8 @@ public final class Main extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
-        //DataWriter.saveData();
+        DataWriter.saveData();
+        AuctionHouseManager.saveAllAuctions();
     }
 
     static void loadAllMines() {

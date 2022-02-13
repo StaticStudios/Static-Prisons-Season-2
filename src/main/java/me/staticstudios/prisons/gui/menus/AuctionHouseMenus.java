@@ -31,41 +31,31 @@ public class AuctionHouseMenus {
             @Override
             public void onOpen(Player player) {
                 page = Integer.parseInt(args);
-                int amountPerPage = 9 * 5 - 1;
-                int startIndex = page * amountPerPage;
-                if (page != 0) startIndex += 1;
-                int endIndex;
-                if (AuctionHouseManager.auctions.size() < startIndex + amountPerPage - 1) {
-                    endIndex = AuctionHouseManager.auctions.size() - 1;
-                } else endIndex = startIndex + amountPerPage;
                 menuItems = new ArrayList<>();
+                int amountPerPage = 9 * 5;
+                int startIndex = page * amountPerPage;
+                int endIndex;
+                if (AuctionHouseManager.auctions.size() <= startIndex + amountPerPage) {
+                    endIndex = AuctionHouseManager.auctions.size() - 1;
+                } else endIndex = startIndex + amountPerPage - 1;
                 for (int i = startIndex; i < endIndex + 1; i++) {
                     List<UUID> list = Arrays.asList(AuctionHouseManager.auctions.keySet().toArray(new UUID[0]));
                     Collections.reverse(list);
                     Auction auction = AuctionHouseManager.auctions.get(list.get(i));
                     menuItems.add(createAuctionItem(player, auction));
                 }
-                while (menuItems.size() < 9 * 5) {
-                    menuItems.add(GUI.createLightGrayPlaceholderItem());
-                }
-                for (int i = 0; i < 8; i++) {
-                    menuItems.add(GUI.createDarkGrayPlaceholderItem());
-                }
+                while (menuItems.size() < 9 * 5) menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createMenuItem(identifier, Material.ENDER_CHEST, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Claim Expired Auctions", ChatColor.GRAY + "Claim your previous expired auction(s)", ChatColor.GRAY + "You have " + new PlayerData(player).getExpiredAuctionsAmount() + " expired auction(s)"));
+                for (int i = 0; i < 7; i++) menuItems.add(GUI.createDarkGrayPlaceholderItem());
                 menuItems.set(49, GUI.createPlaceholderItem(Material.PAPER, ChatColor.AQUA + "Current Page: " + ChatColor.WHITE + (page + 1)));
-                if (AuctionHouseManager.auctions.size() > (page + 1) * amountPerPage) {
-                    //add next page button
-                    menuItems.set(50, GUI.createMenuItem(identifier, Material.ARROW, ChatColor.GREEN + "Go to next page"));
-                }
-                if (page > 0) {
-                    //add page back button
-                    menuItems.set(48, GUI.createMenuItem(identifier, Material.ARROW, ChatColor.GREEN + "Go to previous page"));
-                }
+                if (AuctionHouseManager.auctions.size() > (page + 1) * amountPerPage) menuItems.set(50, GUI.createMenuItem(identifier, Material.ARROW, ChatColor.GREEN + "Go to next page"));
+                if (page > 0) menuItems.set(48, GUI.createMenuItem(identifier, Material.ARROW, ChatColor.GREEN + "Go to previous page"));
             }
             @Override
             public void itemClicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
-                if (e.getSlot() >= 48 && e.getSlot() <= 50) return;
+                if (e.getSlot() >= 45 && e.getSlot() <= 53) return;
                 UUID auctionUUID = UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "uuid"), PersistentDataType.STRING));
                 AuctionHouseManager.expireAllExpiredAuctions();
                 if (!AuctionHouseManager.checkIfAuctionExists(auctionUUID)) {
@@ -106,6 +96,23 @@ public class AuctionHouseMenus {
                 args = (page + 1) + "";
                 open(player);
             }
+            @Override
+            public void item45Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                List<ItemStack> items = playerData.getExpiredAuctions();
+                if (items.size() == 0) {
+                    player.sendMessage(ChatColor.RED + "You do not have any auctions to claim!");
+                    return;
+                }
+                for (ItemStack item : items) {
+                    Utils.addItemToPlayersInventoryAndDropExtra(player, item);
+                }
+                playerData.setExpiredAuctions(new ArrayList<>());
+                player.sendMessage(ChatColor.AQUA + "You've just claimed all of your expired auctions!");
+                open(player);
+            }
+
 
             ItemStack createAuctionItem(Player player, Auction auction) {
                 List<String> lore = new ArrayList<>();

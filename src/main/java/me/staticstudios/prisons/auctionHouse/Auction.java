@@ -9,12 +9,21 @@ import java.time.Instant;
 import java.util.UUID;
 
 public class Auction {
-    public static final long SECONDS_FOR_AUCTIONS_TO_STAY_LIVE = 60 * 60 * 24 * 3;
+    public static final long SECONDS_FOR_AUCTIONS_TO_STAY_LIVE = 60 * 60 * 24 * 2;
     final UUID uuid;
     final UUID ownerUUID;
     final ItemStack item;
     final BigInteger price;
     final long expiresAt; //Stored in seconds
+
+    public Auction(UUID uuid, UUID ownerUUID, ItemStack item, BigInteger price, long expiresAt) {
+        this.uuid = uuid;
+        this.ownerUUID = ownerUUID;
+        this.item = item;
+        this.price = price;
+        this.expiresAt = expiresAt;
+    }
+
     public UUID getUuid() {
         return uuid;
     }

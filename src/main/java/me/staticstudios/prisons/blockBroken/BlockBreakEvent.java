@@ -55,13 +55,16 @@ public class BlockBreakEvent implements Listener {
 
 
         int jackHammerLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "jackHammer");
+        int doubleWammyLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "doubleWammy");
         int multiDirectionalLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "multiDirectional");
         if (jackHammerLevel > 0) {
             //Jack Hammer
             if (Utils.randomInt(1, 12) == 1) {
                 if (Utils.randomInt(1, PrisonEnchants.JACK_HAMMER.MAX_LEVEL + PrisonEnchants.JACK_HAMMER.MAX_LEVEL / 30) <= jackHammerLevel + PrisonEnchants.JACK_HAMMER.MAX_LEVEL / 30) {
                     //Enchant should activate
-                    blocksBroken.putAll(new JackHammer(mine, e.getBlock().getY()).destroyLayer(e.getBlock().getY()));
+                    int howDeepToGo = 1;
+                    if (Utils.randomInt(1, PrisonEnchants.DOUBLE_WAMMY.MAX_LEVEL + PrisonEnchants.DOUBLE_WAMMY.MAX_LEVEL / 30) <= doubleWammyLevel + PrisonEnchants.DOUBLE_WAMMY.MAX_LEVEL / 30) howDeepToGo += 1;
+                    blocksBroken.putAll(new JackHammer(mine, e.getBlock().getY()).destroyLayer(e.getBlock().getY(), howDeepToGo));
                 }
             }
         }
@@ -70,8 +73,6 @@ public class BlockBreakEvent implements Listener {
             if (Utils.randomInt(1, 12) == 1) {
                 if (Utils.randomInt(1, PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 30) <= multiDirectionalLevel + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 30) {
                     //Enchant should activate
-
-                    //Calculate how deep multi-directional should go
                     int howDeepToGo = Math.max(1, e.getBlock().getY() - multiDirectionalLevel * 500 / PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL);
                     blocksBroken.putAll(new MultiDirectional(mine, e.getBlock().getLocation()).destroySection(e.getBlock().getY(), howDeepToGo, e.getBlock().getX(), e.getBlock().getZ()));
                 }
@@ -88,11 +89,12 @@ public class BlockBreakEvent implements Listener {
         }
         //Adds one token for every block broken
         playerData.addTokens(totalAmountOfBlocksBroken.multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenator") + 1)));
-
         //Add the blocks mined to the player and pickaxe
         playerData.addBlocksMined(totalAmountOfBlocksBroken);
         PrisonPickaxe.addBlocksMined(pickaxe, totalAmountOfBlocksBroken.longValue());
-
+        if (PrisonPickaxe.addXP(pickaxe, totalAmountOfBlocksBroken.longValue() * PrisonPickaxe.BASE_XP_PER_BLOCK_BROKEN * (CustomEnchants.getEnchantLevel(pickaxe, "xpFinder") + 1))) { //TODO: add this enchant
+            player.sendMessage(ChatColor.LIGHT_PURPLE + "Your pickaxe has leveled up! It is now level: " + ChatColor.AQUA + PrisonPickaxe.getLevel(pickaxe));
+        }
         //If the player's backpack was not full but now is, tell them it has filled up
         if (!backpackWasFull && playerData.checkIfBackpackIsFull()) {
             player.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpack().getSize()) + "/" + Utils.prettyNum(playerData.getBackpack().getSize()) + ")", 5, 40, 5);

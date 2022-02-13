@@ -2,7 +2,6 @@ package me.staticstudios.prisons.utils;
 
 import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.data.serverData.PlayerData;
-import net.luckperms.api.model.data.DataMutateResult;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
 import org.bukkit.ChatColor;
@@ -72,7 +71,7 @@ public class Utils {
         }
         return true;
     }
-    public static boolean writeToAFile(String filePath, String text) {
+    public static void writeToAFile(String filePath, String text) {
         try {
             File file = new File(filePath);
             if (!file.exists()) file.createNewFile();
@@ -82,7 +81,6 @@ public class Utils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return true;
     }
     public static List<String> getAllLinesInAFile(String filePath) {
         List<String> contents = new ArrayList<>();
@@ -168,6 +166,12 @@ public class Utils {
     }
     public static String prettyNum(BigInteger num) {
         return  prettyNum(num.toString());
+    }
+    public static String prettyNum(long num) {
+        return  prettyNum(BigInteger.valueOf(num));
+    }
+    public static String prettyNum(int num) {
+        return  prettyNum(BigInteger.valueOf(num));
     }
     public static String prettyNum(String num) {
         List<String> abbreviations = new ArrayList<>();

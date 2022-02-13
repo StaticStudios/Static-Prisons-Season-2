@@ -8,10 +8,27 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PrisonPickaxe {
+    public static final int BASE_XP_PER_BLOCK_BROKEN = 2;
+    public static final int BASE_XP_PER_PICKAXE_LEVEL = 10000;
+    public static final double XP_REQUIREMENT_INCREASE_PERCENTAGE = 0.05;
+    public static long getXpRequiredForPickaxeLevel(int level) {
+        return BigDecimal.valueOf(BASE_XP_PER_PICKAXE_LEVEL).multiply(BigDecimal.valueOf(XP_REQUIREMENT_INCREASE_PERCENTAGE).add(BigDecimal.ONE).pow(level)).longValue();
+    }
+
+    public static int getLevel(ItemStack pickaxe) {
+        if (!Utils.checkIsPrisonPickaxe(pickaxe)) return 0;
+        ItemMeta meta = pickaxe.getItemMeta();
+        long level = 0;
+        if (meta.getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.LONG)) {
+            level = meta.getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.LONG);
+        }
+        return (int) level;
+    }
     public static void addLevel(ItemStack pickaxe, long levelsToAdd) {
         if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
         ItemMeta meta = pickaxe.getItemMeta();
@@ -41,9 +58,11 @@ public class PrisonPickaxe {
         meta.setLore(lore);
         pickaxe.setItemMeta(meta);
     }
-
-    public static void addXP(ItemStack pickaxe, long xpToAdd) {
-        if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
+    /**
+     * @return true if the pickaxe has leveled up
+     */
+    public static boolean addXP(ItemStack pickaxe, long xpToAdd) {
+        if (!Utils.checkIsPrisonPickaxe(pickaxe)) return false;
         ItemMeta meta = pickaxe.getItemMeta();
         long currentAmount = 0;
         if (meta.getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), "xp"), PersistentDataType.LONG)) {
@@ -57,19 +76,24 @@ public class PrisonPickaxe {
             for (int i = 0; i < lore.size(); i++) {
                 String line = lore.get(i);
                 if (ChatColor.stripColor(line).startsWith("Experience:")) {
-                    lore.set(i, ChatColor.GREEN + "Experience: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + xpToAdd));
+                    lore.set(i, ChatColor.GREEN + "Experience: " + ChatColor.WHITE + Utils.prettyNum(currentAmount + xpToAdd) + " / " + Utils.prettyNum(getXpRequiredForPickaxeLevel(getLevel(pickaxe) + 1)));
                     updated = true;
                     break;
                 }
             }
             if (!updated) {
-                lore.add(ChatColor.GREEN + "Experience: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + xpToAdd));
+                lore.add(ChatColor.GREEN + "Experience: " + ChatColor.WHITE + Utils.prettyNum(currentAmount + xpToAdd) + " / " + Utils.prettyNum(getXpRequiredForPickaxeLevel(getLevel(pickaxe) + 1)));
             }
         } else {
-            lore.add(ChatColor.GREEN + "Experience: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + xpToAdd));
+            lore.add(ChatColor.GREEN + "Experience: " + ChatColor.WHITE + Utils.prettyNum(currentAmount + xpToAdd) + " / " + Utils.prettyNum(getXpRequiredForPickaxeLevel(getLevel(pickaxe) + 1)));
         }
         meta.setLore(lore);
         pickaxe.setItemMeta(meta);
+        if (getXpRequiredForPickaxeLevel(getLevel(pickaxe) + 1) <= currentAmount) {
+            addLevel(pickaxe, 1);
+            return true;
+        }
+        return false;
     }
 
     public static void addBlocksMined(ItemStack pickaxe, long amountToAdd) {

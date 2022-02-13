@@ -1,6 +1,7 @@
 package me.staticstudios.prisons.data.dataHandling;
 
 import com.owlike.genson.GenericType;
+import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
 import me.staticstudios.prisons.utils.Utils;
 
@@ -17,17 +18,13 @@ public class DataWriter {
     }
     public static void saveData() {
         changeOldData();
-        GensonBuilder gensonBuilder = new GensonBuilder();
-        gensonBuilder.useClassMetadata(true);
-        Utils.writeToAFile("data.json", gensonBuilder.create().serialize(DataSets.dataSets, new GenericType<HashMap<DataTypes, DataSet>>(){}));
+        Utils.writeToAFile("data.json", new Genson().serialize(DataSets.dataSets, new GenericType<HashMap<DataTypes, DataSet>>(){}));
     }
-
     /**
      * This will OVERWRITE any data that is currently loaded!
      */
     public static void loadData() {
-        GensonBuilder gensonBuilder = new GensonBuilder();
-        gensonBuilder.useClassMetadata(true);
-        DataSets.dataSets = gensonBuilder.create().deserialize(Utils.getFileContents("data.json"), new GenericType<HashMap<DataTypes, DataSet>>(){});
+        DataSets.dataSets = new Genson().deserialize(Utils.getFileContents("data.json"), new GenericType<HashMap<DataTypes, DataSet>>(){});
+        if (DataSets.dataSets == null) DataSets.dataSets = new HashMap<>();
     }
 }

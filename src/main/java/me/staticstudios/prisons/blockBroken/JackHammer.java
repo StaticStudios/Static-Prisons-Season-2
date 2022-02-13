@@ -33,23 +33,25 @@ public class JackHammer {
      *
      * @return all the blocks that were removed
      */
-    public Map<Material, BigInteger> destroyLayer(int yLevel) {
+    public Map<Material, BigInteger> destroyLayer(int yLevel, int howDeepToGo) {
         Map<Material, BigInteger> blocksBroken = new HashMap<>();
         int totalBlocksBroken = 0;
-        for(int x = (int) mine.minLocation.getX(); x <= mine.maxLocation.getX(); x++) {
-            for (int z = (int) mine.minLocation.getZ(); z <= mine.maxLocation.getZ(); z++) {
-                Material mat = new Location(Bukkit.getWorld("mines"), x, yLevel, z).getBlock().getType();
-                if (!mat.equals(Material.AIR)) {
-                    totalBlocksBroken++;
-                    if (!blocksBroken.containsKey(mat)) {
-                        blocksBroken.put(mat, BigInteger.ONE);
-                    } else blocksBroken.put(mat, blocksBroken.get(mat).add(BigInteger.ONE));
+        for (int y = Math.max(1, yLevel - howDeepToGo); y < yLevel; y++) {
+            for (int x = (int) mine.minLocation.getX(); x <= mine.maxLocation.getX(); x++) {
+                for (int z = (int) mine.minLocation.getZ(); z <= mine.maxLocation.getZ(); z++) {
+                    Material mat = new Location(Bukkit.getWorld("mines"), x, y, z).getBlock().getType();
+                    if (!mat.equals(Material.AIR)) {
+                        totalBlocksBroken++;
+                        if (!blocksBroken.containsKey(mat)) {
+                            blocksBroken.put(mat, BigInteger.ONE);
+                        } else blocksBroken.put(mat, blocksBroken.get(mat).add(BigInteger.ONE));
+                    }
                 }
             }
         }
         if (!mine.brokeBlocksInMine(totalBlocksBroken)) {
             Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
-                Region region = new CuboidRegion(BukkitAdapter.adapt(mine.minLocation.getWorld()), BlockVector3.at(mine.minLocation.getX(), yLevel, mine.minLocation.getZ()), BlockVector3.at(mine.maxLocation.getX(), yLevel, mine.maxLocation.getZ()));
+                Region region = new CuboidRegion(BukkitAdapter.adapt(mine.minLocation.getWorld()), BlockVector3.at(mine.minLocation.getX(), yLevel, mine.minLocation.getZ()), BlockVector3.at(mine.maxLocation.getX(), Math.max(1, yLevel - howDeepToGo + 1), mine.maxLocation.getZ()));
                 EditSession editSession = WorldEdit.getInstance().newEditSession(region.getWorld());
                 editSession.setBlocks(region, BlockTypes.AIR);
                 editSession.close();
