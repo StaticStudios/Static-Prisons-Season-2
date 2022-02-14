@@ -1,7 +1,6 @@
 package me.staticstudios.prisons.gui;
 
 import me.staticstudios.prisons.gui.menus.*;
-import me.staticstudios.prisons.misc.chat.ChatTags;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -30,6 +29,7 @@ public class GUIPage {
         classes.add(PrestigeMenus.class);
         classes.add(BackpackMenus.class);
         classes.add(AuctionHouseMenus.class);
+        classes.add(CrateRewardsMenus.class);
         for (Class c : classes) {
             //Method[] methods = Main.class.getDeclaredMethods();
             Method[] methods = c.getDeclaredMethods();

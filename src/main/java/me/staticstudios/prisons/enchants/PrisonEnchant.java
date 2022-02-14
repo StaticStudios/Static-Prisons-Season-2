@@ -23,7 +23,7 @@ public class PrisonEnchant {
     public BigInteger calculatePrice(int currentLevel, int levelsToBuy) {
         BigInteger price = INITIAL_PRICE;
         for (int i = 0; i < levelsToBuy; i++) {
-            price = price.add(INITIAL_PRICE.multiply(BigInteger.valueOf(currentLevel + i + 1)).divide(BigInteger.valueOf(100).divide(BigInteger.valueOf(RATE_OF_INCREASE))));
+            price = price.add(INITIAL_PRICE.multiply(BigInteger.valueOf(currentLevel + i)).divide(BigInteger.valueOf(100).divide(BigInteger.valueOf(RATE_OF_INCREASE))));
         }
         return price;
     }

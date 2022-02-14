@@ -1,5 +1,7 @@
 package me.staticstudios.prisons.commands.test;
 
+import me.staticstudios.prisons.crates.CommonCrate;
+import me.staticstudios.prisons.customItems.CustomItems;
 import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.command.Command;
@@ -22,7 +24,7 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
-
+        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getVoteCrateKey(64));
         return false;
     }
 }

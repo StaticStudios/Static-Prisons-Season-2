@@ -36,7 +36,7 @@ public class JackHammer {
     public Map<Material, BigInteger> destroyLayer(int yLevel, int howDeepToGo) {
         Map<Material, BigInteger> blocksBroken = new HashMap<>();
         int totalBlocksBroken = 0;
-        for (int y = Math.max(1, yLevel - howDeepToGo); y < yLevel; y++) {
+        for (int y = Math.max(1, yLevel - howDeepToGo + 1); y <= yLevel; y++) {
             for (int x = (int) mine.minLocation.getX(); x <= mine.maxLocation.getX(); x++) {
                 for (int z = (int) mine.minLocation.getZ(); z <= mine.maxLocation.getZ(); z++) {
                     Material mat = new Location(Bukkit.getWorld("mines"), x, y, z).getBlock().getType();

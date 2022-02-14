@@ -1,5 +1,6 @@
 package me.staticstudios.prisons;
 
+import me.staticstudios.prisons.crates.CrateManager;
 import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.data.serverData.ServerData;
 import me.staticstudios.prisons.enchants.EnchantEffects;
@@ -17,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
@@ -49,9 +51,6 @@ public class Events implements Listener {
         Utils.updateLuckPermsForPlayerRanks(player);
 
         //Update potion effects based off custom enchants
-        e.getPlayer().removePotionEffect(PotionEffectType.SPEED);
-        e.getPlayer().removePotionEffect(PotionEffectType.FAST_DIGGING);
-        e.getPlayer().removePotionEffect(PotionEffectType.NIGHT_VISION);
         EnchantEffects.giveEffect(e.getPlayer(), e.getPlayer().getInventory().getItemInMainHand());
     }
     @EventHandler
@@ -66,14 +65,16 @@ public class Events implements Listener {
     }
     @EventHandler
     void onChangeHeld(PlayerItemHeldEvent e) {
-        e.getPlayer().removePotionEffect(PotionEffectType.SPEED);
-        e.getPlayer().removePotionEffect(PotionEffectType.FAST_DIGGING);
-        e.getPlayer().removePotionEffect(PotionEffectType.NIGHT_VISION);
         EnchantEffects.giveEffect(e.getPlayer(), e.getPlayer().getInventory().getItem(e.getNewSlot()));
+    }
+    @EventHandler
+    void invClick(InventoryClickEvent e) {
+        if (!(e.getWhoClicked() instanceof Player)) return;
+        EnchantEffects.giveEffect((Player) e.getWhoClicked(), e.getWhoClicked().getInventory().getItemInMainHand());
     }
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e) {
+    void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         if (e.getHand() != null) {
             if (e.getHand().equals(EquipmentSlot.OFF_HAND)) return;
@@ -91,7 +92,11 @@ public class Events implements Listener {
             if (Utils.checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) {
                 GUI.getGUIPage("enchantsMain").args = player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "pickaxeUUID"), PersistentDataType.STRING);
                 GUI.getGUIPage("enchantsMain").open(player);
+                e.setCancelled(true);
+                return;
             }
         }
+        if (CrateManager.checkIfCrateWasClicked(e)) return;
+
     }
 }

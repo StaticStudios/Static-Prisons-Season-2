@@ -15,6 +15,9 @@ public class EnchantEffects {
         }
     }
     public static void giveEffect(Player player, ItemStack pickaxe) {
+        player.removePotionEffect(PotionEffectType.SPEED);
+        player.removePotionEffect(PotionEffectType.FAST_DIGGING);
+        player.removePotionEffect(PotionEffectType.NIGHT_VISION);
         if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
         if (CustomEnchants.getEnchantLevel(pickaxe, "speed") > 0) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 9999999 * 20, (int) CustomEnchants.getEnchantLevel(pickaxe, "speed") - 1, true));

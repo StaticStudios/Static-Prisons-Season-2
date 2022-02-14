@@ -57,6 +57,8 @@ public class BlockBreakEvent implements Listener {
         int jackHammerLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "jackHammer");
         int doubleWammyLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "doubleWammy");
         int multiDirectionalLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "multiDirectional");
+        boolean doubleFortune = false;
+        if (CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter") > 0) doubleFortune = CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter") <= Utils.randomInt(1, PrisonEnchants.ORE_SPLITTER.MAX_LEVEL);
         if (jackHammerLevel > 0) {
             //Jack Hammer
             if (Utils.randomInt(1, 12) == 1) {
@@ -82,13 +84,16 @@ public class BlockBreakEvent implements Listener {
         BigInteger totalAmountOfBlocksBroken = BigInteger.ZERO;
         //Check if the backpack is full before adding
         boolean backpackWasFull = playerData.getBackpack().isFull();
+        //Factor in fortune and ore splitter
+        long fortuneMultiplier = CustomEnchants.getEnchantLevel(pickaxe, "fortune") + 1;
+        if (doubleFortune) fortuneMultiplier *= 2;
         //Add the blocks broken to a player's backpack
         for (Material key : blocksBroken.keySet()) {
-            playerData.addBlocksToBackpack(key, blocksBroken.get(key).multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "fortune") + 1))); //Factor in their fortune enchant
+            playerData.addBlocksToBackpack(key, blocksBroken.get(key).multiply(BigInteger.valueOf(fortuneMultiplier)));
             totalAmountOfBlocksBroken = totalAmountOfBlocksBroken.add(blocksBroken.get(key));
         }
         //Adds one token for every block broken
-        playerData.addTokens(totalAmountOfBlocksBroken.multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenator") + 1)));
+        playerData.addTokens(totalAmountOfBlocksBroken.multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenator") + 1)).multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenPolisher"))).divide(BigInteger.TEN));
         //Add the blocks mined to the player and pickaxe
         playerData.addBlocksMined(totalAmountOfBlocksBroken);
         PrisonPickaxe.addBlocksMined(pickaxe, totalAmountOfBlocksBroken.longValue());
