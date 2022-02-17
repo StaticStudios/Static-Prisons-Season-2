@@ -44,16 +44,16 @@ public class PlayerData extends DataSet {
 
     //Money
     public BigInteger getMoney() {
-        if (getData("money").bigInteger == null) {
+        if (getData("money")._string.equals("")) {
             Data newData = new Data();
-            newData.bigInteger = BigInteger.ZERO;
+            newData._string = "0";
             setData("money", newData);
         }
-        return (getData("money").bigInteger);
+        return new BigInteger(getData("money")._string);
     }
     public Data setMoney(BigInteger value) {
         Data newData = new Data();
-        newData.bigInteger = value;
+        newData._string = value.toString();
         return setData("money", newData);
     }
     public Data addMoney(BigInteger value) {
@@ -65,16 +65,16 @@ public class PlayerData extends DataSet {
 
     //Tokens
     public BigInteger getTokens() {
-        if (getData("tokens").bigInteger == null) {
+        if (getData("tokens")._string.equals("")) {
             Data newData = new Data();
-            newData.bigInteger = BigInteger.ZERO;
+            newData._string = "0";
             setData("tokens", newData);
         }
-        return (getData("tokens").bigInteger);
+        return new BigInteger(getData("tokens")._string);
     }
     public Data setTokens(BigInteger value) {
         Data newData = new Data();
-        newData.bigInteger = value;
+        newData._string = value.toString();
         return setData("tokens", newData);
     }
     public Data addTokens(BigInteger value) {
@@ -86,16 +86,16 @@ public class PlayerData extends DataSet {
 
     //Time played
     public BigInteger getTimePlayed() {
-        if (getData("timePlayed").bigInteger == null) {
+        if (getData("timePlayed")._string.equals("")) {
             Data newData = new Data();
-            newData.bigInteger = BigInteger.ZERO;
+            newData._string = "0";
             setData("timePlayed", newData);
         }
-        return (getData("timePlayed").bigInteger);
+        return new BigInteger(getData("timePlayed")._string);
     }
     public Data setTimePlayed(BigInteger value) {
         Data newData = new Data();
-        newData.bigInteger = value;
+        newData._string = value.toString();
         return setData("timePlayed", newData);
     }
     public Data addTimePlayed(BigInteger value) {
@@ -107,16 +107,16 @@ public class PlayerData extends DataSet {
 
     //Raw blocks mined
     public BigInteger getRawBlocksMined() {
-        if (getData("rawBlocksMined").bigInteger == null) {
+        if (getData("rawBlocksMined")._string.equals("")) {
             Data newData = new Data();
-            newData.bigInteger = BigInteger.ZERO;
+            newData._string = "0";
             setData("rawBlocksMined", newData);
         }
-        return (getData("rawBlocksMined").bigInteger);
+        return new BigInteger(getData("rawBlocksMined")._string);
     }
     public Data setRawBlocksMined(BigInteger value) {
         Data newData = new Data();
-        newData.bigInteger = value;
+        newData._string = value.toString();
         return setData("rawBlocksMined", newData);
     }
     public Data addRawBlocksMined(BigInteger value) {
@@ -128,16 +128,16 @@ public class PlayerData extends DataSet {
 
     //Blocks Mined
     public BigInteger getBlocksMined() {
-        if (getData("blocksMined").bigInteger == null) {
+        if (getData("blocksMined")._string.equals("")) {
             Data newData = new Data();
-            newData.bigInteger = BigInteger.ZERO;;
+            newData._string = "0";
             setData("blocksMined", newData);
         }
-        return (getData("blocksMined").bigInteger);
+        return new BigInteger(getData("blocksMined")._string);
     }
     public Data setBlocksMined(BigInteger value) {
         Data newData = new Data();
-        newData.bigInteger = value;
+        newData._string = value.toString();
         return setData("blocksMined", newData);
     }
     public Data addBlocksMined(BigInteger value) {
@@ -165,12 +165,12 @@ public class PlayerData extends DataSet {
 
     //Prestige
     public BigInteger getPrestige() {
-        if (getData("prestige").bigInteger == null) return BigInteger.ZERO;
-        return getData("prestige").bigInteger;
+        if (getData("prestige")._string.equals("")) return BigInteger.ZERO;
+        return new BigInteger(getData("prestige")._string);
     }
     public Data setPrestige(BigInteger value) {
         Data newData = new Data();
-        newData.bigInteger = value;
+        newData._string = value.toString();
         return setData("prestige", newData);
     }
     public Data addPrestige(BigInteger value) {
@@ -396,4 +396,74 @@ public class PlayerData extends DataSet {
         items.add(item);
         return setExpiredAuctions(items);
     }
+    //Settings
+    public boolean getIsAutoSellEnabled() {
+        return getData("autoSell")._boolean;
+    }
+    public Data setIsAutoSellEnabled(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("autoSell", newData);
+    }
+    public boolean getCanEnableAutoSell() {
+        return getData("canEnableAutoSell")._boolean;
+    }
+    public Data setCanEnableAutoSell(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("canEnableAutoSell", newData);
+    }
+    public boolean getAreTipsDisabled() {
+        return getData("tipsEnabled")._boolean;
+    }
+    public Data setAreTipsDisabled(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("tipsEnabled", newData);
+    }
+    public boolean getIsMobile() {
+        return getData("mobile")._boolean;
+    }
+    public Data setIsMobile(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("mobile", newData);
+    }
+    public boolean getIsChatFilterEnabled() {
+        return getData("chatFilter")._boolean;
+    }
+    public Data setIsChatFilterEnabled(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("chatFilter", newData);
+    }
+
+
+    //P mines
+    public Data setPrivateMineMat(Material value) {
+        Data newData = new Data();
+        newData._string = value.name();
+        return setData("privateMineMat", newData);
+    }
+    public Material getPrivateMineMat() {
+        return Material.valueOf(getData("privateMineMat")._string);
+    }
+
+    public Data setHasPrivateMine(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("hasPrivateMine", newData);
+    }
+    public boolean getHasPrivateMine() {
+        return getData("hasPrivateMine")._boolean;
+    }
+    public Data setPrivateMineSquareSize(int value) {
+        Data newData = new Data();
+        newData._int = value;
+        return setData("privateMineSquareSize", newData);
+    }
+    public int getPrivateMineSquareSize() {
+        return getData("privateMineSquareSize")._int;
+    }
+
 }

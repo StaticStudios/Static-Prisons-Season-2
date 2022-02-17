@@ -5,12 +5,17 @@ import com.google.gson.reflect.TypeToken;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
+import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.auctionHouse.AuctionHouseManager;
 import me.staticstudios.prisons.data.dataHandling.DataSet;
 import me.staticstudios.prisons.data.dataHandling.DataSets;
 import me.staticstudios.prisons.data.dataHandling.DataTypes;
 import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.mines.PrivateMine;
 import me.staticstudios.prisons.utils.Utils;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,10 +33,7 @@ public class Test2Command implements CommandExecutor {
         if (!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
         PlayerData playerData = new PlayerData(player);
-        for (ItemStack item : playerData.getExpiredAuctions()) {
-            Utils.addItemToPlayersInventoryAndDropExtra(player, item);
-        }
-        playerData.setExpiredAuctions(new ArrayList<>());
+        playerData.setHasPrivateMine(false);
         return false;
     }
 }

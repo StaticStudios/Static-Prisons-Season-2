@@ -9,7 +9,6 @@ import java.util.Map;
 
 //Data types can be added here, they will get serialized without a problem as long as that type is serializable.
 public class Data implements Serializable {
-    public BigInteger bigInteger;
     public List list;
     public Map map;
     public byte[] byteArr;

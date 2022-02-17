@@ -30,6 +30,8 @@ public class GUIPage {
         classes.add(BackpackMenus.class);
         classes.add(AuctionHouseMenus.class);
         classes.add(CrateRewardsMenus.class);
+        classes.add(SettingsMenus.class);
+        classes.add(PrivateMinesMenus.class);
         for (Class c : classes) {
             //Method[] methods = Main.class.getDeclaredMethods();
             Method[] methods = c.getDeclaredMethods();

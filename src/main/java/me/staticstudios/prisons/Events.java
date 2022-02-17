@@ -5,6 +5,7 @@ import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.data.serverData.ServerData;
 import me.staticstudios.prisons.enchants.EnchantEffects;
 import me.staticstudios.prisons.gui.GUI;
+import me.staticstudios.prisons.misc.Warps;
 import me.staticstudios.prisons.misc.chat.CustomChatMessage;
 import me.staticstudios.prisons.misc.scoreboard.CustomScoreboard;
 import me.staticstudios.prisons.misc.tablist.TabList;
@@ -30,6 +31,7 @@ public class Events implements Listener {
     @EventHandler
     void playerJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
+        Warps.warpToSpawn(player);
         //Check if they have joined before
         if (!new ServerData().checkIfPlayerHasJoinedBeforeByUUID(player.getUniqueId().toString())) {
             Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " has joined the server for the first time! " + org.bukkit.ChatColor.GRAY + "(" + org.bukkit.ChatColor.AQUA + "#" + Utils.addCommasToInt(new ServerData().getPlayerUUIDsToNamesMap().size() + 1) + org.bukkit.ChatColor.GRAY + ")");
@@ -72,6 +74,25 @@ public class Events implements Listener {
         if (!(e.getWhoClicked() instanceof Player)) return;
         EnchantEffects.giveEffect((Player) e.getWhoClicked(), e.getWhoClicked().getInventory().getItemInMainHand());
     }
+    @EventHandler
+    void onMove(PlayerMoveEvent e) {
+        Player player = e.getPlayer();
+
+        if (e.getTo().getY() < 0) {
+            Warps.warpToSpawn(player);
+            return;
+        }
+
+        //Prevent players from flying between mines
+        if (player.getWorld().getName().equals("mines")) {
+            int x = ((int) e.getTo().getX());
+            int z = ((int) e.getTo().getZ());
+            int thresh = 50;
+            if (x % 750 >= 750 - thresh || (x % 750 <= thresh && Math.abs(x) > thresh * 2)) {
+                e.setCancelled(true);
+            } else if (z > 250 || z < -250) e.setCancelled(true);
+        }
+    }
 
     @EventHandler
     void onInteract(PlayerInteractEvent e) {
@@ -90,6 +111,7 @@ public class Events implements Listener {
         //Check if the player is holding a pickaxe and is trying to open the enchants menu
         if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if (Utils.checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) {
+                if (new PlayerData(player).getIsMobile()) return;
                 GUI.getGUIPage("enchantsMain").args = player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "pickaxeUUID"), PersistentDataType.STRING);
                 GUI.getGUIPage("enchantsMain").open(player);
                 e.setCancelled(true);

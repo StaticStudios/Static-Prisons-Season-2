@@ -47,7 +47,7 @@ public class ChatTagsMenus {
         };
         guiPage.identifier = "chatTags";
         guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dYour Chat Tags");
-        guiPage.onCloseGoToMenu = null;
+        guiPage.onCloseGoToMenu = "main";
         guiPage.register();
     }
 

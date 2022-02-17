@@ -5,6 +5,7 @@ import me.staticstudios.prisons.data.dataHandling.DataSet;
 import me.staticstudios.prisons.data.dataHandling.DataSets;
 import me.staticstudios.prisons.data.dataHandling.DataTypes;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +32,8 @@ public class ServerData extends DataSet {
         putPlayerUUIDsToName(playerUUID, playerName);
         addJoinedPlayersUUID(playerUUID);
         Bukkit.getLogger().log(Level.INFO, "Player has joined for the first time with the uuid: " + playerUUID + " and the name: " + playerName);
+        PlayerData playerData = new PlayerData(playerUUID);
+        playerData.setPrivateMineMat(Material.STONE);
     }
 
     //PlayersWhoHaveJoined

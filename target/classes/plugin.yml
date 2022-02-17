@@ -41,6 +41,8 @@ commands:
     description: a
   gui:
     description: a
+    aliases:
+      - help
   chattags:
     aliases:
       - tags
@@ -66,3 +68,15 @@ commands:
     aliases:
       - ah
       - auction
+  settings:
+    description: a
+    aliases:
+      - autosell
+      - chatfilter
+      - tips
+  privatemine:
+    aliases:
+      - pmine
+      - pmines
+  mobilesupport:
+    description: a

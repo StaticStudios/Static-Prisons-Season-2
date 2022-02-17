@@ -43,6 +43,13 @@ public class MineManager {
         }
     }
 
+    public static boolean checkIfMineExists(String id) {
+        return allMines.containsKey(id);
+    }
+    public static PrivateMine getPrivateMine(String id) {
+        return (PrivateMine) allMines.get(id);
+    }
+
 
     public static void initialize() {
         PublicMine mine;

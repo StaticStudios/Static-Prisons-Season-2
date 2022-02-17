@@ -72,10 +72,10 @@ public class BlockBreakEvent implements Listener {
         }
         if (multiDirectionalLevel > 0) {
             //Multi-directional
-            if (Utils.randomInt(1, 12) == 1) {
+            if (Utils.randomInt(1, 24) == 1) {
                 if (Utils.randomInt(1, PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 30) <= multiDirectionalLevel + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 30) {
                     //Enchant should activate
-                    int howDeepToGo = Math.max(1, e.getBlock().getY() - multiDirectionalLevel * 500 / PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL);
+                    int howDeepToGo = Math.max(1, e.getBlock().getY() - multiDirectionalLevel * 250 / PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL);
                     blocksBroken.putAll(new MultiDirectional(mine, e.getBlock().getLocation()).destroySection(e.getBlock().getY(), howDeepToGo, e.getBlock().getX(), e.getBlock().getZ()));
                 }
             }
@@ -93,7 +93,7 @@ public class BlockBreakEvent implements Listener {
             totalAmountOfBlocksBroken = totalAmountOfBlocksBroken.add(blocksBroken.get(key));
         }
         //Adds one token for every block broken
-        playerData.addTokens(totalAmountOfBlocksBroken.multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenator") + 1)).multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenPolisher"))).divide(BigInteger.TEN));
+        playerData.addTokens(totalAmountOfBlocksBroken.multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenator") + 1)).multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenPolisher") + 1)).divide(BigInteger.TEN));
         //Add the blocks mined to the player and pickaxe
         playerData.addBlocksMined(totalAmountOfBlocksBroken);
         PrisonPickaxe.addBlocksMined(pickaxe, totalAmountOfBlocksBroken.longValue());

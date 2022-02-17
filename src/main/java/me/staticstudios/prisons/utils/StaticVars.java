@@ -18,7 +18,7 @@ public class StaticVars {
             150000L,
             250000L,
             500000L,
-            100000L,
+            1000000L,
     };
     public static final String[] publicMineWorldNames = {
             "publicmine-a",

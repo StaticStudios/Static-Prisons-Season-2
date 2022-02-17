@@ -1,5 +1,6 @@
 package me.staticstudios.prisons.gui.menus;
 
+import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.gui.GUIPage;
 import org.bukkit.ChatColor;
@@ -21,6 +22,27 @@ public class MainMenus {
                 Player player = (Player) e.getWhoClicked();
                 GUI.getGUIPage("enchantsSelectPickaxe").open(player);
             }
+            @Override
+            public void item12Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                GUI.getGUIPage("auctionHouse").args = "0";
+                GUI.getGUIPage("auctionHouse").open(player);
+            }
+            @Override
+            public void item13Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                if (!new PlayerData(player).getHasPrivateMine()) {
+                    player.sendMessage(ChatColor.RED + "You do not have a private mine! Private mines can be purchased on our store (store.static-studios.net) or they can be won as prizes from crates and/or events!");
+                    return;
+                }
+                GUI.getGUIPage("privateMines").open(player);
+            }
+
+            @Override
+            public void item19Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                GUI.getGUIPage("chatTags").open(player);
+            }
 
             @Override
             public void item34Clicked(InventoryClickEvent e) {
@@ -33,6 +55,11 @@ public class MainMenus {
             public void item45Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 GUI.getGUIPage("rankUp").open(player);
+            }
+            @Override
+            public void item49Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                GUI.getGUIPage("settings").open(player);
             }
             @Override
             public void item53Clicked(InventoryClickEvent e) {
@@ -55,17 +82,17 @@ public class MainMenus {
 
 
         guiPage.menuItems.add(GUI.createDarkGrayPlaceholderItem());
-        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.COMPASS, ChatColor.GREEN + "" + ChatColor.BOLD + "Warps", ChatColor.GRAY + "" + ChatColor.ITALIC + "Go places!"));
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.COMPASS, ChatColor.GREEN + "" + ChatColor.BOLD + "Warps", ChatColor.GRAY + "" + ChatColor.ITALIC + "Go somewhere!"));
         guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.DIAMOND_PICKAXE, ChatColor.AQUA + "" + ChatColor.BOLD + "Enchants", ChatColor.GRAY + "" + ChatColor.ITALIC + "Upgrade your pickaxe!"));
-        guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
-        guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
-        guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
-        guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
-        guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.CLOCK, ChatColor.GREEN + "" + ChatColor.BOLD + "Auction House", ChatColor.GRAY + "" + ChatColor.ITALIC + "Buy items sold by other players!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Type: \"/auc hand <price>\" to sell an item!"));
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.DEEPSLATE_DIAMOND_ORE, ChatColor.AQUA + "" + ChatColor.BOLD + "Private Mines", ChatColor.GRAY + "" + ChatColor.ITALIC + "Mine in your own private space!"));
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.SUNFLOWER, ChatColor.YELLOW + "" + ChatColor.BOLD + "Casino", ChatColor.GRAY + "" + ChatColor.ITALIC + "Test your luck for a chance to win prizes!"));
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.AMETHYST_SHARD, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Multipliers", ChatColor.GRAY + "" + ChatColor.ITALIC + "View and activate your available multipliers!"));
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.IRON_BARS, ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Cells", ChatColor.GRAY + "" + ChatColor.ITALIC + "not finished"));
         guiPage.menuItems.add(GUI.createDarkGrayPlaceholderItem());
 
         guiPage.menuItems.add(GUI.createDarkGrayPlaceholderItem());
-        guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.NAME_TAG, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Chat Tags", ChatColor.GRAY + "" + ChatColor.ITALIC + "Customize how you look!"));
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
@@ -99,7 +126,7 @@ public class MainMenus {
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
-        guiPage.menuItems.add(GUI.createMenuItem(guiPage.identifier, Material.REDSTONE_TORCH, ChatColor.RED + "Settings", ChatColor.GRAY + "Manage your settings"));
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.GUNPOWDER, ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Settings", ChatColor.GRAY + "" + ChatColor.ITALIC + "Change the way you play"));
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());

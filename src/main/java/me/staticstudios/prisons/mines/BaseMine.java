@@ -21,6 +21,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -32,6 +33,7 @@ public abstract class BaseMine {
 
     private int timeBetweenRefills = MineManager.defaultMineRefillTime;
     public int timeUntilNextRefill;
+    public long lastRefilledAt = 0; //In seconds
     //public int autoRefillTimeOffset = 0;
     private boolean refillsOnTimer = false;
 
@@ -46,7 +48,7 @@ public abstract class BaseMine {
     public final String mineID;
     public final int mineOffset; //X axis
 
-    private final Region region;
+    public final Region region;
     private final RandomPattern randomPattern = new RandomPattern();
     private BlockType type;
     private boolean singleType = false;
@@ -88,6 +90,18 @@ public abstract class BaseMine {
 
     public void setWhereToTpPlayerOnRefill(Location whereToTpPlayerOnRefill) {
         this.whereToTpPlayerOnRefill = whereToTpPlayerOnRefill;
+    }
+
+    public Location getWhereToTpPlayerOnRefill() {
+        return whereToTpPlayerOnRefill;
+    }
+
+    public long getLastRefilledAt() {
+        return lastRefilledAt;
+    }
+
+    public void setLastRefilledAt(long lastRefilledAt) {
+        this.lastRefilledAt = lastRefilledAt;
     }
 
     public boolean getIfRefillsOnTimer() {
@@ -142,8 +156,14 @@ public abstract class BaseMine {
             } else editSession.setBlocks(region, randomPattern);
             editSession.close();
         });
+        setLastRefilledAt(Instant.now().getEpochSecond());
         for (Player p : Bukkit.getWorld("mines").getPlayers()) {
-            if (isPlayerInMine(p)) p.teleport(whereToTpPlayerOnRefill);
+            if (isPlayerInMine(p)) {
+                try {
+                    p.teleport(whereToTpPlayerOnRefill);
+                } catch (IllegalStateException ignore) {
+                }
+            }
             if (p.getLocation().getX() >= mineOffset - distanceBetweenMines / 2 && p.getLocation().getX() <= mineOffset + distanceBetweenMines / 2) p.sendMessage(ChatColor.LIGHT_PURPLE + "This mine has been refilled!");
         }
         if (refillsOnTimer) timeUntilNextRefill = timeBetweenRefills;
