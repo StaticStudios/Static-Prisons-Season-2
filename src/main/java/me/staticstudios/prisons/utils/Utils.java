@@ -4,10 +4,7 @@ import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.data.serverData.PlayerData;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -25,6 +22,26 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Utils {
+    public static Location calcMinPoint(Location loc1, Location loc2) {
+        if (!Objects.equals(loc1.getWorld(), loc2.getWorld())) {
+            throw new IllegalArgumentException("Points must be in the same world");
+        } else {
+            double minX = Math.min(loc1.getX(), loc2.getX());
+            double minY = Math.min(loc1.getY(), loc2.getY());
+            double minZ = Math.min(loc1.getZ(), loc2.getZ());
+            return new Location(loc1.getWorld(), minX, minY, minZ);
+        }
+    }
+    public static Location calcMaxPoint(Location loc1, Location loc2) {
+        if (!Objects.equals(loc1.getWorld(), loc2.getWorld())) {
+            throw new IllegalArgumentException("Points must be in the same world");
+        } else {
+            double maxX = Math.max(loc1.getX(), loc2.getX());
+            double maxY = Math.max(loc1.getY(), loc2.getY());
+            double maxZ = Math.max(loc1.getZ(), loc2.getZ());
+            return new Location(loc1.getWorld(), maxX, maxY, maxZ);
+        }
+    }
     public static void updateLuckPermsForPlayerRanks(Player player) {
         PlayerData playerData = new PlayerData(player);
         User user = Main.luckPerms.getPlayerAdapter(Player.class).getUser(player);

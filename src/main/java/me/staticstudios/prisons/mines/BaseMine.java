@@ -16,6 +16,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.staticstudios.prisons.Main;
+import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -50,6 +51,8 @@ public abstract class BaseMine {
 
     public final Region region;
     private final RandomPattern randomPattern = new RandomPattern();
+
+
     private BlockType type;
     private boolean singleType = false;
 
@@ -62,8 +65,8 @@ public abstract class BaseMine {
 
         loc1.setX(loc1.getX() + mineOffset);
         loc2.setX(loc2.getX() + mineOffset);
-        this.minLocation = calcMinPoint(loc1, loc2);
-        this.maxLocation = calcMaxPoint(loc1, loc2);
+        this.minLocation = Utils.calcMinPoint(loc1, loc2);
+        this.maxLocation = Utils.calcMaxPoint(loc1, loc2);
 
         region = new CuboidRegion(BukkitAdapter.adapt(minLocation.getWorld()), BlockVector3.at(minLocation.getX(), minLocation.getY(), minLocation.getZ()), BlockVector3.at(maxLocation.getX(), maxLocation.getY(), maxLocation.getZ()));
         whereToTpPlayerOnRefill = new Location(Bukkit.getWorld(mineID), 0, 100, 0);
@@ -74,6 +77,14 @@ public abstract class BaseMine {
 
         registerWorldGuard();
         MineManager.registerMine(this, false);
+    }
+
+    public BlockType getType() {
+        return type;
+    }
+
+    public void setType(BlockType type) {
+        this.type = type;
     }
 
     public int getAmountOfBlocksRequiredToBeBrokenToRefill() {
@@ -107,6 +118,7 @@ public abstract class BaseMine {
     public boolean getIfRefillsOnTimer() {
         return refillsOnTimer;
     }
+
     public void setIfRefillsOnTimer(boolean value) {
         if (value) {
             refillsOnTimer = true;
@@ -121,13 +133,14 @@ public abstract class BaseMine {
     public int getTimeBetweenRefills() {
         return timeBetweenRefills;
     }
+
     public void setTimeBetweenRefills(int value) {
         timeBetweenRefills = value;
     }
 
     public boolean brokeBlocksInMine(int blocksBroken) {
         blocksInMine -= blocksBroken;
-        if (blocksInMine <= amountOfBlocksRequiredToBeBrokenToRefill){
+        if (blocksInMine <= amountOfBlocksRequiredToBeBrokenToRefill) {
             refill();
             return true;
         }
@@ -141,12 +154,14 @@ public abstract class BaseMine {
         } else createRandomPattern(mineBlocks);
     }
 
+
     public void registerWorldGuard() {
         ProtectedCuboidRegion region = new ProtectedCuboidRegion(mineID + "-MINE", BlockVector3.at(minLocation.getX(), minLocation.getY(), minLocation.getZ()), BlockVector3.at(maxLocation.getX(), maxLocation.getY(), maxLocation.getZ()));
         region.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
         region.setPriority(1);
         WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld("mines"))).addRegion(region);
     }
+
     public void refill() {
         Bukkit.getLogger().log(Level.INFO, "Mine Refilled: " + mineID);
         Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
@@ -164,11 +179,13 @@ public abstract class BaseMine {
                 } catch (IllegalStateException ignore) {
                 }
             }
-            if (p.getLocation().getX() >= mineOffset - distanceBetweenMines / 2 && p.getLocation().getX() <= mineOffset + distanceBetweenMines / 2) p.sendMessage(ChatColor.LIGHT_PURPLE + "This mine has been refilled!");
+            if (p.getLocation().getX() >= mineOffset - distanceBetweenMines / 2 && p.getLocation().getX() <= mineOffset + distanceBetweenMines / 2)
+                p.sendMessage(ChatColor.LIGHT_PURPLE + "This mine has been refilled!");
         }
         if (refillsOnTimer) timeUntilNextRefill = timeBetweenRefills;
         blocksInMine = maxBlocksInMine;
     }
+
     void createRandomPattern(MineBlock[] blocks) {
         for (MineBlock mineBlock : blocks) {
             this.randomPattern.add(BukkitAdapter.asBlockType(mineBlock.type).getDefaultState().toBaseBlock(), mineBlock.chance);
@@ -180,27 +197,5 @@ public abstract class BaseMine {
                 minLocation.getY() <= p.getLocation().getY() && p.getLocation().getY() <= maxLocation.getY() &&
                 minLocation.getZ() <= p.getLocation().getZ() && p.getLocation().getZ() <= maxLocation.getZ()
         );
-    }
-
-    private Location calcMinPoint(Location loc1, Location loc2) {
-        if (!Objects.equals(loc1.getWorld(), loc2.getWorld())) {
-            throw new IllegalArgumentException("Points must be in the same world");
-        } else {
-            double minX = Math.min(loc1.getX(), loc2.getX());
-            double minY = Math.min(loc1.getY(), loc2.getY());
-            double minZ = Math.min(loc1.getZ(), loc2.getZ());
-            return new Location(loc1.getWorld(), minX, minY, minZ);
-        }
-    }
-
-    private Location calcMaxPoint(Location loc1, Location loc2) {
-        if (!Objects.equals(loc1.getWorld(), loc2.getWorld())) {
-            throw new IllegalArgumentException("Points must be in the same world");
-        } else {
-            double maxX = Math.max(loc1.getX(), loc2.getX());
-            double maxY = Math.max(loc1.getY(), loc2.getY());
-            double maxZ = Math.max(loc1.getZ(), loc2.getZ());
-            return new Location(loc1.getWorld(), maxX, maxY, maxZ);
-        }
     }
 }
