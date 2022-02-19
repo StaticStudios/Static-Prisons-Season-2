@@ -7,6 +7,7 @@ import me.staticstudios.prisons.data.dataHandling.Data;
 import me.staticstudios.prisons.data.dataHandling.DataSet;
 import me.staticstudios.prisons.data.dataHandling.DataTypes;
 import me.staticstudios.prisons.utils.Utils;
+import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.SerializationUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -464,6 +465,68 @@ public class PlayerData extends DataSet {
     }
     public int getPrivateMineSquareSize() {
         return getData("privateMineSquareSize")._int;
+    }
+
+
+    //Chat settings
+    public boolean getIsChatBold() {
+        return getData("chatBold")._boolean;
+    }
+    public Data setIsChatBold(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("chatBold", newData);
+    }
+    public boolean getIsChatItalic() {
+        return getData("chatItalic")._boolean;
+    }
+    public Data setIsChatItalic(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("chatItalic", newData);
+    }
+    public boolean getIsChatUnderlined() {
+        return getData("chatUnderlined")._boolean;
+    }
+    public Data setIsChatUnderlined(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("chatUnderlined", newData);
+    }
+    public ChatColor getChatColor() {
+        String str = getData("chatColor")._string;
+        if (str.length() < 6) {
+            return ChatColor.getByChar(str.toCharArray()[0]);
+        } else return ChatColor.of(str);
+    }
+    public Data setChatColor(ChatColor value) {
+        Data newData = new Data();
+        newData._string = value.toString().replace("§", "").replace('x', '#');
+        return setData("chatColor", newData);
+    }
+    public boolean getIsChatColorEnabled() {
+        return getData("chatUseColor")._boolean;
+    }
+    public Data setIsChatColorEnabled(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("chatUseColor", newData);
+    }
+    public String getChatNickname() {
+        return getData("chatNickName")._string;
+    }
+    public Data setChatNickname(String value) {
+        Data newData = new Data();
+        newData._string = value;
+        return setData("chatNickName", newData);
+    }
+    public boolean getIsChatNicknameEnabled() {
+        return getData("chatUseNickName")._boolean;
+    }
+    public Data setIsChatNickNameEnabled(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("chatUseNickName", newData);
     }
 
 }

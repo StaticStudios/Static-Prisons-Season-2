@@ -100,27 +100,27 @@ public class BackpackMenus {
             }
             @Override
             public void item1Clicked(InventoryClickEvent e) {
-                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(1));
+                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(10));
             }
             @Override
             public void item2Clicked(InventoryClickEvent e) {
-                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(1));
+                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(100));
             }
             @Override
             public void item3Clicked(InventoryClickEvent e) {
-                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(1));
+                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(1000));
             }
             @Override
             public void item4Clicked(InventoryClickEvent e) {
-                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(1));
+                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(10000));
             }
             @Override
             public void item5Clicked(InventoryClickEvent e) {
-                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(1));
+                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(1000000));
             }
             @Override
             public void item6Clicked(InventoryClickEvent e) {
-                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(1));
+                upgrade((Player) e.getWhoClicked(), BigInteger.valueOf(100000000));
             }
             @Override
             public void item7Clicked(InventoryClickEvent e) {

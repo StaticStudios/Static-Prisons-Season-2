@@ -89,7 +89,7 @@ public class Events implements Listener {
             int z = ((int) e.getTo().getZ());
             int thresh = 50;
             if (x % 750 >= 750 - thresh || (x % 750 <= thresh && Math.abs(x) > thresh * 2)) {
-                e.setCancelled(true);
+                //e.setCancelled(true);
             } else if (z > 250 || z < -250) e.setCancelled(true);
         }
     }

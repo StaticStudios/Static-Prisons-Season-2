@@ -61,8 +61,8 @@ public class CustomChatMessage {
         String prefix = ChatColor.translateAlternateColorCodes('&', "&8[&dP" + Utils.prettyNum(playerData.getPrestige()) + "&8] " + ChatTags.getChatTagFromID(playerData.getChatTag1())  + ChatTags.getChatTagFromID(playerData.getChatTag2()) +
                 "&8[" + rankTag + "&8] ");
         String suffix = "";
-        String playerName = ChatColor.GREEN + this.playerName;
-        String playerFormatting = ""; //Color, Bolding, italic, ect...
+        String playerName = ChatColor.of("#54f08a") + this.playerName;
+        if (playerData.getIsChatNicknameEnabled()) playerName = ChatColor.of("#54f08a") + playerData.getChatNickname();
         if (useNickName) playerName = playerNickName;
         if (this.prefix != null) prefix = this.prefix + " ";
         if (this.suffix != null) suffix = this.suffix + " ";
@@ -72,9 +72,7 @@ public class CustomChatMessage {
 
         String msgPrefix = prefix + ChatColor.RESET + playerName + ChatColor.RESET + suffix + ChatColor.DARK_GRAY + ": ";
         char[] msgPrefixArr = (ChatColor.stripColor(msgPrefix)).toCharArray();
-        e.getPlayer().sendMessage(ChatColor.stripColor(msgPrefix));
         List<List<ChatColor>> msgPrefixColors = getColorOfEveryCharacter(msgPrefix);
-        e.getPlayer().sendMessage(msgPrefixArr.length + " | " + msgPrefixColors.size());
         for (int i = 0; i < msgPrefixArr.length - 1; i++) {
             componentBuilder.append(msgPrefixArr[i] + "");
             componentBuilder.reset();
@@ -95,11 +93,12 @@ public class CustomChatMessage {
                 } else componentBuilder.color(color);
             }
         }
-        componentBuilder.append(ChatColor.RESET + " " + ChatColor.WHITE + chatMessage);
+        componentBuilder.append(" ");
         componentBuilder.reset();
 
 
-        /*
+
+
         if (chatMessage.contains("[item]")) {
             String msg1 = chatMessage;
             String msg2 = "";
@@ -108,29 +107,59 @@ public class CustomChatMessage {
                     if (chatMessage.split("\\[item]").length > 1) msg1 = chatMessage.split("\\[item]")[0];
                     if (chatMessage.split("\\[item]").length > 1) msg2 = chatMessage.split("\\[item]")[1];
                     componentBuilder.append(msg1.replaceAll("\\[item]", ""));
-                    componentBuilder.append(Utils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand()));
-                    componentBuilder.append(msg2.replaceAll("\\[item]", ""));
-                    StringBuilder hoverText;
-                    hoverText = new StringBuilder(Utils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand()) + "\n");
+                    if (playerData.getIsChatColorEnabled()) componentBuilder.color(playerData.getChatColor());
+                    componentBuilder.bold(playerData.getIsChatBold());
+                    componentBuilder.italic(playerData.getIsChatItalic());
+                    componentBuilder.underlined(playerData.getIsChatUnderlined());
+
+
+                    StringBuilder itemHoverText = new StringBuilder(ChatColor.stripColor(Utils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand())) + "\n");
                     if (e.getPlayer().getInventory().getItemInMainHand().hasItemMeta())
-                        if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasLore()) for (String line : e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getLore()) hoverText.append(line).append("\n");
-                    componentBuilder.getComponent(2).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText.toString())));
-                }
-            }
-        } else {
-            componentBuilder.append(chatMessage);
-        }
+                        if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasLore()) {
+                            for (String line : e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getLore()) itemHoverText.append(line).append("\n");
+                        }
+                    HoverEvent itemHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(itemHoverText.toString()));
 
-         */
+                    char[] itemNameArr = (ChatColor.stripColor(Utils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand()) + " ")).toCharArray();
+                    List<List<ChatColor>> itemNameColors = getColorOfEveryCharacter(Utils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand()) + " ");
+                    for (int i = 0; i < itemNameArr.length - 1; i++) {
+                        componentBuilder.append(itemNameArr[i] + "");
+                        componentBuilder.reset();
+                        componentBuilder.getCurrentComponent().setHoverEvent(itemHover);
+                        for (ChatColor color : itemNameColors.get(i)) {
+                            if (ChatColor.BOLD.equals(color)) {
+                                componentBuilder.bold(true);
+                            } else if (ChatColor.ITALIC.equals(color)) {
+                                componentBuilder.italic(true);
+                            } else if (ChatColor.UNDERLINE.equals(color)) {
+                                componentBuilder.underlined(true);
+                            } else if (ChatColor.STRIKETHROUGH.equals(color)) {
+                                componentBuilder.strikethrough(true);
+                            } else if (ChatColor.RESET.equals(color)) {
+                                componentBuilder.reset();
+                            } else if (ChatColor.MAGIC.equals(color)) {
+                                componentBuilder.obfuscated(true);
+                            } else componentBuilder.color(color);
+                        }
+                    }
 
 
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            PlayerData playerData = new PlayerData(p);
-            if (playerData.getIsChatFilterEnabled()) {
-                p.spigot().sendMessage(new ComponentBuilder().append(Utils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand())).create());
-            } else p.spigot().sendMessage(componentBuilder.create());
-        }
+                    componentBuilder.append(msg2.replaceAll("\\[item]", ""));
+                    componentBuilder.reset();
+                } else componentBuilder.append(chatMessage);
+            } else componentBuilder.append(chatMessage);
+        } else componentBuilder.append(chatMessage);
+        if (playerData.getIsChatColorEnabled()) componentBuilder.color(playerData.getChatColor());
+        componentBuilder.bold(playerData.getIsChatBold());
+        componentBuilder.italic(playerData.getIsChatItalic());
+        componentBuilder.underlined(playerData.getIsChatUnderlined());
+
+
+
+
+
+        for (Player p : Bukkit.getOnlinePlayers()) p.spigot().sendMessage(componentBuilder.create());
         e.setCancelled(true);
     }
 
@@ -140,7 +169,6 @@ public class CustomChatMessage {
         List<List<ChatColor>> colors = new ArrayList<>();
         char[] chars = str.toCharArray();
         List<Character> colorChars = new ArrayList<>();
-        System.out.println(str);
         int lastSize = 0;
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '§') {
@@ -195,9 +223,7 @@ public class CustomChatMessage {
                                     }
                                 }
                             }
-                            if (!(color.equals(ChatColor.BOLD) || color.equals(ChatColor.ITALIC) || color.equals(ChatColor.UNDERLINE) || color.equals(ChatColor.STRIKETHROUGH) || color.equals(ChatColor.MAGIC))) {
-                                colors.add(new ArrayList<>());
-                            } else System.out.println(color.getName());
+                            if (!(color.equals(ChatColor.BOLD) || color.equals(ChatColor.ITALIC) || color.equals(ChatColor.UNDERLINE) || color.equals(ChatColor.STRIKETHROUGH) || color.equals(ChatColor.MAGIC))) colors.add(new ArrayList<>());
                             List<ChatColor> l = colors.get(colors.size() - 1);
                             l.add(color);
                             colors.set(colors.size() - 1, l);
@@ -209,7 +235,6 @@ public class CustomChatMessage {
                         }
                         for (int d = colorChars.size() - lastSize; d > 0; d--) {
                             ChatColor color = defaultColor;
-                            System.out.println(d);
                             try {
                                 color = ChatColor.getByChar(colorChars.get(colorChars.size() - d));
                             } catch (IllegalArgumentException x) {
@@ -221,9 +246,7 @@ public class CustomChatMessage {
                                     }
                                 }
                             }
-                            if (!(color.equals(ChatColor.BOLD) || color.equals(ChatColor.ITALIC) || color.equals(ChatColor.UNDERLINE) || color.equals(ChatColor.STRIKETHROUGH) || color.equals(ChatColor.MAGIC))) {
-                                colors.add(new ArrayList<>());
-                            } else System.out.println(color.getName());
+                            if (!(color.equals(ChatColor.BOLD) || color.equals(ChatColor.ITALIC) || color.equals(ChatColor.UNDERLINE) || color.equals(ChatColor.STRIKETHROUGH) || color.equals(ChatColor.MAGIC))) colors.add(new ArrayList<>());
                             List<ChatColor> l = colors.get(colors.size() - 1);
                             l.add(color);
                             colors.set(colors.size() - 1, l);
@@ -236,7 +259,6 @@ public class CustomChatMessage {
                     }
                     for (int d = colorChars.size() - lastSize; d > 0; d--) {
                         ChatColor color = defaultColor;
-                        System.out.println(d);
                         try {
                             color = ChatColor.getByChar(colorChars.get(colorChars.size() - d));
                         } catch (IllegalArgumentException x) {
@@ -248,9 +270,7 @@ public class CustomChatMessage {
                                 }
                             }
                         }
-                        if (!(color.equals(ChatColor.BOLD) || color.equals(ChatColor.ITALIC) || color.equals(ChatColor.UNDERLINE) || color.equals(ChatColor.STRIKETHROUGH) || color.equals(ChatColor.MAGIC))) {
-                            colors.add(new ArrayList<>());
-                        } else System.out.println(color.getName());
+                        if (!(color.equals(ChatColor.BOLD) || color.equals(ChatColor.ITALIC) || color.equals(ChatColor.UNDERLINE) || color.equals(ChatColor.STRIKETHROUGH) || color.equals(ChatColor.MAGIC))) colors.add(new ArrayList<>());
                         List<ChatColor> l = colors.get(colors.size() - 1);
                         l.add(color);
                         colors.set(colors.size() - 1, l);
@@ -259,7 +279,6 @@ public class CustomChatMessage {
                 lastSize = colorChars.size();
             }
         }
-        System.out.println(colors);
         return colors;
     }
 
