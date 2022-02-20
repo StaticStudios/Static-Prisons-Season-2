@@ -37,6 +37,7 @@ public abstract class BaseMine {
     public long lastRefilledAt = 0; //In seconds
     //public int autoRefillTimeOffset = 0;
     private boolean refillsOnTimer = false;
+    private boolean refillWhenMineIsEmpty = true;
 
     private final int amountOfBlocksRequiredToBeBrokenToRefill;
     private final int maxBlocksInMine;
@@ -138,9 +139,17 @@ public abstract class BaseMine {
         timeBetweenRefills = value;
     }
 
+    public boolean isRefillWhenMineIsEmpty() {
+        return refillWhenMineIsEmpty;
+    }
+
+    public void setRefillWhenMineIsEmpty(boolean refillWhenMineIsEmpty) {
+        this.refillWhenMineIsEmpty = refillWhenMineIsEmpty;
+    }
+
     public boolean brokeBlocksInMine(int blocksBroken) {
         blocksInMine -= blocksBroken;
-        if (blocksInMine <= amountOfBlocksRequiredToBeBrokenToRefill) {
+        if (refillWhenMineIsEmpty && blocksInMine <= amountOfBlocksRequiredToBeBrokenToRefill) {
             refill();
             return true;
         }

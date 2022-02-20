@@ -80,3 +80,9 @@ commands:
       - pmines
   mobilesupport:
     description: a
+  color:
+    description: a
+    aliases:
+      - bold
+      - italic
+      - underline

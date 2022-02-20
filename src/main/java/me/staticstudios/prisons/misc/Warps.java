@@ -58,6 +58,8 @@ public class Warps {
     public static final Location RANK_MINE_3 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 43, 102, -25.5, -90, 0);
     public static final Location RANK_MINE_4 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 44, 102, -25.5, -90, 0);
     public static final Location RANK_MINE_5 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 45, 102, -25.5, -90, 0);
+
+    public static final Location EVENT_MINE = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 46, 102, -25.5, -90, 0);
     public static void warpToSpawn(Player player) {
         player.teleport(SPAWN);
         player.setAllowFlight(true);
@@ -121,6 +123,10 @@ public class Warps {
             case 3 -> player.teleport(RANK_MINE_4);
             case 4 -> player.teleport(RANK_MINE_5);
         }
+        player.setAllowFlight(true);
+    }
+    public static void warEventMine(Player player) {
+        player.teleport(EVENT_MINE);
         player.setAllowFlight(true);
     }
 }

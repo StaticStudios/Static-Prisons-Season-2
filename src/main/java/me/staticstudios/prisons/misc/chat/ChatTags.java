@@ -21,6 +21,7 @@ public class ChatTags {
     public static final String IM_RICH = ChatColor.translateAlternateColorCodes('&', "&8[&f&l$&8] ");
     public static final String SIMP = ChatColor.translateAlternateColorCodes('&', "&8[&dS.I.M.P&8] ");
     public static final String PUSHIN_P = ChatColor.translateAlternateColorCodes('&', "&8[&9Pushin &b&lP&8] ");
+    public static final String EFFORT = ChatColor.translateAlternateColorCodes('&', "&8[&x&0&0&d&d&f&b&ne&x&0&8&e&a&d&b&nf&x&1&1&f&7&b&a&nf&x&1&1&f&d&9&9&no&x&0&8&f&e&7&8&nr&x&0&0&f&f&5&7&nt&8] ");
     static {
         chatTags.put("weewoo", WEEWOO);
         chatTags.put("mr.yuh", MR_YUH);
@@ -36,6 +37,7 @@ public class ChatTags {
         chatTags.put("rich", IM_RICH);
         chatTags.put("simp", SIMP);
         chatTags.put("pushin_p", PUSHIN_P);
+        chatTags.put("effort", EFFORT);
     }
 
     public static String getChatTagFromID(String id) {

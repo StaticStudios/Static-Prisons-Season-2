@@ -74,6 +74,7 @@ public final class Main extends JavaPlugin implements Listener {
                 getCommand("enderchestsee").setExecutor(new EnderChestSeeCommand());
                 getCommand("renameitem").setExecutor(new RenameItemCommand());
                 //--Normal Commands
+                getCommand("color").setExecutor(new ColorCommand());
                 getCommand("mobilesupport").setExecutor(new MobileSupportCommand());
                 getCommand("privatemine").setExecutor(new PrivateMineCommand());
                 getCommand("auctionhouse").setExecutor(new AuctionHouseCommand());

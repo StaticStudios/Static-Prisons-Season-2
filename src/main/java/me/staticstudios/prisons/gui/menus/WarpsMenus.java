@@ -134,7 +134,7 @@ public class WarpsMenus {
                 } else menuItems.add(17, GUI.createEnchantedMenuItem(identifier, prestigeMineWarpMaterials[currentPMine], ChatColor.RED + "" + ChatColor.BOLD + "Prestige Mine #" + (currentPMine + 1), ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + Utils.addCommasToLong(StaticVars.amountOfPrestigesRequiredForPrestigeMines[currentPMine]) + " prestiges", "", ChatColor.RED + "You do not have this mine unlocked!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 151x98x151"));
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
-                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.ENCHANTING_TABLE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Event Mine" + ChatColor.GRAY + " (not finished)", ChatColor.AQUA + "Warp to the event mine"));
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.ENCHANTING_TABLE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Event Mine", ChatColor.AQUA + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Refills every 3 hours"));
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 if (playerData.getPlayerRanks().contains("warrior")) {
                     menuItems.add(GUI.createMenuItem(identifier, Material.DEEPSLATE_COAL_ORE, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Warrior Mine", ChatColor.AQUA + "" + ChatColor.ITALIC + "Requires " + ChatColor.UNDERLINE + "warrior" + ChatColor.RESET + ChatColor.AQUA + ChatColor.ITALIC + " rank (or higher)", ChatColor.AQUA + "" + ChatColor.ITALIC + "Purchasable on: https://store.static-studios.net", "", ChatColor.GREEN + "Click to warp!", "", ChatColor.GRAY + "" + ChatColor.ITALIC + "Size: 79x98x79"));
@@ -519,6 +519,12 @@ public class WarpsMenus {
                 if (playerData.getPlayerRanks().contains("staticp")) {
                     Warps.warpRankMine(player, 4);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
+            }
+            @Override
+            public void item45Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                PlayerData playerData = new PlayerData(player);
+                Warps.warEventMine(player);
             }
         };
         guiPage.identifier = "warpsMines";

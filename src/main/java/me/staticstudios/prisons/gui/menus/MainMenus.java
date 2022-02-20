@@ -39,7 +39,7 @@ public class MainMenus {
             }
 
             @Override
-            public void item19Clicked(InventoryClickEvent e) {
+            public void item16Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 GUI.getGUIPage("chatTags").open(player);
             }
@@ -88,11 +88,11 @@ public class MainMenus {
         guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.DEEPSLATE_DIAMOND_ORE, ChatColor.AQUA + "" + ChatColor.BOLD + "Private Mines", ChatColor.GRAY + "" + ChatColor.ITALIC + "Mine in your own private space!"));
         guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.SUNFLOWER, ChatColor.YELLOW + "" + ChatColor.BOLD + "Casino", ChatColor.GRAY + "" + ChatColor.ITALIC + "Test your luck for a chance to win prizes!"));
         guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.AMETHYST_SHARD, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Multipliers", ChatColor.GRAY + "" + ChatColor.ITALIC + "View and activate your available multipliers!"));
-        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.IRON_BARS, ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Cells", ChatColor.GRAY + "" + ChatColor.ITALIC + "not finished"));
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.NAME_TAG, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Chat Tags", ChatColor.GRAY + "" + ChatColor.ITALIC + "Customize how you look!"));
         guiPage.menuItems.add(GUI.createDarkGrayPlaceholderItem());
 
         guiPage.menuItems.add(GUI.createDarkGrayPlaceholderItem());
-        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.NAME_TAG, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Chat Tags", ChatColor.GRAY + "" + ChatColor.ITALIC + "Customize how you look!"));
+        guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
