@@ -173,6 +173,14 @@ public class ServerData extends DataSet {
         map.remove(uuid);
         return setCellUUIDsToNamesMap(map);
     }
+    public int getVoteParty() {
+        return getData("voteParty")._int;
+    }
+    public Data setVoteParty(int value) {
+        Data newData = new Data();
+        newData._int = value;
+        return setData("voteParty", newData);
+    }
 
     public String getIslandNameFromUUID(String value) {
         return getCellUUIDsToNamesMap().get(value);

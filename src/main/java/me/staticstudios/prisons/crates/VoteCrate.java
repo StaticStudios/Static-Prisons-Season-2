@@ -7,12 +7,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class VoteCrate {
-    public static Location LOCATION = new Location(Bukkit.getWorld("world"), 6, 100, 0);
+    public static Location LOCATION = new Location(Bukkit.getWorld("world"), -54, 80, -125);
     public static CrateReward[] rewards = new CrateReward[] {
             new CrateReward(CustomItems.getCommonCrateKey(1), 5),
-            new CrateReward(CustomItems.getCommonCrateKey(4), 15),
-            new CrateReward(CustomItems.getRareCrateKey(2), 10),
-            new CrateReward(CustomItems.getRareCrateKey(3), 5),
+            new CrateReward(CustomItems.getCommonCrateKey(4), 20),
+            new CrateReward(CustomItems.getRareCrateKey(2), 15),
+            new CrateReward(CustomItems.getRareCrateKey(3), 10),
             new CrateReward(CustomItems.getEpicCrateKey(1), 7.5),
             new CrateReward(CustomItems.getEpicCrateKey(4), 2.5),
             new CrateReward(CustomItems.getLegendaryCrateKey(1), 5),
@@ -23,9 +23,6 @@ public class VoteCrate {
             new CrateReward(CustomItems.getStaticCrateKey(5), 0.5),
             new CrateReward(CustomItems.getStaticpCrateKey(1), 0.075),
             new CrateReward(CustomItems.getStaticpCrateKey(3), 0.025),
-            new CrateReward(CustomItems.getValueCrateKey(1), 5),
-            new CrateReward(CustomItems.getValueCrateKey(3), 5),
-            new CrateReward(CustomItems.getValueCrateKey(5), 5),
             new CrateReward(CustomItems.getKitCrateKey(1), 2.5),
             new CrateReward(CustomItems.getPickaxeCrateKey(1), 10),
             new CrateReward(CustomItems.getPickaxeCrateKey(2), 5),

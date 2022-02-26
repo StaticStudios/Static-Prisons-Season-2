@@ -1,15 +1,25 @@
 package me.staticstudios.prisons.crates;
 
+import me.staticstudios.prisons.customItems.CustomItems;
+import me.staticstudios.prisons.customItems.Vouchers;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class RareCrate {
-    public static Location LOCATION = new Location(Bukkit.getWorld("world"), 1, 100, 0);
+    public static Location LOCATION = new Location(Bukkit.getWorld("world"), -42, 80, -137);
     public static CrateReward[] rewards = new CrateReward[] {
-            new CrateReward(new ItemStack(Material.DIRT), 50),
-            new CrateReward(new ItemStack(Material.STONE), 50),
+            new CrateReward(Vouchers.MONEY_POUCH_T1.item, 30),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 13),
+            new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 30),
+            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 2), 12),
+            new CrateReward(CustomItems.getRareCrateKey(2), 4),
+            new CrateReward(CustomItems.getEpicCrateKey(1), 2),
+            new CrateReward(CustomItems.getEpicCrateKey(2), 1),
+            new CrateReward(CustomItems.getLegendaryCrateKey(1), 2),
+            new CrateReward(CustomItems.getPickaxeCrateKey(1), 4),
+            new CrateReward(CustomItems.getKitCrateKey(1), 2),
     };
 
     public static void open(Player player) {

@@ -263,4 +263,74 @@ public class CrateRewardsMenus {
         guiPage.onCloseGoToMenu = null;
         guiPage.register();
     }
+    //Pickaxe Crate Rewards
+    public static void pickaxe() {
+        GUIPage guiPage = new GUIPage() {
+            @Override
+            public void onOpen(Player player) {
+                menuItems = new ArrayList<>();
+                int totalChance = 0;
+                for(CrateReward reward : PickaxeCrate.rewards) {
+                    totalChance += reward.chance;
+                }
+                for(CrateReward reward : PickaxeCrate.rewards) {
+                    DecimalFormat df = new DecimalFormat();
+                    df.setMaximumFractionDigits(2);
+                    ItemStack item = new ItemStack(reward.reward);
+                    ItemMeta itemMeta = item.getItemMeta();
+                    itemMeta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "guiItem"), PersistentDataType.STRING, "placeholder");
+                    List<String> lore = itemMeta.getLore();
+                    if (!itemMeta.hasLore()) lore = new ArrayList<>();
+                    lore.add(ChatColor.GRAY + "--------------------");
+                    lore.add(ChatColor.AQUA + "Chance To Win: " + ChatColor.WHITE + "%" + reward.chance);
+                    lore.add(ChatColor.GRAY + "--------------------");
+                    itemMeta.setLore(lore);
+                    item.setItemMeta(itemMeta);
+                    menuItems.add(item);
+                }
+                while (menuItems.size() < 27) {
+                    menuItems.add(GUI.createLightGrayPlaceholderItem());
+                }
+            }
+        };
+        guiPage.identifier = "crateRewardsPickaxe";
+        guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dPickaxe Crate Rewards");
+        guiPage.onCloseGoToMenu = null;
+        guiPage.register();
+    }
+    //Kit Crate Rewards
+    public static void kit() {
+        GUIPage guiPage = new GUIPage() {
+            @Override
+            public void onOpen(Player player) {
+                menuItems = new ArrayList<>();
+                int totalChance = 0;
+                for(CrateReward reward : KitCrate.rewards) {
+                    totalChance += reward.chance;
+                }
+                for(CrateReward reward : KitCrate.rewards) {
+                    DecimalFormat df = new DecimalFormat();
+                    df.setMaximumFractionDigits(2);
+                    ItemStack item = new ItemStack(reward.reward);
+                    ItemMeta itemMeta = item.getItemMeta();
+                    itemMeta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "guiItem"), PersistentDataType.STRING, "placeholder");
+                    List<String> lore = itemMeta.getLore();
+                    if (!itemMeta.hasLore()) lore = new ArrayList<>();
+                    lore.add(ChatColor.GRAY + "--------------------");
+                    lore.add(ChatColor.AQUA + "Chance To Win: " + ChatColor.WHITE + "%" + reward.chance);
+                    lore.add(ChatColor.GRAY + "--------------------");
+                    itemMeta.setLore(lore);
+                    item.setItemMeta(itemMeta);
+                    menuItems.add(item);
+                }
+                while (menuItems.size() < 27) {
+                    menuItems.add(GUI.createLightGrayPlaceholderItem());
+                }
+            }
+        };
+        guiPage.identifier = "crateRewardsKit";
+        guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dKit Crate Rewards");
+        guiPage.onCloseGoToMenu = null;
+        guiPage.register();
+    }
 }

@@ -3,6 +3,7 @@ package me.staticstudios.prisons.utils;
 import java.math.BigInteger;
 
 public class StaticVars {
+    public static final int VOTES_NEEDED_FOR_VOTE_PARTY = 50;
     public static final Long[] amountOfPrestigesRequiredForPrestigeMines = {
             5L,
             50L,

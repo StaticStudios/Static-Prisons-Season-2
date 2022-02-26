@@ -35,8 +35,9 @@ public class SettingsMenus {
             public void item0Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
-                if (!playerData.getCanEnableAutoSell()) {
+                if (!playerData.getCanEnableAutoSell() && !playerData.getPlayerRanks().contains("warrior") && !playerData.getIsNitroBoosting()) {
                     player.sendMessage(ChatColor.RED + "You do not have auto-sell!");
+                    playerData.setIsAutoSellEnabled(false);
                     return;
                 }
                 playerData.setIsAutoSellEnabled(!playerData.getIsAutoSellEnabled());
@@ -88,7 +89,6 @@ public class SettingsMenus {
             @Override
             public void item0Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
-                PlayerData playerData = new PlayerData(player);
                 GUI.getGUIPage("chatSettingsColor").open(player);
             }
             @Override

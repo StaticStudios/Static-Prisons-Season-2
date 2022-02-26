@@ -32,6 +32,8 @@ public class GUIPage {
         classes.add(CrateRewardsMenus.class);
         classes.add(SettingsMenus.class);
         classes.add(PrivateMinesMenus.class);
+        classes.add(StatsMenus.class);
+        classes.add(GamblingMenus.class);
         for (Class c : classes) {
             //Method[] methods = Main.class.getDeclaredMethods();
             Method[] methods = c.getDeclaredMethods();

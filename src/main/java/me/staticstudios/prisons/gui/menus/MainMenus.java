@@ -37,11 +37,23 @@ public class MainMenus {
                 }
                 GUI.getGUIPage("privateMines").open(player);
             }
+            @Override
+            public void item14Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                GUI.getGUIPage("gamble").open(player);
+            }
 
             @Override
             public void item16Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 GUI.getGUIPage("chatTags").open(player);
+            }
+
+            @Override
+            public void item28Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                GUI.getGUIPage("stats").args = player.getName();
+                GUI.getGUIPage("stats").open(player);
             }
 
             @Override
@@ -102,7 +114,7 @@ public class MainMenus {
         guiPage.menuItems.add(GUI.createDarkGrayPlaceholderItem());
 
         guiPage.menuItems.add(GUI.createDarkGrayPlaceholderItem());
-        guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
+        guiPage.menuItems.add(GUI.createMenuItem(guiPage.identifier, Material.PLAYER_HEAD, ChatColor.GREEN + "" + ChatColor.BOLD + "Your Stats", ChatColor.GRAY + "" + ChatColor.ITALIC + "View your stats!"));
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());
         guiPage.menuItems.add(GUI.createLightGrayPlaceholderItem());

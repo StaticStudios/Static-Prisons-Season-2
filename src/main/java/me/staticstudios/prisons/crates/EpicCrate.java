@@ -1,15 +1,31 @@
 package me.staticstudios.prisons.crates;
 
+import me.staticstudios.prisons.customItems.CustomItems;
+import me.staticstudios.prisons.customItems.Vouchers;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class EpicCrate {
-    public static Location LOCATION = new Location(Bukkit.getWorld("world"), 2, 100, 0);
+    public static Location LOCATION = new Location(Bukkit.getWorld("world"), -33, 80, -137);
     public static CrateReward[] rewards = new CrateReward[] {
-            new CrateReward(new ItemStack(Material.DIRT), 50),
-            new CrateReward(new ItemStack(Material.STONE), 50),
+            new CrateReward(Vouchers.MONEY_POUCH_T1.item, 20),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 15),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 3), 5),
+            new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 20),
+            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 2), 10),
+            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 3), 5),
+            new CrateReward(CustomItems.getEpicCrateKey(2), 5),
+            new CrateReward(CustomItems.getEpicCrateKey(3), 3),
+            new CrateReward(CustomItems.getLegendaryCrateKey(1), 4.5),
+            new CrateReward(CustomItems.getLegendaryCrateKey(2), 2),
+            new CrateReward(CustomItems.getStaticCrateKey(1), 1),
+            new CrateReward(CustomItems.getPickaxeCrateKey(1), 4),
+            new CrateReward(CustomItems.getPickaxeCrateKey(2), 2.99),
+            new CrateReward(CustomItems.getKitCrateKey(1), 2.5),
+            new CrateReward(Vouchers.AUTO_SELL.item, 0.005),
+            new CrateReward(Vouchers.PRIVATE_MINE_T1.item, 0.005),
     };
 
     public static void open(Player player) {

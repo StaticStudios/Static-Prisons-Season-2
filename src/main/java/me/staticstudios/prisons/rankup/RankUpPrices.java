@@ -39,8 +39,8 @@ public class RankUpPrices {
         return rankPrices.get(rank);
     }
 
-    public static final BigInteger INITIAL_PRESTIGE_PRICE = BigInteger.valueOf(500000000);
-    public static final int PRESTIGE_RATE_OF_INCREASE = 7; //percentage
+    public static final BigInteger INITIAL_PRESTIGE_PRICE = BigInteger.valueOf(200000000);
+    public static final int PRESTIGE_RATE_OF_INCREASE = 2; //percentage
     public static BigInteger getPrestigePrice(BigInteger currentPrestige, int prestigesToBuy) {
         BigInteger price = INITIAL_PRESTIGE_PRICE;
         for (int i = 0; i < prestigesToBuy; i++) {

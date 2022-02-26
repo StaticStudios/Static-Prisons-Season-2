@@ -188,7 +188,8 @@ public class PlayerData extends DataSet {
                 return (PlayerBackpack) new ObjectInputStream(new ByteArrayInputStream(getData("backpack").byteArr)).readObject();
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
-                return null;
+                setBackpack(new PlayerBackpack());
+                return new PlayerBackpack();
             }
     }
     public Data setBackpack(PlayerBackpack value) {
@@ -206,7 +207,15 @@ public class PlayerData extends DataSet {
     }
     public void sellBackpack(Player player, boolean sendChatMessage) {
         PlayerBackpack backpack = getBackpack();
-        backpack.sellBackpack(player, sendChatMessage);
+        double multi = 1d;
+        switch (getPlayerRank()) {
+            case "warrior" -> multi *= 1.1;
+            case "master" -> multi *= 1.2;
+            case "mythic" -> multi *= 1.3;
+            case "static" -> multi *= 1.4;
+            case "staticp" -> multi *= 1.5;
+        }
+        backpack.sellBackpack(player, sendChatMessage, multi);
         setBackpack(backpack);
     }
     public void updateTabListPrefixID() {
@@ -214,7 +223,7 @@ public class PlayerData extends DataSet {
             setTabListPrefixID(getStaffRank());
         } else if (!getPlayerRank().equals("member")) {
             setTabListPrefixID(getPlayerRank());
-        }
+        } else if (getIsNitroBoosting()) setTabListPrefixID("nitro");
     }
     public String getTabListPrefixID() {
         if (getData("tabListPrefixID")._string == null) {
@@ -529,4 +538,49 @@ public class PlayerData extends DataSet {
         return setData("chatUseNickName", newData);
     }
 
+    //Discord
+    public String getDiscordAccountName() {
+        return getData("discordName")._string;
+    }
+    public Data setDiscordName(String value) {
+        Data newData = new Data();
+        newData._string = value;
+        return setData("discordName", newData);
+    }
+    public boolean getIsNitroBoosting() {
+        return getData("discordIsBoosting")._boolean;
+    }
+    public Data setIsNitroBoosting(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("discordIsBoosting", newData);
+    }
+    //Votes
+    public BigInteger getVotes() {
+        if (getData("votes")._string.equals("")) {
+            Data newData = new Data();
+            newData._string = "0";
+            setData("votes", newData);
+        }
+        return new BigInteger(getData("votes")._string);
+    }
+    public Data setVotes(BigInteger value) {
+        Data newData = new Data();
+        newData._string = value.toString();
+        return setData("votes", newData);
+    }
+    public Data addVotes(BigInteger value) {
+        return setVotes(getVotes().add(value));
+    }
+    public Data removeVotes(BigInteger value) {
+        return setVotes(getVotes().subtract(value));
+    }
+    public long getLastVotedAt() {
+        return getData("lastVotedAt")._long;
+    }
+    public Data setLastVotedAt(long value) {
+        Data newData = new Data();
+        newData._long = value;
+        return setData("lastVotedAt", newData);
+    }
 }

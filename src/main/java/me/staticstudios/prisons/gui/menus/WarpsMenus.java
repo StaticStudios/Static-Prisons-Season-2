@@ -49,11 +49,29 @@ public class WarpsMenus {
             @Override
             public void item0Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                Warps.warpToSpawn(player);
+            }
+            @Override
+            public void item1Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
                 GUI.getGUIPage("warpsMines").open(player);
+            }
+            @Override
+            public void item2Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                Warps.warpToCrates(player);
+            }
+            @Override
+            public void item3Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                Warps.warpToLeaderboards(player);
             }
         };
         guiPage.identifier = "warps";
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.COMPASS, ChatColor.GREEN + "" + ChatColor.BOLD + "Spawn", ChatColor.GRAY + "Warp to spawn"));
         guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.NETHERITE_PICKAXE, ChatColor.YELLOW + "" + ChatColor.BOLD + "Mines", ChatColor.GRAY + "Warp to a mine"));
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.TRIPWIRE_HOOK, ChatColor.AQUA + "" + ChatColor.BOLD + "Crates", ChatColor.GRAY + "Warp to crates"));
+        guiPage.menuItems.add(GUI.createEnchantedMenuItem(guiPage.identifier, Material.DIAMOND, ChatColor.AQUA + "" + ChatColor.BOLD + "Leaderboards", ChatColor.GRAY + "Warp to leaderboards"));
         guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dWarps");
         guiPage.onCloseGoToMenu = "main";
         guiPage.register();

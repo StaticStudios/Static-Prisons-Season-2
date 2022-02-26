@@ -1,0 +1,13 @@
+package me.staticstudios.prisons.leaderboards;
+
+public class LeaderboardManager {
+    public static void updateAll() {
+        BlocksMinedTop.calculateLeaderBoard();
+        RawBlocksMinedTop.calculateLeaderBoard();
+        BalanceTop.calculateLeaderBoard();
+        TokensTop.calculateLeaderBoard();
+        TimePlayedTop.calculateLeaderBoard();
+        PrestigeTop.calculateLeaderBoard();
+        VotesTop.calculateLeaderBoard();
+    }
+}

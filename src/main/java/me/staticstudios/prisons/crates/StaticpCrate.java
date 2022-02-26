@@ -1,15 +1,52 @@
 package me.staticstudios.prisons.crates;
 
+import me.staticstudios.prisons.customItems.CustomItems;
+import me.staticstudios.prisons.customItems.Vouchers;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class StaticpCrate {
-    public static Location LOCATION = new Location(Bukkit.getWorld("world"), 5, 100, 0);
+    public static Location LOCATION = new Location(Bukkit.getWorld("world"), 3, 80, -137);
     public static CrateReward[] rewards = new CrateReward[] {
-            new CrateReward(new ItemStack(Material.DIRT), 50),
-            new CrateReward(new ItemStack(Material.STONE), 50),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 4), 5),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 3), 5),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 4), 7.5),
+            new CrateReward(Vouchers.MONEY_POUCH_T3.item, 10),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T3.item, 2), 5),
+            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 4), 5),
+            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T2.item, 3), 7.5),
+            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T2.item, 4), 5),
+            new CrateReward(Vouchers.TOKEN_POUCH_T3.item, 10),
+            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T3.item, 2), 5),
+
+
+            new CrateReward(CustomItems.getLegendaryCrateKey(5), 8.5),
+            new CrateReward(CustomItems.getStaticCrateKey(2), 10),
+            new CrateReward(CustomItems.getStaticCrateKey(3), 9),
+            new CrateReward(CustomItems.getStaticpCrateKey(2), 1.5),
+
+
+            new CrateReward(CustomItems.getPickaxeCrateKey(3), 3),
+            new CrateReward(CustomItems.getKitCrateKey(4), 1),
+            new CrateReward(Vouchers.AUTO_SELL.item, 0.1),
+            new CrateReward(Vouchers.WARRIOR_RANK.item, 0.1),
+            new CrateReward(Vouchers.MASTER_RANK.item, 0.1),
+            new CrateReward(Vouchers.MYTHIC_RANK.item, 0.1),
+            new CrateReward(Vouchers.STATIC_RANK.item, 0.1),
+            new CrateReward(Vouchers.STATICP_RANK.item, 0.4),
+            new CrateReward(Vouchers.PRIVATE_MINE_T1.item, 0.1),
+            new CrateReward(Vouchers.PRIVATE_MINE_T2.item, 0.1),
+            new CrateReward(Vouchers.PRIVATE_MINE_T3.item, 0.1),
+            new CrateReward(Vouchers.PRIVATE_MINE_T4.item, 0.1),
+            new CrateReward(Vouchers.PRIVATE_MINE_T5.item, 0.1),
+            new CrateReward(Vouchers.PRIVATE_MINE_T6.item, 0.1),
+            new CrateReward(Vouchers.PRIVATE_MINE_T7.item, 0.1),
+            new CrateReward(Vouchers.PRIVATE_MINE_T8.item, 0.1),
+            new CrateReward(Vouchers.PRIVATE_MINE_T9.item, 0.1),
+            new CrateReward(Vouchers.PRIVATE_MINE_T10.item, 0.1),
+            new CrateReward(Vouchers.PRIVATE_MINE_T11.item, 0.1),
     };
 
     public static void open(Player player) {

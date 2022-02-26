@@ -22,6 +22,7 @@ public class TabList {
             {"j", ChatColor.RED + "Mythic ", "mythic"},
             {"k", ChatColor.YELLOW + "Master ", "master"},
             {"l", ChatColor.GOLD + "Warrior ", "warrior"},
+            {"l", ChatColor.LIGHT_PURPLE + "Nitro ", "nitro"},
     };
     static final String[] defaultTeam = new String[] {
             "zzzDefault", ChatColor.GRAY + "Member "
@@ -55,6 +56,7 @@ public class TabList {
         for (String[] _arr : TEAMS) {
             sb.getTeam(_arr[0]).removeEntry(player.getName());
         }
+        playerData.updateTabListPrefixID();
         sb.getTeam(defaultTeam[0]).removeEntry(player.getName());
         for (String[] arr : TEAMS) {
             if (arr[2].equals(playerData.getTabListPrefixID())) {

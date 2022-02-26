@@ -27,12 +27,12 @@ public class BlockBreakEvent implements Listener {
         if (!player.getWorld().getName().equals("mines")) return;
 
 
-
         //Check if it is in the mine area
         BaseMine mine = MineManager.allMines.get(MineManager.getMineIDFromLocation(player.getLocation()));
         if (!(e.getBlock().getX() >= mine.minLocation.getX() && e.getBlock().getX() <= mine.maxLocation.getX() &&
                 e.getBlock().getZ() >= mine.minLocation.getZ() && e.getBlock().getZ() <= mine.maxLocation.getZ() &&
-                e.getBlock().getY() >= mine.minLocation.getY() && e.getBlock().getY() <= mine.maxLocation.getY())) return;
+                e.getBlock().getY() >= mine.minLocation.getY() && e.getBlock().getY() <= mine.maxLocation.getY()))
+            return;
         e.setDropItems(false);
         e.setExpToDrop(0);
 
@@ -58,14 +58,16 @@ public class BlockBreakEvent implements Listener {
         int doubleWammyLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "doubleWammy");
         int multiDirectionalLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "multiDirectional");
         boolean doubleFortune = false;
-        if (CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter") > 0) doubleFortune = CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter") <= Utils.randomInt(1, PrisonEnchants.ORE_SPLITTER.MAX_LEVEL);
+        if (CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter") > 0)
+            doubleFortune = CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter") <= Utils.randomInt(1, PrisonEnchants.ORE_SPLITTER.MAX_LEVEL);
         if (jackHammerLevel > 0) {
             //Jack Hammer
             if (Utils.randomInt(1, 12) == 1) {
                 if (Utils.randomInt(1, PrisonEnchants.JACK_HAMMER.MAX_LEVEL + PrisonEnchants.JACK_HAMMER.MAX_LEVEL / 500) <= jackHammerLevel + PrisonEnchants.JACK_HAMMER.MAX_LEVEL / 500) {
                     //Enchant should activate
                     int howDeepToGo = 1;
-                    if (Utils.randomInt(1, PrisonEnchants.DOUBLE_WAMMY.MAX_LEVEL + PrisonEnchants.DOUBLE_WAMMY.MAX_LEVEL / 500) <= doubleWammyLevel + PrisonEnchants.DOUBLE_WAMMY.MAX_LEVEL / 500) howDeepToGo += 1;
+                    if (Utils.randomInt(1, PrisonEnchants.DOUBLE_WAMMY.MAX_LEVEL + PrisonEnchants.DOUBLE_WAMMY.MAX_LEVEL / 500) <= doubleWammyLevel + PrisonEnchants.DOUBLE_WAMMY.MAX_LEVEL / 500)
+                        howDeepToGo += 1;
                     blocksBroken.putAll(new JackHammer(mine, e.getBlock().getY()).destroyLayer(e.getBlock().getY(), howDeepToGo));
                 }
             }
@@ -103,11 +105,14 @@ public class BlockBreakEvent implements Listener {
         if (PrisonPickaxe.addXP(pickaxe, totalAmountOfBlocksBroken.longValue() * PrisonPickaxe.BASE_XP_PER_BLOCK_BROKEN * (CustomEnchants.getEnchantLevel(pickaxe, "xpFinder") + 1))) { //TODO: add this enchant
             player.sendMessage(ChatColor.LIGHT_PURPLE + "Your pickaxe has leveled up! It is now level: " + ChatColor.AQUA + PrisonPickaxe.getLevel(pickaxe));
         }
-        //If the player's backpack was not full but now is, tell them it has filled up
-        if (!backpackWasFull && playerData.checkIfBackpackIsFull()) {
-            player.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpack().getSize()) + "/" + Utils.prettyNum(playerData.getBackpack().getSize()) + ")", 5, 40, 5);
-            player.sendMessage(ChatColor.RED + "Your backpack is full!");
+        //If the player's backpack was not full but now is, tell them it has filled up or auto sell
+        if (playerData.checkIfBackpackIsFull()) {
+            if (playerData.getIsAutoSellEnabled()) {
+                playerData.sellBackpack(player, false);
+            } else if (!backpackWasFull) {
+                player.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpack().getSize()) + "/" + Utils.prettyNum(playerData.getBackpack().getSize()) + ")", 5, 40, 5);
+                player.sendMessage(ChatColor.RED + "Your backpack is full!");
+            }
         }
-
     }
 }

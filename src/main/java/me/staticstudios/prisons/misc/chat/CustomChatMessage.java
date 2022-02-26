@@ -52,7 +52,7 @@ public class CustomChatMessage {
         String chatMessage = e.getMessage();
 
 
-        HoverEvent prefixHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', "&bReal Name: &f" + e.getPlayer().getName() + "")));
+        HoverEvent prefixHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', "&bReal Name: &f" + e.getPlayer().getName() + "\n&bDiscord Name: &f" + playerData.getDiscordAccountName())));
 
 
 
@@ -102,7 +102,7 @@ public class CustomChatMessage {
         if (chatMessage.contains("[item]")) {
             String msg1 = chatMessage;
             String msg2 = "";
-            if (playerData.getPlayerRanks().contains("warrior")) {
+            if (playerData.getPlayerRanks().contains("warrior") || playerData.getIsNitroBoosting()) {
                 if (!e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
                     if (chatMessage.split("\\[item]").length > 1) msg1 = chatMessage.split("\\[item]")[0];
                     if (chatMessage.split("\\[item]").length > 1) msg2 = chatMessage.split("\\[item]")[1];

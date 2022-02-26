@@ -1,8 +1,12 @@
 package me.staticstudios.prisons;
 
 import me.staticstudios.prisons.crates.CrateManager;
+import me.staticstudios.prisons.customItems.Vouchers;
 import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.discord.DiscordAddRoles;
+import me.staticstudios.prisons.discord.DiscordBot;
+import me.staticstudios.prisons.discord.LinkHandler;
 import me.staticstudios.prisons.enchants.EnchantEffects;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.misc.Warps;
@@ -10,9 +14,10 @@ import me.staticstudios.prisons.misc.chat.CustomChatMessage;
 import me.staticstudios.prisons.misc.scoreboard.CustomScoreboard;
 import me.staticstudios.prisons.misc.tablist.TabList;
 import me.staticstudios.prisons.utils.Utils;
-import net.md_5.bungee.api.ChatColor;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -23,13 +28,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffectType;
-
-import java.math.BigInteger;
 
 public class Events implements Listener {
     @EventHandler
     void playerJoin(PlayerJoinEvent e) {
+        e.setJoinMessage(ChatColor.translateAlternateColorCodes('&', "&d&l[Join] &f" + e.getPlayer().getName()));
         Player player = e.getPlayer();
         Warps.warpToSpawn(player);
         //Check if they have joined before
@@ -54,12 +57,50 @@ public class Events implements Listener {
 
         //Update potion effects based off custom enchants
         EnchantEffects.giveEffect(e.getPlayer(), e.getPlayer().getInventory().getItemInMainHand());
+
+        //Updates a player's discord name
+        PlayerData playerData = new PlayerData(player);
+        playerData.setDiscordName("null");
+        //Check if a player is boosting the discord
+        playerData.setIsNitroBoosting(false);
+        if (LinkHandler.checkIfLinkedFromUUID(player.getUniqueId().toString())) {
+            try {
+                User user = DiscordBot.jda.retrieveUserById(LinkHandler.getLinkedDiscordIDFromUUID(player.getUniqueId().toString())).complete();
+                playerData.setDiscordName(user.getName() + "#" + user.getDiscriminator());
+            } catch (Exception ignore) {
+                LinkHandler.unlinkFromUUID(player.getUniqueId().toString());
+            }
+            try {
+                DiscordAddRoles.giveRolesFromUUID(player.getUniqueId().toString());
+                Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+                    DiscordBot.jda.getGuildById("587372348294955009").retrieveMemberById(LinkHandler.getLinkedDiscordIDFromUUID(player.getUniqueId().toString())).queue(member -> {
+
+                        for (Role role : member.getRoles()) {
+                            if (role.getId().equals("629662637625442305")) {
+                                playerData.setIsNitroBoosting(true);
+                                break;
+                            }
+                        }
+                    });
+                });
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                player.sendMessage(ChatColor.RED + "We were unable to get your linked discord information.");
+            }
+            Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+                if (playerData.getIsAutoSellEnabled() && !playerData.getCanEnableAutoSell() && !playerData.getPlayerRanks().contains("warrior") && !playerData.getIsNitroBoosting())
+                    playerData.setIsAutoSellEnabled(false);
+            }, 20 * 20);
+        }
     }
     @EventHandler
     void playerQuit(PlayerQuitEvent e) {
+        e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', "&d&l[Left] &f" + e.getPlayer().getName()));
         Player player = e.getPlayer();
         //Remove player from the scoreboard map to prevent updating an offline player's scoreboard
         CustomScoreboard.playerLeft(player.getUniqueId().toString());
+        PlayerData playerData = new PlayerData(player);
+        playerData.setIsNitroBoosting(false);
     }
     @EventHandler
     void onChat(AsyncPlayerChatEvent e) {
@@ -85,11 +126,10 @@ public class Events implements Listener {
 
         //Prevent players from flying between mines
         if (player.getWorld().getName().equals("mines")) {
-            int x = ((int) e.getTo().getX());
+            int x = Math.abs((int) e.getTo().getX());
             int z = ((int) e.getTo().getZ());
-            int thresh = 50;
-            if (x % 750 >= 750 - thresh || (x % 750 <= thresh && Math.abs(x) > thresh * 2)) {
-                //e.setCancelled(true);
+            if (x % 250 <= 50 && (x % 500 > 100 || e.getTo().getX() < 0) && x > 200) {
+                e.setCancelled(true);
             } else if (z > 250 || z < -250) e.setCancelled(true);
         }
     }
@@ -100,6 +140,7 @@ public class Events implements Listener {
         if (e.getHand() != null) {
             if (e.getHand().equals(EquipmentSlot.OFF_HAND)) return;
         }
+        if (Vouchers.onInteract(e)) return;
         if (e.getClickedBlock() != null && !e.getClickedBlock().getType().equals(Material.AIR)) {
             //Check if it is also a block place event
             if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {

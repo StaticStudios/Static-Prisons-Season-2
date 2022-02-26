@@ -1,15 +1,24 @@
 package me.staticstudios.prisons.crates;
 
+import me.staticstudios.prisons.customItems.CustomItems;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class PickaxeCrate {
-    public static Location LOCATION = new Location(Bukkit.getWorld("world"), 0, 100, 0);
+    public static Location LOCATION = new Location(Bukkit.getWorld("world"), 12, 80, -137);
     public static CrateReward[] rewards = new CrateReward[] {
-            new CrateReward(new ItemStack(Material.DIRT), 50),
-            new CrateReward(new ItemStack(Material.STONE), 50),
+            new CrateReward(CustomItems.getPickaxeTier1(), 25),
+            new CrateReward(CustomItems.getPickaxeTier2(), 20),
+            new CrateReward(CustomItems.getPickaxeTier3(), 15),
+            new CrateReward(CustomItems.getPickaxeTier4(), 12.5),
+            new CrateReward(CustomItems.getPickaxeTier5(), 10),
+            new CrateReward(CustomItems.getPickaxeTier6(), 7.5),
+            new CrateReward(CustomItems.getPickaxeTier7(), 5),
+            new CrateReward(CustomItems.getPickaxeTier8(), 2.5),
+            new CrateReward(CustomItems.getPickaxeTier9(), 1),
+            new CrateReward(CustomItems.getPickaxeTier10(), 0.5),
     };
 
     public static void open(Player player) {

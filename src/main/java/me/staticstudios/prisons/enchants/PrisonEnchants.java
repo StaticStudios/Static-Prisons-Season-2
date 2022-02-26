@@ -10,12 +10,12 @@ import org.bukkit.inventory.ItemStack;
 import java.math.BigInteger;
 
 public class PrisonEnchants {
-    public static final PrisonEnchant FORTUNE = new PrisonEnchant("fortune", 100000, BigInteger.valueOf(500), 10);
-    public static final PrisonEnchant MERCHANT = new PrisonEnchant("merchant",25000, BigInteger.valueOf(5000), 10);
-    public static final PrisonEnchant TOKENATOR = new PrisonEnchant("tokenator", 5000, BigInteger.valueOf(25000), 20);
-    public static final PrisonEnchant JACK_HAMMER = new PrisonEnchant("jackHammer", 50000, BigInteger.valueOf(1000), 10);
-    public static final PrisonEnchant MULTI_DIRECTIONAL = new PrisonEnchant("multiDirectional",50000, BigInteger.valueOf(1500), 10);
-    public static final PrisonEnchant DOUBLE_WAMMY = new PrisonEnchant("doubleWammy", 50000, BigInteger.valueOf(2500), 10) {
+    public static final PrisonEnchant FORTUNE = new PrisonEnchant("fortune", 100000, BigInteger.valueOf(500), 15);
+    public static final PrisonEnchant MERCHANT = new PrisonEnchant("merchant",25000, BigInteger.valueOf(5000), 15);
+    public static final PrisonEnchant TOKENATOR = new PrisonEnchant("tokenator", 5000, BigInteger.valueOf(25000), 25);
+    public static final PrisonEnchant JACK_HAMMER = new PrisonEnchant("jackHammer", 50000, BigInteger.valueOf(1000), 15);
+    public static final PrisonEnchant MULTI_DIRECTIONAL = new PrisonEnchant("multiDirectional",50000, BigInteger.valueOf(1500), 15);
+    public static final PrisonEnchant DOUBLE_WAMMY = new PrisonEnchant("doubleWammy", 50000, BigInteger.valueOf(2500), 15) {
         @Override
         public boolean tryToBuyLevels(Player player, ItemStack pickaxe, int levelsToBuy) {
             PlayerData playerData = new PlayerData(player);
@@ -76,7 +76,7 @@ public class PrisonEnchants {
             return false;
         }
     };
-    public static final PrisonEnchant POLISHER = new PrisonEnchant("fortune", 100000, BigInteger.valueOf(500), 10); //Chance to get a 25% multiplier on top of all multipliers when selling
+    public static final PrisonEnchant POLISHER = new PrisonEnchant("fortune", 100000, BigInteger.valueOf(500), 15); //Chance to get a 25% multiplier on top of all multipliers when selling
     public static final PrisonEnchant METAL_DETECTOR = new PrisonEnchant("metalDetector",10000, BigInteger.valueOf(5000), 25);
     public static final PrisonEnchant KEY_FINDER = new PrisonEnchant("keyFinder",10000, BigInteger.valueOf(5000), 25);
 
@@ -150,7 +150,7 @@ public class PrisonEnchants {
             return false;
         }
     };
-    public static final PrisonEnchant ORE_SPLITTER = new PrisonEnchant("oreSplitter", 100000, BigInteger.valueOf(1000), 10) {
+    public static final PrisonEnchant ORE_SPLITTER = new PrisonEnchant("oreSplitter", 100000, BigInteger.valueOf(1000), 15) {
         @Override
         public boolean tryToBuyLevels(Player player, ItemStack pickaxe, int levelsToBuy) {
             PlayerData playerData = new PlayerData(player);

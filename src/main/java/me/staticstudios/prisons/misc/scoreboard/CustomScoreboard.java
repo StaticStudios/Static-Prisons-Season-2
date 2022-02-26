@@ -1,9 +1,11 @@
 package me.staticstudios.prisons.misc.scoreboard;
 
 import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.data.serverData.ServerData;
 import me.staticstudios.prisons.misc.scoreboard.fastBoard.FastBoard;
 import me.staticstudios.prisons.rankup.RankUp;
 import me.staticstudios.prisons.rankup.RankUpPrices;
+import me.staticstudios.prisons.utils.StaticVars;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -111,7 +113,7 @@ public class CustomScoreboard {
                 colorLight + "│ " + colorBase + "Money: " + colorLight + "$" + Utils.prettyNum(playerData.getMoney()),
                 colorLight + "│ " + colorBase + "Tokens: " + colorLight + Utils.prettyNum(playerData.getTokens()),
                 colorLight + "│ " + colorBase + "Prestige: " + colorLight + Utils.prettyNum(playerData.getPrestige()),
-                colorLight + "│ " + colorBase + "Vote Party: " + colorLight + 0 + "/" + 50,
+                colorLight + "│ " + colorBase + "Vote Party: " + colorLight + new ServerData().getVoteParty() + "/" + StaticVars.VOTES_NEEDED_FOR_VOTE_PARTY,
                 ChatColor.GREEN + "",
                 colorLight + " play.static-studios.net"
         );

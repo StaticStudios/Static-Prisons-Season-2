@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,16 +50,17 @@ public final class PlayerBackpack implements Serializable {
         isFull = size == itemCount;
         return isFull;
     }
-    public void sellBackpack(Player player, boolean sendChatMessage) {
+    public void sellBackpack(Player player, boolean sendChatMessage, double multiplier) {
         BigInteger totalSellPrice = BigInteger.ZERO;
         if (getItemCount().compareTo(BigInteger.ZERO) > 0) {
             for (Material key : contents.keySet()) {
                 totalSellPrice = totalSellPrice.add(contents.get(key).multiply(SellPrices.getSellPriceOf(key)));
             }
         }
+        totalSellPrice = new BigDecimal(totalSellPrice).multiply(BigDecimal.valueOf(multiplier)).toBigInteger();
         new PlayerData(player).addMoney(totalSellPrice);
         if (sendChatMessage) {
-            player.sendMessage(ChatColor.GREEN + "Sold " + Utils.addCommasToBigInteger(itemCount) + " blocks for: $" + Utils.addCommasToBigInteger(totalSellPrice));
+            player.sendMessage(ChatColor.GREEN + "(x" + multiplier + ") Sold " + Utils.addCommasToBigInteger(itemCount) + " blocks for: $" + Utils.addCommasToBigInteger(totalSellPrice));
         }
         isFull = false;
         itemCount = BigInteger.ZERO;

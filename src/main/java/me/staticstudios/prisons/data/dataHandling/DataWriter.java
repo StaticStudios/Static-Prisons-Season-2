@@ -4,10 +4,12 @@ import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
 import me.staticstudios.prisons.utils.Utils;
+import org.bukkit.Bukkit;
 
 import java.io.*;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public class DataWriter {
     static void changeOldData() {
@@ -19,12 +21,16 @@ public class DataWriter {
     public static void saveData() {
         changeOldData();
         Utils.writeToAFile("data.json", new Genson().serialize(DataSets.dataSets, new GenericType<HashMap<DataTypes, DataSet>>(){}));
+        Bukkit.getLogger().log(Level.INFO, "Successfully saved all server data");
     }
     /**
      * This will OVERWRITE any data that is currently loaded!
      */
     public static void loadData() {
         DataSets.dataSets = new Genson().deserialize(Utils.getFileContents("data.json"), new GenericType<HashMap<DataTypes, DataSet>>(){});
-        if (DataSets.dataSets == null) DataSets.dataSets = new HashMap<>();
+        if (DataSets.dataSets == null) {
+            DataSets.dataSets = new HashMap<>();
+            Bukkit.getLogger().warning("Could not load server data... creating new data instead");
+        } else Bukkit.getLogger().log(Level.INFO, "Successfully loaded all server data");
     }
 }

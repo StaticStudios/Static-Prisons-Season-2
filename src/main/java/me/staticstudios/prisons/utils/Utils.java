@@ -23,6 +23,27 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Utils {
+    public static float randomFloat(float min, float max) {
+        return min + (float)(Math.random() * ((max - min) + 1));
+    }
+    public static double randomDouble(float min, float max) {
+        return min + Math.random() * ((max - min) + 1);
+    }
+    public static BigInteger randomBigInt(BigInteger min, BigInteger max) {
+        while (true) {
+            BigInteger bigInteger = max.subtract(min);
+            Random randNum = new Random();
+            int len = max.bitLength();
+            BigInteger res = new BigInteger(len, randNum);
+            if (res.compareTo(min) < 0) res = res.add(min);
+            if (res.compareTo(bigInteger) >= 0) return res.mod(bigInteger).add(min);
+        }
+    }
+    public static ItemStack setItemCount(ItemStack itemStack, int amount) {
+        itemStack = new ItemStack(itemStack);
+        itemStack.setAmount(amount);
+        return itemStack;
+    }
     public static Location calcMinPoint(Location loc1, Location loc2) {
         if (!Objects.equals(loc1.getWorld(), loc2.getWorld())) {
             throw new IllegalArgumentException("Points must be in the same world");
@@ -239,7 +260,8 @@ public class Utils {
         }
         return prettyNum;
     }
-    public static void addItemToPlayersInventoryAndDropExtra(Player player, ItemStack item) {
+    public static void addItemToPlayersInventoryAndDropExtra(Player player, ItemStack _item) {
+        ItemStack item = new ItemStack(_item); //prevent decrementing stack counts
         int count = item.getAmount();
         item.setAmount(1);
         for (int i = 0; i < count; i++) {

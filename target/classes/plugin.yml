@@ -86,3 +86,51 @@ commands:
       - bold
       - italic
       - underline
+  stats:
+    description: a
+  schedulerestart:
+    description: a
+    permission: static.staff.admin
+  schedulestop:
+    description: a
+    permission: static.staff.admin
+  broadcast:
+    description: a
+    permission: static.staff.mod
+  discord:
+    description: a
+  coinflip:
+    description: a
+    aliases:
+      - cf
+  tokenflip:
+    description: a
+    aliases:
+      - tf
+  npcdiag:
+    description: a
+  spawn:
+    description: a
+    aliases:
+      - s
+  mines:
+    description: a
+  warps:
+    description: a
+    aliases:
+      - warp
+  store:
+    description: a
+  fly:
+    description: a
+  crates:
+    description: a
+  leaderboards:
+    description: a
+    aliases:
+      - lb
+  _:
+    description: vote/store
+    permission: op
+  votes:
+    description: a
