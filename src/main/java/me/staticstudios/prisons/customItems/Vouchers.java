@@ -156,7 +156,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() <= 50) {
+            if (playerData.getPrivateMineSquareSize() >= 50) {
                 player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
                 return;
             }
@@ -171,7 +171,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() <= 60) {
+            if (playerData.getPrivateMineSquareSize() >= 60) {
                 player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
                 return;
             }
@@ -186,7 +186,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() <= 70) {
+            if (playerData.getPrivateMineSquareSize() >= 70) {
                 player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
                 return;
             }
@@ -201,7 +201,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() <= 80) {
+            if (playerData.getPrivateMineSquareSize() >= 80) {
                 player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
                 return;
             }
@@ -216,7 +216,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() <= 90) {
+            if (playerData.getPrivateMineSquareSize() >= 90) {
                 player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
                 return;
             }
@@ -231,7 +231,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() <= 100) {
+            if (playerData.getPrivateMineSquareSize() >= 100) {
                 player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
                 return;
             }
@@ -246,7 +246,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() <= 110) {
+            if (playerData.getPrivateMineSquareSize() >= 110) {
                 player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
                 return;
             }
@@ -261,7 +261,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() <= 120) {
+            if (playerData.getPrivateMineSquareSize() >= 120) {
                 player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
                 return;
             }
@@ -276,7 +276,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() <= 130) {
+            if (playerData.getPrivateMineSquareSize() >= 130) {
                 player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
                 return;
             }
@@ -291,7 +291,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() <= 140) {
+            if (playerData.getPrivateMineSquareSize() >= 140) {
                 player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
                 return;
             }
@@ -306,7 +306,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() <= 150) {
+            if (playerData.getPrivateMineSquareSize() >= 150) {
                 player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
                 return;
             }

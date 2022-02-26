@@ -22,7 +22,7 @@ public class TabList {
             {"j", ChatColor.RED + "Mythic ", "mythic"},
             {"k", ChatColor.YELLOW + "Master ", "master"},
             {"l", ChatColor.GOLD + "Warrior ", "warrior"},
-            {"l", ChatColor.LIGHT_PURPLE + "Nitro ", "nitro"},
+            {"m", ChatColor.LIGHT_PURPLE + "Nitro ", "nitro"},
     };
     static final String[] defaultTeam = new String[] {
             "zzzDefault", ChatColor.GRAY + "Member "

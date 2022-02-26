@@ -138,3 +138,9 @@ commands:
     description: a
     aliases:
       - nick
+  customitems:
+    description: a
+    permission: static.staff.admin
+  keyall:
+    description: a
+    permission: static.staff.admin

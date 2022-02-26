@@ -31,6 +31,7 @@ public class CustomEnchants {
     }
 
     public static long getEnchantLevel(ItemStack item, String enchant) {
+        if (!Utils.checkIsPrisonPickaxe(item)) return 0;
         if (!item.hasItemMeta()) return 0;
         if(item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), enchant), PersistentDataType.LONG)) {
             return item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), enchant), PersistentDataType.LONG);

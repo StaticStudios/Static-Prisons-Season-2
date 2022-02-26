@@ -62,7 +62,7 @@ public class CustomChatMessage {
                 "&8[" + rankTag + "&8] ");
         String suffix = "";
         String playerName = ChatColor.of("#54f08a") + this.playerName;
-        if (playerData.getIsChatNicknameEnabled()) playerName = ChatColor.of("#54f08a") + playerData.getChatNickname();
+        if (playerData.getIsChatNicknameEnabled()) playerName = playerData.getChatNickname();
         if (useNickName) playerName = playerNickName;
         if (this.prefix != null) prefix = this.prefix + " ";
         if (this.suffix != null) suffix = this.suffix + " ";
@@ -223,6 +223,7 @@ public class CustomChatMessage {
                                     }
                                 }
                             }
+                            if (color == null) color = defaultColor;
                             if (!(color.equals(ChatColor.BOLD) || color.equals(ChatColor.ITALIC) || color.equals(ChatColor.UNDERLINE) || color.equals(ChatColor.STRIKETHROUGH) || color.equals(ChatColor.MAGIC))) colors.add(new ArrayList<>());
                             List<ChatColor> l = colors.get(colors.size() - 1);
                             l.add(color);
@@ -246,6 +247,7 @@ public class CustomChatMessage {
                                     }
                                 }
                             }
+                            if (color == null) color = defaultColor;
                             if (!(color.equals(ChatColor.BOLD) || color.equals(ChatColor.ITALIC) || color.equals(ChatColor.UNDERLINE) || color.equals(ChatColor.STRIKETHROUGH) || color.equals(ChatColor.MAGIC))) colors.add(new ArrayList<>());
                             List<ChatColor> l = colors.get(colors.size() - 1);
                             l.add(color);

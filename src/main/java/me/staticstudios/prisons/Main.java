@@ -54,18 +54,9 @@ public final class Main extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, main);
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
+            unloadNetherAndEnd();
             DataWriter.loadData();
             loadMineWorld();
-            RegionManager rm = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld("mines")));
-            rm.setRegions(new HashMap<>());
-            ProtectedRegion r = new ProtectedCuboidRegion("__global__", BlockVector3.ZERO, BlockVector3.ZERO);
-            r.setFlag(Flags.INVINCIBILITY, StateFlag.State.ALLOW);
-            r.setFlag(Flags.BLOCK_BREAK, StateFlag.State.DENY);
-            r.setFlag(Flags.BLOCK_PLACE, StateFlag.State.DENY);
-            r.setFlag(Flags.PVP, StateFlag.State.DENY);
-            r.setFlag(Flags.INTERACT, StateFlag.State.DENY);
-            r.setFlag(Flags.USE, StateFlag.State.DENY);
-            rm.addRegion(r);
             Kits.initialize();
             MineManager.initialize();
             AuctionHouseManager.loadAllAuctions();
@@ -90,7 +81,10 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("schedulerestart").setExecutor(new ScheduleRestartCommand());
             getCommand("schedulestop").setExecutor(new ScheduleStopCommand());
             getCommand("broadcast").setExecutor(new BroadcastMessageCommand());
+            getCommand("keyall").setExecutor(new KeyallCommand());
+            getCommand("customitems").setExecutor(new CustomItemsCommand());
             //--Normal Commands
+            getCommand("nickname").setExecutor(new NicknameCommand());
             getCommand("votes").setExecutor(new VotesCommand());
             getCommand("crates").setExecutor(new CratesCommand());
             getCommand("leaderboards").setExecutor(new LeaderboardsCommand());
@@ -133,12 +127,26 @@ public final class Main extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        DataWriter.saveData();
+        DataWriter.saveDataSync();
         AuctionHouseManager.saveAllAuctions();
         DiscordBot.jda.shutdownNow();
     }
 
     static void loadMineWorld() {
         new WorldCreator("mines").createWorld();
+        RegionManager rm = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld("mines")));
+        rm.setRegions(new HashMap<>());
+        ProtectedRegion r = new ProtectedCuboidRegion("__global__", BlockVector3.ZERO, BlockVector3.ZERO);
+        r.setFlag(Flags.INVINCIBILITY, StateFlag.State.ALLOW);
+        r.setFlag(Flags.BLOCK_BREAK, StateFlag.State.DENY);
+        r.setFlag(Flags.BLOCK_PLACE, StateFlag.State.DENY);
+        r.setFlag(Flags.PVP, StateFlag.State.DENY);
+        r.setFlag(Flags.INTERACT, StateFlag.State.DENY);
+        r.setFlag(Flags.USE, StateFlag.State.DENY);
+        rm.addRegion(r);
+    }
+    static void unloadNetherAndEnd() {
+        Bukkit.unloadWorld("world_end", false);
+        Bukkit.unloadWorld("world_nether", false);
     }
 }

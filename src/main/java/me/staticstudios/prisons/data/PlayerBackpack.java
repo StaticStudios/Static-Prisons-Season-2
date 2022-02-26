@@ -1,6 +1,7 @@
 package me.staticstudios.prisons.data;
 
 import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.enchants.CustomEnchants;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -51,19 +52,22 @@ public final class PlayerBackpack implements Serializable {
         return isFull;
     }
     public void sellBackpack(Player player, boolean sendChatMessage, double multiplier) {
+        PlayerBackpack.sellBackPack(player, sendChatMessage, multiplier, this); //pont to static method to prevent losing data when serialized if this method is updated
+    }
+    static void sellBackPack(Player player, boolean sendChatMessage, double multiplier, PlayerBackpack backpack) {
         BigInteger totalSellPrice = BigInteger.ZERO;
-        if (getItemCount().compareTo(BigInteger.ZERO) > 0) {
-            for (Material key : contents.keySet()) {
-                totalSellPrice = totalSellPrice.add(contents.get(key).multiply(SellPrices.getSellPriceOf(key)));
+        if (backpack.getItemCount().compareTo(BigInteger.ZERO) > 0) {
+            for (Material key : backpack.contents.keySet()) {
+                totalSellPrice = totalSellPrice.add(backpack.contents.get(key).multiply(SellPrices.getSellPriceOf(key)));
             }
         }
         totalSellPrice = new BigDecimal(totalSellPrice).multiply(BigDecimal.valueOf(multiplier)).toBigInteger();
         new PlayerData(player).addMoney(totalSellPrice);
         if (sendChatMessage) {
-            player.sendMessage(ChatColor.GREEN + "(x" + multiplier + ") Sold " + Utils.addCommasToBigInteger(itemCount) + " blocks for: $" + Utils.addCommasToBigInteger(totalSellPrice));
+            player.sendMessage(ChatColor.GREEN + "(x" + multiplier + ") Sold " + Utils.addCommasToBigInteger(backpack.itemCount) + " blocks for: $" + Utils.addCommasToBigInteger(totalSellPrice));
         }
-        isFull = false;
-        itemCount = BigInteger.ZERO;
-        contents = new HashMap<>();
+        backpack.isFull = false;
+        backpack.itemCount = BigInteger.ZERO;
+        backpack.contents = new HashMap<>();
     }
 }

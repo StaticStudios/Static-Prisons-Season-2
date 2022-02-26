@@ -1,5 +1,6 @@
 package me.staticstudios.prisons.leaderboards;
 
+import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.data.serverData.ServerData;
 import me.staticstudios.prisons.utils.Utils;

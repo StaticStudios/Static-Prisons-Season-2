@@ -21,7 +21,7 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/owlike/genson/1.6/genson-1.6.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/club/minnced/opus-java-api/1.1.1/opus-java-api-1.1.1.jar" path-in-jar="/" />
-      <element id="library" level="project" name="Maven: net.dv8tion:JDA:5.0.0-alpha.2" />
+      <element id="artifact" artifact-name="Maven__net_dv8tion_JDA_5_0_0-alpha_2" />
     </root>
   </artifact>
 </component>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact name="Maven__net_dv8tion_JDA_5_0_0-alpha_2">
+    <output-path>$PROJECT_DIR$/out/artifacts/Maven__net_dv8tion_JDA_5_0_0_alpha_2</output-path>
+    <root id="root">
+      <element id="library" level="project" name="Maven: net.dv8tion:JDA:5.0.0-alpha.2" />
+    </root>
+  </artifact>
+</component>

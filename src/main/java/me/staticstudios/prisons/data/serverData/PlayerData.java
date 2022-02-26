@@ -6,6 +6,7 @@ import me.staticstudios.prisons.data.PlayerBackpack;
 import me.staticstudios.prisons.data.dataHandling.Data;
 import me.staticstudios.prisons.data.dataHandling.DataSet;
 import me.staticstudios.prisons.data.dataHandling.DataTypes;
+import me.staticstudios.prisons.enchants.CustomEnchants;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.SerializationUtils;
@@ -183,7 +184,10 @@ public class PlayerData extends DataSet {
 
     //Backpack
     public PlayerBackpack getBackpack() {
-        if (getData("backpack").byteArr == null) return new PlayerBackpack();
+        if (getData("backpack").byteArr == null) {
+            setBackpack(new PlayerBackpack());
+            return new PlayerBackpack();
+        }
             try {
                 return (PlayerBackpack) new ObjectInputStream(new ByteArrayInputStream(getData("backpack").byteArr)).readObject();
             } catch (IOException | ClassNotFoundException e) {
@@ -209,12 +213,14 @@ public class PlayerData extends DataSet {
         PlayerBackpack backpack = getBackpack();
         double multi = 1d;
         switch (getPlayerRank()) {
-            case "warrior" -> multi *= 1.1;
-            case "master" -> multi *= 1.2;
-            case "mythic" -> multi *= 1.3;
-            case "static" -> multi *= 1.4;
-            case "staticp" -> multi *= 1.5;
+            case "warrior" -> multi += 0.5;
+            case "master" -> multi += 0.8;
+            case "mythic" -> multi += 1;
+            case "static" -> multi += 1.6;
+            case "staticp" -> multi += 2.5;
         }
+        multi += 0.25 * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "cashGrab");
+        multi += 0.0004 * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant");
         backpack.sellBackpack(player, sendChatMessage, multi);
         setBackpack(backpack);
     }

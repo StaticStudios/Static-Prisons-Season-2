@@ -3,12 +3,14 @@ package me.staticstudios.prisons.data.dataHandling;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
+import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 
 import java.io.*;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 public class DataWriter {
@@ -19,6 +21,14 @@ public class DataWriter {
         }
     }
     public static void saveData() {
+        changeOldData();
+        Map<DataTypes, DataSet> dataMap = new HashMap<>(DataSets.dataSets);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+            Utils.writeToAFile("data.json", new Genson().serialize(dataMap, new GenericType<HashMap<DataTypes, DataSet>>(){}));
+            Bukkit.getLogger().log(Level.INFO, "Successfully saved all server data");
+        });
+    }
+    public static void saveDataSync() {
         changeOldData();
         Utils.writeToAFile("data.json", new Genson().serialize(DataSets.dataSets, new GenericType<HashMap<DataTypes, DataSet>>(){}));
         Bukkit.getLogger().log(Level.INFO, "Successfully saved all server data");

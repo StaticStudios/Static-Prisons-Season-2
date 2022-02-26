@@ -32,7 +32,7 @@ import org.bukkit.persistence.PersistentDataType;
 public class Events implements Listener {
     @EventHandler
     void playerJoin(PlayerJoinEvent e) {
-        e.setJoinMessage(ChatColor.translateAlternateColorCodes('&', "&d&l[Join] &f" + e.getPlayer().getName()));
+        e.setJoinMessage(ChatColor.translateAlternateColorCodes('&', "&a&lJoined&a -> &f" + e.getPlayer().getName()));
         Player player = e.getPlayer();
         Warps.warpToSpawn(player);
         //Check if they have joined before
@@ -95,7 +95,7 @@ public class Events implements Listener {
     }
     @EventHandler
     void playerQuit(PlayerQuitEvent e) {
-        e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', "&d&l[Left] &f" + e.getPlayer().getName()));
+        e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', "&a&lLeft&a -> &f" + e.getPlayer().getName()));
         Player player = e.getPlayer();
         //Remove player from the scoreboard map to prevent updating an offline player's scoreboard
         CustomScoreboard.playerLeft(player.getUniqueId().toString());
