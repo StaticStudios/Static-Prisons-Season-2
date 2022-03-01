@@ -25,7 +25,7 @@ public class DiscordLinkCommand extends BaseDiscordCommand {
                 if (Bukkit.getPlayer(UUID.fromString(DiscordLinkHandler.getUUIDFromCode(args[0]))) != null) {
                     Bukkit.getPlayer(UUID.fromString(DiscordLinkHandler.getUUIDFromCode(args[0]))).sendMessage(ChatColor.BLUE + "[Discord] " + ChatColor.GREEN + "Your account has successfully been linked to the discord account: " + ChatColor.LIGHT_PURPLE + e.getAuthor().getName() + "#" + e.getAuthor().getDiscriminator());
                 }
-                sendMessage("You have successfully linked your discord account (" + e.getAuthor().getName() + "#" + e.getAuthor().getDiscriminator() + ") to the Minecraft account (" + new ServerData().getPlayerNameFromUUID(DiscordLinkHandler.getUUIDFromCode(args[0])) + ")! If this was a mistake, please type discord!unlink");
+                sendMessage("You have successfully linked your discord account (" + e.getAuthor().getName() + "#" + e.getAuthor().getDiscriminator() + ") to the Minecraft account (" + new ServerData().getPlayerNameFromUUID(DiscordLinkHandler.getUUIDFromCode(args[0])) + ")! If this was a mistake, please type prisons!unlink");
                 DiscordLinkHandler.removeInvite(args[0]);
             }
         };

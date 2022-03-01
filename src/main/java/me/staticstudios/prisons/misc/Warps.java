@@ -56,12 +56,12 @@ public class Warps {
 
 
     public static final Location RANK_MINE_1 = new Location(Bukkit.getWorld("mines"), -84.5 + BaseMine.distanceBetweenMines * 41, 102, -70.5, -45, 0);
-    public static final Location RANK_MINE_2 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 42, 102, -25.5, -90, 0);
-    public static final Location RANK_MINE_3 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 43, 102, -25.5, -90, 0);
-    public static final Location RANK_MINE_4 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 44, 102, -25.5, -90, 0);
+    public static final Location RANK_MINE_2 = new Location(Bukkit.getWorld("mines"), 57.5 + BaseMine.distanceBetweenMines * 42, 109, 39.5, 135, 0);
+    public static final Location RANK_MINE_3 = new Location(Bukkit.getWorld("mines"), -60.5 + BaseMine.distanceBetweenMines * 43, 103, -10.5, -90, 0);
+    public static final Location RANK_MINE_4 = new Location(Bukkit.getWorld("mines"), -75.5 + BaseMine.distanceBetweenMines * 44, 102, 28.5, -120, 0);
     public static final Location RANK_MINE_5 = new Location(Bukkit.getWorld("mines"), 41.5 + BaseMine.distanceBetweenMines * 45, 103, 87.5, 135, 0);
 
-    public static final Location EVENT_MINE = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 46, 102, -25.5, -90, 0);
+    public static final Location EVENT_MINE = new Location(Bukkit.getWorld("mines"), -70.5 + BaseMine.distanceBetweenMines * 46, 103, -33.5, -90, 0);
     public static void warpToSpawn(Player player) {
         player.teleport(SPAWN);
         player.setAllowFlight(true);

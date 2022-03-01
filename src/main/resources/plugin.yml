@@ -60,7 +60,7 @@ commands:
       - echestsee
   renameitem:
     description: a
-    permission: static.staff.mod
+    permission: static.staff.moderator
     aliases:
       - nameitem
   auctionhouse:
@@ -96,7 +96,7 @@ commands:
     permission: static.staff.admin
   broadcast:
     description: a
-    permission: static.staff.mod
+    permission: static.staff.moderator
   discord:
     description: a
   coinflip:
@@ -115,6 +115,8 @@ commands:
       - s
   mines:
     description: a
+    aliases:
+      - mine
   warps:
     description: a
     aliases:
@@ -142,5 +144,37 @@ commands:
     description: a
     permission: static.staff.admin
   keyall:
+    description: a
+    permission: static.staff.admin
+  updateleaderboards:
+    description: a
+    permission: static.staff.admin
+  refill:
+    description: a
+    permission: static.staff.moderator
+  withdraw:
+    description: a
+    aliases:
+      - balnote
+      - tokennote
+      - moneynote
+  pay:
+    description: a
+    aliases:
+      - transfer
+  dropitem:
+    description: a
+  reclaim:
+    description: a
+  listplayerrank:
+    description: a
+    permission: static.staff.moderator
+  liststaffrank:
+    description: a
+    permission: static.staff.moderator
+  addpickaxexp:
+    description: a
+    permission: static.staff.admin
+  addpickaxeblocksmined:
     description: a
     permission: static.staff.admin

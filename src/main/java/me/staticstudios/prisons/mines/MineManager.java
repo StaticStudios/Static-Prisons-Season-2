@@ -12,7 +12,7 @@ import org.bukkit.Material;
 import java.util.*;
 
 public class MineManager {
-    public static final int defaultMineRefillTime = 20 * 600; //in ticks (10/sec) not 20
+    public static final int defaultMineRefillTime = 10 * 900; //in ticks (10/sec) not 20
     public static Map<String, BaseMine> allMines = new HashMap<>();
     public static Map<String, MineMinMaxX> mineIDsToMinMaxLocation = new HashMap<>();
     public static Map<String, BaseMine> minesThatShouldRefillOnTimer = new HashMap<>();

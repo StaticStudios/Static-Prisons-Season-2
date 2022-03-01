@@ -8,14 +8,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class PrisonEnchants {
-    public static final PrisonEnchant FORTUNE = new PrisonEnchant("fortune", 100000, BigInteger.valueOf(500), 15);
-    public static final PrisonEnchant MERCHANT = new PrisonEnchant("merchant",25000, BigInteger.valueOf(5000), 15);
-    public static final PrisonEnchant TOKENATOR = new PrisonEnchant("tokenator", 5000, BigInteger.valueOf(25000), 25);
-    public static final PrisonEnchant JACK_HAMMER = new PrisonEnchant("jackHammer", 50000, BigInteger.valueOf(1000), 15);
-    public static final PrisonEnchant MULTI_DIRECTIONAL = new PrisonEnchant("multiDirectional",50000, BigInteger.valueOf(1500), 15);
-    public static final PrisonEnchant DOUBLE_WAMMY = new PrisonEnchant("doubleWammy", 50000, BigInteger.valueOf(2500), 15) {
+    public static Map<UUID, String> playerUUIDToPickaxeID = new HashMap<>();
+    public static final PrisonEnchant FORTUNE = new PrisonEnchant("fortune", 50000, BigInteger.valueOf(500), 50);
+    public static final PrisonEnchant MERCHANT = new PrisonEnchant("merchant",25000, BigInteger.valueOf(5000), 75);
+    public static final PrisonEnchant TOKENATOR = new PrisonEnchant("tokenator", 5000, BigInteger.valueOf(500), 1000);
+    public static final PrisonEnchant JACK_HAMMER = new PrisonEnchant("jackHammer", 50000, BigInteger.valueOf(500), 200);
+    public static final PrisonEnchant MULTI_DIRECTIONAL = new PrisonEnchant("multiDirectional",50000, BigInteger.valueOf(1000), 200);
+    public static final PrisonEnchant DOUBLE_WAMMY = new PrisonEnchant("doubleWammy", 50000, BigInteger.valueOf(2500), 150) {
         @Override
         public boolean tryToBuyLevels(Player player, ItemStack pickaxe, int levelsToBuy) {
             PlayerData playerData = new PlayerData(player);
@@ -76,12 +80,7 @@ public class PrisonEnchants {
             return false;
         }
     };
-    public static final PrisonEnchant POLISHER = new PrisonEnchant("fortune", 100000, BigInteger.valueOf(500), 15); //Chance to get a 25% multiplier on top of all multipliers when selling
-    public static final PrisonEnchant METAL_DETECTOR = new PrisonEnchant("metalDetector",10000, BigInteger.valueOf(5000), 25);
-    public static final PrisonEnchant KEY_FINDER = new PrisonEnchant("keyFinder",10000, BigInteger.valueOf(5000), 25);
-
-
-    public static final PrisonEnchant CASH_GRAB = new PrisonEnchant("cashGrab",10, BigInteger.valueOf(250000000), 100) {
+    public static final PrisonEnchant CASH_GRAB = new PrisonEnchant("cashGrab",10, BigInteger.valueOf(25000000000L), 100) {
         @Override
         public boolean tryToBuyLevels(Player player, ItemStack pickaxe, int levelsToBuy) {
             PlayerData playerData = new PlayerData(player);
@@ -150,7 +149,7 @@ public class PrisonEnchants {
             return false;
         }
     };
-    public static final PrisonEnchant ORE_SPLITTER = new PrisonEnchant("oreSplitter", 100000, BigInteger.valueOf(1000), 15) {
+    public static final PrisonEnchant ORE_SPLITTER = new PrisonEnchant("oreSplitter", 50000, BigInteger.valueOf(1000), 250) {
         @Override
         public boolean tryToBuyLevels(Player player, ItemStack pickaxe, int levelsToBuy) {
             PlayerData playerData = new PlayerData(player);
@@ -166,36 +165,36 @@ public class PrisonEnchants {
             //Check pickaxe level
             int pickaxeLevel = PrisonPickaxe.getLevel(pickaxe);
             int softMaxLevel = 0;
-            int levelRequired = 1;
-            if (pickaxeLevel >= 1) {
-                levelRequired = 50;
-                softMaxLevel = 20000;
-            }
-            if (pickaxeLevel >= 50) {
-                levelRequired = 100;
-                softMaxLevel = 30000;
-            }
-            if (pickaxeLevel >= 100) {
-                levelRequired = 150;
-                softMaxLevel = 40000;
-            }
+            int levelRequired = 150;
             if (pickaxeLevel >= 150) {
                 levelRequired = 200;
-                softMaxLevel = 50000;
+                softMaxLevel = 20000;
             }
             if (pickaxeLevel >= 200) {
                 levelRequired = 250;
-                softMaxLevel = 70000;
+                softMaxLevel = 30000;
             }
             if (pickaxeLevel >= 250) {
                 levelRequired = 300;
-                softMaxLevel = 80000;
+                softMaxLevel = 40000;
             }
             if (pickaxeLevel >= 300) {
                 levelRequired = 350;
-                softMaxLevel = 90000;
+                softMaxLevel = 50000;
             }
             if (pickaxeLevel >= 350) {
+                levelRequired = 400;
+                softMaxLevel = 60000;
+            }
+            if (pickaxeLevel >= 400) {
+                levelRequired = 450;
+                softMaxLevel = 75000;
+            }
+            if (pickaxeLevel >= 450) {
+                levelRequired = 500;
+                softMaxLevel = 85000;
+            }
+            if (pickaxeLevel >= 500) {
                 levelRequired = 999;
                 softMaxLevel = MAX_LEVEL + 10001;
             }
@@ -215,7 +214,7 @@ public class PrisonEnchants {
             return false;
         }
     };
-    public static final PrisonEnchant TOKEN_POLISHER = new PrisonEnchant("tokenPolisher",10, BigInteger.valueOf(1000000000), 100) {
+    public static final PrisonEnchant TOKEN_POLISHER = new PrisonEnchant("tokenPolisher",10, BigInteger.valueOf(10000000000L), 1000) {
         @Override
         public boolean tryToBuyLevels(Player player, ItemStack pickaxe, int levelsToBuy) {
             PlayerData playerData = new PlayerData(player);

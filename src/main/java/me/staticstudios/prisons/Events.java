@@ -160,6 +160,12 @@ public class Events implements Listener {
             }
         }
         if (CrateManager.checkIfCrateWasClicked(e)) return;
-
+    }
+    @EventHandler
+    void onDrop(PlayerDropItemEvent e) {
+        if (Utils.checkIsPrisonPickaxe(e.getItemDrop().getItemStack())) {
+            e.setCancelled(true);
+            e.getPlayer().sendMessage(ChatColor.RED + "You cannot drop this item! Type /dropitem to drop it!");
+        }
     }
 }

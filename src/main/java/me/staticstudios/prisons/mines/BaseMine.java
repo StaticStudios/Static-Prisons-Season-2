@@ -28,7 +28,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public abstract class BaseMine {
-    public static final int percentOfMineToBeDestroyedBeforeRefill = 20;
+    public static final int percentOfMineToBeDestroyedBeforeRefill = 40;
     public static final int distanceBetweenMines = 500; //X axis
     public static int currentOffsetAmount = 0;
 

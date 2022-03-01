@@ -18,9 +18,9 @@ public class StoreCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&l&bCheck out our store: &r&fstaticstudios.tebex.io"));
-        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://staticstudios.tebex.io/"));
-        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', "&a&lClick here to visit our store!"))));
+        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&l&bCheck out our store: &r&fstore.static-studios.net"));
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://store.static-studios.net"));
+        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', "&aClick here to visit our store!"))));
         player.spigot().sendMessage(message);
         return true;
     }

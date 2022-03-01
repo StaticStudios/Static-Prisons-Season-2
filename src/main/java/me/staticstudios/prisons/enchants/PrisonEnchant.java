@@ -5,7 +5,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
 public class PrisonEnchant {
     public final int MAX_LEVEL;
@@ -23,7 +25,7 @@ public class PrisonEnchant {
     public BigInteger calculatePrice(int currentLevel, int levelsToBuy) {
         BigInteger price = INITIAL_PRICE;
         for (int i = 0; i < levelsToBuy; i++) {
-            price = price.add(INITIAL_PRICE.multiply(BigInteger.valueOf(currentLevel + i)).divide(BigInteger.valueOf(100).divide(BigInteger.valueOf(RATE_OF_INCREASE))));
+            price = price.add(new BigDecimal(INITIAL_PRICE.multiply(BigInteger.valueOf(currentLevel + i))).multiply(BigDecimal.valueOf(RATE_OF_INCREASE).divide(BigDecimal.valueOf(100)).setScale(4, RoundingMode.CEILING)).toBigInteger());
         }
         return price;
     }

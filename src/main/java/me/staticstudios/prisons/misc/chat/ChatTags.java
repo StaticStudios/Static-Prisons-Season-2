@@ -20,8 +20,28 @@ public class ChatTags {
     public static final String DEV = ChatColor.translateAlternateColorCodes('&', "&8[&b&lDev&8] ");
     public static final String IM_RICH = ChatColor.translateAlternateColorCodes('&', "&8[&f&l$&8] ");
     public static final String SIMP = ChatColor.translateAlternateColorCodes('&', "&8[&dS.I.M.P&8] ");
-    public static final String PUSHIN_P = ChatColor.translateAlternateColorCodes('&', "&8[&9Pushin &b&lP&8] ");
+    public static final String PUSHIN_P = ChatColor.translateAlternateColorCodes('&', "&8[&9Pushin' &b&lP&8] ");
     public static final String EFFORT = ChatColor.translateAlternateColorCodes('&', "&8[&x&0&0&d&d&f&b&ne&x&0&8&e&a&d&b&nf&x&1&1&f&7&b&a&nf&x&1&1&f&d&9&9&no&x&0&8&f&e&7&8&nr&x&0&0&f&f&5&7&nt&8] ");
+    public static final String KEK = ChatColor.translateAlternateColorCodes('&', "&8[&ckek&8] ");
+    public static final String RIP_2020 = ChatColor.translateAlternateColorCodes('&', "&8[&cRIP 2020&8] ");
+    public static final String I_H8_2021 = ChatColor.translateAlternateColorCodes('&', "&8[&fI H8 2021&8] ");
+    public static final String COVID_20 = ChatColor.translateAlternateColorCodes('&', "&8[&bCOVID-20&8] ");
+    public static final String POGGERS = ChatColor.translateAlternateColorCodes('&', "&8[&c&d&lPOGGERS&8] ");
+    public static final String FOUR2069 = ChatColor.translateAlternateColorCodes('&', "&8[&b42069&8] ");
+    public static final String FIVEHEAD = ChatColor.translateAlternateColorCodes('&', "&8[&e5HEAD&8] ");
+    public static final String AFK = ChatColor.translateAlternateColorCodes('&', "&8[&eAFK&8] ");
+    public static final String BANNED = ChatColor.translateAlternateColorCodes('&', "&8[&4&lBANNED&8] ");
+    public static final String MUTED = ChatColor.translateAlternateColorCodes('&', "&8[&7&lMUTED&8] ");
+    public static final String WTF = ChatColor.translateAlternateColorCodes('&', "&8[&aWTF&8] ");
+    public static final String LMAO = ChatColor.translateAlternateColorCodes('&', "&8[&aLMAO&8] ");
+    public static final String MINER = ChatColor.translateAlternateColorCodes('&', "&8[&bMINER&8] ");
+    public static final String TRASH = ChatColor.translateAlternateColorCodes('&', "&8[&cUR TRASH&8] ");
+    public static final String NINE99 = ChatColor.translateAlternateColorCodes('&', "&8[&c999&8] ");
+    public static final String ONE400 = ChatColor.translateAlternateColorCodes('&', "&8[&c1400&8] ");
+    public static final String EZ = ChatColor.translateAlternateColorCodes('&', "&8[&bEZ&8] ");
+    public static final String LAG = ChatColor.translateAlternateColorCodes('&', "&8[&aI'M LAGGIN&8] ");
+    public static final String BOZO = ChatColor.translateAlternateColorCodes('&', "&8[&fBOZO&8] ");
+    public static final String L_RATIO = ChatColor.translateAlternateColorCodes('&', "&8[&fL + ratio&8] ");
     static {
         chatTags.put("weewoo", WEEWOO);
         chatTags.put("mr.yuh", MR_YUH);
@@ -38,6 +58,26 @@ public class ChatTags {
         chatTags.put("simp", SIMP);
         chatTags.put("pushin_p", PUSHIN_P);
         chatTags.put("effort", EFFORT);
+        chatTags.put("kek", KEK);
+        chatTags.put("rip_2020", RIP_2020);
+        chatTags.put("i_h8_2021", I_H8_2021);
+        chatTags.put("covid_20", COVID_20);
+        chatTags.put("poggers", POGGERS);
+        chatTags.put("42069", FOUR2069);
+        chatTags.put("5head", FIVEHEAD);
+        chatTags.put("afk", AFK);
+        chatTags.put("banned", BANNED);
+        chatTags.put("muted", MUTED);
+        chatTags.put("wtf", WTF);
+        chatTags.put("lmao", LMAO);
+        chatTags.put("miner", MINER);
+        chatTags.put("trash", TRASH);
+        chatTags.put("999", NINE99);
+        chatTags.put("1400", ONE400);
+        chatTags.put("ez", EZ);
+        chatTags.put("lag", LAG);
+        chatTags.put("bozo", BOZO);
+        chatTags.put("l+ratio", L_RATIO);
     }
 
     public static String getChatTagFromID(String id) {

@@ -27,9 +27,9 @@ public class DiscordCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
         if (args.length == 0) {
-            TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&l&9Join Our Discord: &r&bdiscord.gg/staticmc"));
+            TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&9Join our Discord: &fdiscord.gg/staticmc"));
             message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/9S6K9E5"));
-            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', "&a&lClick Here To Join Our Discord!"))));
+            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', "&aClick here to join our discord!"))));
             player.spigot().sendMessage(message);
             return false;
         }

@@ -10,6 +10,7 @@ import me.staticstudios.prisons.leaderboards.LeaderboardManager;
 import me.staticstudios.prisons.mines.MineManager;
 import me.staticstudios.prisons.misc.scoreboard.CustomScoreboard;
 import me.staticstudios.prisons.misc.tablist.TabList;
+import me.staticstudios.prisons.utils.StaticVars;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -66,6 +67,11 @@ public class TimedTasks {
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), EnchantEffects::giveEffects, 10, 400);
         //Update all of the leaderboards
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), LeaderboardManager::updateAll, 20, 20 * 60 * 30);
+        //Tips
+        Bukkit.getScheduler().runTaskTimer(Main.getMain(), () -> {
+            String tip = StaticVars.TIPS[Utils.randomInt(0, StaticVars.TIPS.length - 1)];
+            for (Player p : Bukkit.getOnlinePlayers()) if (!new PlayerData(p).getAreTipsDisabled()) p.sendMessage(tip);
+        }, 20 * 60 * 10, 20 * 60 * 10);
 
     }
 }

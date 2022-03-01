@@ -65,10 +65,10 @@ public class EnchantsMenus {
     //Main menu
     public static void main() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                PrisonEnchants.playerUUIDToPickaxeID.put(player.getUniqueId(), args);
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -168,100 +168,100 @@ public class EnchantsMenus {
             @Override
             public void item10Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsFortune").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsFortune").open(player);
             }
             @Override
             public void item11Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsTokenator").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsTokenator").open(player);
             }
             @Override
             public void item12Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsJackhammer").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsJackhammer").open(player);
             }
             @Override
             public void item13Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsDoubleWammy").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsDoubleWammy").open(player);
             }
             @Override
             public void item14Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsMultiDirectional").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsMultiDirectional").open(player);
             }
             @Override
             public void item15Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsMerchant").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsMerchant").open(player);
             }
             @Override
             public void item16Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsCashGrab").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsCashGrab").open(player);
             }
             @Override
             public void item19Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsOreSplitter").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsOreSplitter").open(player);
             }
             @Override
             public void item20Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsTokenPolisher").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsTokenPolisher").open(player);
             }
 
@@ -272,34 +272,34 @@ public class EnchantsMenus {
             @Override
             public void item32Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsHaste").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsHaste").open(player);
             }
             @Override
             public void item33Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsSpeed").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsSpeed").open(player);
             }
             @Override
             public void item34Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsNightVision").args = pickaxeUUID;
                 GUI.getGUIPage("enchantsNightVision").open(player);
             }
 
@@ -313,14 +313,9 @@ public class EnchantsMenus {
     //Jack Hammer menu
     public static void jackHammer() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -359,6 +354,7 @@ public class EnchantsMenus {
             @Override
             public void item2Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -369,6 +365,7 @@ public class EnchantsMenus {
             @Override
             public void item3Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -379,6 +376,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -389,6 +387,7 @@ public class EnchantsMenus {
             @Override
             public void item5Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -399,6 +398,7 @@ public class EnchantsMenus {
             @Override
             public void item6Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -416,14 +416,9 @@ public class EnchantsMenus {
     //Double Wammy menu
     public static void doubleWammy() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -462,6 +457,7 @@ public class EnchantsMenus {
             @Override
             public void item2Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -472,6 +468,7 @@ public class EnchantsMenus {
             @Override
             public void item3Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -482,6 +479,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -492,6 +490,7 @@ public class EnchantsMenus {
             @Override
             public void item5Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -502,6 +501,7 @@ public class EnchantsMenus {
             @Override
             public void item6Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -519,14 +519,9 @@ public class EnchantsMenus {
     //MultiDirectional menu
     public static void multiDirectional() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -565,6 +560,7 @@ public class EnchantsMenus {
             @Override
             public void item2Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -575,6 +571,7 @@ public class EnchantsMenus {
             @Override
             public void item3Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -585,6 +582,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -595,6 +593,7 @@ public class EnchantsMenus {
             @Override
             public void item5Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -605,6 +604,7 @@ public class EnchantsMenus {
             @Override
             public void item6Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -622,14 +622,9 @@ public class EnchantsMenus {
     //Tokenator menu
     public static void tokenator() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -668,6 +663,7 @@ public class EnchantsMenus {
             @Override
             public void item2Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -678,6 +674,7 @@ public class EnchantsMenus {
             @Override
             public void item3Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -688,6 +685,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -698,6 +696,7 @@ public class EnchantsMenus {
             @Override
             public void item5Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -708,6 +707,7 @@ public class EnchantsMenus {
             @Override
             public void item6Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -724,14 +724,9 @@ public class EnchantsMenus {
     //Fortune menu
     public static void fortune() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -770,6 +765,7 @@ public class EnchantsMenus {
             @Override
             public void item2Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -780,6 +776,7 @@ public class EnchantsMenus {
             @Override
             public void item3Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -790,6 +787,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -800,6 +798,7 @@ public class EnchantsMenus {
             @Override
             public void item5Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -810,6 +809,7 @@ public class EnchantsMenus {
             @Override
             public void item6Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -826,14 +826,9 @@ public class EnchantsMenus {
     //Merchant menu
     public static void merchant() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -872,6 +867,7 @@ public class EnchantsMenus {
             @Override
             public void item2Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -882,6 +878,7 @@ public class EnchantsMenus {
             @Override
             public void item3Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -892,6 +889,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -902,6 +900,7 @@ public class EnchantsMenus {
             @Override
             public void item5Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -912,6 +911,7 @@ public class EnchantsMenus {
             @Override
             public void item6Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -928,14 +928,9 @@ public class EnchantsMenus {
     //Cash Grab menu
     public static void cashGrab() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -956,6 +951,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -973,14 +969,9 @@ public class EnchantsMenus {
     //Token Polisher menu
     public static void tokenPolisher() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1001,6 +992,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1020,14 +1012,9 @@ public class EnchantsMenus {
     //Ore Splitter menu
     public static void oreSplitter() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1066,6 +1053,7 @@ public class EnchantsMenus {
             @Override
             public void item2Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1076,6 +1064,7 @@ public class EnchantsMenus {
             @Override
             public void item3Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1086,6 +1075,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1096,6 +1086,7 @@ public class EnchantsMenus {
             @Override
             public void item5Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1106,6 +1097,7 @@ public class EnchantsMenus {
             @Override
             public void item6Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1123,14 +1115,9 @@ public class EnchantsMenus {
     //Haste menu
     public static void haste() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1151,6 +1138,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1169,14 +1157,9 @@ public class EnchantsMenus {
     //Speed menu
     public static void speed() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1197,6 +1180,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1215,14 +1199,9 @@ public class EnchantsMenus {
     //Night Vision menu
     public static void nightVision() {
         GUIPage guiPage = new GUIPage() {
-            public String pickaxeUUID;
-            @Override
-            public void onClose(Player player) {
-                GUI.getGUIPage(onCloseGoToMenu).args = pickaxeUUID;
-            }
             @Override
             public void onOpen(Player player) {
-                pickaxeUUID = args;
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();
@@ -1243,6 +1222,7 @@ public class EnchantsMenus {
             @Override
             public void item4Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {
                     player.closeInventory();

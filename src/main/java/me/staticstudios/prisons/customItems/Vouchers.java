@@ -2,6 +2,7 @@ package me.staticstudios.prisons.customItems;
 
 import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.leaderboards.TokensTop;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,10 +12,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.math.BigInteger;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class Vouchers {
@@ -359,7 +363,61 @@ public class Vouchers {
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };
-
+    private static final Voucher MONEY_NOTE = new Voucher("moneyNote", Material.PAPER,ChatColor.GREEN + "" + ChatColor.BOLD + "Money Note") {
+        @Override
+        void onClaim(Player player) {
+            int count = 1;
+            System.out.println("aaa");
+            if (player.isSneaking()) count = player.getInventory().getItemInMainHand().getAmount();
+            System.out.println("c");
+            BigInteger value = new BigInteger(player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "noteValue"), PersistentDataType.STRING));
+            System.out.println("aadfda");
+            new PlayerData(player).addMoney(value.multiply(BigInteger.valueOf(count)));
+            player.sendMessage(ChatColor.GREEN + "You have just claimed a money note worth $" + Utils.addCommasToBigInteger(value.multiply(BigInteger.valueOf(count))) + "!");
+            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - count);
+        }
+    };
+    public static ItemStack getMoneyNote(String creatorName, BigInteger value) {
+        ItemStack voucher = MONEY_NOTE.item;
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.AQUA + "Created By: " + ChatColor.WHITE + creatorName);
+        lore.add(ChatColor.AQUA + "Redeem Amount: " + ChatColor.WHITE + "$" + Utils.addCommasToBigInteger(value));
+        lore.add("");
+        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Right click to claim!");
+        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Shift-right click to claim a full stack!");
+        ItemMeta meta = voucher.getItemMeta();
+        meta.setDisplayName(ChatColor.GREEN + "Money Note: " + ChatColor.WHITE + "$" + Utils.prettyNum(value));
+        meta.setLore(lore);
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "noteValue"), PersistentDataType.STRING, value.toString());
+        voucher.setItemMeta(meta);
+        return voucher;
+    }
+    private static final Voucher TOKEN_NOTE = new Voucher("tokenNote", Material.SUNFLOWER,ChatColor.GOLD + "" + ChatColor.BOLD + "Token Note") {
+        @Override
+        void onClaim(Player player) {
+            int count = 1;
+            if (player.isSneaking()) count = player.getInventory().getItemInMainHand().getAmount();
+            BigInteger value = new BigInteger(player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "noteValue"), PersistentDataType.STRING));
+            new PlayerData(player).addTokens(value.multiply(BigInteger.valueOf(count)));
+            player.sendMessage(ChatColor.GREEN + "You have just claimed a token note worth " + Utils.addCommasToBigInteger(value.multiply(BigInteger.valueOf(count))) + " tokens!");
+            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - count);
+        }
+    };
+    public static ItemStack getTokenNote(String creatorName, BigInteger value) {
+        ItemStack voucher = TOKEN_NOTE.item;
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.AQUA + "Created By: " + ChatColor.WHITE + creatorName);
+        lore.add(ChatColor.AQUA + "Redeem Amount: " + ChatColor.WHITE + Utils.addCommasToBigInteger(value));
+        lore.add("");
+        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Right click to claim!");
+        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Shift-right click to claim a full stack!");
+        ItemMeta meta = voucher.getItemMeta();
+        meta.setDisplayName(ChatColor.RED + "Token Note: " + ChatColor.WHITE + Utils.prettyNum(value));
+        meta.setLore(lore);
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "noteValue"), PersistentDataType.STRING, value.toString());
+        voucher.setItemMeta(meta);
+        return voucher;
+    }
     public static boolean onInteract(PlayerInteractEvent e) {
         if (!(e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return false;
         if (!isVoucher(e.getPlayer().getInventory().getItemInMainHand())) return false;
@@ -395,6 +453,8 @@ public class Vouchers {
             case "pouchToken1" -> TOKEN_POUCH_T1.onClaim(e.getPlayer());
             case "pouchToken2" -> TOKEN_POUCH_T2.onClaim(e.getPlayer());
             case "pouchToken3" -> TOKEN_POUCH_T3.onClaim(e.getPlayer());
+            case "moneyNote" -> MONEY_NOTE.onClaim(e.getPlayer());
+            case "tokenNote" -> TOKEN_NOTE.onClaim(e.getPlayer());
             default -> e.getPlayer().sendMessage(ChatColor.RED + "There was an error claiming this voucher.");
         }
         e.setCancelled(true);

@@ -83,7 +83,17 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("broadcast").setExecutor(new BroadcastMessageCommand());
             getCommand("keyall").setExecutor(new KeyallCommand());
             getCommand("customitems").setExecutor(new CustomItemsCommand());
+            getCommand("updateleaderboards").setExecutor(new UpdateLeaderboardsCommand());
+            getCommand("refill").setExecutor(new RefillCommand());
+            getCommand("listplayerrank").setExecutor(new ListPlayerRankCommand());
+            getCommand("liststaffrank").setExecutor(new ListStaffRankCommand());
+            getCommand("addpickaxexp").setExecutor(new AddPickaxeXPCommand());
+            getCommand("addpickaxeblocksmined").setExecutor(new AddPickaxeBlocksMinedCommand());
             //--Normal Commands
+            getCommand("reclaim").setExecutor(new ReclaimCommand());
+            getCommand("dropitem").setExecutor(new DropItemCommand());
+            getCommand("pay").setExecutor(new PayCommand());
+            getCommand("withdraw").setExecutor(new WithdrawCommand());
             getCommand("nickname").setExecutor(new NicknameCommand());
             getCommand("votes").setExecutor(new VotesCommand());
             getCommand("crates").setExecutor(new CratesCommand());
