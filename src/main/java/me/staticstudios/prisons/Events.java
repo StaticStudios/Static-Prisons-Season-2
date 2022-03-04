@@ -8,6 +8,7 @@ import me.staticstudios.prisons.discord.DiscordAddRoles;
 import me.staticstudios.prisons.discord.DiscordBot;
 import me.staticstudios.prisons.discord.LinkHandler;
 import me.staticstudios.prisons.enchants.EnchantEffects;
+import me.staticstudios.prisons.events.EventManager;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.misc.Warps;
 import me.staticstudios.prisons.misc.chat.CustomChatMessage;
@@ -105,6 +106,7 @@ public class Events implements Listener {
     @EventHandler
     void onChat(AsyncPlayerChatEvent e) {
         new CustomChatMessage(e).sendFormatted();
+        EventManager.chatMessageReceived(e);
     }
     @EventHandler
     void onChangeHeld(PlayerItemHeldEvent e) {

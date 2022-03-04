@@ -13,7 +13,7 @@ public class AddPickaxeBlocksMinedCommand implements CommandExecutor {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
         if (!Utils.checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) return false;
-        PrisonPickaxe.addBlocksMined(player.getInventory().getItemInMainHand(), Long.parseLong(args[0]));
+        PrisonPickaxe.addBlocksBroken(player.getInventory().getItemInMainHand(), Long.parseLong(args[0]));
         return false;
     }
 }

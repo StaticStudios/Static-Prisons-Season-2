@@ -17,11 +17,11 @@ public class StaticVars {
             5000L,
             7500L,
             10000L,
+            12500L,
             15000L,
-            25000L,
+            20000L,
+            30000L,
             50000L,
-            100000L,
-            250000L,
     };
     public static final char[] A_THROUGH_Z = {
             'A',
@@ -58,5 +58,6 @@ public class StaticVars {
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fClaim a free reward every day with &7/dailyrewards&f. You must join our discord server and link your accounts to claim this. &9/discord link"),
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fAt the end of every season we give the top players real money, check the leaderboards to see if you qualify! Join our discord for more information."),
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fYou can purchase a rank, crate keys, private mines, and more on our store! This is by far one of the best ways to help support the server! &d/store"),
+            ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fHave a question/concern? We would love to discuss it further with you, join our discord and make a ticket! &9/discord"),
     };
 }

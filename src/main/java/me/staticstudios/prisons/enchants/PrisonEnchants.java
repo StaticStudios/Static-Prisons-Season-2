@@ -263,6 +263,8 @@ public class PrisonEnchants {
             return false;
         }
     };
+    public static final PrisonEnchant KEY_FINDER = new PrisonEnchant("keyFinder",10000, BigInteger.valueOf(5000), 100);
+    public static final PrisonEnchant XP_FINDER = new PrisonEnchant("xpFinder",5, BigInteger.valueOf(25000000000L), 1000);
 
     public static final PrisonEnchant HASTE = new PrisonEnchant("haste",3, BigInteger.ONE, 1);
     public static final PrisonEnchant SPEED = new PrisonEnchant("speed",3, BigInteger.ONE, 1);

@@ -22,8 +22,8 @@ public class CustomEnchants {
         enchantIDsToNames.put("jackHammer", ChatColor.AQUA + "Jack Hammer");
         enchantIDsToNames.put("doubleWammy", ChatColor.AQUA + "Double Wammy");
         enchantIDsToNames.put("multiDirectional", ChatColor.AQUA + "Multi-Directional");
+        enchantIDsToNames.put("xpFinder", ChatColor.AQUA + "XP Finder");
         enchantIDsToNames.put("merchant", ChatColor.AQUA + "Merchant");
-        enchantIDsToNames.put("metalDetector", ChatColor.AQUA + "Metal Detector");
         enchantIDsToNames.put("keyFinder", ChatColor.AQUA + "Key Finder");
         enchantIDsToNames.put("haste", ChatColor.AQUA + "Haste");
         enchantIDsToNames.put("speed", ChatColor.AQUA + "Speed");

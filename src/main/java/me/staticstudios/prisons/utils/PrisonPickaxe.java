@@ -96,7 +96,7 @@ public class PrisonPickaxe {
         return false;
     }
 
-    public static void addBlocksMined(ItemStack pickaxe, long amountToAdd) {
+    public static void addBlocksBroken(ItemStack pickaxe, long amountToAdd) {
         if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
         ItemMeta meta = pickaxe.getItemMeta();
         long currentAmount = 0;
@@ -121,6 +121,35 @@ public class PrisonPickaxe {
             }
         } else {
             lore.add(ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + amountToAdd));
+        }
+        meta.setLore(lore);
+        pickaxe.setItemMeta(meta);
+    }
+    public static void addBlocksMined(ItemStack pickaxe, long amountToAdd) {
+        if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
+        ItemMeta meta = pickaxe.getItemMeta();
+        long currentAmount = 0;
+        if (meta.getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), "blocksMined"), PersistentDataType.LONG)) {
+            currentAmount = meta.getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "blocksMined"), PersistentDataType.LONG);
+        }
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "blocksMined"), PersistentDataType.LONG, currentAmount + amountToAdd);
+        boolean updated = false;
+        List<String> lore = new ArrayList<>();
+        if (meta.hasLore()) {
+            lore = meta.getLore();
+            for (int i = 0; i < lore.size(); i++) {
+                String line = lore.get(i);
+                if (ChatColor.stripColor(line).startsWith("Blocks Mined:")) {
+                    lore.set(i, ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + amountToAdd));
+                    updated = true;
+                    break;
+                }
+            }
+            if (!updated) {
+                lore.add(ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + amountToAdd));
+            }
+        } else {
+            lore.add(ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + amountToAdd));
         }
         meta.setLore(lore);
         pickaxe.setItemMeta(meta);

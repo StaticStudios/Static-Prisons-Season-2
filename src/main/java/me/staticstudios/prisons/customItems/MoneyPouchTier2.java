@@ -10,7 +10,7 @@ import java.math.BigInteger;
 public class MoneyPouchTier2 {
     public static void open(Player player) {
         MoneyPouch pouch = new MoneyPouch();
-        pouch.minReward = new BigInteger("200000000000"); //200B
+        pouch.minReward = new BigInteger("1000000000000"); //1B
         pouch.maxReward = new BigInteger("4000000000000"); //4T
         pouch.reward = Utils.randomBigInt(pouch.minReward, pouch.maxReward);
         pouch.announceRewardInChat = true;

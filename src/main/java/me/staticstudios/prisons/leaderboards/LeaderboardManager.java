@@ -10,8 +10,7 @@ public class LeaderboardManager {
             TimePlayedTop.calculateLeaderBoard();
             PrestigeTop.calculateLeaderBoard();
             VotesTop.calculateLeaderBoard();
-        } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
+        } catch (IndexOutOfBoundsException ignore) {
         }
     }
 }

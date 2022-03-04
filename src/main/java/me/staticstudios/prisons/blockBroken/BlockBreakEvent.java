@@ -1,5 +1,6 @@
 package me.staticstudios.prisons.blockBroken;
 
+import me.staticstudios.prisons.customItems.CustomItems;
 import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.enchants.CustomEnchants;
 import me.staticstudios.prisons.enchants.PrisonEnchants;
@@ -7,6 +8,7 @@ import me.staticstudios.prisons.mines.BaseMine;
 import me.staticstudios.prisons.mines.MineManager;
 import me.staticstudios.prisons.utils.PrisonPickaxe;
 import me.staticstudios.prisons.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -57,6 +59,7 @@ public class BlockBreakEvent implements Listener {
         int jackHammerLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "jackHammer");
         int doubleWammyLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "doubleWammy");
         int multiDirectionalLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "multiDirectional");
+        int keyFinderLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "keyFinder");
         boolean doubleFortune = false;
         if (CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter") > 0)
             doubleFortune = CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter") <= Utils.randomInt(1, PrisonEnchants.ORE_SPLITTER.MAX_LEVEL);
@@ -74,7 +77,7 @@ public class BlockBreakEvent implements Listener {
         }
         if (multiDirectionalLevel > 0) {
             //Multi-directional
-            if (Utils.randomInt(1, 24) == 1) {
+            if (Utils.randomInt(1, 18) == 1) {
                 if (Utils.randomInt(1, PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 100) <= multiDirectionalLevel + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 100) {
                     //Enchant should activate
                     int howDeepToGo = Math.max(1, e.getBlock().getY() - multiDirectionalLevel * 250 / PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL);
@@ -82,6 +85,38 @@ public class BlockBreakEvent implements Listener {
                 }
             }
         }
+        //Key finder
+        if (keyFinderLevel > 0) {
+            if (Utils.randomInt(0, 2500) == 1) {
+                if (Utils.randomInt(1, PrisonEnchants.KEY_FINDER.MAX_LEVEL) <= keyFinderLevel) {
+                    //Enchant should activate
+                    ItemStack reward;
+                    int randomReward = Utils.randomInt(1, 100);
+                    if (randomReward <= 15) {
+                        //15%
+                        reward = CustomItems.getCommonCrateKey(2);
+                    } else if (randomReward <= 45) {
+                        //30%
+                        reward = CustomItems.getRareCrateKey(1);
+                    } else if (randomReward <= 90) {
+                        //45%
+                        reward = CustomItems.getEpicCrateKey(1);
+                    } else if (randomReward <= 95) {
+                        //5%
+                        reward = CustomItems.getLegendaryCrateKey(1);
+                    } else if (randomReward <= 99) {
+                        //4%
+                        reward = CustomItems.getStaticCrateKey(1);
+                    } else {
+                        //1%
+                        reward = CustomItems.getStaticpCrateKey(1);
+                    }
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "[Key Finder] " + ChatColor.WHITE + "You have just found a " + Utils.getPrettyItemName(reward) + ChatColor.WHITE + " while mining!");
+                    Utils.addItemToPlayersInventoryAndDropExtra(player, reward);
+                }
+            }
+        }
+
 
         BigInteger totalAmountOfBlocksBroken = BigInteger.ZERO;
         //Check if the backpack is full before adding
@@ -101,9 +136,15 @@ public class BlockBreakEvent implements Listener {
         playerData.addTokens(tokensToAdd);
         //Add the blocks mined to the player and pickaxe
         playerData.addBlocksMined(totalAmountOfBlocksBroken);
-        PrisonPickaxe.addBlocksMined(pickaxe, totalAmountOfBlocksBroken.longValue());
-        if (PrisonPickaxe.addXP(pickaxe, totalAmountOfBlocksBroken.longValue() * PrisonPickaxe.BASE_XP_PER_BLOCK_BROKEN * (CustomEnchants.getEnchantLevel(pickaxe, "xpFinder") + 1))) { //TODO: add this enchant
-            player.sendMessage(ChatColor.LIGHT_PURPLE + "Your pickaxe has leveled up! It is now level: " + ChatColor.AQUA + PrisonPickaxe.getLevel(pickaxe));
+        PrisonPickaxe.addBlocksBroken(pickaxe, totalAmountOfBlocksBroken.longValue());
+        PrisonPickaxe.addBlocksMined(pickaxe, 1); //Raw blocks
+        if (PrisonPickaxe.addXP(pickaxe, totalAmountOfBlocksBroken.longValue() * PrisonPickaxe.BASE_XP_PER_BLOCK_BROKEN * (CustomEnchants.getEnchantLevel(pickaxe, "xpFinder") + 1))) {
+            player.sendMessage(ChatColor.LIGHT_PURPLE + "Your pickaxe has just leveled to level " + ChatColor.WHITE + ChatColor.BOLD + PrisonPickaxe.getLevel(pickaxe) + "!");
+            if (PrisonPickaxe.getLevel(pickaxe) % 25 == 0) {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    p.sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + "'s pickaxe has just leveled up to level " + ChatColor.WHITE + ChatColor.BOLD + PrisonPickaxe.getLevel(pickaxe) + "!");
+                }
+            }
         }
         //If the player's backpack was not full but now is, tell them it has filled up or auto sell
         if (playerData.checkIfBackpackIsFull()) {

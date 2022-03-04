@@ -6,6 +6,7 @@ import me.staticstudios.prisons.data.dataHandling.DataWriter;
 import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.discord.DiscordBot;
 import me.staticstudios.prisons.enchants.EnchantEffects;
+import me.staticstudios.prisons.events.EventManager;
 import me.staticstudios.prisons.leaderboards.LeaderboardManager;
 import me.staticstudios.prisons.mines.MineManager;
 import me.staticstudios.prisons.misc.scoreboard.CustomScoreboard;
@@ -56,7 +57,7 @@ public class TimedTasks {
                 PlayerData playerData = new PlayerData(p);
                 if (playerData.getLastVotedAt() < Instant.now().toEpochMilli() - 24 * 60 * 60 * 1000) {
                     p.sendMessage(ChatColor.RED + "You have not voted today! In order to win free rewards from the vote party, vote everyday. You can vote by typing " + ChatColor.GREEN + "/vote");
-                    p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "/vote", ChatColor.RED + "" + ChatColor.BOLD + ChatColor.UNDERLINE + "You haven't voted today!", 5, 40, 5);
+                    p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "/vote", ChatColor.RED + "" + ChatColor.ITALIC + "You haven't voted today!", 5, 40, 5);
 
                 }
             }
@@ -71,7 +72,10 @@ public class TimedTasks {
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), () -> {
             String tip = StaticVars.TIPS[Utils.randomInt(0, StaticVars.TIPS.length - 1)];
             for (Player p : Bukkit.getOnlinePlayers()) if (!new PlayerData(p).getAreTipsDisabled()) p.sendMessage(tip);
-        }, 20 * 60 * 10, 20 * 60 * 10);
+        }, 20 * 60 * 5, 20 * 60 * 10);
+        //Chat Events
+        Bukkit.getScheduler().runTaskTimer(Main.getMain(), EventManager::runNewEvent, 20 * 60 * 12, 20 * 60 * 25);
+
 
     }
 }

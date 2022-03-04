@@ -332,6 +332,7 @@ public class Utils {
         item.setItemMeta(meta);
         PrisonPickaxe.addLevel(item, 0);
         PrisonPickaxe.addXP(item, 0);
+        PrisonPickaxe.addBlocksBroken(item, 0);
         PrisonPickaxe.addBlocksMined(item, 0);
         meta = item.getItemMeta();
         List<String> lore = meta.getLore();

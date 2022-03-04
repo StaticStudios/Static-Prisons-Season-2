@@ -35,7 +35,7 @@ public class PrivateMineCommand implements CommandExecutor {
                     mine.refill();
                 } else player.sendMessage(ChatColor.RED + "Please wait " + (mine.getLastRefilledAt() + 30 - Instant.now().getEpochSecond()) + " second(s) before refilling this mine!");
             }
-        }
+        } else GUI.getGUIPage("privateMines").open(player);
         return false;
     }
 }

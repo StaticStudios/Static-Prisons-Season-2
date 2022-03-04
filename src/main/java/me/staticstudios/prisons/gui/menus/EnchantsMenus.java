@@ -129,8 +129,16 @@ public class EnchantsMenus {
                         ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.TOKEN_POLISHER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "tokenPolisher"), 1)),
                         ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
                         ChatColor.GRAY + "Max Level: " + Utils.addCommasToInt(PrisonEnchants.TOKEN_POLISHER.MAX_LEVEL)));
-                menuItems.add(GUI.createLightGrayPlaceholderItem());
-                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.TRIPWIRE_HOOK, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Key Finder", ChatColor.GRAY + "Chance to find crate keys while mining", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "keyFinder") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.KEY_FINDER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "keyFinder"), 1)),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToInt(PrisonEnchants.KEY_FINDER.MAX_LEVEL)));
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.EXPERIENCE_BOTTLE, ChatColor.GREEN + "" + ChatColor.BOLD + "XP Finder", ChatColor.GRAY + "+1 pickaxe XP per block mined", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "xpFinder") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.XP_FINDER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "xpFinder"), 1)),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToInt(PrisonEnchants.XP_FINDER.MAX_LEVEL)));
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
@@ -263,6 +271,28 @@ public class EnchantsMenus {
                     return;
                 }
                 GUI.getGUIPage("enchantsTokenPolisher").open(player);
+            }
+            @Override
+            public void item21Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                GUI.getGUIPage("enchantsKeyFinder").open(player);
+            }
+            @Override
+            public void item22Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                GUI.getGUIPage("enchantsXpFinder").open(player);
             }
 
 
@@ -1108,6 +1138,149 @@ public class EnchantsMenus {
         };
         guiPage.identifier = "enchantsOreSplitter";
         guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dUpgrade Ore Splitter");
+        guiPage.onCloseGoToMenu = "enchantsMain";
+        guiPage.register();
+    }
+    //Key finder menu
+    public static void keyFinder() {
+        GUIPage guiPage = new GUIPage() {
+            @Override
+            public void onOpen(Player player) {
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                PlayerData playerData = new PlayerData(player);
+                menuItems = new ArrayList<>();
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 1 Level(s) Of Key Finder", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "keyFinder") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.KEY_FINDER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "keyFinder"), 1)),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToInt(PrisonEnchants.KEY_FINDER.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 10 Level(s) Of Key Finder", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "keyFinder") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.KEY_FINDER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "keyFinder"), 10)),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToInt(PrisonEnchants.KEY_FINDER.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 100 Level(s) Of Key Finder", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "keyFinder") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.KEY_FINDER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "keyFinder"), 100)),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToInt(PrisonEnchants.KEY_FINDER.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 1,000 Level(s) Of Key Finder", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "keyFinder") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.KEY_FINDER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "keyFinder"), 1000)),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToInt(PrisonEnchants.KEY_FINDER.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 10,000 Level(s) Of Key Finder", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "keyFinder") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.KEY_FINDER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "keyFinder"), 10000)),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToInt(PrisonEnchants.KEY_FINDER.MAX_LEVEL)));
+            }
+            @Override
+            public void item2Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.KEY_FINDER.tryToBuyLevels(player, pickaxe, 1)) open(player);
+            }
+            @Override
+            public void item3Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.KEY_FINDER.tryToBuyLevels(player, pickaxe, 10)) open(player);
+            }
+            @Override
+            public void item4Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.KEY_FINDER.tryToBuyLevels(player, pickaxe, 100)) open(player);
+            }
+            @Override
+            public void item5Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.KEY_FINDER.tryToBuyLevels(player, pickaxe, 1000)) open(player);
+            }
+            @Override
+            public void item6Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.KEY_FINDER.tryToBuyLevels(player, pickaxe, 10000)) open(player);
+            }
+        };
+        guiPage.identifier = "enchantsKeyFinder";
+        guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dUpgrade Key Finder");
+        guiPage.onCloseGoToMenu = "enchantsMain";
+        guiPage.register();
+    }
+    //xp menu
+    public static void xp() {
+        GUIPage guiPage = new GUIPage() {
+            @Override
+            public void onOpen(Player player) {
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                PlayerData playerData = new PlayerData(player);
+                menuItems = new ArrayList<>();
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 1 Level(s) Of XP Finder", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "xpFinder") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.XP_FINDER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "xpFinder"), 1)),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToInt(PrisonEnchants.XP_FINDER.MAX_LEVEL)));
+            }
+            @Override
+            public void item4Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.XP_FINDER.tryToBuyLevels(player, pickaxe, 1)) open(player);
+                EnchantEffects.giveEffect(player, player.getInventory().getItemInMainHand());
+            }
+        };
+        guiPage.identifier = "enchantsXpFinder";
+        guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dUpgrade XP Finder");
         guiPage.onCloseGoToMenu = "enchantsMain";
         guiPage.register();
     }

@@ -4,6 +4,7 @@ import me.staticstudios.prisons.customItems.CustomItems;
 import me.staticstudios.prisons.customItems.Vouchers;
 import me.staticstudios.prisons.data.dataHandling.DataWriter;
 import me.staticstudios.prisons.enchants.CustomEnchants;
+import me.staticstudios.prisons.events.EventManager;
 import me.staticstudios.prisons.leaderboards.BlocksMinedTop;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
@@ -19,9 +20,7 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
-        ItemStack i = Utils.createNewPickaxe();
-        CustomEnchants.addEnchantLevel(i, "doubleWammy", 50000);
-        player.getInventory().addItem(i);
+        EventManager.runNewEvent();
         return false;
     }
 }
