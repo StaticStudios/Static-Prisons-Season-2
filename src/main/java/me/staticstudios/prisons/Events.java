@@ -8,6 +8,7 @@ import me.staticstudios.prisons.discord.DiscordAddRoles;
 import me.staticstudios.prisons.discord.DiscordBot;
 import me.staticstudios.prisons.discord.LinkHandler;
 import me.staticstudios.prisons.enchants.EnchantEffects;
+import me.staticstudios.prisons.enchants.PrisonEnchants;
 import me.staticstudios.prisons.events.EventManager;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.misc.Warps;
@@ -158,7 +159,8 @@ public class Events implements Listener {
         if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if (Utils.checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) {
                 if (new PlayerData(player).getIsMobile()) return;
-                GUI.getGUIPage("enchantsMain").args = player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "pickaxeUUID"), PersistentDataType.STRING);
+                String id = player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "pickaxeUUID"), PersistentDataType.STRING);
+                PrisonEnchants.playerUUIDToPickaxeID.put(player.getUniqueId(), id);
                 GUI.getGUIPage("enchantsMain").open(player);
                 e.setCancelled(true);
                 return;

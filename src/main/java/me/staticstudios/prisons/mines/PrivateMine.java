@@ -85,6 +85,7 @@ public class PrivateMine extends BaseMine {
             return;
         }
         player.teleport(getWhereToTpPlayerOnRefill());
+        player.setAllowFlight(true);
    }
 
 

@@ -52,7 +52,8 @@ public class EnchantsMenus {
             public void itemClicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 ItemStack item = e.getCurrentItem();
-                GUI.getGUIPage("enchantsMain").args = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "pickaxeUUID"), PersistentDataType.STRING);
+                String id = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "pickaxeUUID"), PersistentDataType.STRING);
+                PrisonEnchants.playerUUIDToPickaxeID.put(player.getUniqueId(), id);
                 GUI.getGUIPage("enchantsMain").open(player);
             }
         };

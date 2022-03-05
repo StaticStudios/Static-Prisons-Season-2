@@ -35,6 +35,8 @@ commands:
     description: a
   sell:
     description: a
+    aliases:
+      - sellall
   rankup:
     description: a
   rankupmax:
@@ -123,6 +125,8 @@ commands:
       - warp
   store:
     description: a
+    aliases:
+      - buy
   fly:
     description: a
   crates:
