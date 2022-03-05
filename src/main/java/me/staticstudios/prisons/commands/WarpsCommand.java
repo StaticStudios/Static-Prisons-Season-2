@@ -154,7 +154,7 @@ public class WarpsCommand implements CommandExecutor {
                 } else player.sendMessage(notUnlocked);
             }
             case "z" -> {
-                if (playerData.getMineRank() <= 25) {
+                if (playerData.getMineRank() >= 25) {
                     Warps.warpToMine(player, 25);
                 } else player.sendMessage(notUnlocked);
             }

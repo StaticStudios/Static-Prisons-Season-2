@@ -38,7 +38,7 @@ public class Events implements Listener {
         Warps.warpToSpawn(player);
         //Check if they have joined before
         if (!new ServerData().checkIfPlayerHasJoinedBeforeByUUID(player.getUniqueId().toString())) {
-            Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " has joined the server for the first time! " + org.bukkit.ChatColor.GRAY + "(" + org.bukkit.ChatColor.AQUA + "#" + Utils.addCommasToInt(new ServerData().getPlayerUUIDsToNamesMap().size() + 1) + org.bukkit.ChatColor.GRAY + ")");
+            Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + Utils.addCommasToNumber(new ServerData().getPlayerUUIDsToNamesMap().size() + 1) + ")");
             Utils.addItemToPlayersInventoryAndDropExtra(player, Utils.createNewPickaxe());
             PlayerData playerData = new PlayerData(player);
             playerData.setPlayerRank("member");

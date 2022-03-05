@@ -1,7 +1,6 @@
 package me.staticstudios.prisons.data;
 
 import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.enchants.CustomEnchants;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -64,7 +63,7 @@ public final class PlayerBackpack implements Serializable {
         totalSellPrice = new BigDecimal(totalSellPrice).multiply(BigDecimal.valueOf(multiplier)).toBigInteger();
         new PlayerData(player).addMoney(totalSellPrice);
         if (sendChatMessage) {
-            player.sendMessage(ChatColor.GREEN + "(x" + multiplier + ") Sold " + Utils.addCommasToBigInteger(backpack.itemCount) + " blocks for: $" + Utils.addCommasToBigInteger(totalSellPrice));
+            player.sendMessage(ChatColor.GREEN + "(x" + multiplier + ") Sold " + Utils.addCommasToNumber(backpack.itemCount) + " blocks for: $" + Utils.addCommasToNumber(totalSellPrice));
         }
         backpack.isFull = false;
         backpack.itemCount = BigInteger.ZERO;

@@ -62,7 +62,7 @@ public class CustomChatMessage {
                 "&8[" + rankTag + "&8] ");
         String suffix = "";
         String playerName = ChatColor.of("#54f08a") + this.playerName;
-        if (playerData.getIsChatNicknameEnabled()) playerName = playerData.getChatNickname();
+        if (playerData.getIsChatNicknameEnabled()) playerName = ChatColor.translateAlternateColorCodes('?', playerData.getChatNickname());
         if (useNickName) playerName = playerNickName;
         if (this.prefix != null) prefix = this.prefix + " ";
         if (this.suffix != null) suffix = this.suffix + " ";

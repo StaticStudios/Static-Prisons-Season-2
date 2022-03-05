@@ -26,6 +26,7 @@ import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -90,6 +91,8 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("addpickaxexp").setExecutor(new AddPickaxeXPCommand());
             getCommand("addpickaxeblocksmined").setExecutor(new AddPickaxeBlocksMinedCommand());
             //--Normal Commands
+            getCommand("dailyrewards").setExecutor(new DailyRewardsCommand());
+            getCommand("enchant").setExecutor(new EnchantCommand());
             getCommand("reclaim").setExecutor(new ReclaimCommand());
             getCommand("dropitem").setExecutor(new DropItemCommand());
             getCommand("pay").setExecutor(new PayCommand());

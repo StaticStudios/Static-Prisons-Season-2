@@ -30,7 +30,8 @@ public class VoteParty {
                         case 5 -> reward = CustomItems.getStaticpCrateKey(1);
                     }
                     if (playerData.getIsNitroBoosting()) reward.setAmount(reward.getAmount() * 2);
-                    p.sendMessage(ChatColor.GREEN + "You have received " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + ChatColor.WHITE + " from the vote party! You won this because you have voted within the past 24 hours!");
+                    p.sendMessage(ChatColor.WHITE + "You have received " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + ChatColor.WHITE + " from the vote party! You won this because you have voted within the past 24 hours!");
+                    Utils.addItemToPlayersInventoryAndDropExtra(p, reward);
                 } else p.sendMessage(ChatColor.RED + "You missed out on winning rewards from the vote party because you have not voted in the past 24 hours! To make sure this doesn't happen again, type " + ChatColor.GREEN + "/vote");
             }
         }

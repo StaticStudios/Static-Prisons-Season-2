@@ -194,13 +194,13 @@ public class Utils {
     }
 
 
-    public static String addCommasToBigInteger(BigInteger value) {
+    public static String addCommasToNumber(BigInteger value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
-    public static String addCommasToInt(int value) {
+    public static String addCommasToNumber(int value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
-    public static String addCommasToLong(long value) {
+    public static String addCommasToNumber(long value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
     public static String prettyNum(BigInteger num) {

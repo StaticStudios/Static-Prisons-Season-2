@@ -3,7 +3,6 @@ package me.staticstudios.prisons.gui.menus;
 import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.auctionHouse.Auction;
 import me.staticstudios.prisons.auctionHouse.AuctionHouseManager;
-import me.staticstudios.prisons.data.PlayerBackpack;
 import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.data.serverData.ServerData;
 import me.staticstudios.prisons.gui.GUI;
@@ -18,9 +17,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.stringtemplate.v4.ST;
 
-import java.math.BigInteger;
 import java.util.*;
 
 public class AuctionHouseMenus {
@@ -71,13 +68,13 @@ public class AuctionHouseMenus {
                     open(player);
                     return;
                 }
-                if (playerData.getMoney().compareTo(auction.getPrice()) < 1) {
-                    player.sendMessage(ChatColor.RED + "You do not have enough money to buy this! This item costs: $" + Utils.addCommasToBigInteger(auction.getPrice()));
+                if (playerData.getMoney().compareTo(auction.getPrice()) < 0) {
+                    player.sendMessage(ChatColor.RED + "You do not have enough money to buy this! This item costs: $" + Utils.addCommasToNumber(auction.getPrice()));
                     open(player);
                     return;
                 }
-                if (Bukkit.getPlayer(auction.getOwnerUUID()) != null) Bukkit.getPlayer(auction.getOwnerUUID()).sendMessage(ChatColor.GREEN + player.getName() + " has just bought one of your auctions! They bought: " + ChatColor.WHITE + Utils.getPrettyItemName(auction.getItem()) + ChatColor.GREEN + " for $" + Utils.addCommasToBigInteger(auction.getPrice()));
-                player.sendMessage(ChatColor.AQUA + "You have just purchased an auction! You purchased " + ChatColor.WHITE + Utils.getPrettyItemName(auction.getItem()) + ChatColor.AQUA + " for $" + Utils.addCommasToBigInteger(auction.getPrice()));
+                if (Bukkit.getPlayer(auction.getOwnerUUID()) != null) Bukkit.getPlayer(auction.getOwnerUUID()).sendMessage(ChatColor.GREEN + player.getName() + " has just bought one of your auctions! They bought: " + ChatColor.WHITE + Utils.getPrettyItemName(auction.getItem()) + ChatColor.GREEN + " for $" + Utils.addCommasToNumber(auction.getPrice()));
+                player.sendMessage(ChatColor.AQUA + "You have just purchased an auction! You purchased " + ChatColor.WHITE + Utils.getPrettyItemName(auction.getItem()) + ChatColor.AQUA + " for $" + Utils.addCommasToNumber(auction.getPrice()));
                 playerData.removeMoney(auction.getPrice());
                 new PlayerData(auction.getOwnerUUID()).addMoney(auction.getPrice());
                 Utils.addItemToPlayersInventoryAndDropExtra(player, auction.getItem());

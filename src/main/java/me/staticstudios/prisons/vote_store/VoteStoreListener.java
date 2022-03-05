@@ -119,6 +119,30 @@ public class VoteStoreListener implements CommandExecutor {
                             playerData.setPlayerRank("staticp");
                         } else Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.STATICP_RANK.item);
                     }
+                    case "warriorToMaster" -> {
+                        whatWasPurchased = "Master Rank";
+                        if (playerData.getPlayerRank().equals("warrior")) {
+                            playerData.setPlayerRank("master");
+                        }
+                    }
+                    case "masterToMythic" -> {
+                        whatWasPurchased = "Mythic Rank";
+                        if (playerData.getPlayerRank().equals("master")) {
+                            playerData.setPlayerRank("mythic");
+                        }
+                    }
+                    case "mythicToStatic" -> {
+                        whatWasPurchased = "Static Rank";
+                        if (playerData.getPlayerRank().equals("mythic")) {
+                            playerData.setPlayerRank("static");
+                        }
+                    }
+                    case "staticToStaticp" -> {
+                        whatWasPurchased = "Static+ Rank";
+                        if (playerData.getPlayerRank().equals("static")) {
+                            playerData.setPlayerRank("staticp");
+                        }
+                    }
                     case "legendaryKey" -> {
                         whatWasPurchased = "1x Legendary Crate Key";
                         Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getLegendaryCrateKey(1));

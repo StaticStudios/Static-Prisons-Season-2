@@ -73,8 +73,8 @@ public class CustomEnchants {
         List<String> loreAdded = new ArrayList<>();
         for (String enchant : enchantIDsToNames.keySet()) {
             if (getEnchantLevel(item, enchant) > 0) {
-                itemLore.add(enchantIDsToNames.get(enchant) + ": " + Utils.addCommasToLong(getEnchantLevel(item, enchant)));
-                loreAdded.add(enchantIDsToNames.get(enchant) + ": " + Utils.addCommasToLong(getEnchantLevel(item, enchant)));
+                itemLore.add(enchantIDsToNames.get(enchant) + ": " + Utils.addCommasToNumber(getEnchantLevel(item, enchant)));
+                loreAdded.add(enchantIDsToNames.get(enchant) + ": " + Utils.addCommasToNumber(getEnchantLevel(item, enchant)));
             }
         }
 

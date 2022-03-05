@@ -589,4 +589,12 @@ public class PlayerData extends DataSet {
         newData._long = value;
         return setData("lastVotedAt", newData);
     }
+    public long getClaimedDailyRewardsAt() {
+        return getData("claimedDailyRewardsAt")._long;
+    }
+    public Data setClaimedDailyRewardsAt(long value) {
+        Data newData = new Data();
+        newData._long = value;
+        return setData("claimedDailyRewardsAt", newData);
+    }
 }

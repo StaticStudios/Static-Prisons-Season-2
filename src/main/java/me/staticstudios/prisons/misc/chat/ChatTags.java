@@ -42,6 +42,7 @@ public class ChatTags {
     public static final String LAG = ChatColor.translateAlternateColorCodes('&', "&8[&aI'M LAGGIN&8] ");
     public static final String BOZO = ChatColor.translateAlternateColorCodes('&', "&8[&fBOZO&8] ");
     public static final String L_RATIO = ChatColor.translateAlternateColorCodes('&', "&8[&fL + ratio&8] ");
+    public static final String THICCC = ChatColor.translateAlternateColorCodes('&', "&8[&x&0&0&b&0&f&bT&x&0&0&b&f&e&6h&x&0&0&c&f&d&1i&x&0&0&d&e&b&dc&x&0&0&e&e&a&8c&x&0&0&f&d&9&3c&8] ");
     static {
         chatTags.put("weewoo", WEEWOO);
         chatTags.put("mr.yuh", MR_YUH);
@@ -78,6 +79,7 @@ public class ChatTags {
         chatTags.put("lag", LAG);
         chatTags.put("bozo", BOZO);
         chatTags.put("l+ratio", L_RATIO);
+        chatTags.put("thiccc", THICCC);
     }
 
     public static String getChatTagFromID(String id) {

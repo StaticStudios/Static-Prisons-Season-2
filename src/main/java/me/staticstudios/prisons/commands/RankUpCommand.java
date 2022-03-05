@@ -8,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class RankUpCommand implements CommandExecutor {
     @Override
@@ -25,7 +24,7 @@ public class RankUpCommand implements CommandExecutor {
             player.sendMessage(ChatColor.GREEN + "You have just ranked up! " + ChatColor.AQUA + Utils.getMineRankLetterFromMineRank(playerData.getMineRank()) + " -> " + Utils.getMineRankLetterFromMineRank(playerData.getMineRank() + 1));
             playerData.addMineRank(1);
         } else {
-            player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + Utils.addCommasToBigInteger(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)));
+            player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + Utils.addCommasToNumber(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)));
         }
         return false;
     }

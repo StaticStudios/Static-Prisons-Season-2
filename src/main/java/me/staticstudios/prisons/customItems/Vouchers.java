@@ -2,9 +2,7 @@ package me.staticstudios.prisons.customItems;
 
 import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.leaderboards.TokensTop;
 import me.staticstudios.prisons.utils.Utils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -16,10 +14,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.math.BigInteger;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Vouchers {
     public static final Voucher AUTO_SELL = new Voucher("autoSell", Material.PAPER,ChatColor.YELLOW + "" + ChatColor.BOLD + "AUTO SELL VOUCHER", ChatColor.GREEN + "Claiming this will give you the ability to auto sell!") {
@@ -373,7 +369,7 @@ public class Vouchers {
             BigInteger value = new BigInteger(player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "noteValue"), PersistentDataType.STRING));
             System.out.println("aadfda");
             new PlayerData(player).addMoney(value.multiply(BigInteger.valueOf(count)));
-            player.sendMessage(ChatColor.GREEN + "You have just claimed a money note worth $" + Utils.addCommasToBigInteger(value.multiply(BigInteger.valueOf(count))) + "!");
+            player.sendMessage(ChatColor.GREEN + "You have just claimed a money note worth $" + Utils.addCommasToNumber(value.multiply(BigInteger.valueOf(count))) + "!");
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - count);
         }
     };
@@ -381,7 +377,7 @@ public class Vouchers {
         ItemStack voucher = MONEY_NOTE.item;
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.AQUA + "Created By: " + ChatColor.WHITE + creatorName);
-        lore.add(ChatColor.AQUA + "Redeem Amount: " + ChatColor.WHITE + "$" + Utils.addCommasToBigInteger(value));
+        lore.add(ChatColor.AQUA + "Redeem Amount: " + ChatColor.WHITE + "$" + Utils.addCommasToNumber(value));
         lore.add("");
         lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Right click to claim!");
         lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Shift-right click to claim a full stack!");
@@ -399,7 +395,7 @@ public class Vouchers {
             if (player.isSneaking()) count = player.getInventory().getItemInMainHand().getAmount();
             BigInteger value = new BigInteger(player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "noteValue"), PersistentDataType.STRING));
             new PlayerData(player).addTokens(value.multiply(BigInteger.valueOf(count)));
-            player.sendMessage(ChatColor.GREEN + "You have just claimed a token note worth " + Utils.addCommasToBigInteger(value.multiply(BigInteger.valueOf(count))) + " tokens!");
+            player.sendMessage(ChatColor.GREEN + "You have just claimed a token note worth " + Utils.addCommasToNumber(value.multiply(BigInteger.valueOf(count))) + " tokens!");
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - count);
         }
     };
@@ -407,7 +403,7 @@ public class Vouchers {
         ItemStack voucher = TOKEN_NOTE.item;
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.AQUA + "Created By: " + ChatColor.WHITE + creatorName);
-        lore.add(ChatColor.AQUA + "Redeem Amount: " + ChatColor.WHITE + Utils.addCommasToBigInteger(value));
+        lore.add(ChatColor.AQUA + "Redeem Amount: " + ChatColor.WHITE + Utils.addCommasToNumber(value));
         lore.add("");
         lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Right click to claim!");
         lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Shift-right click to claim a full stack!");

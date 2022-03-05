@@ -2,6 +2,7 @@ package me.staticstudios.prisons.discord;
 
 import me.staticstudios.prisons.Main;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import org.bukkit.Bukkit;
 
 public class DiscordAddRoles {
@@ -33,22 +34,34 @@ public class DiscordAddRoles {
         removeRole(memberID, LINKED_MC_ACCOUNT);
     }
     public static void removeRole(String memberID, String roleID) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> DiscordBot.jda.getGuildById("587372348294955009").retrieveMemberById(memberID).queue(member -> {
-            for (Role role : member.getRoles()) {
-                if (role.getId().equals(roleID)) {
-                    DiscordBot.jda.getGuildById("587372348294955009").removeRoleFromMember(memberID, DiscordBot.jda.getGuildById("587372348294955009").getRoleById(roleID)).queue();
-                }
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+            try {
+                DiscordBot.jda.getGuildById("587372348294955009").retrieveMemberById(memberID).queue(member -> {
+                    for (Role role : member.getRoles()) {
+                        if (role.getId().equals(roleID)) {
+                            DiscordBot.jda.getGuildById("587372348294955009").removeRoleFromMember(memberID, DiscordBot.jda.getGuildById("587372348294955009").getRoleById(roleID)).queue();
+                        }
+                    }
+                });
+            } catch (ErrorResponseException e) {
+                LinkHandler.unlinkFromDiscordID(memberID);
             }
-        }));
+        });
     }
     public static void addRole(String memberID, String roleID) {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> DiscordBot.jda.getGuildById("587372348294955009").retrieveMemberById(memberID).queue(member -> {
-            for (Role role : member.getRoles()) {
-                if (role.getId().equals(roleID)) {
-                    return;
-                }
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+            try {
+                DiscordBot.jda.getGuildById("587372348294955009").retrieveMemberById(memberID).queue(member -> {
+                    for (Role role : member.getRoles()) {
+                        if (role.getId().equals(roleID)) {
+                            return;
+                        }
+                    }
+                    DiscordBot.jda.getGuildById("587372348294955009").addRoleToMember(memberID, DiscordBot.jda.getGuildById("587372348294955009").getRoleById(roleID)).queue();
+                });
+            } catch (ErrorResponseException e) {
+                LinkHandler.unlinkFromDiscordID(memberID);
             }
-            DiscordBot.jda.getGuildById("587372348294955009").addRoleToMember(memberID, DiscordBot.jda.getGuildById("587372348294955009").getRoleById(roleID)).queue();
-        }));
+        });
     }
 }

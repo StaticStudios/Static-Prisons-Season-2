@@ -65,7 +65,7 @@ public class PrisonEnchants {
                 softMaxLevel = MAX_LEVEL + 10001;
             }
             if (CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID) + levelsToBuy > softMaxLevel) {
-                player.sendMessage(ChatColor.RED + "You cannot upgrade this enchant past level " + Utils.addCommasToInt(softMaxLevel) + "! To be able to upgrade it further, your pickaxe level must be at least " + levelRequired);
+                player.sendMessage(ChatColor.RED + "You cannot upgrade this enchant past level " + Utils.addCommasToNumber(softMaxLevel) + "! To be able to upgrade it further, your pickaxe level must be at least " + levelRequired);
                 return false;
             }
             BigInteger cost = calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID), levelsToBuy);
@@ -134,7 +134,7 @@ public class PrisonEnchants {
                 softMaxLevel = 10;
             }
             if (CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID) + levelsToBuy > softMaxLevel) {
-                player.sendMessage(ChatColor.RED + "You cannot upgrade this enchant past level " + Utils.addCommasToInt(softMaxLevel) + "! To be able to upgrade it further, your pickaxe level must be at least " + levelRequired);
+                player.sendMessage(ChatColor.RED + "You cannot upgrade this enchant past level " + Utils.addCommasToNumber(softMaxLevel) + "! To be able to upgrade it further, your pickaxe level must be at least " + levelRequired);
                 return false;
             }
             BigInteger cost = calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID), levelsToBuy);
@@ -199,7 +199,7 @@ public class PrisonEnchants {
                 softMaxLevel = MAX_LEVEL + 10001;
             }
             if (CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID) + levelsToBuy > softMaxLevel) {
-                player.sendMessage(ChatColor.RED + "You cannot upgrade this enchant past level " + Utils.addCommasToInt(softMaxLevel) + "! To be able to upgrade it further, your pickaxe level must be at least " + levelRequired);
+                player.sendMessage(ChatColor.RED + "You cannot upgrade this enchant past level " + Utils.addCommasToNumber(softMaxLevel) + "! To be able to upgrade it further, your pickaxe level must be at least " + levelRequired);
                 return false;
             }
             BigInteger cost = calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID), levelsToBuy);
@@ -248,7 +248,7 @@ public class PrisonEnchants {
                 softMaxLevel = 5;
             }
             if (CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID) + levelsToBuy > softMaxLevel) {
-                player.sendMessage(ChatColor.RED + "You cannot upgrade this enchant past level " + Utils.addCommasToInt(softMaxLevel) + "! To be able to upgrade it further, your pickaxe level must be at least " + levelRequired);
+                player.sendMessage(ChatColor.RED + "You cannot upgrade this enchant past level " + Utils.addCommasToNumber(softMaxLevel) + "! To be able to upgrade it further, your pickaxe level must be at least " + levelRequired);
                 return false;
             }
             BigInteger cost = calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID), levelsToBuy);

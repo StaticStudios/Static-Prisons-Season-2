@@ -40,7 +40,7 @@ public class RankUpMenus {
                 for (int i = 0; i < 26; i++) {
                     if (playerData.getMineRank() >= i) {
                         menuItems.add(GUI.createMenuItem(identifier, rankUpMaterials[i / 2], ChatColor.GREEN + "" + ChatColor.BOLD + "Mine " + Utils.getMineRankLetterFromMineRank(i), ChatColor.AQUA + "You have this mine unlocked!", "", ChatColor.GREEN + "Click to warp!"));
-                    } else menuItems.add(GUI.createMenuItem(identifier, Material.RED_STAINED_GLASS, ChatColor.RED + "" + ChatColor.BOLD + "Mine " + Utils.getMineRankLetterFromMineRank(i), ChatColor.RED + "You do not have this mine unlocked!", ChatColor.GREEN + "" + ChatColor.BOLD + "Costs: " + ChatColor.RESET + ChatColor.GREEN + "$" + Utils.addCommasToBigInteger(RankUp.calculatePriceToRankUpTo(playerData, i)), "", ChatColor.GREEN + "Click to unlock!"));
+                    } else menuItems.add(GUI.createMenuItem(identifier, Material.RED_STAINED_GLASS, ChatColor.RED + "" + ChatColor.BOLD + "Mine " + Utils.getMineRankLetterFromMineRank(i), ChatColor.RED + "You do not have this mine unlocked!", ChatColor.GREEN + "" + ChatColor.BOLD + "Costs: " + ChatColor.RESET + ChatColor.GREEN + "$" + Utils.addCommasToNumber(RankUp.calculatePriceToRankUpTo(playerData, i)), "", ChatColor.GREEN + "Click to unlock!"));
                 }
 
             }
@@ -59,7 +59,7 @@ public class RankUpMenus {
                     open(player);
                     return;
                 }
-                player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + Utils.addCommasToBigInteger(RankUp.calculatePriceToRankUpTo(playerData, e.getSlot())));
+                player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + Utils.addCommasToNumber(RankUp.calculatePriceToRankUpTo(playerData, e.getSlot())));
             }
         };
         guiPage.identifier = "rankUp";

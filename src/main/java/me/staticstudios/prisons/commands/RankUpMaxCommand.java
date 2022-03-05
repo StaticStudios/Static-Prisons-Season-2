@@ -8,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class RankUpMaxCommand implements CommandExecutor {
     @Override
@@ -21,7 +20,7 @@ public class RankUpMaxCommand implements CommandExecutor {
             return false;
         }
         if (playerData.getMoney().compareTo(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) < 0) {
-            player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + Utils.addCommasToBigInteger(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)));
+            player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + Utils.addCommasToNumber(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)));
             return false;
         }
         while (playerData.getMineRank() < 25 && playerData.getMoney().compareTo(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) > -1) {

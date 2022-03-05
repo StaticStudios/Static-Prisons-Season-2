@@ -58,9 +58,9 @@ public class PayCommand implements CommandExecutor {
                     playerData.removeMoney(amount);
                     whoToPay.addMoney(amount);
                     if (p != null) {
-                        p.sendMessage(ChatColor.GREEN + "You have just received $" + Utils.addCommasToBigInteger(amount) + " from " + player.getName());
+                        p.sendMessage(ChatColor.GREEN + "You have just received $" + Utils.addCommasToNumber(amount) + " from " + player.getName());
                     }
-                    player.sendMessage(ChatColor.GREEN + "You have just sent $" + Utils.addCommasToBigInteger(amount) + " to " + whoToPayName);
+                    player.sendMessage(ChatColor.GREEN + "You have just sent $" + Utils.addCommasToNumber(amount) + " to " + whoToPayName);
                 } else player.sendMessage(ChatColor.RED + "You do not have enough money for this!");
             }
             case "tokens" -> {
@@ -68,9 +68,9 @@ public class PayCommand implements CommandExecutor {
                     playerData.removeTokens(amount);
                     whoToPay.addTokens(amount);
                     if (p != null) {
-                        p.sendMessage(ChatColor.GREEN + "You have just received " + Utils.addCommasToBigInteger(amount) + " tokens from " + player.getName());
+                        p.sendMessage(ChatColor.GREEN + "You have just received " + Utils.addCommasToNumber(amount) + " tokens from " + player.getName());
                     }
-                    player.sendMessage(ChatColor.GREEN + "You have just sent " + Utils.addCommasToBigInteger(amount) + " tokens to " + whoToPayName);
+                    player.sendMessage(ChatColor.GREEN + "You have just sent " + Utils.addCommasToNumber(amount) + " tokens to " + whoToPayName);
                 } else player.sendMessage(ChatColor.RED + "You do not have enough money for this!");
             }
             default -> player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/pay <who> <money/tokens> <amount>"));

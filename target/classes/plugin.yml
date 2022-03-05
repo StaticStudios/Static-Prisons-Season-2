@@ -178,3 +178,10 @@ commands:
   addpickaxeblocksmined:
     description: a
     permission: static.staff.admin
+  enchant:
+    description: a
+    aliases:
+      - enchants
+      - customenchants
+  dailyrewards:
+    description: a

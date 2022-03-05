@@ -43,16 +43,16 @@ public class Warps {
     public static final Location PRESTIGE_MINE_3 = new Location(Bukkit.getWorld("mines"), -48.5 + BaseMine.distanceBetweenMines * 28, 102, 30.5, -135, 0);
     public static final Location PRESTIGE_MINE_4 = new Location(Bukkit.getWorld("mines"), -48.5 + BaseMine.distanceBetweenMines * 29, 102, 30.5, -135, 0);
     public static final Location PRESTIGE_MINE_5 = new Location(Bukkit.getWorld("mines"), -48.5 + BaseMine.distanceBetweenMines * 30, 102, 30.5, -135, 0);
-    public static final Location PRESTIGE_MINE_6 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 31, 102, -25.5, -90, 0);
-    public static final Location PRESTIGE_MINE_7 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 32, 102, -25.5, -90, 0);
-    public static final Location PRESTIGE_MINE_8 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 33, 102, -25.5, -90, 0);
-    public static final Location PRESTIGE_MINE_9 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 34, 102, -25.5, -90, 0);
-    public static final Location PRESTIGE_MINE_10 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 35, 102, -25.5, -90, 0);
-    public static final Location PRESTIGE_MINE_11 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 36, 102, -25.5, -90, 0);
-    public static final Location PRESTIGE_MINE_12 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 37, 102, -25.5, -90, 0);
-    public static final Location PRESTIGE_MINE_13 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 38, 102, -25.5, -90, 0);
-    public static final Location PRESTIGE_MINE_14 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 39, 102, -25.5, -90, 0);
-    public static final Location PRESTIGE_MINE_15 = new Location(Bukkit.getWorld("mines"), -61.5 + BaseMine.distanceBetweenMines * 40, 102, -25.5, -90, 0);
+    public static final Location PRESTIGE_MINE_6 = new Location(Bukkit.getWorld("mines"), 54.5 + BaseMine.distanceBetweenMines * 31, 104, -36.5, 45, 0);
+    public static final Location PRESTIGE_MINE_7 = new Location(Bukkit.getWorld("mines"), 54.5 + BaseMine.distanceBetweenMines * 32, 104, -36.5, 45, 0);
+    public static final Location PRESTIGE_MINE_8 = new Location(Bukkit.getWorld("mines"), 54.5 + BaseMine.distanceBetweenMines * 33, 104, -36.5, 45, 0);
+    public static final Location PRESTIGE_MINE_9 = new Location(Bukkit.getWorld("mines"), 54.5 + BaseMine.distanceBetweenMines * 34, 104, -36.5, 45, 0);
+    public static final Location PRESTIGE_MINE_10 = new Location(Bukkit.getWorld("mines"), 54.5 + BaseMine.distanceBetweenMines * 35, 104, -36.5, 45, 0);
+    public static final Location PRESTIGE_MINE_11 = new Location(Bukkit.getWorld("mines"), 63.5 + BaseMine.distanceBetweenMines * 36, 103, -21.5, 90, 0);
+    public static final Location PRESTIGE_MINE_12 = new Location(Bukkit.getWorld("mines"), 63.5 + BaseMine.distanceBetweenMines * 37, 103, -21.5, 90, 0);
+    public static final Location PRESTIGE_MINE_13 = new Location(Bukkit.getWorld("mines"), 63.5 + BaseMine.distanceBetweenMines * 38, 103, -21.5, 90, 0);
+    public static final Location PRESTIGE_MINE_14 = new Location(Bukkit.getWorld("mines"), 63.5 + BaseMine.distanceBetweenMines * 39, 103, -21.5, 90, 0);
+    public static final Location PRESTIGE_MINE_15 = new Location(Bukkit.getWorld("mines"), 41.5 + BaseMine.distanceBetweenMines * 40, 103, 87.5, 135, 0);
 
 
     public static final Location RANK_MINE_1 = new Location(Bukkit.getWorld("mines"), -84.5 + BaseMine.distanceBetweenMines * 41, 102, -70.5, -45, 0);

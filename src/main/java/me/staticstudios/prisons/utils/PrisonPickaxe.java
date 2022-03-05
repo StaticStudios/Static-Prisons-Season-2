@@ -1,7 +1,6 @@
 package me.staticstudios.prisons.utils;
 
 import me.staticstudios.prisons.Main;
-import me.staticstudios.prisons.enchants.CustomEnchants;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -44,16 +43,16 @@ public class PrisonPickaxe {
             for (int i = 0; i < lore.size(); i++) {
                 String line = lore.get(i);
                 if (ChatColor.stripColor(line).startsWith("Level:")) {
-                    lore.set(i, ChatColor.GREEN + "Level: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + levelsToAdd));
+                    lore.set(i, ChatColor.GREEN + "Level: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + levelsToAdd));
                     updated = true;
                     break;
                 }
             }
             if (!updated) {
-                lore.add(ChatColor.GREEN + "Level: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + levelsToAdd));
+                lore.add(ChatColor.GREEN + "Level: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + levelsToAdd));
             }
         } else {
-            lore.add(ChatColor.GREEN + "Level: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + levelsToAdd));
+            lore.add(ChatColor.GREEN + "Level: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + levelsToAdd));
         }
         meta.setLore(lore);
         pickaxe.setItemMeta(meta);
@@ -111,16 +110,16 @@ public class PrisonPickaxe {
             for (int i = 0; i < lore.size(); i++) {
                 String line = lore.get(i);
                 if (ChatColor.stripColor(line).startsWith("Blocks Broken:")) {
-                    lore.set(i, ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + amountToAdd));
+                    lore.set(i, ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
                     updated = true;
                     break;
                 }
             }
             if (!updated) {
-                lore.add(ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + amountToAdd));
+                lore.add(ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
             }
         } else {
-            lore.add(ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + amountToAdd));
+            lore.add(ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
         }
         meta.setLore(lore);
         pickaxe.setItemMeta(meta);
@@ -140,16 +139,16 @@ public class PrisonPickaxe {
             for (int i = 0; i < lore.size(); i++) {
                 String line = lore.get(i);
                 if (ChatColor.stripColor(line).startsWith("Blocks Mined:")) {
-                    lore.set(i, ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + amountToAdd));
+                    lore.set(i, ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
                     updated = true;
                     break;
                 }
             }
             if (!updated) {
-                lore.add(ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + amountToAdd));
+                lore.add(ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
             }
         } else {
-            lore.add(ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToLong(currentAmount + amountToAdd));
+            lore.add(ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
         }
         meta.setLore(lore);
         pickaxe.setItemMeta(meta);

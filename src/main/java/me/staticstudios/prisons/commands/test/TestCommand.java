@@ -15,12 +15,25 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigInteger;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
-        EventManager.runNewEvent();
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            list.add(Utils.randomBigInt(BigInteger.ZERO, new BigInteger("1000000000000000")).toString());
+        }
+        System.out.println(Instant.now().toEpochMilli());
+        for (String str : list) {
+            new BigInteger(str);
+        }
+        System.out.println(Instant.now().toEpochMilli());
         return false;
     }
 }

@@ -7,7 +7,6 @@ import me.staticstudios.prisons.discord.DiscordCommandHandler;
 import me.staticstudios.prisons.discord.LinkHandler;
 import me.staticstudios.prisons.utils.Utils;
 
-import java.math.BigInteger;
 import java.util.concurrent.TimeUnit;
 
 public class DiscordGetStatsCommand extends BaseDiscordCommand {
@@ -50,11 +49,11 @@ public class DiscordGetStatsCommand extends BaseDiscordCommand {
             }
             msg.append("Rank: ").append(rank).append("\n");
             msg.append("Mine Rank: ").append(Utils.getMineRankLetterFromMineRank(playerData.getMineRank())).append("\n");
-            msg.append("Current Prestige: ").append(Utils.addCommasToBigInteger(playerData.getPrestige())).append("\n");
-            msg.append("Current Balance: $").append(Utils.addCommasToBigInteger(playerData.getMoney())).append(" ($").append(Utils.prettyNum(playerData.getMoney())).append(")\n");
-            msg.append("Current Token Balance: ").append(Utils.addCommasToBigInteger(playerData.getTokens())).append(" (").append(Utils.prettyNum(playerData.getTokens())).append(")\n");
-            msg.append("Blocks Mined: ").append(Utils.addCommasToBigInteger(playerData.getBlocksMined())).append(" (").append(Utils.prettyNum(playerData.getBlocksMined())).append(")\n");
-            msg.append("Raw Blocks Mined: ").append(Utils.addCommasToBigInteger(playerData.getRawBlocksMined())).append(" (").append(Utils.prettyNum(playerData.getRawBlocksMined())).append(")\n");
+            msg.append("Current Prestige: ").append(Utils.addCommasToNumber(playerData.getPrestige())).append("\n");
+            msg.append("Current Balance: $").append(Utils.addCommasToNumber(playerData.getMoney())).append(" ($").append(Utils.prettyNum(playerData.getMoney())).append(")\n");
+            msg.append("Current Token Balance: ").append(Utils.addCommasToNumber(playerData.getTokens())).append(" (").append(Utils.prettyNum(playerData.getTokens())).append(")\n");
+            msg.append("Blocks Mined: ").append(Utils.addCommasToNumber(playerData.getBlocksMined())).append(" (").append(Utils.prettyNum(playerData.getBlocksMined())).append(")\n");
+            msg.append("Raw Blocks Mined: ").append(Utils.addCommasToNumber(playerData.getRawBlocksMined())).append(" (").append(Utils.prettyNum(playerData.getRawBlocksMined())).append(")\n");
             long duration = playerData.getTimePlayed().longValue() * 1000;
             long diffInDays = TimeUnit.MILLISECONDS.toDays(duration);
             long diffInHours = TimeUnit.MILLISECONDS.toHours(duration) % 24;
