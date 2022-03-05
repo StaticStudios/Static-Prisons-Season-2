@@ -32,27 +32,6 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
-        System.out.println(Instant.now().toEpochMilli());
-        int yLevel = 98;
-        int howDeepToGo = 2;
-        int totalBlocksBroken = 0;
-        World world = Bukkit.getWorld("mines");
-        BaseMine mine = MineManager.allMines.get(MineManager.getMineIDFromLocation(player.getLocation()));
-        Map<Material, BigInteger> blocksBroken = new HashMap<>();
-        for (int y = Math.max(1, yLevel - howDeepToGo + 1); y <= yLevel; y++) {
-            for (int x = (int) mine.minLocation.getX(); x <= mine.maxLocation.getX(); x++) {
-                for (int z = (int) mine.minLocation.getZ(); z <= mine.maxLocation.getZ(); z++) {
-                    Material mat = new Location(world, x, y, z).getBlock().getType();
-                    if (!mat.equals(Material.AIR)) {
-                        totalBlocksBroken++;
-                        if (!blocksBroken.containsKey(mat)) {
-                            blocksBroken.put(mat, BigInteger.ONE);
-                        } else blocksBroken.put(mat, blocksBroken.get(mat).add(BigInteger.ONE));
-                    }
-                }
-            }
-        }
-        System.out.println(Instant.now().toEpochMilli());
         return false;
     }
 }
