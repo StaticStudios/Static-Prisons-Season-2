@@ -12,11 +12,6 @@ public class DataSets {
         } else dataSets.put(type, new DataSet(type, containerKey));
         return dataSets.get(type);
     }
-
-    public static DataSet putDataSet(DataTypes type, DataSet newDataSet) {
-        dataSets.put(type, newDataSet);
-        return getDataSet(type, newDataSet.containerKey);
-    }
 }
 
 

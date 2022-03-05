@@ -30,6 +30,8 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.time.Instant;
+
 public class Events implements Listener {
     @EventHandler
     void playerJoin(PlayerJoinEvent e) {
@@ -52,7 +54,6 @@ public class Events implements Listener {
         TabList.onJoin(player);
         //Set up the player's scoreboard
         CustomScoreboard.updateSingleScoreboard(player);
-
         //Update lukperms for player ranks
         Utils.updateLuckPermsForPlayerRanks(player);
 
@@ -66,8 +67,10 @@ public class Events implements Listener {
         playerData.setIsNitroBoosting(false);
         if (LinkHandler.checkIfLinkedFromUUID(player.getUniqueId().toString())) {
             try {
-                User user = DiscordBot.jda.retrieveUserById(LinkHandler.getLinkedDiscordIDFromUUID(player.getUniqueId().toString())).complete();
-                playerData.setDiscordName(user.getName() + "#" + user.getDiscriminator());
+                Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+                    User user = DiscordBot.jda.retrieveUserById(LinkHandler.getLinkedDiscordIDFromUUID(player.getUniqueId().toString())).complete();
+                    playerData.setDiscordName(user.getName() + "#" + user.getDiscriminator());
+                });
             } catch (Exception ignore) {
                 LinkHandler.unlinkFromUUID(player.getUniqueId().toString());
             }
@@ -75,7 +78,6 @@ public class Events implements Listener {
                 DiscordAddRoles.giveRolesFromUUID(player.getUniqueId().toString());
                 Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
                     DiscordBot.jda.getGuildById("587372348294955009").retrieveMemberById(LinkHandler.getLinkedDiscordIDFromUUID(player.getUniqueId().toString())).queue(member -> {
-
                         for (Role role : member.getRoles()) {
                             if (role.getId().equals("629662637625442305")) {
                                 playerData.setIsNitroBoosting(true);
@@ -93,6 +95,7 @@ public class Events implements Listener {
                     playerData.setIsAutoSellEnabled(false);
             }, 20 * 20);
         }
+
     }
     @EventHandler
     void playerQuit(PlayerQuitEvent e) {

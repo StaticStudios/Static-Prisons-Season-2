@@ -65,26 +65,28 @@ public class Utils {
         }
     }
     public static void updateLuckPermsForPlayerRanks(Player player) {
-        PlayerData playerData = new PlayerData(player);
-        User user = Main.luckPerms.getPlayerAdapter(Player.class).getUser(player);
-        user.data().remove(Node.builder("group.prisons-donator-staticp").build());
-        user.data().remove(Node.builder("group.prisons-donator-static").build());
-        user.data().remove(Node.builder("group.prisons-donator-mythic").build());
-        user.data().remove(Node.builder("group.prisons-donator-master").build());
-        user.data().remove(Node.builder("group.prisons-donator-warrior").build());
-        switch (playerData.getPlayerRank()) {
-            case "staticp":
-                user.data().add(Node.builder("group.prisons-donator-staticp").build());
-            case "static":
-                user.data().add(Node.builder("group.prisons-donator-static").build());
-            case "mythic":
-                user.data().add(Node.builder("group.prisons-donator-mythic").build());
-            case "master":
-                user.data().add(Node.builder("group.prisons-donator-master").build());
-            case "warrior":
-                user.data().add(Node.builder("group.prisons-donator-warrior").build());
-        }
-        Main.luckPerms.getUserManager().saveUser(user);
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+            PlayerData playerData = new PlayerData(player);
+            User user = Main.luckPerms.getPlayerAdapter(Player.class).getUser(player);
+            user.data().remove(Node.builder("group.prisons-donator-staticp").build());
+            user.data().remove(Node.builder("group.prisons-donator-static").build());
+            user.data().remove(Node.builder("group.prisons-donator-mythic").build());
+            user.data().remove(Node.builder("group.prisons-donator-master").build());
+            user.data().remove(Node.builder("group.prisons-donator-warrior").build());
+            switch (playerData.getPlayerRank()) {
+                case "staticp":
+                    user.data().add(Node.builder("group.prisons-donator-staticp").build());
+                case "static":
+                    user.data().add(Node.builder("group.prisons-donator-static").build());
+                case "mythic":
+                    user.data().add(Node.builder("group.prisons-donator-mythic").build());
+                case "master":
+                    user.data().add(Node.builder("group.prisons-donator-master").build());
+                case "warrior":
+                    user.data().add(Node.builder("group.prisons-donator-warrior").build());
+            }
+            Main.luckPerms.getUserManager().saveUser(user);
+        });
     }
     public static boolean writeToAFile(String filePath, List<String> linesToWrite, boolean append) {
         try {

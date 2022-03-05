@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigInteger;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,6 +76,7 @@ public class BlockBreakEvent implements Listener {
                 }
             }
         }
+
         if (multiDirectionalLevel > 0) {
             //Multi-directional
             if (Utils.randomInt(1, 18) == 1) {
@@ -116,8 +118,6 @@ public class BlockBreakEvent implements Listener {
                 }
             }
         }
-
-
         BigInteger totalAmountOfBlocksBroken = BigInteger.ZERO;
         //Check if the backpack is full before adding
         boolean backpackWasFull = playerData.getBackpack().isFull();

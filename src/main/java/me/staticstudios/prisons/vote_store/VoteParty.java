@@ -27,7 +27,7 @@ public class VoteParty {
                         case 2 -> reward = CustomItems.getRareCrateKey(4);
                         case 3 -> reward = CustomItems.getEpicCrateKey(3);
                         case 4 -> reward = CustomItems.getLegendaryCrateKey(2);
-                        case 5 -> reward = CustomItems.getStaticpCrateKey(1);
+                        case 5 -> reward = CustomItems.getStaticCrateKey(1);
                     }
                     if (playerData.getIsNitroBoosting()) reward.setAmount(reward.getAmount() * 2);
                     p.sendMessage(ChatColor.WHITE + "You have received " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + ChatColor.WHITE + " from the vote party! You won this because you have voted within the past 24 hours!");
