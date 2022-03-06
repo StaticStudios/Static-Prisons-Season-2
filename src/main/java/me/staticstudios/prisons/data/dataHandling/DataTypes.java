@@ -6,7 +6,7 @@ public enum DataTypes implements Serializable {
     PLAYERS,
     BACKPACKS,
     SERVER,
-    CELLS,
+    ISLAND,
     PLAYER_SHOPS,
     PRIVATE_MINE,
 

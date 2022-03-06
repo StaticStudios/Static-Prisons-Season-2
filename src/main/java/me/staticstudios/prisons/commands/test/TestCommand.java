@@ -1,10 +1,12 @@
 package me.staticstudios.prisons.commands.test;
 
+import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.customItems.CustomItems;
 import me.staticstudios.prisons.customItems.Vouchers;
 import me.staticstudios.prisons.data.dataHandling.DataWriter;
 import me.staticstudios.prisons.enchants.CustomEnchants;
 import me.staticstudios.prisons.events.EventManager;
+import me.staticstudios.prisons.islands.IslandManager;
 import me.staticstudios.prisons.leaderboards.BlocksMinedTop;
 import me.staticstudios.prisons.mines.BaseMine;
 import me.staticstudios.prisons.mines.MineManager;

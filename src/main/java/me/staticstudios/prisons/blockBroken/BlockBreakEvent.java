@@ -66,7 +66,7 @@ public class BlockBreakEvent implements Listener {
             doubleFortune = CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter") <= Utils.randomInt(1, PrisonEnchants.ORE_SPLITTER.MAX_LEVEL);
         if (jackHammerLevel > 0) {
             //Jack Hammer
-            if (Utils.randomInt(1, 12) == 1) {
+            if (Utils.randomInt(1, 24) == 1) {
                 if (Utils.randomInt(1, PrisonEnchants.JACK_HAMMER.MAX_LEVEL + PrisonEnchants.JACK_HAMMER.MAX_LEVEL / 300) <= jackHammerLevel + PrisonEnchants.JACK_HAMMER.MAX_LEVEL / 300) {
                     //Enchant should activate
                     int howDeepToGo = 1;
@@ -79,7 +79,7 @@ public class BlockBreakEvent implements Listener {
 
         if (multiDirectionalLevel > 0) {
             //Multi-directional
-            if (Utils.randomInt(1, 18) == 1) {
+            if (Utils.randomInt(1, 36) == 1) {
                 if (Utils.randomInt(1, PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 300) <= multiDirectionalLevel + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 300) {
                     //Enchant should activate
                     int howDeepToGo = Math.max(1, e.getBlock().getY() - multiDirectionalLevel * 250 / PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL);

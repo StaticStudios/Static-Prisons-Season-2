@@ -189,3 +189,9 @@ commands:
       - customenchants
   dailyrewards:
     description: a
+  island:
+    description: a
+    aliases:
+      - is
+      - c
+      - cell

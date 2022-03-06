@@ -11,6 +11,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.staticstudios.prisons.auctionHouse.AuctionHouseManager;
 import me.staticstudios.prisons.blockBroken.BlockBreakEvent;
 import me.staticstudios.prisons.commands.*;
+import me.staticstudios.prisons.commands.tabCompletion.IslandTabCompletion;
 import me.staticstudios.prisons.commands.test.Test2Command;
 import me.staticstudios.prisons.commands.test.TestCommand;
 import me.staticstudios.prisons.customItems.Kits;
@@ -19,6 +20,7 @@ import me.staticstudios.prisons.discord.DiscordBot;
 import me.staticstudios.prisons.discord.LinkHandler;
 import me.staticstudios.prisons.gui.GUIListener;
 import me.staticstudios.prisons.gui.GUIPage;
+import me.staticstudios.prisons.islands.IslandManager;
 import me.staticstudios.prisons.mines.MineManager;
 import me.staticstudios.prisons.misc.tablist.TabList;
 import me.staticstudios.prisons.vote_store.VoteStoreListener;
@@ -58,6 +60,8 @@ public final class Main extends JavaPlugin implements Listener {
             unloadNetherAndEnd();
             DataWriter.loadData();
             loadMineWorld();
+            new WorldCreator("islands").createWorld();
+            IslandManager.initialize();
             Kits.initialize();
             MineManager.initialize();
             AuctionHouseManager.loadAllAuctions();
@@ -91,6 +95,7 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("addpickaxexp").setExecutor(new AddPickaxeXPCommand());
             getCommand("addpickaxeblocksmined").setExecutor(new AddPickaxeBlocksMinedCommand());
             //--Normal Commands
+            getCommand("island").setExecutor(new IslandCommand());
             getCommand("dailyrewards").setExecutor(new DailyRewardsCommand());
             getCommand("enchant").setExecutor(new EnchantCommand());
             getCommand("reclaim").setExecutor(new ReclaimCommand());
@@ -124,6 +129,8 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("rankupmax").setExecutor(new RankUpMaxCommand());
             getCommand("gui").setExecutor(new GUICommand());
             getCommand("npcdiag").setExecutor(new NPCDialogCommand());
+            //Tab completion
+            getCommand("island").setTabCompleter(new IslandTabCompletion());
             //Register Events
             getServer().getPluginManager().registerEvents(new BlockBreakEvent(), main);
             getServer().getPluginManager().registerEvents(new GUIListener(), main);

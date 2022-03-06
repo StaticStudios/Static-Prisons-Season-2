@@ -124,55 +124,55 @@ public class ServerData extends DataSet {
         return getPlayerNamesToUUIDsMap().get(value);
     }
 
-
-    public Map<String, String> getCellNamesToUUIDsMap() {
-        if (getData("skyblockIslandNamesToUUIDsMap").map == null) {
-            Data newData = new Data();
-            newData.map = new HashMap<>();
-            setData("skyblockIslandNamesToUUIDsMap", newData);
-        }
-        return (Map<String, String>) getData("skyblockIslandNamesToUUIDsMap").map;
+    public Map<String, String> getSkyblockIslandNamesToUUIDsMap() {
+        return getData("skyblockIslandNamesToUUIDsMap").map;
     }
-    public Data setCellNamesToUUIDsMap(Map<String, String> value) {
+    public Data setSkyblockIslandNamesToUUIDsMap(Map<String, String> value) {
         Data newData = new Data();
         newData.map = value;
         return setData("skyblockIslandNamesToUUIDsMap", newData);
     }
-    public Data putCellNameToUUID(String name, String uuid) {
-        Map<String, String> map = getCellNamesToUUIDsMap();
+    public Data putSkyblockIslandNameToUUID(String name, String uuid) {
+        Map<String, String> map = getSkyblockIslandNamesToUUIDsMap();
         map.put(name, uuid);
-        return setCellNamesToUUIDsMap(map);
+        return setSkyblockIslandNamesToUUIDsMap(map);
     }
-    public Data removeCellNameToUUID(String name) {
-        Map<String, String> map = getCellNamesToUUIDsMap();
+    public Data removeSkyblockIslandNameToUUID(String name) {
+        Map<String, String> map = getSkyblockIslandNamesToUUIDsMap();
         map.remove(name);
-        return setCellNamesToUUIDsMap(map);
+        return setSkyblockIslandNamesToUUIDsMap(map);
     }
 
-
-    public Map<String, String> getCellUUIDsToNamesMap() {
-        if (getData("cellUUIDsToNamesMap").map == null) {
-            Data newData = new Data();
-            newData.map = new HashMap<>();
-            setData("cellUUIDsToNamesMap", newData);
-        }
-        return (Map<String, String>) getData("cellUUIDsToNamesMap").map;
+    public Map<String, String> getSkyblockIslandUUIDsToNamesMap() {
+        return getData("skyblockIslandUUIDsToNamesMap").map;
     }
-    public Data setCellUUIDsToNamesMap(Map<String, String> value) {
+    public Data setSkyblockIslandUUIDsToNamesMap(Map<String, String> value) {
         Data newData = new Data();
         newData.map = value;
-        return setData("cellUUIDsToNamesMap", newData);
+        return setData("skyblockIslandUUIDsToNamesMap", newData);
     }
-    public Data putCellUUIDToName(String uuid, String name) {
-        Map<String, String> map = getCellUUIDsToNamesMap();
+    public Data putSkyblockIslandUUIDToName(String uuid, String name) {
+        Map<String, String> map = getSkyblockIslandUUIDsToNamesMap();
         map.put(uuid, name);
-        return setCellUUIDsToNamesMap(map);
+        return setSkyblockIslandUUIDsToNamesMap(map);
     }
-    public Data removeCellUUIDToName(String uuid) {
-        Map<String, String> map = getCellUUIDsToNamesMap();
+    public Data removeSkyblockIslandUUIDToName(String uuid) {
+        Map<String, String> map = getSkyblockIslandUUIDsToNamesMap();
         map.remove(uuid);
-        return setCellUUIDsToNamesMap(map);
+        return setSkyblockIslandUUIDsToNamesMap(map);
     }
+
+    public String getIslandNameFromUUID(String value) {
+        return getSkyblockIslandUUIDsToNamesMap().get(value);
+    }
+    public String getIslandUUIDFromName(String value) {
+        return getSkyblockIslandNamesToUUIDsMap().get(value);
+    }
+
+    public void removeSkyblockIslandFromUUID(String value) {
+        DataSets.getDataSet(DataTypes.ISLAND, value).dataSet.remove(value);
+    }
+
     public int getVoteParty() {
         return getData("voteParty")._int;
     }
@@ -181,15 +181,14 @@ public class ServerData extends DataSet {
         newData._int = value;
         return setData("voteParty", newData);
     }
+    public int getAmountOfIslands() {
+        return getData("amountIslands")._int;
+    }
+    public Data setAmountOfIslands(int value) {
+        Data newData = new Data();
+        newData._int = value;
+        return setData("amountIslands", newData);
+    }
 
-    public String getIslandNameFromUUID(String value) {
-        return getCellUUIDsToNamesMap().get(value);
-    }
-    public String getIslandUUIDFromName(String value) {
-        return getCellNamesToUUIDsMap().get(value);
-    }
 
-    public void removeCellFromUUID(String value) {
-        DataSets.getDataSet(DataTypes.CELLS, value).dataSet.remove(value);
-    }
 }

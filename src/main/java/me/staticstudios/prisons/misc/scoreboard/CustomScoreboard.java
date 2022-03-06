@@ -112,6 +112,7 @@ public class CustomScoreboard {
                 colorLight + "│ " + colorBase + "Rank: " + colorLight + playerData.getSidebarRank(),
                 colorLight + "│ " + colorBase + "Money: " + colorLight + "$" + Utils.prettyNum(playerData.getMoney()),
                 colorLight + "│ " + colorBase + "Tokens: " + colorLight + Utils.prettyNum(playerData.getTokens()),
+                colorLight + "│ " + colorBase + "Shards: " + colorLight + Utils.prettyNum(playerData.getShards()),
                 colorLight + "│ " + colorBase + "Prestige: " + colorLight + Utils.prettyNum(playerData.getPrestige()),
                 colorLight + "│ " + colorBase + "Vote Party: " + colorLight + new ServerData().getVoteParty() + "/" + StaticVars.VOTES_NEEDED_FOR_VOTE_PARTY,
                 ChatColor.GREEN + "",

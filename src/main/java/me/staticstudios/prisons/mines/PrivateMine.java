@@ -12,6 +12,7 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
+import io.papermc.lib.PaperLib;
 import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.misc.Warps;
 import org.bukkit.Bukkit;
@@ -84,7 +85,7 @@ public class PrivateMine extends BaseMine {
             player.sendMessage(ChatColor.RED + "This mine is still loading...");
             return;
         }
-        player.teleport(getWhereToTpPlayerOnRefill());
+        PaperLib.teleportAsync(player, getWhereToTpPlayerOnRefill());
         player.setAllowFlight(true);
    }
 

@@ -7,6 +7,8 @@ import me.staticstudios.prisons.data.dataHandling.Data;
 import me.staticstudios.prisons.data.dataHandling.DataSet;
 import me.staticstudios.prisons.data.dataHandling.DataTypes;
 import me.staticstudios.prisons.enchants.CustomEnchants;
+import me.staticstudios.prisons.islands.SkyBlockIsland;
+import me.staticstudios.prisons.islands.SkyBlockIslands;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.SerializationUtils;
@@ -84,6 +86,27 @@ public class PlayerData extends DataSet {
     }
     public Data removeTokens(BigInteger value) {
         return setTokens(getTokens().subtract(value));
+    }
+
+    //Shards
+    public BigInteger getShards() {
+        if (getData("shards")._string.equals("")) {
+            Data newData = new Data();
+            newData._string = "0";
+            setData("shards", newData);
+        }
+        return new BigInteger(getData("shards")._string);
+    }
+    public Data setShards(BigInteger value) {
+        Data newData = new Data();
+        newData._string = value.toString();
+        return setData("shards", newData);
+    }
+    public Data addShards(BigInteger value) {
+        return setShards(getShards().add(value));
+    }
+    public Data removeShards(BigInteger value) {
+        return setShards(getShards().subtract(value));
     }
 
     //Time played
@@ -596,5 +619,41 @@ public class PlayerData extends DataSet {
         Data newData = new Data();
         newData._long = value;
         return setData("claimedDailyRewardsAt", newData);
+    }
+    //Player Island UUIDs
+    public String getPlayerIslandUUID() {
+        if (getData("playerIslandUUID")._string == null) {
+            Data newData = new Data();
+            newData._string = "";
+            setData("playerIslandUUID", newData);
+        }
+        return getData("playerIslandUUID")._string;
+    }
+    public Data setPlayerIslandUUID(String value) {
+        Data newData = new Data();
+        newData._string = value;
+        return setData("playerIslandUUID", newData);
+    }
+
+    //sets if a player is in an island
+    public boolean getIfPlayerHasIsland() {
+        return getData("ifPlayerHasIsland")._boolean;
+    }
+    public Data setIfPlayerHasIsland(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("ifPlayerHasIsland", newData);
+    }
+
+
+    //Does not read/write from/to a file
+
+    /**
+     * @return The SkyBlockIsland that the player is a part of, they do not have to own the island.
+     * Returns null if player is not part of an island
+     */
+    public SkyBlockIsland getPlayerIsland() {
+        if (!SkyBlockIslands.checkIfPlayerHasIsland(uuid)) return null;
+        return SkyBlockIslands.getSkyBlockIsland(getPlayerIslandUUID());
     }
 }
