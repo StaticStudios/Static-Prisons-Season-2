@@ -544,28 +544,28 @@ public class MineManager {
         //Rank Mine 2
         mine = new PublicMine("rankMine-2", new Location(Bukkit.getWorld("mines"), -44, publicMineMinY, -44), new Location(Bukkit.getWorld("mines"), 44, publicMineMaxY, 44));
         mine.setBlockPattern(new MineBlock[]{
-                new MineBlock(Material.QUARTZ_BLOCK, 100),
+                new MineBlock(Material.NETHER_BRICKS, 100),
         });
         mine.setWhereToTpPlayerOnRefill(Warps.RANK_MINE_2);
         mine.setIfRefillsOnTimer(true);
         //Rank Mine 3
         mine = new PublicMine("rankMine-3", new Location(Bukkit.getWorld("mines"), -49, publicMineMinY, -49), new Location(Bukkit.getWorld("mines"), 49, publicMineMaxY, 49));
         mine.setBlockPattern(new MineBlock[]{
-                new MineBlock(Material.OBSIDIAN, 100),
+                new MineBlock(Material.QUARTZ_BLOCK, 100),
         });
         mine.setWhereToTpPlayerOnRefill(Warps.RANK_MINE_3);
         mine.setIfRefillsOnTimer(true);
         //Rank Mine 4
         mine = new PublicMine("rankMine-4", new Location(Bukkit.getWorld("mines"), -64, publicMineMinY, -64), new Location(Bukkit.getWorld("mines"), 64, publicMineMaxY, 64));
         mine.setBlockPattern(new MineBlock[]{
-                new MineBlock(Material.CRYING_OBSIDIAN, 100),
+                new MineBlock(Material.END_STONE, 100),
         });
         mine.setWhereToTpPlayerOnRefill(Warps.RANK_MINE_4);
         mine.setIfRefillsOnTimer(true);
         //Rank Mine 5
         mine = new PublicMine("rankMine-5", new Location(Bukkit.getWorld("mines"), -75, publicMineMinY, -75), new Location(Bukkit.getWorld("mines"), 75, publicMineMaxY, 75));
         mine.setBlockPattern(new MineBlock[]{
-                new MineBlock(Material.AMETHYST_BLOCK, 100),
+                new MineBlock(Material.OBSIDIAN, 100),
         });
         mine.setWhereToTpPlayerOnRefill(Warps.RANK_MINE_5);
         mine.setIfRefillsOnTimer(true);

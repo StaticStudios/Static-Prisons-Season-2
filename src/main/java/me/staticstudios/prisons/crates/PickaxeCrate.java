@@ -15,7 +15,7 @@ public class PickaxeCrate {
             new CrateReward(CustomItems.getPickaxeTier4(), 12.5),
             new CrateReward(CustomItems.getPickaxeTier5(), 10),
             new CrateReward(CustomItems.getPickaxeTier6(), 7.5),
-            new CrateReward(CustomItems.getPickaxeTier7(), 5),
+            new CrateReward(CustomItems.getPickaxeTier7(), 6),
             new CrateReward(CustomItems.getPickaxeTier8(), 2.5),
             new CrateReward(CustomItems.getPickaxeTier9(), 1),
             new CrateReward(CustomItems.getPickaxeTier10(), 0.5),

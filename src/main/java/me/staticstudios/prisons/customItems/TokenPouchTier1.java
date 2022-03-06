@@ -10,8 +10,8 @@ import java.math.BigInteger;
 public class TokenPouchTier1 {
     public static void open(Player player) {
         TokenPouch pouch = new TokenPouch();
-        pouch.minReward = new BigInteger("50000000"); //50M
-        pouch.maxReward = new BigInteger("400000000"); //4000M
+        pouch.minReward = new BigInteger("500000000"); //500M
+        pouch.maxReward = new BigInteger("1000000000"); //1B
         pouch.reward = Utils.randomBigInt(pouch.minReward, pouch.maxReward);
         pouch.announceRewardInChat = true;
         pouch.animateOpeningPouch(player, new PlayerData(player), ChatColor.translateAlternateColorCodes('&', "&aYou have won {reward} tokens from a Token Pouch Tier 1"));

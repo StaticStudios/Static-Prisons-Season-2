@@ -15,13 +15,13 @@ public class StaticVars {
             1000L,
             2500L,
             5000L,
-            7500L,
             10000L,
-            12500L,
-            15000L,
             20000L,
-            30000L,
+            30500L,
             50000L,
+            75000L,
+            100000L,
+            150000L,
     };
     public static final char[] A_THROUGH_Z = {
             'A',
