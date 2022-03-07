@@ -67,7 +67,6 @@ public class EnchantsMenus {
         GUIPage guiPage = new GUIPage() {
             @Override
             public void onOpen(Player player) {
-                PrisonEnchants.playerUUIDToPickaxeID.put(player.getUniqueId(), args);
                 String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
                 if (pickaxe == null) {

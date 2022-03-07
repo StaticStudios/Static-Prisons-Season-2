@@ -1,5 +1,6 @@
 package me.staticstudios.prisons.commands.test;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.customItems.CustomItems;
 import me.staticstudios.prisons.customItems.Vouchers;
@@ -11,15 +12,15 @@ import me.staticstudios.prisons.leaderboards.BlocksMinedTop;
 import me.staticstudios.prisons.mines.BaseMine;
 import me.staticstudios.prisons.mines.MineManager;
 import me.staticstudios.prisons.utils.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
@@ -34,6 +35,8 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
+        Block block = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 1, player.getLocation().getZ()).getBlock();
+        new CustomBlockData(block, Main.getMain()).clear();
         return false;
     }
 }

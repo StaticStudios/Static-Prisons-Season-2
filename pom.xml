@@ -61,6 +61,10 @@
                             <pattern>io.papermc.lib</pattern>
                             <shadedPattern>me.staticstudios.paperlib</shadedPattern> <!-- Replace this -->
                         </relocation>
+                        <relocation>
+                            <pattern>com.jeff_media.customblockdata.CustomBlockData</pattern>
+                            <shadedPattern>your.package.name.CustomBlockData</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -100,6 +104,10 @@
         <repository>
             <id>sk89q-repo</id>
             <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+        <repository>
+            <id>jeff-media-public</id>
+            <url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
         </repository>
     </repositories>
 
@@ -172,6 +180,12 @@
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>5.0.0-alpha.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jeff_media</groupId>
+            <artifactId>CustomBlockData</artifactId>
+            <version>1.0.5</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

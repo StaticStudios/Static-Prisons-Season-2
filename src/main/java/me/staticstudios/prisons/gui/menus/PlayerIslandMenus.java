@@ -10,7 +10,6 @@ import me.staticstudios.prisons.islands.SkyBlockIsland;
 import me.staticstudios.prisons.islands.invites.IslandInvite;
 import me.staticstudios.prisons.islands.invites.IslandInvites;
 import me.staticstudios.prisons.islands.invites.SkyblockIslandInviteManager;
-import me.staticstudios.prisons.misc.Warps;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -290,29 +289,7 @@ public class PlayerIslandMenus {
                     }
                 }
                 if (island.getIslandManagerUUID().equals(player.getUniqueId().toString()) || island.getIslandOwnerUUID().equals(player.getUniqueId().toString())) {
-                    PlayerData _playerData = new PlayerData(uuid);
-                    _playerData.setIfPlayerHasIsland(false);
-                    _playerData.setPlayerIslandUUID("");
-                    if (island.getIslandManagerUUID().equals(uuid)) {
-                        island.setIslandManagerUUID("");
-                    }
-                    if (island.getIslandAdminUUIDS().contains(uuid)) {
-                        island.removeIslandAdminUUID(uuid);
-                    }
-                    if (island.getIslandMemberUUIDS().contains(uuid)) {
-                        island.removeIslandMemberUUID(uuid);
-                    }
-                    island.getIslandPlayerUUIDS().remove(uuid);
-                    island.addBannedPlayerUUID(uuid); //TODO: unban functionality
-                    if (Bukkit.getPlayer(UUID.fromString(uuid)) != null) {
-                        Bukkit.getPlayer(UUID.fromString(uuid)).sendMessage(ChatColor.RED + "You have been banned from your cell.");
-                        if (IslandManager.playersInIslands.get(player.getUniqueId()).equals(UUID.fromString(island.getUUID()))) {
-                            Warps.warpToSpawn(Bukkit.getPlayer(UUID.fromString(uuid)));
-                        }
-                    }
-                    for (String _uuid : island.getIslandPlayerUUIDS()) {
-                        if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.AQUA + new ServerData().getPlayerNameFromUUID(uuid) + ChatColor.GREEN + " has been banned from your island by: " + ChatColor.LIGHT_PURPLE + new ServerData().getPlayerNameFromUUID(player.getUniqueId().toString()));
-                    }
+                    island.playerBanned(player, UUID.fromString(uuid));
                 } else {
                     player.sendMessage(ChatColor.RED + "You are not a high enough rank to do this!");
                 }
@@ -347,29 +324,7 @@ public class PlayerIslandMenus {
                     }
                 }
                 if (!island.getIslandMemberUUIDS().contains(player.getUniqueId().toString())) {
-                    PlayerData _playerData = new PlayerData(uuid);
-                    _playerData.setIfPlayerHasIsland(false);
-                    _playerData.setPlayerIslandUUID("");
-                    if (island.getIslandManagerUUID().equals(uuid)) {
-                        island.setIslandManagerUUID("");
-                    }
-                    if (island.getIslandAdminUUIDS().contains(uuid)) {
-                        island.removeIslandAdminUUID(uuid);
-                    }
-                    if (island.getIslandMemberUUIDS().contains(uuid)) {
-                        island.removeIslandMemberUUID(uuid);
-                    }
-                    island.getIslandPlayerUUIDS().remove(uuid);
-                    if (Bukkit.getPlayer(UUID.fromString(uuid)) != null) {
-                        player.sendMessage(ChatColor.RED + "You have been kicked from your cell.");
-                        if (IslandManager.playersInIslands.get(player.getUniqueId()).equals(UUID.fromString(island.getUUID()))) {
-                            Warps.warpToSpawn(Bukkit.getPlayer(UUID.fromString(uuid)));
-                        }
-                    }
-                    for (String _uuid : island.getIslandPlayerUUIDS()) {
-                        if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.AQUA + new ServerData().getPlayerNameFromUUID(uuid) + ChatColor.GREEN + " has been kicked from your cell by: " + ChatColor.LIGHT_PURPLE + new ServerData().getPlayerNameFromUUID(player.getUniqueId().toString()));
-                    }
-
+                    island.playerKicked(player, UUID.fromString(uuid));
                 } else {
                     player.sendMessage(ChatColor.RED + "You are not a high enough rank to do this!");
                 }
@@ -646,18 +601,7 @@ public class PlayerIslandMenus {
                     return;
                 }
                 if (new SkyBlockIsland(islandID).getIslandPlayerUUIDS().size() < SkyBlockIsland.MAX_PLAYERS_PER_ISLAND) {
-                    playerData.setIfPlayerHasIsland(true);
-                    playerData.setPlayerIslandUUID(islandID);
-                    SkyBlockIsland island = playerData.getPlayerIsland();
-                    for (String uuid : island.getIslandPlayerUUIDS()) {
-                        if (Bukkit.getPlayer(UUID.fromString(uuid)) == null) continue;
-                        Bukkit.getPlayer(UUID.fromString(uuid)).sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.GREEN + " has just joined your cell! They were invited by: " + ChatColor.AQUA + new ServerData().getPlayerNameFromUUID(invites.invites.get(islandID).inviterUUID));
-                    }
-                    island.addIslandPlayerUUID(player.getUniqueId().toString());
-                    island.addIslandMemberUUID(player.getUniqueId().toString());
-                    island.teleportPlayerToMemberWarp(player);
-                    SkyblockIslandInviteManager.getIslandInvites(player.getUniqueId().toString()).invites.remove(islandID);
-
+                    new SkyBlockIsland(islandID).playerJoined(player);
                 } else {
                     player.sendMessage(ChatColor.RED + "This island is currently full!");
                 }
@@ -690,34 +634,7 @@ public class PlayerIslandMenus {
             public void item8Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 SkyBlockIsland island = new PlayerData(player).getPlayerIsland();
-                for (String playerUUID : island.getIslandPlayerUUIDS()) {
-                    PlayerData _playerData = new PlayerData(playerUUID);
-                    _playerData.setIfPlayerHasIsland(false);
-                    _playerData.setPlayerIslandUUID("");
-                    if (island.getIslandOwnerUUID().equals(playerUUID)) {
-                        island.setIslandOwnerUUID("");
-                    }
-                    if (island.getIslandManagerUUID().equals(playerUUID)) {
-                        island.setIslandManagerUUID("");
-                    }
-                    if (island.getIslandAdminUUIDS().contains(playerUUID)) {
-                        island.removeIslandAdminUUID(playerUUID);
-                    }
-                    if (island.getIslandMemberUUIDS().contains(playerUUID)) {
-                        island.removeIslandMemberUUID(playerUUID);
-                    }
-                    if (Bukkit.getPlayer(UUID.fromString(playerUUID)) != null) {
-                        Bukkit.getPlayer(UUID.fromString(playerUUID)).sendMessage(ChatColor.RED + "Your cell has been deleted by the cell owner.");
-                        if (IslandManager.playersInIslands.get(player.getUniqueId()).equals(UUID.fromString(island.getUUID()))) {
-                            Warps.warpToSpawn(Bukkit.getPlayer(UUID.fromString(playerUUID)));
-                        }
-                    }
-                }
-                island.getIslandPlayerUUIDS().removeAll(island.getIslandPlayerUUIDS());
-                //All players have been kicked from the island, delete the island from the DB
-                new ServerData().removeSkyblockIslandNameToUUID(island.getIslandName());
-                new ServerData().removeSkyblockIslandUUIDToName(island.getUUID());
-                new ServerData().removeSkyblockIslandFromUUID(island.getUUID());
+                island.delete();
                 player.closeInventory();
                 player.sendMessage(ChatColor.RED + "You have successfully deleted your cell!");
             }
