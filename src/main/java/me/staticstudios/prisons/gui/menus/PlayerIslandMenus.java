@@ -600,6 +600,10 @@ public class PlayerIslandMenus {
                     player.sendMessage(ChatColor.RED + "You are currently banned from this cell, ask the cell manager or the cell owner to unban you. They can do so by running the following command: " + ChatColor.GRAY + "\"/cell unban " + player.getName() + "\"");
                     return;
                 }
+                if (!new SkyBlockIsland(islandID).getAllowInvites()) {
+                    player.sendMessage(ChatColor.RED + "This cell is currently not accepting invites!");
+                    return;
+                }
                 if (new SkyBlockIsland(islandID).getIslandPlayerUUIDS().size() < SkyBlockIsland.MAX_PLAYERS_PER_ISLAND) {
                     new SkyBlockIsland(islandID).playerJoined(player);
                 } else {
@@ -683,8 +687,8 @@ public class PlayerIslandMenus {
                 PlayerData playerData = new PlayerData(player);
                 if (!playerData.getIfPlayerHasIsland()) return;
                 SkyBlockIsland island = playerData.getPlayerIsland();
-                if (island.getIslandMemberUUIDS().contains(player.getUniqueId().toString())) {
-                    player.sendMessage(ChatColor.RED + "Only admins+ can do this!");
+                if (island.getIslandOwnerUUID().equals(player.getUniqueId().toString()) || island.getIslandManagerUUID().equals(player.getUniqueId().toString())) {
+                    player.sendMessage(ChatColor.RED + "Only the cell owner or manager can do this!");
                     return;
                 }
                 island.setAllowVisitors(!island.getAllowVisitors());
@@ -696,8 +700,8 @@ public class PlayerIslandMenus {
                 PlayerData playerData = new PlayerData(player);
                 if (!playerData.getIfPlayerHasIsland()) return;
                 SkyBlockIsland island = playerData.getPlayerIsland();
-                if (island.getIslandMemberUUIDS().contains(player.getUniqueId().toString())) {
-                    player.sendMessage(ChatColor.RED + "Only admins+ can do this!");
+                if (island.getIslandOwnerUUID().equals(player.getUniqueId().toString()) || island.getIslandManagerUUID().equals(player.getUniqueId().toString())) {
+                    player.sendMessage(ChatColor.RED + "Only the cell owner or manager can do this!");
                     return;
                 }
                 island.setAllowInvites(!island.getAllowInvites());
@@ -710,10 +714,15 @@ public class PlayerIslandMenus {
                 if (!playerData.getIfPlayerHasIsland()) return;
                 SkyBlockIsland island = playerData.getPlayerIsland();
                 if (island.getIslandMemberUUIDS().contains(player.getUniqueId().toString())) {
-                    player.sendMessage(ChatColor.RED + "Only admins+ can do this!");
+                    player.sendMessage(ChatColor.RED + "Only cell admins+ can do this!");
                     return;
                 }
-                if (!IslandManager.playersInIslands.get(player.getUniqueId()).equals(UUID.fromString(island.getUUID()))) {
+                if (IslandManager.playersInIslands.containsKey(player.getUniqueId())) {
+                    if (!IslandManager.playersInIslands.get(player.getUniqueId()).equals(UUID.fromString(island.getUUID()))) {
+                        player.sendMessage(ChatColor.RED + "You must be at your cell to run this command!");
+                        return;
+                    }
+                } else {
                     player.sendMessage(ChatColor.RED + "You must be at your cell to run this command!");
                     return;
                 }
@@ -729,10 +738,15 @@ public class PlayerIslandMenus {
                 if (!playerData.getIfPlayerHasIsland()) return;
                 SkyBlockIsland island = playerData.getPlayerIsland();
                 if (island.getIslandMemberUUIDS().contains(player.getUniqueId().toString())) {
-                    player.sendMessage(ChatColor.RED + "Only admins+ can do this!");
+                    player.sendMessage(ChatColor.RED + "Only cell admins+ can do this!");
                     return;
                 }
-                if (!IslandManager.playersInIslands.get(player.getUniqueId()).equals(UUID.fromString(island.getUUID()))) {
+                if (IslandManager.playersInIslands.containsKey(player.getUniqueId())) {
+                    if (!IslandManager.playersInIslands.get(player.getUniqueId()).equals(UUID.fromString(island.getUUID()))) {
+                        player.sendMessage(ChatColor.RED + "You must be at your cell to run this command!");
+                        return;
+                    }
+                } else {
                     player.sendMessage(ChatColor.RED + "You must be at your cell to run this command!");
                     return;
                 }

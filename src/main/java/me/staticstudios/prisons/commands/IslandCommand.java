@@ -66,7 +66,12 @@ public class IslandCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "Only cell admins+ can do this!");
                     return false;
                 }
-                if (!IslandManager.playersInIslands.get(player.getUniqueId()).equals(UUID.fromString(island.getUUID()))) {
+                if (IslandManager.playersInIslands.containsKey(player.getUniqueId())) {
+                    if (!IslandManager.playersInIslands.get(player.getUniqueId()).equals(UUID.fromString(island.getUUID()))) {
+                        player.sendMessage(ChatColor.RED + "You must be at your cell to run this command!");
+                        return false;
+                    }
+                } else {
                     player.sendMessage(ChatColor.RED + "You must be at your cell to run this command!");
                     return false;
                 }
@@ -85,7 +90,12 @@ public class IslandCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "Only cell admins+ can do this!");
                     return false;
                 }
-                if (!IslandManager.playersInIslands.get(player.getUniqueId()).equals(UUID.fromString(island.getUUID()))) {
+                if (IslandManager.playersInIslands.containsKey(player.getUniqueId())) {
+                    if (!IslandManager.playersInIslands.get(player.getUniqueId()).equals(UUID.fromString(island.getUUID()))) {
+                        player.sendMessage(ChatColor.RED + "You must be at your cell to run this command!");
+                        return false;
+                    }
+                } else {
                     player.sendMessage(ChatColor.RED + "You must be at your cell to run this command!");
                     return false;
                 }
@@ -147,7 +157,7 @@ public class IslandCommand implements CommandExecutor {
                 }
                 island.setIslandName(args[1]);
                 for (String uuid : island.getIslandPlayerUUIDS()) {
-                    if (Bukkit.getPlayer(UUID.fromString(uuid)) != null) Bukkit.getPlayer(UUID.fromString(uuid)).sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.GREEN + " has just renamed your island to: " + ChatColor.AQUA + island.getIslandName());
+                    if (Bukkit.getPlayer(UUID.fromString(uuid)) != null) Bukkit.getPlayer(UUID.fromString(uuid)).sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.WHITE + " has just renamed your island to: " + ChatColor.AQUA + island.getIslandName());
                 }
             }
             case "about", "info" -> {
@@ -342,8 +352,8 @@ public class IslandCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "This player is already a member of a cell!");
                     return false;
                 }
-                player.sendMessage(ChatColor.GREEN + "You have just invited " + ChatColor.AQUA + invited.getName() + ChatColor.GREEN + " to join " + ChatColor.LIGHT_PURPLE + playerData.getPlayerIsland().getIslandName());
-                invited.sendMessage(ChatColor.GREEN + "You have just been invited to join " + ChatColor.LIGHT_PURPLE + playerData.getPlayerIsland().getIslandName() + ChatColor.RESET + "" + ChatColor.GREEN + " by " + ChatColor.AQUA + player.getName() + ChatColor.RESET + "\n" + ChatColor.GRAY + "Type \"/cell invites\" to view your current invites.");
+                player.sendMessage(ChatColor.WHITE + "You  invited " + ChatColor.AQUA + invited.getName() + ChatColor.GREEN + " to join " + ChatColor.LIGHT_PURPLE + playerData.getPlayerIsland().getIslandName());
+                invited.sendMessage(ChatColor.WHITE + "You were invited to join " + ChatColor.LIGHT_PURPLE + playerData.getPlayerIsland().getIslandName() + ChatColor.RESET + "" + ChatColor.WHITE + " by " + ChatColor.AQUA + player.getName() + ChatColor.RESET + "\n" + ChatColor.GRAY + "Type \"/cell invites\" to view your current invites.");
                 SkyblockIslandInviteManager.addIslandInvite(invited.getUniqueId().toString(), player.getUniqueId().toString(), playerData.getPlayerIslandUUID());
             }
             case "invites" -> GUI.getGUIPage("islandInvites").open(player);

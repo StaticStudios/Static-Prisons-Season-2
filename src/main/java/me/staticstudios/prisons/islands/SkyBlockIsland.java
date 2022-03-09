@@ -35,6 +35,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class SkyBlockIsland extends IslandData {
     public static final int MAX_PLAYERS_PER_ISLAND = 5;
@@ -61,7 +62,7 @@ public class SkyBlockIsland extends IslandData {
         IslandInvites invites = SkyblockIslandInviteManager.getIslandInvites(player.getUniqueId().toString());
         for (String uuid : island.getIslandPlayerUUIDS()) {
             if (Bukkit.getPlayer(UUID.fromString(uuid)) == null) continue;
-            Bukkit.getPlayer(UUID.fromString(uuid)).sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.GREEN + " has just joined your cell! They were invited by: " + ChatColor.AQUA + new ServerData().getPlayerNameFromUUID(invites.invites.get(getUUID()).inviterUUID));
+            Bukkit.getPlayer(UUID.fromString(uuid)).sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.WHITE + " joined your cell! They were invited by: " + ChatColor.AQUA + new ServerData().getPlayerNameFromUUID(invites.invites.get(getUUID()).inviterUUID));
         }
         island.addIslandPlayerUUID(player.getUniqueId().toString());
         island.addIslandMemberUUID(player.getUniqueId().toString());
@@ -76,13 +77,13 @@ public class SkyBlockIsland extends IslandData {
     public void playerLeft(Player player) {
         playerRemoved(player.getUniqueId());
         for (String _uuid : getIslandPlayerUUIDS()) {
-            if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.AQUA + player.getName() + ChatColor.GREEN + " has left your cell.");
+            if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.WHITE + " has left your cell");
         }
     }
     public void playerKicked(Player kicker, UUID uuid) {
        playerRemoved(uuid);
         for (String _uuid : getIslandPlayerUUIDS()) {
-            if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.AQUA + new ServerData().getPlayerNameFromUUID(uuid.toString()) + ChatColor.GREEN + " has been kicked from your cell by: " + ChatColor.LIGHT_PURPLE + new ServerData().getPlayerNameFromUUID(kicker.getUniqueId().toString()));
+            if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.LIGHT_PURPLE + new ServerData().getPlayerNameFromUUID(uuid.toString()) + ChatColor.WHITE + " has been kicked from your cell");
         }
 
     }
@@ -90,20 +91,22 @@ public class SkyBlockIsland extends IslandData {
         playerRemoved(uuid);
         addBannedPlayerUUID(uuid.toString());
         for (String _uuid : getIslandPlayerUUIDS()) {
-            if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.AQUA + new ServerData().getPlayerNameFromUUID(uuid.toString()) + ChatColor.GREEN + " has been banned from your island by: " + ChatColor.LIGHT_PURPLE + new ServerData().getPlayerNameFromUUID(banner.getUniqueId().toString()));
+            if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.LIGHT_PURPLE + new ServerData().getPlayerNameFromUUID(uuid.toString()) + ChatColor.WHITE + " has been banned from your cell");
         }
     }
     public void delete() {
         for (String playerUUID : new ArrayList<>(getIslandPlayerUUIDS())) {
             playerRemoved(UUID.fromString(playerUUID));
             if (Bukkit.getPlayer(UUID.fromString(playerUUID)) != null) {
-                Bukkit.getPlayer(UUID.fromString(playerUUID)).sendMessage(ChatColor.RED + "Your cell has been deleted by the cell owner.");
+                Bukkit.getPlayer(UUID.fromString(playerUUID)).sendMessage(ChatColor.RED + "Your cell was deleted.");
             }
         }
         //All players have been kicked from the island, delete the island from the DB
+        Bukkit.getLogger().log(Level.INFO, "Deleted an island with the ID: " + getUUID() + " | Owner: " + getIslandOwnerUUID() + " (" + new ServerData().getPlayerNameFromUUID(getIslandOwnerUUID()) + ")");
         new ServerData().removeSkyblockIslandNameToUUID(getIslandName());
         new ServerData().removeSkyblockIslandUUIDToName(getUUID());
         new ServerData().removeSkyblockIslandFromUUID(getUUID());
+        WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld("islands"))).removeRegion(getUUID() + "-island");
     }
     void playerRemoved(UUID uuid) {
         PlayerData _playerData = new PlayerData(uuid);
@@ -140,6 +143,7 @@ public class SkyBlockIsland extends IslandData {
             Operations.complete(operation);
         }
         island.teleportPlayerToMemberWarp(islandOwner);
+        Bukkit.getLogger().log(Level.INFO, "Created an island with the ID: " + island.getUUID() + " | Owner: " + islandOwner.getUniqueId() + " (" + islandOwner.getName() + ")");
         return island;
     }
     public static SkyBlockIsland createNewIsland(String islandOwnerUUID) {
@@ -184,6 +188,7 @@ public class SkyBlockIsland extends IslandData {
         region.setMembers(members);
         region.setPriority(1);
         WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld("islands"))).addRegion(region);
+        if (Bukkit.getPlayer(UUID.fromString(islandOwnerUUID)) != null) Bukkit.getPlayer(UUID.fromString(islandOwnerUUID)).sendMessage(ChatColor.WHITE + "You have just created a cell! Type " + ChatColor.GREEN + "/island" + ChatColor.WHITE + " to manage it!");
         return island;
     }
 }
