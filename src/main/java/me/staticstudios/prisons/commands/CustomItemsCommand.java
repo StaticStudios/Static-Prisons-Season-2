@@ -23,7 +23,7 @@ public class CustomItemsCommand implements CommandExecutor {
             return false;
         }
         switch (args[0].toLowerCase()) {
-            case "common_key_key" -> item = CustomItems.getCommonCrateKey(1);
+            case "common_key" -> item = CustomItems.getCommonCrateKey(1);
             case "rare_key" -> item = CustomItems.getRareCrateKey(1);
             case "epic_key" -> item = CustomItems.getEpicCrateKey(1);
             case "legendary_key" -> item = CustomItems.getLegendaryCrateKey(1);
