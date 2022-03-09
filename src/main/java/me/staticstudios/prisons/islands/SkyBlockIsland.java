@@ -46,10 +46,12 @@ public class SkyBlockIsland extends IslandData {
     public void teleportPlayerToMemberWarp(Player player) {
         PaperLib.teleportAsync(player, new Location(Bukkit.getWorld("islands"), getIslandMemberWarpX(), getIslandMemberWarpY(), getIslandMemberWarpZ()));
         IslandManager.playersInIslands.put(player.getUniqueId(), UUID.fromString(getUUID()));
+        player.setAllowFlight(true);
     }
     public void teleportPlayerToVisitorWarp(Player player) {
         PaperLib.teleportAsync(player, new Location(Bukkit.getWorld("islands"), getIslandVisitorWarpX(), getIslandVisitorWarpY(), getIslandVisitorWarpZ()));
         IslandManager.playersInIslands.put(player.getUniqueId(), UUID.fromString(getUUID()));
+        player.setAllowFlight(true);
     }
     public void playerJoined(Player player) {
         PlayerData playerData = new PlayerData(player);

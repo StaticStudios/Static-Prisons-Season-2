@@ -130,13 +130,28 @@ public class Events implements Listener {
             return;
         }
 
-        //Prevent players from flying between mines
-        if (player.getWorld().getName().equals("mines")) {
-            int x = Math.abs((int) e.getTo().getX());
-            int z = ((int) e.getTo().getZ());
-            if (x % 250 <= 50 && (x % 500 > 100 || e.getTo().getX() < 0) && x > 200) {
-                e.setCancelled(true);
-            } else if (z > 250 || z < -250) e.setCancelled(true);
+        //Prevent players from flying between virtual grids
+        int gridSize = 0; //Size of the grid
+        int distanceAllowed = 0; //The distance that players may go from the center of the grid before the event gets canceled
+        boolean useGrid = false; //Set if a world should lock people in a grid
+        switch (player.getWorld().getName()) {
+            case "mines" -> {
+                gridSize = 500;
+                distanceAllowed = 200;
+                useGrid = true;
+            }
+            case "islands" -> {
+                gridSize = 1000;
+                distanceAllowed = 100;
+                useGrid = true;
+            }
+        }
+        if (useGrid) {
+            double distanceX = Math.abs(e.getTo().getX()) % gridSize;
+            double distanceZ = Math.abs(e.getTo().getZ()) % gridSize;
+            if ((distanceX + distanceAllowed) / gridSize >= 1) distanceX = gridSize - distanceX;
+            if ((distanceZ + distanceAllowed) / gridSize >= 1) distanceZ = gridSize - distanceZ;
+            if (distanceX > distanceAllowed || distanceZ > distanceAllowed) e.setCancelled(true);
         }
     }
 
