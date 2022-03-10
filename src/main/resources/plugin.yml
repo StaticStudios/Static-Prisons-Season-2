@@ -208,3 +208,7 @@ commands:
     description: a
     aliases:
       - tokenbal
+  shards:
+    description: a
+    aliases:
+      - shardbal
