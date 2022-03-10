@@ -37,6 +37,7 @@ public class TestCommand implements CommandExecutor {
         Player player = (Player) commandSender;
         Block block = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 1, player.getLocation().getZ()).getBlock();
         new CustomBlockData(block, Main.getMain()).clear();
+        //Test comment to check is github works
         return false;
     }
 }
