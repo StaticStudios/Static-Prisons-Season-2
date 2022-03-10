@@ -17,10 +17,12 @@ public class DropItemCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
         ItemStack item = player.getInventory().getItemInMainHand();
-        player.getWorld().dropItem(player.getLocation(), item).setPickupDelay(60);
-        if (item.getItemMeta() != null) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou've just dropped an item"));
+        if (item == null) {
+            player.sendMessage(ChatColor.RED + "You cannot drop this item!");
+            return false;
         }
+        player.getWorld().dropItem(player.getLocation(), item).setPickupDelay(60);
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou've just dropped an item"));
         item.setAmount(0);
         return true;
     }

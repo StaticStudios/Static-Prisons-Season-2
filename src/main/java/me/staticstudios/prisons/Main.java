@@ -96,6 +96,8 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("addpickaxeblocksmined").setExecutor(new AddPickaxeBlocksMinedCommand());
             getCommand("exemptfromleaderboards").setExecutor(new ExemptFromLeaderboards());
             //--Normal Commands
+            getCommand("tokens").setExecutor(new TokensCommand());
+            getCommand("balance").setExecutor(new BalanceCommand());
             getCommand("island").setExecutor(new IslandCommand());
             getCommand("dailyrewards").setExecutor(new DailyRewardsCommand());
             getCommand("enchant").setExecutor(new EnchantCommand());
