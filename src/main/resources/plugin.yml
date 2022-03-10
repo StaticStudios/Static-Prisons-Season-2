@@ -212,3 +212,6 @@ commands:
     description: a
     aliases:
       - shardbal
+  givevote:
+    desription: a
+    permission: static.staff.admin

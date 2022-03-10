@@ -5,6 +5,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import me.staticstudios.prisons.utils.CommandUtils;
+import me.staticstudios.prisons.data.ServerData;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,7 +22,9 @@ public class GiveVoteCommand implements CommandExecutor {
             player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/givevote <who>"));
             return false;
         }
-        //if (new)
+        if (new ServerData().getPlayerNamesToUUIDsMap().containsKey(args[0])) {
+            new PlayerData(new SerevrData().getPlayerUUIDFromName(args[0])).addVOtes(BigInteger.ONE);
+        } else player.sendMessage(ChatColor.RED + "Player not found!");
         return true;
     }
 }
