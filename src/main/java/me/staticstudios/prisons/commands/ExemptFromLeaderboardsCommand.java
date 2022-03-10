@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
 
-public class BroadcastMessageCommand implements CommandExecutor {
+public class ExemptFromLeaderboardsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
