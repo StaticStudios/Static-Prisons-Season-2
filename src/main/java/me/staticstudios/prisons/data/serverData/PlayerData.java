@@ -656,4 +656,13 @@ public class PlayerData extends DataSet {
         if (!SkyBlockIslands.checkIfPlayerHasIsland(uuid)) return null;
         return SkyBlockIslands.getSkyBlockIsland(getPlayerIslandUUID());
     }
+    public boolean getIsExemptFromLeaderboards() {
+        return getData("exeptFromLeaderboards")._boolean;
+    }
+    public Data setIsExemptFromLeaderboards(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("exeptFromLeaderboards", newData);
+    }
+
 }
