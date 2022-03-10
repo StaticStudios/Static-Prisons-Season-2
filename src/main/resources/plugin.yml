@@ -195,3 +195,8 @@ commands:
       - is
       - c
       - cell
+  exemptfromleaderboards:
+    desription: a
+    aliases:
+      - dontdisplayonlb
+    permission: static.staff.admin

@@ -19,7 +19,7 @@ public class BroadcastMessageCommand implements CommandExecutor {
             Player player = (Player) sender;
             PlayerData playerData = new PlayerData(player);
             playerData.setIsExemptFromLeaderboards(!playerData.getIsExemptFromLeaderboards());
-            player.sendMessage(ChatColor.GREEN + "Stats will display on leaderboards: " + playerData.getIsExemptFromLeaderboards())
+            player.sendMessage(ChatColor.GREEN + "Stats will display on leaderboards: " + playerData.getIsExemptFromLeaderboards());
         return false;
     }
 }
