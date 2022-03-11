@@ -94,7 +94,7 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("liststaffrank").setExecutor(new ListStaffRankCommand());
             getCommand("addpickaxexp").setExecutor(new AddPickaxeXPCommand());
             getCommand("addpickaxeblocksmined").setExecutor(new AddPickaxeBlocksMinedCommand());
-            getCommand("exemptfromleaderboards").setExecutor(new ExemptFromLeaderboards());
+            getCommand("exemptfromleaderboards").setExecutor(new ExemptFromLeaderboardsCommand());
             getCommand("givevote").setExecutor(new GiveVoteCommand());
             //--Normal Commands
             getCommand("shards").setExecutor(new ShardsCommand());

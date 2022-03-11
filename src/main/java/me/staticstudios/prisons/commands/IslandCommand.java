@@ -352,7 +352,7 @@ public class IslandCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "This player is already a member of a cell!");
                     return false;
                 }
-                player.sendMessage(ChatColor.WHITE + "You  invited " + ChatColor.AQUA + invited.getName() + ChatColor.GREEN + " to join " + ChatColor.LIGHT_PURPLE + playerData.getPlayerIsland().getIslandName());
+                player.sendMessage(ChatColor.WHITE + "You invited " + ChatColor.AQUA + invited.getName() + ChatColor.WHITE + " to join " + ChatColor.LIGHT_PURPLE + playerData.getPlayerIsland().getIslandName());
                 invited.sendMessage(ChatColor.WHITE + "You were invited to join " + ChatColor.LIGHT_PURPLE + playerData.getPlayerIsland().getIslandName() + ChatColor.RESET + "" + ChatColor.WHITE + " by " + ChatColor.AQUA + player.getName() + ChatColor.RESET + "\n" + ChatColor.GRAY + "Type \"/cell invites\" to view your current invites.");
                 SkyblockIslandInviteManager.addIslandInvite(invited.getUniqueId().toString(), player.getUniqueId().toString(), playerData.getPlayerIslandUUID());
             }

@@ -156,7 +156,7 @@ public class PlayerIslandMenus {
                     String[] lore;
                     if (uuid.equals(player.getUniqueId().toString())) {
                         lore = new String[]{ChatColor.GRAY + "You cannot manage yourself."};
-                    } else if (island.getIslandOwnerUUID().equals(player.getUniqueId().toString()) || island.getIslandManagerUUID().equals(player.getUniqueId().toString()) || island.getIslandAdminUUIDS().contains(player.getUniqueId().toString())) {
+                    } else if (!island.getIslandOwnerUUID().equals(player.getUniqueId().toString()) && !island.getIslandManagerUUID().equals(player.getUniqueId().toString()) || island.getIslandAdminUUIDS().contains(player.getUniqueId().toString())) {
                         lore = new String[]{ChatColor.GRAY + "Click to manage " + new ServerData().getPlayerNameFromUUID(uuid)};
                     } else {
                         lore = new String[]{ChatColor.GRAY + "You cannot manage this player."};
@@ -687,7 +687,7 @@ public class PlayerIslandMenus {
                 PlayerData playerData = new PlayerData(player);
                 if (!playerData.getIfPlayerHasIsland()) return;
                 SkyBlockIsland island = playerData.getPlayerIsland();
-                if (island.getIslandOwnerUUID().equals(player.getUniqueId().toString()) || island.getIslandManagerUUID().equals(player.getUniqueId().toString())) {
+                if (!island.getIslandOwnerUUID().equals(player.getUniqueId().toString()) && !island.getIslandManagerUUID().equals(player.getUniqueId().toString())) {
                     player.sendMessage(ChatColor.RED + "Only the cell owner or manager can do this!");
                     return;
                 }
@@ -700,7 +700,7 @@ public class PlayerIslandMenus {
                 PlayerData playerData = new PlayerData(player);
                 if (!playerData.getIfPlayerHasIsland()) return;
                 SkyBlockIsland island = playerData.getPlayerIsland();
-                if (island.getIslandOwnerUUID().equals(player.getUniqueId().toString()) || island.getIslandManagerUUID().equals(player.getUniqueId().toString())) {
+                if (!island.getIslandOwnerUUID().equals(player.getUniqueId().toString()) && !island.getIslandManagerUUID().equals(player.getUniqueId().toString())) {
                     player.sendMessage(ChatColor.RED + "Only the cell owner or manager can do this!");
                     return;
                 }

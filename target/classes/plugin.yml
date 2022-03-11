@@ -195,3 +195,23 @@ commands:
       - is
       - c
       - cell
+  exemptfromleaderboards:
+    desription: a
+    aliases:
+      - dontdisplayonlb
+    permission: static.staff.admin
+  balance:
+    description: a
+    aliases:
+      - bal
+  tokens:
+    description: a
+    aliases:
+      - tokenbal
+  shards:
+    description: a
+    aliases:
+      - shardbal
+  givevote:
+    desription: a
+    permission: static.staff.admin

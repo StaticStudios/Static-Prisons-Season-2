@@ -36,6 +36,7 @@ public class GUIPage {
         classes.add(GamblingMenus.class);
         classes.add(DailyRewardsMenus.class);
         classes.add(PlayerIslandMenus.class);
+        classes.add(RobotMenus.class);
         for (Class c : classes) {
             //Method[] methods = Main.class.getDeclaredMethods();
             Method[] methods = c.getDeclaredMethods();

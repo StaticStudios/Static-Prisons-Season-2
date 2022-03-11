@@ -17,7 +17,7 @@ public class ShardsCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
-        player.sendMessage(ChatColor.LIGHT_PURPLE + "Current shards: " + Utils.addCommasToNumber(new PlayerData(player).getShards()))
+        player.sendMessage(ChatColor.LIGHT_PURPLE + "Current shards: " + Utils.addCommasToNumber(new PlayerData(player).getShards()));
         return false;
     }
 }

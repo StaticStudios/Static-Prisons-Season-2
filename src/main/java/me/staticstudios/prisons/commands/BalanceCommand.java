@@ -17,7 +17,7 @@ public class BalanceCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
-        player.sendMessage(ChatColor.GREEN + "Current balance: $" + Utils.addCommasToNumber(new PlayerData(player).getMoney()))
+        player.sendMessage(ChatColor.GREEN + "Current balance: $" + Utils.addCommasToNumber(new PlayerData(player).getMoney()));
         return false;
     }
 }

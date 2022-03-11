@@ -21,6 +21,7 @@ public class TimePlayedTop {
         for (String uuid : new ServerData().getPlayerUUIDsToNamesMap().keySet()) {
             boolean ranked = false;
             PlayerData playerData = new PlayerData(uuid);
+            if (playerData.getIsExemptFromLeaderboards()) continue;
             for (int i = 0; i < topUUIDs.size(); i++) {
                 if (topValues.get(i).compareTo(playerData.getTimePlayed()) < 0) {
                     ranked = true;

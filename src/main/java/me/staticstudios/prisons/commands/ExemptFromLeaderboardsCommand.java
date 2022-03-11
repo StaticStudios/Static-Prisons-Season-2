@@ -1,5 +1,6 @@
 package me.staticstudios.prisons.commands;
 
+import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.misc.BroadcastMessage;
 import me.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.Bukkit;
@@ -15,11 +16,11 @@ public class ExemptFromLeaderboardsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) reruen false;
+        if (!(sender instanceof Player)) return false;
             Player player = (Player) sender;
             PlayerData playerData = new PlayerData(player);
             playerData.setIsExemptFromLeaderboards(!playerData.getIsExemptFromLeaderboards());
-            player.sendMessage(ChatColor.GREEN + "Stats will display on leaderboards: " + playerData.getIsExemptFromLeaderboards());
+            player.sendMessage(ChatColor.GREEN + "Stats will display on leaderboards: " + !playerData.getIsExemptFromLeaderboards());
         return false;
     }
 }

@@ -8,6 +8,7 @@ import me.staticstudios.prisons.data.dataHandling.DataWriter;
 import me.staticstudios.prisons.enchants.CustomEnchants;
 import me.staticstudios.prisons.events.EventManager;
 import me.staticstudios.prisons.islands.IslandManager;
+import me.staticstudios.prisons.islands.special.robots.BaseRobot;
 import me.staticstudios.prisons.leaderboards.BlocksMinedTop;
 import me.staticstudios.prisons.mines.BaseMine;
 import me.staticstudios.prisons.mines.MineManager;
@@ -35,9 +36,9 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
-        Block block = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 1, player.getLocation().getZ()).getBlock();
-        new CustomBlockData(block, Main.getMain()).clear();
-        //Test comment to check is github works
+        Location loc = player.getLocation().getBlock().getLocation();
+        loc.add(0.5, 0, 0.5);
+        BaseRobot.spawnRobot(loc, "money", Color.GREEN, ChatColor.GREEN + "Money Miner");
         return false;
     }
 }

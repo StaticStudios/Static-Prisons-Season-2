@@ -11,6 +11,7 @@ import me.staticstudios.prisons.enchants.EnchantEffects;
 import me.staticstudios.prisons.enchants.PrisonEnchants;
 import me.staticstudios.prisons.events.EventManager;
 import me.staticstudios.prisons.gui.GUI;
+import me.staticstudios.prisons.islands.special.robots.BaseRobot;
 import me.staticstudios.prisons.misc.Warps;
 import me.staticstudios.prisons.misc.chat.CustomChatMessage;
 import me.staticstudios.prisons.misc.scoreboard.CustomScoreboard;
@@ -189,5 +190,9 @@ public class Events implements Listener {
             e.setCancelled(true);
             e.getPlayer().sendMessage(ChatColor.RED + "You cannot drop this item! Type /dropitem to drop it!");
         }
+    }
+    @EventHandler
+    void entityInteract(PlayerInteractEntityEvent e) {
+        if (BaseRobot.entityClicked(e)) return;
     }
 }

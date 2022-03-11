@@ -17,7 +17,7 @@ public class TokensCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
-        player.sendMessage(ChatColor.AQUA + "Current token balance: " + Utils.addCommasToNumber(new PlayerData(player).getTokens()))
+        player.sendMessage(ChatColor.AQUA + "Current token balance: " + Utils.addCommasToNumber(new PlayerData(player).getTokens()));
         return false;
     }
 }

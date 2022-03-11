@@ -5,6 +5,7 @@ import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.data.serverData.ServerData;
 import me.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -116,11 +117,11 @@ public class ModifyStatsCommand implements CommandExecutor {
                 }
             }
             case "pmine", "privatemine" -> {
-                int amount;
                 switch (args[2].toLowerCase()) {
                     case "set" -> {
+                        int amount;
                         try {
-                            amount = new BigInteger(args[3]);
+                            amount = Integer.parseInt(args[3]);
                         } catch (NumberFormatException e) {
                             sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats pmine <who> <set> <amount>"));
                             return false;
