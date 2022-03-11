@@ -215,3 +215,7 @@ commands:
   givevote:
     desription: a
     permission: static.staff.admin
+  backpack:
+    desription: a
+    aliases:
+      - bp
