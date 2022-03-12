@@ -214,7 +214,7 @@ public class PrisonEnchants {
             return false;
         }
     };
-    public static final PrisonEnchant TOKEN_POLISHER = new PrisonEnchant("tokenPolisher",10, BigInteger.valueOf(10000000000L), 1000) {
+    public static final PrisonEnchant TOKEN_POLISHER = new PrisonEnchant("tokenPolisher",5, BigInteger.valueOf(10000000000L), 1000) {
         @Override
         public boolean tryToBuyLevels(Player player, ItemStack pickaxe, int levelsToBuy) {
             PlayerData playerData = new PlayerData(player);
@@ -263,6 +263,56 @@ public class PrisonEnchants {
             return false;
         }
     };
+    public static final PrisonEnchant CONSISTENCY  = new PrisonEnchant("consistency",5, BigInteger.valueOf(100000000000L), 2500) {
+        @Override
+        public boolean tryToBuyLevels(Player player, ItemStack pickaxe, int levelsToBuy) {
+            PlayerData playerData = new PlayerData(player);
+            levelsToBuy = Math.min(MAX_LEVEL, (int) CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID) + levelsToBuy) - (int) CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID);
+            if (levelsToBuy <= 0) {
+                player.sendMessage(ChatColor.RED + "This enchant is already at its max level!");
+                return false;
+            }
+            //Check pickaxe level
+            int pickaxeLevel = PrisonPickaxe.getLevel(pickaxe);
+            int softMaxLevel = 0;
+            int levelRequired = 200;
+            if (pickaxeLevel >= 200) {
+                levelRequired = 250;
+                softMaxLevel = 1;
+            }
+            if (pickaxeLevel >= 250) {
+                levelRequired = 300;
+                softMaxLevel = 2;
+            }
+            if (pickaxeLevel >= 300) {
+                levelRequired = 350;
+                softMaxLevel = 3;
+            }
+            if (pickaxeLevel >= 350) {
+                levelRequired = 400;
+                softMaxLevel = 4;
+            }
+            if (pickaxeLevel >= 400) {
+                levelRequired = 999;
+                softMaxLevel = 5;
+            }
+            if (CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID) + levelsToBuy > softMaxLevel) {
+                player.sendMessage(ChatColor.RED + "You cannot upgrade this enchant past level " + Utils.addCommasToNumber(softMaxLevel) + "! To be able to upgrade it further, your pickaxe level must be at least " + levelRequired);
+                return false;
+            }
+            BigInteger cost = calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, ENCHANT_ID), levelsToBuy);
+            if (playerData.getTokens().compareTo(cost) > -1) {
+                playerData.removeTokens(cost);
+                CustomEnchants.addEnchantLevel(pickaxe, ENCHANT_ID, levelsToBuy);
+                player.sendMessage(ChatColor.AQUA + "You have successfully upgraded your pickaxe!");
+                return true;
+            } else {
+                player.sendMessage(ChatColor.RED + "You do not have enough tokens to buy this!");
+            }
+            return false;
+        }
+    };
+
     public static final PrisonEnchant KEY_FINDER = new PrisonEnchant("keyFinder",10000, BigInteger.valueOf(5000), 100);
     public static final PrisonEnchant XP_FINDER = new PrisonEnchant("xpFinder",5, BigInteger.valueOf(25000000000L), 1000);
 

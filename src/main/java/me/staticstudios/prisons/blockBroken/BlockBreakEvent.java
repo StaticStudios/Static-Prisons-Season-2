@@ -132,6 +132,7 @@ public class BlockBreakEvent implements Listener {
         //Adds one token for every block broken
         BigInteger tokensToAdd = totalAmountOfBlocksBroken.multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenator") + 1));
         tokensToAdd = tokensToAdd.add(tokensToAdd.multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenPolisher") + 1)).divide(BigInteger.TEN));
+        if (CustomEnchants.uuidToTempTokenMultiplier.containsKey(player.getUniqueId())) tokensToAdd = tokensToAdd.add(tokensToAdd.multiply(BigInteger.valueOf((long) (CustomEnchants.uuidToTempTokenMultiplier.get(player.getUniqueId()) * 10))).divide(BigInteger.TEN));
         if (tokensToAdd.compareTo(BigInteger.ZERO) < 0) tokensToAdd = BigInteger.ONE;
         playerData.addTokens(tokensToAdd);
         //Add the blocks mined to the player and pickaxe

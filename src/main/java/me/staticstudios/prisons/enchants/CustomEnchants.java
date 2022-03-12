@@ -8,25 +8,29 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.math.BigInteger;
+import java.util.*;
 
 public class CustomEnchants {
 
     public static final LinkedHashMap<String, String> enchantIDsToNames = new LinkedHashMap<String, String>();
+    public static Map<UUID, Integer> uuidToTimeMiningConsistently = new HashMap<>();
+    public static Map<UUID, Integer> uuidToTimeSinceLastMined = new HashMap<>();
+    public static Map<UUID, BigInteger> uuidToLastBlocksMined = new HashMap<>();
+    public static Map<UUID, Double> uuidToTempTokenMultiplier = new HashMap<>();
 
     static {
         enchantIDsToNames.put("fortune", ChatColor.AQUA + "Fortune");
         enchantIDsToNames.put("tokenator", ChatColor.AQUA + "Tokenator");
         enchantIDsToNames.put("tokenPolisher", ChatColor.AQUA + "Token Polisher");
         enchantIDsToNames.put("cashGrab", ChatColor.AQUA + "Cash Grab");
+        enchantIDsToNames.put("xpFinder", ChatColor.AQUA + "XP Finder");
+        enchantIDsToNames.put("consistency", ChatColor.AQUA + "Consistency");
+        enchantIDsToNames.put("keyFinder", ChatColor.AQUA + "Key Finder");
+        enchantIDsToNames.put("merchant", ChatColor.AQUA + "Merchant");
         enchantIDsToNames.put("jackHammer", ChatColor.AQUA + "Jack Hammer");
         enchantIDsToNames.put("doubleWammy", ChatColor.AQUA + "Double Wammy");
         enchantIDsToNames.put("multiDirectional", ChatColor.AQUA + "Multi-Directional");
-        enchantIDsToNames.put("xpFinder", ChatColor.AQUA + "XP Finder");
-        enchantIDsToNames.put("merchant", ChatColor.AQUA + "Merchant");
-        enchantIDsToNames.put("keyFinder", ChatColor.AQUA + "Key Finder");
         enchantIDsToNames.put("haste", ChatColor.AQUA + "Haste");
         enchantIDsToNames.put("speed", ChatColor.AQUA + "Speed");
         enchantIDsToNames.put("nightVision", ChatColor.AQUA + "Night Vision");

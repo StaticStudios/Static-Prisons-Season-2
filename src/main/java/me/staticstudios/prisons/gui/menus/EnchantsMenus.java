@@ -138,7 +138,11 @@ public class EnchantsMenus {
                         ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.XP_FINDER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "xpFinder"), 1)),
                         ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
                         ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.XP_FINDER.MAX_LEVEL)));
-                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.EMERALD, ChatColor.YELLOW + "" + ChatColor.BOLD + "Consistency", ChatColor.GRAY + "Gives a temp +0.01x token multiplier every 2 mins of consistent", ChatColor.GRAY + "mining; each level increases your max multiplier by +x0.01.", ChatColor.GRAY + "Multiplier expires after 2 minutes of not mining,", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "xpFinder") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.XP_FINDER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "xpFinder"), 1)),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.XP_FINDER.MAX_LEVEL)));
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 menuItems.add(GUI.createDarkGrayPlaceholderItem());
@@ -292,6 +296,17 @@ public class EnchantsMenus {
                     return;
                 }
                 GUI.getGUIPage("enchantsXpFinder").open(player);
+            }
+            @Override
+            public void item23Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                GUI.getGUIPage("enchantsConsistency").open(player);
             }
 
 
@@ -1280,6 +1295,47 @@ public class EnchantsMenus {
         };
         guiPage.identifier = "enchantsXpFinder";
         guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dUpgrade XP Finder");
+        guiPage.onCloseGoToMenu = "enchantsMain";
+        guiPage.register();
+    }
+    //xp menu
+    public static void consistency() {
+        GUIPage guiPage = new GUIPage() {
+            @Override
+            public void onOpen(Player player) {
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                PlayerData playerData = new PlayerData(player);
+                menuItems = new ArrayList<>();
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 1 Level(s) Of Consistency", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "consistency") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.CONSISTENCY.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "consistency"), 1)),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.CONSISTENCY.MAX_LEVEL)));
+            }
+            @Override
+            public void item4Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.CONSISTENCY.tryToBuyLevels(player, pickaxe, 1)) open(player);
+                EnchantEffects.giveEffect(player, player.getInventory().getItemInMainHand());
+            }
+        };
+        guiPage.identifier = "enchantsConsistency";
+        guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dUpgrade Consistency");
         guiPage.onCloseGoToMenu = "enchantsMain";
         guiPage.register();
     }
