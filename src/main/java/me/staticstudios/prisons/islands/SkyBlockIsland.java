@@ -19,6 +19,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import io.papermc.lib.PaperLib;
+import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.data.serverData.IslandData;
 import me.staticstudios.prisons.data.serverData.PlayerData;
 import me.staticstudios.prisons.data.serverData.ServerData;
@@ -48,11 +49,13 @@ public class SkyBlockIsland extends IslandData {
         PaperLib.teleportAsync(player, new Location(Bukkit.getWorld("islands"), getIslandMemberWarpX(), getIslandMemberWarpY(), getIslandMemberWarpZ()));
         IslandManager.playersInIslands.put(player.getUniqueId(), UUID.fromString(getUUID()));
         player.setAllowFlight(true);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
     }
     public void teleportPlayerToVisitorWarp(Player player) {
         PaperLib.teleportAsync(player, new Location(Bukkit.getWorld("islands"), getIslandVisitorWarpX(), getIslandVisitorWarpY(), getIslandVisitorWarpZ()));
         IslandManager.playersInIslands.put(player.getUniqueId(), UUID.fromString(getUUID()));
         player.setAllowFlight(true);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
     }
     public void playerJoined(Player player) {
         PlayerData playerData = new PlayerData(player);

@@ -1,6 +1,7 @@
 package me.staticstudios.prisons.misc;
 
 import io.papermc.lib.PaperLib;
+import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.islands.IslandManager;
 import me.staticstudios.prisons.mines.BaseMine;
 import org.bukkit.Bukkit;
@@ -106,6 +107,7 @@ public class Warps {
             case 25 -> PaperLib.teleportAsync(player, MINE_Z);
         }
         player.setAllowFlight(true);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
         IslandManager.playerLeftIsland(player);
     }
     public static void warpPrestigeMine(Player player, int mine) {
@@ -127,6 +129,7 @@ public class Warps {
             case 14 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_15);
         }
         player.setAllowFlight(true);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
         IslandManager.playerLeftIsland(player);
     }
     public static void warpRankMine(Player player, int mine) {
@@ -138,11 +141,13 @@ public class Warps {
             case 4 -> PaperLib.teleportAsync(player, RANK_MINE_5);
         }
         player.setAllowFlight(true);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
         IslandManager.playerLeftIsland(player);
     }
     public static void warEventMine(Player player) {
         PaperLib.teleportAsync(player, EVENT_MINE);
         player.setAllowFlight(true);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
         IslandManager.playerLeftIsland(player);
     }
 }

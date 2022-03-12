@@ -139,10 +139,10 @@ public class EnchantsMenus {
                         ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
                         ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.XP_FINDER.MAX_LEVEL)));
                 menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.EMERALD, ChatColor.YELLOW + "" + ChatColor.BOLD + "Consistency", ChatColor.GRAY + "Gives a temp +0.01x token multiplier every 2 mins of consistent", ChatColor.GRAY + "mining; each level increases your max multiplier by +x0.01.", ChatColor.GRAY + "Multiplier expires after 2 minutes of not mining,", "",
-                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "xpFinder") + ""),
-                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.XP_FINDER.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "xpFinder"), 1)),
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "consistency") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.CONSISTENCY.calculatePrice((int) CustomEnchants.getEnchantLevel(pickaxe, "consistency"), 1)),
                         ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
-                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.XP_FINDER.MAX_LEVEL)));
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.CONSISTENCY.MAX_LEVEL)));
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 menuItems.add(GUI.createDarkGrayPlaceholderItem());
