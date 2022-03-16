@@ -219,3 +219,20 @@ commands:
     desription: a
     aliases:
       - bp
+  message:
+    description: a
+    aliases:
+      - msg
+      - tell
+      - w
+      - whisper
+  reply:
+    description: a
+    aliases:
+      - r
+  watchmessages:
+    description: a
+    permission: static.staff.admin
+    aliases:
+      - msgspy
+      - socialspy

@@ -1,16 +1,17 @@
 package me.staticstudios.prisons;
 
-import me.staticstudios.prisons.auctionHouse.AuctionHouseManager;
-import me.staticstudios.prisons.data.dataHandling.DataWriter;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.discord.DiscordBot;
-import me.staticstudios.prisons.enchants.CustomEnchants;
-import me.staticstudios.prisons.enchants.EnchantEffects;
-import me.staticstudios.prisons.events.EventManager;
-import me.staticstudios.prisons.leaderboards.LeaderboardManager;
-import me.staticstudios.prisons.mines.MineManager;
-import me.staticstudios.prisons.misc.scoreboard.CustomScoreboard;
-import me.staticstudios.prisons.misc.tablist.TabList;
+import me.staticstudios.prisons.external.DiscordLink;
+import me.staticstudios.prisons.gameplay.auctionHouse.AuctionHouseManager;
+import me.staticstudios.prisons.core.data.dataHandling.DataWriter;
+import me.staticstudios.prisons.core.data.serverData.PlayerData;
+import me.staticstudios.prisons.external.discord_old.DiscordBot;
+import me.staticstudios.prisons.core.enchants.CustomEnchants;
+import me.staticstudios.prisons.core.enchants.EnchantEffects;
+import me.staticstudios.prisons.gameplay.events.EventManager;
+import me.staticstudios.prisons.gameplay.leaderboards.LeaderboardManager;
+import me.staticstudios.prisons.core.mines.MineManager;
+import me.staticstudios.prisons.gameplay.scoreboard.CustomScoreboard;
+import me.staticstudios.prisons.gameplay.tablist.TabList;
 import me.staticstudios.prisons.utils.StaticVars;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatMessageType;
@@ -29,7 +30,7 @@ public class TimedTasks {
         //Auto saves data
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), DataWriter::saveData, 0, 20 * 60 * 5);
         //Update the bots status
-        Bukkit.getScheduler().runTaskTimer(Main.getMain(), DiscordBot::updatePlayersOnline, 200, 20 * 60);
+        Bukkit.getScheduler().runTaskTimer(Main.getMain(), DiscordLink::updatePlayerCount, 200, 200);
         //Manages mine refills
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), MineManager::refillManager, 0, 2);
         //Show all players their backpacks

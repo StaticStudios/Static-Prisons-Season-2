@@ -8,27 +8,26 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import me.staticstudios.prisons.auctionHouse.AuctionHouseManager;
-import me.staticstudios.prisons.blockBroken.BlockBreakEvent;
-import me.staticstudios.prisons.commands.*;
-import me.staticstudios.prisons.commands.tabCompletion.IslandTabCompletion;
-import me.staticstudios.prisons.commands.test.Test2Command;
-import me.staticstudios.prisons.commands.test.TestCommand;
-import me.staticstudios.prisons.customItems.Kits;
-import me.staticstudios.prisons.data.dataHandling.DataWriter;
-import me.staticstudios.prisons.discord.DiscordBot;
-import me.staticstudios.prisons.discord.LinkHandler;
-import me.staticstudios.prisons.gui.GUIListener;
-import me.staticstudios.prisons.gui.GUIPage;
-import me.staticstudios.prisons.islands.IslandManager;
-import me.staticstudios.prisons.mines.MineManager;
-import me.staticstudios.prisons.misc.tablist.TabList;
-import me.staticstudios.prisons.vote_store.VoteStoreListener;
+import me.staticstudios.prisons.external.DiscordLink;
+import me.staticstudios.prisons.gameplay.auctionHouse.AuctionHouseManager;
+import me.staticstudios.prisons.gameplay.commands.*;
+import me.staticstudios.prisons.gameplay.commands.tabCompletion.IslandTabCompletion;
+import me.staticstudios.prisons.gameplay.commands.test.Test2Command;
+import me.staticstudios.prisons.gameplay.commands.test.TestCommand;
+import me.staticstudios.prisons.gameplay.customItems.Kits;
+import me.staticstudios.prisons.core.data.dataHandling.DataWriter;
+import me.staticstudios.prisons.external.discord_old.DiscordBot;
+import me.staticstudios.prisons.external.discord_old.LinkHandler;
+import me.staticstudios.prisons.gameplay.gui.GUIListener;
+import me.staticstudios.prisons.gameplay.gui.GUIPage;
+import me.staticstudios.prisons.gameplay.islands.IslandManager;
+import me.staticstudios.prisons.core.mines.MineManager;
+import me.staticstudios.prisons.gameplay.tablist.TabList;
+import me.staticstudios.prisons.gameplay.commands.vote_store.VoteStoreListener;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -68,6 +67,7 @@ public final class Main extends JavaPlugin implements Listener {
             TabList.initialize();
             GUIPage.initializeGUIPages();
             TimedTasks.initializeTasks();
+            DiscordLink.initialize();
 
 
 
@@ -96,7 +96,10 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("addpickaxeblocksmined").setExecutor(new AddPickaxeBlocksMinedCommand());
             getCommand("exemptfromleaderboards").setExecutor(new ExemptFromLeaderboardsCommand());
             getCommand("givevote").setExecutor(new GiveVoteCommand());
+            getCommand("watchmessages").setExecutor(new MessageSpyCommand());
             //--Normal Commands
+            getCommand("reply").setExecutor(new ReplyCommand());
+            getCommand("message").setExecutor(new MessageCommand());
             getCommand("backpack").setExecutor(new BackpackCommand());
             getCommand("shards").setExecutor(new ShardsCommand());
             getCommand("tokens").setExecutor(new TokensCommand());
@@ -138,14 +141,14 @@ public final class Main extends JavaPlugin implements Listener {
             //Tab completion
             getCommand("island").setTabCompleter(new IslandTabCompletion());
             //Register Events
-            getServer().getPluginManager().registerEvents(new BlockBreakEvent(), main);
+            getServer().getPluginManager().registerEvents(new me.staticstudios.prisons.core.EventListener(), main);
             getServer().getPluginManager().registerEvents(new GUIListener(), main);
             getServer().getPluginManager().registerEvents(new Events(), main);
             getCommand("_").setExecutor(new VoteStoreListener());
             //Say that the server has loaded
             hasLoaded = true;
-            LinkHandler.initialize();
-            DiscordBot.initialize();
+            //LinkHandler.initialize();
+            //DiscordBot.initialize();
         }, 20);
     }
 
@@ -155,7 +158,7 @@ public final class Main extends JavaPlugin implements Listener {
     public void onDisable() {
         DataWriter.saveDataSync();
         AuctionHouseManager.saveAllAuctions();
-        DiscordBot.jda.shutdownNow();
+        //DiscordBot.jda.shutdownNow();
     }
 
     static void loadMineWorld() {
