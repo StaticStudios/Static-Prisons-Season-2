@@ -36,18 +36,7 @@ public class DiscordCommand implements CommandExecutor {
         }
         switch (args[0].toLowerCase()) {
             case "link" -> DiscordLink.initiateLinkRequest(player.getUniqueId());
-            case "unlink" -> {
-                if (LinkHandler.checkIfLinkedFromUUID(player.getUniqueId().toString())) {
-                    if (LinkHandler.getTimeLinkedFromUUID(player.getUniqueId().toString()) + 24 * 60 * 60 * 1000 < Instant.now().toEpochMilli()) {
-                        player.sendMessage(ChatColor.RED + "You must wait 24h after linking your account before you can unlink it.");
-                        return false;
-                    }
-                    LinkHandler.unlinkFromUUID(player.getUniqueId().toString());
-                    player.sendMessage(ChatColor.GREEN + "You account(s) have been successfully unlinked!");
-                } else {
-                    player.sendMessage(ChatColor.RED + "Your account is not linked to a discord account!\n" + ChatColor.AQUA + "To link your discord account to your Minecraft account, please join our discord and type in the following in #bot-commands: " + ChatColor.LIGHT_PURPLE + "prisons!link " + DiscordLinkHandler.addInvite(player.getUniqueId().toString()));
-                }
-            }
+            case "unlink" -> DiscordLink.unlinkAccount(player.getUniqueId());
         }
 
         return true;

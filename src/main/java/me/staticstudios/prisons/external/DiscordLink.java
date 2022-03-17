@@ -98,7 +98,25 @@ public class DiscordLink {
     }
 
     public static void unlinkAccount(UUID playerUUID) {
-
+        while (MySQLConnection.getConnection() == null) {
+            //If the connection is null, wait 1 second and try again
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        String query = "SELECT accountUUID FROM `linkedAccounts` WHERE EXISTS(SELECT * FROM `uuidIGN` WHERE uuid = '" + playerUUID + "')";
+        try (Statement stmt = MySQLConnection.getConnection().createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            rs.getString("accountUUID"); //Check if it throws an error
+            String update = "DELETE FROM `linkedAccounts` WHERE accountUUID = '" + playerUUID + "'";
+            if (Bukkit.getPlayer(playerUUID) != null) Bukkit.getPlayer(playerUUID).sendMessage(org.bukkit.ChatColor.AQUA + "You have successfully unlinked your account!");
+            stmt.executeUpdate(update);
+        } catch (SQLException e) {
+            if (Bukkit.getPlayer(playerUUID) != null) Bukkit.getPlayer(playerUUID).sendMessage(org.bukkit.ChatColor.AQUA + "Your account is not linked! To link your account, type " + ChatColor.ITALIC + "\"/discord link\"");
+        }
     }
 
     public static void initiateLinkRequest(UUID playerUUID) {
