@@ -1,6 +1,7 @@
 package me.staticstudios.prisons.gameplay.commands;
 
 import me.staticstudios.prisons.Main;
+import me.staticstudios.prisons.external.DiscordLink;
 import me.staticstudios.prisons.external.discord_old.DiscordBot;
 import me.staticstudios.prisons.external.discord_old.DiscordLinkHandler;
 import me.staticstudios.prisons.external.discord_old.LinkHandler;
@@ -34,16 +35,7 @@ public class DiscordCommand implements CommandExecutor {
             return false;
         }
         switch (args[0].toLowerCase()) {
-            case "link" -> {
-                if (LinkHandler.checkIfLinkedFromUUID(player.getUniqueId().toString())) {
-                    Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
-                        User user = DiscordBot.jda.retrieveUserById(LinkHandler.getLinkedDiscordIDFromUUID(player.getUniqueId().toString())).complete();
-                        player.sendMessage(ChatColor.RED + "Your account is already linked to the following discord account: " + ChatColor.AQUA + user.getName() + "#" + user.getDiscriminator() + ChatColor.RED + ". If you would like to unlink your account, please run the following command: " + ChatColor.GRAY + "\"/discord unlink\"");
-                    });
-                } else {
-                    player.sendMessage(ChatColor.AQUA + "To link your discord account to your Minecraft account, please join our discord and type in the following in #bot-commands: " + ChatColor.LIGHT_PURPLE + "prisons!link " + DiscordLinkHandler.addInvite(player.getUniqueId().toString()) + "\n\n" + ChatColor.GRAY + "" + ChatColor.ITALIC + "This invite will expire in 5 minutes.");
-                }
-            }
+            case "link" -> DiscordLink.initiateLinkRequest(player.getUniqueId());
             case "unlink" -> {
                 if (LinkHandler.checkIfLinkedFromUUID(player.getUniqueId().toString())) {
                     if (LinkHandler.getTimeLinkedFromUUID(player.getUniqueId().toString()) + 24 * 60 * 60 * 1000 < Instant.now().toEpochMilli()) {

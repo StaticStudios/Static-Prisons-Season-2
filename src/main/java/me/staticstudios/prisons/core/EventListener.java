@@ -5,6 +5,7 @@ import me.staticstudios.prisons.core.enchants.EnchantEffects;
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
 import me.staticstudios.prisons.core.data.serverData.ServerData;
 import me.staticstudios.prisons.core.enchants.PrisonEnchants;
+import me.staticstudios.prisons.external.DiscordLink;
 import me.staticstudios.prisons.external.discord_old.DiscordAddRoles;
 import me.staticstudios.prisons.external.discord_old.DiscordBot;
 import me.staticstudios.prisons.external.discord_old.LinkHandler;
@@ -56,41 +57,7 @@ public class EventListener implements Listener {
         EnchantEffects.giveEffect(player, Utils.getItemInMainHand(player));
 
         //Updates a player's discord name
-        PlayerData playerData = new PlayerData(player);
-        playerData.setDiscordName("null");
-        //Check if a player is boosting the discord
-        playerData.setIsNitroBoosting(false);
-        if (LinkHandler.checkIfLinkedFromUUID(player.getUniqueId().toString())) {
-            try {
-                Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
-                    User user = DiscordBot.jda.retrieveUserById(LinkHandler.getLinkedDiscordIDFromUUID(player.getUniqueId().toString())).complete();
-                    playerData.setDiscordName(user.getName() + "#" + user.getDiscriminator());
-                });
-            } catch (Exception ignore) {
-                LinkHandler.unlinkFromUUID(player.getUniqueId().toString());
-            }
-            try {
-                DiscordAddRoles.giveRolesFromUUID(player.getUniqueId().toString());
-                Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
-                    DiscordBot.jda.getGuildById("587372348294955009").retrieveMemberById(LinkHandler.getLinkedDiscordIDFromUUID(player.getUniqueId().toString())).queue(member -> {
-                        for (Role role : member.getRoles()) {
-                            if (role.getId().equals("629662637625442305")) {
-                                playerData.setIsNitroBoosting(true);
-                                break;
-                            }
-                        }
-                    });
-                });
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                player.sendMessage(ChatColor.RED + "We were unable to get your linked discord information.");
-            }
-            Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-                if (playerData.getIsAutoSellEnabled() && !playerData.getCanEnableAutoSell() && !playerData.getPlayerRanks().contains("warrior") && !playerData.getIsNitroBoosting())
-                    playerData.setIsAutoSellEnabled(false);
-            }, 20 * 20);
-        }
-
+        DiscordLink.playerJoined(player);
     }
     @EventHandler
     void playerQuit(PlayerQuitEvent e) {

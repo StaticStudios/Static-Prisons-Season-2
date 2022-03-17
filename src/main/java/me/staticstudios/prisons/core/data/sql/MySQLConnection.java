@@ -1,10 +1,10 @@
-package me.staticstudios.prisons.core.data;
+package me.staticstudios.prisons.core.data.sql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class MySQLConnection {
+public class MySQLConnection { //TODO: put this in a config file
     private static String host = "51.83.66.220";
     private static String database = "staticst_discordLink";
     private static String port = "3306";

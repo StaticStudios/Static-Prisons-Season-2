@@ -12,8 +12,10 @@ import org.jetbrains.annotations.NotNull;
 public class TestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        //if (!(commandSender instanceof Player)) return false;
-        //Player player = (Player) commandSender;
+        Player player = null;
+        if (commandSender instanceof Player) {
+            player = (Player) commandSender;
+        }
         /*
         Location loc = player.getLocation().getBlock().getLocation();
         loc.add(0.5, 0, 0.5);
@@ -21,7 +23,7 @@ public class TestCommand implements CommandExecutor {
 
          */
 
-
+        DiscordLink.initiateLinkRequest(player.getUniqueId());
         return false;
     }
 }
