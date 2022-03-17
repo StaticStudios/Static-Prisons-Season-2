@@ -16,8 +16,6 @@ import me.staticstudios.prisons.gameplay.commands.test.Test2Command;
 import me.staticstudios.prisons.gameplay.commands.test.TestCommand;
 import me.staticstudios.prisons.gameplay.customItems.Kits;
 import me.staticstudios.prisons.core.data.dataHandling.DataWriter;
-import me.staticstudios.prisons.external.discord_old.DiscordBot;
-import me.staticstudios.prisons.external.discord_old.LinkHandler;
 import me.staticstudios.prisons.gameplay.gui.GUIListener;
 import me.staticstudios.prisons.gameplay.gui.GUIPage;
 import me.staticstudios.prisons.gameplay.islands.IslandManager;
@@ -147,8 +145,6 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("_").setExecutor(new VoteStoreListener());
             //Say that the server has loaded
             hasLoaded = true;
-            //LinkHandler.initialize();
-            //DiscordBot.initialize();
         }, 20);
     }
 

@@ -56,7 +56,7 @@ public class EventManager {
     //Question, answer
     public static final String[][] mathQuestions = new String[][]{
             {"1 + 10 * 6 - 2", "59"},
-            {"156 - 72 + 12 * 4", "138"},
+            {"156 - 72 + 12 * 4", "132"},
             {"16 - 2^4", "0"},
             {"(142 + 22 + 40 - 8 * 3) / 18 * 10", "1"},
             {"2^6", "64"},

@@ -4,7 +4,6 @@ import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
 import me.staticstudios.prisons.core.data.serverData.ServerData;
 import me.staticstudios.prisons.core.data.sql.MySQLConnection;
-import me.staticstudios.prisons.external.discord_old.DiscordLinkHandler;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

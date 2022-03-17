@@ -2,7 +2,6 @@ package me.staticstudios.prisons.gameplay.gui.menus;
 
 import me.staticstudios.prisons.gameplay.customItems.CustomItems;
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
-import me.staticstudios.prisons.external.discord_old.LinkHandler;
 import me.staticstudios.prisons.gameplay.gui.GUI;
 import me.staticstudios.prisons.gameplay.gui.GUIPage;
 import me.staticstudios.prisons.utils.Utils;
@@ -39,10 +38,10 @@ public class DailyRewardsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getClaimedDailyRewardsAt() + 1000 * 60 * 60 * 24 < Instant.now().toEpochMilli()) {
-                    if (!LinkHandler.checkIfLinkedFromUUID(player.getUniqueId().toString())) {
-                        player.sendMessage(ChatColor.RED + "You must link your discord account to claim daily rewards! type \"/discord link\"");
-                        return;
-                    }
+                    //if (!LinkHandler.checkIfLinkedFromUUID(player.getUniqueId().toString())) {
+                    //    player.sendMessage(ChatColor.RED + "You must link your discord account to claim daily rewards! type \"/discord link\"");
+                    //    return;
+                    //}
                     ItemStack item = null;
                     switch (Utils.randomInt(1, 10)) {
                         case 1 -> item = CustomItems.getCommonCrateKey(2);

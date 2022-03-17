@@ -2,7 +2,6 @@ package me.staticstudios.prisons.gameplay.gui.menus;
 
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
 import me.staticstudios.prisons.core.data.serverData.ServerData;
-import me.staticstudios.prisons.external.discord_old.LinkHandler;
 import me.staticstudios.prisons.gameplay.gui.GUI;
 import me.staticstudios.prisons.gameplay.gui.GUIPage;
 import me.staticstudios.prisons.utils.Utils;
@@ -26,7 +25,7 @@ public class StatsMenus {
                 }
                 PlayerData playerData = new PlayerData(new ServerData().getPlayerUUIDFromName(args));
                 String discordName = "not linked";
-                if (LinkHandler.checkIfLinkedFromUUID(playerData.getUUID())) discordName = playerData.getDiscordAccountName();
+                //if (LinkHandler.checkIfLinkedFromUUID(playerData.getUUID())) discordName = playerData.getDiscordAccountName();
                 guiTitle = ChatColor.LIGHT_PURPLE + args + "'s Stats";
                 String rankTag = "Member";
                 switch (playerData.getPlayerRank()) {

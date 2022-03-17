@@ -2,10 +2,6 @@ package me.staticstudios.prisons.gameplay.commands;
 
 import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.external.DiscordLink;
-import me.staticstudios.prisons.external.discord_old.DiscordBot;
-import me.staticstudios.prisons.external.discord_old.DiscordLinkHandler;
-import me.staticstudios.prisons.external.discord_old.LinkHandler;
-import net.dv8tion.jda.api.entities.User;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;

@@ -4,7 +4,6 @@ import me.staticstudios.prisons.external.DiscordLink;
 import me.staticstudios.prisons.gameplay.auctionHouse.AuctionHouseManager;
 import me.staticstudios.prisons.core.data.dataHandling.DataWriter;
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
-import me.staticstudios.prisons.external.discord_old.DiscordBot;
 import me.staticstudios.prisons.core.enchants.CustomEnchants;
 import me.staticstudios.prisons.core.enchants.EnchantEffects;
 import me.staticstudios.prisons.gameplay.events.EventManager;

@@ -177,12 +177,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.dv8tion</groupId>
-            <artifactId>JDA</artifactId>
-            <version>5.0.0-alpha.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.jeff_media</groupId>
             <artifactId>CustomBlockData</artifactId>
             <version>1.0.5</version>
