@@ -9,16 +9,19 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PrisonPickaxe {
-    public static final int BASE_XP_PER_BLOCK_BROKEN = 2;
-    public static final int BASE_XP_PER_PICKAXE_LEVEL = 10000;
-    public static final double XP_REQUIREMENT_INCREASE_PERCENTAGE = 0.05;
+    public static final long BASE_XP_PER_BLOCK_BROKEN = 2;
+    public static final long BASE_XP_PER_PICKAXE_LEVEL = 10000;
+    public static final int XP_INCREASES_EVERY_X_LEVELS = 25;
     public static long getXpRequiredForPickaxeLevel(int level) {
-        return BigDecimal.valueOf(BASE_XP_PER_PICKAXE_LEVEL).multiply(BigDecimal.valueOf(XP_REQUIREMENT_INCREASE_PERCENTAGE).add(BigDecimal.ONE).pow(level)).longValue();
+        long cost = BASE_XP_PER_BLOCK_BROKEN;
+        for (int i = 0; i < level; i++) cost += (i / XP_INCREASES_EVERY_X_LEVELS + 1) * BASE_XP_PER_PICKAXE_LEVEL;
+        return cost;
     }
 
     public static int getLevel(ItemStack pickaxe) {

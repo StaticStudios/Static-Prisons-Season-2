@@ -1,6 +1,7 @@
 package me.staticstudios.prisons.utils;
 
 import me.staticstudios.prisons.Main;
+import me.staticstudios.prisons.core.enchants.CustomEnchants;
 import me.staticstudios.prisons.core.enchants.PrisonPickaxe;
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
 import me.staticstudios.prisons.core.data.serverData.ServerData;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Utils {
+    private static final Random random = new Random();
     public static void checkIfPlayerHasJoinedBefore(Player player) {
         if (!new ServerData().checkIfPlayerHasJoinedBeforeByUUID(player.getUniqueId().toString())) {
             Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + Utils.addCommasToNumber(new ServerData().getPlayerUUIDsToNamesMap().size() + 1) + ")");
@@ -39,27 +41,32 @@ public class Utils {
         return player.getInventory().getItemInMainHand();
     }
 
+    public static int randomInt(int min, int max) {
+        return random.nextInt((max - min) + 1) + min;
+    }
+
     public static float randomFloat(float min, float max) {
-        return min + (float)(Math.random() * ((max - min) + 1));
+        return random.nextFloat((max - min) + 1) + min;
     }
+
     public static double randomDouble(float min, float max) {
-        return min + Math.random() * ((max - min) + 1);
+        return random.nextDouble((max - min) + 1) + min;
     }
+
     public static BigInteger randomBigInt(BigInteger min, BigInteger max) {
-        while (true) {
-            BigInteger bigInteger = max.subtract(min);
-            Random randNum = new Random();
-            int len = max.bitLength();
-            BigInteger res = new BigInteger(len, randNum);
-            if (res.compareTo(min) < 0) res = res.add(min);
-            if (res.compareTo(bigInteger) >= 0) return res.mod(bigInteger).add(min);
-        }
+        BigInteger bigInteger = max.subtract(min);
+        BigInteger res = new BigInteger(max.bitLength(), random);
+        if (res.compareTo(min) < 0) res = res.add(min);
+        if (res.compareTo(bigInteger) >= 0) res = res.mod(bigInteger).add(min);
+        return res;
     }
+
     public static ItemStack setItemCount(ItemStack itemStack, int amount) {
         itemStack = new ItemStack(itemStack);
         itemStack.setAmount(amount);
         return itemStack;
     }
+
     public static Location calcMinPoint(Location loc1, Location loc2) {
         if (!Objects.equals(loc1.getWorld(), loc2.getWorld())) {
             throw new IllegalArgumentException("Points must be in the same world");
@@ -70,6 +77,7 @@ public class Utils {
             return new Location(loc1.getWorld(), minX, minY, minZ);
         }
     }
+
     public static Location calcMaxPoint(Location loc1, Location loc2) {
         if (!Objects.equals(loc1.getWorld(), loc2.getWorld())) {
             throw new IllegalArgumentException("Points must be in the same world");
@@ -80,6 +88,7 @@ public class Utils {
             return new Location(loc1.getWorld(), maxX, maxY, maxZ);
         }
     }
+
     public static void updateLuckPermsForPlayerRanks(Player player) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
             PlayerData playerData = new PlayerData(player);
@@ -104,6 +113,7 @@ public class Utils {
             Main.luckPerms.getUserManager().saveUser(user);
         });
     }
+
     public static boolean writeToAFile(String filePath, List<String> linesToWrite, boolean append) {
         try {
             File file = new File(filePath);
@@ -128,6 +138,7 @@ public class Utils {
         }
         return true;
     }
+
     public static void writeToAFile(String filePath, String text) {
         try {
             File file = new File(filePath);
@@ -139,6 +150,7 @@ public class Utils {
             e.printStackTrace();
         }
     }
+
     public static List<String> getAllLinesInAFile(String filePath) {
         List<String> contents = new ArrayList<>();
         try {
@@ -149,9 +161,11 @@ public class Utils {
                 contents.add(scanner.nextLine());
             }
             scanner.close();
-        } catch (IOException ignore) {}
+        } catch (IOException ignore) {
+        }
         return contents;
     }
+
     public static String getFileContents(String filePath) {
         StringBuilder contents = new StringBuilder();
         try {
@@ -165,15 +179,17 @@ public class Utils {
                 firstLine = false;
             }
             scanner.close();
-        } catch (IOException ignore) {}
+        } catch (IOException ignore) {
+        }
         return contents.toString();
     }
-    public static void copyFileStructure(File source, File target){
+
+    public static void copyFileStructure(File source, File target) {
         try {
             ArrayList<String> ignore = new ArrayList<>(Arrays.asList("uid.dat", "session.lock"));
-            if(!ignore.contains(source.getName())) {
-                if(source.isDirectory()) {
-                    if(!target.exists())
+            if (!ignore.contains(source.getName())) {
+                if (source.isDirectory()) {
+                    if (!target.exists())
                         if (!target.mkdirs())
                             throw new IOException("Couldn't create world directory!");
                     String files[] = source.list();
@@ -207,29 +223,33 @@ public class Utils {
 
         return skullItem;
     }
-    public static int randomInt(int min, int max) {
-        return min + (int)(Math.random() * ((max - min) + 1));
-    }
+
 
 
     public static String addCommasToNumber(BigInteger value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
+
     public static String addCommasToNumber(int value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
+
     public static String addCommasToNumber(long value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
+
     public static String prettyNum(BigInteger num) {
-        return  prettyNum(num.toString());
+        return prettyNum(num.toString());
     }
+
     public static String prettyNum(long num) {
-        return  prettyNum(BigInteger.valueOf(num));
+        return prettyNum(BigInteger.valueOf(num));
     }
+
     public static String prettyNum(int num) {
-        return  prettyNum(BigInteger.valueOf(num));
+        return prettyNum(BigInteger.valueOf(num));
     }
+
     public static String prettyNum(String num) {
         List<String> abbreviations = new ArrayList<>();
         abbreviations.add("K");
@@ -278,6 +298,7 @@ public class Utils {
         }
         return prettyNum;
     }
+
     public static void addItemToPlayersInventoryAndDropExtra(Player player, ItemStack _item) {
         ItemStack item = new ItemStack(_item); //prevent decrementing stack counts
         int count = item.getAmount();
@@ -288,22 +309,24 @@ public class Utils {
             } else player.getWorld().dropItem(player.getLocation(), item);
         }
     }
-    static boolean hasAvailableSlot(Player player, ItemStack itemToAdd){
+
+    static boolean hasAvailableSlot(Player player, ItemStack itemToAdd) {
         Inventory inv = player.getInventory();
-        for (ItemStack item: inv.getStorageContents()) {
-            if(item == null) {
+        for (ItemStack item : inv.getStorageContents()) {
+            if (item == null) {
                 return true;
             }
         }
-        for (ItemStack item: inv.getStorageContents()) {
+        for (ItemStack item : inv.getStorageContents()) {
             ItemStack _item = item.clone();
             _item.setAmount(1);
-            if(item.getAmount() != 64 && _item.equals(itemToAdd)) {
+            if (item.getAmount() != 64 && _item.equals(itemToAdd)) {
                 return true;
             }
         }
         return false;
     }
+
     public static String getPrettyItemName(ItemStack item) {
         String name;
         if (!item.hasItemMeta()) {
@@ -319,11 +342,13 @@ public class Utils {
         }
         return name;
     }
+
     public static String getPrettyMaterialName(Material mat) {
         String name = capitalizeEachWord(mat.toString().replace("_", " "));
         name = ChatColor.RESET + "" + ChatColor.WHITE + name;
         return name;
     }
+
     private static String capitalizeEachWord(String words) {
         words = words.toLowerCase();
         return Stream.of(words.trim().split("\\s"))
@@ -331,6 +356,7 @@ public class Utils {
                 .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
                 .collect(Collectors.joining(" "));
     }
+
     public static boolean checkIsPrisonPickaxe(ItemStack item) {
         if (item == null) return false;
         if (!item.getType().equals(Material.DIAMOND_PICKAXE)) return false;
@@ -363,6 +389,9 @@ public class Utils {
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addEnchant(Enchantment.DIG_SPEED, 100, true);
         item.setItemMeta(meta);
+        CustomEnchants.setEnchantLevel(item, "fortune", 10);
+        CustomEnchants.setEnchantLevel(item, "oreSplitter", 10);
+        CustomEnchants.setEnchantLevel(item, "tokenator", 1);
         return item;
     }
 

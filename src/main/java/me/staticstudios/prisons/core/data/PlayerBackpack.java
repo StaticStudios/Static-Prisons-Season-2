@@ -57,7 +57,7 @@ public final class PlayerBackpack implements Serializable {
         BigInteger totalSellPrice = BigInteger.ZERO;
         if (backpack.getItemCount().compareTo(BigInteger.ZERO) > 0) {
             for (Material key : backpack.contents.keySet()) {
-                totalSellPrice = totalSellPrice.add(backpack.contents.get(key).multiply(SellPrices.getSellPriceOf(key)));
+                totalSellPrice = totalSellPrice.add(backpack.contents.get(key).multiply(Prices.getSellPriceOf(key)));
             }
         }
         totalSellPrice = new BigDecimal(totalSellPrice).multiply(BigDecimal.valueOf(multiplier)).toBigInteger();

@@ -6,8 +6,8 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SellPrices {
-    private static final Map<Material, BigInteger> BLOCK_SELL_PRICES = new HashMap<>();
+public class Prices {
+    private static Map<Material, BigInteger> BLOCK_SELL_PRICES = new HashMap<>();
     static {
         BLOCK_SELL_PRICES.put(Material.STONE, BigInteger.valueOf(1));
         BLOCK_SELL_PRICES.put(Material.COBBLESTONE, BigInteger.valueOf(2));

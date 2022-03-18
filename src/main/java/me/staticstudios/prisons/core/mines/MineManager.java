@@ -13,7 +13,7 @@ public class MineManager {
     public static Map<String, MineMinMaxX> mineIDsToMinMaxLocation = new HashMap<>();
     public static Map<String, BaseMine> minesThatShouldRefillOnTimer = new HashMap<>();
 
-    public static String getMineIDFromLocation(Location loc) {
+    public static String getMineIDFromLocation(Location loc) { //TODO: can be optimized knowing the center of every mine and centering the loc before hand instead of looping
         for (String key : mineIDsToMinMaxLocation.keySet()) {
             MineMinMaxX mineMinMaxX = mineIDsToMinMaxLocation.get(key);
             if (loc.getX() >= mineMinMaxX.minX && loc.getX() <= mineMinMaxX.maxX) return key;

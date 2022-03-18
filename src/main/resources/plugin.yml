@@ -33,6 +33,8 @@ commands:
     permission: static.staff.admin
   getnewpickaxe:
     description: a
+    aliases:
+      - pick
   sell:
     description: a
     aliases:

@@ -38,7 +38,7 @@ public class TimedTasks {
                 PlayerData playerData = new PlayerData(p);
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Your Backpack: " + Utils.addCommasToNumber(playerData.getBackpack().getItemCount()) + "/" + Utils.addCommasToNumber(playerData.getBackpack().getSize()) + " Blocks"));
             }
-        }, 0, 4);
+        }, 0, 1);
         //Scoreboard
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), CustomScoreboard::updateAllScoreboards, 0, 2);
         //Time played

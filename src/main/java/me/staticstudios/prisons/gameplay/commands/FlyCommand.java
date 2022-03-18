@@ -11,7 +11,7 @@ public class FlyCommand implements CommandExecutor {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
         player.setAllowFlight(true);
-        player.sendMessage("You may now fly!");
+        player.sendMessage("Whoosh!");
         return false;
     }
 }

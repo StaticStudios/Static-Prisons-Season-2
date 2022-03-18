@@ -2,12 +2,16 @@ package me.staticstudios.prisons.gameplay.commands.test;
 
 import me.staticstudios.prisons.external.DiscordLink;
 import me.staticstudios.prisons.gameplay.islands.special.robots.BaseRobot;
+import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.math.BigInteger;
+import java.time.Instant;
 
 public class TestCommand implements CommandExecutor {
     @Override
@@ -22,8 +26,6 @@ public class TestCommand implements CommandExecutor {
         BaseRobot.spawnRobot(loc, "money", Color.GREEN, ChatColor.GREEN + "Money Miner");
 
          */
-
-        DiscordLink.initiateLinkRequest(player.getUniqueId());
         return false;
     }
 }
