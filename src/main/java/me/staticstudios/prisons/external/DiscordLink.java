@@ -144,7 +144,7 @@ public class DiscordLink {
 
         StringBuilder random = new StringBuilder();
 
-        for(int i =0; i < LINK_CODE_LENGTH; i++) {
+        for(int i = 0; i < LINK_CODE_LENGTH; i++) {
             int index = (int) (Math.random() * ALPHANUMERIC.length);
             random.append(ALPHANUMERIC[index]);
         }
