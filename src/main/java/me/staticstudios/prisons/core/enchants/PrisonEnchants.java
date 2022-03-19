@@ -26,7 +26,7 @@ public class PrisonEnchants {
     //public static final PrisonEnchant TOKEN_POLISHER = new PrisonEnchant("tokenPolisher",5, BigInteger.valueOf(10000000000L));
     public static final PrisonEnchant CONSISTENCY  = new PrisonEnchant("consistency",5, BigInteger.valueOf(2500000));
 
-    public static final PrisonEnchant HASTE = new PrisonEnchant("haste",10000, BigInteger.ONE); //Normal effect
-    public static final PrisonEnchant SPEED = new PrisonEnchant("speed",3, BigInteger.ONE); //Normal effect
-    public static final PrisonEnchant NIGHT_VISION = new PrisonEnchant("nightVision",1, BigInteger.ONE); //normal effect
+    public static final PrisonEnchant HASTE = new PrisonEnchant("haste",10000, BigInteger.valueOf(100)); //Normal effect
+    public static final PrisonEnchant SPEED = new PrisonEnchant("speed",3, BigInteger.valueOf(100)); //Normal effect
+    public static final PrisonEnchant NIGHT_VISION = new PrisonEnchant("nightVision",1, BigInteger.valueOf(100)); //normal effect
 }

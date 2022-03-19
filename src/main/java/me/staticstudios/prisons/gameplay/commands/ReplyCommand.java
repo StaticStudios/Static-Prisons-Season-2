@@ -28,7 +28,7 @@ public class ReplyCommand implements CommandExecutor {
             return false;
         }
         StringBuilder message = new StringBuilder();
-        for (String arg : args) message.append(arg);
+        for (String arg : args) message.append(arg).append(" ");
         MessageHandler.playerToRecentMessaged.put(player.getUniqueId(), receiver.getUniqueId());
         MessageHandler.playerToRecentMessaged.put(receiver.getUniqueId(), player.getUniqueId());
         MessageHandler.sendMessage(player, receiver, message.toString());

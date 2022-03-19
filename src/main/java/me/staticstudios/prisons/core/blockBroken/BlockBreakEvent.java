@@ -54,7 +54,7 @@ public class BlockBreakEvent {
                 }
             }
         }
-        if (Utils.randomInt(1, 75) == 1) {//Multi-directional
+        if (Utils.randomInt(1, 125) == 1) {//Multi-directional
             int multiDirectionalLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "multiDirectional");
             if (multiDirectionalLevel > 0) {
                 if (Utils.randomInt(1, PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 10) <= multiDirectionalLevel + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 10) {
@@ -105,6 +105,7 @@ public class BlockBreakEvent {
             playerData.addBlocksToBackpack(key, blocksBroken.get(key).multiply(BigInteger.valueOf(fortuneMultiplier)));
             totalAmountOfBlocksBroken = totalAmountOfBlocksBroken.add(blocksBroken.get(key));
         }
+
         //Adds one token for every block broken
         //BigInteger tokensToAdd = totalAmountOfBlocksBroken.multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenator") + 1));
         //tokensToAdd = tokensToAdd.add(tokensToAdd.multiply(BigInteger.valueOf(CustomEnchants.getEnchantLevel(pickaxe, "tokenPolisher") + 1)).divide(BigInteger.TEN));
@@ -113,7 +114,7 @@ public class BlockBreakEvent {
         //playerData.addTokens(tokensToAdd);
 
 
-        int chance = Utils.randomInt(1, 500 - (int) CustomEnchants.getEnchantLevel(pickaxe, "tokenator") / 20);
+        int chance = Utils.randomInt(1, 450 - (int) CustomEnchants.getEnchantLevel(pickaxe, "tokenator") / 20);
         if (chance == 1) {
             //The player should receive tokens
             BigInteger tokens = BigInteger.valueOf(Utils.randomInt(200, 800));

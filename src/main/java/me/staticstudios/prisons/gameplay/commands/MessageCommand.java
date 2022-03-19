@@ -24,7 +24,7 @@ public class MessageCommand implements CommandExecutor {
             return false;
         }
         StringBuilder message = new StringBuilder();
-        for (int i = 1; i < args.length; i++) message.append(args[i]);
+        for (int i = 1; i < args.length; i++) message.append(args[i]).append(" ");
         MessageHandler.playerToRecentMessaged.put(player.getUniqueId(), receiver.getUniqueId());
         MessageHandler.playerToRecentMessaged.put(receiver.getUniqueId(), player.getUniqueId());
         MessageHandler.sendMessage(player, receiver, message.toString());
