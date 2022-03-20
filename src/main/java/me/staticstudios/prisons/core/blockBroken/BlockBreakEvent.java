@@ -114,7 +114,7 @@ public class BlockBreakEvent {
         //playerData.addTokens(tokensToAdd);
 
 
-        int chance = Utils.randomInt(1, 450 - (int) CustomEnchants.getEnchantLevel(pickaxe, "tokenator") / 20);
+        int chance = Utils.randomInt(1, 450 - (int) (CustomEnchants.getEnchantLevel(pickaxe, "tokenator") / 16.5)); //Max level requires 147 blocks on average
         if (chance == 1) {
             //The player should receive tokens
             BigInteger tokens = BigInteger.valueOf(Utils.randomInt(200, 800));
@@ -125,8 +125,14 @@ public class BlockBreakEvent {
         playerData.addBlocksMined(totalAmountOfBlocksBroken);
         PrisonPickaxe.addBlocksBroken(pickaxe, totalAmountOfBlocksBroken.longValue());
         PrisonPickaxe.addBlocksMined(pickaxe, 1); //Raw blocks
-        PrisonPickaxe.addXP(pickaxe, PrisonPickaxe.BASE_XP_PER_BLOCK_BROKEN);
-
+        if (PrisonPickaxe.addXP(pickaxe, PrisonPickaxe.BASE_XP_PER_BLOCK_BROKEN * totalAmountOfBlocksBroken.longValue())) {
+            player.sendMessage(ChatColor.LIGHT_PURPLE + "Your pickaxe leveled up to level " + ChatColor.WHITE + ChatColor.BOLD + PrisonPickaxe.getLevel(pickaxe) + "!");
+            if (PrisonPickaxe.getLevel(pickaxe) % 25 == 0) {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    p.sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + "'s pickaxe leveled up to level " + ChatColor.WHITE + ChatColor.BOLD + PrisonPickaxe.getLevel(pickaxe) + "!");
+                }
+            }
+        }
 
         //If the player's backpack was not full but now is, tell them it has filled up or auto sell
         if (playerData.checkIfBackpackIsFull()) {

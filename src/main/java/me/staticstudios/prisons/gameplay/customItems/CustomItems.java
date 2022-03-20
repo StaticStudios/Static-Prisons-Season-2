@@ -103,7 +103,7 @@ public class CustomItems {
         meta.setDisplayName(PICKAXE_TIER_2_NAME);
         item.setItemMeta(meta);
         CustomEnchants.setEnchantLevel(item, "fortune", 50);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 10);
+        CustomEnchants.setEnchantLevel(item, "tokenator", 20);
         return item;
     }
     public static ItemStack getPickaxeTier3() {
@@ -112,8 +112,8 @@ public class CustomItems {
         meta.setDisplayName(PICKAXE_TIER_3_NAME);
         item.setItemMeta(meta);
         CustomEnchants.setEnchantLevel(item, "fortune", 100);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 25);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 100);
+        CustomEnchants.setEnchantLevel(item, "tokenator", 50);
+        CustomEnchants.setEnchantLevel(item, "jackHammer", 15);
         return item;
     }
     public static ItemStack getPickaxeTier4() {
@@ -123,8 +123,7 @@ public class CustomItems {
         item.setItemMeta(meta);
         CustomEnchants.setEnchantLevel(item, "fortune", 250);
         CustomEnchants.setEnchantLevel(item, "tokenator", 75);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 250);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 250);
+        CustomEnchants.setEnchantLevel(item, "jackHammer", 75);
         return item;
     }
     public static ItemStack getPickaxeTier5() {
@@ -132,10 +131,10 @@ public class CustomItems {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(PICKAXE_TIER_5_NAME);
         item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 500);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 150);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 750);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 1000);
+        CustomEnchants.setEnchantLevel(item, "fortune", 350);
+        CustomEnchants.setEnchantLevel(item, "tokenator", 100);
+        CustomEnchants.setEnchantLevel(item, "jackHammer", 150);
+        CustomEnchants.setEnchantLevel(item, "multiDirectional", 75);
         return item;
     }
     public static ItemStack getPickaxeTier6() {
@@ -143,10 +142,10 @@ public class CustomItems {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(PICKAXE_TIER_6_NAME);
         item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 1000);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 500);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 1500);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 2500);
+        CustomEnchants.setEnchantLevel(item, "fortune", 500);
+        CustomEnchants.setEnchantLevel(item, "tokenator", 150);
+        CustomEnchants.setEnchantLevel(item, "jackHammer", 250);
+        CustomEnchants.setEnchantLevel(item, "multiDirectional", 150);
         return item;
     }
     public static ItemStack getPickaxeTier7() {
@@ -154,10 +153,11 @@ public class CustomItems {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(PICKAXE_TIER_7_NAME);
         item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 2500);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 750);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 5000);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 5000);
+        CustomEnchants.setEnchantLevel(item, "fortune", 750);
+        CustomEnchants.setEnchantLevel(item, "tokenator", 250);
+        CustomEnchants.setEnchantLevel(item, "jackHammer", 250);
+        CustomEnchants.setEnchantLevel(item, "multiDirectional", 250);
+        CustomEnchants.setEnchantLevel(item, "keyFinder", 100);
         return item;
     }
     public static ItemStack getPickaxeTier8() {
@@ -165,11 +165,12 @@ public class CustomItems {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(PICKAXE_TIER_8_NAME);
         item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 5000);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 750);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 8000);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 9000);
-        CustomEnchants.setEnchantLevel(item, "merchant", 5000);
+        CustomEnchants.setEnchantLevel(item, "fortune", 1000);
+        CustomEnchants.setEnchantLevel(item, "oreSplitter", 10);
+        CustomEnchants.setEnchantLevel(item, "tokenator", 400);
+        CustomEnchants.setEnchantLevel(item, "jackHammer", 400);
+        CustomEnchants.setEnchantLevel(item, "multiDirectional", 400);
+        CustomEnchants.setEnchantLevel(item, "keyFinder", 250);
         return item;
     }
     public static ItemStack getPickaxeTier9() {
@@ -177,11 +178,13 @@ public class CustomItems {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(PICKAXE_TIER_9_NAME);
         item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 15000);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 1000);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 15000);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 15000);
-        CustomEnchants.setEnchantLevel(item, "merchant", 10000);
+        CustomEnchants.setEnchantLevel(item, "fortune", 1500);
+        CustomEnchants.setEnchantLevel(item, "oreSplitter", 25);
+        CustomEnchants.setEnchantLevel(item, "tokenator", 500);
+        CustomEnchants.setEnchantLevel(item, "jackHammer", 1000);
+        CustomEnchants.setEnchantLevel(item, "doubleWammy", 10);
+        CustomEnchants.setEnchantLevel(item, "multiDirectional", 1000);
+        CustomEnchants.setEnchantLevel(item, "keyFinder", 500);
         return item;
     }
     public static ItemStack getPickaxeTier10() {
@@ -189,11 +192,14 @@ public class CustomItems {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(PICKAXE_TIER_10_NAME);
         item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 30000);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 3000);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 25000);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 25000);
-        CustomEnchants.setEnchantLevel(item, "merchant", 15000);
+        CustomEnchants.setEnchantLevel(item, "fortune", 3000);
+        CustomEnchants.setEnchantLevel(item, "oreSplitter", 75);
+        CustomEnchants.setEnchantLevel(item, "tokenator", 1000);
+        CustomEnchants.setEnchantLevel(item, "jackHammer", 2500);
+        CustomEnchants.setEnchantLevel(item, "doubleWammy", 50);
+        CustomEnchants.setEnchantLevel(item, "multiDirectional", 2500);
+        CustomEnchants.setEnchantLevel(item, "keyFinder", 1000);
+        CustomEnchants.setEnchantLevel(item, "consistency", 1);
         return item;
     }
 }

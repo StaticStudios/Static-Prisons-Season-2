@@ -58,7 +58,7 @@ public class Warps {
     public static final Location PRESTIGE_MINE_15 = new Location(Bukkit.getWorld("mines"), 41.5 + BaseMine.distanceBetweenMines * 40, 103, 87.5, 135, 0);
 
 
-    public static final Location RANK_MINE_1 = new Location(Bukkit.getWorld("mines"), -84.5 + BaseMine.distanceBetweenMines * 41, 102, -70.5, -45, 0);
+    public static final Location RANK_MINE_1 = new Location(Bukkit.getWorld("mines"), -33.5 + BaseMine.distanceBetweenMines * 41, 101, -44.5, -45, 0);
     public static final Location RANK_MINE_2 = new Location(Bukkit.getWorld("mines"), 57.5 + BaseMine.distanceBetweenMines * 42, 109, 39.5, 135, 0);
     public static final Location RANK_MINE_3 = new Location(Bukkit.getWorld("mines"), -60.5 + BaseMine.distanceBetweenMines * 43, 103, -10.5, -90, 0);
     public static final Location RANK_MINE_4 = new Location(Bukkit.getWorld("mines"), -75.5 + BaseMine.distanceBetweenMines * 44, 102, 28.5, -120, 0);
@@ -68,14 +68,41 @@ public class Warps {
     public static void warpToSpawn(Player player) {
         PaperLib.teleportAsync(player, SPAWN);
         player.setAllowFlight(true);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 10);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 20);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 30);
     }
     public static void warpToCrates(Player player) {
         PaperLib.teleportAsync(player, CRATES);
         player.setAllowFlight(true);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 10);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 20);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 30);
     }
     public static void warpToLeaderboards(Player player) {
         PaperLib.teleportAsync(player, LEADERBOARDS);
         player.setAllowFlight(true);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 10);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 20);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 30);
     }
     public static void warpToMine(Player player, int mine) {
         switch (mine) {
@@ -107,7 +134,15 @@ public class Warps {
             case 25 -> PaperLib.teleportAsync(player, MINE_Z);
         }
         player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 10);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 20);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 30);
         IslandManager.playerLeftIsland(player);
     }
     public static void warpPrestigeMine(Player player, int mine) {
@@ -129,7 +164,15 @@ public class Warps {
             case 14 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_15);
         }
         player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 10);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 20);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 30);
         IslandManager.playerLeftIsland(player);
     }
     public static void warpRankMine(Player player, int mine) {
@@ -141,14 +184,30 @@ public class Warps {
             case 4 -> PaperLib.teleportAsync(player, RANK_MINE_5);
         }
         player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 10);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 20);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 30);
         IslandManager.playerLeftIsland(player);
     }
     public static void warEventMine(Player player) {
         //PaperLib.teleportAsync(player, EVENT_MINE);
         PaperLib.teleportAsync(player, SPAWN); //TODO: change this back after the mine has been changed
         player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 10);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 20);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
+        }, 30);
         IslandManager.playerLeftIsland(player);
     }
 }

@@ -390,7 +390,7 @@ public class Utils {
         meta.addEnchant(Enchantment.DIG_SPEED, 100, true);
         item.setItemMeta(meta);
         CustomEnchants.setEnchantLevel(item, "fortune", 10);
-        CustomEnchants.setEnchantLevel(item, "oreSplitter", 10);
+        CustomEnchants.setEnchantLevel(item, "oreSplitter", 5);
         CustomEnchants.setEnchantLevel(item, "tokenator", 1);
         return item;
     }

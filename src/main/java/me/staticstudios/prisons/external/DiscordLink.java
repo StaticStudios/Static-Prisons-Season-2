@@ -4,6 +4,7 @@ import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
 import me.staticstudios.prisons.core.data.serverData.ServerData;
 import me.staticstudios.prisons.core.data.sql.MySQLConnection;
+import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class DiscordLink {
-    public static final int SERVER_ID = 0;
+    public static final int SERVER_ID = Integer.parseInt(Utils.getFileContents("./data/discord/serverID.txt"));
     public static final int SECONDS_TO_KEEP_LINK_REQUESTS_ALIVE = 300;
     public static final int LINK_CODE_LENGTH = 7;
 
@@ -136,7 +137,7 @@ public class DiscordLink {
         } catch (SQLException e) {
             String code = generateLinkingCode();
             if (Bukkit.getPlayer(playerUUID) != null) Bukkit.getPlayer(playerUUID).sendMessage(org.bukkit.ChatColor.AQUA + "To link your discord account to your Minecraft account, please join our discord and type in the following in #bot-commands: " + ChatColor.LIGHT_PURPLE + "!link " + code + "\n\n" + org.bukkit.ChatColor.GRAY + "" + org.bukkit.ChatColor.ITALIC + "This code will expire in 5 minutes.");
-            sendBotRequest("LINKACCOUNTREQUEST " + SERVER_ID + " " + playerUUID + " " + code  + " " + SECONDS_TO_KEEP_LINK_REQUESTS_ALIVE);
+            sendBotRequest("LINKACCOUNTREQUEST " + playerUUID + " " + code  + " " + SECONDS_TO_KEEP_LINK_REQUESTS_ALIVE);
         }
     }
     static String generateLinkingCode() {
@@ -151,7 +152,7 @@ public class DiscordLink {
         return random.toString();
     }
     public static void updatePlayerCount() {
-        sendBotRequest("PLAYERCOUNT " + SERVER_ID + " " + Bukkit.getOnlinePlayers().size());
+        sendBotRequest("PLAYERCOUNT " + Bukkit.getOnlinePlayers().size());
     }
     public static void sendBotRequest(String request) {
         Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {

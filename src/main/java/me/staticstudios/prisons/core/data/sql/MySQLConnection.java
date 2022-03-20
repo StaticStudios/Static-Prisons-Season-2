@@ -14,7 +14,12 @@ public class MySQLConnection { //TODO: put this in a config file
     private static Connection connection;
 
     public static boolean isConnected() {
-        return (connection != null);
+        try {
+            return (connection != null) && !connection.isClosed();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static Connection connect()  {

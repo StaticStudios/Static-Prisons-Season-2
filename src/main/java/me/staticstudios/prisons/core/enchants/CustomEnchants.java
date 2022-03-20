@@ -21,6 +21,7 @@ public class CustomEnchants {
 
     static {
         enchantIDsToNames.put("fortune", ChatColor.AQUA + "Fortune");
+        enchantIDsToNames.put("oreSplitter", ChatColor.AQUA + "Ore Splitter");
         enchantIDsToNames.put("tokenator", ChatColor.AQUA + "Tokenator");
         enchantIDsToNames.put("tokenPolisher", ChatColor.AQUA + "Token Polisher");
         enchantIDsToNames.put("cashGrab", ChatColor.AQUA + "Cash Grab");
