@@ -196,8 +196,7 @@ public class Warps {
         IslandManager.playerLeftIsland(player);
     }
     public static void warEventMine(Player player) {
-        //PaperLib.teleportAsync(player, EVENT_MINE);
-        PaperLib.teleportAsync(player, SPAWN); //TODO: change this back after the mine has been changed
+        PaperLib.teleportAsync(player, EVENT_MINE);
         player.setAllowFlight(true);
         Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
             if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);

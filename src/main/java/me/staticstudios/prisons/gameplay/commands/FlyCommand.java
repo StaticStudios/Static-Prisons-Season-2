@@ -1,5 +1,6 @@
 package me.staticstudios.prisons.gameplay.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +12,7 @@ public class FlyCommand implements CommandExecutor {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
         player.setAllowFlight(true);
-        player.sendMessage("Whoosh!");
+        player.sendMessage(ChatColor.ITALIC + "Whoosh!");
         return false;
     }
 }

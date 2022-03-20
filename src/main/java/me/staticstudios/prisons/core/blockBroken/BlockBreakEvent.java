@@ -118,6 +118,7 @@ public class BlockBreakEvent {
         if (chance == 1) {
             //The player should receive tokens
             BigInteger tokens = BigInteger.valueOf(Utils.randomInt(200, 800));
+            if (MineManager.getMineIDFromLocation(player.getLocation()).equals("eventMine")) tokens = tokens.add(tokens.divide(BigInteger.TEN));
             if (CustomEnchants.uuidToTempTokenMultiplier.containsKey(player.getUniqueId())) tokens = tokens.add(tokens.multiply(BigInteger.valueOf((long) (CustomEnchants.uuidToTempTokenMultiplier.get(player.getUniqueId()) * 10))).divide(BigInteger.TEN));
             player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + tokens + " Tokens");
             playerData.addTokens(tokens);

@@ -1,6 +1,7 @@
 package me.staticstudios.prisons.core.data.serverData;
 
 
+import me.staticstudios.prisons.core.enchants.PrisonEnchants;
 import me.staticstudios.prisons.gameplay.auctionHouse.SerializableAuctionItem;
 import me.staticstudios.prisons.core.data.PlayerBackpack;
 import me.staticstudios.prisons.core.data.dataHandling.Data;
@@ -235,14 +236,13 @@ public class PlayerData extends DataSet {
         PlayerBackpack backpack = getBackpack();
         double multi = 1d;
         switch (getPlayerRank()) {
-            case "warrior" -> multi += 0.5;
-            case "master" -> multi += 0.8;
+            case "warrior" -> multi += 0.4;
+            case "master" -> multi += 0.7;
             case "mythic" -> multi += 1;
-            case "static" -> multi += 1.6;
-            case "staticp" -> multi += 2.5;
+            case "static" -> multi += 1.2;
+            case "staticp" -> multi += 1.5;
         }
-        multi += 0.25 * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "cashGrab");
-        multi += 0.0004 * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant");
+        multi += (int) (0.5 / PrisonEnchants.MERCHANT.MAX_LEVEL * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant"));
         backpack.sellBackpack(player, sendChatMessage, multi);
         setBackpack(backpack);
     }
