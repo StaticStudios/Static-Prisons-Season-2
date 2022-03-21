@@ -1,6 +1,7 @@
 package me.staticstudios.prisons;
 
 import me.staticstudios.prisons.external.DiscordLink;
+import me.staticstudios.prisons.gameplay.UI.PlayerUI;
 import me.staticstudios.prisons.gameplay.auctionHouse.AuctionHouseManager;
 import me.staticstudios.prisons.core.data.dataHandling.DataWriter;
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
@@ -9,7 +10,7 @@ import me.staticstudios.prisons.core.enchants.EnchantEffects;
 import me.staticstudios.prisons.gameplay.events.EventManager;
 import me.staticstudios.prisons.gameplay.leaderboards.LeaderboardManager;
 import me.staticstudios.prisons.core.mines.MineManager;
-import me.staticstudios.prisons.gameplay.scoreboard.CustomScoreboard;
+import me.staticstudios.prisons.gameplay.UI.scoreboard.CustomScoreboard;
 import me.staticstudios.prisons.gameplay.tablist.TabList;
 import me.staticstudios.prisons.utils.StaticVars;
 import me.staticstudios.prisons.utils.Utils;
@@ -35,9 +36,8 @@ public class TimedTasks {
         //Show all players their backpacks
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                PlayerData playerData = new PlayerData(p);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Your Backpack: " + Utils.addCommasToNumber(playerData.getBackpack().getItemCount()) + "/" + Utils.addCommasToNumber(playerData.getBackpack().getSize()) + " Blocks"));
-            }
+                PlayerUI.updateActionbar(p);
+                }
         }, 0, 1);
         //Scoreboard
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), CustomScoreboard::updateAllScoreboards, 0, 2);

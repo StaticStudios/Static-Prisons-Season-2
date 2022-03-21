@@ -47,12 +47,12 @@ public class JackHammer {
             }
         }
         if (!mine.brokeBlocksInMine(totalBlocksBroken)) {
-            Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+            //Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
                 Region region = new CuboidRegion(BukkitAdapter.adapt(mine.minLocation.getWorld()), BlockVector3.at(mine.minLocation.getX(), yLevel, mine.minLocation.getZ()), BlockVector3.at(mine.maxLocation.getX(), Math.max(1, yLevel - howDeepToGo + 1), mine.maxLocation.getZ()));
                 EditSession editSession = WorldEdit.getInstance().newEditSession(region.getWorld());
                 editSession.setBlocks(region, BlockTypes.AIR);
                 editSession.close();
-            });
+            //});
         }
 
         //BlockChange.addJackHammerBlockChange(Bukkit.getWorld("mines"), (int) mine.minLocation.getX(), yLevel, (int) mine.minLocation.getZ(), (int) mine.maxLocation.getX(), (int) mine.maxLocation.getZ());

@@ -1,5 +1,7 @@
 package me.staticstudios.prisons.gameplay.commands.test;
 
+import me.staticstudios.prisons.core.enchants.CustomEnchants;
+import me.staticstudios.prisons.core.enchants.PrisonEnchants;
 import me.staticstudios.prisons.external.DiscordLink;
 import me.staticstudios.prisons.gameplay.islands.special.robots.BaseRobot;
 import me.staticstudios.prisons.utils.Utils;

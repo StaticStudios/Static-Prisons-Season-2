@@ -29,6 +29,30 @@ public class SettingsMenus {
                 } else menuItems.add(GUI.createMenuItem(identifier, Material.EMERALD, ChatColor.AQUA + "Tips " + disabled, ChatColor.GRAY + "" + ChatColor.ITALIC + "Receive helpful tips in chat every few minutes.", "", clickToChange));
                 menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.PAPER, ChatColor.YELLOW + "" + ChatColor.BOLD + "Chat Settings ", ChatColor.GRAY + "" + ChatColor.ITALIC + "Change your chat color, font settings, and more!"));
 
+                //UI theme
+                Material currentTheme = playerData.getUITheme();
+                ChatColor color = ChatColor.AQUA;
+                String themeName = "Blue";
+                switch (currentTheme) {
+                    case RED_DYE -> {
+                        color = ChatColor.RED;
+                        themeName = "Red";
+                    }
+                    case ORANGE_DYE -> {
+                        color = ChatColor.GOLD;
+                        themeName = "Orange";
+                    }
+                    case LIME_DYE -> {
+                        color = ChatColor.GREEN;
+                        themeName = "Green";
+                    }
+                    case PURPLE_DYE -> {
+                        color = ChatColor.DARK_PURPLE;
+                        themeName = "Purple";
+                    }
+                }
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, currentTheme, color + "" + ChatColor.BOLD + "UI Theme (Current Theme: " + themeName + ")", ChatColor.GRAY + "" + ChatColor.ITALIC + "Change your UI theme!"));
+
             }
 
             @Override
@@ -54,6 +78,11 @@ public class SettingsMenus {
             public void item2Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 GUI.getGUIPage("chatSettings").open(player);
+            }
+            @Override
+            public void item3Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                GUI.getGUIPage("themeSettings").open(player);
             }
         };
         guiPage.identifier = "settings";
@@ -493,6 +522,83 @@ public class SettingsMenus {
         guiPage.identifier = "chatSettingsColor";
         guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dChange Your Chat Color");
         guiPage.onCloseGoToMenu = "chatSettings";
+        guiPage.register();
+    }
+    //chat settings menu
+    public static void theme() {
+        GUIPage guiPage = new GUIPage() {
+            @Override
+            public void onOpen(Player player) {
+                PlayerData playerData = new PlayerData(player);
+                menuItems = new ArrayList<>();
+                //UI theme
+                Material currentTheme = playerData.getUITheme();
+                ChatColor color = ChatColor.AQUA;
+                String themeName = "Blue";
+                switch (currentTheme) {
+                    case RED_DYE -> {
+                        color = ChatColor.RED;
+                        themeName = "Red";
+                    }
+                    case ORANGE_DYE -> {
+                        color = ChatColor.GOLD;
+                        themeName = "Orange";
+                    }
+                    case LIME_DYE -> {
+                        color = ChatColor.GREEN;
+                        themeName = "Green";
+                    }
+                    case PURPLE_DYE -> {
+                        color = ChatColor.DARK_PURPLE;
+                        themeName = "Purple";
+                    }
+                }
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.LIGHT_BLUE_DYE, ChatColor.AQUA + "Change theme to: BLUE", ChatColor.GRAY + "" + ChatColor.ITALIC + "Current theme: " + themeName));
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.PURPLE_DYE, ChatColor.DARK_PURPLE + "Change theme to: PURPLE", ChatColor.GRAY + "" + ChatColor.ITALIC + "Current theme: " + themeName));
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.LIME_DYE, ChatColor.GREEN + "Change theme to: GREEN", ChatColor.GRAY + "" + ChatColor.ITALIC + "Current theme: " + themeName));
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.RED_DYE, ChatColor.RED + "Change theme to: RED", ChatColor.GRAY + "" + ChatColor.ITALIC + "Current theme: " + themeName));
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.ORANGE_DYE, ChatColor.GOLD + "Change theme to: ORANGE", ChatColor.GRAY + "" + ChatColor.ITALIC + "Current theme: " + themeName));
+            }
+
+            @Override
+            public void item0Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                new PlayerData(player).setUITheme(Material.LIGHT_BLUE_DYE);
+                player.sendMessage(ChatColor.AQUA + "UI theme changed!");
+                GUI.getGUIPage("settings").open(player);
+            }
+            @Override
+            public void item1Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                new PlayerData(player).setUITheme(Material.PURPLE_DYE);
+                player.sendMessage(ChatColor.AQUA + "UI theme changed!");
+                GUI.getGUIPage("settings").open(player);
+            }
+            @Override
+            public void item2Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                new PlayerData(player).setUITheme(Material.LIME_DYE);
+                player.sendMessage(ChatColor.AQUA + "UI theme changed!");
+                GUI.getGUIPage("settings").open(player);
+            }
+            @Override
+            public void item3Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                new PlayerData(player).setUITheme(Material.RED_DYE);
+                player.sendMessage(ChatColor.AQUA + "UI theme changed!");
+                GUI.getGUIPage("settings").open(player);
+            }
+            @Override
+            public void item4Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                new PlayerData(player).setUITheme(Material.ORANGE_DYE);
+                player.sendMessage(ChatColor.AQUA + "UI theme changed!");
+                GUI.getGUIPage("settings").open(player);
+            }
+        };
+        guiPage.identifier = "themeSettings";
+        guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dChat Settings");
+        guiPage.onCloseGoToMenu = "settings";
         guiPage.register();
     }
 }

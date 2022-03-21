@@ -41,7 +41,7 @@ public class BlockBreakEvent {
         blocksBroken.put(e.getBlock().getType(), BigInteger.ONE);
 
 
-        if (Utils.randomInt(1, 100) == 1) { //Jack Hammer
+        if (Utils.randomInt(1, 75) == 1) { //Jack Hammer
             int jackHammerLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "jackHammer");
             if (jackHammerLevel > 0) {
                 int doubleWammyLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "doubleWammy");
@@ -118,8 +118,8 @@ public class BlockBreakEvent {
         if (chance == 1) {
             //The player should receive tokens
             BigInteger tokens = BigInteger.valueOf(Utils.randomInt(200, 800));
-            if (MineManager.getMineIDFromLocation(player.getLocation()).equals("eventMine")) tokens = tokens.add(tokens.divide(BigInteger.TEN));
-            if (CustomEnchants.uuidToTempTokenMultiplier.containsKey(player.getUniqueId())) tokens = tokens.add(tokens.multiply(BigInteger.valueOf((long) (CustomEnchants.uuidToTempTokenMultiplier.get(player.getUniqueId()) * 10))).divide(BigInteger.TEN));
+            if (MineManager.getMineIDFromLocation(player.getLocation()).equals("eventMine")) tokens = tokens.add(tokens.multiply(BigInteger.TWO).divide(BigInteger.TEN));
+            if (CustomEnchants.uuidToTempTokenMultiplier.containsKey(player.getUniqueId())) tokens = tokens.add(tokens.multiply(BigInteger.valueOf((long) (CustomEnchants.uuidToTempTokenMultiplier.get(player.getUniqueId()) * 1))).divide(BigInteger.TEN));
             player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + tokens + " Tokens");
             playerData.addTokens(tokens);
         }
@@ -127,10 +127,10 @@ public class BlockBreakEvent {
         PrisonPickaxe.addBlocksBroken(pickaxe, totalAmountOfBlocksBroken.longValue());
         PrisonPickaxe.addBlocksMined(pickaxe, 1); //Raw blocks
         if (PrisonPickaxe.addXP(pickaxe, PrisonPickaxe.BASE_XP_PER_BLOCK_BROKEN * totalAmountOfBlocksBroken.longValue())) {
-            player.sendMessage(ChatColor.LIGHT_PURPLE + "Your pickaxe leveled up to level " + ChatColor.WHITE + ChatColor.BOLD + PrisonPickaxe.getLevel(pickaxe) + "!");
+            player.sendMessage(ChatColor.AQUA + "Your pickaxe leveled up to level " + ChatColor.WHITE + ChatColor.BOLD + PrisonPickaxe.getLevel(pickaxe) + "!");
             if (PrisonPickaxe.getLevel(pickaxe) % 25 == 0) {
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + "'s pickaxe leveled up to level " + ChatColor.WHITE + ChatColor.BOLD + PrisonPickaxe.getLevel(pickaxe) + "!");
+                    p.sendMessage(ChatColor.AQUA + player.getName() + "'s pickaxe leveled up to level " + ChatColor.WHITE + ChatColor.BOLD + PrisonPickaxe.getLevel(pickaxe) + "!");
                 }
             }
         }

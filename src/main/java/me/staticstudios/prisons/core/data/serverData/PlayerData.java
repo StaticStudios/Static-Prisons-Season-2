@@ -242,7 +242,7 @@ public class PlayerData extends DataSet {
             case "static" -> multi += 1.2;
             case "staticp" -> multi += 1.5;
         }
-        multi += (int) (0.5 / PrisonEnchants.MERCHANT.MAX_LEVEL * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant"));
+        multi += 0.5 / PrisonEnchants.MERCHANT.MAX_LEVEL * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant");
         backpack.sellBackpack(player, sendChatMessage, multi);
         setBackpack(backpack);
     }
@@ -673,4 +673,18 @@ public class PlayerData extends DataSet {
         return setData("isWatchingMessages", newData);
     }
 
+
+    public Material getUITheme() {
+        String theme = getData("UITheme")._string;
+        if (theme.equals("")) {
+            setUITheme(Material.LIGHT_BLUE_DYE);
+            return Material.LIGHT_BLUE_DYE;
+        }
+        return Material.valueOf(theme);
+    }
+    public Data setUITheme(Material value) {
+        Data newData = new Data();
+        newData._string = value.name();
+        return setData("UITheme", newData);
+    }
 }

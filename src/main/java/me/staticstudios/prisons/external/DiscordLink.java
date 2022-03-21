@@ -183,7 +183,7 @@ public class DiscordLink {
         try (Statement stmt = MySQLConnection.getConnection().createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                if (rs.getInt("server") != 0) continue;
+                if (rs.getInt("server") != SERVER_ID && rs.getInt("server") != -1) continue;
                 String callback = rs.getString("callback");
                 while (MySQLConnection.getConnection() == null) {
                     //If the connection is null, wait 1 second and try again
@@ -193,17 +193,16 @@ public class DiscordLink {
                         e.printStackTrace();
                     }
                 }
-                MySQLConnection.getConnection().createStatement().executeUpdate("DELETE FROM `serverCallback` WHERE id = " + rs.getInt("id"));
                 List<String> args = new ArrayList<>(List.of(callback.split(" ")));
                 args.remove(0);
                 switch (callback.split(" ")[0]) {
                     case "SENDPLAYERMESSAGE" -> {
-                        //SENDPLAYERMESSAGE {UUID(who)} {what...}
+                        //who, what...
                         UUID uuid = UUID.fromString(args.get(0));
-                        if (Bukkit.getPlayer(uuid) == null) return; //Player is offline
-                        StringBuilder message = new StringBuilder();
-                        for (int i = 1; i < args.size(); i++) message.append(args.get(i)).append(" ");
-                        Bukkit.getPlayer(uuid).sendMessage(ChatColor.translateAlternateColorCodes('&', message.toString()));
+                        if (Bukkit.getPlayer(uuid) == null) continue;
+                            StringBuilder message = new StringBuilder();
+                            for (int i = 1; i < args.size(); i++) message.append(args.get(i)).append(" ");
+                            Bukkit.getPlayer(uuid).sendMessage(ChatColor.translateAlternateColorCodes('&', message.toString()));
                     }
                     case "LINKSUCCESS" -> {
                         StringBuilder accountName = new StringBuilder();
@@ -212,6 +211,7 @@ public class DiscordLink {
                     }
                     default -> Bukkit.getLogger().warning("Got a callback with an unknown request! Callback: " + callback);
                 }
+                MySQLConnection.getConnection().createStatement().executeUpdate("DELETE FROM `serverCallback` WHERE id = " + rs.getInt("id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

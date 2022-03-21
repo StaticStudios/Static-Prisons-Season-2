@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package me.staticstudios.prisons.gameplay.scoreboard.fastBoard;
+package me.staticstudios.prisons.gameplay.UI.scoreboard.fastBoard;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

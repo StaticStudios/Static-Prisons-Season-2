@@ -568,7 +568,34 @@ public class MineManager {
         //Event Mine
         mine = new PublicMine("eventMine", new Location(Bukkit.getWorld("mines"), -50, publicMineMinY, -50), new Location(Bukkit.getWorld("mines"), 50, publicMineMaxY, 50));
         mine.setBlockPattern(new MineBlock[]{
-                new MineBlock(Material.STONE, 100),
+                new MineBlock(Material.STONE, 8),
+                new MineBlock(Material.COBBLESTONE, 5),
+                new MineBlock(Material.COAL_ORE, 10),
+                new MineBlock(Material.IRON_ORE, 5),
+                new MineBlock(Material.GOLD_ORE, 5),
+                new MineBlock(Material.LAPIS_ORE, 5),
+                new MineBlock(Material.REDSTONE_ORE, 5),
+                new MineBlock(Material.DIAMOND_ORE, 5),
+                new MineBlock(Material.EMERALD_ORE, 5),
+                new MineBlock(Material.COAL_BLOCK, 5),
+                new MineBlock(Material.IRON_BLOCK, 5),
+                new MineBlock(Material.GOLD_BLOCK, 5),
+                new MineBlock(Material.LAPIS_BLOCK, 5),
+                new MineBlock(Material.REDSTONE_BLOCK, 5),
+                new MineBlock(Material.DIAMOND_BLOCK, 5),
+                new MineBlock(Material.EMERALD_BLOCK, 5),
+                new MineBlock(Material.NETHERRACK, 1),
+                new MineBlock(Material.NETHER_BRICKS, 1),
+                new MineBlock(Material.QUARTZ_BLOCK, 1),
+                new MineBlock(Material.END_STONE, 1),
+                new MineBlock(Material.OBSIDIAN, 1),
+                new MineBlock(Material.CRYING_OBSIDIAN, 1),
+                new MineBlock(Material.PRISMARINE, 1),
+                new MineBlock(Material.DEEPSLATE_COAL_ORE, 1),
+                new MineBlock(Material.DEEPSLATE_IRON_ORE, 1),
+                new MineBlock(Material.DEEPSLATE_GOLD_ORE, 1),
+                new MineBlock(Material.DEEPSLATE_DIAMOND_ORE, 1),
+                new MineBlock(Material.DEEPSLATE_EMERALD_ORE, 1),
         });
         mine.setWhereToTpPlayerOnRefill(Warps.EVENT_MINE);
         mine.setIfRefillsOnTimer(true);

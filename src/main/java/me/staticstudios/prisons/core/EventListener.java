@@ -10,7 +10,7 @@ import me.staticstudios.prisons.gameplay.Warps;
 import me.staticstudios.prisons.gameplay.crates.CrateManager;
 import me.staticstudios.prisons.gameplay.customItems.Vouchers;
 import me.staticstudios.prisons.gameplay.gui.GUI;
-import me.staticstudios.prisons.gameplay.scoreboard.CustomScoreboard;
+import me.staticstudios.prisons.gameplay.UI.scoreboard.CustomScoreboard;
 import me.staticstudios.prisons.gameplay.tablist.TabList;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;

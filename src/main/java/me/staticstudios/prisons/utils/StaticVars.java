@@ -7,21 +7,21 @@ import java.math.BigInteger;
 public class StaticVars {
     public static final int VOTES_NEEDED_FOR_VOTE_PARTY = 50;
     public static final Long[] PRESTIGE_MINE_REQUIREMENTS = {
-            5L,
+            2L,
+            10L,
+            25L,
             50L,
             100L,
             250L,
             500L,
             1000L,
-            2500L,
             5000L,
             10000L,
-            20000L,
-            30500L,
+            15000L,
+            25000L,
             50000L,
             75000L,
             100000L,
-            150000L,
     };
     public static final char[] A_THROUGH_Z = {
             'A',
@@ -60,5 +60,6 @@ public class StaticVars {
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fYou can purchase a rank, crate keys, private mines, and more on our store! This is by far one of the best ways to help support the server! &d/store"),
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fHave a question/concern? We would love to discuss it further with you, join our discord and make a ticket! &9/discord"),
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fLost your pickaxe and need a new one? Type &7/pick"),
+            ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fYou can rankup multiple times at once by using the &7/rankupmax&f command!"),
     };
 }

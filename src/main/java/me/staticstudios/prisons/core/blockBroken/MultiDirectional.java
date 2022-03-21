@@ -58,7 +58,7 @@ public class MultiDirectional {
             }
         }
         if (!mine.brokeBlocksInMine(totalBlocksBroken)) {
-            Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+           // Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
                 Region region = new CuboidRegion(BukkitAdapter.adapt(mine.minLocation.getWorld()), BlockVector3.at(mine.minLocation.getX(), minY, zCord), BlockVector3.at(mine.maxLocation.getX(), fromY, zCord));
                 EditSession editSession = WorldEdit.getInstance().newEditSession(region.getWorld());
                 editSession.setBlocks(region, BlockTypes.AIR);
@@ -66,7 +66,7 @@ public class MultiDirectional {
                 region = new CuboidRegion(BukkitAdapter.adapt(mine.minLocation.getWorld()), BlockVector3.at(xCord, minY, mine.maxLocation.getZ()), BlockVector3.at(xCord, fromY, mine.minLocation.getZ()));
                 editSession.setBlocks(region, BlockTypes.AIR);
                 editSession.close();
-            });
+            //});
         }
 
         //BlockChange.addMultiDirectionalBlockChange(Bukkit.getWorld("mines"), (int) mine.minLocation.getX(), (int) loc.getY(), (int) mine.minLocation.getZ(), (int) mine.maxLocation.getX(), minY, (int) mine.maxLocation.getZ(), (int) loc.getX(), (int) loc.getZ());

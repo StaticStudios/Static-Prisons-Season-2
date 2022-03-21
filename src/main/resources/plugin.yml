@@ -47,6 +47,7 @@ commands:
     description: a
     aliases:
       - help
+      - menu
   chattags:
     aliases:
       - tags
@@ -78,6 +79,7 @@ commands:
       - autosell
       - chatfilter
       - tips
+      - theme
   privatemine:
     aliases:
       - pmine

@@ -10,7 +10,7 @@ import java.math.BigInteger;
 public class TokenPouchTier2 {
     public static void open(Player player) {
         TokenPouch pouch = new TokenPouch();
-        pouch.minReward = new BigInteger("5000");
+        pouch.minReward = new BigInteger("20000");
         pouch.maxReward = new BigInteger("50000");
         pouch.reward = Utils.randomBigInt(pouch.minReward, pouch.maxReward);
         pouch.announceRewardInChat = true;
