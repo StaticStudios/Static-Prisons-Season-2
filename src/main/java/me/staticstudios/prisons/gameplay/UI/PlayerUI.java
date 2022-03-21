@@ -21,7 +21,7 @@ public class PlayerUI {
             case ORANGE_DYE -> color = ChatColor.GOLD;
             default -> color = ChatColor.AQUA;
         }
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(color + "Your Backpack: " + Utils.addCommasToNumber(playerData.getBackpack().getItemCount()) + "/" + Utils.addCommasToNumber(playerData.getBackpack().getSize()) + " Blocks"));
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(color + "Your Backpack: " + Utils.addCommasToNumber(playerData.getBackpackItemCount()) + "/" + Utils.addCommasToNumber(playerData.getBackpackSize()) + " Blocks"));
 
     }
 }

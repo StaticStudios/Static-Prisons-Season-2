@@ -1,9 +1,9 @@
 package me.staticstudios.prisons.core.data.serverData;
 
 
+import me.staticstudios.prisons.core.data.Prices;
 import me.staticstudios.prisons.core.enchants.PrisonEnchants;
 import me.staticstudios.prisons.gameplay.auctionHouse.SerializableAuctionItem;
-import me.staticstudios.prisons.core.data.PlayerBackpack;
 import me.staticstudios.prisons.core.data.dataHandling.Data;
 import me.staticstudios.prisons.core.data.dataHandling.DataSet;
 import me.staticstudios.prisons.core.data.dataHandling.DataTypes;
@@ -18,10 +18,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerData extends DataSet {
     private static final DataTypes type = DataTypes.PLAYERS;
@@ -206,34 +205,64 @@ public class PlayerData extends DataSet {
     }
 
     //Backpack
-    public PlayerBackpack getBackpack() {
-        if (getData("backpack").byteArr == null) {
-            setBackpack(new PlayerBackpack());
-            return new PlayerBackpack();
-        }
-            try {
-                return (PlayerBackpack) new ObjectInputStream(new ByteArrayInputStream(getData("backpack").byteArr)).readObject();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-                setBackpack(new PlayerBackpack());
-                return new PlayerBackpack();
-            }
+    public boolean updateBackpackIsFull() {
+        return getBackpackSize().equals(getBackpackItemCount());
     }
-    public Data setBackpack(PlayerBackpack value) {
+    public Data setBackpackContents(Map<Material, BigInteger> value) {
         Data newData = new Data();
-        newData.byteArr = SerializationUtils.serialize(value);
-        return setData("backpack", newData);
+        newData.map = value;
+        return setData("backpackContents", newData);
     }
-    public void addBlocksToBackpack(Material type, BigInteger amount) {
-        PlayerBackpack backpack = getBackpack();
-        backpack.addAmountOf(type, amount);
-        setBackpack(backpack);
+    public Data setBackpackItemCount(BigInteger value) {
+        Data newData = new Data();
+        newData._string = value.toString();
+        return setData("backpackItemCount", newData);
     }
-    public boolean checkIfBackpackIsFull() {
-        return (getBackpack().isFull());
+    public BigInteger getBackpackItemCount() {
+        if (getData("backpackItemCount")._string.equals("")) setBackpackItemCount(BigInteger.ZERO);
+        return new BigInteger(getData("backpackItemCount")._string);
+    }
+    public Data setBackpackSize(BigInteger value) {
+        Data newData = new Data();
+        newData._string = value.toString();
+        return setData("backpackSize", newData);
+    }
+    public BigInteger getBackpackSize() {
+        if (getData("backpackSize")._string.equals("")) setBackpackSize(BigInteger.valueOf(25000));
+        return new BigInteger(getData("backpackSize")._string);
+    }
+    public Data setBackpackIsFull(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("backpackIsFull", newData);
+    }
+    public boolean getBackpackIsFull() {
+        return getData("backpackIsFull")._boolean;
+    }
+    public Map<Material, BigInteger> getBackpackContents() {
+        if (getData("backpackContents").map == null) setBackpackContents(new HashMap<>());
+        return getData("backpackContents").map;
+    }
+
+    public BigInteger getBackpackAmountOf(Material mat) {
+        if (getBackpackContents().containsKey(mat)) return getBackpackContents().get(mat);
+        return BigInteger.ZERO;
+    }
+
+    public void addBackpackAmountOf(Material mat, BigInteger amount) {
+        if (getBackpackIsFull()) return;
+        BigInteger itemCount = getBackpackItemCount();
+        BigInteger size = getBackpackSize();
+        if (itemCount.add(amount).compareTo(size) > 0) {
+            amount = size.subtract(itemCount);
+            setBackpackIsFull(true);
+        }
+        Map<Material, BigInteger> map = getBackpackContents();
+        map.put(mat, getBackpackAmountOf(mat).add(amount));
+        setBackpackContents(map);
+        setBackpackItemCount(getBackpackItemCount().add(amount));
     }
     public void sellBackpack(Player player, boolean sendChatMessage) {
-        PlayerBackpack backpack = getBackpack();
         double multi = 1d;
         switch (getPlayerRank()) {
             case "warrior" -> multi += 0.4;
@@ -243,9 +272,25 @@ public class PlayerData extends DataSet {
             case "staticp" -> multi += 1.5;
         }
         multi += 0.5 / PrisonEnchants.MERCHANT.MAX_LEVEL * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant");
-        backpack.sellBackpack(player, sendChatMessage, multi);
-        setBackpack(backpack);
+        BigInteger totalSellPrice = BigInteger.ZERO;
+        if (getBackpackItemCount().compareTo(BigInteger.ZERO) > 0) {
+            for (Material key : getBackpackContents().keySet()) {
+                totalSellPrice = totalSellPrice.add(getBackpackContents().get(key).multiply(Prices.getSellPriceOf(key)));
+            }
+        }
+        totalSellPrice = new BigDecimal(totalSellPrice).multiply(BigDecimal.valueOf(multi)).toBigInteger();
+        new PlayerData(player).addMoney(totalSellPrice);
+        if (sendChatMessage) {
+            player.sendMessage(org.bukkit.ChatColor.GREEN + "(x" + multi + ") Sold " + Utils.addCommasToNumber(getBackpackItemCount()) + " blocks for: $" + Utils.addCommasToNumber(totalSellPrice));
+        }
+        setBackpackIsFull(false);
+        setBackpackItemCount(BigInteger.ZERO);
+        setBackpackContents(new HashMap<>());
     }
+
+
+
+
     public void updateTabListPrefixID() {
         if (!getStaffRank().equals("member") && !getStaffRank().equals("")) {
             setTabListPrefixID(getStaffRank());

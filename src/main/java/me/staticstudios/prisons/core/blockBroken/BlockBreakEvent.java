@@ -26,14 +26,20 @@ public class BlockBreakEvent {
         if (!player.getWorld().getName().equals("mines")) return;
         //Check if it is in the mine area
         BaseMine mine = MineManager.allMines.get(MineManager.getMineIDFromLocation(player.getLocation()));
-        if (!(e.getBlock().getX() >= mine.minLocation.getX() && e.getBlock().getX() <= mine.maxLocation.getX() &&
-                e.getBlock().getZ() >= mine.minLocation.getZ() && e.getBlock().getZ() <= mine.maxLocation.getZ() &&
-                e.getBlock().getY() >= mine.minLocation.getY() && e.getBlock().getY() <= mine.maxLocation.getY()))
+        int locX = e.getBlock().getX();
+        int locY = e.getBlock().getY();
+        int locZ = e.getBlock().getZ();
+        if (!(locX >= mine.minLocation.getX() && locX <= mine.maxLocation.getX() &&
+                locZ >= mine.minLocation.getZ() && locZ <= mine.maxLocation.getZ() &&
+                locY >= mine.minLocation.getY() && locY <= mine.maxLocation.getY()))
             return;
         e.setDropItems(false);
         e.setExpToDrop(0);
         PlayerData playerData = new PlayerData(player);
         mine.brokeBlocksInMine(1);
+
+
+
         ItemStack pickaxe = player.getInventory().getItemInMainHand();
         if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
         playerData.addRawBlocksMined(BigInteger.ONE);
@@ -97,12 +103,12 @@ public class BlockBreakEvent {
             }
         }
         BigInteger totalAmountOfBlocksBroken = BigInteger.ZERO;
-        boolean backpackWasFull = playerData.getBackpack().isFull();
+        boolean backpackWasFull = playerData.getBackpackIsFull();
         long fortuneMultiplier = CustomEnchants.getEnchantLevel(pickaxe, "fortune") + 1;
         int oreSplitter = (int) CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter");
         if (oreSplitter > 0 && oreSplitter <= Utils.randomInt(1, PrisonEnchants.ORE_SPLITTER.MAX_LEVEL)) fortuneMultiplier *= 2;
-        for (Material key : blocksBroken.keySet()) {
-            playerData.addBlocksToBackpack(key, blocksBroken.get(key).multiply(BigInteger.valueOf(fortuneMultiplier)));
+        for (Material key : blocksBroken.keySet()) { //TODO: Try to find a way around this
+            playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(fortuneMultiplier)));
             totalAmountOfBlocksBroken = totalAmountOfBlocksBroken.add(blocksBroken.get(key));
         }
 
@@ -136,11 +142,11 @@ public class BlockBreakEvent {
         }
 
         //If the player's backpack was not full but now is, tell them it has filled up or auto sell
-        if (playerData.checkIfBackpackIsFull()) {
+        if (playerData.getBackpackIsFull()) {
             if (playerData.getIsAutoSellEnabled()) {
                 playerData.sellBackpack(player, false);
             } else if (!backpackWasFull) {
-                player.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpack().getSize()) + "/" + Utils.prettyNum(playerData.getBackpack().getSize()) + ")", 5, 40, 5);
+                player.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpackSize()) + "/" + Utils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
                 player.sendMessage(ChatColor.RED + "Your backpack is full!");
             }
         }

@@ -4,25 +4,22 @@ import me.staticstudios.prisons.gameplay.Warps;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 
 public class MineManager {
     public static final int defaultMineRefillTime = 10 * 900; //in ticks (10/sec) not 20
     public static Map<String, BaseMine> allMines = new HashMap<>();
-    public static Map<String, MineMinMaxX> mineIDsToMinMaxLocation = new HashMap<>();
+    public static Map<Integer, String> mineMidLocationToID = new HashMap<>();
     public static Map<String, BaseMine> minesThatShouldRefillOnTimer = new HashMap<>();
 
-    public static String getMineIDFromLocation(Location loc) { //TODO: can be optimized knowing the center of every mine and centering the loc before hand instead of looping
-        for (String key : mineIDsToMinMaxLocation.keySet()) {
-            MineMinMaxX mineMinMaxX = mineIDsToMinMaxLocation.get(key);
-            if (loc.getX() >= mineMinMaxX.minX && loc.getX() <= mineMinMaxX.maxX) return key;
-        }
-        return "";
+    public static String getMineIDFromLocation(Location loc) {
+        return mineMidLocationToID.get((int) ((loc.getX() + 200) / 500) * 500);
     }
 
     public static void registerMine(BaseMine mine, boolean shouldRefillOnTimer) {
-        mineIDsToMinMaxLocation.put(mine.mineID, new MineMinMaxX(mine.mineOffset));
+        mineMidLocationToID.put(BaseMine.currentOffsetAmount - BaseMine.distanceBetweenMines, mine.mineID);
         allMines.put(mine.mineID, mine);
         if (shouldRefillOnTimer) minesThatShouldRefillOnTimer.put(mine.mineID, mine);
     }

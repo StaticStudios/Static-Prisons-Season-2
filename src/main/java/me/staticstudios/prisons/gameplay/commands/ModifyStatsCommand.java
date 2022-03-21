@@ -1,6 +1,5 @@
 package me.staticstudios.prisons.gameplay.commands;
 
-import me.staticstudios.prisons.core.data.PlayerBackpack;
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
 import me.staticstudios.prisons.core.data.serverData.ServerData;
 import me.staticstudios.prisons.utils.CommandUtils;
@@ -32,7 +31,6 @@ public class ModifyStatsCommand implements CommandExecutor {
                 return false;
             }
         } else playerData = new PlayerData(new ServerData().getPlayerUUIDFromName(args[1]));
-        PlayerBackpack playerBackpack = playerData.getBackpack();
         switch (args[0].toLowerCase()) {
             case "minerank" -> {
                 int amount;
@@ -75,13 +73,12 @@ public class ModifyStatsCommand implements CommandExecutor {
                     return false;
                 }
                 switch (args[2].toLowerCase()) {
-                    case "add" -> playerBackpack.setSize(playerBackpack.getSize().add(amount));
-                    case "remove" -> playerBackpack.setSize(playerBackpack.getSize().subtract(amount));
-                    case "set" -> playerBackpack.setSize(amount);
-                    case "reset" -> playerBackpack.setSize(BigInteger.ZERO);
+                    case "add" -> playerData.setBackpackSize(playerData.getBackpackSize().add(amount));
+                    case "remove" -> playerData.setBackpackSize(playerData.getBackpackSize().subtract(amount));
+                    case "set" -> playerData.setBackpackSize(amount);
+                    case "reset" -> playerData.setBackpackSize(BigInteger.ZERO);
                     default -> sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
                 }
-                playerData.setBackpack(playerBackpack);
             }
             case "blocksmined" -> {
                 BigInteger amount;

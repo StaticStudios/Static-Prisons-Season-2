@@ -52,12 +52,12 @@ public final class Main extends JavaPlugin implements Listener {
         main = this;
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
         getServer().getPluginManager().registerEvents(this, main);
-
         Bukkit.getScheduler().runTaskLater(this, () -> {
             unloadNetherAndEnd();
             DataWriter.loadData();
             loadMineWorld();
             new WorldCreator("islands").createWorld();
+
             IslandManager.initialize();
             Kits.initialize();
             MineManager.initialize();
