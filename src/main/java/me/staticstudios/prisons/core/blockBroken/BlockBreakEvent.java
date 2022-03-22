@@ -46,9 +46,12 @@ public class BlockBreakEvent {
         Map<Material, BigInteger> blocksBroken = new HashMap<>();
         blocksBroken.put(e.getBlock().getType(), BigInteger.ONE);
 
+        //TODO: cache pick data in a map and get the data from that instead of directly off of the item, call a method to check if the item data is cached when this event is called, if not, cache it. find a mthod that gets called whenever enchants are updated, update the cache for that pick whenever it is updated. When a player leaves the game, remove all of their pickaxes from the cached items.
+        //TODO: use a que system to update the data on the pick every couple seconds instead of instantly. whenever a pick is dropped, moved, or hand slot changes, instantly update its data from the temo storage map. update the data every second otherwise. do not search for the pick in the player's inv, assume it is always in their main hand. if they leave, update the picks data instantly
+
 
         if (Utils.randomInt(1, 75) == 1) { //Jack Hammer
-            int jackHammerLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "jackHammer");
+            int jackHammerLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "jackHammer"); //TODO: test the speed of PDC
             if (jackHammerLevel > 0) {
                 int doubleWammyLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "doubleWammy");
                 if (Utils.randomInt(1, PrisonEnchants.JACK_HAMMER.MAX_LEVEL + PrisonEnchants.JACK_HAMMER.MAX_LEVEL / 10) <= jackHammerLevel + PrisonEnchants.JACK_HAMMER.MAX_LEVEL / 10) {
@@ -124,7 +127,7 @@ public class BlockBreakEvent {
         if (chance == 1) {
             //The player should receive tokens
             BigInteger tokens = BigInteger.valueOf(Utils.randomInt(200, 800));
-            if (MineManager.getMineIDFromLocation(player.getLocation()).equals("eventMine")) tokens = tokens.add(tokens.multiply(BigInteger.TWO).divide(BigInteger.TEN));
+            if (mine.mineID.equals("eventMine")) tokens = tokens.add(tokens.multiply(BigInteger.TWO).divide(BigInteger.TEN));
             if (CustomEnchants.uuidToTempTokenMultiplier.containsKey(player.getUniqueId())) tokens = tokens.add(tokens.multiply(BigInteger.valueOf((long) (CustomEnchants.uuidToTempTokenMultiplier.get(player.getUniqueId()) * 1))).divide(BigInteger.TEN));
             player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + tokens + " Tokens");
             playerData.addTokens(tokens);
