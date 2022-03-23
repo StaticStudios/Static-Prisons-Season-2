@@ -1,5 +1,6 @@
 package me.staticstudios.prisons;
 
+import me.staticstudios.prisons.core.enchants.PrisonPickaxe;
 import me.staticstudios.prisons.gameplay.crates.CrateManager;
 import me.staticstudios.prisons.gameplay.customItems.Vouchers;
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
@@ -31,16 +32,19 @@ public class Events implements Listener {
     }
     @EventHandler
     void onChangeHeld(PlayerItemHeldEvent e) {
+        PrisonPickaxe.updateCachedStats(e.getPlayer());
         EnchantEffects.giveEffect(e.getPlayer(), e.getPlayer().getInventory().getItem(e.getNewSlot()));
     }
     @EventHandler
     void invClick(InventoryClickEvent e) {
         if (!(e.getWhoClicked() instanceof Player)) return;
+        PrisonPickaxe.updateCachedStats((Player) e.getWhoClicked());
         EnchantEffects.giveEffect((Player) e.getWhoClicked(), e.getWhoClicked().getInventory().getItemInMainHand());
     }
 
     @EventHandler
     void onDrop(PlayerDropItemEvent e) {
+        PrisonPickaxe.updateCachedStats(e.getPlayer());
         if (Utils.checkIsPrisonPickaxe(e.getItemDrop().getItemStack())) {
             e.setCancelled(true);
             e.getPlayer().sendMessage(ChatColor.RED + "You cannot drop this item! Type /dropitem to drop it!");

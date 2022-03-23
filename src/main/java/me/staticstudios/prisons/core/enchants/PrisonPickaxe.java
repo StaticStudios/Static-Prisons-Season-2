@@ -3,7 +3,9 @@ package me.staticstudios.prisons.core.enchants;
 import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -12,9 +14,37 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PrisonPickaxe {
+    public static Map<Player, Map<String, Integer>> cachedPickaxeStats = new HashMap<>(); //Make sure that this keeps the current player's item in their main hand
+
+    public static Map<String, Integer> getCachedEnchants(Player player) {
+        if (player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
+            cachedPickaxeStats.remove(player);
+            return null;
+        }
+        if (!cachedPickaxeStats.containsKey(player)) updateCachedStats(player);
+        return cachedPickaxeStats.get(player);
+    }
+
+    public static void updateCachedStats(Player player) {
+        Map<String, Integer> map = new HashMap<>();
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (!Utils.checkIsPrisonPickaxe(item)) {
+            cachedPickaxeStats.remove(player);
+            return;
+        }
+        for (String ench : CustomEnchants.enchantIDsToNames.keySet()) {
+            map.put(ench, (int) CustomEnchants.getEnchantLevel(item, ench));
+        }
+        cachedPickaxeStats.put(player, map);
+    }
+
+
+
     public static final long BASE_XP_PER_BLOCK_BROKEN = 2;
     public static final long BASE_XP_PER_PICKAXE_LEVEL = 10000;
     public static final int XP_INCREASES_EVERY_X_LEVELS = 25;
@@ -25,6 +55,7 @@ public class PrisonPickaxe {
     }
 
     public static int getLevel(ItemStack pickaxe) {
+        if (true) return 0;
         if (!Utils.checkIsPrisonPickaxe(pickaxe)) return 0;
         ItemMeta meta = pickaxe.getItemMeta();
         long level = 0;
@@ -34,6 +65,7 @@ public class PrisonPickaxe {
         return (int) level;
     }
     public static void addLevel(ItemStack pickaxe, long levelsToAdd) {
+        if (true) return;
         if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
         ItemMeta meta = pickaxe.getItemMeta();
         long currentAmount = 0;
@@ -66,6 +98,7 @@ public class PrisonPickaxe {
      * @return true if the pickaxe has leveled up
      */
     public static boolean addXP(ItemStack pickaxe, long xpToAdd) {
+        if (true) return false;
         if (!Utils.checkIsPrisonPickaxe(pickaxe)) return false;
         ItemMeta meta = pickaxe.getItemMeta();
         long currentAmount = 0;
@@ -101,6 +134,7 @@ public class PrisonPickaxe {
     }
 
     public static void addBlocksBroken(ItemStack pickaxe, long amountToAdd) {
+        if (true) return;
         if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
         ItemMeta meta = pickaxe.getItemMeta();
         long currentAmount = 0;
@@ -130,6 +164,7 @@ public class PrisonPickaxe {
         pickaxe.setItemMeta(meta);
     }
     public static void addBlocksMined(ItemStack pickaxe, long amountToAdd) {
+        if (true) return;
         if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
         ItemMeta meta = pickaxe.getItemMeta();
         long currentAmount = 0;

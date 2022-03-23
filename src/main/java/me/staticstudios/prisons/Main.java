@@ -8,6 +8,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import me.staticstudios.prisons.core.enchants.PrisonPickaxe;
 import me.staticstudios.prisons.external.DiscordLink;
 import me.staticstudios.prisons.gameplay.auctionHouse.AuctionHouseManager;
 import me.staticstudios.prisons.gameplay.commands.*;
@@ -25,6 +26,7 @@ import me.staticstudios.prisons.gameplay.commands.vote_store.VoteStoreListener;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -145,6 +147,9 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("_").setExecutor(new VoteStoreListener());
             //Say that the server has loaded
             hasLoaded = true;
+
+            //Extra
+            for (Player p : Bukkit.getOnlinePlayers()) PrisonPickaxe.updateCachedStats(p); //In case of reload/testing
         }, 20);
     }
 

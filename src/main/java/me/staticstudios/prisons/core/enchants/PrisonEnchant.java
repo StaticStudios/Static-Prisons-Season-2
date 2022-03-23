@@ -28,7 +28,7 @@ public class PrisonEnchant {
         }
         if (playerData.getTokens().compareTo(PRICE.multiply(BigInteger.valueOf(levelsToBuy))) > -1) {
             playerData.removeTokens(PRICE.multiply(BigInteger.valueOf(levelsToBuy)));
-            CustomEnchants.addEnchantLevel(pickaxe, ENCHANT_ID, levelsToBuy);
+            CustomEnchants.addEnchantLevel(player, pickaxe, ENCHANT_ID, levelsToBuy);
             player.sendMessage(ChatColor.AQUA + "You have successfully upgraded your pickaxe!");
             return true;
         } else {

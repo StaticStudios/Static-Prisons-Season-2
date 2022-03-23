@@ -12,12 +12,10 @@ import me.staticstudios.prisons.gameplay.islands.SkyBlockIsland;
 import me.staticstudios.prisons.gameplay.islands.SkyBlockIslands;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
-import org.apache.commons.lang.SerializationUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
@@ -204,11 +202,17 @@ public class PlayerData extends DataSet {
         return setPrestige(getPrestige().subtract(value));
     }
 
+
+
+
+
+
+
     //Backpack
     public boolean updateBackpackIsFull() {
         return getBackpackSize().equals(getBackpackItemCount());
     }
-    public Data setBackpackContents(Map<Material, BigInteger> value) {
+    public Data setBackpackContents(Map<String, String> value) {
         Data newData = new Data();
         newData.map = value;
         return setData("backpackContents", newData);
@@ -239,13 +243,13 @@ public class PlayerData extends DataSet {
     public boolean getBackpackIsFull() {
         return getData("backpackIsFull")._boolean;
     }
-    public Map<Material, BigInteger> getBackpackContents() {
+    public Map<String, String> getBackpackContents() {
         if (getData("backpackContents").map == null) setBackpackContents(new HashMap<>());
         return getData("backpackContents").map;
     }
 
     public BigInteger getBackpackAmountOf(Material mat) {
-        if (getBackpackContents().containsKey(mat)) return getBackpackContents().get(mat);
+        if (getBackpackContents().containsKey(mat.name())) return new BigInteger(getBackpackContents().get(mat.name()));
         return BigInteger.ZERO;
     }
 
@@ -257,8 +261,8 @@ public class PlayerData extends DataSet {
             amount = size.subtract(itemCount);
             setBackpackIsFull(true);
         }
-        Map<Material, BigInteger> map = getBackpackContents();
-        map.put(mat, getBackpackAmountOf(mat).add(amount));
+        Map<String, String> map = getBackpackContents();
+        map.put(mat.name(), getBackpackAmountOf(mat).add(amount).toString());
         setBackpackContents(map);
         setBackpackItemCount(getBackpackItemCount().add(amount));
     }
@@ -274,8 +278,8 @@ public class PlayerData extends DataSet {
         multi += 0.5 / PrisonEnchants.MERCHANT.MAX_LEVEL * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant");
         BigInteger totalSellPrice = BigInteger.ZERO;
         if (getBackpackItemCount().compareTo(BigInteger.ZERO) > 0) {
-            for (Material key : getBackpackContents().keySet()) {
-                totalSellPrice = totalSellPrice.add(getBackpackContents().get(key).multiply(Prices.getSellPriceOf(key)));
+            for (String key : getBackpackContents().keySet()) {
+                totalSellPrice = totalSellPrice.add(new BigInteger(getBackpackContents().get(key)).multiply(Prices.getSellPriceOf(Material.valueOf(key))));
             }
         }
         totalSellPrice = new BigDecimal(totalSellPrice).multiply(BigDecimal.valueOf(multi)).toBigInteger();

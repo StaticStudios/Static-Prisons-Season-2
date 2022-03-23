@@ -4,6 +4,7 @@ import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -46,6 +47,17 @@ public class CustomEnchants {
         return 0;
     }
 
+    public static void setEnchantLevel(Player player, ItemStack item, String enchant, long level) {
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), enchant), PersistentDataType.LONG, level);
+        item.setItemMeta(meta);
+        updateLore(item);
+        PrisonPickaxe.updateCachedStats(player);
+    }
+
+    /**
+     *This method should only be called if an enchant is being changed by code, not by a player. This will not update a pickaxe's cached stats
+     */
     public static void setEnchantLevel(ItemStack item, String enchant, long level) {
         ItemMeta meta = item.getItemMeta();
         meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), enchant), PersistentDataType.LONG, level);
@@ -53,15 +65,15 @@ public class CustomEnchants {
         updateLore(item);
     }
 
-    public static void addEnchantLevel(ItemStack item, String enchant, long levelsToAdd) {
-        setEnchantLevel(item, enchant, getEnchantLevel(item, enchant) + levelsToAdd);
+    public static void addEnchantLevel(Player player, ItemStack item, String enchant, long levelsToAdd) {
+        setEnchantLevel(player, item, enchant, getEnchantLevel(item, enchant) + levelsToAdd);
     }
 
-    public static void removeEnchantLevels(ItemStack item, String enchant, long levelsToRemove) {
-        setEnchantLevel(item, enchant, getEnchantLevel(item, enchant) - levelsToRemove);
+    public static void removeEnchantLevels(Player player, ItemStack item, String enchant, long levelsToRemove) {
+        setEnchantLevel(player, item, enchant, getEnchantLevel(item, enchant) - levelsToRemove);
     }
-    public static void removeEnchant(ItemStack item, String enchant) {
-        setEnchantLevel(item, enchant, 0);
+    public static void removeEnchant(Player player, ItemStack item, String enchant) {
+        setEnchantLevel(player, item, enchant, 0);
         updateLore(item);
     }
 

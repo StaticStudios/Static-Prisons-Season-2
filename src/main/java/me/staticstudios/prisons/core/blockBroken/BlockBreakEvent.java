@@ -1,8 +1,8 @@
 package me.staticstudios.prisons.core.blockBroken;
 
+import me.staticstudios.prisons.core.enchants.CustomEnchants;
 import me.staticstudios.prisons.gameplay.customItems.CustomItems;
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
-import me.staticstudios.prisons.core.enchants.CustomEnchants;
 import me.staticstudios.prisons.core.enchants.PrisonEnchants;
 import me.staticstudios.prisons.core.mines.BaseMine;
 import me.staticstudios.prisons.core.mines.MineManager;
@@ -41,7 +41,8 @@ public class BlockBreakEvent {
 
 
         ItemStack pickaxe = player.getInventory().getItemInMainHand();
-        if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
+        Map<String, Integer> cachedStats = PrisonPickaxe.getCachedEnchants(player);
+        if (cachedStats == null) return;
         playerData.addRawBlocksMined(BigInteger.ONE);
         Map<Material, BigInteger> blocksBroken = new HashMap<>();
         blocksBroken.put(e.getBlock().getType(), BigInteger.ONE);
@@ -51,9 +52,9 @@ public class BlockBreakEvent {
 
 
         if (Utils.randomInt(1, 75) == 1) { //Jack Hammer
-            int jackHammerLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "jackHammer"); //TODO: test the speed of PDC
+            int jackHammerLevel = cachedStats.get("jackHammer");
             if (jackHammerLevel > 0) {
-                int doubleWammyLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "doubleWammy");
+                int doubleWammyLevel = cachedStats.get("doubleWammy");
                 if (Utils.randomInt(1, PrisonEnchants.JACK_HAMMER.MAX_LEVEL + PrisonEnchants.JACK_HAMMER.MAX_LEVEL / 10) <= jackHammerLevel + PrisonEnchants.JACK_HAMMER.MAX_LEVEL / 10) {
                     //Enchant should activate
                     int howDeepToGo = 1;
@@ -64,18 +65,18 @@ public class BlockBreakEvent {
             }
         }
         if (Utils.randomInt(1, 125) == 1) {//Multi-directional
-            int multiDirectionalLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "multiDirectional");
+            int multiDirectionalLevel = cachedStats.get("multiDirectional");
             if (multiDirectionalLevel > 0) {
                 if (Utils.randomInt(1, PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 10) <= multiDirectionalLevel + PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL / 10) {
                     //Enchant should activate
-                    int howDeepToGo = Math.max(1, e.getBlock().getY() - multiDirectionalLevel * 250 / PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL);
+                    int howDeepToGo = (int) Math.max(1, e.getBlock().getY() - multiDirectionalLevel * 250 / PrisonEnchants.MULTI_DIRECTIONAL.MAX_LEVEL);
                     blocksBroken.putAll(new MultiDirectional(mine, e.getBlock().getLocation()).destroySection(e.getBlock().getY(), howDeepToGo, e.getBlock().getX(), e.getBlock().getZ()));
                 }
             }
         }
         //Key finder
         if (Utils.randomInt(0, 2500) == 1) {
-            int keyFinderLevel = (int) CustomEnchants.getEnchantLevel(pickaxe, "keyFinder");
+            int keyFinderLevel = cachedStats.get("keyFinder");
             if (keyFinderLevel > 0) {
                 if (Utils.randomInt(1, PrisonEnchants.KEY_FINDER.MAX_LEVEL) <= keyFinderLevel) {
                     //Enchant should activate
@@ -107,8 +108,8 @@ public class BlockBreakEvent {
         }
         BigInteger totalAmountOfBlocksBroken = BigInteger.ZERO;
         boolean backpackWasFull = playerData.getBackpackIsFull();
-        long fortuneMultiplier = CustomEnchants.getEnchantLevel(pickaxe, "fortune") + 1;
-        int oreSplitter = (int) CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter");
+        int fortuneMultiplier = cachedStats.get("fortune") + 1;
+        int oreSplitter = cachedStats.get("oreSplitter");
         if (oreSplitter > 0 && oreSplitter <= Utils.randomInt(1, PrisonEnchants.ORE_SPLITTER.MAX_LEVEL)) fortuneMultiplier *= 2;
         for (Material key : blocksBroken.keySet()) { //TODO: Try to find a way around this
             playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(fortuneMultiplier)));
@@ -122,8 +123,7 @@ public class BlockBreakEvent {
         //if (tokensToAdd.compareTo(BigInteger.ZERO) < 0) tokensToAdd = BigInteger.ONE;
         //playerData.addTokens(tokensToAdd);
 
-
-        int chance = Utils.randomInt(1, 450 - (int) (CustomEnchants.getEnchantLevel(pickaxe, "tokenator") / 16.5)); //Max level requires 147 blocks on average
+        int chance = (Utils.randomInt(1, (int) (450 - cachedStats.get("tokenator") / 16.5))); //Max level requires 147 blocks on average
         if (chance == 1) {
             //The player should receive tokens
             BigInteger tokens = BigInteger.valueOf(Utils.randomInt(200, 800));

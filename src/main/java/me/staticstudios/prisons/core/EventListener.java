@@ -5,6 +5,7 @@ import me.staticstudios.prisons.core.enchants.EnchantEffects;
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
 import me.staticstudios.prisons.core.data.serverData.ServerData;
 import me.staticstudios.prisons.core.enchants.PrisonEnchants;
+import me.staticstudios.prisons.core.enchants.PrisonPickaxe;
 import me.staticstudios.prisons.external.DiscordLink;
 import me.staticstudios.prisons.gameplay.Warps;
 import me.staticstudios.prisons.gameplay.crates.CrateManager;
@@ -52,6 +53,9 @@ public class EventListener implements Listener {
 
         //Updates a player's discord name
         DiscordLink.playerJoined(player);
+
+        //Update a player's pickaxe's cached stats
+        PrisonPickaxe.updateCachedStats(player);
     }
     @EventHandler
     void playerQuit(PlayerQuitEvent e) {
@@ -98,6 +102,7 @@ public class EventListener implements Listener {
 
     @EventHandler
     void onInteract(PlayerInteractEvent e) {
+        if (true) return;
         Player player = e.getPlayer();
         if (e.getHand() != null) {
             if (e.getHand().equals(EquipmentSlot.OFF_HAND)) return;
