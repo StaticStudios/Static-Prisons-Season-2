@@ -10,37 +10,36 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PrisonPickaxe {
-    public static Map<Player, Map<String, Integer>> cachedPickaxeStats = new HashMap<>(); //Make sure that this keeps the current player's item in their main hand
+    public static Map<Player, Map<String, Integer>> cachedPickaxeEnchants = new ConcurrentHashMap<>(); //Make sure that this keeps the current player's item in their main hand
+    public static Map<ItemStack, Map<String, Long>> pickaxeStatsBuffer = new HashMap<>();
 
     public static Map<String, Integer> getCachedEnchants(Player player) {
         if (player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-            cachedPickaxeStats.remove(player);
+            cachedPickaxeEnchants.remove(player);
             return null;
         }
-        if (!cachedPickaxeStats.containsKey(player)) updateCachedStats(player);
-        return cachedPickaxeStats.get(player);
+        if (!cachedPickaxeEnchants.containsKey(player)) updateCachedStats(player);
+        return cachedPickaxeEnchants.get(player);
     }
 
     public static void updateCachedStats(Player player) {
         Map<String, Integer> map = new HashMap<>();
         ItemStack item = player.getInventory().getItemInMainHand();
         if (!Utils.checkIsPrisonPickaxe(item)) {
-            cachedPickaxeStats.remove(player);
+            cachedPickaxeEnchants.remove(player);
             return;
         }
         for (String ench : CustomEnchants.enchantIDsToNames.keySet()) {
             map.put(ench, (int) CustomEnchants.getEnchantLevel(item, ench));
         }
-        cachedPickaxeStats.put(player, map);
+        cachedPickaxeEnchants.put(player, map);
     }
 
 
@@ -48,147 +47,127 @@ public class PrisonPickaxe {
     public static final long BASE_XP_PER_BLOCK_BROKEN = 2;
     public static final long BASE_XP_PER_PICKAXE_LEVEL = 10000;
     public static final int XP_INCREASES_EVERY_X_LEVELS = 25;
-    public static long getXpRequiredForPickaxeLevel(int level) {
+    public static long getXpRequiredForPickaxeLevel(long level) {
         long cost = BASE_XP_PER_BLOCK_BROKEN;
         for (int i = 0; i < level; i++) cost += (i / XP_INCREASES_EVERY_X_LEVELS + 1) * BASE_XP_PER_PICKAXE_LEVEL;
         return cost;
     }
 
-    public static int getLevel(ItemStack pickaxe) {
-        if (true) return 0;
-        if (!Utils.checkIsPrisonPickaxe(pickaxe)) return 0;
+    public static void dumpStatsToAllPickaxe() {
+        for (ItemStack key : pickaxeStatsBuffer.keySet()) dumpStatsToPickaxe(key);
+    }
+
+    public static void putPickaxeInBuffer(ItemStack pickaxe) {
+        if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
+        if (!pickaxeStatsBuffer.containsKey(pickaxe)) pickaxeStatsBuffer.put(pickaxe, new HashMap<>());
+        Map<String, Long> stats = pickaxeStatsBuffer.get(pickaxe);
+        stats.put("level", getLevelOnPickaxe(pickaxe));
+        stats.put("xp", getXPOnPickaxe(pickaxe));
+        stats.put("blocksMined", getBlocksMinedOnPickaxe(pickaxe));
+        stats.put("blocksBroken", getBlocksBrokenOnPickaxe(pickaxe));
+        pickaxeStatsBuffer.put(pickaxe, stats);
+    }
+    public static void dumpStatsToPickaxe(ItemStack item) {
+        if (item == null) return;
+        Map<String, Long> stats = pickaxeStatsBuffer.get(item);
+        if (stats == null) return;
+        setStatOnPickaxe(item, stats.get("level"), "level", "Level", Utils.addCommasToNumber(stats.get("level")));
+        setStatOnPickaxe(item, stats.get("xp"), "xp", "Experience", Utils.prettyNum(stats.get("xp")) + " / " + Utils.prettyNum(getXpRequiredForPickaxeLevel(stats.get("level") + 1)));
+        setStatOnPickaxe(item, stats.get("blocksMined"), "blocksMined", "Blocks Mined", Utils.addCommasToNumber(stats.get("blocksMined")));
+        setStatOnPickaxe(item, stats.get("blocksBroken"), "blocksBroken", "Blocks Broken", Utils.addCommasToNumber(stats.get("blocksBroken")));
+    }
+    public static void verifyPickIsInBuffer(ItemStack pickaxe) {
+        if (!pickaxeStatsBuffer.containsKey(pickaxe)) putPickaxeInBuffer(pickaxe);
+    }
+
+    private static long getLevelOnPickaxe(ItemStack pickaxe) {
         ItemMeta meta = pickaxe.getItemMeta();
         long level = 0;
         if (meta.getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.LONG)) {
             level = meta.getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.LONG);
         }
-        return (int) level;
+        return level;
     }
-    public static void addLevel(ItemStack pickaxe, long levelsToAdd) {
-        if (true) return;
-        if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
+    private static long getXPOnPickaxe(ItemStack pickaxe) {
         ItemMeta meta = pickaxe.getItemMeta();
-        long currentAmount = 0;
-        if (meta.getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.LONG)) {
-            currentAmount = meta.getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.LONG);
-        }
-        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.LONG, currentAmount + levelsToAdd);
-        boolean updated = false;
-        List<String> lore = new ArrayList<>();
-        if (meta.hasLore()) {
-            lore = meta.getLore();
-            for (int i = 0; i < lore.size(); i++) {
-                String line = lore.get(i);
-                if (ChatColor.stripColor(line).startsWith("Level:")) {
-                    lore.set(i, ChatColor.GREEN + "Level: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + levelsToAdd));
-                    updated = true;
-                    break;
-                }
-            }
-            if (!updated) {
-                lore.add(ChatColor.GREEN + "Level: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + levelsToAdd));
-            }
-        } else {
-            lore.add(ChatColor.GREEN + "Level: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + levelsToAdd));
-        }
-        meta.setLore(lore);
-        pickaxe.setItemMeta(meta);
-    }
-    /**
-     * @return true if the pickaxe has leveled up
-     */
-    public static boolean addXP(ItemStack pickaxe, long xpToAdd) {
-        if (true) return false;
-        if (!Utils.checkIsPrisonPickaxe(pickaxe)) return false;
-        ItemMeta meta = pickaxe.getItemMeta();
-        long currentAmount = 0;
+        long xp = 0;
         if (meta.getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), "xp"), PersistentDataType.LONG)) {
-            currentAmount = meta.getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "xp"), PersistentDataType.LONG);
+            xp = meta.getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "xp"), PersistentDataType.LONG);
         }
-        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "xp"), PersistentDataType.LONG, currentAmount + xpToAdd);
-        boolean updated = false;
-        List<String> lore = new ArrayList<>();
-        if (meta.hasLore()) {
-            lore = meta.getLore();
-            for (int i = 0; i < lore.size(); i++) {
-                String line = lore.get(i);
-                if (ChatColor.stripColor(line).startsWith("Experience:")) {
-                    lore.set(i, ChatColor.GREEN + "Experience: " + ChatColor.WHITE + Utils.prettyNum(currentAmount + xpToAdd) + " / " + Utils.prettyNum(getXpRequiredForPickaxeLevel(getLevel(pickaxe) + 1)));
-                    updated = true;
-                    break;
-                }
-            }
-            if (!updated) {
-                lore.add(ChatColor.GREEN + "Experience: " + ChatColor.WHITE + Utils.prettyNum(currentAmount + xpToAdd) + " / " + Utils.prettyNum(getXpRequiredForPickaxeLevel(getLevel(pickaxe) + 1)));
-            }
-        } else {
-            lore.add(ChatColor.GREEN + "Experience: " + ChatColor.WHITE + Utils.prettyNum(currentAmount + xpToAdd) + " / " + Utils.prettyNum(getXpRequiredForPickaxeLevel(getLevel(pickaxe) + 1)));
+        return xp;
+    }
+    private static long getBlocksMinedOnPickaxe(ItemStack pickaxe) {
+        ItemMeta meta = pickaxe.getItemMeta();
+        long level = 0;
+        if (meta.getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), "blocksMined"), PersistentDataType.LONG)) {
+            level = meta.getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "blocksMined"), PersistentDataType.LONG);
         }
-        meta.setLore(lore);
-        pickaxe.setItemMeta(meta);
-        if (getXpRequiredForPickaxeLevel(getLevel(pickaxe) + 1) <= currentAmount) {
+        return level;
+    }
+    private static long getBlocksBrokenOnPickaxe(ItemStack pickaxe) {
+        ItemMeta meta = pickaxe.getItemMeta();
+        long level = 0;
+        if (meta.getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), "blocksBroken"), PersistentDataType.LONG)) {
+            level = meta.getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "blocksBroken"), PersistentDataType.LONG);
+        }
+        return level;
+    }
+
+
+
+    public static void addLevel(ItemStack pickaxe, long levelsToAdd) {
+        Map<String, Long> stats = pickaxeStatsBuffer.get(pickaxe);
+        stats.put("level", stats.get("level") + levelsToAdd);
+    }
+    public static long getLevel(ItemStack pickaxe) {
+        return pickaxeStatsBuffer.get(pickaxe).get("level");
+    }
+    public static boolean addXP(ItemStack pickaxe, long xpToAdd) {
+        Map<String, Long> stats = pickaxeStatsBuffer.get(pickaxe);
+        stats.put("xp", stats.get("xp") + xpToAdd);
+        if (getXpRequiredForPickaxeLevel(getLevel(pickaxe) + 1) <= stats.get("xp")) {
             addLevel(pickaxe, 1);
             return true;
         }
         return false;
     }
-
-    public static void addBlocksBroken(ItemStack pickaxe, long amountToAdd) {
-        if (true) return;
-        if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
-        ItemMeta meta = pickaxe.getItemMeta();
-        long currentAmount = 0;
-        if (meta.getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), "blocksBroken"), PersistentDataType.LONG)) {
-            currentAmount = meta.getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "blocksBroken"), PersistentDataType.LONG);
-        }
-        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "blocksBroken"), PersistentDataType.LONG, currentAmount + amountToAdd);
-        boolean updated = false;
-        List<String> lore = new ArrayList<>();
-        if (meta.hasLore()) {
-            lore = meta.getLore();
-            for (int i = 0; i < lore.size(); i++) {
-                String line = lore.get(i);
-                if (ChatColor.stripColor(line).startsWith("Blocks Broken:")) {
-                    lore.set(i, ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
-                    updated = true;
-                    break;
-                }
-            }
-            if (!updated) {
-                lore.add(ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
-            }
-        } else {
-            lore.add(ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
-        }
-        meta.setLore(lore);
-        pickaxe.setItemMeta(meta);
+    public static long getXP(ItemStack pickaxe) {
+        return pickaxeStatsBuffer.get(pickaxe).get("xp");
     }
-    public static void addBlocksMined(ItemStack pickaxe, long amountToAdd) {
-        if (true) return;
-        if (!Utils.checkIsPrisonPickaxe(pickaxe)) return;
+    public static void addBlocksMined(ItemStack pickaxe, long blocksMined) {
+        Map<String, Long> stats = pickaxeStatsBuffer.get(pickaxe);
+        stats.put("blocksMined", stats.get("blocksMined") + blocksMined);
+    }
+    public static long getBlocksMined(ItemStack pickaxe) {
+        return pickaxeStatsBuffer.get(pickaxe).get("blocksMined");
+    }
+
+    public static void addBlocksBroken(ItemStack pickaxe, long blocksBroken) {
+        Map<String, Long> stats = pickaxeStatsBuffer.get(pickaxe);
+        stats.put("blocksBroken", stats.get("blocksBroken") + blocksBroken);
+    }
+    public static long getBlocksBroken(ItemStack pickaxe) {
+        return pickaxeStatsBuffer.get(pickaxe).get("blocksBroken");
+    }
+
+    public static void setStatOnPickaxe(ItemStack pickaxe, Long stat, String statID, String loreDisplay, String loreValue) {
         ItemMeta meta = pickaxe.getItemMeta();
-        long currentAmount = 0;
-        if (meta.getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), "blocksMined"), PersistentDataType.LONG)) {
-            currentAmount = meta.getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "blocksMined"), PersistentDataType.LONG);
-        }
-        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "blocksMined"), PersistentDataType.LONG, currentAmount + amountToAdd);
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), statID), PersistentDataType.LONG, stat);
         boolean updated = false;
         List<String> lore = new ArrayList<>();
         if (meta.hasLore()) {
             lore = meta.getLore();
             for (int i = 0; i < lore.size(); i++) {
                 String line = lore.get(i);
-                if (ChatColor.stripColor(line).startsWith("Blocks Mined:")) {
-                    lore.set(i, ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
+                if (ChatColor.stripColor(line).startsWith(loreDisplay + ":")) {
+                    lore.set(i, ChatColor.GREEN + loreDisplay + ": " + ChatColor.WHITE + loreValue);
                     updated = true;
                     break;
                 }
             }
-            if (!updated) {
-                lore.add(ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
-            }
+            if (!updated) lore.add(ChatColor.GREEN + loreDisplay + ": " + ChatColor.WHITE + loreValue);
         } else {
-            lore.add(ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + Utils.addCommasToNumber(currentAmount + amountToAdd));
+            lore.add(ChatColor.GREEN + loreDisplay + ": " + ChatColor.WHITE + loreValue);
         }
         meta.setLore(lore);
         pickaxe.setItemMeta(meta);

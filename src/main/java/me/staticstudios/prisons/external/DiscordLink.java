@@ -33,13 +33,17 @@ public class DiscordLink {
     public static void playerJoined(Player player) {
         //Set default values before checking the database for the correct values
         PlayerData playerData = new PlayerData(player);
+        playerData.setIsDiscordLinked(false);
         playerData.setDiscordName("null");
-        playerData.setIsNitroBoosting(false); //TODO: these
+        playerData.setDiscordID("");
+        playerData.setIsNitroBoosting(false);
+        playerData.updateTabListPrefixID();
 
 
 
         //Run DB actions async
         Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+
             //Update the uuidIGN table in the database
             while (MySQLConnection.getConnection() == null) {
                 //If the connection is null, wait 1 second and try again
@@ -50,51 +54,30 @@ public class DiscordLink {
                 }
             }
             try (Statement stmt = MySQLConnection.getConnection().createStatement()) {
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `linkedAccounts` WHERE accountUUID = '" + player.getUniqueId() + "'");
+                rs.next();
+                rs.getString("accountUUID"); //Check if it throws an error
+                playerData.setDiscordID(rs.getString("discordID"));
+                playerData.setDiscordName("not done#1234");
+                playerData.setIsDiscordLinked(true);
+            } catch (SQLException e) {}
+            if (playerData.getIsDiscordLinked()) {
+                try (Statement stmt = MySQLConnection.getConnection().createStatement()) {
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM `nitroBoosterIDs` WHERE discordID = '" + playerData.getDiscordID() + "'");
+                    rs.next();
+                    rs.getString("discordID"); //Check if it throws an error
+                    playerData.setIsNitroBoosting(true);
+                    playerData.updateTabListPrefixID();
+                } catch (SQLException e) {}
+            }
+
+            try (Statement stmt = MySQLConnection.getConnection().createStatement()) {
                 stmt.executeUpdate("DELETE FROM `uuidIGN` WHERE uuid = '" + player.getUniqueId() + "'");
                 stmt.executeUpdate("INSERT INTO `uuidIGN` (`id`, `uuid`, `ign`) VALUES (NULL, '" + player.getUniqueId() + "', '" + player.getName() + "')");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
-
-
-
-        //PlayerData playerData = new PlayerData(player);
-        //        playerData.setDiscordName("null");
-        //        //Check if a player is boosting the discord
-        //        playerData.setIsNitroBoosting(false);
-        //        if (LinkHandler.checkIfLinkedFromUUID(player.getUniqueId().toString())) {
-        //            try {
-        //                Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
-        //                    User user = DiscordBot.jda.retrieveUserById(LinkHandler.getLinkedDiscordIDFromUUID(player.getUniqueId().toString())).complete();
-        //                    playerData.setDiscordName(user.getName() + "#" + user.getDiscriminator());
-        //                });
-        //            } catch (Exception ignore) {
-        //                LinkHandler.unlinkFromUUID(player.getUniqueId().toString());
-        //            }
-        //            try {
-        //                DiscordAddRoles.giveRolesFromUUID(player.getUniqueId().toString());
-        //                Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
-        //                    DiscordBot.jda.getGuildById("587372348294955009").retrieveMemberById(LinkHandler.getLinkedDiscordIDFromUUID(player.getUniqueId().toString())).queue(member -> {
-        //                        for (Role role : member.getRoles()) {
-        //                            if (role.getId().equals("629662637625442305")) {
-        //                                playerData.setIsNitroBoosting(true);
-        //                                break;
-        //                            }
-        //                        }
-        //                    });
-        //                });
-        //            } catch (Exception ex) {
-        //                ex.printStackTrace();
-        //                player.sendMessage(ChatColor.RED + "We were unable to get your linked discord information.");
-        //            }
-        //            Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-        //TODO: move the code below into when autosell goes off, verify that it should sell
-
-        //                if (playerData.getIsAutoSellEnabled() && !playerData.getCanEnableAutoSell() && !playerData.getPlayerRanks().contains("warrior") && !playerData.getIsNitroBoosting())
-        //                    playerData.setIsAutoSellEnabled(false);
-        //            }, 20 * 20);
-        //        }
     }
 
     public static void unlinkAccount(UUID playerUUID) {
@@ -117,6 +100,12 @@ public class DiscordLink {
         } catch (SQLException e) {
             if (Bukkit.getPlayer(playerUUID) != null) Bukkit.getPlayer(playerUUID).sendMessage(org.bukkit.ChatColor.AQUA + "Your account is not linked! To link your account, type " + ChatColor.ITALIC + "\"/discord link\"");
         }
+        PlayerData playerData = new PlayerData(playerUUID);
+        playerData.setIsDiscordLinked(false);
+        playerData.setDiscordName("null");
+        playerData.setDiscordID("");
+        playerData.setIsNitroBoosting(false);
+        playerData.updateTabListPrefixID();
     }
 
     public static void initiateLinkRequest(UUID playerUUID) {
@@ -208,6 +197,18 @@ public class DiscordLink {
                         StringBuilder accountName = new StringBuilder();
                         for (int i = 2; i < args.size(); i++) accountName.append(args.get(i)).append(" ");
                         Bukkit.getLogger().log(Level.INFO, "" + args.get(0) + " ( " + new ServerData().getPlayerNameFromUUID(args.get(0)) + " ) was linked to discord account " + args.get(1) + " ( " + accountName + ")");
+                        //Check if they are boosting
+                        PlayerData playerData = new PlayerData(args.get(0));
+                        try (Statement _stmt = MySQLConnection.getConnection().createStatement()) {
+                            ResultSet _rs = _stmt.executeQuery("SELECT * FROM `nitroBoosterIDs` WHERE discordID = '" + args.get(1) + "'");
+                            _rs.next();
+                            _rs.getString("discordID"); //Check if it throws an error
+                            playerData.setIsNitroBoosting(true);
+                            playerData.updateTabListPrefixID();
+                            System.out.println("a");
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                     default -> Bukkit.getLogger().warning("Got a callback with an unknown request! Callback: " + callback);
                 }

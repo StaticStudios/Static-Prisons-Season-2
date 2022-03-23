@@ -21,7 +21,7 @@ import me.staticstudios.prisons.gameplay.gui.GUIListener;
 import me.staticstudios.prisons.gameplay.gui.GUIPage;
 import me.staticstudios.prisons.gameplay.islands.IslandManager;
 import me.staticstudios.prisons.core.mines.MineManager;
-import me.staticstudios.prisons.gameplay.tablist.TabList;
+import me.staticstudios.prisons.gameplay.UI.tablist.TabList;
 import me.staticstudios.prisons.gameplay.commands.vote_store.VoteStoreListener;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
@@ -98,6 +98,7 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("givevote").setExecutor(new GiveVoteCommand());
             getCommand("watchmessages").setExecutor(new MessageSpyCommand());
             //--Normal Commands
+            getCommand("trash").setExecutor(new TrashCommand());
             getCommand("reply").setExecutor(new ReplyCommand());
             getCommand("message").setExecutor(new MessageCommand());
             getCommand("backpack").setExecutor(new BackpackCommand());
@@ -159,7 +160,7 @@ public final class Main extends JavaPlugin implements Listener {
     public void onDisable() {
         DataWriter.saveDataSync();
         AuctionHouseManager.saveAllAuctions();
-        //DiscordBot.jda.shutdownNow();
+        PrisonPickaxe.dumpStatsToAllPickaxe();
     }
 
     static void loadMineWorld() {

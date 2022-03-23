@@ -240,3 +240,8 @@ commands:
     aliases:
       - msgspy
       - socialspy
+  trash:
+    description: a
+    aliases:
+      - bin
+      - trashcan

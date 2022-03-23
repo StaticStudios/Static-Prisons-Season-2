@@ -12,7 +12,7 @@ import me.staticstudios.prisons.gameplay.crates.CrateManager;
 import me.staticstudios.prisons.gameplay.customItems.Vouchers;
 import me.staticstudios.prisons.gameplay.gui.GUI;
 import me.staticstudios.prisons.gameplay.UI.scoreboard.CustomScoreboard;
-import me.staticstudios.prisons.gameplay.tablist.TabList;
+import me.staticstudios.prisons.gameplay.UI.tablist.TabList;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -28,7 +28,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.Objects;
 
 public class EventListener implements Listener {
 
@@ -61,6 +64,12 @@ public class EventListener implements Listener {
     void playerQuit(PlayerQuitEvent e) {
         e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', "&a&lLeft&a -> &f" + e.getPlayer().getName()));
         Player player = e.getPlayer();
+        //Dump all the pickaxe stats from the buffer to all the items in the players inv
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (!Utils.checkIsPrisonPickaxe(item)) continue;
+            PrisonPickaxe.dumpStatsToPickaxe(item);
+        }
+
         //Remove player from the scoreboard map to prevent updating an offline player's scoreboard
         CustomScoreboard.playerLeft(player.getUniqueId().toString());
         PlayerData playerData = new PlayerData(player);
@@ -102,18 +111,17 @@ public class EventListener implements Listener {
 
     @EventHandler
     void onInteract(PlayerInteractEvent e) {
-        if (true) return;
         Player player = e.getPlayer();
-        if (e.getHand() != null) {
-            if (e.getHand().equals(EquipmentSlot.OFF_HAND)) return;
-        }
+        if (Objects.equals(e.getHand(), EquipmentSlot.OFF_HAND)) return;
         if (Vouchers.onInteract(e)) return;
+        if (CrateManager.checkIfCrateWasClicked(e)) return;
+
+
+
         if (e.getClickedBlock() != null && !e.getClickedBlock().getType().equals(Material.AIR)) {
             //Check if it is also a block place event
             if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-                if (player.getInventory().getItemInMainHand().getType().isBlock() && !e.getClickedBlock().getType().isInteractable()) {
-                    return;
-                }
+                if (player.getInventory().getItemInMainHand().getType().isBlock() && !e.getClickedBlock().getType().isInteractable()) return;
             }
         }
         //Check if the player is holding a pickaxe and is trying to open the enchants menu
@@ -127,6 +135,5 @@ public class EventListener implements Listener {
                 return;
             }
         }
-        if (CrateManager.checkIfCrateWasClicked(e)) return;
     }
 }

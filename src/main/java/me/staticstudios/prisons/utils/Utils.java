@@ -374,10 +374,10 @@ public class Utils {
         ItemMeta meta = item.getItemMeta();
         meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "pickaxeUUID"), PersistentDataType.STRING, UUID.randomUUID().toString());
         item.setItemMeta(meta);
-        PrisonPickaxe.addLevel(item, 0);
-        PrisonPickaxe.addXP(item, 0);
-        PrisonPickaxe.addBlocksBroken(item, 0);
-        PrisonPickaxe.addBlocksMined(item, 0);
+        PrisonPickaxe.setStatOnPickaxe(item, 0L, "level", "Level", "0");
+        PrisonPickaxe.setStatOnPickaxe(item, 0L, "xp", "Experience", "0 / 0");
+        PrisonPickaxe.setStatOnPickaxe(item, 0L, "blocksMined", "Blocks Mined", "0");
+        PrisonPickaxe.setStatOnPickaxe(item, 0L, "blocksBroken", "Blocks Broken", "0");
         meta = item.getItemMeta();
         List<String> lore = meta.getLore();
         lore.add(ChatColor.GRAY + "---------------");
@@ -412,5 +412,12 @@ public class Utils {
             }
         }
         return null;
+    }
+    public static boolean checkIfPlayerCanAutoSell(PlayerData playerData) {
+        if (playerData.getCanExplicitlyEnableAutoSell()) return true;
+        return playerData.getPlayerRanks().contains("warrior") || playerData.getIsNitroBoosting();
+    }
+    public static boolean checkIfPlayerCanAutoSell(Player player) {
+        return checkIfPlayerCanAutoSell(new PlayerData(player));
     }
 }

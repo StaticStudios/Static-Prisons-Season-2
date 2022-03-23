@@ -1,5 +1,6 @@
 package me.staticstudios.prisons;
 
+import me.staticstudios.prisons.core.enchants.PrisonPickaxe;
 import me.staticstudios.prisons.external.DiscordLink;
 import me.staticstudios.prisons.gameplay.UI.PlayerUI;
 import me.staticstudios.prisons.gameplay.auctionHouse.AuctionHouseManager;
@@ -11,11 +12,9 @@ import me.staticstudios.prisons.gameplay.events.EventManager;
 import me.staticstudios.prisons.gameplay.leaderboards.LeaderboardManager;
 import me.staticstudios.prisons.core.mines.MineManager;
 import me.staticstudios.prisons.gameplay.UI.scoreboard.CustomScoreboard;
-import me.staticstudios.prisons.gameplay.tablist.TabList;
+import me.staticstudios.prisons.gameplay.UI.tablist.TabList;
 import me.staticstudios.prisons.utils.StaticVars;
 import me.staticstudios.prisons.utils.Utils;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -75,6 +74,13 @@ public class TimedTasks {
         }, 20 * 60 * 5, 20 * 60 * 10);
         //Chat Events
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), EventManager::runNewEvent, 20 * 60 * 12, 20 * 60 * 25);
+        //Update Pickaxe Lore With Stats
+        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), PrisonPickaxe::dumpStatsToAllPickaxe, 0, 20 * 3);
+
+
+
+
+
         //Consistency enchant
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {

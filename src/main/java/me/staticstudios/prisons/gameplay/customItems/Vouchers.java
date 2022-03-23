@@ -22,7 +22,7 @@ public class Vouchers {
         @Override
         void onClaim(Player player) {
             PlayerData playerData = new PlayerData(player);
-            if (playerData.getCanEnableAutoSell()) {
+            if (playerData.getCanExplicitlyEnableAutoSell()) {
                 player.sendMessage(ChatColor.RED + "You can already enable auto sell!");
                 return;
             }

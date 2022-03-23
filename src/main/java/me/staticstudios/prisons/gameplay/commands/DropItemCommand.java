@@ -1,6 +1,7 @@
 package me.staticstudios.prisons.gameplay.commands;
 
 import me.staticstudios.prisons.core.enchants.PrisonPickaxe;
+import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,6 +22,7 @@ public class DropItemCommand implements CommandExecutor {
             player.sendMessage(ChatColor.RED + "You cannot drop this item!");
             return false;
         }
+        if (Utils.checkIsPrisonPickaxe(item)) PrisonPickaxe.dumpStatsToPickaxe(item);
         player.getWorld().dropItem(player.getLocation(), item).setPickupDelay(60);
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou've just dropped an item"));
         item.setAmount(0);

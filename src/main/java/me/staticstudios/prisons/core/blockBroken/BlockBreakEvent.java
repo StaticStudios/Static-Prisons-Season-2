@@ -43,6 +43,7 @@ public class BlockBreakEvent {
         ItemStack pickaxe = player.getInventory().getItemInMainHand();
         Map<String, Integer> cachedStats = PrisonPickaxe.getCachedEnchants(player);
         if (cachedStats == null) return;
+        PrisonPickaxe.verifyPickIsInBuffer(pickaxe);
         playerData.addRawBlocksMined(BigInteger.ONE);
         Map<Material, BigInteger> blocksBroken = new HashMap<>();
         blocksBroken.put(e.getBlock().getType(), BigInteger.ONE);
@@ -146,9 +147,10 @@ public class BlockBreakEvent {
 
         //If the player's backpack was not full but now is, tell them it has filled up or auto sell
         if (playerData.getBackpackIsFull()) {
-            if (playerData.getIsAutoSellEnabled()) {
+            if (Utils.checkIfPlayerCanAutoSell(playerData)) {
                 playerData.sellBackpack(player, false);
             } else if (!backpackWasFull) {
+                if (playerData.getIsAutoSellEnabled()) playerData.setIsAutoSellEnabled(false);
                 player.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpackSize()) + "/" + Utils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
                 player.sendMessage(ChatColor.RED + "Your backpack is full!");
             }

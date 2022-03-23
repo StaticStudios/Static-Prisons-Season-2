@@ -300,7 +300,9 @@ public class PlayerData extends DataSet {
             setTabListPrefixID(getStaffRank());
         } else if (!getPlayerRank().equals("member")) {
             setTabListPrefixID(getPlayerRank());
-        } else if (getIsNitroBoosting()) setTabListPrefixID("nitro");
+        } else if (getIsNitroBoosting()) {
+            setTabListPrefixID("nitro");
+        } else setTabListPrefixID("member");
     }
     public String getTabListPrefixID() {
         if (getData("tabListPrefixID")._string == null) {
@@ -492,7 +494,7 @@ public class PlayerData extends DataSet {
         newData._boolean = value;
         return setData("autoSell", newData);
     }
-    public boolean getCanEnableAutoSell() {
+    public boolean getCanExplicitlyEnableAutoSell() {
         return getData("canEnableAutoSell")._boolean;
     }
     public Data setCanEnableAutoSell(boolean value) {
@@ -623,6 +625,22 @@ public class PlayerData extends DataSet {
         Data newData = new Data();
         newData._string = value;
         return setData("discordName", newData);
+    }
+    public String getDiscordID() {
+        return getData("discordID")._string;
+    }
+    public Data setDiscordID(String value) {
+        Data newData = new Data();
+        newData._string = value;
+        return setData("discordID", newData);
+    }
+    public boolean getIsDiscordLinked() {
+        return getData("discordIsLinked")._boolean;
+    }
+    public Data setIsDiscordLinked(boolean value) {
+        Data newData = new Data();
+        newData._boolean = value;
+        return setData("discordIsLinked", newData);
     }
     public boolean getIsNitroBoosting() {
         return getData("discordIsBoosting")._boolean;

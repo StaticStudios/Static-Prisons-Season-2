@@ -1,7 +1,7 @@
 package me.staticstudios.prisons.gameplay.chat;
 
 import me.staticstudios.prisons.core.data.serverData.PlayerData;
-import me.staticstudios.prisons.gameplay.tablist.TabList;
+import me.staticstudios.prisons.gameplay.UI.tablist.TabList;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;

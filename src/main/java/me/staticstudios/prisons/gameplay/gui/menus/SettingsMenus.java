@@ -59,7 +59,7 @@ public class SettingsMenus {
             public void item0Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
-                if (!playerData.getCanEnableAutoSell() && !playerData.getPlayerRanks().contains("warrior") && !playerData.getIsNitroBoosting()) {
+                if (!playerData.getCanExplicitlyEnableAutoSell() && !playerData.getPlayerRanks().contains("warrior") && !playerData.getIsNitroBoosting()) {
                     player.sendMessage(ChatColor.RED + "You do not have auto-sell!");
                     playerData.setIsAutoSellEnabled(false);
                     return;
