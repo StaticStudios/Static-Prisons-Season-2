@@ -11,7 +11,7 @@ public class MoneyPouchTier2 {
     public static void open(Player player) {
         MoneyPouch pouch = new MoneyPouch();
         pouch.minReward = new BigInteger("20000000000"); //20B
-        pouch.maxReward = new BigInteger("100000000000"); //100B
+        pouch.maxReward = new BigInteger("50000000000"); //50B
         pouch.reward = Utils.randomBigInt(pouch.minReward, pouch.maxReward);
         pouch.announceRewardInChat = true;
         pouch.animateOpeningPouch(player, new PlayerData(player), ChatColor.translateAlternateColorCodes('&', "&aYou have won ${reward} from a Money Pouch Tier 2"));

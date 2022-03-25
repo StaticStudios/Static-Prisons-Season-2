@@ -44,7 +44,6 @@ public class Events implements Listener {
 
     @EventHandler
     void onDrop(PlayerDropItemEvent e) {
-        PrisonPickaxe.updateCachedStats(e.getPlayer());
         if (Utils.checkIsPrisonPickaxe(e.getItemDrop().getItemStack())) {
             e.setCancelled(true);
             e.getPlayer().sendMessage(ChatColor.RED + "You cannot drop this item! Type /dropitem to drop it!");

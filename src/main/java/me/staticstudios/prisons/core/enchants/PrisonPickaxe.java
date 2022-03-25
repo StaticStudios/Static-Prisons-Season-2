@@ -1,6 +1,7 @@
 package me.staticstudios.prisons.core.enchants;
 
 import me.staticstudios.prisons.Main;
+import me.staticstudios.prisons.utils.BroadcastMessage;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +47,7 @@ public class PrisonPickaxe {
 
 
     public static final long BASE_XP_PER_BLOCK_BROKEN = 2;
-    public static final long BASE_XP_PER_PICKAXE_LEVEL = 10000;
+    public static final long BASE_XP_PER_PICKAXE_LEVEL = 15000;
     public static final int XP_INCREASES_EVERY_X_LEVELS = 25;
     public static long getXpRequiredForPickaxeLevel(long level) {
         long cost = BASE_XP_PER_BLOCK_BROKEN;
@@ -65,16 +67,20 @@ public class PrisonPickaxe {
         stats.put("xp", getXPOnPickaxe(pickaxe));
         stats.put("blocksMined", getBlocksMinedOnPickaxe(pickaxe));
         stats.put("blocksBroken", getBlocksBrokenOnPickaxe(pickaxe));
+        stats.put("lastEdited", Instant.now().toEpochMilli());
+        stats.put("lastDumped", Instant.now().toEpochMilli());
         pickaxeStatsBuffer.put(pickaxe, stats);
     }
     public static void dumpStatsToPickaxe(ItemStack item) {
         if (item == null) return;
         Map<String, Long> stats = pickaxeStatsBuffer.get(item);
         if (stats == null) return;
+        if (stats.get("lastEdited") < stats.get("lastDumped")) return; //The values on the pick are the same as the ones in the map, no point to update
         setStatOnPickaxe(item, stats.get("level"), "level", "Level", Utils.addCommasToNumber(stats.get("level")));
         setStatOnPickaxe(item, stats.get("xp"), "xp", "Experience", Utils.prettyNum(stats.get("xp")) + " / " + Utils.prettyNum(getXpRequiredForPickaxeLevel(stats.get("level") + 1)));
         setStatOnPickaxe(item, stats.get("blocksMined"), "blocksMined", "Blocks Mined", Utils.addCommasToNumber(stats.get("blocksMined")));
         setStatOnPickaxe(item, stats.get("blocksBroken"), "blocksBroken", "Blocks Broken", Utils.addCommasToNumber(stats.get("blocksBroken")));
+        stats.put("lastDumped", Instant.now().toEpochMilli());
     }
     public static void verifyPickIsInBuffer(ItemStack pickaxe) {
         if (!pickaxeStatsBuffer.containsKey(pickaxe)) putPickaxeInBuffer(pickaxe);
@@ -118,6 +124,7 @@ public class PrisonPickaxe {
     public static void addLevel(ItemStack pickaxe, long levelsToAdd) {
         Map<String, Long> stats = pickaxeStatsBuffer.get(pickaxe);
         stats.put("level", stats.get("level") + levelsToAdd);
+        stats.put("lastEdited", Instant.now().toEpochMilli());
     }
     public static long getLevel(ItemStack pickaxe) {
         return pickaxeStatsBuffer.get(pickaxe).get("level");
@@ -125,6 +132,7 @@ public class PrisonPickaxe {
     public static boolean addXP(ItemStack pickaxe, long xpToAdd) {
         Map<String, Long> stats = pickaxeStatsBuffer.get(pickaxe);
         stats.put("xp", stats.get("xp") + xpToAdd);
+        stats.put("lastEdited", Instant.now().toEpochMilli());
         if (getXpRequiredForPickaxeLevel(getLevel(pickaxe) + 1) <= stats.get("xp")) {
             addLevel(pickaxe, 1);
             return true;
@@ -137,6 +145,7 @@ public class PrisonPickaxe {
     public static void addBlocksMined(ItemStack pickaxe, long blocksMined) {
         Map<String, Long> stats = pickaxeStatsBuffer.get(pickaxe);
         stats.put("blocksMined", stats.get("blocksMined") + blocksMined);
+        stats.put("lastEdited", Instant.now().toEpochMilli());
     }
     public static long getBlocksMined(ItemStack pickaxe) {
         return pickaxeStatsBuffer.get(pickaxe).get("blocksMined");
@@ -145,6 +154,7 @@ public class PrisonPickaxe {
     public static void addBlocksBroken(ItemStack pickaxe, long blocksBroken) {
         Map<String, Long> stats = pickaxeStatsBuffer.get(pickaxe);
         stats.put("blocksBroken", stats.get("blocksBroken") + blocksBroken);
+        stats.put("lastEdited", Instant.now().toEpochMilli());
     }
     public static long getBlocksBroken(ItemStack pickaxe) {
         return pickaxeStatsBuffer.get(pickaxe).get("blocksBroken");

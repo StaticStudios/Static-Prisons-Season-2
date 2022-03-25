@@ -53,7 +53,7 @@ public class CustomItems {
         return item;
     }
     public static ItemStack getPickaxeCrateKey(int amount) {
-        ItemStack item = crateCrateKey("pickaxe", ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "PICKAXE CRATE KEY");
+        ItemStack item = crateCrateKey("pickaxe", ChatColor.GREEN + "" + ChatColor.BOLD + "PICKAXE CRATE KEY");
         item.setAmount(amount);
         return item;
     }
