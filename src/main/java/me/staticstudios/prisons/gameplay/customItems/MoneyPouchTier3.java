@@ -14,6 +14,6 @@ public class MoneyPouchTier3 {
         pouch.maxReward = new BigInteger("400000000000"); //400B
         pouch.reward = Utils.randomBigInt(pouch.minReward, pouch.maxReward);
         pouch.announceRewardInChat = true;
-        pouch.animateOpeningPouch(player, new PlayerData(player), ChatColor.translateAlternateColorCodes('&', "&aYou have won ${reward} from a Money Pouch Tier 3"));
+        pouch.animateOpeningPouch(player, new PlayerData(player), ChatColor.translateAlternateColorCodes('&', "&aYou won ${reward} from a Money Pouch Tier 3"));
     }
 }

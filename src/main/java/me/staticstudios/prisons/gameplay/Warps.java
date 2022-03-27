@@ -64,45 +64,27 @@ public class Warps {
     public static final Location RANK_MINE_4 = new Location(Bukkit.getWorld("mines"), -75.5 + BaseMine.distanceBetweenMines * 44, 102, 28.5, -120, 0);
     public static final Location RANK_MINE_5 = new Location(Bukkit.getWorld("mines"), 41.5 + BaseMine.distanceBetweenMines * 45, 103, 87.5, 135, 0);
 
-    public static final Location EVENT_MINE = new Location(Bukkit.getWorld("mines"), -70.5 + BaseMine.distanceBetweenMines * 46, 103, -33.5, -90, 0);
+    public static final Location EVENT_MINE = new Location(Bukkit.getWorld("mines"), -72.5 + BaseMine.distanceBetweenMines * 46, 103, -39.5, -45, 0);
     public static void warpToSpawn(Player player) {
         PaperLib.teleportAsync(player, SPAWN);
         player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 10);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 20);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 30);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 10);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 20);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
     }
     public static void warpToCrates(Player player) {
         PaperLib.teleportAsync(player, CRATES);
         player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 10);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 20);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 30);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 10);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 20);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
     }
     public static void warpToLeaderboards(Player player) {
         PaperLib.teleportAsync(player, LEADERBOARDS);
         player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 10);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 20);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 30);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 10);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 20);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> player.setAllowFlight(true), 30);
     }
     public static void warpToMine(Player player, int mine) {
         switch (mine) {

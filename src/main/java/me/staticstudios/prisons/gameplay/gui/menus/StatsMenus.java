@@ -41,7 +41,7 @@ public class StatsMenus {
                 menuItems.add(GUI.createPlaceholderItem(Material.AMETHYST_SHARD, ChatColor.AQUA + "Current Prestige: " + ChatColor.WHITE + Utils.prettyNum(playerData.getPrestige()), ChatColor.AQUA + "Actual value: " + ChatColor.WHITE + Utils.addCommasToNumber(playerData.getPrestige())));
                 menuItems.add(GUI.createPlaceholderItem(Material.CLOCK, ChatColor.AQUA + "Time Played: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTimePlayed().divide(BigInteger.valueOf(3600))) + " hour(s)", ChatColor.AQUA + "Seconds Played: " + ChatColor.WHITE + Utils.addCommasToNumber(playerData.getTimePlayed())));
                 menuItems.add(GUI.createPlaceholderItem(Material.DIAMOND, ChatColor.AQUA + "Votes: " + ChatColor.WHITE + Utils.prettyNum(playerData.getVotes())));
-                menuItems.add(GUI.createPlaceholderItem(Material.BLUE_DYE, ChatColor.AQUA + "Discord Name: " + ChatColor.BLUE + playerData.getDiscordAccountName()));
+                menuItems.add(GUI.createPlaceholderItem(Material.BLUE_DYE, ChatColor.AQUA + "Discord Name: " + ChatColor.BLUE + playerData.getDiscordName()));
             }
         };
         guiPage.identifier = "stats";

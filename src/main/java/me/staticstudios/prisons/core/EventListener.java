@@ -56,9 +56,6 @@ public class EventListener implements Listener {
 
         //Updates a player's discord name
         DiscordLink.playerJoined(player);
-
-        //Update a player's pickaxe's cached stats
-        PrisonPickaxe.updateCachedStats(player);
     }
     @EventHandler
     void playerQuit(PlayerQuitEvent e) {

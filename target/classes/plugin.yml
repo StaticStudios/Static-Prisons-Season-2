@@ -245,3 +245,7 @@ commands:
     aliases:
       - bin
       - trashcan
+  multiplier:
+    description: a
+    aliases:
+      - multi

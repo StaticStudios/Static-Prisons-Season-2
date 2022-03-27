@@ -17,6 +17,7 @@ public class PrisonEnchants {
     public static final PrisonEnchant ORE_SPLITTER = new PrisonEnchant("oreSplitter", 1000, BigInteger.valueOf(5000)); //Chance to get 2x blocks from fortune
     public static final PrisonEnchant TOKENATOR = new PrisonEnchant("tokenator", 5000, BigInteger.valueOf(450)); //Increases the chance to find tokens while mining
     public static final PrisonEnchant KEY_FINDER = new PrisonEnchant("keyFinder",5000, BigInteger.valueOf(400)); //Find crate keys while mining
+    public static final PrisonEnchant METAL_DETECTOR = new PrisonEnchant("metalDetector",5000, BigInteger.valueOf(400)); //Find large amounts of XP while mining
     public static final PrisonEnchant XP_FINDER = new PrisonEnchant("xpFinder",100, BigInteger.valueOf(100000)); //Find large amounts of XP while mining
     public static final PrisonEnchant JACK_HAMMER = new PrisonEnchant("jackHammer", 20000, BigInteger.valueOf(250)); //Destroy a layer of the mine
     public static final PrisonEnchant DOUBLE_WAMMY = new PrisonEnchant("doubleWammy", 1000, BigInteger.valueOf(7500)); //Chance to destroy an additional mine layer

@@ -26,6 +26,7 @@ public class CustomEnchants {
         enchantIDsToNames.put("tokenator", ChatColor.AQUA + "Tokenator");
         enchantIDsToNames.put("tokenPolisher", ChatColor.AQUA + "Token Polisher");
         enchantIDsToNames.put("cashGrab", ChatColor.AQUA + "Cash Grab");
+        enchantIDsToNames.put("metalDetector", ChatColor.AQUA + "Metal Detector");
         enchantIDsToNames.put("xpFinder", ChatColor.AQUA + "XP Finder");
         enchantIDsToNames.put("consistency", ChatColor.AQUA + "Consistency");
         enchantIDsToNames.put("keyFinder", ChatColor.AQUA + "Key Finder");
@@ -47,33 +48,27 @@ public class CustomEnchants {
         return 0;
     }
 
-    public static void setEnchantLevel(Player player, ItemStack item, String enchant, long level) {
-        ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), enchant), PersistentDataType.LONG, level);
-        item.setItemMeta(meta);
-        updateLore(item);
-        PrisonPickaxe.updateCachedStats(player);
-    }
-
-    /**
-     *This method should only be called if an enchant is being changed by code, not by a player. This will not update a pickaxe's cached stats
-     */
     public static void setEnchantLevel(ItemStack item, String enchant, long level) {
         ItemMeta meta = item.getItemMeta();
         meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), enchant), PersistentDataType.LONG, level);
         item.setItemMeta(meta);
         updateLore(item);
+        PrisonPickaxe.updateCachedStats(item);
     }
 
-    public static void addEnchantLevel(Player player, ItemStack item, String enchant, long levelsToAdd) {
-        setEnchantLevel(player, item, enchant, getEnchantLevel(item, enchant) + levelsToAdd);
+    /**
+     *This method should only be called if an enchant is being changed by code, not by a player. This will not update a pickaxe's cached stats
+     */
+
+    public static void addEnchantLevel(ItemStack item, String enchant, long levelsToAdd) {
+        setEnchantLevel(item, enchant, getEnchantLevel(item, enchant) + levelsToAdd);
     }
 
-    public static void removeEnchantLevels(Player player, ItemStack item, String enchant, long levelsToRemove) {
-        setEnchantLevel(player, item, enchant, getEnchantLevel(item, enchant) - levelsToRemove);
+    public static void removeEnchantLevels(ItemStack item, String enchant, long levelsToRemove) {
+        setEnchantLevel(item, enchant, getEnchantLevel(item, enchant) - levelsToRemove);
     }
-    public static void removeEnchant(Player player, ItemStack item, String enchant) {
-        setEnchantLevel(player, item, enchant, 0);
+    public static void removeEnchant(ItemStack item, String enchant) {
+        setEnchantLevel(item, enchant, 0);
         updateLore(item);
     }
 

@@ -7,6 +7,7 @@ import me.staticstudios.prisons.core.enchants.PrisonEnchants;
 import me.staticstudios.prisons.core.mines.BaseMine;
 import me.staticstudios.prisons.core.mines.MineManager;
 import me.staticstudios.prisons.core.enchants.PrisonPickaxe;
+import me.staticstudios.prisons.gameplay.customItems.Vouchers;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -14,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.util.HashMap;
@@ -41,16 +43,12 @@ public class BlockBreakEvent {
 
 
         ItemStack pickaxe = player.getInventory().getItemInMainHand();
-        Map<String, Integer> cachedStats = PrisonPickaxe.getCachedEnchants(player);
+        Map<String, Integer> cachedStats = PrisonPickaxe.getCachedEnchants(pickaxe);
         if (cachedStats == null) return;
         PrisonPickaxe.verifyPickIsInBuffer(pickaxe);
         playerData.addRawBlocksMined(BigInteger.ONE);
         Map<Material, BigInteger> blocksBroken = new HashMap<>();
         blocksBroken.put(e.getBlock().getType(), BigInteger.ONE);
-
-        //TODO: cache pick data in a map and get the data from that instead of directly off of the item, call a method to check if the item data is cached when this event is called, if not, cache it. find a mthod that gets called whenever enchants are updated, update the cache for that pick whenever it is updated. When a player leaves the game, remove all of their pickaxes from the cached items.
-        //TODO: use a que system to update the data on the pick every couple seconds instead of instantly. whenever a pick is dropped, moved, or hand slot changes, instantly update its data from the temo storage map. update the data every second otherwise. do not search for the pick in the player's inv, assume it is always in their main hand. if they leave, update the picks data instantly
-
 
         if (Utils.randomInt(1, 75) == 1) { //Jack Hammer
             int jackHammerLevel = cachedStats.get("jackHammer");
@@ -75,11 +73,25 @@ public class BlockBreakEvent {
                 }
             }
         }
+        //Metal Detector
+        if (Utils.randomInt(0, 1750) == 1) {
+            int metalDetectorEnchant = cachedStats.get("metalDetector");
+            if (metalDetectorEnchant > 0) {
+                if (Utils.randomInt(1, PrisonEnchants.METAL_DETECTOR.MAX_LEVEL + PrisonEnchants.METAL_DETECTOR.MAX_LEVEL / 10) <= metalDetectorEnchant + PrisonEnchants.METAL_DETECTOR.MAX_LEVEL / 10) {
+                    //Enchant should activate
+                    ItemStack reward = Vouchers.getMultiplierNote(BigDecimal.valueOf(Utils.randomInt(12, 75)).divide(BigDecimal.valueOf(100)), Utils.randomInt(20, 120));
+                    player.sendMessage(ChatColor.RED + "[Metal Detector] " + ChatColor.AQUA + "You have just found a " + Utils.getPrettyItemName(reward) + ChatColor.AQUA + " while mining!");
+                    Utils.addItemToPlayersInventoryAndDropExtra(player, reward);
+                }
+            }
+        }
+
+
         //Key finder
         if (Utils.randomInt(0, 2500) == 1) {
             int keyFinderLevel = cachedStats.get("keyFinder");
             if (keyFinderLevel > 0) {
-                if (Utils.randomInt(1, PrisonEnchants.KEY_FINDER.MAX_LEVEL) <= keyFinderLevel) {
+                if (Utils.randomInt(1, PrisonEnchants.KEY_FINDER.MAX_LEVEL + PrisonEnchants.KEY_FINDER.MAX_LEVEL / 10) <= keyFinderLevel + PrisonEnchants.KEY_FINDER.MAX_LEVEL / 10) {
                     //Enchant should activate
                     ItemStack reward;
                     int randomReward = Utils.randomInt(1, 100);
@@ -112,7 +124,7 @@ public class BlockBreakEvent {
         int fortuneMultiplier = cachedStats.get("fortune") + 1;
         int oreSplitter = cachedStats.get("oreSplitter");
         if (oreSplitter > 0 && oreSplitter <= Utils.randomInt(1, PrisonEnchants.ORE_SPLITTER.MAX_LEVEL)) fortuneMultiplier *= 2;
-        for (Material key : blocksBroken.keySet()) { //TODO: Try to find a way around this
+        for (Material key : blocksBroken.keySet()) {
             playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(fortuneMultiplier)));
             totalAmountOfBlocksBroken = totalAmountOfBlocksBroken.add(blocksBroken.get(key));
         }

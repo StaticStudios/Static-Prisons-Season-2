@@ -98,6 +98,7 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("givevote").setExecutor(new GiveVoteCommand());
             getCommand("watchmessages").setExecutor(new MessageSpyCommand());
             //--Normal Commands
+            getCommand("multiplier").setExecutor(new MultiplierCommand());
             getCommand("trash").setExecutor(new TrashCommand());
             getCommand("reply").setExecutor(new ReplyCommand());
             getCommand("message").setExecutor(new MessageCommand());
@@ -148,9 +149,6 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("_").setExecutor(new VoteStoreListener());
             //Say that the server has loaded
             hasLoaded = true;
-
-            //Extra
-            for (Player p : Bukkit.getOnlinePlayers()) PrisonPickaxe.updateCachedStats(p); //In case of reload/testing
         }, 20);
     }
 

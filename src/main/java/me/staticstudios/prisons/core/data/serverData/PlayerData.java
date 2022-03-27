@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.Instant;
 import java.util.*;
 
 public class PlayerData extends DataSet {
@@ -202,7 +203,68 @@ public class PlayerData extends DataSet {
         return setPrestige(getPrestige().subtract(value));
     }
 
+    //Multipliers
+    public BigDecimal getMoneyMultiplier() {
+        BigDecimal multi = BigDecimal.ONE;
+        //Factor in ranks
+        switch (getPlayerRank()) {
+            case "warrior" -> multi = multi.add(new BigDecimal("0.5"));
+            case "master" -> multi = multi.add(new BigDecimal("0.8"));
+            case "mythic" -> multi = multi.add(BigDecimal.ONE);
+            case "static" -> multi = multi.add(new BigDecimal("1.6"));
+            case "staticp" -> multi = multi.add(new BigDecimal("2.5"));
+        }
+        multi = multi.add(getTempMoneyMultiplier());
+        return multi;
+    }
+    List<String> getTempMoneyMultiplierList() {
+        if (getData("tempMoneyMultipliers").list == null) {
+            Data data = new Data();
+            data.list = new ArrayList<String>();
+            setData("tempMoneyMultipliers", data);
+        }
+        List<String> initialMultipliers = getData("tempMoneyMultipliers").list;
+        List<String> multipliers = new ArrayList<>(initialMultipliers);
+        List<String> multipliersToRemove = new ArrayList<>();
+        for (String multi : multipliers) {
+            //amount|time
+            if (Long.parseLong(multi.split("\\|")[1]) < Instant.now().toEpochMilli()) {
+                multipliersToRemove.add(multi);
+            }
+        }
+        multipliers.removeAll(multipliersToRemove);
+        if (!multipliers.equals(initialMultipliers)) {
+            Data data = new Data();
+            data.list = multipliers;
+            setData("tempMoneyMultipliers", data);
+        }
+        return multipliers;
+    }
+    void setTempMoneyMultiplierList(List<String> value) {
+        Data data = new Data();
+        data.list = value;
+        setData("tempMoneyMultipliers", data);
+    }
+    public BigDecimal getTempMoneyMultiplier() {
+        List<String> multipliers = getTempMoneyMultiplierList();
+        BigDecimal multiplier = BigDecimal.ZERO;
+        for (String multi : multipliers) multiplier = multiplier.add(new BigDecimal(multi.split("\\|")[0]));
+        return multiplier;
+    }
+    public BigDecimal addTempMoneyMultiplier(BigDecimal amount, long lengthInMS) {
+        List<String> multipliers = getTempMoneyMultiplierList();
+        multipliers.add(amount.toString() + "|" + (Instant.now().toEpochMilli() + lengthInMS));
+        setTempMoneyMultiplierList(multipliers);
+        return getTempMoneyMultiplier();
+    }
 
+
+    public BigDecimal getTokenMultiplier() {
+        BigDecimal multi = BigDecimal.ZERO;
+        //Factor in the consistency enchant
+        //TODO
+        return multi;
+    }
 
 
 
@@ -267,22 +329,16 @@ public class PlayerData extends DataSet {
         setBackpackItemCount(getBackpackItemCount().add(amount));
     }
     public void sellBackpack(Player player, boolean sendChatMessage) {
-        double multi = 1d;
-        switch (getPlayerRank()) {
-            case "warrior" -> multi += 0.4;
-            case "master" -> multi += 0.7;
-            case "mythic" -> multi += 1;
-            case "static" -> multi += 1.2;
-            case "staticp" -> multi += 1.5;
-        }
-        multi += 0.5 / PrisonEnchants.MERCHANT.MAX_LEVEL * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant");
+        BigDecimal multi = getMoneyMultiplier();
+        //Factor in the merchant enchant
+        multi = multi.add(BigDecimal.valueOf(0.5 / PrisonEnchants.MERCHANT.MAX_LEVEL * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant")));
         BigInteger totalSellPrice = BigInteger.ZERO;
         if (getBackpackItemCount().compareTo(BigInteger.ZERO) > 0) {
             for (String key : getBackpackContents().keySet()) {
                 totalSellPrice = totalSellPrice.add(new BigInteger(getBackpackContents().get(key)).multiply(Prices.getSellPriceOf(Material.valueOf(key))));
             }
         }
-        totalSellPrice = new BigDecimal(totalSellPrice).multiply(BigDecimal.valueOf(multi)).toBigInteger();
+        totalSellPrice = new BigDecimal(totalSellPrice).multiply(multi).toBigInteger();
         new PlayerData(player).addMoney(totalSellPrice);
         if (sendChatMessage) {
             player.sendMessage(org.bukkit.ChatColor.GREEN + "(x" + multi + ") Sold " + Utils.addCommasToNumber(getBackpackItemCount()) + " blocks for: $" + Utils.addCommasToNumber(totalSellPrice));
@@ -618,7 +674,7 @@ public class PlayerData extends DataSet {
     }
 
     //Discord
-    public String getDiscordAccountName() {
+    public String getDiscordName() {
         return getData("discordName")._string;
     }
     public Data setDiscordName(String value) {

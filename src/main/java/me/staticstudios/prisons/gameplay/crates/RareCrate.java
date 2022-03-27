@@ -10,10 +10,11 @@ import org.bukkit.inventory.ItemStack;
 public class RareCrate {
     public static Location LOCATION = new Location(Bukkit.getWorld("world"), -42, 80, -137);
     public static CrateReward[] rewards = new CrateReward[] {
-            new CrateReward(Vouchers.MONEY_POUCH_T1.item, 30),
+            new CrateReward(Vouchers.MONEY_POUCH_T1.item, 25),
             new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 13),
-            new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 30),
+            new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 25),
             new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 2), 12),
+            new CrateReward(Vouchers.MULTI_POUCH_T1.item, 10),
             new CrateReward(CustomItems.getRareCrateKey(2), 4),
             new CrateReward(CustomItems.getEpicCrateKey(1), 2),
             new CrateReward(CustomItems.getEpicCrateKey(2), 1),

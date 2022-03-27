@@ -19,29 +19,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PrisonPickaxe {
-    public static Map<Player, Map<String, Integer>> cachedPickaxeEnchants = new ConcurrentHashMap<>(); //Make sure that this keeps the current player's item in their main hand
+    public static Map<ItemStack, Map<String, Integer>> cachedPickaxeEnchants = new ConcurrentHashMap<>(); //Make sure that this keeps the current player's item in their main hand
     public static Map<ItemStack, Map<String, Long>> pickaxeStatsBuffer = new HashMap<>();
 
-    public static Map<String, Integer> getCachedEnchants(Player player) {
-        if (player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-            cachedPickaxeEnchants.remove(player);
-            return null;
-        }
-        if (!cachedPickaxeEnchants.containsKey(player)) updateCachedStats(player);
-        return cachedPickaxeEnchants.get(player);
+    public static Map<String, Integer> getCachedEnchants(ItemStack item) {
+        if (!cachedPickaxeEnchants.containsKey(item)) updateCachedStats(item);
+        return cachedPickaxeEnchants.get(item);
     }
 
-    public static void updateCachedStats(Player player) {
+    public static void updateCachedStats(ItemStack item) {
         Map<String, Integer> map = new HashMap<>();
-        ItemStack item = player.getInventory().getItemInMainHand();
-        if (!Utils.checkIsPrisonPickaxe(item)) {
-            cachedPickaxeEnchants.remove(player);
-            return;
-        }
-        for (String ench : CustomEnchants.enchantIDsToNames.keySet()) {
-            map.put(ench, (int) CustomEnchants.getEnchantLevel(item, ench));
-        }
-        cachedPickaxeEnchants.put(player, map);
+        if (!Utils.checkIsPrisonPickaxe(item)) return;
+        for (String ench : CustomEnchants.enchantIDsToNames.keySet()) map.put(ench, (int) CustomEnchants.getEnchantLevel(item, ench));
+        cachedPickaxeEnchants.put(item, map);
     }
 
 

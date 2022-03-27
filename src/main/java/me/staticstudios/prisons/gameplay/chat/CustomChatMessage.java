@@ -50,7 +50,7 @@ public class CustomChatMessage {
         String chatMessage = e.getMessage();
 
 
-        HoverEvent prefixHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', "&bReal Name: &f" + e.getPlayer().getName() + "\n&bDiscord Name: &f" + playerData.getDiscordAccountName())));
+        HoverEvent prefixHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', "&bReal Name: &f" + e.getPlayer().getName() + "\n&bDiscord Name: &f" + playerData.getDiscordName())));
 
 
 

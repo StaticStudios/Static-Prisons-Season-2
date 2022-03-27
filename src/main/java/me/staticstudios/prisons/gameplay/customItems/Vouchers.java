@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -359,6 +360,27 @@ public class Vouchers {
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };
+    public static final Voucher MULTI_POUCH_T1 = new Voucher("pouchMulti1", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Multiplier Pouch Tier 1", ChatColor.GREEN + "Claim this to win a random multiplier!") {
+        @Override
+        void onClaim(Player player) {
+            MultiPouchTier1.open(player);
+            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+        }
+    };
+    public static final Voucher MULTI_POUCH_T2 = new Voucher("pouchMulti2", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Multiplier Pouch Tier 2", ChatColor.GREEN + "Claim this to win a random multiplier!") {
+        @Override
+        void onClaim(Player player) {
+            MultiPouchTier2.open(player);
+            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+        }
+    };
+    public static final Voucher MULTI_POUCH_T3 = new Voucher("pouchMulti3", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Multiplier Pouch Tier 3", ChatColor.GREEN + "Claim this to win a random multiplier!") {
+        @Override
+        void onClaim(Player player) {
+            MultiPouchTier3.open(player);
+            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+        }
+    };
     private static final Voucher MONEY_NOTE = new Voucher("moneyNote", Material.PAPER,ChatColor.GREEN + "" + ChatColor.BOLD + "Money Note") {
         @Override
         void onClaim(Player player) {
@@ -414,6 +436,39 @@ public class Vouchers {
         voucher.setItemMeta(meta);
         return voucher;
     }
+
+
+    private static final Voucher MULTIPLIER_NOTE = new Voucher(true, "multiNote", Material.EMERALD,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Multiplier:" + ChatColor.WHITE + " +{amount}x for {timeInMins} minutes") {
+        @Override
+        void onClaim(Player player) {
+            int count = 1;
+            if (player.isSneaking()) count = player.getInventory().getItemInMainHand().getAmount();
+            BigDecimal value = new BigDecimal(player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "noteValue"), PersistentDataType.STRING));
+            int duration = player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "noteDuration"), PersistentDataType.INTEGER);
+            PlayerData playerData = new PlayerData(player);
+            playerData.addTempMoneyMultiplier(value, (long) duration * 60 * 1000);
+            player.sendMessage(ChatColor.AQUA + "You activated a +" + value + "x multiplier for " + duration + " minutes! " + ChatColor.GRAY + ChatColor.ITALIC + "(Current multiplier: x" + playerData.getMoneyMultiplier() + ")");
+            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - count);
+        }
+    };
+    public static ItemStack getMultiplierNote(BigDecimal amount, int lengthInMins) {
+        ItemStack voucher = MULTIPLIER_NOTE.item;
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.AQUA + "Multiplier Amount: " + ChatColor.WHITE + "+" + amount + "x");
+        lore.add(ChatColor.AQUA + "Multiplier Length: " + ChatColor.WHITE + lengthInMins + " minutes");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Right click to claim!");
+        ItemMeta meta = voucher.getItemMeta();
+        String displayName = ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Multiplier:" + ChatColor.WHITE + " +{amount}x for {timeInMins} minutes";
+        displayName = displayName.replaceAll("\\{amount}", amount.toString());
+        displayName = displayName.replaceAll("\\{timeInMins}", lengthInMins + "");
+        meta.setDisplayName(displayName);
+        meta.setLore(lore);
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "noteValue"), PersistentDataType.STRING, amount.toString());
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "noteDuration"), PersistentDataType.INTEGER, lengthInMins);
+        voucher.setItemMeta(meta);
+        return voucher;
+    }
     public static boolean onInteract(PlayerInteractEvent e) {
         if (!(e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return false;
         if (!isVoucher(e.getPlayer().getInventory().getItemInMainHand())) return false;
@@ -449,8 +504,12 @@ public class Vouchers {
             case "pouchToken1" -> TOKEN_POUCH_T1.onClaim(e.getPlayer());
             case "pouchToken2" -> TOKEN_POUCH_T2.onClaim(e.getPlayer());
             case "pouchToken3" -> TOKEN_POUCH_T3.onClaim(e.getPlayer());
+            case "pouchMulti1" -> MULTI_POUCH_T1.onClaim(e.getPlayer());
+            case "pouchMulti2" -> MULTI_POUCH_T2.onClaim(e.getPlayer());
+            case "pouchMulti3" -> MULTI_POUCH_T3.onClaim(e.getPlayer());
             case "moneyNote" -> MONEY_NOTE.onClaim(e.getPlayer());
             case "tokenNote" -> TOKEN_NOTE.onClaim(e.getPlayer());
+            case "multiNote" -> MULTIPLIER_NOTE.onClaim(e.getPlayer());
             default -> e.getPlayer().sendMessage(ChatColor.RED + "There was an error claiming this voucher.");
         }
         e.setCancelled(true);

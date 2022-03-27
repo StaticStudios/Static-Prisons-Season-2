@@ -14,6 +14,6 @@ public class TokenPouchTier1 {
         pouch.maxReward = new BigInteger("2000");
         pouch.reward = Utils.randomBigInt(pouch.minReward, pouch.maxReward);
         pouch.announceRewardInChat = true;
-        pouch.animateOpeningPouch(player, new PlayerData(player), ChatColor.translateAlternateColorCodes('&', "&aYou have won {reward} tokens from a Token Pouch Tier 1"));
+        pouch.animateOpeningPouch(player, new PlayerData(player), ChatColor.translateAlternateColorCodes('&', "&aYou won {reward} tokens from a Token Pouch Tier 1"));
     }
 }

@@ -11,17 +11,26 @@ public class StaticCrate {
     public static Location LOCATION = new Location(Bukkit.getWorld("world"), -15, 80, -137);
     public static CrateReward[] rewards = new CrateReward[] {
             new CrateReward(Vouchers.MONEY_POUCH_T1.item, 5),
-            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 10.5),
-            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 3), 7),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 5.5),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 3), 4),
             new CrateReward(Vouchers.MONEY_POUCH_T2.item, 7.5),
-            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 2), 5),
-            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 3), 6),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 2), 4),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 3), 5),
             new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 5),
-            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 2), 9.5),
-            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 3), 8),
-            new CrateReward(Vouchers.TOKEN_POUCH_T2.item, 7.5),
+            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 2), 5.5),
+            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 3), 5),
+            new CrateReward(Vouchers.TOKEN_POUCH_T2.item, 4.5),
             new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T2.item, 2), 5),
             new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T2.item, 3), 4),
+
+
+            new CrateReward(Vouchers.MULTI_POUCH_T1.item, 3),
+            new CrateReward(Utils.setItemCount(Vouchers.MULTI_POUCH_T1.item, 2), 4),
+            new CrateReward(Vouchers.MULTI_POUCH_T2.item, 5),
+            new CrateReward(Utils.setItemCount(Vouchers.MULTI_POUCH_T2.item, 2), 5),
+            new CrateReward(Vouchers.MULTI_POUCH_T3.item, 3),
+
+
             new CrateReward(CustomItems.getCommonCrateKey(15), 3),
             new CrateReward(CustomItems.getRareCrateKey(7), 2),
             new CrateReward(CustomItems.getLegendaryCrateKey(4), 2),

@@ -75,7 +75,7 @@ public class TimedTasks {
         //Chat Events
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), EventManager::runNewEvent, 20 * 60 * 12, 20 * 60 * 25);
         //Update Pickaxe Lore With Stats
-        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), PrisonPickaxe::dumpStatsToAllPickaxe, 0, 20 * 3);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), PrisonPickaxe::dumpStatsToAllPickaxe, 0, 20 * 10);
 
 
 

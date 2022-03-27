@@ -100,11 +100,18 @@ public class EnchantsMenus {
                         ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.KEY_FINDER.PRICE) + " Tokens",
                         ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
                         ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.KEY_FINDER.MAX_LEVEL)));
+                /*
                 menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.EXPERIENCE_BOTTLE, ChatColor.GREEN + "" + ChatColor.BOLD + "XP Finder", ChatColor.GRAY + "Find large amounts of XP while mining", "",
                         ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "xpFinder") + ""),
                         ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.XP_FINDER.PRICE) + " Tokens",
                         ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
                         ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.XP_FINDER.MAX_LEVEL)));
+                 */
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.RAW_GOLD, ChatColor.RED + "" + ChatColor.BOLD + "Metal Detector", ChatColor.GRAY + "Find multipliers whilst mining", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "metalDetector") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.METAL_DETECTOR.PRICE) + " Tokens",
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.METAL_DETECTOR.MAX_LEVEL)));
                 menuItems.add(GUI.createDarkGrayPlaceholderItem());
                 menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.GOLDEN_PICKAXE, ChatColor.YELLOW + "" + ChatColor.BOLD + "Haste", ChatColor.GRAY + "Gives the vanilla haste effect", "",
                         ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "haste") + ""),
@@ -238,7 +245,7 @@ public class EnchantsMenus {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsXpFinder").open(player);
+                GUI.getGUIPage("enchantsMetalDetector").open(player);
             }
             @Override
             public void item16Clicked(InventoryClickEvent e) {
@@ -1257,13 +1264,53 @@ public class EnchantsMenus {
                 menuItems = new ArrayList<>();
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
-                menuItems.add(GUI.createLightGrayPlaceholderItem());
-                menuItems.add(GUI.createLightGrayPlaceholderItem());
-                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 1 Level(s) Of XP Finder", "",
-                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "xpFinder") + ""),
-                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.XP_FINDER.PRICE),
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 1 Level(s) Of Metal Detector", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "metalDetector") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.METAL_DETECTOR.PRICE),
                         ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
-                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.XP_FINDER.MAX_LEVEL)));
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.METAL_DETECTOR.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 10 Level(s) Of Metal Detector", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "metalDetector") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.METAL_DETECTOR.PRICE.multiply(BigInteger.valueOf(10))),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.METAL_DETECTOR.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 100 Level(s) Of Metal Detector", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "metalDetector") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.METAL_DETECTOR.PRICE.multiply(BigInteger.valueOf(100))),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.METAL_DETECTOR.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 1,000 Level(s) Of Metal Detector", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "metalDetector") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.METAL_DETECTOR.PRICE.multiply(BigInteger.valueOf(1000))),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.METAL_DETECTOR.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 10,000 Level(s) Of Metal Detector", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "metalDetector") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.METAL_DETECTOR.PRICE.multiply(BigInteger.valueOf(10000))),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.METAL_DETECTOR.MAX_LEVEL)));
+            }
+            @Override
+            public void item2Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.METAL_DETECTOR.tryToBuyLevels(player, pickaxe, 1)) open(player);
+            }
+            @Override
+            public void item3Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.METAL_DETECTOR.tryToBuyLevels(player, pickaxe, 10)) open(player);
             }
             @Override
             public void item4Clicked(InventoryClickEvent e) {
@@ -1274,12 +1321,33 @@ public class EnchantsMenus {
                     player.closeInventory();
                     return;
                 }
-                if (PrisonEnchants.XP_FINDER.tryToBuyLevels(player, pickaxe, 1)) open(player);
-                EnchantEffects.giveEffect(player, player.getInventory().getItemInMainHand());
+                if (PrisonEnchants.METAL_DETECTOR.tryToBuyLevels(player, pickaxe, 100)) open(player);
+            }
+            @Override
+            public void item5Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.METAL_DETECTOR.tryToBuyLevels(player, pickaxe, 1000)) open(player);
+            }
+            @Override
+            public void item6Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.METAL_DETECTOR.tryToBuyLevels(player, pickaxe, 10000)) open(player);
             }
         };
-        guiPage.identifier = "enchantsXpFinder";
-        guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dUpgrade XP Finder");
+        guiPage.identifier = "enchantsMetalDetector";
+        guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dUpgrade Metal Detector");
         guiPage.onCloseGoToMenu = "enchantsMain";
         guiPage.register();
     }

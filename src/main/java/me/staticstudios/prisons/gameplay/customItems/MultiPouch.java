@@ -1,34 +1,38 @@
 package me.staticstudios.prisons.gameplay.customItems;
 
 import me.staticstudios.prisons.Main;
+import me.staticstudios.prisons.core.data.serverData.PlayerData;
+import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
+
 public class MultiPouch {
-    public int timeBetweenFrames = 7;
-    public float minMultiplierAmount;
-    public float maxMultiplierAmount;
-    public float multiplierAmount;
+    public int timeBetweenFrames = 4;
+    public int minMultiplierAmount;
+    public int maxMultiplierAmount;
+    public BigDecimal multiplierAmount;
     public int minMultiplierTime;
     public int maxMultiplierTime;
     public int multiplierTime;
     String formattedRewardValue;
-    public boolean announceRewardInChat;
 
     public void getRewardValue() {
-        formattedRewardValue = "+" + multiplierAmount + "x For: " + multiplierTime / 60 + " Minutes";
+        formattedRewardValue = "+" + multiplierAmount + "x For: " + multiplierTime + " Minutes";
     }
 
-    public void animateOpeningPouch (Player player, String rewardMessage) {
+    public void animateOpeningPouch (Player player, PlayerData playerData, String rewardMessage) {
         getRewardValue();
         for (int i = 0; i < formattedRewardValue.length() + 2; i++) {
             int finalI = i;
-            Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> animateFrame(player, formattedRewardValue, rewardMessage.replace("{reward}", "+" + multiplierAmount + "x multiplier for: " + multiplierTime / 60 + " minutes"), finalI, formattedRewardValue.length() + 1), i * timeBetweenFrames);
+            Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> animateFrame(player, formattedRewardValue, rewardMessage.replace("{reward}", formattedRewardValue), finalI, formattedRewardValue.length() + 1), i * timeBetweenFrames);
         }
     }
     void animateFrame(Player player, String rewardValue, String announcementMessage, int currentPos, int finished) {
         if (currentPos == finished) {
+            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.getMultiplierNote(multiplierAmount, multiplierTime));
             player.sendMessage(announcementMessage);
             return;
         }
@@ -42,6 +46,6 @@ public class MultiPouch {
                 title.append(rewardValue.charAt(i));
             }
         }
-        player.sendTitle(ChatColor.LIGHT_PURPLE + "" + title, "", fadeIn, 60, 10);
+        player.sendTitle(ChatColor.GRAY + "" + title, "", fadeIn, 60, 10);
     }
 }

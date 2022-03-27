@@ -38,7 +38,7 @@ public class DailyRewardsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getClaimedDailyRewardsAt() + 1000 * 60 * 60 * 24 < Instant.now().toEpochMilli()) {
-                    if (playerData.getDiscordAccountName().equals("null")) {
+                    if (playerData.getDiscordName().equals("null")) {
                         player.sendMessage(ChatColor.RED + "You must link your discord account to claim daily rewards! type \"/discord link\"");
                         return;
                     }

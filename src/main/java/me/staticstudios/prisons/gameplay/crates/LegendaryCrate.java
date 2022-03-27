@@ -10,15 +10,18 @@ import org.bukkit.inventory.ItemStack;
 public class LegendaryCrate {
     public static Location LOCATION = new Location(Bukkit.getWorld("world"), -24, 80, -137);
     public static CrateReward[] rewards = new CrateReward[] {
-            new CrateReward(Vouchers.MONEY_POUCH_T1.item, 15),
-            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 15),
+            new CrateReward(Vouchers.MONEY_POUCH_T1.item, 10),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 10),
             new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 3), 5),
             new CrateReward(Vouchers.MONEY_POUCH_T2.item, 2.5),
-            new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 15),
-            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 2), 14),
+            new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 10),
+            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 2), 10),
             new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 3), 5),
             new CrateReward(Vouchers.TOKEN_POUCH_T2.item, 2.5),
-            new CrateReward(CustomItems.getCommonCrateKey(8), 6),
+            new CrateReward(Vouchers.MULTI_POUCH_T1.item, 7),
+            new CrateReward(Utils.setItemCount(Vouchers.MULTI_POUCH_T1.item, 2), 6),
+            new CrateReward(Vouchers.MULTI_POUCH_T2.item, 7),
+            new CrateReward(CustomItems.getCommonCrateKey(8), 1),
             new CrateReward(CustomItems.getRareCrateKey(3), 5),
             new CrateReward(CustomItems.getLegendaryCrateKey(2), 3),
             new CrateReward(CustomItems.getStaticCrateKey(1), 2),

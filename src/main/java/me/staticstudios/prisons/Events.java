@@ -32,13 +32,11 @@ public class Events implements Listener {
     }
     @EventHandler
     void onChangeHeld(PlayerItemHeldEvent e) {
-        PrisonPickaxe.updateCachedStats(e.getPlayer());
         EnchantEffects.giveEffect(e.getPlayer(), e.getPlayer().getInventory().getItem(e.getNewSlot()));
     }
     @EventHandler
     void invClick(InventoryClickEvent e) {
         if (!(e.getWhoClicked() instanceof Player)) return;
-        PrisonPickaxe.updateCachedStats((Player) e.getWhoClicked());
         EnchantEffects.giveEffect((Player) e.getWhoClicked(), e.getWhoClicked().getInventory().getItemInMainHand());
     }
 
