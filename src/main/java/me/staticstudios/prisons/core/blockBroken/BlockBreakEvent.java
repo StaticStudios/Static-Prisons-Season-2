@@ -8,6 +8,7 @@ import me.staticstudios.prisons.core.mines.BaseMine;
 import me.staticstudios.prisons.core.mines.MineManager;
 import me.staticstudios.prisons.core.enchants.PrisonPickaxe;
 import me.staticstudios.prisons.gameplay.customItems.Vouchers;
+import me.staticstudios.prisons.gameplay.mineBombs.MineBomb;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -50,6 +51,16 @@ public class BlockBreakEvent {
         Map<Material, BigInteger> blocksBroken = new HashMap<>();
         blocksBroken.put(e.getBlock().getType(), BigInteger.ONE);
 
+
+        int explosionLevel = cachedStats.get("explosion");
+        if (Utils.randomInt(1, 6000 - (int) (explosionLevel / 3.75)) == 1) { //Explosion
+            if (explosionLevel > 0) {
+                //Enchant should activate
+                int radius = 5 + explosionLevel / 1500;
+                radius += Utils.randomDouble(0, 0.4) * radius;
+                blocksBroken.putAll(new MineBomb(e.getBlock().getLocation(), radius).explode(mine));
+            }
+        }
         if (Utils.randomInt(1, 75) == 1) { //Jack Hammer
             int jackHammerLevel = cachedStats.get("jackHammer");
             if (jackHammerLevel > 0) {

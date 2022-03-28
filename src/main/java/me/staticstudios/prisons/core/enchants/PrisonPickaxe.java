@@ -47,6 +47,9 @@ public class PrisonPickaxe {
 
     public static void dumpStatsToAllPickaxe() {
         for (ItemStack key : pickaxeStatsBuffer.keySet()) dumpStatsToPickaxe(key);
+        //temp
+        cachedPickaxeEnchants = new ConcurrentHashMap<>();
+        pickaxeStatsBuffer = new HashMap<>();
     }
 
     public static void putPickaxeInBuffer(ItemStack pickaxe) {

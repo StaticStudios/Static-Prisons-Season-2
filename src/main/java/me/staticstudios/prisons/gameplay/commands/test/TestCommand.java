@@ -1,22 +1,13 @@
 package me.staticstudios.prisons.gameplay.commands.test;
 
-import me.staticstudios.prisons.core.enchants.CustomEnchants;
-import me.staticstudios.prisons.core.enchants.PrisonEnchants;
-import me.staticstudios.prisons.core.enchants.PrisonPickaxe;
-import me.staticstudios.prisons.external.DiscordLink;
-import me.staticstudios.prisons.gameplay.customItems.Vouchers;
-import me.staticstudios.prisons.gameplay.islands.special.robots.BaseRobot;
-import me.staticstudios.prisons.utils.Utils;
-import org.bukkit.*;
+import me.staticstudios.prisons.core.mines.MineManager;
+import me.staticstudios.prisons.gameplay.mineBombs.MineBomb;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.Instant;
 
 public class TestCommand implements CommandExecutor {
     @Override
@@ -31,7 +22,7 @@ public class TestCommand implements CommandExecutor {
         BaseRobot.spawnRobot(loc, "money", Color.GREEN, ChatColor.GREEN + "Money Miner");
 
          */
-        Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.MULTI_POUCH_T1.item);
+        System.out.println(new MineBomb(player.getLocation(), 20).explode(MineManager.allMines.get(MineManager.getMineIDFromLocation(player.getLocation()))).get(Material.STONE));
         return false;
     }
 }

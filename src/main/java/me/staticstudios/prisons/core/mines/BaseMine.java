@@ -141,7 +141,9 @@ public abstract class BaseMine {
     public void setRefillWhenMineIsEmpty(boolean refillWhenMineIsEmpty) {
         this.refillWhenMineIsEmpty = refillWhenMineIsEmpty;
     }
-
+    public Region getRegion() {
+        return region;
+    }
     public boolean brokeBlocksInMine(int blocksBroken) {
         blocksInMine -= blocksBroken;
         if (refillWhenMineIsEmpty && blocksInMine <= amountOfBlocksRequiredToBeBrokenToRefill) {

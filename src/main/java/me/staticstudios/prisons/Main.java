@@ -1,5 +1,6 @@
 package me.staticstudios.prisons;
 
+import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
@@ -41,6 +42,7 @@ public final class Main extends JavaPlugin implements Listener {
     }
     private static Main main;
     public static LuckPerms luckPerms;
+    public static final WorldEdit worldEdit = WorldEdit.getInstance();
 
     private boolean hasLoaded = false;
 

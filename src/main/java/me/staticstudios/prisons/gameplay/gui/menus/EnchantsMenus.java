@@ -120,6 +120,11 @@ public class EnchantsMenus {
                         ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.HASTE.MAX_LEVEL)));
                 menuItems.add(GUI.createDarkGrayPlaceholderItem());
                 menuItems.add(GUI.createDarkGrayPlaceholderItem());
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.TNT, ChatColor.RED + "" + ChatColor.BOLD + "Explosion", ChatColor.GRAY + "Change to explode part of the mine", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "explosion") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.EXPLOSION.PRICE) + " Tokens",
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.EXPLOSION.MAX_LEVEL)));
                 menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.ANVIL, ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "Jack Hammer", ChatColor.GRAY + "Chance to destroy a layer of the mine", "",
                         ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "jackHammer") + ""),
                         ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.JACK_HAMMER.PRICE) + " Tokens",
@@ -156,11 +161,6 @@ public class EnchantsMenus {
                         ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
                         ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.TOKEN_POLISHER.MAX_LEVEL)));
                  */
-                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.EMERALD, ChatColor.YELLOW + "" + ChatColor.BOLD + "Consistency", ChatColor.GRAY + "+1% token multi every 2 mins of consistent mining.", ChatColor.GRAY + "Increases your max multi by 10% for every level.", ChatColor.GRAY + "Multiplier expires after 2 minutes of not mining.", "",
-                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "consistency") + ""),
-                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.CONSISTENCY.PRICE) + " Tokens",
-                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
-                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.CONSISTENCY.MAX_LEVEL)));
                 menuItems.add(GUI.createDarkGrayPlaceholderItem());
                 menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.FEATHER, ChatColor.AQUA + "" + ChatColor.BOLD + "Speed", ChatColor.GRAY + "Gives the vanilla speed effect", "",
                         ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "speed") + ""),
@@ -169,7 +169,11 @@ public class EnchantsMenus {
                         ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.SPEED.MAX_LEVEL)));
                 menuItems.add(GUI.createDarkGrayPlaceholderItem());
                 menuItems.add(GUI.createDarkGrayPlaceholderItem());
-                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.EMERALD, ChatColor.YELLOW + "" + ChatColor.BOLD + "Consistency", ChatColor.GRAY + "+1% token multi every 2 mins of consistent mining.", ChatColor.GRAY + "Increases your max multi by 10% for every level.", ChatColor.GRAY + "Multiplier expires after 2 minutes of not mining.", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "consistency") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.CONSISTENCY.PRICE) + " Tokens",
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.CONSISTENCY.MAX_LEVEL)));
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
@@ -267,7 +271,7 @@ public class EnchantsMenus {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsJackhammer").open(player);
+                GUI.getGUIPage("enchantsExplosion").open(player);
             }
             @Override
             public void item20Clicked(InventoryClickEvent e) {
@@ -278,7 +282,7 @@ public class EnchantsMenus {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsDoubleWammy").open(player);
+                GUI.getGUIPage("enchantsJackhammer").open(player);
             }
             @Override
             public void item21Clicked(InventoryClickEvent e) {
@@ -289,7 +293,7 @@ public class EnchantsMenus {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsMultiDirectional").open(player);
+                GUI.getGUIPage("enchantsDoubleWammy").open(player);
             }
             @Override
             public void item22Clicked(InventoryClickEvent e) {
@@ -300,10 +304,10 @@ public class EnchantsMenus {
                     player.closeInventory();
                     return;
                 }
-                GUI.getGUIPage("enchantsMerchant").open(player);
+                GUI.getGUIPage("enchantsMultiDirectional").open(player);
             }
             @Override
-            public void item23Clicked(InventoryClickEvent e) {
+            public void item28Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
                 ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
@@ -1348,6 +1352,108 @@ public class EnchantsMenus {
         };
         guiPage.identifier = "enchantsMetalDetector";
         guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dUpgrade Metal Detector");
+        guiPage.onCloseGoToMenu = "enchantsMain";
+        guiPage.register();
+    }
+    //explosion
+    public static void explosion() {
+        GUIPage guiPage = new GUIPage() {
+            @Override
+            public void onOpen(Player player) {
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                PlayerData playerData = new PlayerData(player);
+                menuItems = new ArrayList<>();
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createLightGrayPlaceholderItem());
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 1 Level(s) Of Explosion", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "explosion") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.EXPLOSION.PRICE),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.EXPLOSION.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 10 Level(s) Of Explosion", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "explosion") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.EXPLOSION.PRICE.multiply(BigInteger.valueOf(10))),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.EXPLOSION.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 100 Level(s) Of Explosion", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "explosion") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.EXPLOSION.PRICE.multiply(BigInteger.valueOf(100))),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.EXPLOSION.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 1,000 Level(s) Of Explosion", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "explosion") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.EXPLOSION.PRICE.multiply(BigInteger.valueOf(1000))),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.EXPLOSION.MAX_LEVEL)));
+                menuItems.add(GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Buy 10,000 Level(s) Of Explosion", "",
+                        ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "explosion") + ""),
+                        ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.EXPLOSION.PRICE.multiply(BigInteger.valueOf(10000))),
+                        ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
+                        ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.EXPLOSION.MAX_LEVEL)));
+            }
+            @Override
+            public void item2Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.EXPLOSION.tryToBuyLevels(player, pickaxe, 1)) open(player);
+            }
+            @Override
+            public void item3Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.EXPLOSION.tryToBuyLevels(player, pickaxe, 10)) open(player);
+            }
+            @Override
+            public void item4Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.EXPLOSION.tryToBuyLevels(player, pickaxe, 100)) open(player);
+            }
+            @Override
+            public void item5Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.EXPLOSION.tryToBuyLevels(player, pickaxe, 1000)) open(player);
+            }
+            @Override
+            public void item6Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                if (PrisonEnchants.EXPLOSION.tryToBuyLevels(player, pickaxe, 10000)) open(player);
+            }
+        };
+        guiPage.identifier = "enchantsExplosion";
+        guiPage.guiTitle = ChatColor.translateAlternateColorCodes('&', "&dUpgrade Explosion");
         guiPage.onCloseGoToMenu = "enchantsMain";
         guiPage.register();
     }

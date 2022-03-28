@@ -24,10 +24,9 @@ public class AuctionHouseMenus {
     //Main menu
     public static void main() {
         GUIPage guiPage = new GUIPage() {
-            int page;
             @Override
             public void onOpen(Player player) {
-                page = Integer.parseInt(args);
+                int page = Integer.parseInt(args);
                 menuItems = new ArrayList<>();
                 int amountPerPage = 9 * 5;
                 int startIndex = page * amountPerPage;
@@ -45,8 +44,20 @@ public class AuctionHouseMenus {
                 menuItems.add(GUI.createMenuItem(identifier, Material.ENDER_CHEST, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Claim Expired Auctions", ChatColor.GRAY + "Claim your previous expired auction(s)", ChatColor.GRAY + "You have " + new PlayerData(player).getExpiredAuctionsAmount() + " expired auction(s)"));
                 for (int i = 0; i < 7; i++) menuItems.add(GUI.createDarkGrayPlaceholderItem());
                 menuItems.set(49, GUI.createPlaceholderItem(Material.PAPER, ChatColor.AQUA + "Current Page: " + ChatColor.WHITE + (page + 1)));
-                if (AuctionHouseManager.auctions.size() > (page + 1) * amountPerPage) menuItems.set(50, GUI.createMenuItem(identifier, Material.ARROW, ChatColor.GREEN + "Go to next page"));
-                if (page > 0) menuItems.set(48, GUI.createMenuItem(identifier, Material.ARROW, ChatColor.GREEN + "Go to previous page"));
+                if (AuctionHouseManager.auctions.size() > (page + 1) * amountPerPage) {
+                    ItemStack item = GUI.createMenuItem(identifier, Material.ARROW, ChatColor.GREEN + "Go to next page");
+                    ItemMeta meta = item.getItemMeta();
+                    meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "page"), PersistentDataType.INTEGER, page);
+                    item.setItemMeta(meta);
+                    menuItems.set(50, item);
+                }
+                if (page > 0) {
+                    ItemStack item = GUI.createMenuItem(identifier, Material.ARROW, ChatColor.GREEN + "Go to previous page");
+                    ItemMeta meta = item.getItemMeta();
+                    meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "page"), PersistentDataType.INTEGER, page);
+                    item.setItemMeta(meta);
+                    menuItems.set(48, item);
+                }
             }
             @Override
             public void itemClicked(InventoryClickEvent e) {
@@ -84,13 +95,13 @@ public class AuctionHouseMenus {
             @Override
             public void item48Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
-                args = (page - 1) + "";
+                args = (e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "page"), PersistentDataType.INTEGER) - 1) + "";
                 open(player);
             }
             @Override
             public void item50Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
-                args = (page + 1) + "";
+                args = (e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "page"), PersistentDataType.INTEGER) + 1) + "";
                 open(player);
             }
             @Override

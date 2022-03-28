@@ -49,7 +49,7 @@ public class Utils {
         return random.nextFloat((max - min) + 1) + min;
     }
 
-    public static double randomDouble(float min, float max) {
+    public static double randomDouble(double min, double max) {
         return random.nextDouble((max - min) + 1) + min;
     }
 
@@ -290,12 +290,8 @@ public class Utils {
                 prettyNum += nums[0] + "." + nums[1] + nums[2] + digit;
             } else if (num.length() % 3 == 2) {
                 prettyNum += nums[0] + nums[1] + "." + nums[2] + digit;
-            } else {
-                prettyNum += nums[0] + nums[1] + nums[2] + digit;
-            }
-        } else {
-            prettyNum = num;
-        }
+            } else prettyNum += nums[0] + nums[1] + nums[2] + digit;
+        } else prettyNum = num;
         return prettyNum;
     }
 
