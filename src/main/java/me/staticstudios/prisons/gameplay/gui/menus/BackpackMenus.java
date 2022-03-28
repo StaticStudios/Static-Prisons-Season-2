@@ -16,7 +16,7 @@ public class BackpackMenus {
     //Main menu
     public static void main() {
         int slotCost = 1;
-        int slotsPerCost = 250;
+        int slotsPerCost = 1000;
         GUIPage guiPage = new GUIPage() {
             @Override
             public void onOpen(Player player) {
