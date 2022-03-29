@@ -13,6 +13,7 @@ import me.staticstudios.prisons.gameplay.customItems.Vouchers;
 import me.staticstudios.prisons.gameplay.gui.GUI;
 import me.staticstudios.prisons.gameplay.UI.scoreboard.CustomScoreboard;
 import me.staticstudios.prisons.gameplay.UI.tablist.TabList;
+import me.staticstudios.prisons.gameplay.reclaim.RerunPurchases;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -45,7 +46,7 @@ public class EventListener implements Listener {
         e.setJoinMessage(ChatColor.translateAlternateColorCodes('&', "&a&lJoined&a -> &f" + player.getName()));
         Warps.warpToSpawn(player);
         Utils.checkIfPlayerHasJoinedBefore(player);
-        //Update the player name to UUID makkpings
+        //Update the player name to UUID mappings
         new ServerData().putPlayerNamesToUUID(player.getName(), player.getUniqueId().toString());
         new ServerData().putPlayerUUIDsToName(player.getUniqueId().toString(), player.getName());
 
@@ -56,6 +57,9 @@ public class EventListener implements Listener {
 
         //Updates a player's discord name
         DiscordLink.playerJoined(player);
+
+        //Gives anyone who bought something during March their packages back
+        RerunPurchases.playerJoined(player);
     }
     @EventHandler
     void playerQuit(PlayerQuitEvent e) {

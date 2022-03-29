@@ -290,9 +290,15 @@ public class VoteStoreListener implements CommandExecutor {
                         }
                     }
                 }
-                List<String> packages = new ArrayList<>();
-                packages.add(player.getName() + " | " + player.getUniqueId() + " | " + args[1] + " | " + Arrays.toString(args));
-                Utils.writeToAFile("./data/tebexPurchases.txt", packages, true);
+                boolean logToFile = true;
+                if (args.length > 3) {
+                    if (args[3].equals("--l")) logToFile = false; //--l is a flag that means do not log to file
+                }
+                if (logToFile) {
+                    List<String> packages = new ArrayList<>();
+                    packages.add(player.getName() + " | " + player.getUniqueId() + " | " + args[1] + " | " + Arrays.toString(args));
+                    Utils.writeToAFile("./data/tebexPurchases.txt", packages, true);
+                }
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     p.sendTitle(ChatColor.AQUA + "" + ChatColor.BOLD + player.getName(), ChatColor.GRAY + "Purchased: " + ChatColor.GREEN + ChatColor.BOLD + whatWasPurchased, 5, 60, 5);
                     p.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + player.getName() + ChatColor.WHITE + " purchased " + ChatColor.GREEN + whatWasPurchased);
