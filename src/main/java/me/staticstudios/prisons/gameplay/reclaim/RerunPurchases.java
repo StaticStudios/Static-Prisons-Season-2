@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RerunPurchases {
@@ -22,6 +23,7 @@ public class RerunPurchases {
             }
         }
         if (!modified) return;
+        Collections.reverse(linesUsed);
         for (int i : linesUsed) allPurchases.remove(i);
         Utils.writeToAFile("./data/season2PostResetTebex.txt", allPurchases, false);
     }

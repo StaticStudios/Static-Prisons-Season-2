@@ -10,14 +10,18 @@ import org.bukkit.inventory.ItemStack;
 public class EpicCrate {
     public static Location LOCATION = new Location(Bukkit.getWorld("world"), -33, 80, -137);
     public static CrateReward[] rewards = new CrateReward[] {
-            new CrateReward(Vouchers.MONEY_POUCH_T1.item, 15),
-            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 10),
+            new CrateReward(Vouchers.MONEY_POUCH_T1.item, 7),
+            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 5),
             new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 3), 5),
-            new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 15),
+            new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 8),
             new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 2), 10),
             new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 3), 5),
-            new CrateReward(Vouchers.MULTI_POUCH_T1.item, 10),
+            new CrateReward(Vouchers.MULTI_POUCH_T1.item, 5),
             new CrateReward(Vouchers.MULTI_POUCH_T2.item, 5),
+            new CrateReward(Utils.setItemCount(CustomItems.getMineBombTier1(), 7), 10),
+            new CrateReward(Utils.setItemCount(CustomItems.getMineBombTier2(), 3), 5),
+            new CrateReward(CustomItems.getMineBombTier3(), 8),
+            new CrateReward(CustomItems.getMineBombTier4(), 2),
             new CrateReward(CustomItems.getEpicCrateKey(2), 5),
             new CrateReward(CustomItems.getEpicCrateKey(3), 3),
             new CrateReward(CustomItems.getLegendaryCrateKey(1), 4.5),

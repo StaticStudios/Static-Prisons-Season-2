@@ -1,7 +1,9 @@
 package me.staticstudios.prisons.gameplay.commands.test;
 
 import me.staticstudios.prisons.core.mines.MineManager;
+import me.staticstudios.prisons.gameplay.customItems.CustomItems;
 import me.staticstudios.prisons.gameplay.mineBombs.MineBomb;
+import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,7 +24,10 @@ public class TestCommand implements CommandExecutor {
         BaseRobot.spawnRobot(loc, "money", Color.GREEN, ChatColor.GREEN + "Money Miner");
 
          */
-        System.out.println(new MineBomb(player.getLocation(), 20).explode(MineManager.allMines.get(MineManager.getMineIDFromLocation(player.getLocation()))).get(Material.STONE));
+        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getMineBombTier1());
+        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getMineBombTier2());
+        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getMineBombTier3());
+        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getMineBombTier4());
         return false;
     }
 }

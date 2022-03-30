@@ -742,6 +742,25 @@ public class PlayerData extends DataSet {
         newData._long = value;
         return setData("claimedDailyRewardsAt", newData);
     }
+
+    public long getClaimedDailyRewardsRank1At() {
+        return getData("claimedDailyRewardsAtRank1")._long;
+    }
+    public Data setClaimedDailyRewardsRank1At(long value) {
+        Data newData = new Data();
+        newData._long = value;
+        return setData("claimedDailyRewardsAtRank1", newData);
+    }
+
+    public long getClaimedDailyRewardsRank2At() {
+        return getData("claimedDailyRewardsAtRank2")._long;
+    }
+    public Data setClaimedDailyRewardsRank2At(long value) {
+        Data newData = new Data();
+        newData._long = value;
+        return setData("claimedDailyRewardsAtRank2", newData);
+    }
+
     //Player Island UUIDs
     public String getPlayerIslandUUID() {
         if (getData("playerIslandUUID")._string == null) {

@@ -10,9 +10,12 @@ import org.bukkit.inventory.ItemStack;
 public class CommonCrate {
     public static Location LOCATION = new Location(Bukkit.getWorld("world"), -51, 80, -137);
     public static CrateReward[] rewards = new CrateReward[] {
-            new CrateReward(Vouchers.MONEY_POUCH_T1.item, 30),
+            new CrateReward(Vouchers.MONEY_POUCH_T1.item, 10),
             new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 10),
-            new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 30),
+            new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 15),
+            new CrateReward(Utils.setItemCount(CustomItems.getMineBombTier1(), 2), 20),
+            new CrateReward(Utils.setItemCount(CustomItems.getMineBombTier1(), 3), 10),
+            new CrateReward(CustomItems.getMineBombTier2(), 5),
             new CrateReward(CustomItems.getCommonCrateKey(3), 7.5),
             new CrateReward(CustomItems.getRareCrateKey(1), 7.5),
             new CrateReward(CustomItems.getRareCrateKey(2), 5),

@@ -2,11 +2,14 @@ package me.staticstudios.prisons.gameplay.crates;
 
 import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.gameplay.gui.GUI;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.logging.Level;
 
 public class CrateManager {
 
@@ -172,5 +175,25 @@ public class CrateManager {
         if (!isCrateKey(item)) return false;
         if (!item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), "customItemType"), PersistentDataType.STRING)) return false;
         return item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "customItemType"), PersistentDataType.STRING).equals(type);
+    }
+
+
+    public static void debugCrates() {
+        debugCrate(CommonCrate.rewards, "Common");
+        debugCrate(RareCrate.rewards, "Rare");
+        debugCrate(EpicCrate.rewards, "Epic");
+        debugCrate(LegendaryCrate.rewards, "Legendary");
+        debugCrate(StaticCrate.rewards, "Static");
+        debugCrate(StaticpCrate.rewards, "Static+");
+        debugCrate(VoteCrate.rewards, "Vote");
+        debugCrate(PickaxeCrate.rewards, "Pickaxe");
+        debugCrate(KitCrate.rewards, "Kit");
+    }
+    static void debugCrate(CrateReward[] rewards, String crate) {
+        double total = 0;
+        for (CrateReward reward : rewards) total += reward.chance;
+        if (total > 99.99999 && total < 100.00001) {
+            Bukkit.getLogger().log(Level.INFO, crate + " Crate - Total reward chance is 100%");
+        } else Bukkit.getLogger().warning(crate + " Crate - Total rewards chance is not 100%! Total chance: " + total);
     }
 }

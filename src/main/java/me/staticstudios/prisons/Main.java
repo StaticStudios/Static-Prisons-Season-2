@@ -99,6 +99,7 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("exemptfromleaderboards").setExecutor(new ExemptFromLeaderboardsCommand());
             getCommand("givevote").setExecutor(new GiveVoteCommand());
             getCommand("watchmessages").setExecutor(new MessageSpyCommand());
+            getCommand("debug").setExecutor(new DebugCommand());
             //--Normal Commands
             getCommand("multiplier").setExecutor(new MultiplierCommand());
             getCommand("trash").setExecutor(new TrashCommand());

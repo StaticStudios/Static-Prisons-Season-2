@@ -18,7 +18,7 @@ public class PrisonEnchants {
     public static final PrisonEnchant TOKENATOR = new PrisonEnchant("tokenator", 5000, BigInteger.valueOf(450)); //Increases the chance to find tokens while mining
     public static final PrisonEnchant KEY_FINDER = new PrisonEnchant("keyFinder",5000, BigInteger.valueOf(400)); //Find crate keys while mining
     public static final PrisonEnchant METAL_DETECTOR = new PrisonEnchant("metalDetector",5000, BigInteger.valueOf(400)); //Find large amounts of XP while mining
-    public static final PrisonEnchant XP_FINDER = new PrisonEnchant("xpFinder",100, BigInteger.valueOf(100000)); //Find large amounts of XP while
+    //public static final PrisonEnchant XP_FINDER = new PrisonEnchant("xpFinder",100, BigInteger.valueOf(100000)); //Find large amounts of XP while
     public static final PrisonEnchant EXPLOSION = new PrisonEnchant("explosion", 7500, BigInteger.valueOf(600)); //Change to activate an explosion in the mine
     public static final PrisonEnchant JACK_HAMMER = new PrisonEnchant("jackHammer", 20000, BigInteger.valueOf(250)); //Destroy a layer of the mine
     public static final PrisonEnchant DOUBLE_WAMMY = new PrisonEnchant("doubleWammy", 1000, BigInteger.valueOf(7500)); //Chance to destroy an additional mine layer
@@ -28,7 +28,7 @@ public class PrisonEnchants {
     //public static final PrisonEnchant TOKEN_POLISHER = new PrisonEnchant("tokenPolisher",5, BigInteger.valueOf(10000000000L));
     public static final PrisonEnchant CONSISTENCY  = new PrisonEnchant("consistency",5, BigInteger.valueOf(2500000));
 
-    public static final PrisonEnchant HASTE = new PrisonEnchant("haste",10000, BigInteger.valueOf(100)); //Normal effect
+    public static final PrisonEnchant HASTE = new PrisonEnchant("haste",1000000, BigInteger.valueOf(100)); //Normal effect
     public static final PrisonEnchant SPEED = new PrisonEnchant("speed",3, BigInteger.valueOf(100)); //Normal effect
     public static final PrisonEnchant NIGHT_VISION = new PrisonEnchant("nightVision",1, BigInteger.valueOf(100)); //normal effect
 }

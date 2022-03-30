@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +52,7 @@ public class BlockBreakEvent {
 
 
         int explosionLevel = cachedStats.get("explosion");
-        if (Utils.randomInt(1, 6000 - (int) (explosionLevel / 3.75)) == 1) { //Explosion
+        if (Utils.randomInt(1, 4500 - (int) (explosionLevel / 3.75)) == 1) { //Explosion
             if (explosionLevel > 0) {
                 //Enchant should activate
                 int radius = 5 + explosionLevel / 1500;
@@ -90,8 +89,19 @@ public class BlockBreakEvent {
             if (metalDetectorEnchant > 0) {
                 if (Utils.randomInt(1, PrisonEnchants.METAL_DETECTOR.MAX_LEVEL + PrisonEnchants.METAL_DETECTOR.MAX_LEVEL / 10) <= metalDetectorEnchant + PrisonEnchants.METAL_DETECTOR.MAX_LEVEL / 10) {
                     //Enchant should activate
-                    ItemStack reward = Vouchers.getMultiplierNote(BigDecimal.valueOf(Utils.randomInt(12, 75)).divide(BigDecimal.valueOf(100)), Utils.randomInt(20, 120));
-                    player.sendMessage(ChatColor.RED + "[Metal Detector] " + ChatColor.AQUA + "You have just found a " + Utils.getPrettyItemName(reward) + ChatColor.AQUA + " while mining!");
+                    ItemStack reward = CustomItems.getCommonCrateKey(1);
+                    switch (Utils.randomInt(0, 3)) {
+                        case 0, 1, 2 -> reward = Vouchers.getMultiplierNote(BigDecimal.valueOf(Utils.randomInt(12, 75)).divide(BigDecimal.valueOf(100)), Utils.randomInt(20, 120));
+                        case 3 -> {
+                            switch (Utils.randomInt(1, 4)) {
+                                case 1 -> reward = CustomItems.getMineBombTier1();
+                                case 2 -> reward = CustomItems.getMineBombTier2();
+                                case 3 -> reward = CustomItems.getMineBombTier3();
+                                case 4 -> reward = CustomItems.getMineBombTier4();
+                            }
+                        }
+                    }
+                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "[Metal Detector] " + ChatColor.AQUA + "You found " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + ChatColor.AQUA + " while mining!");
                     Utils.addItemToPlayersInventoryAndDropExtra(player, reward);
                 }
             }
@@ -125,7 +135,7 @@ public class BlockBreakEvent {
                         //1%
                         reward = CustomItems.getStaticpCrateKey(1);
                     }
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "[Key Finder] " + ChatColor.WHITE + "You have just found a " + Utils.getPrettyItemName(reward) + ChatColor.WHITE + " while mining!");
+                    player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "[Key Finder] " + ChatColor.WHITE + "You found " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + ChatColor.WHITE + " while mining!");
                     Utils.addItemToPlayersInventoryAndDropExtra(player, reward);
                 }
             }
@@ -152,7 +162,7 @@ public class BlockBreakEvent {
             //The player should receive tokens
             BigInteger tokens = BigInteger.valueOf(Utils.randomInt(200, 800));
             if (mine.mineID.equals("eventMine")) tokens = tokens.add(tokens.multiply(BigInteger.TWO).divide(BigInteger.TEN));
-            if (CustomEnchants.uuidToTempTokenMultiplier.containsKey(player.getUniqueId())) tokens = tokens.add(tokens.multiply(BigInteger.valueOf((long) (CustomEnchants.uuidToTempTokenMultiplier.get(player.getUniqueId()) * 1))).divide(BigInteger.TEN));
+            if (CustomEnchants.uuidToTempTokenMultiplier.containsKey(player.getUniqueId())) tokens = tokens.add(BigDecimal.valueOf(tokens.longValue()).multiply(BigDecimal.valueOf(CustomEnchants.uuidToTempTokenMultiplier.get(player.getUniqueId()))).toBigInteger());
             player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + tokens + " Tokens");
             playerData.addTokens(tokens);
         }
@@ -170,10 +180,10 @@ public class BlockBreakEvent {
 
         //If the player's backpack was not full but now is, tell them it has filled up or auto sell
         if (playerData.getBackpackIsFull()) {
-            if (Utils.checkIfPlayerCanAutoSell(playerData)) {
-                playerData.sellBackpack(player, false);
+            if (Utils.checkIfPlayerCanAutoSell(playerData) && playerData.getIsAutoSellEnabled()) {
+                playerData.sellBackpack(player, true);
             } else if (!backpackWasFull) {
-                if (playerData.getIsAutoSellEnabled()) playerData.setIsAutoSellEnabled(false);
+                if (playerData.getIsAutoSellEnabled() && !Utils.checkIfPlayerCanAutoSell(playerData)) playerData.setIsAutoSellEnabled(false);
                 player.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpackSize()) + "/" + Utils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
                 player.sendMessage(ChatColor.RED + "Your backpack is full!");
             }

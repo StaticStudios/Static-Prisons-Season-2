@@ -107,7 +107,7 @@ public class EnchantsMenus {
                         ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
                         ChatColor.GRAY + "Max Level: " + Utils.addCommasToNumber(PrisonEnchants.XP_FINDER.MAX_LEVEL)));
                  */
-                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.RAW_GOLD, ChatColor.RED + "" + ChatColor.BOLD + "Metal Detector", ChatColor.GRAY + "Find multipliers whilst mining", "",
+                menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.RAW_GOLD, ChatColor.RED + "" + ChatColor.BOLD + "Metal Detector", ChatColor.GRAY + "Find special items while mining", "",
                         ChatColor.AQUA + "Current Level: " + ChatColor.WHITE + Utils.prettyNum(CustomEnchants.getEnchantLevel(pickaxe, "metalDetector") + ""),
                         ChatColor.AQUA + "Costs: " + ChatColor.WHITE + Utils.prettyNum(PrisonEnchants.METAL_DETECTOR.PRICE) + " Tokens",
                         ChatColor.AQUA + "Your Tokens: " + ChatColor.WHITE + Utils.prettyNum(playerData.getTokens()), "",
@@ -305,6 +305,17 @@ public class EnchantsMenus {
                     return;
                 }
                 GUI.getGUIPage("enchantsMultiDirectional").open(player);
+            }
+            @Override
+            public void item23Clicked(InventoryClickEvent e) {
+                Player player = (Player) e.getWhoClicked();
+                String pickaxeUUID = PrisonEnchants.playerUUIDToPickaxeID.get(player.getUniqueId());
+                ItemStack pickaxe = Utils.findPickaxeInInventoryFromUUID(player, pickaxeUUID);
+                if (pickaxe == null) {
+                    player.closeInventory();
+                    return;
+                }
+                GUI.getGUIPage("enchantsMerchant").open(player);
             }
             @Override
             public void item28Clicked(InventoryClickEvent e) {

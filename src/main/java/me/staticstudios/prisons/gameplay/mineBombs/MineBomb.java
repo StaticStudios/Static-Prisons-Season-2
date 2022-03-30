@@ -32,6 +32,7 @@ public class MineBomb {
     private Material lastMat = Material.STONE;
     private Map<Material, BigInteger> blocksChanges = new HashMap<>();
     private int blocksChanged = 0;
+    private BaseMine mine;
 
     public MineBomb(Location origin, double radius) {
         this.location = origin;
@@ -42,6 +43,7 @@ public class MineBomb {
         this.radius = radius;
     }
     public Map<Material, BigInteger> explode(BaseMine mine) {
+        this.mine = mine;
         editSession = Main.worldEdit.newEditSessionBuilder().world(BukkitAdapter.adapt(world)).build();
         editSession.setMask(new RegionMask(mine.getRegion()));
         makeSphere(BlockVector3.at(originX, originY, originZ), pattern, radius, true);
@@ -149,9 +151,10 @@ public class MineBomb {
     //If the block gets changed, it tracks the changes
     private void setBlock(int x, int y, int z, Pattern pattern) {
         BlockType blockType = editSession.getBlockType(x, y, z);
-        if (editSession.setBlock(x, y, z, pattern)) {
+        if (editSession.setBlock(x, y, z, pattern) && mine.getRegion().contains(x, y, z)) {
             blocksChanged++;
             Material mat = BukkitAdapter.adapt(blockType);
+            if (mat.equals(Material.AIR)) return;
             if (!blocksChanges.containsKey(mat)) blocksChanges.put(mat, BigInteger.ZERO);
             blocksChanges.put(mat, blocksChanges.get(mat).add(BigInteger.ONE));
         }

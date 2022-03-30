@@ -202,4 +202,65 @@ public class CustomItems {
         CustomEnchants.setEnchantLevel(item, "consistency", 1);
         return item;
     }
+
+    public static ItemStack getMineBombTier1() {
+        ItemStack item = new ItemStack(Material.TNT);
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "mineBomb"), PersistentDataType.INTEGER, 1);
+        meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "Small Mine Bomb");
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
+        meta.setLore(lore);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addEnchant(Enchantment.LURE, 1, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(meta);
+        return item;
+    }
+    public static ItemStack getMineBombTier2() {
+        ItemStack item = new ItemStack(Material.TNT);
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "mineBomb"), PersistentDataType.INTEGER, 2);
+        meta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Medium Mine Bomb");
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
+        meta.setLore(lore);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addEnchant(Enchantment.LURE, 1, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(meta);
+        return item;
+    }
+    public static ItemStack getMineBombTier3() {
+        ItemStack item = new ItemStack(Material.TNT);
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "mineBomb"), PersistentDataType.INTEGER, 3);
+        meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Large Mine Bomb");
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
+        meta.setLore(lore);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addEnchant(Enchantment.LURE, 1, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(meta);
+        return item;
+    }
+    public static ItemStack getMineBombTier4() {
+        ItemStack item = new ItemStack(Material.TNT);
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "mineBomb"), PersistentDataType.INTEGER, 4);
+        meta.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.BOLD + "HUGE Mine Bomb");
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
+        meta.setLore(lore);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addEnchant(Enchantment.LURE, 1, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(meta);
+        return item;
+    }
 }

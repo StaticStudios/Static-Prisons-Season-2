@@ -11,6 +11,7 @@ import me.staticstudios.prisons.gameplay.gui.GUI;
 import me.staticstudios.prisons.gameplay.islands.special.robots.BaseRobot;
 import me.staticstudios.prisons.gameplay.Warps;
 import me.staticstudios.prisons.gameplay.chat.CustomChatMessage;
+import me.staticstudios.prisons.gameplay.mineBombs.MineBombItem;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -45,7 +46,9 @@ public class Events implements Listener {
         if (Utils.checkIsPrisonPickaxe(e.getItemDrop().getItemStack())) {
             e.setCancelled(true);
             e.getPlayer().sendMessage(ChatColor.RED + "You cannot drop this item! Type /dropitem to drop it!");
+            return;
         }
+        MineBombItem.itemDropped(e);
     }
     @EventHandler
     void entityInteract(PlayerInteractEntityEvent e) {

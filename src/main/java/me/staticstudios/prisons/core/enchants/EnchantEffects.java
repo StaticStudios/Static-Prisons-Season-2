@@ -23,7 +23,7 @@ public class EnchantEffects {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 9999999 * 20, (int) CustomEnchants.getEnchantLevel(pickaxe, "speed") - 1, true));
         }
         if (CustomEnchants.getEnchantLevel(pickaxe, "haste") > 0) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 9999999 * 20, (int) CustomEnchants.getEnchantLevel(pickaxe, "haste") - 1, true));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 9999999 * 20, (int) Math.min(CustomEnchants.getEnchantLevel(pickaxe, "haste") - 1, 10), true));
         }
         if (CustomEnchants.getEnchantLevel(pickaxe, "nightVision") > 0) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 9999999 * 20, (int) CustomEnchants.getEnchantLevel(pickaxe, "nightVision") - 1, true));

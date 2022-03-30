@@ -1,5 +1,6 @@
 package me.staticstudios.prisons;
 
+import me.staticstudios.prisons.core.enchants.ConsistencyEnchant;
 import me.staticstudios.prisons.core.enchants.PrisonPickaxe;
 import me.staticstudios.prisons.external.DiscordLink;
 import me.staticstudios.prisons.gameplay.UI.PlayerUI;
@@ -76,45 +77,8 @@ public class TimedTasks {
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), EventManager::runNewEvent, 20 * 60 * 12, 20 * 60 * 25);
         //Update Pickaxe Lore With Stats
         Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), PrisonPickaxe::dumpStatsToAllPickaxe, 0, 20 * 10);
-
-
-
-
-
         //Consistency enchant
-        Bukkit.getScheduler().runTaskTimer(Main.getMain(), () -> {
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                PlayerData playerData = new PlayerData(p);
-                if (!CustomEnchants.uuidToLastBlocksMined.containsKey(p.getUniqueId())) {
-                    CustomEnchants.uuidToLastBlocksMined.put(p.getUniqueId(), playerData.getRawBlocksMined());
-                    continue;
-                }
-                if (CustomEnchants.uuidToLastBlocksMined.get(p.getUniqueId()).compareTo(playerData.getRawBlocksMined()) == 0) { //The player has not mined any blocks since the last check
-                    if (!CustomEnchants.uuidToTimeSinceLastMined.containsKey(p.getUniqueId())) CustomEnchants.uuidToTimeSinceLastMined.put(p.getUniqueId(), 0);
-                    CustomEnchants.uuidToTimeSinceLastMined.put(p.getUniqueId(), CustomEnchants.uuidToTimeSinceLastMined.get(p.getUniqueId()) + 1);
-                    if (CustomEnchants.uuidToTimeSinceLastMined.get(p.getUniqueId()) >= 120) {
-                        //Player's multiplier has expired
-                        if (CustomEnchants.uuidToTempTokenMultiplier.containsKey(p.getUniqueId())) {
-                            p.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Consistency " + ChatColor.DARK_GRAY + ChatColor.BOLD + ">" + ChatColor.RED + " Your multiplier has expired due to your inactivity!");
-                            CustomEnchants.uuidToTempTokenMultiplier.remove(p.getUniqueId());
-                            CustomEnchants.uuidToTimeMiningConsistently.remove(p.getUniqueId());
-                        }
-                    }
-                } else {
-                    CustomEnchants.uuidToLastBlocksMined.put(p.getUniqueId(), playerData.getRawBlocksMined());
-                    CustomEnchants.uuidToTimeSinceLastMined.put(p.getUniqueId(), 0);
-                    if (!CustomEnchants.uuidToTimeMiningConsistently.containsKey(p.getUniqueId())) CustomEnchants.uuidToTimeMiningConsistently.put(p.getUniqueId(), 0);
-                    if (CustomEnchants.uuidToTimeMiningConsistently.get(p.getUniqueId()) % 120 == 0 && CustomEnchants.uuidToTimeMiningConsistently.get(p.getUniqueId()) != 0) {
-                        if (!Utils.checkIsPrisonPickaxe(p.getInventory().getItemInMainHand()) || CustomEnchants.getEnchantLevel(p.getInventory().getItemInMainHand(), "consistency") < 1) continue;
-                        if (!CustomEnchants.uuidToTempTokenMultiplier.containsKey(p.getUniqueId())) CustomEnchants.uuidToTempTokenMultiplier.put(p.getUniqueId(), 0d);
-                        if (CustomEnchants.uuidToTempTokenMultiplier.get(p.getUniqueId()) >= 0.1 * CustomEnchants.getEnchantLevel(p.getInventory().getItemInMainHand(), "consistency")) continue;
-                        CustomEnchants.uuidToTempTokenMultiplier.put(p.getUniqueId(), CustomEnchants.uuidToTempTokenMultiplier.get(p.getUniqueId()) + 0.01d);
-                        p.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Consistency " + ChatColor.DARK_GRAY + ChatColor.BOLD + ">" + ChatColor.GREEN + " +0.01x token multiplier due to your consistent mining activity! (" + Utils.addCommasToNumber(CustomEnchants.uuidToTimeMiningConsistently.get(p.getUniqueId())) + " seconds) Current multiplier: +x" + new DecimalFormat("#.##").format(CustomEnchants.uuidToTempTokenMultiplier.get(p.getUniqueId())));
-                    }
-                    CustomEnchants.uuidToTimeMiningConsistently.put(p.getUniqueId(), CustomEnchants.uuidToTimeMiningConsistently.get(p.getUniqueId()) + 1);
-                }
-            }
-        }, 30, 20);
+        Bukkit.getScheduler().runTaskTimer(Main.getMain(), ConsistencyEnchant::worker, 30, 20);
 
 
 

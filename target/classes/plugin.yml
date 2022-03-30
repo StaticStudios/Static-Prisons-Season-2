@@ -249,3 +249,6 @@ commands:
     description: a
     aliases:
       - multi
+  debug:
+    description: a
+    permission: static.staff.admin
