@@ -60,12 +60,12 @@ public class DailyRewardsMenus {
                     }
                     ItemStack item = null;
                     switch (Utils.randomInt(1, 11)) {
-                        case 1 -> item = CustomItems.getCommonCrateKey(2);
-                        case 2, 3 -> item = CustomItems.getCommonCrateKey(4);
-                        case 4, 5 -> item = CustomItems.getRareCrateKey(1);
-                        case 6, 7 -> item = CustomItems.getRareCrateKey(2);
-                        case 8, 9 -> item = CustomItems.getLegendaryCrateKey(1);
-                        case 10 -> item = CustomItems.getLegendaryCrateKey(2);
+                        case 1 -> item = CustomItems.getCommonCrateKey(5);
+                        case 2, 3 -> item = CustomItems.getCommonCrateKey(8);
+                        case 4, 5 -> item = CustomItems.getRareCrateKey(4);
+                        case 6, 7 -> item = CustomItems.getRareCrateKey(6);
+                        case 8, 9 -> item = CustomItems.getLegendaryCrateKey(2);
+                        case 10 -> item = CustomItems.getLegendaryCrateKey(3);
                         case 11 -> item = CustomItems.getStaticCrateKey(1);
                     }
                     Utils.addItemToPlayersInventoryAndDropExtra(player, item);
@@ -89,12 +89,12 @@ public class DailyRewardsMenus {
                     }
                     ItemStack item = null;
                     switch (Utils.randomInt(1, 10)) {
-                        case 1 -> item = CustomItems.getCommonCrateKey(2);
-                        case 2, 3 -> item = CustomItems.getCommonCrateKey(4);
-                        case 4, 5 -> item = CustomItems.getRareCrateKey(1);
-                        case 6, 7 -> item = CustomItems.getRareCrateKey(2);
-                        case 8, 9 -> item = CustomItems.getLegendaryCrateKey(1);
-                        case 10 -> item = CustomItems.getLegendaryCrateKey(2);
+                        case 1 -> item = CustomItems.getCommonCrateKey(5);
+                        case 2, 3 -> item = CustomItems.getCommonCrateKey(8);
+                        case 4, 5 -> item = CustomItems.getRareCrateKey(4);
+                        case 6, 7 -> item = CustomItems.getRareCrateKey(6);
+                        case 8, 9 -> item = CustomItems.getLegendaryCrateKey(2);
+                        case 10 -> item = CustomItems.getLegendaryCrateKey(3);
                     }
                     Utils.addItemToPlayersInventoryAndDropExtra(player, item);
                     player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + Utils.getPrettyItemName(item));
@@ -121,12 +121,12 @@ public class DailyRewardsMenus {
                     }
                     ItemStack item = null;
                     switch (Utils.randomInt(1, 12)) {
-                        case 1 -> item = CustomItems.getCommonCrateKey(2);
-                        case 2, 3 -> item = CustomItems.getCommonCrateKey(4);
-                        case 4, 5 -> item = CustomItems.getRareCrateKey(1);
-                        case 6, 7 -> item = CustomItems.getRareCrateKey(2);
-                        case 8, 9 -> item = CustomItems.getLegendaryCrateKey(1);
-                        case 10 -> item = CustomItems.getLegendaryCrateKey(2);
+                        case 1 -> item = CustomItems.getCommonCrateKey(5);
+                        case 2, 3 -> item = CustomItems.getCommonCrateKey(8);
+                        case 4, 5 -> item = CustomItems.getRareCrateKey(4);
+                        case 6, 7 -> item = CustomItems.getRareCrateKey(6);
+                        case 8, 9 -> item = CustomItems.getLegendaryCrateKey(2);
+                        case 10 -> item = CustomItems.getLegendaryCrateKey(3);
                         case 11 -> item = CustomItems.getStaticCrateKey(1);
                         case 12 -> item = CustomItems.getStaticpCrateKey(1);
                     }

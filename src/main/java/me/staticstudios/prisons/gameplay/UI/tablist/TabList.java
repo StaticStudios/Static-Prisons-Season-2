@@ -48,10 +48,41 @@ public class TabList {
     }
     public static void updateTabList(Player player) {
         //Update head and footer
-        player.setPlayerListHeaderFooter(ChatColor.translateAlternateColorCodes('&', "\n\n &7&l-->> &r&f&o&lWelcome To &b&o&lStatic Prisons &r&7&l<<--\n"), ChatColor.translateAlternateColorCodes('&', "\n&a&lPLAYERS ONLINE: &r&f" + Bukkit.getOnlinePlayers().size() + " &r&7| &a&lYOUR PING: &r&f" + player.getPing() + "ms\n\n&d&lDISCORD: &r&fdiscord.gg/staticmc&r &7| &r&d&lIP: &rplay.static-studios.net"));
+        //player.setPlayerListHeaderFooter(ChatColor.translateAlternateColorCodes('&', "\n\n &7&l-->> &r&f&o&lWelcome To &b&o&lStatic Prisons &r&7&l<<--\n"), ChatColor.translateAlternateColorCodes('&', "\n&a&lPLAYERS ONLINE: &r&f" + Bukkit.getOnlinePlayers().size() + " &r&7| &a&lYOUR PING: &r&f" + player.getPing() + "ms\n\n&d&lDISCORD: &r&fdiscord.gg/staticmc&r &7| &r&d&lIP: &rplay.static-studios.net"));
 
-        //Update Teams
         PlayerData playerData = new PlayerData(player);
+
+        ChatColor colorDark;
+        ChatColor colorLight;
+
+        switch (playerData.getUITheme()) {
+            case PURPLE_DYE -> {
+                colorDark = ChatColor.of("#b638ff");
+                colorLight = ChatColor.LIGHT_PURPLE;
+            }
+            case LIME_DYE -> {
+                colorDark = ChatColor.of("#00ba31");
+                colorLight = ChatColor.GREEN;
+            }
+            case RED_DYE -> {
+                colorDark = ChatColor.DARK_RED;
+                colorLight = ChatColor.RED;
+            }
+            case ORANGE_DYE -> {
+                colorDark = ChatColor.of("#ffcc00");
+                colorLight = ChatColor.GOLD;
+            }
+            default -> {
+                colorDark = ChatColor.of("#3dc2ff");
+                colorLight = ChatColor.AQUA;
+            }
+        }
+
+        player.setPlayerListHeaderFooter(ChatColor.translateAlternateColorCodes('&', "\n\n &7&l-->> &r&f&o&lWelcome To " + colorDark + "&o&lStatic Prisons &r&7&l<<--\n"),
+                ChatColor.translateAlternateColorCodes('&', "\n" + colorLight + "&lPLAYERS ONLINE: &r&f" + Bukkit.getOnlinePlayers().size() + " &r&7| " + colorLight + "&lYOUR PING: &r&f" +
+                        player.getPing() + "ms\n\n" + colorDark + "&lDISCORD: &r&fdiscord.gg/staticmc&r &7| &r" + colorDark + "&lWEBSITE: &r&fstatic-studios.net\n" + colorDark + "&lSERVER IP: &rplay.static-studios.net"));
+
+
         //Remove player from old teams
         for (String[] _arr : TEAMS) {
             sb.getTeam(_arr[0]).removeEntry(player.getName());

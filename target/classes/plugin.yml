@@ -252,3 +252,5 @@ commands:
   debug:
     description: a
     permission: static.staff.admin
+  rules:
+    description: a

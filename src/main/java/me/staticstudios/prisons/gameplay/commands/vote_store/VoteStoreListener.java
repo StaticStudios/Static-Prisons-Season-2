@@ -51,6 +51,7 @@ public class VoteStoreListener implements CommandExecutor {
                 Player player = Bukkit.getPlayer(args[2]);
                 PlayerData playerData = new PlayerData(player);
                 String whatWasPurchased = "";
+                boolean wasRankUpgrade = false;
                 switch (args[1]) {
                     case "starterPackageT1" -> {
                         whatWasPurchased = "Starter Package Tier 1";
@@ -122,24 +123,28 @@ public class VoteStoreListener implements CommandExecutor {
                         whatWasPurchased = "Master Rank";
                         if (playerData.getPlayerRank().equals("warrior")) {
                             playerData.setPlayerRank("master");
+                            wasRankUpgrade = true;
                         }
                     }
                     case "masterToMythic" -> {
                         whatWasPurchased = "Mythic Rank";
                         if (playerData.getPlayerRank().equals("master")) {
                             playerData.setPlayerRank("mythic");
+                            wasRankUpgrade = true;
                         }
                     }
                     case "mythicToStatic" -> {
                         whatWasPurchased = "Static Rank";
                         if (playerData.getPlayerRank().equals("mythic")) {
                             playerData.setPlayerRank("static");
+                            wasRankUpgrade = true;
                         }
                     }
                     case "staticToStaticp" -> {
                         whatWasPurchased = "Static+ Rank";
                         if (playerData.getPlayerRank().equals("static")) {
                             playerData.setPlayerRank("staticp");
+                            wasRankUpgrade = true;
                         }
                     }
                     case "legendaryKey" -> {
@@ -299,6 +304,54 @@ public class VoteStoreListener implements CommandExecutor {
                     packages.add(player.getName() + " | " + player.getUniqueId() + " | " + args[1] + " | " + Arrays.toString(args));
                     Utils.writeToAFile("./data/tebexPurchases.txt", packages, true);
                 }
+                List<String> lines = Utils.getAllLinesInAFile("./data/nextReclaim.txt");
+                boolean done = false;
+                if (wasRankUpgrade) for (int i = 0; i < lines.size(); i++) {
+                    String line = lines.get(i);
+                    if (line.split(" \\|\\?\\? ")[0].equals(playerData.getUUID())) {
+                        //check if a rank was upgraded
+                        String oldRank = line.split(" \\|\\?\\? ")[2];
+                        switch (oldRank) {
+                            case "warrior" -> {
+                                if (args[1].equals("warriorToMaster")) {
+                                    lines.set(i, line.replaceAll(oldRank, "master"));
+                                    done = true;
+                                }
+                            }
+                            case "master" -> {
+                                if (args[1].equals("masterToMythic")) {
+                                    lines.set(i, line.replaceAll(oldRank, "mythic"));
+                                    done = true;
+                                }
+                            }
+                            case "mythic" -> {
+                                if (args[1].equals("mythicToStatic")) {
+                                    lines.set(i, line.replaceAll(oldRank, "static"));
+                                    done = true;
+                                }
+                            }
+                            case "static" -> {
+                                if (args[1].equals("staticToStaticp")) {
+                                    lines.set(i, line.replaceAll(oldRank, "staticp"));
+                                    done = true;
+                                }
+                            }
+                        }
+                        if (done) break;
+                    }
+                }
+                if (!done && wasRankUpgrade) {
+                    lines.add(playerData.getUUID() + " |?? " + new ServerData().getPlayerNameFromUUID(playerData.getUUID()) + " |?? " + args[1].split("To")[1].toLowerCase());
+                }
+                if (!wasRankUpgrade) {
+                    boolean log;
+                    switch (args[1]) {
+                        case "warriorPackage", "masterPackage", "mythicPackage", "staticPackage", "staticpPackage" -> log = true;
+                        default -> log = args[1].startsWith("tag-");
+                    }
+                    if (log) lines.add(playerData.getUUID() + " |?? " + new ServerData().getPlayerNameFromUUID(playerData.getUUID()) + " |?? " + args[1].replaceAll("Package", ""));
+                }
+                Utils.writeToAFile("./data/nextReclaim.txt", lines, false);
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     p.sendTitle(ChatColor.AQUA + "" + ChatColor.BOLD + player.getName(), ChatColor.GRAY + "Purchased: " + ChatColor.GREEN + ChatColor.BOLD + whatWasPurchased, 5, 60, 5);
                     p.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + player.getName() + ChatColor.WHITE + " purchased " + ChatColor.GREEN + whatWasPurchased);

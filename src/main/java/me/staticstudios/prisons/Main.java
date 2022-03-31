@@ -101,6 +101,7 @@ public final class Main extends JavaPlugin implements Listener {
             getCommand("watchmessages").setExecutor(new MessageSpyCommand());
             getCommand("debug").setExecutor(new DebugCommand());
             //--Normal Commands
+            getCommand("rules").setExecutor(new RulesCommand());
             getCommand("multiplier").setExecutor(new MultiplierCommand());
             getCommand("trash").setExecutor(new TrashCommand());
             getCommand("reply").setExecutor(new ReplyCommand());
