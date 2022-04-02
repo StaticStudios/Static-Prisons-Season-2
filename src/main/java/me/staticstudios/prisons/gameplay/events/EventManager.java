@@ -62,6 +62,10 @@ public class EventManager {
             {"2^6", "64"},
             {"33 - 65 + 72 * 35 + 72 / 12", "2494"},
             {"(23857 + 146 * 1247^3.4 / 69 - 16532 + 12674621 * 2)^0", "1"},
+            {"1 + 1", "2"},
+            {"1.00000E1232", "1"},
+            {"62 + 18 - 10", "70"},
+
     };
 
     public static void chatMessageReceived(AsyncPlayerChatEvent e) {

@@ -24,9 +24,7 @@ public class DiscordLink {
 
     public static void initialize() {
         Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), MySQLConnection::connect);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), () -> {
-            callBackExecutor();
-        }, 100, 20); //Wait 10sec and then run every second
+        Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getMain(), DiscordLink::callBackExecutor, 100, 20); //Wait 10sec and then run every second
     }
 
 
@@ -124,7 +122,7 @@ public class DiscordLink {
                 e.printStackTrace();
             }
         }
-        String query = "SELECT accountUUID FROM `linkedAccounts` WHERE EXISTS(SELECT * FROM `uuidIGN` WHERE uuid = '" + playerUUID + "')";
+        String query = "SELECT accountUUID FROM `linkedAccounts` WHERE accountUUID = '" + playerUUID + "'";
         try (Statement stmt = MySQLConnection.getConnection().createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             rs.next();
@@ -216,19 +214,19 @@ public class DiscordLink {
                         }
                     }
                     case "PLAYERSTARTEDBOOSTING" -> {
-                        UUID uuid = UUID.fromString(callback.split("")[1]);
+                        UUID uuid = UUID.fromString(callback.split(" ")[1]);
                         PlayerData playerData = new PlayerData(uuid);
                         playerData.setIsNitroBoosting(true);
                         playerData.updateTabListPrefixID();
                     }
                     case "PLAYERSTOPPEDBOOSTING" -> {
-                        UUID uuid = UUID.fromString(callback.split("")[1]);
+                        UUID uuid = UUID.fromString(callback.split(" ")[1]);
                         PlayerData playerData = new PlayerData(uuid);
                         playerData.setIsNitroBoosting(false);
                         playerData.updateTabListPrefixID();
                     }
                     case "UNLINKEDACCOUNT" -> {
-                        UUID uuid = UUID.fromString(callback.split("")[1]);
+                        UUID uuid = UUID.fromString(callback.split(" ")[1]);
                         PlayerData playerData = new PlayerData(uuid);
                         playerData.setIsNitroBoosting(false);
                         playerData.setIsDiscordLinked(false);

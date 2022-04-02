@@ -12,16 +12,16 @@ public class StaticVars {
             15L,
             25L,
             50L,
-            75L,
             100L,
-            150L,
-            200L,
             250L,
-            400L,
-            650L,
             750L,
-            1000L,
-            2500L,
+            1500L,
+            5000L,
+            25000L,
+            50000L,
+            75000L,
+            100000L,
+            250000L,
     };
     public static final char[] A_THROUGH_Z = {
             'A',
@@ -61,5 +61,6 @@ public class StaticVars {
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fHave a question/concern? We would love to discuss it further with you, join our discord and make a ticket! &9/discord"),
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fLost your pickaxe and need a new one? Type &7/pick"),
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fYou can rankup multiple times at once by using the &7/rankupmax&f command!"),
+            ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fDid you know that you can get auto sell if you boost our Discord?! You get other perks as well!"),
     };
 }

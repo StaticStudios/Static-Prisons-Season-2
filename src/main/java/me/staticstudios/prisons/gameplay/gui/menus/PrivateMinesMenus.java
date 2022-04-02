@@ -110,55 +110,55 @@ public class PrivateMinesMenus {
                 menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 type = Material.EMERALD_BLOCK;
                 menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[2])) < 0 || playerData.getPlayerRanks().contains("warrior")) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[2])) > -1 || playerData.getPlayerRanks().contains("warrior")) {
                     type = Material.NETHERRACK;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[3])) < 0 || playerData.getPlayerRanks().contains("master")) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[3])) > -1 || playerData.getPlayerRanks().contains("master")) {
                     type = Material.NETHER_BRICKS;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[4])) < 0 || playerData.getPlayerRanks().contains("master")) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[4])) > -1 || playerData.getPlayerRanks().contains("master")) {
                     type = Material.QUARTZ_BLOCK;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[5])) < 0 || playerData.getPlayerRanks().contains("mythic")) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[5])) > -1 || playerData.getPlayerRanks().contains("mythic")) {
                     type = Material.END_STONE;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[6])) < 0 || playerData.getPlayerRanks().contains("mythic")) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[6])) > -1 || playerData.getPlayerRanks().contains("mythic")) {
                     type = Material.OBSIDIAN;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[7])) < 0 || playerData.getPlayerRanks().contains("static")) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[7])) > -1 || playerData.getPlayerRanks().contains("static")) {
                     type = Material.CRYING_OBSIDIAN;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[8])) < 0 || playerData.getPlayerRanks().contains("staticp")) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[8])) > -1 || playerData.getPlayerRanks().contains("staticp")) {
                     type = Material.PRISMARINE;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[9])) < 0 || playerData.getPlayerRanks().contains("staticp")) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[9])) > -1 || playerData.getPlayerRanks().contains("staticp")) {
                     type = Material.AMETHYST_BLOCK;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[10])) < 0) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[10])) > -1) {
                     type = Material.DEEPSLATE_COAL_ORE;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[11])) < 0) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[11])) > -1) {
                     type = Material.DEEPSLATE_IRON_ORE;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[12])) < 0) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[12])) > -1) {
                     type = Material.DEEPSLATE_GOLD_ORE;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[13])) < 0) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[13])) > -1) {
                     type = Material.DEEPSLATE_DIAMOND_ORE;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[14])) < 0) {
+                if (playerData.getPrestige().compareTo(BigInteger.valueOf(StaticVars.PRESTIGE_MINE_REQUIREMENTS[14])) > -1) {
                     type = Material.DEEPSLATE_EMERALD_ORE;
                     menuItems.add(GUI.createMenuItem(identifier, type, Utils.getPrettyItemName(new ItemStack(type)), lore));
                 }

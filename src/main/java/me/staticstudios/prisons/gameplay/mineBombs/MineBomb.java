@@ -28,6 +28,7 @@ public class MineBomb {
     private int originZ;
     private World world;
     private double radius;
+    private boolean canExplode = true;
     private EditSession editSession;
     private Material lastMat = Material.STONE;
     private Map<Material, BigInteger> blocksChanges = new HashMap<>();
@@ -36,6 +37,7 @@ public class MineBomb {
 
     public MineBomb(Location origin, double radius) {
         this.location = origin;
+        canExplode = location.getWorld().getName().equalsIgnoreCase("mines");
         this.originX = origin.getBlockX();
         this.originY = origin.getBlockY();
         this.originZ = origin.getBlockZ();
@@ -43,6 +45,7 @@ public class MineBomb {
         this.radius = radius;
     }
     public Map<Material, BigInteger> explode(BaseMine mine) {
+        if (!canExplode) return new HashMap<>();
         this.mine = mine;
         editSession = Main.worldEdit.newEditSessionBuilder().world(BukkitAdapter.adapt(world)).build();
         editSession.setMask(new RegionMask(mine.getRegion()));

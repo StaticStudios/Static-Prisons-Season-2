@@ -34,7 +34,7 @@ public class MineBombItem {
             Map<Material, BigInteger> blocksBroken = new MineBomb(e.getItemDrop().getLocation(), finalRadius).explode(MineManager.allMines.get(MineManager.getMineIDFromLocation(e.getItemDrop().getLocation())));
             e.getItemDrop().remove();
             boolean backpackWasFull = playerData.getBackpackIsFull();
-            if (!backpackWasFull) for (Material key : blocksBroken.keySet()) playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(50000)));
+            if (!backpackWasFull) for (Material key : blocksBroken.keySet()) playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(10000)));
             if (playerData.getBackpackIsFull()) {
                 if (!backpackWasFull) {
                     if (Utils.checkIfPlayerCanAutoSell(playerData) && playerData.getIsAutoSellEnabled()) playerData.sellBackpack(e.getPlayer(), true);
