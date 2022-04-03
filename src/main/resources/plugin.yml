@@ -254,3 +254,6 @@ commands:
     permission: static.staff.admin
   rules:
     description: a
+  reload-config:
+    description: a
+    permission: op

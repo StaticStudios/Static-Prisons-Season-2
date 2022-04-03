@@ -1,9 +1,9 @@
 package me.staticstudios.prisons.external;
 
 import me.staticstudios.prisons.Main;
-import me.staticstudios.prisons.core.data.serverData.PlayerData;
-import me.staticstudios.prisons.core.data.serverData.ServerData;
-import me.staticstudios.prisons.core.data.sql.MySQLConnection;
+import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.data.sql.MySQLConnection;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;

@@ -1,10 +1,10 @@
 package me.staticstudios.prisons.utils;
 
 import me.staticstudios.prisons.Main;
-import me.staticstudios.prisons.core.enchants.CustomEnchants;
-import me.staticstudios.prisons.core.enchants.PrisonPickaxe;
-import me.staticstudios.prisons.core.data.serverData.PlayerData;
-import me.staticstudios.prisons.core.data.serverData.ServerData;
+import me.staticstudios.prisons.enchants.CustomEnchants;
+import me.staticstudios.prisons.enchants.PrisonPickaxe;
+import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.data.serverData.ServerData;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
 import org.bukkit.*;
