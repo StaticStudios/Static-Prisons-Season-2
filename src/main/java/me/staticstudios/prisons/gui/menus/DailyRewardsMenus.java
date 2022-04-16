@@ -54,7 +54,7 @@ public class DailyRewardsMenus {
                     return;
                 }
                 if (playerData.getClaimedDailyRewardsRank1At() + 1000 * 60 * 60 * 24 < Instant.now().toEpochMilli()) {
-                    if (playerData.getDiscordName().equals("null")) {
+                    if (!playerData.getIsDiscordLinked()) {
                         player.sendMessage(ChatColor.RED + "You must link your discord account to claim daily rewards! type \"/discord link\"");
                         return;
                     }
@@ -83,7 +83,7 @@ public class DailyRewardsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getClaimedDailyRewardsAt() + 1000 * 60 * 60 * 24 < Instant.now().toEpochMilli()) {
-                    if (playerData.getDiscordName().equals("null")) {
+                    if (!playerData.getIsDiscordLinked()) {
                         player.sendMessage(ChatColor.RED + "You must link your discord account to claim daily rewards! type \"/discord link\"");
                         return;
                     }
@@ -115,7 +115,7 @@ public class DailyRewardsMenus {
                     return;
                 }
                 if (playerData.getClaimedDailyRewardsRank2At() + 1000 * 60 * 60 * 24 < Instant.now().toEpochMilli()) {
-                    if (playerData.getDiscordName().equals("null")) {
+                    if (!playerData.getIsDiscordLinked()) {
                         player.sendMessage(ChatColor.RED + "You must link your discord account to claim daily rewards! type \"/discord link\"");
                         return;
                     }

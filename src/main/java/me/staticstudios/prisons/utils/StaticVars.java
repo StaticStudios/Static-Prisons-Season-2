@@ -6,23 +6,7 @@ import java.math.BigInteger;
 
 public class StaticVars {
     public static final int VOTES_NEEDED_FOR_VOTE_PARTY = 50;
-    public static final Long[] PRESTIGE_MINE_REQUIREMENTS = {
-            2L,
-            10L,
-            15L,
-            25L,
-            50L,
-            100L,
-            250L,
-            750L,
-            1500L,
-            5000L,
-            25000L,
-            50000L,
-            75000L,
-            100000L,
-            250000L,
-    };
+    public static Long[] PRESTIGE_MINE_REQUIREMENTS = new Long[15];
     public static final char[] A_THROUGH_Z = {
             'A',
             'B',

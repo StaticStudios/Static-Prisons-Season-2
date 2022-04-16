@@ -274,7 +274,6 @@ public class Kits {
         WEAPON.sword = new ItemStack(Material.DIAMOND_SWORD);
         WEAPON.sword.addEnchantment(Enchantment.DAMAGE_ALL, 4);
         WEAPON.sword.addEnchantment(Enchantment.DURABILITY, 3);
-        WEAPON.sword = new ItemStack(Material.DIAMOND_AXE);
         WEAPON.axe = new ItemStack(Material.DIAMOND_AXE);
         WEAPON.axe.addEnchantment(Enchantment.DAMAGE_ALL, 4);
         WEAPON.axe.addEnchantment(Enchantment.DURABILITY, 3);

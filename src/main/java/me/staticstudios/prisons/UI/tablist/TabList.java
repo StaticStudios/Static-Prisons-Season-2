@@ -80,7 +80,7 @@ public class TabList {
 
         player.setPlayerListHeaderFooter(ChatColor.translateAlternateColorCodes('&', "\n\n &7&l-->> &r&f&o&lWelcome To " + colorDark + "&o&lStatic Prisons &r&7&l<<--\n"),
                 ChatColor.translateAlternateColorCodes('&', "\n" + colorLight + "&lPLAYERS ONLINE: &r&f" + Bukkit.getOnlinePlayers().size() + " &r&7| " + colorLight + "&lYOUR PING: &r&f" +
-                        player.getPing() + "ms\n\n" + colorDark + "&lDISCORD: &r&fdiscord.gg/staticmc&r &7| &r" + colorDark + "&lWEBSITE: &r&fstatic-studios.net\n" + colorDark + "&lSERVER IP: &rplay.static-studios.net"));
+                        player.getPing() + "ms\n\n" + colorDark + "&lDISCORD: &r&fdiscord.gg/static&r &7| &r" + colorDark + "&lWEBSITE: &r&fstatic-studios.net\n" + colorDark + "&lSERVER IP: &rplay.static-studios.net"));
 
 
         //Remove player from old teams

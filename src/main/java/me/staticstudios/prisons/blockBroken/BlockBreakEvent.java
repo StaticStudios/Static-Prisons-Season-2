@@ -157,7 +157,8 @@ public class BlockBreakEvent {
         //if (tokensToAdd.compareTo(BigInteger.ZERO) < 0) tokensToAdd = BigInteger.ONE;
         //playerData.addTokens(tokensToAdd);
 
-        int chance = (Utils.randomInt(1, 450 - cachedStats.get("tokenator") / 25)); //Max level requires 147 blocks on average
+        //int chance = (Utils.randomInt(1, 350 - cachedStats.get("tokenator") / 25)); //Max level requires 150 blocks on average
+        int chance = (Utils.randomInt(1, (int) (175 - cachedStats.get("tokenator") / 50))); //double event
         if (chance == 1) {
             //The player should receive tokens
             BigInteger tokens = BigInteger.valueOf(Utils.randomInt(200, 800));

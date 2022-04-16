@@ -31,6 +31,8 @@ import me.staticstudios.prisons.commands.vote_store.VoteStoreListener;
 import me.staticstudios.prisons.misc.EventListener;
 import me.staticstudios.prisons.misc.Events;
 import me.staticstudios.prisons.misc.TimedTasks;
+import me.staticstudios.prisons.rankup.RankUpPrices;
+import me.staticstudios.prisons.utils.StaticVars;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -45,6 +47,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 
@@ -70,7 +73,6 @@ public final class Main extends JavaPlugin implements Listener {
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
         getServer().getPluginManager().registerEvents(this, main);
         Bukkit.getScheduler().runTaskLater(this, () -> {
-            //setConfigDefaults();
             loadConfig();
             unloadNetherAndEnd();
             DataWriter.loadData();
@@ -183,66 +185,6 @@ public final class Main extends JavaPlugin implements Listener {
         Bukkit.unloadWorld("world_nether", false);
     }
 
-    public void setConfigDefaults() {
-        //Set default values
-        FileConfiguration config = getConfig();
-        config.addDefault("sellPrices.STONE", 1);
-        config.addDefault("sellPrices.COBBLESTONE", 1);
-        config.addDefault("sellPrices.COAL_ORE", 1);
-        config.addDefault("sellPrices.IRON_ORE", 1);
-        config.addDefault("sellPrices.GOLD_ORE", 1);
-        config.addDefault("sellPrices.LAPIS_ORE", 1);
-        config.addDefault("sellPrices.REDSTONE_ORE", 1);
-        config.addDefault("sellPrices.DIAMOND_ORE", 1);
-        config.addDefault("sellPrices.EMERALD_ORE", 1);
-        config.addDefault("sellPrices.COAL_BLOCK", 1);
-        config.addDefault("sellPrices.IRON_BLOCK", 1);
-        config.addDefault("sellPrices.GOLD_BLOCK", 1);
-        config.addDefault("sellPrices.LAPIS_BLOCK", 1);
-        config.addDefault("sellPrices.REDSTONE_BLOCK", 1);
-        config.addDefault("sellPrices.DIAMOND_BLOCK", 1);
-        config.addDefault("sellPrices.EMERALD_BLOCK", 1);
-        config.addDefault("sellPrices.NETHERRACK", 1);
-        config.addDefault("sellPrices.NETHER_BRICKS", 1);
-        config.addDefault("sellPrices.QUARTZ_BLOCK", 1);
-        config.addDefault("sellPrices.END_STONE", 1);
-        config.addDefault("sellPrices.OBSIDIAN", 1);
-        config.addDefault("sellPrices.CRYING_OBSIDIAN", 1);
-        config.addDefault("sellPrices.PRISMARINE", 1);
-        config.addDefault("sellPrices.AMETHYST_BLOCK", 1);
-        config.addDefault("sellPrices.DEEPSLATE_COAL_ORE", 1);
-        config.addDefault("sellPrices.DEEPSLATE_IRON_ORE", 1);
-        config.addDefault("sellPrices.DEEPSLATE_GOLD_ORE", 1);
-        config.addDefault("sellPrices.DEEPSLATE_DIAMOND_ORE", 1);
-        config.addDefault("sellPrices.DEEPSLATE_EMERALD_ORE", 1);
-        config.addDefault("pouches.money.1.min", "0");
-        config.addDefault("pouches.money.1.max", "0");
-        config.addDefault("pouches.money.2.min", "0");
-        config.addDefault("pouches.money.2.max", "0");
-        config.addDefault("pouches.money.3.min", "0");
-        config.addDefault("pouches.money.3.max", "0");
-        config.addDefault("pouches.token.1.min", "0");
-        config.addDefault("pouches.token.1.max", "0");
-        config.addDefault("pouches.token.2.min", "0");
-        config.addDefault("pouches.token.2.max", "0");
-        config.addDefault("pouches.token.3.min", "0");
-        config.addDefault("pouches.token.3.max", "0");
-        config.addDefault("pouches.multi.1.amount.min", 0);
-        config.addDefault("pouches.multi.1.amount.max", 0);
-        config.addDefault("pouches.multi.1.time.min", 0);
-        config.addDefault("pouches.multi.1.time.max", 0);
-        config.addDefault("pouches.multi.2.amount.min", 0);
-        config.addDefault("pouches.multi.2.amount.max", 0);
-        config.addDefault("pouches.multi.2.time.min", 0);
-        config.addDefault("pouches.multi.2.time.max", 0);
-        config.addDefault("pouches.multi.3.amount.min", 0);
-        config.addDefault("pouches.multi.3.amount.max", 0);
-        config.addDefault("pouches.multi.3.time.min", 0);
-        config.addDefault("pouches.multi.3.time.max", 0);
-        config.options().copyDefaults(true);
-        saveConfig();
-    }
-
     public void loadConfig() {
         reloadConfig();
         FileConfiguration config = getConfig();
@@ -317,6 +259,12 @@ public final class Main extends JavaPlugin implements Listener {
         enchant.DESCRIPTION = config.getStringList("enchants.nightVision.description");
         PrisonEnchants.NIGHT_VISION = enchant;
 
+        //Load prestige mine requirements
+        for (int i = 0; i < 15; i++) StaticVars.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
+        //Load rankup prices
+        RankUpPrices.rankPrices = new ArrayList<>();
+        for (int i = 0; i < 26; i++) RankUpPrices.rankPrices.add(BigInteger.valueOf(config.getLong("rankup.prices." + (i + 1))));
+        RankUpPrices.INITIAL_PRESTIGE_PRICE = BigInteger.valueOf(config.getLong("prestiges.price.basePrice"));
 
         //Load Pouches
         MoneyPouchTier1.minValue = new BigInteger(config.getString("pouches.money.1.min"));

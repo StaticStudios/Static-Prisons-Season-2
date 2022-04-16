@@ -2,7 +2,7 @@ name: Static-Prisons
 version: '1.0-SNAPSHOT'
 description: This plugin allows static prisons to run!
 main: me.staticstudios.prisons.Main
-api-version: 1.17
+api-version: 1.18
 depend: [ WorldEdit, WorldGuard, LuckPerms ]
 commands:
   test:
