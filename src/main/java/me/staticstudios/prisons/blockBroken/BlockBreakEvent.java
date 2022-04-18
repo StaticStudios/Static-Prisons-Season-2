@@ -157,13 +157,20 @@ public class BlockBreakEvent {
         //if (tokensToAdd.compareTo(BigInteger.ZERO) < 0) tokensToAdd = BigInteger.ONE;
         //playerData.addTokens(tokensToAdd);
 
-        //int chance = (Utils.randomInt(1, 350 - cachedStats.get("tokenator") / 25)); //Max level requires 150 blocks on average
-        int chance = (Utils.randomInt(1, (int) (175 - cachedStats.get("tokenator") / 50))); //double event
+        int chance = (Utils.randomInt(1, 350 - cachedStats.get("tokenator") / 25)); //Max level requires 150 blocks on average
         if (chance == 1) {
             //The player should receive tokens
+            int tokenMultiplier = mine.getTokenMultiplier();
+            switch (playerData.getPlayerRank()) {
+                case "mythic" -> tokenMultiplier += 5;
+                case "static" -> tokenMultiplier += 10;
+                case "staticp" -> tokenMultiplier += 20;
+            }
+
             BigInteger tokens = BigInteger.valueOf(Utils.randomInt(200, 800));
             if (mine.mineID.equals("eventMine")) tokens = tokens.add(tokens.multiply(BigInteger.TWO).divide(BigInteger.TEN));
             if (ConsistencyEnchant.uuidToTempTokenMultiplier.containsKey(player.getUniqueId())) tokens = tokens.add(BigDecimal.valueOf(tokens.longValue()).multiply(BigDecimal.valueOf(ConsistencyEnchant.uuidToTempTokenMultiplier.get(player.getUniqueId()))).toBigInteger());
+            tokens = tokens.add(tokens.multiply(BigInteger.valueOf(tokenMultiplier)).divide(BigInteger.valueOf(100)));
             player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + tokens + " Tokens");
             playerData.addTokens(tokens);
         }

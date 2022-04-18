@@ -52,6 +52,11 @@ public abstract class BaseMine {
     private BlockType type;
     private boolean singleType = false;
 
+    private int tokenMultiplier = 0;
+
+    public int getTokenMultiplier() { return tokenMultiplier; }
+    public void setTokenMultiplier(int value) { tokenMultiplier = value; }
+
 
     public BaseMine(String mineID, Location loc1, Location loc2) {
         this.mineID = mineID;

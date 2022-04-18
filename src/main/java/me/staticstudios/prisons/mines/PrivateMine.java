@@ -28,6 +28,7 @@ public class PrivateMine extends BaseMine {
     private PrivateMine(UUID uuid, Location loc1, Location loc2) {
         super("privateMine-" + uuid, loc1, loc2);
         this.uuid = uuid;
+        setTokenMultiplier(120);
     }
 
     public static void unload(String id) {
