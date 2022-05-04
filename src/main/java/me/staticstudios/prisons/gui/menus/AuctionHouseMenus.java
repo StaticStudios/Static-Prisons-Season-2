@@ -3,8 +3,7 @@ package me.staticstudios.prisons.gui.menus;
 import me.staticstudios.prisons.Main;
 import me.staticstudios.prisons.auctionHouse.Auction;
 import me.staticstudios.prisons.auctionHouse.AuctionHouseManager;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.gui.GUIPage;
 import me.staticstudios.prisons.utils.Utils;
@@ -21,6 +20,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.*;
 
 public class AuctionHouseMenus {
+    /*
     //Main menu
     public static void main() {
         GUIPage guiPage = new GUIPage() {
@@ -41,7 +41,7 @@ public class AuctionHouseMenus {
                     menuItems.add(createAuctionItem(player, auction));
                 }
                 while (menuItems.size() < 9 * 5) menuItems.add(GUI.createLightGrayPlaceholderItem());
-                menuItems.add(GUI.createMenuItem(identifier, Material.ENDER_CHEST, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Claim Expired Auctions", ChatColor.GRAY + "Claim your previous expired auction(s)", ChatColor.GRAY + "You have " + new PlayerData(player).getExpiredAuctionsAmount() + " expired auction(s)"));
+                //menuItems.add(GUI.createMenuItem(identifier, Material.ENDER_CHEST, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Claim Expired Auctions", ChatColor.GRAY + "Claim your previous expired auction(s)", ChatColor.GRAY + "You have " + new PlayerData(player).getExpiredAuctionsAmount() + " expired auction(s)"));
                 for (int i = 0; i < 7; i++) menuItems.add(GUI.createDarkGrayPlaceholderItem());
                 menuItems.set(49, GUI.createPlaceholderItem(Material.PAPER, ChatColor.AQUA + "Current Page: " + ChatColor.WHITE + (page + 1)));
                 if (AuctionHouseManager.auctions.size() > (page + 1) * amountPerPage) {
@@ -108,6 +108,7 @@ public class AuctionHouseMenus {
             public void item45Clicked(InventoryClickEvent e) {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
+                /*
                 List<ItemStack> items = playerData.getExpiredAuctions();
                 if (items.size() == 0) {
                     player.sendMessage(ChatColor.RED + "You do not have any auctions to claim!");
@@ -116,6 +117,7 @@ public class AuctionHouseMenus {
                 for (ItemStack item : items) {
                     Utils.addItemToPlayersInventoryAndDropExtra(player, item);
                 }
+
                 playerData.setExpiredAuctions(new ArrayList<>());
                 player.sendMessage(ChatColor.AQUA + "You've just claimed all of your expired auctions!");
                 open(player);
@@ -148,4 +150,7 @@ public class AuctionHouseMenus {
         guiPage.onCloseGoToMenu = "main";
         guiPage.register();
     }
+
+     */
+
 }

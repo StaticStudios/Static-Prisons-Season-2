@@ -1,7 +1,7 @@
 package me.staticstudios.prisons.gui.menus;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.gui.GUIPage;
 import me.staticstudios.prisons.mines.MineManager;

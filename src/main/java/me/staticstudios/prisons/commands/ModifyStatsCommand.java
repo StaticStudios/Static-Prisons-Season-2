@@ -1,7 +1,7 @@
 package me.staticstudios.prisons.commands;
 
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
 import me.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,7 +18,7 @@ public class ModifyStatsCommand implements CommandExecutor {
         if (args.length < 4) {
             sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats <stat> <who> <modify> <value>"));
         }
-        if (!new ServerData().getPlayerNamesToUUIDsMap().containsKey(args[1]) && !args[1].equalsIgnoreCase("self")) {
+        if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[1].toLowerCase()) && !args[1].equalsIgnoreCase("self")) {
             sender.sendMessage(ChatColor.RED + "Could not find the player specified!");
             return false;
         }
@@ -30,7 +30,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.RED + "You cannot use self from console!");
                 return false;
             }
-        } else playerData = new PlayerData(new ServerData().getPlayerUUIDFromName(args[1]));
+        } else playerData = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args[1].toLowerCase()));
         switch (args[0].toLowerCase()) {
             case "minerank" -> {
                 int amount;

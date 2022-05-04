@@ -1,9 +1,9 @@
 package me.staticstudios.prisons.gui.menus;
 
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.gui.GUIPage;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,11 +19,11 @@ public class StatsMenus {
             @Override
             public void onOpen(Player player) {
                 menuItems = new ArrayList<>();
-                if (!new ServerData().checkIfPlayerHasJoinedBeforeByName(args)) {
+                if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args.toLowerCase())) {
                     guiTitle = "Player not found";
                     return;
                 }
-                PlayerData playerData = new PlayerData(new ServerData().getPlayerUUIDFromName(args));
+                PlayerData playerData = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args));
                 guiTitle = ChatColor.LIGHT_PURPLE + args + "'s Stats";
                 String rankTag = "Member";
                 switch (playerData.getPlayerRank()) {

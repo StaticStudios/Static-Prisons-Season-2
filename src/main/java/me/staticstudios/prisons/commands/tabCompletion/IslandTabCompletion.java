@@ -1,8 +1,8 @@
 package me.staticstudios.prisons.commands.tabCompletion;
 
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.islands.SkyBlockIsland;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 public class IslandTabCompletion implements TabCompleter {
     @Override
@@ -44,12 +45,12 @@ public class IslandTabCompletion implements TabCompleter {
                         tab.add(p.getName());
                     }
                 }
-                case "info", "visit" -> tab = new LinkedList<>(new ServerData().getSkyblockIslandNamesToUUIDsMap().keySet());
+                case "info", "visit" -> tab = new LinkedList<>(ServerData.ISLANDS.getAllNames());
                 case "unban" -> {
                     if (!new PlayerData(player).getIfPlayerHasIsland()) return new ArrayList<>();
                     SkyBlockIsland island = new PlayerData(player.getUniqueId().toString()).getPlayerIsland();
                     for (String uuid : island.getBannedPlayerUUIDS()) {
-                        tab.add(new ServerData().getPlayerNameFromUUID(uuid));
+                        tab.add(ServerData.PLAYERS.getName(UUID.fromString(uuid)));
                     }
                 }
             }

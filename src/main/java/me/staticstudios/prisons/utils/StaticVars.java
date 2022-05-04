@@ -1,11 +1,14 @@
 package me.staticstudios.prisons.utils;
 
+import me.staticstudios.prisons.Main;
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 
 import java.math.BigInteger;
 
 public class StaticVars {
     public static final int VOTES_NEEDED_FOR_VOTE_PARTY = 50;
+    public static final NamespacedKey UUID_NAMESPACEKEY = new NamespacedKey(Main.getMain(), "uuid");
     public static Long[] PRESTIGE_MINE_REQUIREMENTS = new Long[15];
     public static final char[] A_THROUGH_Z = {
             'A',

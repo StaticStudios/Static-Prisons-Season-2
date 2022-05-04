@@ -1,8 +1,7 @@
 package me.staticstudios.prisons.gui.menus;
 
 import me.staticstudios.prisons.Main;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.gui.GUIPage;
 import me.staticstudios.prisons.islands.IslandManager;
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class PlayerIslandMenus {
+    /*
     //Main island GUI
     public static void main() {
         GUIPage guiPage = new GUIPage() {
@@ -761,4 +761,6 @@ public class PlayerIslandMenus {
         guiPage.onCloseGoToMenu = "islandsMain";
         guiPage.register();
     }
+
+     */
 }

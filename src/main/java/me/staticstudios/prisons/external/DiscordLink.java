@@ -1,9 +1,9 @@
 package me.staticstudios.prisons.external;
 
 import me.staticstudios.prisons.Main;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
-import me.staticstudios.prisons.data.sql.MySQLConnection;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
+import me.staticstudios.prisons.newData.sql.MySQLConnection;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -201,7 +201,7 @@ public class DiscordLink {
                     case "LINKSUCCESS" -> {
                         StringBuilder accountName = new StringBuilder();
                         for (int i = 2; i < args.size(); i++) accountName.append(args.get(i)).append(" ");
-                        Bukkit.getLogger().log(Level.INFO, "" + args.get(0) + " ( " + new ServerData().getPlayerNameFromUUID(args.get(0)) + " ) was linked to discord account " + args.get(1) + " ( " + accountName + ")");
+                        Bukkit.getLogger().log(Level.INFO, "" + args.get(0) + " ( " + ServerData.PLAYERS.getName(UUID.fromString(args.get(0))) + " ) was linked to discord account " + args.get(1) + " ( " + accountName + ")");
                         //Check if they are boosting
                         PlayerData playerData = new PlayerData(args.get(0));
                         try (Statement _stmt = MySQLConnection.getConnection().createStatement()) {

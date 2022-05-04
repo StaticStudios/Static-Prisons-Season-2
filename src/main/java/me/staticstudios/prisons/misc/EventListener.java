@@ -1,17 +1,17 @@
 package me.staticstudios.prisons.misc;
 
 import me.staticstudios.prisons.Main;
-import me.staticstudios.prisons.enchants.EnchantEffects;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
-import me.staticstudios.prisons.enchants.PrisonEnchants;
-import me.staticstudios.prisons.enchants.PrisonPickaxe;
+import me.staticstudios.prisons.enchants.handler.EnchantEffects;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
+import me.staticstudios.prisons.enchants.handler.PrisonEnchants;
+import me.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import me.staticstudios.prisons.external.DiscordLink;
 import me.staticstudios.prisons.crates.CrateManager;
 import me.staticstudios.prisons.customItems.Vouchers;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import me.staticstudios.prisons.UI.tablist.TabList;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
 import me.staticstudios.prisons.reclaim.RerunPurchases;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
@@ -44,10 +44,8 @@ public class EventListener implements Listener {
         Player player = e.getPlayer();
         e.setJoinMessage(ChatColor.translateAlternateColorCodes('&', "&a&lJoined&a -> &f" + player.getName()));
         Warps.warpToSpawn(player);
-        Utils.checkIfPlayerHasJoinedBefore(player);
         //Update the player name to UUID mappings
-        new ServerData().putPlayerNamesToUUID(player.getName(), player.getUniqueId().toString());
-        new ServerData().putPlayerUUIDsToName(player.getUniqueId().toString(), player.getName());
+        ServerData.playerJoined(player);
 
         TabList.addPlayer(player);
         CustomScoreboard.updatePlayerScoreboard(player);

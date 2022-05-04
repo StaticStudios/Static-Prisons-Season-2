@@ -1,27 +1,16 @@
 package me.staticstudios.prisons;
 
 import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.flags.Flags;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.staticstudios.prisons.customItems.*;
-import me.staticstudios.prisons.data.Prices;
-import me.staticstudios.prisons.data.sql.MySQLConnection;
-import me.staticstudios.prisons.enchants.PrisonEnchant;
-import me.staticstudios.prisons.enchants.PrisonEnchants;
-import me.staticstudios.prisons.enchants.PrisonPickaxe;
+import me.staticstudios.prisons.newData.dataHandling.DataSet;
+import me.staticstudios.prisons.newData.Prices;
+import me.staticstudios.prisons.enchants.handler.PrisonEnchants;
+import me.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import me.staticstudios.prisons.external.DiscordLink;
-import me.staticstudios.prisons.auctionHouse.AuctionHouseManager;
 import me.staticstudios.prisons.commands.*;
 import me.staticstudios.prisons.commands.tabCompletion.IslandTabCompletion;
 import me.staticstudios.prisons.commands.test.Test2Command;
 import me.staticstudios.prisons.commands.test.TestCommand;
-import me.staticstudios.prisons.data.dataHandling.DataWriter;
 import me.staticstudios.prisons.gui.GUIListener;
 import me.staticstudios.prisons.gui.GUIPage;
 import me.staticstudios.prisons.islands.IslandManager;
@@ -31,24 +20,21 @@ import me.staticstudios.prisons.commands.vote_store.VoteStoreListener;
 import me.staticstudios.prisons.misc.EventListener;
 import me.staticstudios.prisons.misc.Events;
 import me.staticstudios.prisons.misc.TimedTasks;
+import me.staticstudios.prisons.newData.sql.MySQLConnection;
 import me.staticstudios.prisons.rankup.RankUpPrices;
 import me.staticstudios.prisons.utils.StaticVars;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 
 public final class Main extends JavaPlugin implements Listener {
@@ -60,124 +46,112 @@ public final class Main extends JavaPlugin implements Listener {
     public static LuckPerms luckPerms;
     public static final WorldEdit worldEdit = WorldEdit.getInstance();
 
-    private boolean hasLoaded = false;
-
-    @EventHandler
-    void playerJoined(PlayerJoinEvent e) {
-        if (!hasLoaded) e.getPlayer().kickPlayer("Server is still starting");
-    }
-
     @Override
     public void onEnable() {
         main = this;
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
-        getServer().getPluginManager().registerEvents(this, main);
-        Bukkit.getScheduler().runTaskLater(this, () -> {
-            loadConfig();
-            unloadNetherAndEnd();
-            DataWriter.loadData();
-            PrisonEnchants.initialize();
-            AuctionHouseManager.loadAllAuctions();
-            IslandManager.initialize();
-            MineManager.initialize();
-            GUIPage.initializeGUIPages();
-            DiscordLink.initialize();
-            TabList.initialize();
-            Kits.initialize();
-            TimedTasks.initializeTasks();
+        loadConfig();
+        unloadNetherAndEnd();
+        //DataWriter.loadData();
+        DataSet.loadData();
+        //PrisonEnchants.initialize(); //todo delete soon
+        PrisonEnchants.createEnchants();
+        //AuctionHouseManager.loadAllAuctions();
+        IslandManager.initialize();
+        MineManager.initialize();
+        GUIPage.initializeGUIPages();
+        DiscordLink.initialize();
+        TabList.initialize();
+        Kits.initialize();
+        TimedTasks.initializeTasks();
 
 
-
-            //Register Commands
-            //--Staff Commands
-            getCommand("test").setExecutor(new TestCommand());
-            getCommand("test2").setExecutor(new Test2Command());
-            getCommand("modifystats").setExecutor(new ModifyStatsCommand());
-            getCommand("setplayerrank").setExecutor(new SetPlayerRankCommand());
-            getCommand("setstaffrank").setExecutor(new SetStaffRankCommand());
-            getCommand("addchattag").setExecutor(new AddPlayerChatTagCommand());
-            getCommand("addallchattags").setExecutor(new AddAllPlayerChatTagsCommand());
-            getCommand("removechattag").setExecutor(new RemovePlayerChatTagCommand());
-            getCommand("enderchestsee").setExecutor(new EnderChestSeeCommand());
-            getCommand("renameitem").setExecutor(new RenameItemCommand());
-            getCommand("schedulerestart").setExecutor(new ScheduleRestartCommand());
-            getCommand("schedulestop").setExecutor(new ScheduleStopCommand());
-            getCommand("broadcast").setExecutor(new BroadcastMessageCommand());
-            getCommand("keyall").setExecutor(new KeyallCommand());
-            getCommand("customitems").setExecutor(new CustomItemsCommand());
-            getCommand("updateleaderboards").setExecutor(new UpdateLeaderboardsCommand());
-            getCommand("refill").setExecutor(new RefillCommand());
-            getCommand("listplayerrank").setExecutor(new ListPlayerRankCommand());
-            getCommand("liststaffrank").setExecutor(new ListStaffRankCommand());
-            getCommand("addpickaxexp").setExecutor(new AddPickaxeXPCommand());
-            getCommand("addpickaxeblocksmined").setExecutor(new AddPickaxeBlocksMinedCommand());
-            getCommand("exemptfromleaderboards").setExecutor(new ExemptFromLeaderboardsCommand());
-            getCommand("givevote").setExecutor(new GiveVoteCommand());
-            getCommand("watchmessages").setExecutor(new MessageSpyCommand());
-            getCommand("debug").setExecutor(new DebugCommand());
-            getCommand("reload-config").setExecutor(new ReloadConfigCommand());
-            //--Normal Commands
-            getCommand("rules").setExecutor(new RulesCommand());
-            getCommand("multiplier").setExecutor(new MultiplierCommand());
-            getCommand("trash").setExecutor(new TrashCommand());
-            getCommand("reply").setExecutor(new ReplyCommand());
-            getCommand("message").setExecutor(new MessageCommand());
-            getCommand("backpack").setExecutor(new BackpackCommand());
-            getCommand("shards").setExecutor(new ShardsCommand());
-            getCommand("tokens").setExecutor(new TokensCommand());
-            getCommand("balance").setExecutor(new BalanceCommand());
-            getCommand("island").setExecutor(new IslandCommand());
-            getCommand("dailyrewards").setExecutor(new DailyRewardsCommand());
-            getCommand("enchant").setExecutor(new EnchantCommand());
-            getCommand("reclaim").setExecutor(new ReclaimCommand());
-            getCommand("dropitem").setExecutor(new DropItemCommand());
-            getCommand("pay").setExecutor(new PayCommand());
-            getCommand("withdraw").setExecutor(new WithdrawCommand());
-            getCommand("nickname").setExecutor(new NicknameCommand());
-            getCommand("votes").setExecutor(new VotesCommand());
-            getCommand("crates").setExecutor(new CratesCommand());
-            getCommand("leaderboards").setExecutor(new LeaderboardsCommand());
-            getCommand("fly").setExecutor(new FlyCommand());
-            getCommand("store").setExecutor(new StoreCommand());
-            getCommand("mines").setExecutor(new MinesCommand());
-            getCommand("warps").setExecutor(new WarpsCommand());
-            getCommand("spawn").setExecutor(new SpawnCommand());
-            getCommand("coinflip").setExecutor(new CoinFlipCommand());
-            getCommand("tokenflip").setExecutor(new TokenFlipCommand());
-            getCommand("discord").setExecutor(new DiscordCommand());
-            getCommand("stats").setExecutor(new StatsCommand());
-            getCommand("color").setExecutor(new ColorCommand());
-            getCommand("mobilesupport").setExecutor(new MobileSupportCommand());
-            getCommand("privatemine").setExecutor(new PrivateMineCommand());
-            getCommand("auctionhouse").setExecutor(new AuctionHouseCommand());
-            getCommand("prestige").setExecutor(new PrestigeCommand());
-            getCommand("enderchest").setExecutor(new EnderChestCommand());
-            getCommand("chattags").setExecutor(new ChatTagsCommand());
-            getCommand("settings").setExecutor(new SettingsCommand());
-            getCommand("getnewpickaxe").setExecutor(new GetNewPickaxeCommand());
-            getCommand("sell").setExecutor(new SellCommand());
-            getCommand("rankup").setExecutor(new RankUpCommand());
-            getCommand("rankupmax").setExecutor(new RankUpMaxCommand());
-            getCommand("gui").setExecutor(new GUICommand());
-            getCommand("npcdiag").setExecutor(new NPCDialogCommand());
-            //Tab completion
-            getCommand("island").setTabCompleter(new IslandTabCompletion());
-            //Register Events
-            getServer().getPluginManager().registerEvents(new EventListener(), main);
-            getServer().getPluginManager().registerEvents(new GUIListener(), main);
-            getServer().getPluginManager().registerEvents(new Events(), main);
-            getCommand("_").setExecutor(new VoteStoreListener());
-
-            //Say that the server has loaded and allow players to join
-            hasLoaded = true;
-        }, 20);
+        //Register Commands
+        //--Staff Commands
+        getCommand("test").setExecutor(new TestCommand());
+        getCommand("test2").setExecutor(new Test2Command());
+        getCommand("modifystats").setExecutor(new ModifyStatsCommand());
+        getCommand("setplayerrank").setExecutor(new SetPlayerRankCommand());
+        getCommand("setstaffrank").setExecutor(new SetStaffRankCommand());
+        getCommand("addchattag").setExecutor(new AddPlayerChatTagCommand());
+        getCommand("addallchattags").setExecutor(new AddAllPlayerChatTagsCommand());
+        getCommand("removechattag").setExecutor(new RemovePlayerChatTagCommand());
+        getCommand("enderchestsee").setExecutor(new EnderChestSeeCommand());
+        getCommand("renameitem").setExecutor(new RenameItemCommand());
+        getCommand("schedulerestart").setExecutor(new ScheduleRestartCommand());
+        getCommand("schedulestop").setExecutor(new ScheduleStopCommand());
+        getCommand("broadcast").setExecutor(new BroadcastMessageCommand());
+        getCommand("keyall").setExecutor(new KeyallCommand());
+        getCommand("customitems").setExecutor(new CustomItemsCommand());
+        getCommand("updateleaderboards").setExecutor(new UpdateLeaderboardsCommand());
+        getCommand("refill").setExecutor(new RefillCommand());
+        getCommand("listplayerrank").setExecutor(new ListPlayerRankCommand());
+        getCommand("liststaffrank").setExecutor(new ListStaffRankCommand());
+        getCommand("addpickaxexp").setExecutor(new AddPickaxeXPCommand());
+        getCommand("addpickaxeblocksmined").setExecutor(new AddPickaxeBlocksMinedCommand());
+        getCommand("exemptfromleaderboards").setExecutor(new ExemptFromLeaderboardsCommand());
+        getCommand("givevote").setExecutor(new GiveVoteCommand());
+        getCommand("watchmessages").setExecutor(new MessageSpyCommand());
+        getCommand("debug").setExecutor(new DebugCommand());
+        getCommand("reload-config").setExecutor(new ReloadConfigCommand());
+        //--Normal Commands
+        getCommand("rules").setExecutor(new RulesCommand());
+        getCommand("multiplier").setExecutor(new MultiplierCommand());
+        getCommand("trash").setExecutor(new TrashCommand());
+        getCommand("reply").setExecutor(new ReplyCommand());
+        getCommand("message").setExecutor(new MessageCommand());
+        getCommand("backpack").setExecutor(new BackpackCommand());
+        getCommand("shards").setExecutor(new ShardsCommand());
+        getCommand("tokens").setExecutor(new TokensCommand());
+        getCommand("balance").setExecutor(new BalanceCommand());
+        getCommand("island").setExecutor(new IslandCommand());
+        getCommand("dailyrewards").setExecutor(new DailyRewardsCommand());
+        getCommand("enchant").setExecutor(new EnchantCommand());
+        getCommand("reclaim").setExecutor(new ReclaimCommand());
+        getCommand("dropitem").setExecutor(new DropItemCommand());
+        getCommand("pay").setExecutor(new PayCommand());
+        getCommand("withdraw").setExecutor(new WithdrawCommand());
+        getCommand("nickname").setExecutor(new NicknameCommand());
+        getCommand("votes").setExecutor(new VotesCommand());
+        getCommand("crates").setExecutor(new CratesCommand());
+        getCommand("leaderboards").setExecutor(new LeaderboardsCommand());
+        getCommand("fly").setExecutor(new FlyCommand());
+        getCommand("store").setExecutor(new StoreCommand());
+        getCommand("mines").setExecutor(new MinesCommand());
+        getCommand("warps").setExecutor(new WarpsCommand());
+        getCommand("spawn").setExecutor(new SpawnCommand());
+        getCommand("coinflip").setExecutor(new CoinFlipCommand());
+        getCommand("tokenflip").setExecutor(new TokenFlipCommand());
+        getCommand("discord").setExecutor(new DiscordCommand());
+        getCommand("stats").setExecutor(new StatsCommand());
+        getCommand("color").setExecutor(new ColorCommand());
+        getCommand("mobilesupport").setExecutor(new MobileSupportCommand());
+        getCommand("privatemine").setExecutor(new PrivateMineCommand());
+        getCommand("auctionhouse").setExecutor(new AuctionHouseCommand());
+        getCommand("prestige").setExecutor(new PrestigeCommand());
+        getCommand("enderchest").setExecutor(new EnderChestCommand());
+        getCommand("chattags").setExecutor(new ChatTagsCommand());
+        getCommand("settings").setExecutor(new SettingsCommand());
+        getCommand("getnewpickaxe").setExecutor(new GetNewPickaxeCommand());
+        getCommand("sell").setExecutor(new SellCommand());
+        getCommand("rankup").setExecutor(new RankUpCommand());
+        getCommand("rankupmax").setExecutor(new RankUpMaxCommand());
+        getCommand("gui").setExecutor(new GUICommand());
+        getCommand("npcdiag").setExecutor(new NPCDialogCommand());
+        //Tab completion
+        getCommand("island").setTabCompleter(new IslandTabCompletion());
+        //Register Events
+        getServer().getPluginManager().registerEvents(new EventListener(), main);
+        getServer().getPluginManager().registerEvents(new GUIListener(), main);
+        getServer().getPluginManager().registerEvents(new Events(), main);
+        getCommand("_").setExecutor(new VoteStoreListener());
     }
 
 
     @Override
     public void onDisable() {
-        DataWriter.saveDataSync();
-        AuctionHouseManager.saveAllAuctions();
+        DataSet.saveDataSync();
+        //AuctionHouseManager.saveAllAuctions();
         PrisonPickaxe.dumpStatsToAllPickaxe();
     }
     static void unloadNetherAndEnd() {
@@ -200,6 +174,7 @@ public final class Main extends JavaPlugin implements Listener {
             }
         }
 
+        /*
         //Load enchants
         PrisonEnchant enchant;
         enchant = new PrisonEnchant("fortune", config.getInt("enchants.fortune.maxLevel"), new BigInteger(config.getString("enchants.fortune.price")));
@@ -258,6 +233,8 @@ public final class Main extends JavaPlugin implements Listener {
         enchant.DISPLAY_NAME = config.getString("enchants.nightVision.displayName");
         enchant.DESCRIPTION = config.getStringList("enchants.nightVision.description");
         PrisonEnchants.NIGHT_VISION = enchant;
+
+         */
 
         //Load prestige mine requirements
         for (int i = 0; i < 15; i++) StaticVars.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));

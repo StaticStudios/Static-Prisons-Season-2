@@ -1,6 +1,6 @@
 package me.staticstudios.prisons.commands;
 
-import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.misc.Warps;
 import me.staticstudios.prisons.utils.StaticVars;

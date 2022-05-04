@@ -1,6 +1,6 @@
 package me.staticstudios.prisons.gui.menus;
 
-import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.gui.GUIPage;
 import org.bukkit.ChatColor;

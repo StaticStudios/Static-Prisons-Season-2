@@ -1,14 +1,13 @@
 package me.staticstudios.prisons.misc;
 
 import me.staticstudios.prisons.Main;
-import me.staticstudios.prisons.enchants.ConsistencyEnchant;
-import me.staticstudios.prisons.enchants.PrisonPickaxe;
+import me.staticstudios.prisons.enchants.handler.ConsistencyEnchant;
+import me.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import me.staticstudios.prisons.external.DiscordLink;
 import me.staticstudios.prisons.UI.PlayerUI;
-import me.staticstudios.prisons.auctionHouse.AuctionHouseManager;
-import me.staticstudios.prisons.data.dataHandling.DataWriter;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.enchants.EnchantEffects;
+import me.staticstudios.prisons.newData.dataHandling.DataSet;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
+import me.staticstudios.prisons.enchants.handler.EnchantEffects;
 import me.staticstudios.prisons.events.EventManager;
 import me.staticstudios.prisons.leaderboards.LeaderboardManager;
 import me.staticstudios.prisons.mines.MineManager;
@@ -27,7 +26,7 @@ public class TimedTasks {
 
     public static void initializeTasks() {
         //Auto saves data
-        Bukkit.getScheduler().runTaskTimer(Main.getMain(), DataWriter::saveData, 0, 20 * 60 * 5);
+        Bukkit.getScheduler().runTaskTimer(Main.getMain(), DataSet::saveData, 0, 20 * 60 * 5);
         //Update the bots status
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), DiscordLink::updatePlayerCount, 200, 200);
         //Manages mine refills
@@ -62,7 +61,7 @@ public class TimedTasks {
             }
         }, 0, 20 * 60 * 30);
         //Update Expired Auctions
-        Bukkit.getScheduler().runTaskTimer(Main.getMain(), AuctionHouseManager::expireAllExpiredAuctions, 120, 2);
+        //Bukkit.getScheduler().runTaskTimer(Main.getMain(), AuctionHouseManager::expireAllExpiredAuctions, 120, 2);
         //Give everyone with potion enchants their effect(s)
         Bukkit.getScheduler().runTaskTimer(Main.getMain(), EnchantEffects::giveEffects, 10, 400);
         //Update all of the leaderboards

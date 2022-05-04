@@ -1,7 +1,7 @@
 package me.staticstudios.prisons.commands;
 
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
 import me.staticstudios.prisons.utils.CommandUtils;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
@@ -29,8 +29,8 @@ public class PayCommand implements CommandExecutor {
         Player p = null;
         String whoToPayName;
         if (Bukkit.getPlayer(args[0]) == null) {
-            if (new ServerData().getPlayerNamesToUUIDsMap().containsKey(args[0])) {
-                whoToPay = new PlayerData(new ServerData().getPlayerUUIDFromName(args[0]));
+            if (ServerData.PLAYERS.getAllNamesLowercase().contains(args[0].toLowerCase())) {
+                whoToPay = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args[0]));
                 whoToPayName = args[0];
             } else {
                 player.sendMessage(ChatColor.RED + "Could not find \"" + args[0] + "\", are they online?");

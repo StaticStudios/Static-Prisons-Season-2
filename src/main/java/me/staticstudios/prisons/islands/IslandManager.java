@@ -4,7 +4,7 @@ import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 
@@ -36,9 +36,8 @@ public class IslandManager {
      * @return the x and z coordinates of the center of the grid position
      */
     public static int createNewIslandOnGrid() {
-        ServerData serverData = new ServerData();
-        serverData.setAmountOfIslands(serverData.getAmountOfIslands() + 1);
-        return serverData.getAmountOfIslands();
+        ServerData.ISLANDS.setAmountOfIslandsOnGrid(ServerData.ISLANDS.getAmountOfIslandsOnGrid() + 1);
+        return ServerData.ISLANDS.getAmountOfIslandsOnGrid();
     }
     public static int[] getPosOfIslandOnGrid(int pos) {
         int[] positions = getGridPos(pos);

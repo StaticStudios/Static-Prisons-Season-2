@@ -1,7 +1,6 @@
 package me.staticstudios.prisons.utils;
 
-import me.staticstudios.prisons.enchants.CustomEnchants;
-import me.staticstudios.prisons.enchants.PrisonEnchant;
+import me.staticstudios.prisons.enchants.handler.PrisonEnchant;
 import me.staticstudios.prisons.gui.GUI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

@@ -1,8 +1,8 @@
 package me.staticstudios.prisons.commands.vote_store;
 
 import me.staticstudios.prisons.customItems.CustomItems;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
 import me.staticstudios.prisons.utils.StaticVars;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
@@ -14,9 +14,9 @@ import java.time.Instant;
 
 public class VoteParty {
     public static void addVoteToVoteParty() {
-        new ServerData().setVoteParty(new ServerData().getVoteParty() + 1);
-        if (new ServerData().getVoteParty() >= StaticVars.VOTES_NEEDED_FOR_VOTE_PARTY) {
-            new ServerData().setVoteParty(0);
+        ServerData.SERVER.setVoteParty(ServerData.SERVER.getVoteParty());
+        if (ServerData.SERVER.getVoteParty() >= StaticVars.VOTES_NEEDED_FOR_VOTE_PARTY) {
+            ServerData.SERVER.setVoteParty(0);
             for (Player p : Bukkit.getOnlinePlayers()) {
                 PlayerData playerData = new PlayerData(p);
                 if (playerData.getLastVotedAt() > Instant.now().toEpochMilli() - 24 * 60 * 60 * 1000) {

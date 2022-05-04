@@ -1,11 +1,11 @@
 package me.staticstudios.prisons.commands;
 
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.islands.IslandManager;
 import me.staticstudios.prisons.islands.SkyBlockIsland;
 import me.staticstudios.prisons.islands.invites.SkyblockIslandInviteManager;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
 import me.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -37,11 +37,11 @@ public class IslandCommand implements CommandExecutor {
                     player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/visit <cell name to visit>"));
                     return false;
                 }
-                if (!new ServerData().getSkyblockIslandNamesToUUIDsMap().keySet().contains(args[1])) {
+                if (!ServerData.ISLANDS.getAllNamesLowercase().contains(args[1].toLowerCase())) {
                     player.sendMessage(ChatColor.RED + "Could not find and island with the name " + ChatColor.AQUA + args[1]);
                     return false;
                 }
-                island = new SkyBlockIsland(new ServerData().getIslandUUIDFromName(args[1]));
+                island = new SkyBlockIsland(ServerData.ISLANDS.getUUIDIgnoreCase(args[1]));
                 if (!island.getAllowVisitors()) {
                     player.sendMessage(ChatColor.RED + "This cell does not allow warping!");
                     return false;
@@ -124,7 +124,7 @@ public class IslandCommand implements CommandExecutor {
                 }
                 StringBuilder response = new StringBuilder(ChatColor.RED + "The following users are banned from your cell: \n");
                 for (String uuid : island.getBannedPlayerUUIDS()) {
-                    response.append(ChatColor.GREEN).append(new ServerData().getPlayerNameFromUUID(uuid)).append("\n");
+                    response.append(ChatColor.GREEN).append(ServerData.PLAYERS.getName(UUID.fromString(uuid))).append("\n");
                 }
                 player.sendMessage(response.toString());
             }
@@ -146,7 +146,7 @@ public class IslandCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "Your cell is already named " + ChatColor.AQUA + island.getIslandName());
                     return false;
                 }
-                if (new ServerData().getSkyblockIslandNamesToUUIDsMap().keySet().contains(args[1])) {
+                if (ServerData.ISLANDS.getAllNamesLowercase().contains(args[1].toLowerCase())) {
                     player.sendMessage(ChatColor.RED + "A cell with this name already exists!");
                     return false;
                 }
@@ -169,27 +169,22 @@ public class IslandCommand implements CommandExecutor {
                     island = playerData.getPlayerIsland();
 
                 } else {
-                    if (!new ServerData().getSkyblockIslandNamesToUUIDsMap().keySet().contains(args[1])) {
-                        if (new ServerData().getSkyblockIslandUUIDsToNamesMap().containsKey(args[1])) {
-                            island = new SkyBlockIsland(args[1]);
-                        } else {
-                            player.sendMessage(ChatColor.RED + "Could not find and cell with the name " + ChatColor.AQUA + args[1]);
-                            return false;
-                        }
+                    if (!ServerData.ISLANDS.getAllNamesLowercase().contains(args[1].toLowerCase())) {
+                        player.sendMessage(ChatColor.RED + "Could not find and cell with the name " + ChatColor.AQUA + args[1]);
+                        return false;
                     } else {
-                        island = new SkyBlockIsland(new ServerData().getIslandUUIDFromName(args[1]));
+                        island = new SkyBlockIsland(ServerData.ISLANDS.getUUIDIgnoreCase(args[1]));
                     }
                 }
                 StringBuilder message = new StringBuilder(ChatColor.AQUA + island.getIslandName() + "'s Info:" + "\n");
                 message.append(ChatColor.GRAY).append("------------").append("\n");
                 message.append(ChatColor.LIGHT_PURPLE).append("Members (").append(island.getIslandPlayerUUIDS().size()).append("): ");
-                ServerData serverData = new ServerData();
                 for (int i = 0; i < island.getIslandPlayerUUIDS().size(); i++) {
                     String memberUUID = island.getIslandPlayerUUIDS().get(i);
                     String name;
                     if (Bukkit.getPlayer(UUID.fromString(memberUUID)) == null) {
-                        name = ChatColor.GRAY + serverData.getPlayerNameFromUUID(memberUUID);
-                    } else name = ChatColor.GREEN + serverData.getPlayerNameFromUUID(memberUUID);
+                        name = ChatColor.GRAY + ServerData.PLAYERS.getName(UUID.fromString(memberUUID));
+                    } else name = ChatColor.GREEN + ServerData.PLAYERS.getName(UUID.fromString(memberUUID));
                     message.append(name);
                     if (i + 1 != island.getIslandPlayerUUIDS().size()) {
                         message.append(", ");
@@ -230,7 +225,7 @@ public class IslandCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "You cannot run this command as you do not own/are part of a cell!");
                     return false;
                 }
-                String uuid = new ServerData().getPlayerUUIDFromName(args[1]);
+                String uuid = ServerData.PLAYERS.getUUIDIgnoreCase(args[1]).toString();
                 SkyBlockIsland island = new SkyBlockIsland(playerData.getPlayerIslandUUID());
                 if (!island.getIslandPlayerUUIDS().contains(uuid)) {
                     player.sendMessage(ChatColor.RED + "This user is not a part of your cell!");
@@ -264,7 +259,7 @@ public class IslandCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "You cannot run this command as you do not own/are part of a cell!");
                     return false;
                 }
-                String uuid = new ServerData().getPlayerUUIDFromName(args[1]);
+                String uuid = ServerData.PLAYERS.getUUIDIgnoreCase(args[1]).toString();
                 SkyBlockIsland island = new SkyBlockIsland(playerData.getPlayerIslandUUID());
                 if (island.getIslandManagerUUID().equals(player.getUniqueId().toString()) || island.getIslandOwnerUUID().equals(player.getUniqueId().toString())) {
                     if (island.getIslandManagerUUID().equals(uuid)) {
@@ -294,11 +289,11 @@ public class IslandCommand implements CommandExecutor {
                 }
                 SkyBlockIsland island = new SkyBlockIsland(playerData.getPlayerIslandUUID());
                 if (island.getIslandManagerUUID().equals(player.getUniqueId().toString()) || island.getIslandOwnerUUID().equals(player.getUniqueId().toString())) {
-                    if (!new ServerData().getPlayerNamesToUUIDsMap().keySet().contains(args[1])) {
+                    if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[1])) {
                         player.sendMessage(ChatColor.RED + "Could not find the player specified!");
                         return false;
                     }
-                    String uuid = new ServerData().getPlayerUUIDFromName(args[1]);
+                    String uuid = ServerData.PLAYERS.getUUIDIgnoreCase(args[1]).toString();
                     if (island.getBannedPlayerUUIDS().contains(uuid)) {
                         island.removeBannedPlayerUUID(uuid);
                         player.sendMessage(ChatColor.AQUA + args[1] + ChatColor.GREEN + " has been unbanned from your cell!");

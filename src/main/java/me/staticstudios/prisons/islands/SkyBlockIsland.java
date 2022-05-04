@@ -14,12 +14,12 @@ import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import io.papermc.lib.PaperLib;
 import me.staticstudios.prisons.Main;
-import me.staticstudios.prisons.data.serverData.IslandData;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.IslandData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.islands.invites.IslandInvites;
 import me.staticstudios.prisons.islands.invites.SkyblockIslandInviteManager;
 import me.staticstudios.prisons.misc.Warps;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -35,6 +35,10 @@ public class SkyBlockIsland extends IslandData {
     public SkyBlockIsland(String uuid) {
         super(uuid);
         this.uuid = uuid;
+    }
+    public SkyBlockIsland(UUID uuid) {
+        super(uuid);
+        this.uuid = uuid.toString();
     }
     public void teleportPlayerToMemberWarp(Player player) {
         PaperLib.teleportAsync(player, new Location(Bukkit.getWorld("islands"), getIslandMemberWarpX(), getIslandMemberWarpY(), getIslandMemberWarpZ()));
@@ -56,7 +60,7 @@ public class SkyBlockIsland extends IslandData {
         IslandInvites invites = SkyblockIslandInviteManager.getIslandInvites(player.getUniqueId().toString());
         for (String uuid : island.getIslandPlayerUUIDS()) {
             if (Bukkit.getPlayer(UUID.fromString(uuid)) == null) continue;
-            Bukkit.getPlayer(UUID.fromString(uuid)).sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.WHITE + " joined your cell! They were invited by: " + ChatColor.AQUA + new ServerData().getPlayerNameFromUUID(invites.invites.get(getUUID()).inviterUUID));
+            Bukkit.getPlayer(UUID.fromString(uuid)).sendMessage(ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.WHITE + " joined your cell! They were invited by: " + ChatColor.AQUA + ServerData.PLAYERS.getUUID(invites.invites.get(getUUID()).inviterUUID));
         }
         island.addIslandPlayerUUID(player.getUniqueId().toString());
         island.addIslandMemberUUID(player.getUniqueId().toString());
@@ -77,7 +81,7 @@ public class SkyBlockIsland extends IslandData {
     public void playerKicked(Player kicker, UUID uuid) {
        playerRemoved(uuid);
         for (String _uuid : getIslandPlayerUUIDS()) {
-            if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.LIGHT_PURPLE + new ServerData().getPlayerNameFromUUID(uuid.toString()) + ChatColor.WHITE + " has been kicked from your cell");
+            if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.LIGHT_PURPLE + ServerData.PLAYERS.getName(uuid) + ChatColor.WHITE + " has been kicked from your cell");
         }
 
     }
@@ -85,7 +89,7 @@ public class SkyBlockIsland extends IslandData {
         playerRemoved(uuid);
         addBannedPlayerUUID(uuid.toString());
         for (String _uuid : getIslandPlayerUUIDS()) {
-            if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.LIGHT_PURPLE + new ServerData().getPlayerNameFromUUID(uuid.toString()) + ChatColor.WHITE + " has been banned from your cell");
+            if (Bukkit.getPlayer(UUID.fromString(_uuid)) != null) Bukkit.getPlayer(UUID.fromString(_uuid)).sendMessage(ChatColor.LIGHT_PURPLE + ServerData.PLAYERS.getName(uuid) + ChatColor.WHITE + " has been banned from your cell");
         }
     }
     public void delete() {
@@ -96,10 +100,8 @@ public class SkyBlockIsland extends IslandData {
             }
         }
         //All players have been kicked from the island, delete the island from the DB
-        Bukkit.getLogger().log(Level.INFO, "Deleted an island with the ID: " + getUUID() + " | Owner: " + getIslandOwnerUUID() + " (" + new ServerData().getPlayerNameFromUUID(getIslandOwnerUUID()) + ")");
-        new ServerData().removeSkyblockIslandNameToUUID(getIslandName());
-        new ServerData().removeSkyblockIslandUUIDToName(getUUID());
-        new ServerData().removeSkyblockIslandFromUUID(getUUID());
+        Bukkit.getLogger().log(Level.INFO, "Deleted an island with the ID: " + getUUID() + " | Owner: " + getIslandOwnerUUID() + " (" + ServerData.PLAYERS.getName(UUID.fromString(getIslandOwnerUUID())) + ")");
+        ServerData.ISLANDS.delete(UUID.fromString(getUUID()));
         WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld("islands"))).removeRegion(getUUID() + "-island");
     }
     void playerRemoved(UUID uuid) {
@@ -155,14 +157,14 @@ public class SkyBlockIsland extends IslandData {
         island.setAllowVisitors(true);
         island.setIslandOwnerUUID(islandOwnerUUID);
         island.addIslandPlayerUUID(islandOwnerUUID);
-        String originalName = new ServerData().getPlayerNameFromUUID(islandOwnerUUID) + "'s_Island";
+        String originalName = ServerData.PLAYERS.getName(UUID.fromString(islandOwnerUUID)) + "'s_Island";
         String name;
         int i = 1;
         while(true) {
-            if (new ServerData().getSkyblockIslandNamesToUUIDsMap().containsKey(originalName)) {
+            if (ServerData.ISLANDS.getAllNames().contains(originalName)) {
                 name = originalName + "(" + i + ")";
                 i++;
-                if (!new ServerData().getSkyblockIslandNamesToUUIDsMap().containsKey(name)) {
+                if (!ServerData.ISLANDS.getAllNames().contains(name)) {
                     break;
                 }
             } else {
@@ -171,8 +173,8 @@ public class SkyBlockIsland extends IslandData {
             }
         }
         island.setIslandName(name);
-        new ServerData().putSkyblockIslandNameToUUID(name, uuid);
-        new ServerData().putSkyblockIslandUUIDToName(uuid, name);
+        ServerData.ISLANDS.putNameToUUID(name, UUID.fromString(uuid));
+        ServerData.ISLANDS.putUUIDToName(UUID.fromString(uuid), name);
         PlayerData playerData = new PlayerData(islandOwnerUUID);
         playerData.setIfPlayerHasIsland(true);
         playerData.setPlayerIslandUUID(island.getUUID());

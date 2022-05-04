@@ -23,7 +23,7 @@ public class AuctionHouseCommand implements CommandExecutor {
         if (args[0].equalsIgnoreCase("hand")) {
             try {
                 BigInteger price = new BigInteger(args[1]);
-                AuctionHouseManager.createAuction(player, player.getInventory().getItemInMainHand(), price);
+                //AuctionHouseManager.createAuction(player, player.getInventory().getItemInMainHand(), price);
             } catch (NumberFormatException e) {
                 player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/auctionhousse hand <price>"));
             }

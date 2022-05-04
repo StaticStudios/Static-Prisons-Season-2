@@ -1,6 +1,6 @@
 package me.staticstudios.prisons.commands;
 
-import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

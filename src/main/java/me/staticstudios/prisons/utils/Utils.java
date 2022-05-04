@@ -1,10 +1,10 @@
 package me.staticstudios.prisons.utils;
 
 import me.staticstudios.prisons.Main;
-import me.staticstudios.prisons.enchants.CustomEnchants;
-import me.staticstudios.prisons.enchants.PrisonPickaxe;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.enchants.handler.CustomEnchants;
+import me.staticstudios.prisons.enchants.handler.PrisonEnchants;
+import me.staticstudios.prisons.enchants.handler.PrisonPickaxe;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
 import org.bukkit.*;
@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 
 public class Utils {
     private static final Random random = new Random();
+    /*
     public static void checkIfPlayerHasJoinedBefore(Player player) {
         if (!new ServerData().checkIfPlayerHasJoinedBeforeByUUID(player.getUniqueId().toString())) {
             Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + Utils.addCommasToNumber(new ServerData().getPlayerUUIDsToNamesMap().size() + 1) + ")");
@@ -36,6 +37,8 @@ public class Utils {
             playerData.setStaffRank("member");
         }
     }
+
+     */
 
     public static ItemStack getItemInMainHand(Player player) {
         return player.getInventory().getItemInMainHand();
@@ -367,27 +370,19 @@ public class Utils {
 
     public static ItemStack createNewPickaxe() {
         ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
+        PrisonPickaxe pickaxe = new PrisonPickaxe(item);
         ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "pickaxeUUID"), PersistentDataType.STRING, UUID.randomUUID().toString());
-        item.setItemMeta(meta);
-        PrisonPickaxe.setStatOnPickaxe(item, 0L, "level", "Level", "0");
-        PrisonPickaxe.setStatOnPickaxe(item, 0L, "xp", "Experience", "0 / 0");
-        PrisonPickaxe.setStatOnPickaxe(item, 0L, "blocksMined", "Blocks Mined", "0");
-        PrisonPickaxe.setStatOnPickaxe(item, 0L, "blocksBroken", "Blocks Broken", "0");
         meta = item.getItemMeta();
-        List<String> lore = meta.getLore();
-        lore.add(ChatColor.GRAY + "---------------");
-        lore.add("");
-        meta.setLore(lore);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         meta.setUnbreakable(true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addEnchant(Enchantment.DIG_SPEED, 100, true);
         item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 10);
-        CustomEnchants.setEnchantLevel(item, "oreSplitter", 5);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 1);
+        pickaxe.setEnchantsLevel(PrisonEnchants.FORTUNE, 10);
+        pickaxe.setEnchantsLevel(PrisonEnchants.ORE_SPLITTER, 5);
+        pickaxe.setEnchantsLevel(PrisonEnchants.TOKENATOR, 1);
+        PrisonPickaxe.updateLore(item);
         return item;
     }
 

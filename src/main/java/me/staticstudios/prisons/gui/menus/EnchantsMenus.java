@@ -1,10 +1,10 @@
 package me.staticstudios.prisons.gui.menus;
 
 import me.staticstudios.prisons.Main;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.enchants.CustomEnchants;
-import me.staticstudios.prisons.enchants.EnchantEffects;
-import me.staticstudios.prisons.enchants.PrisonEnchants;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
+import me.staticstudios.prisons.enchants.handler.CustomEnchants;
+import me.staticstudios.prisons.enchants.handler.EnchantEffects;
+import me.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import me.staticstudios.prisons.gui.GUI;
 import me.staticstudios.prisons.gui.GUIPage;
 import me.staticstudios.prisons.utils.GUIUtils;
@@ -81,7 +81,8 @@ public class EnchantsMenus {
                     menuItems.add(GUI.createDarkGrayPlaceholderItem());
                 }
                 menuItems.add(GUI.createDarkGrayPlaceholderItem());
-                menuItems.add(GUIUtils.createEnchantGUIItem(identifier, Material.DIAMOND, ChatColor.AQUA + "" + ChatColor.BOLD + PrisonEnchants.FORTUNE.DISPLAY_NAME, PrisonEnchants.FORTUNE, CustomEnchants.getEnchantLevel(pickaxe, "fortune"), playerData.getTokens()));
+                /*
+                //menuItems.add(GUIUtils.createEnchantGUIItem(identifier, Material.DIAMOND, ChatColor.AQUA + "" + ChatColor.BOLD + PrisonEnchants.FORTUNE.DISPLAY_NAME, PrisonEnchants.FORTUNE, CustomEnchants.getEnchantLevel(pickaxe, "fortune"), playerData.getTokens()));
                 menuItems.add(GUIUtils.createEnchantGUIItem(identifier, Material.AMETHYST_SHARD, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + PrisonEnchants.ORE_SPLITTER.DISPLAY_NAME, PrisonEnchants.ORE_SPLITTER, CustomEnchants.getEnchantLevel(pickaxe, "oreSplitter"), playerData.getTokens()));
                 menuItems.add(GUIUtils.createEnchantGUIItem(identifier, Material.SUNFLOWER, ChatColor.YELLOW + "" + ChatColor.BOLD + PrisonEnchants.TOKENATOR.DISPLAY_NAME, PrisonEnchants.TOKENATOR, CustomEnchants.getEnchantLevel(pickaxe, "tokenator"), playerData.getTokens()));
                 menuItems.add(GUIUtils.createEnchantGUIItem(identifier, Material.TRIPWIRE_HOOK, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + PrisonEnchants.KEY_FINDER.DISPLAY_NAME, PrisonEnchants.KEY_FINDER, CustomEnchants.getEnchantLevel(pickaxe, "keyFinder"), playerData.getTokens()));
@@ -112,6 +113,8 @@ public class EnchantsMenus {
                     menuItems.add(GUI.createDarkGrayPlaceholderItem());
                 }
                 menuItems.add(GUI.createLightGrayPlaceholderItem());
+
+                 */
             }
             @Override
             public void item10Clicked(InventoryClickEvent e) {

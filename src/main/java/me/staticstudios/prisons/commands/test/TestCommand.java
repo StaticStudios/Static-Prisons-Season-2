@@ -1,6 +1,8 @@
 package me.staticstudios.prisons.commands.test;
 
 import me.staticstudios.prisons.customItems.CustomItems;
+import me.staticstudios.prisons.enchants.handler.PrisonEnchants;
+import me.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,16 +17,9 @@ public class TestCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             player = (Player) commandSender;
         }
-        /*
-        Location loc = player.getLocation().getBlock().getLocation();
-        loc.add(0.5, 0, 0.5);
-        BaseRobot.spawnRobot(loc, "money", Color.GREEN, ChatColor.GREEN + "Money Miner");
-
-         */
-        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getMineBombTier1());
-        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getMineBombTier2());
-        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getMineBombTier3());
-        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getMineBombTier4());
+        new PrisonPickaxe(player.getInventory().getItemInMainHand());
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).addEnchantLevel(PrisonEnchants.FORTUNE, 1);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).addEnchantLevel(PrisonEnchants.EXPLOSION, PrisonEnchants.EXPLOSION.MAX_LEVEL);
         return false;
     }
 }

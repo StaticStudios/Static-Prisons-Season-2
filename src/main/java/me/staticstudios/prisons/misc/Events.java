@@ -1,6 +1,6 @@
 package me.staticstudios.prisons.misc;
 
-import me.staticstudios.prisons.enchants.EnchantEffects;
+import me.staticstudios.prisons.enchants.handler.EnchantEffects;
 import me.staticstudios.prisons.events.EventManager;
 import me.staticstudios.prisons.islands.special.robots.BaseRobot;
 import me.staticstudios.prisons.chat.CustomChatMessage;

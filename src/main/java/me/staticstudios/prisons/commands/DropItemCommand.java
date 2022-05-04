@@ -1,6 +1,6 @@
 package me.staticstudios.prisons.commands;
 
-import me.staticstudios.prisons.enchants.PrisonPickaxe;
+import me.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

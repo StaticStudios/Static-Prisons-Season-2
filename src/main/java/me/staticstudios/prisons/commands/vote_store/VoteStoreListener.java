@@ -2,8 +2,8 @@ package me.staticstudios.prisons.commands.vote_store;
 
 import me.staticstudios.prisons.customItems.CustomItems;
 import me.staticstudios.prisons.customItems.Vouchers;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
 import me.staticstudios.prisons.chat.ChatTags;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
@@ -28,20 +28,16 @@ public class VoteStoreListener implements CommandExecutor {
         if (args.length < 2) return false;
         switch (args[0].toLowerCase()) {
             case "vote" -> {
-                for (String key: new ServerData().getPlayerNamesToUUIDsMap().keySet()) {
-                    if (key.equalsIgnoreCase(args[1])) {
-                        String uuid = new ServerData().getPlayerUUIDFromName(key);
-                        PlayerData playerData = new PlayerData(uuid);
-                        playerData.addVotes(BigInteger.ONE);
-                        playerData.setLastVotedAt(Instant.now().toEpochMilli());
-                        Player player = Bukkit.getPlayer(UUID.fromString(uuid));
-                        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getVoteCrateKey(1));
-                        for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(ChatColor.AQUA + player.getName() + ChatColor.WHITE + " voted for the server with " + ChatColor.GREEN + "/vote");
-                        player.sendMessage(ChatColor.AQUA + "You have received 1x Vote Key!");
-                        VoteParty.addVoteToVoteParty();
-                        return true;
-                    }
-                }
+                UUID uuid = ServerData.PLAYERS.getUUIDIgnoreCase(args[1]);
+                PlayerData playerData = new PlayerData(uuid);
+                playerData.addVotes(BigInteger.ONE);
+                playerData.setLastVotedAt(Instant.now().toEpochMilli());
+                Player player = Bukkit.getPlayer(uuid);
+                Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getVoteCrateKey(1));
+                for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(ChatColor.AQUA + player.getName() + ChatColor.WHITE + " voted for the server with " + ChatColor.GREEN + "/vote");
+                player.sendMessage(ChatColor.AQUA + "You have received 1x Vote Key!");
+                VoteParty.addVoteToVoteParty();
+                return true;
             }
             case "tebex" -> {
                 if (args.length < 3) {
@@ -341,7 +337,7 @@ public class VoteStoreListener implements CommandExecutor {
                     }
                 }
                 if (!done && wasRankUpgrade) {
-                    lines.add(playerData.getUUID() + " |?? " + new ServerData().getPlayerNameFromUUID(playerData.getUUID()) + " |?? " + args[1].split("To")[1].toLowerCase());
+                    lines.add(playerData.getUUID() + " |?? " + ServerData.PLAYERS.getName(playerData.getUUID()) + " |?? " + args[1].split("To")[1].toLowerCase());
                 }
                 if (!wasRankUpgrade) {
                     boolean log;
@@ -349,7 +345,7 @@ public class VoteStoreListener implements CommandExecutor {
                         case "warriorPackage", "masterPackage", "mythicPackage", "staticPackage", "staticpPackage" -> log = true;
                         default -> log = args[1].startsWith("tag-");
                     }
-                    if (log) lines.add(playerData.getUUID() + " |?? " + new ServerData().getPlayerNameFromUUID(playerData.getUUID()) + " |?? " + args[1].replaceAll("Package", ""));
+                    if (log) lines.add(playerData.getUUID() + " |?? " + ServerData.PLAYERS.getName(playerData.getUUID()) + " |?? " + args[1].replaceAll("Package", ""));
                 }
                 Utils.writeToAFile("./data/nextReclaim.txt", lines, false);
                 for (Player p : Bukkit.getOnlinePlayers()) {

@@ -1,7 +1,7 @@
 package me.staticstudios.prisons.commands;
 
 import me.staticstudios.prisons.customItems.Vouchers;
-import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

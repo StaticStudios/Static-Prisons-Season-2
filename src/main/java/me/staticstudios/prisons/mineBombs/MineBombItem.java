@@ -1,7 +1,7 @@
 package me.staticstudios.prisons.mineBombs;
 
 import me.staticstudios.prisons.Main;
-import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.mines.MineManager;
 import me.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;

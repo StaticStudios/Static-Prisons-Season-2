@@ -1,7 +1,7 @@
 package me.staticstudios.prisons.UI.scoreboard;
 
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.data.serverData.ServerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.serverData.ServerData;
 import me.staticstudios.prisons.rankup.RankUpPrices;
 import me.staticstudios.prisons.UI.scoreboard.fastBoard.FastBoard;
 import me.staticstudios.prisons.rankup.RankUp;
@@ -140,7 +140,7 @@ public class CustomScoreboard {
                 colorLight + "│ " + colorBase + "Balance: " + colorLight + "$" + Utils.prettyNum(playerData.getMoney()),
                 colorLight + "│ " + colorBase + "Tokens: " + colorLight + "⛃" + Utils.prettyNum(playerData.getTokens()),
                 colorLight + "│ " + colorBase + "Prestige: " + colorLight + Utils.prettyNum(playerData.getPrestige()),
-                colorLight + "│ " + colorBase + "Vote Party: " + colorLight + new ServerData().getVoteParty() + "/" + StaticVars.VOTES_NEEDED_FOR_VOTE_PARTY,
+                colorLight + "│ " + colorBase + "Vote Party: " + colorLight + ServerData.SERVER.getVoteParty() + "/" + StaticVars.VOTES_NEEDED_FOR_VOTE_PARTY,
                 ChatColor.GREEN + "",
                 colorLight + " play.static-studios.net"
         );

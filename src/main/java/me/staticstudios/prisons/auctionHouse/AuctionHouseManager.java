@@ -2,7 +2,7 @@ package me.staticstudios.prisons.auctionHouse;
 
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
-import me.staticstudios.prisons.data.serverData.PlayerData;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.util.*;
 
 public class AuctionHouseManager {
+    /*
     public static LinkedHashMap<UUID, Auction> auctions = new LinkedHashMap<>();
     public static Map<UUID, List<UUID>> playerAuctionUUIDs = new HashMap<>();
     public static Auction createAuction(Player player, ItemStack item, BigInteger price) {
@@ -84,5 +85,7 @@ public class AuctionHouseManager {
             auctions = new LinkedHashMap<>();
         }
     }
+
+     */
 
 }

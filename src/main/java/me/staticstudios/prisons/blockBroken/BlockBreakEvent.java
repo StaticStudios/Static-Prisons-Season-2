@@ -1,31 +1,22 @@
 package me.staticstudios.prisons.blockBroken;
 
-import me.staticstudios.prisons.enchants.ConsistencyEnchant;
-import me.staticstudios.prisons.customItems.CustomItems;
-import me.staticstudios.prisons.data.serverData.PlayerData;
-import me.staticstudios.prisons.enchants.PrisonEnchants;
+import me.staticstudios.prisons.enchants.handler.BaseEnchant;
+import me.staticstudios.prisons.newData.dataHandling.PlayerData;
 import me.staticstudios.prisons.mines.BaseMine;
 import me.staticstudios.prisons.mines.MineManager;
-import me.staticstudios.prisons.enchants.PrisonPickaxe;
-import me.staticstudios.prisons.customItems.Vouchers;
-import me.staticstudios.prisons.mineBombs.MineBomb;
-import me.staticstudios.prisons.utils.Utils;
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
+import me.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
 
 public class BlockBreakEvent {
     public static void onBlockBreak(org.bukkit.event.block.BlockBreakEvent e) {
         Player player = e.getPlayer();
         //Check if the block broken was in a prison mine
         if (!player.getWorld().getName().equals("mines")) return;
+        PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
+        if (pickaxe == null) return;
         //Check if it is in the mine area
         BaseMine mine = MineManager.allMines.get(MineManager.getMineIDFromLocation(player.getLocation()));
         int locX = e.getBlock().getX();
@@ -41,6 +32,19 @@ public class BlockBreakEvent {
         mine.brokeBlocksInMine(1);
 
 
+        PrisonBlockBroken bb = new PrisonBlockBroken(player, playerData, pickaxe, mine, e.getBlock());
+        for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onBlockBreak(bb);
+        //todo finish up the event using all multipliers
+        long totalBlocksBroken = (long) (bb.blocksBroken * bb.blocksBrokenMultiplier);
+        pickaxe.addBlocksBroken(totalBlocksBroken);
+        pickaxe.addRawBlocksBroken(1);
+        pickaxe.addXp((long) (totalBlocksBroken * 2 * bb.xpMultiplier));
+
+        //Put blocks broken in the player's backpack
+        for (Material key : bb.blockTypesBroken.keySet()) playerData.addBackpackAmountOf(key, new BigDecimal(bb.blockTypesBroken.get(key)).multiply(BigDecimal.valueOf(bb.blocksBrokenMultiplier)).toBigInteger());
+        //PrisonPickaxe.updateLore(player.getInventory().getItemInMainHand());
+
+        /*
 
         ItemStack pickaxe = player.getInventory().getItemInMainHand();
         Map<String, Integer> cachedStats = PrisonPickaxe.getCachedEnchants(pickaxe);
@@ -51,15 +55,7 @@ public class BlockBreakEvent {
         blocksBroken.put(e.getBlock().getType(), BigInteger.ONE);
 
 
-        int explosionLevel = cachedStats.get("explosion");
-        if (Utils.randomInt(1, 4500 - (int) (explosionLevel / 3.75)) == 1) { //Explosion
-            if (explosionLevel > 0) {
-                //Enchant should activate
-                int radius = 5 + explosionLevel / 1500;
-                radius += Utils.randomDouble(0, 0.4) * radius;
-                blocksBroken.putAll(new MineBomb(e.getBlock().getLocation(), radius).explode(mine));
-            }
-        }
+
         if (Utils.randomInt(1, 75) == 1) { //Jack Hammer
             int jackHammerLevel = cachedStats.get("jackHammer");
             if (jackHammerLevel > 0) {
@@ -83,63 +79,8 @@ public class BlockBreakEvent {
                 }
             }
         }
-        //Metal Detector
-        if (Utils.randomInt(0, 1750) == 1) {
-            int metalDetectorEnchant = cachedStats.get("metalDetector");
-            if (metalDetectorEnchant > 0) {
-                if (Utils.randomInt(1, PrisonEnchants.METAL_DETECTOR.MAX_LEVEL + PrisonEnchants.METAL_DETECTOR.MAX_LEVEL / 10) <= metalDetectorEnchant + PrisonEnchants.METAL_DETECTOR.MAX_LEVEL / 10) {
-                    //Enchant should activate
-                    ItemStack reward = CustomItems.getCommonCrateKey(1);
-                    switch (Utils.randomInt(0, 3)) {
-                        case 0, 1, 2 -> reward = Vouchers.getMultiplierNote(BigDecimal.valueOf(Utils.randomInt(12, 75)).divide(BigDecimal.valueOf(100)), Utils.randomInt(20, 120));
-                        case 3 -> {
-                            switch (Utils.randomInt(1, 4)) {
-                                case 1 -> reward = CustomItems.getMineBombTier1();
-                                case 2 -> reward = CustomItems.getMineBombTier2();
-                                case 3 -> reward = CustomItems.getMineBombTier3();
-                                case 4 -> reward = CustomItems.getMineBombTier4();
-                            }
-                        }
-                    }
-                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "[Metal Detector] " + ChatColor.AQUA + "You found " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + ChatColor.AQUA + " while mining!");
-                    Utils.addItemToPlayersInventoryAndDropExtra(player, reward);
-                }
-            }
-        }
 
 
-        //Key finder
-        if (Utils.randomInt(0, 2500) == 1) {
-            int keyFinderLevel = cachedStats.get("keyFinder");
-            if (keyFinderLevel > 0) {
-                if (Utils.randomInt(1, PrisonEnchants.KEY_FINDER.MAX_LEVEL + PrisonEnchants.KEY_FINDER.MAX_LEVEL / 10) <= keyFinderLevel + PrisonEnchants.KEY_FINDER.MAX_LEVEL / 10) {
-                    //Enchant should activate
-                    ItemStack reward;
-                    int randomReward = Utils.randomInt(1, 100);
-                    if (randomReward <= 15) {
-                        //15%
-                        reward = CustomItems.getCommonCrateKey(2);
-                    } else if (randomReward <= 45) {
-                        //30%
-                        reward = CustomItems.getRareCrateKey(1);
-                    } else if (randomReward <= 90) {
-                        //45%
-                        reward = CustomItems.getEpicCrateKey(1);
-                    } else if (randomReward <= 95) {
-                        //5%
-                        reward = CustomItems.getLegendaryCrateKey(1);
-                    } else if (randomReward <= 99) {
-                        //4%
-                        reward = CustomItems.getStaticCrateKey(1);
-                    } else {
-                        //1%
-                        reward = CustomItems.getStaticpCrateKey(1);
-                    }
-                    player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "[Key Finder] " + ChatColor.WHITE + "You found " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + ChatColor.WHITE + " while mining!");
-                    Utils.addItemToPlayersInventoryAndDropExtra(player, reward);
-                }
-            }
-        }
         BigInteger totalAmountOfBlocksBroken = BigInteger.ZERO;
         boolean backpackWasFull = playerData.getBackpackIsFull();
         int fortuneMultiplier = cachedStats.get("fortune") + 1;
@@ -196,5 +137,7 @@ public class BlockBreakEvent {
                 player.sendMessage(ChatColor.RED + "Your backpack is full!");
             }
         }
+
+         */
     }
 }
