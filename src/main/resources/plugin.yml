@@ -1,7 +1,7 @@
 name: Static-Prisons
 version: '${project.version}'
 description: This plugin allows static prisons to run!
-main: me.staticstudios.prisons.Main
+main: net.staticstudios.prisons.StaticPrisons
 api-version: 1.18
 depend: [ WorldEdit, WorldGuard, LuckPerms ]
 commands:
@@ -11,6 +11,9 @@ commands:
   test2:
     description: a
     permission: static.staff.developer
+  static-mines:
+    permission: static.staff.admin
+    description: Command to be used by the StaticMines dependency
   setplayerrank:
     description: a
     permission: static.staff.admin
