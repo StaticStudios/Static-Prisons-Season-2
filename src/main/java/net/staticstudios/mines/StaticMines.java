@@ -1,7 +1,7 @@
 package net.staticstudios.mines;
 
 import com.sk89q.worldedit.math.BlockVector3;
-import net.staticstudios.minesapi.events.BlockBrokenInMineEvent;
+import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;

@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.blockBroken;
 
 import net.md_5.bungee.api.ChatColor;
-import net.staticstudios.minesapi.events.BlockBrokenInMineEvent;
+import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;

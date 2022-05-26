@@ -23,6 +23,7 @@ import net.staticstudios.prisons.misc.EventListener;
 import net.staticstudios.prisons.misc.Events;
 import net.staticstudios.prisons.misc.TimedTasks;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
+import net.staticstudios.prisons.newAuctionHouse.AuctionManager;
 import net.staticstudios.prisons.rankup.RankUpPrices;
 import net.staticstudios.prisons.utils.StaticVars;
 import net.luckperms.api.LuckPerms;
@@ -60,6 +61,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         unloadNetherAndEnd();
         //DataWriter.loadData();
         DataSet.loadData();
+        AuctionManager.loadAllAuctions();
         //PrisonEnchants.initialize(); //todo delete soon
         PrisonEnchants.createEnchants();
         PrisonPickaxe.loadPickaxeData();
@@ -71,7 +73,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         DiscordLink.initialize();
         TabList.initialize();
         Kits.initialize();
-        TimedTasks.initializeTasks();
+        TimedTasks.startTasks();
 
 
         //Register Commands
@@ -161,6 +163,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public void onDisable() {
         StaticMines.disable();
         DataSet.saveDataSync();
+        AuctionManager.saveAllAuctionsSync();
         //AuctionHouseManager.saveAllAuctions();
         //PrisonPickaxe.dumpStatsToAllPickaxe();
         PrisonPickaxe.savePickaxeDataNow();

@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -38,6 +39,29 @@ public class Utils {
     }
 
      */
+
+    public static String formatSecondsToTime(long seconds) {
+        int sec = (int) (seconds % 60);
+        int min = (int) (seconds % 3600 / 60);
+        int hour = (int) (seconds % 216000 / 3600);
+        int day = (int) (seconds % 5184000 / 216000);
+        int month = (int) (seconds % 155520000 / 5184000);
+        StringBuilder formatted = new StringBuilder();
+        if (month > 0) formatted.append(month).append(" month(s), ");
+        if (day > 0) formatted.append(day).append(" day(s), ");
+        if (hour > 0) formatted.append(hour).append(" hour(s), ");
+        if (min > 0) formatted.append(min).append(" minute(s), ");
+        formatted.append(sec).append(" second(s)");
+        return formatted.toString();
+    }
+
+    public static ItemStack applyLoreToItem(ItemStack item, List<String> lore) {
+        for (int i = 0; i < lore.size(); i++) lore.set(i, ChatColor.translateAlternateColorCodes('&', lore.get(i)));
+        ItemMeta meta = item.getItemMeta();
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
+    }
 
     public static ItemStack getItemInMainHand(Player player) {
         return player.getInventory().getItemInMainHand();
@@ -410,4 +434,22 @@ public class Utils {
     public static boolean checkIfPlayerCanAutoSell(Player player) {
         return checkIfPlayerCanAutoSell(new PlayerData(player));
     }
+
+    @NotNull
+    public static <T> T getRandomWeightedElement(WeightedElement<T>... weightedElements) {
+        List<T> elements = new ArrayList<>();
+        List<Double> weights = new ArrayList<>();
+        for (WeightedElement<T> weightedElement : weightedElements) elements.add(weightedElement.element);
+        for (WeightedElement<T> weightedElement : weightedElements) weights.add(weightedElement.weight);
+        double totalWeight = 0;
+        for (double weight : weights) totalWeight += weight;
+        double random = Math.random() * totalWeight;
+        double currentWeight = 0;
+        for (int i = 0; i < elements.size(); i++) {
+            currentWeight += weights.get(i);
+            if (random < currentWeight) return elements.get(i);
+        }
+        return elements.get(0);
+    }
+
 }

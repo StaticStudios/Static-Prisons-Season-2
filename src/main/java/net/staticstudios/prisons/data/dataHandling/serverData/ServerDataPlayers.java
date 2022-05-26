@@ -53,7 +53,11 @@ public class ServerDataPlayers extends DataSet {
     }
     public UUID getUUID(String name) { return UUID.fromString(getNamesToUUIDs().get(name)); }
     public String getName(UUID uuid) { return getUUIDsToNames().get(uuid.toString()); }
-    public UUID getUUIDIgnoreCase(String name) { return UUID.fromString(getNamesToUUIDsLowercase().get(name.toLowerCase())); }
+    public UUID getUUIDIgnoreCase(String name) {
+        String str = getNamesToUUIDsLowercase().get(name.toLowerCase());
+        if (str == null) return null;
+        return UUID.fromString(str);
+    }
     public List<String> getAllNames() {
         return new ArrayList<>(getNamesToUUIDs().keySet());
     }

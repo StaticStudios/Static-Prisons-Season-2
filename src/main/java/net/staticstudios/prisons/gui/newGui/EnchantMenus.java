@@ -16,12 +16,11 @@ import java.util.List;
 
 public class EnchantMenus extends GUIUtils {
     public static void selectPickaxe(Player player) {
-        //TODO this and make all commands point to this and enchant effects
         GUICreator c = new GUICreator(36, "Select a pickaxe to enchant");
         int x = 0;
         for (ItemStack item : player.getInventory().getContents()) {
             if (Utils.checkIsPrisonPickaxe(item)) {
-                c.addItem(c.createNormalItem(item, (p, t) -> mainMenu(p, PrisonPickaxe.fromItem(item))));
+                c.addItem(c.createButton(item, (p, t) -> mainMenu(p, PrisonPickaxe.fromItem(item))));
                 x++;
             }
         }
@@ -31,7 +30,6 @@ public class EnchantMenus extends GUIUtils {
     public static void mainMenu(Player player, PrisonPickaxe pickaxe) {
         PlayerData playerData = new PlayerData(player);
         GUICreator c = new GUICreator(45, "Enchants");
-
         c.setItems(
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
@@ -80,6 +78,7 @@ public class EnchantMenus extends GUIUtils {
                 createGrayPlaceHolder()
         );
         c.open(player);
+        //c.setOnCloseRun((p, t) -> MainMenus.open(p));
     }
     //---------- vvv Util methods vvv ----------
     static ItemStack createEnchantButton(PlayerData playerData, PrisonPickaxe pickaxe, BaseEnchant enchant, GUICreator c, Material icon) {
@@ -90,7 +89,7 @@ public class EnchantMenus extends GUIUtils {
         desc.add("&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens()));
         desc.add("");
         desc.add("&bMax Level: &f" + Utils.addCommasToNumber(enchant.MAX_LEVEL));
-        return c.createNormalItem(icon, enchant.DISPLAY_NAME, desc, (p, t) -> {
+        return c.createButton(icon, enchant.DISPLAY_NAME, desc, (p, t) -> {
             GUICreator _c = new GUICreator(9, enchant.DISPLAY_NAME);
             _c.setOnCloseRun((_p, _t) -> mainMenu(p, pickaxe));
             buildMenuContent(_c, p, enchant, pickaxe);
@@ -108,7 +107,7 @@ public class EnchantMenus extends GUIUtils {
         c.setItems(
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                c.createNormalItem(Material.LIME_STAINED_GLASS_PANE, "&aBuy 1 level of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 1 level of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + Utils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
                         "&bUpgrade Cost: &f" + Utils.addCommasToNumber(enchant.PRICE) + " Tokens",
                         "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens()) + " Tokens"
@@ -116,7 +115,7 @@ public class EnchantMenus extends GUIUtils {
                     enchant.tryToBuyLevels(p, pickaxe, 1);
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
-                c.createNormalItem(Material.LIME_STAINED_GLASS_PANE, "&aBuy 10 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 10 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + Utils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
                         "&bUpgrade Cost: &f" + Utils.addCommasToNumber(enchant.PRICE) + " Tokens",
                         "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens()) + " Tokens"
@@ -124,7 +123,7 @@ public class EnchantMenus extends GUIUtils {
                     enchant.tryToBuyLevels(p, pickaxe, 10);
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
-                c.createNormalItem(Material.LIME_STAINED_GLASS_PANE, "&aBuy 100 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 100 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + Utils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
                         "&bUpgrade Cost: &f" + Utils.addCommasToNumber(enchant.PRICE) + " Tokens",
                         "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens()) + " Tokens"
@@ -132,7 +131,7 @@ public class EnchantMenus extends GUIUtils {
                     enchant.tryToBuyLevels(p, pickaxe, 100);
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
-                c.createNormalItem(Material.LIME_STAINED_GLASS_PANE, "&aBuy 1,000 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 1,000 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + Utils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
                         "&bUpgrade Cost: &f" + Utils.addCommasToNumber(enchant.PRICE) + " Tokens",
                         "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens()) + " Tokens"
@@ -140,7 +139,7 @@ public class EnchantMenus extends GUIUtils {
                     enchant.tryToBuyLevels(p, pickaxe, 1000);
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
-                c.createNormalItem(Material.LIME_STAINED_GLASS_PANE, "&aBuy MAX (" + Math.min(enchant.MAX_LEVEL - pickaxe.getEnchantLevel(enchant), playerData.getTokens().divide(enchant.PRICE).intValue()) + ") levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy MAX (" + Math.min(enchant.MAX_LEVEL - pickaxe.getEnchantLevel(enchant), playerData.getTokens().divide(enchant.PRICE).intValue()) + ") levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + Utils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
                         "&bUpgrade Cost: &f" + Utils.addCommasToNumber(enchant.PRICE) + " Tokens",
                         "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens()) + " Tokens"

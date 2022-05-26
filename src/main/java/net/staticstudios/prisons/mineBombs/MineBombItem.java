@@ -21,7 +21,8 @@ public class MineBombItem {
     public static void itemDropped(PlayerDropItemEvent e) {
         //Check if the item was a mine bomb, if so start a timer for it and set the pickup delay to a big number
         if (!e.getPlayer().getLocation().getWorld().equals(StaticVars.MINES_WORLD)) return;
-        if (!e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER)) return;
+        if (!e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER))
+            return;
         e.getItemDrop().setPickupDelay(20 * 10);
         int size = e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER);
         double radius = 0;
@@ -32,7 +33,7 @@ public class MineBombItem {
             case 4 -> radius = 40;
         }
         double finalRadius = radius;
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskLaterAsynchronously(StaticPrisons.getInstance(), () -> {
             PlayerData playerData = new PlayerData(e.getPlayer());
             Location loc = e.getItemDrop().getLocation();
             StaticMine mine = null;
@@ -50,17 +51,22 @@ public class MineBombItem {
             }
             MineBomb bomb = new MineBomb(e.getItemDrop().getLocation(), finalRadius);
             Map<Material, BigInteger> blocksBroken = bomb.explode(mine);
-            mine.removeBlocksBrokenInMine(bomb.blocksChanged);
-            e.getItemDrop().remove();
-            boolean backpackWasFull = playerData.getBackpackIsFull();
-            if (!backpackWasFull) for (Material key : blocksBroken.keySet()) playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(10000)));
-            if (playerData.getBackpackIsFull()) {
-                if (!backpackWasFull) {
-                    if (Utils.checkIfPlayerCanAutoSell(playerData) && playerData.getIsAutoSellEnabled()) playerData.sellBackpack(e.getPlayer(), true);
-                    e.getPlayer().sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpackSize()) + "/" + Utils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
-                    e.getPlayer().sendMessage(ChatColor.RED + "Your backpack is full!");
+            StaticMine finalMine = mine;
+            Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
+                finalMine.removeBlocksBrokenInMine(bomb.blocksChanged);
+                e.getItemDrop().remove();
+                boolean backpackWasFull = playerData.getBackpackIsFull();
+                if (!backpackWasFull) for (Material key : blocksBroken.keySet())
+                    playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(10000)));
+                if (playerData.getBackpackIsFull()) {
+                    if (!backpackWasFull) {
+                        if (Utils.checkIfPlayerCanAutoSell(playerData) && playerData.getIsAutoSellEnabled())
+                            playerData.sellBackpack(e.getPlayer(), true);
+                        e.getPlayer().sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpackSize()) + "/" + Utils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
+                        e.getPlayer().sendMessage(ChatColor.RED + "Your backpack is full!");
+                    }
                 }
-            }
+            });
         }, 20 * 5);
     }
 }

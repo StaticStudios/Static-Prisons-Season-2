@@ -19,15 +19,12 @@ public class WarpMenus extends GUIUtils {
 
     public static void mainMenu(Player player) {
         GUICreator c = new GUICreator(9, "Warps");
-        c.addItem(ench(c.createNormalItem(Material.COMPASS, "&a&lSpawn", List.of("Warp to spawn"), (p, t) -> Warps.warpToSpawn(p))));
-        c.addItem(ench(c.createNormalItem(Material.NETHERITE_PICKAXE, "&e&lMines", List.of("Warp to a mine"), (p, t) -> minesMenuAZ(p))));
-        c.addItem(ench(c.createNormalItem(Material.TRIPWIRE_HOOK, "&b&lCrates", List.of("Warp to crates"), (p, t) -> Warps.warpToCrates(p))));
-        c.addItem(ench(c.createNormalItem(Material.DIAMOND, "&6&lLeaderboards", List.of("Warp to leaderboards"), (p, t) -> Warps.warpToLeaderboards(p))));
-
-        c.setOnCloseRun((p, t) -> {
-            p.sendMessage("make this go back to the main menu -- not done yet");
-        });
+        c.addItem(ench(c.createButton(Material.COMPASS, "&a&lSpawn", List.of("Warp to spawn"), (p, t) -> Warps.warpToSpawn(p))));
+        c.addItem(ench(c.createButton(Material.NETHERITE_PICKAXE, "&e&lMines", List.of("Warp to a mine"), (p, t) -> minesMenuAZ(p))));
+        c.addItem(ench(c.createButton(Material.TRIPWIRE_HOOK, "&b&lCrates", List.of("Warp to crates"), (p, t) -> Warps.warpToCrates(p))));
+        c.addItem(ench(c.createButton(Material.DIAMOND, "&6&lLeaderboards", List.of("Warp to leaderboards"), (p, t) -> Warps.warpToLeaderboards(p))));
         c.open(player);
+        c.setOnCloseRun((p, t) -> MainMenus.open(p));
     }
 
     public static void minesMenuAZ(Player player) {
@@ -216,15 +213,15 @@ public class WarpMenus extends GUIUtils {
                         }, (p, t) -> {
                             Warps.warpToMine(p, 25);
                         }, true),
-                ench(c.createNormalItem(Material.ENCHANTING_TABLE, "&d&lEvent Mine", List.of("&bClick to warp!", "", "&7&o120& Token multiplier!"), (p, t) -> Warps.warEventMine(p))),
+                ench(c.createButton(Material.ENCHANTING_TABLE, "&d&lEvent Mine", List.of("&bClick to warp!", "", "&7&o120& Token multiplier!"), (p, t) -> Warps.warEventMine(p))),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                ench(c.createNormalItem(Material.NETHER_STAR, "&d&lPrestige Mines", List.of("&bClick to view prestige mines", "", "&7&oWarp to a prestige mine"), (p, t) -> {
+                ench(c.createButton(Material.NETHER_STAR, "&d&lPrestige Mines", List.of("&bClick to view prestige mines", "", "&7&oWarp to a prestige mine"), (p, t) -> {
                     minesMenuPrestige(p);
                 })),
                 createGrayPlaceHolder(),
-                ench(c.createNormalItem(Material.BLAZE_POWDER, "&c&lRanked Mines", List.of("&bClick to view ranked mines", "", "&7&oWarp to a ranked mine"), (p, t) -> {
+                ench(c.createButton(Material.BLAZE_POWDER, "&c&lRanked Mines", List.of("&bClick to view ranked mines", "", "&7&oWarp to a ranked mine"), (p, t) -> {
                     minesMenuRanked(p);
                 })),
                 createGrayPlaceHolder(),
@@ -367,11 +364,11 @@ public class WarpMenus extends GUIUtils {
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                ench(c.createNormalItem(Material.COAL, "&a&lNormal Mines (A-Z)", List.of("&bClick to view normal mines", "", "&7&oWarp to a normal mine"), (p, t) -> {
+                ench(c.createButton(Material.COAL, "&a&lNormal Mines (A-Z)", List.of("&bClick to view normal mines", "", "&7&oWarp to a normal mine"), (p, t) -> {
                     minesMenuAZ(p);
                 })),
                 createGrayPlaceHolder(),
-                ench(c.createNormalItem(Material.BLAZE_POWDER, "&c&lRanked Mines", List.of("&bClick to view ranked mines", "", "&7&oWarp to a ranked mine"), (p, t) -> {
+                ench(c.createButton(Material.BLAZE_POWDER, "&c&lRanked Mines", List.of("&bClick to view ranked mines", "", "&7&oWarp to a ranked mine"), (p, t) -> {
                     minesMenuRanked(p);
                 })),
                 createGrayPlaceHolder(),
@@ -432,11 +429,11 @@ public class WarpMenus extends GUIUtils {
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                ench(c.createNormalItem(Material.NETHER_STAR, "&d&lPrestige Mines", List.of("&bClick to view prestige mines", "", "&7&oWarp to a prestige mine"), (p, t) -> {
+                ench(c.createButton(Material.NETHER_STAR, "&d&lPrestige Mines", List.of("&bClick to view prestige mines", "", "&7&oWarp to a prestige mine"), (p, t) -> {
                     minesMenuPrestige(p);
                 })),
                 createGrayPlaceHolder(),
-                ench(c.createNormalItem(Material.COAL, "&a&lNormal Mines (A-Z)", List.of("&bClick to view normal mines", "", "&7&oWarp to a normal mine"), (p, t) -> {
+                ench(c.createButton(Material.COAL, "&a&lNormal Mines (A-Z)", List.of("&bClick to view normal mines", "", "&7&oWarp to a normal mine"), (p, t) -> {
                     minesMenuAZ(p);
                 })),
                 createGrayPlaceHolder(),
@@ -449,8 +446,8 @@ public class WarpMenus extends GUIUtils {
 
 
     private static ItemStack createMineWarp(GUICreator c, boolean unlockCondition, String nameLocked, String nameUnlocked, String[] loreLocked, String[] loreUnlocked, Material matLocked, Material matUnlocked, GUIRunnable callbackLocked, GUIRunnable callbackUnlocked) {
-        if (unlockCondition) return c.createNormalItem(matUnlocked, nameUnlocked, List.of(loreUnlocked), callbackUnlocked);
-        return c.createNormalItem(matLocked, nameLocked, List.of(loreLocked), callbackLocked);
+        if (unlockCondition) return c.createButton(matUnlocked, nameUnlocked, List.of(loreUnlocked), callbackUnlocked);
+        return c.createButton(matLocked, nameLocked, List.of(loreLocked), callbackLocked);
     }
     private static ItemStack createMineWarp(GUICreator c, boolean unlockCondition, String nameLocked, String nameUnlocked, String[] loreLocked, String[] loreUnlocked, Material matLocked, Material matUnlocked, GUIRunnable callbackLocked, GUIRunnable callbackUnlocked, boolean enchantIfUnlocked) {
         ItemStack item = createMineWarp(c, unlockCondition, nameLocked, nameUnlocked, loreLocked, loreUnlocked, matLocked, matUnlocked, callbackLocked, callbackUnlocked);

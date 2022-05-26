@@ -1,7 +1,6 @@
 package net.staticstudios.prisons.gui;
 
-import net.staticstudios.prisons.gui.doneConverting.EnchantsMenus;
-import net.staticstudios.prisons.gui.doneConverting.WarpsMenus;
+import net.staticstudios.prisons.gui.doneConverting.*;
 import net.staticstudios.prisons.gui.menus.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

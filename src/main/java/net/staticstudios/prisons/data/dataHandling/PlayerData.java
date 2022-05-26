@@ -204,9 +204,6 @@ public class PlayerData extends DataSet {
         return multi;
     }
     //Backpack
-    public boolean updateBackpackIsFull() {
-        return getBackpackSize().equals(getBackpackItemCount());
-    }
     public PlayerData setBackpackContents(Map<String, String> value) {
         setMap("backpackContents", value);
         return this;
@@ -230,7 +227,7 @@ public class PlayerData extends DataSet {
         return this;
     }
     public boolean getBackpackIsFull() {
-        return getBoolean("backpackIsFull");
+        return getBackpackSize().equals(getBackpackItemCount());
     }
     public Map<String, String> getBackpackContents() {
         return (Map<String, String>) getMap("backpackContents");

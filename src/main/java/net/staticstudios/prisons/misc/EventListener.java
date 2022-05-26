@@ -147,6 +147,7 @@ public class EventListener implements Listener {
         }
         if (Utils.checkIsPrisonPickaxe(contents[e.getNewSlot()])) {
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(contents[e.getNewSlot()]);
+            //TODO error is being thrown because data is not loading properly
             for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onPickaxeHeld(player, pickaxe);
         }
     }

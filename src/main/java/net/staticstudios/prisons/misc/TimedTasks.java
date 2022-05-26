@@ -11,6 +11,7 @@ import net.staticstudios.prisons.events.EventManager;
 import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
+import net.staticstudios.prisons.newAuctionHouse.AuctionManager;
 import net.staticstudios.prisons.utils.StaticVars;
 import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
@@ -22,9 +23,13 @@ import java.time.Instant;
 
 public class TimedTasks {
 
-    public static void initializeTasks() {
+    public static void startTasks() {
         //Auto saves data
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), DataSet::saveData, 0, 20 * 60 * 5);
+        //Save all auctions
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), AuctionManager::saveAllAuctions, 0, 20 * 60 * 5);
+        //Update Expired Auctions
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), AuctionManager::updateExpiredAuctions, 60, 20 * 10);
         //Update the bots status
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), DiscordLink::updatePlayerCount, 200, 200);
         //Manages mine refills
@@ -56,7 +61,6 @@ public class TimedTasks {
                 if (playerData.getLastVotedAt() < Instant.now().toEpochMilli() - 24 * 60 * 60 * 1000) {
                     p.sendMessage(ChatColor.RED + "You have not voted today! In order to win free rewards from the vote party, vote everyday. You can vote by typing " + ChatColor.GREEN + "/vote");
                     p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "/vote", ChatColor.RED + "" + ChatColor.ITALIC + "You haven't voted today!", 5, 40, 5);
-
                 }
             }
         }, 0, 20 * 60 * 30);
