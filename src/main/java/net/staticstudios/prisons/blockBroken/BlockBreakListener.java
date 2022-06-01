@@ -28,21 +28,27 @@ public class BlockBreakListener implements Listener {
         PlayerData playerData = new PlayerData(player);
         PrisonBlockBroken bb = new PrisonBlockBroken(player, playerData, pickaxe, e.getMine(), e.getBlock());
         for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onBlockBreak(bb);
+        //Event mine
+        if (e.getMine().getID().equals("eventMine")) bb.tokenMultiplier += .2d;
+
         long totalBlocksBroken = (long) (bb.blocksBroken * bb.blocksBrokenMultiplier);
         long tokensFound = (long) (bb.totalTokensGained * bb.tokenMultiplier);
+
+
         if (tokensFound > 0) {
             player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + PrisonUtils.addCommasToNumber(tokensFound) + ChatColor.GRAY + ChatColor.ITALIC + " (Tokenator)");
             playerData.addTokens(BigInteger.valueOf(tokensFound));
         }
+
         pickaxe.addBlocksBroken(totalBlocksBroken);
         pickaxe.addRawBlocksBroken(1);
         pickaxe.addXp((long) (totalBlocksBroken * 2 * bb.xpMultiplier));
+
+
         e.getMine().removeBlocksBrokenInMine(bb.blocksBroken - 1);
 
         boolean backpackWasFull = playerData.getBackpackIsFull();
-        //Put blocks broken in the player's backpack
         for (Material key : bb.blockTypesBroken.keySet()) playerData.addBackpackAmountOf(key, new BigDecimal(bb.blockTypesBroken.get(key)).multiply(BigDecimal.valueOf(bb.blocksBrokenMultiplier)).toBigInteger());
-
         backpackFullCheck(backpackWasFull, player, playerData);
     }
 

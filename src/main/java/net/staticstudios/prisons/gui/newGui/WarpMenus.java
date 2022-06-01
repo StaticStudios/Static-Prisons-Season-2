@@ -244,7 +244,7 @@ public class WarpMenus extends GUIUtils {
                         Material.COAL_BLOCK, Material.COAL_BLOCK, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 0);
+                            Warps.warpToPrestigeMine(p, 0);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[1])) > -1, "&c&lPrestige Mine #2", "&d&lPrestige Mine #2",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[1]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 69x98x69"},
@@ -252,7 +252,7 @@ public class WarpMenus extends GUIUtils {
                         Material.IRON_BLOCK, Material.IRON_BLOCK, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 1);
+                            Warps.warpToPrestigeMine(p, 1);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[2])) > -1, "&c&lPrestige Mine #3", "&d&lPrestige Mine #3",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[2]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 69x98x69"},
@@ -260,7 +260,7 @@ public class WarpMenus extends GUIUtils {
                         Material.GOLD_BLOCK, Material.GOLD_BLOCK, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 2);
+                            Warps.warpToPrestigeMine(p, 2);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[3])) > -1, "&c&lPrestige Mine #4", "&d&lPrestige Mine #4",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[3]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 69x98x69"},
@@ -268,7 +268,7 @@ public class WarpMenus extends GUIUtils {
                         Material.LAPIS_BLOCK, Material.LAPIS_BLOCK, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 3);
+                            Warps.warpToPrestigeMine(p, 3);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[4])) > -1, "&c&lPrestige Mine #5", "&d&lPrestige Mine #5",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[4]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 69x98x69"},
@@ -276,7 +276,7 @@ public class WarpMenus extends GUIUtils {
                         Material.REDSTONE_BLOCK, Material.REDSTONE_BLOCK, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 4);
+                            Warps.warpToPrestigeMine(p, 4);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[5])) > -1, "&c&lPrestige Mine #6", "&d&lPrestige Mine #6",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[5]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 89x98x89"},
@@ -284,7 +284,7 @@ public class WarpMenus extends GUIUtils {
                         Material.DIAMOND_BLOCK, Material.DIAMOND_BLOCK, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 5);
+                            Warps.warpToPrestigeMine(p, 5);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[6])) > -1, "&c&lPrestige Mine #7", "&d&lPrestige Mine #7",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[6]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 89x98x89"},
@@ -292,7 +292,7 @@ public class WarpMenus extends GUIUtils {
                         Material.EMERALD_BLOCK, Material.EMERALD_BLOCK, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 6);
+                            Warps.warpToPrestigeMine(p, 6);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[7])) > -1, "&c&lPrestige Mine #8", "&d&lPrestige Mine #8",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[7]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 89x98x89"},
@@ -300,7 +300,7 @@ public class WarpMenus extends GUIUtils {
                         Material.NETHERRACK, Material.NETHERRACK, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 7);
+                            Warps.warpToPrestigeMine(p, 7);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[8])) > -1, "&c&lPrestige Mine #9", "&d&lPrestige Mine #9",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[8]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 89x98x89"},
@@ -308,7 +308,7 @@ public class WarpMenus extends GUIUtils {
                         Material.NETHER_BRICKS, Material.NETHER_BRICKS, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 8);
+                            Warps.warpToPrestigeMine(p, 8);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[9])) > -1, "&c&lPrestige Mine #10", "&d&lPrestige Mine #10",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[9]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 89x98x89"},
@@ -316,7 +316,7 @@ public class WarpMenus extends GUIUtils {
                         Material.QUARTZ_BLOCK, Material.QUARTZ_BLOCK, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 9);
+                            Warps.warpToPrestigeMine(p, 9);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[10])) > -1, "&c&lPrestige Mine #11", "&d&lPrestige Mine #11",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[10]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 109x98x109"},
@@ -324,7 +324,7 @@ public class WarpMenus extends GUIUtils {
                         Material.END_STONE, Material.END_STONE, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 10);
+                            Warps.warpToPrestigeMine(p, 10);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[11])) > -1, "&c&lPrestige Mine #12", "&d&lPrestige Mine #12",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[11]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 109x98x109"},
@@ -332,7 +332,7 @@ public class WarpMenus extends GUIUtils {
                         Material.OBSIDIAN, Material.OBSIDIAN, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 11);
+                            Warps.warpToPrestigeMine(p, 11);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[12])) > -1, "&c&lPrestige Mine #13", "&d&lPrestige Mine #13",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[12]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 109x98x109"},
@@ -340,7 +340,7 @@ public class WarpMenus extends GUIUtils {
                         Material.CRYING_OBSIDIAN, Material.CRYING_OBSIDIAN, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 12);
+                            Warps.warpToPrestigeMine(p, 12);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[13])) > -1, "&c&lPrestige Mine #14", "&d&lPrestige Mine #14",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[13]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 109x98x109"},
@@ -348,7 +348,7 @@ public class WarpMenus extends GUIUtils {
                         Material.PRISMARINE, Material.PRISMARINE, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 13);
+                            Warps.warpToPrestigeMine(p, 13);
                         }, true),
                 createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[14])) > -1, "&c&lPrestige Mine #15", "&d&lPrestige Mine #15",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[14]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 151x98x151"},
@@ -356,7 +356,7 @@ public class WarpMenus extends GUIUtils {
                         Material.AMETHYST_BLOCK, Material.AMETHYST_BLOCK, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpPrestigeMine(p, 14);
+                            Warps.warpToPrestigeMine(p, 14);
                         }, true),
                 createLightBluePlaceHolder(),
                 createLightBluePlaceHolder(),
@@ -390,7 +390,7 @@ public class WarpMenus extends GUIUtils {
                         Material.DEEPSLATE_COAL_ORE, Material.DEEPSLATE_COAL_ORE, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpRankMine(p, 0);
+                            Warps.warpToRankMine(p, 0);
                         }, true),
                 createMineWarp(c, playerData.getPlayerRanks().contains("master"), "&c&lMaster Mine", "&4&lMaster Mine",
                         new String[]{"&b&oRequires &nmaster&b&o rank (or higher)", "&b&oPurchasable at &nstore.static-studios.net", "", "&cYou do not have this unlocked!", "", "&7&oSize: 89x98x89"},
@@ -398,7 +398,7 @@ public class WarpMenus extends GUIUtils {
                         Material.DEEPSLATE_IRON_ORE, Material.DEEPSLATE_IRON_ORE, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpRankMine(p, 1);
+                            Warps.warpToRankMine(p, 1);
                         }, true),
                 createMineWarp(c, playerData.getPlayerRanks().contains("mythic"), "&c&lMythic Mine", "&4&lMythic Mine",
                         new String[]{"&b&oRequires &nmythic&b&o rank (or higher)", "&b&oPurchasable at &nstore.static-studios.net", "", "&cYou do not have this unlocked!", "", "&7&oSize: 99x98x99"},
@@ -406,7 +406,7 @@ public class WarpMenus extends GUIUtils {
                         Material.DEEPSLATE_GOLD_ORE, Material.DEEPSLATE_GOLD_ORE, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpRankMine(p, 2);
+                            Warps.warpToRankMine(p, 2);
                         }, true),
                 createMineWarp(c, playerData.getPlayerRanks().contains("static"), "&c&lStatic Mine", "&4&lStatic Mine",
                         new String[]{"&b&oRequires &nstatic&b&o rank (or higher)", "&b&oPurchasable at &nstore.static-studios.net", "", "&cYou do not have this unlocked!", "", "&7&oSize: 129x98x129"},
@@ -414,7 +414,7 @@ public class WarpMenus extends GUIUtils {
                         Material.DEEPSLATE_DIAMOND_ORE, Material.DEEPSLATE_DIAMOND_ORE, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpRankMine(p, 3);
+                            Warps.warpToRankMine(p, 3);
                         }, true),
                 createMineWarp(c, playerData.getPlayerRanks().contains("staticp"), "&c&lStatic+ Mine", "&4&lStatic+ Mine",
                         new String[]{"&b&oRequires &nstatic+&b&o rank (or higher)", "&b&oPurchasable at &nstore.static-studios.net", "", "&cYou do not have this unlocked!", "", "&7&oSize: 151x98x151"},
@@ -422,7 +422,7 @@ public class WarpMenus extends GUIUtils {
                         Material.DEEPSLATE_EMERALD_ORE, Material.DEEPSLATE_EMERALD_ORE, (p, t) -> {
                             p.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
                         }, (p, t) -> {
-                            Warps.warpRankMine(p, 4);
+                            Warps.warpToRankMine(p, 4);
                         }, true),
                 createLightBluePlaceHolder(),
                 createLightBluePlaceHolder(),

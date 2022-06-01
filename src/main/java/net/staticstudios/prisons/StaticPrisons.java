@@ -4,6 +4,7 @@ import com.sk89q.worldedit.WorldEdit;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.blockBroken.BlockBreakListener;
+import net.staticstudios.prisons.commands.normal.*;
 import net.staticstudios.prisons.customItems.*;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.Prices;
@@ -11,7 +12,6 @@ import net.staticstudios.prisons.enchants.AutoSellEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.external.DiscordLink;
-import net.staticstudios.prisons.commands.*;
 import net.staticstudios.prisons.commands.tabCompletion.IslandTabCompletion;
 import net.staticstudios.prisons.commands.test.Test2Command;
 import net.staticstudios.prisons.commands.test.TestCommand;
@@ -20,6 +20,7 @@ import net.staticstudios.prisons.gui.GUIPage;
 import net.staticstudios.prisons.islands.IslandManager;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.commands.vote_store.VoteStoreListener;
+import net.staticstudios.prisons.mines.MineManager;
 import net.staticstudios.prisons.misc.EventListener;
 import net.staticstudios.prisons.misc.Events;
 import net.staticstudios.prisons.misc.TimedTasks;
@@ -55,7 +56,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         plugin = this;
-        StaticMines.enable(this);
+        MineManager.init();
         StaticGUI.enable(this);
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
         loadConfig();

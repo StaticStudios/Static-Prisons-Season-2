@@ -66,6 +66,15 @@ public class Warps {
     public static final Location RANK_MINE_5 = new Location(Bukkit.getWorld("mines"), 41.5 + BaseMine.distanceBetweenMines * 45, 103, 87.5, 135, 0);
 
     public static final Location EVENT_MINE = new Location(Bukkit.getWorld("mines"), -72.5 + BaseMine.distanceBetweenMines * 46, 103, -39.5, -45, 0);
+    public static void warpSomewhere(Player player, Location where, boolean flight) {
+        PaperLib.teleportAsync(player, where);
+        player.setAllowFlight(flight);
+        if (flight) {
+            Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 10);
+            Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 20);
+            Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 30);
+        }
+    }
     public static void warpToSpawn(Player player) {
         PaperLib.teleportAsync(player, SPAWN);
         player.setAllowFlight(true);
@@ -128,7 +137,7 @@ public class Warps {
         }, 30);
         IslandManager.playerLeftIsland(player);
     }
-    public static void warpPrestigeMine(Player player, int mine) {
+    public static void warpToPrestigeMine(Player player, int mine) {
         switch (mine) {
             case 0 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_1);
             case 1 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_2);
@@ -158,7 +167,7 @@ public class Warps {
         }, 30);
         IslandManager.playerLeftIsland(player);
     }
-    public static void warpRankMine(Player player, int mine) {
+    public static void warpToRankMine(Player player, int mine) {
         switch (mine) {
             case 0 -> PaperLib.teleportAsync(player, RANK_MINE_1);
             case 1 -> PaperLib.teleportAsync(player, RANK_MINE_2);

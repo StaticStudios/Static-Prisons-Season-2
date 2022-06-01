@@ -21,20 +21,24 @@ public final class StaticMines implements Listener {
     private static JavaPlugin parent;
     private static StaticMines instance;
     public static boolean isEnabled() { return instance == null; }
+    private static Runnable runAfterInitialLoad = () -> {};
 
     public static void enable(JavaPlugin parent) {
+        enable(parent, () -> {});
+    }
+    public static void enable(JavaPlugin parent, Runnable runAfterInitialLoad) {
         StaticMines.parent = parent;
         instance = new StaticMines();
         instance.dataFolder = new File(parent.getDataFolder() + "/Static-Mines");
         if (!instance.dataFolder.exists()) instance.dataFolder.mkdirs();
         instance.configFile = new File(instance.getDataFolder() + "/config.yml");
-            try {
-                instance.configFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-                disable();
-                return;
-            }
+        try {
+            instance.configFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            disable();
+            return;
+        }
         instance.reloadConfig();
         if (!instance.config.contains("command_label")) instance.config.set("command_label", DEFAULT_COMMAND_LABEL);
         instance.saveConfig();
@@ -92,6 +96,13 @@ public final class StaticMines implements Listener {
         config = YamlConfiguration.loadConfiguration(configFile);
     }
 
+
+    public static void setRunAfterInitialLoad(Runnable runAfterInitialLoad) {
+        StaticMines.runAfterInitialLoad = runAfterInitialLoad;
+    }
+    public static Runnable getRunAfterInitialLoad() {
+        return runAfterInitialLoad;
+    }
 
     @EventHandler
     void onBlockBreak(BlockBreakEvent e) {

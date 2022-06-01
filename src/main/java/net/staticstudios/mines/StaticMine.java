@@ -16,12 +16,14 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.staticstudios.mines.minesapi.events.MineCreatedEvent;
 import net.staticstudios.mines.minesapi.events.MineRefilledEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +61,7 @@ public class StaticMine {
     private long blocksInMine;
     private long blocksInFullMine;
     private double refillAtPercentLeft = 50d; //TODO: can configure in config
+    private MineRunnable runOnRefill = (m) -> {};
 
     public String getID() { return id; }
     public org.bukkit.World getWorld() { return world; }
@@ -79,6 +82,19 @@ public class StaticMine {
     public void removeBlocksBrokenInMine(long blocksBroken) {
         blocksInMine -= blocksBroken;
         if ((double) blocksInMine / blocksInFullMine < refillAtPercentLeft / 100) refill();
+    }
+    public void setRunOnRefill(MineRunnable runOnRefill) { this.runOnRefill = runOnRefill; }
+    public MineRunnable getRunOnRefill() { return runOnRefill; }
+
+
+    public List<Player> getPlayersInMine() {
+        List<Player> players = new ArrayList<>();
+        for (Player player : world.getPlayers()) {
+            if (player.getLocation().getX() < minPoint.getX() || player.getLocation().getY() < minPoint.getY() || player.getLocation().getZ() < minPoint.getZ()) continue;
+            if (player.getLocation().getX() > maxPoint.getX() || player.getLocation().getY() > maxPoint.getY() || player.getLocation().getZ() > maxPoint.getZ()) continue;
+            players.add(player);
+        }
+        return players;
     }
 
 
@@ -104,6 +120,7 @@ public class StaticMine {
 
         ALL_MINES.put(this.id, this);
         SORTED_MINE_IDS.add(this.id);
+        Bukkit.getPluginManager().callEvent(new MineCreatedEvent(this));
     }
 
     public void refill() {
@@ -121,6 +138,7 @@ public class StaticMine {
         if (async) {
             Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint())));
         } else Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint()));
+        Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> runOnRefill.run(this));
     }
 
 
@@ -157,6 +175,7 @@ public class StaticMine {
             for (String key : minesConfig.getKeys(false)) loadMine(key, minesConfig.getConfigurationSection(key));
         }, Math.max(0, waitAfterWorldLoads));
         StaticMines.getParent().getLogger().log(Level.INFO, "Finished loading all mines (mines.yml)");
+        StaticMines.getRunAfterInitialLoad().run();
     }
 
     static void loadMine(String mineID, ConfigurationSection mineConfig) {

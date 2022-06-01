@@ -383,7 +383,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[0])) > -1) {
-                    Warps.warpPrestigeMine(player, 0);
+                    Warps.warpToPrestigeMine(player, 0);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -391,7 +391,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[1])) > -1) {
-                    Warps.warpPrestigeMine(player, 1);
+                    Warps.warpToPrestigeMine(player, 1);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -399,7 +399,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[2])) > -1) {
-                    Warps.warpPrestigeMine(player, 2);
+                    Warps.warpToPrestigeMine(player, 2);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -407,7 +407,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[3])) > -1) {
-                    Warps.warpPrestigeMine(player, 3);
+                    Warps.warpToPrestigeMine(player, 3);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -415,7 +415,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[4])) > -1) {
-                    Warps.warpPrestigeMine(player, 4);
+                    Warps.warpToPrestigeMine(player, 4);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -423,7 +423,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[5])) > -1) {
-                    Warps.warpPrestigeMine(player, 5);
+                    Warps.warpToPrestigeMine(player, 5);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -431,7 +431,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[6])) > -1) {
-                    Warps.warpPrestigeMine(player, 6);
+                    Warps.warpToPrestigeMine(player, 6);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -439,7 +439,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[7])) > -1) {
-                    Warps.warpPrestigeMine(player, 7);
+                    Warps.warpToPrestigeMine(player, 7);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -447,7 +447,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[8])) > -1) {
-                    Warps.warpPrestigeMine(player, 8);
+                    Warps.warpToPrestigeMine(player, 8);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -455,7 +455,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[9])) > -1) {
-                    Warps.warpPrestigeMine(player, 9);
+                    Warps.warpToPrestigeMine(player, 9);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -463,7 +463,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[10])) > -1) {
-                    Warps.warpPrestigeMine(player, 10);
+                    Warps.warpToPrestigeMine(player, 10);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -471,7 +471,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[11])) > -1) {
-                    Warps.warpPrestigeMine(player, 11);
+                    Warps.warpToPrestigeMine(player, 11);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -479,7 +479,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[12])) > -1) {
-                    Warps.warpPrestigeMine(player, 12);
+                    Warps.warpToPrestigeMine(player, 12);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -487,7 +487,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[13])) > -1) {
-                    Warps.warpPrestigeMine(player, 13);
+                    Warps.warpToPrestigeMine(player, 13);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -495,7 +495,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[14])) > -1) {
-                    Warps.warpPrestigeMine(player, 14);
+                    Warps.warpToPrestigeMine(player, 14);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -503,7 +503,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPlayerRanks().contains("warrior")) {
-                    Warps.warpRankMine(player, 0);
+                    Warps.warpToRankMine(player, 0);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -511,7 +511,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPlayerRanks().contains("master")) {
-                    Warps.warpRankMine(player, 1);
+                    Warps.warpToRankMine(player, 1);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -519,7 +519,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPlayerRanks().contains("mythic")) {
-                    Warps.warpRankMine(player, 2);
+                    Warps.warpToRankMine(player, 2);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -527,7 +527,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPlayerRanks().contains("static")) {
-                    Warps.warpRankMine(player, 3);
+                    Warps.warpToRankMine(player, 3);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
@@ -535,7 +535,7 @@ public class WarpsMenus {
                 Player player = (Player) e.getWhoClicked();
                 PlayerData playerData = new PlayerData(player);
                 if (playerData.getPlayerRanks().contains("staticp")) {
-                    Warps.warpRankMine(player, 4);
+                    Warps.warpToRankMine(player, 4);
                 } else player.sendMessage(ChatColor.RED + "You do not have this mine unlocked!");
             }
             @Override
