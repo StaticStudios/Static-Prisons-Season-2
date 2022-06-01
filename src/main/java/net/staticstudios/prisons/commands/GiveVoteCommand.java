@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.commands;
 
-import net.staticstudios.prisons.utils.CommandUtils;
+import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,7 +15,7 @@ public class GiveVoteCommand implements CommandExecutor {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
         if (args.length == 0) {
-            player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/givevote <who>"));
+            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/givevote <who>"));
             return false;
         }
         if (Bukkit.getPlayer(args[0]) == null) {

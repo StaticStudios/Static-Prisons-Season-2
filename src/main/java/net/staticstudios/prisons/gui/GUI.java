@@ -26,7 +26,7 @@ public class GUI {
     public static ItemStack createMenuItemOfPlayerSkull(String fromPage, OfflinePlayer playerToGetSkullOf, String name, String... lore) {
         List<String> itemLore = new ArrayList<String>();
         Collections.addAll(itemLore, lore);
-        ItemStack item = Utils.customSkull(playerToGetSkullOf);
+        ItemStack item = Utils.Players.getSkull(playerToGetSkullOf);
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "guiItem"), PersistentDataType.STRING, "normal");
         itemMeta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "fromPage"), PersistentDataType.STRING, fromPage);
@@ -43,7 +43,7 @@ public class GUI {
     public static ItemStack createPlaceholderItemOfPlayerSkull(OfflinePlayer playerToGetSkullOf, String name, String... lore) {
         List<String> itemLore = new ArrayList<String>();
         Collections.addAll(itemLore, lore);
-        ItemStack item = Utils.customSkull(playerToGetSkullOf);
+        ItemStack item = Utils.Players.getSkull(playerToGetSkullOf);
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "guiItem"), PersistentDataType.STRING, "placeholder");
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);

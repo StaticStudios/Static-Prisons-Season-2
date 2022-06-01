@@ -19,7 +19,7 @@ public class ServerData {
             //First time joining
             Bukkit.getLogger().log(Level.INFO, "Player has joined for the first time with the uuid: " + player.getUniqueId() + " and the name: " + player.getName());
             Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + Utils.addCommasToNumber(PLAYERS.getAllUUIDsAsStrings().size() + 1) + ")");
-            Utils.addItemToPlayersInventoryAndDropExtra(player, Utils.createNewPickaxe());
+            Utils.Players.addToInventory(player, Utils.createNewPickaxe());
             PlayerData playerData = new PlayerData(player);
             playerData.setBackpackSize(BigInteger.valueOf(25000));
             playerData.setPlayerRank("member");

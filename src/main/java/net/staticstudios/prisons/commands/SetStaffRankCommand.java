@@ -2,7 +2,7 @@ package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
-import net.staticstudios.prisons.utils.CommandUtils;
+import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,7 +12,7 @@ public class SetStaffRankCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/setstaffrank <player> <rank>"));
+            sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/setstaffrank <player> <rank>"));
             return false;
         }
         if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[0].toLowerCase())) {

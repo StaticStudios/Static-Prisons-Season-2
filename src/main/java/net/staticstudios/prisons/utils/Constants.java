@@ -5,11 +5,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 
-public class StaticVars {
+public class Constants {
     public static World MINES_WORLD;
     public static final int VOTES_NEEDED_FOR_VOTE_PARTY = 50;
     public static final NamespacedKey UUID_NAMESPACEKEY = new NamespacedKey(StaticPrisons.getInstance(), "uuid");
-    public static Long[] PRESTIGE_MINE_REQUIREMENTS = new Long[15];
+    public static long[] PRESTIGE_MINE_REQUIREMENTS = new long[15];
     public static final char[] A_THROUGH_Z = {
             'A',
             'B',

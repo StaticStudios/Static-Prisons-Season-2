@@ -4,7 +4,6 @@ import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.customItems.CustomItems;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
 import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 public class DailyRewardMenus extends GUIUtils {
 
@@ -39,7 +37,7 @@ public class DailyRewardMenus extends GUIUtils {
                     case 11 -> reward = CustomItems.getStaticCrateKey(1);
                 }
                 playerData.setClaimedDailyRewardsRank1At(Instant.now().getEpochSecond());
-                Utils.addItemToPlayersInventoryAndDropExtra(p, reward);
+                Utils.Players.addToInventory(p, reward);
                 p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward));
                 mainMenu(p);
             })));
@@ -58,7 +56,7 @@ public class DailyRewardMenus extends GUIUtils {
                     case 10 -> reward = CustomItems.getLegendaryCrateKey(3);
                 }
                 playerData.setClaimedDailyRewardsAt(Instant.now().getEpochSecond());
-                Utils.addItemToPlayersInventoryAndDropExtra(p, reward);
+                Utils.Players.addToInventory(p, reward);
                 p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward));
                 mainMenu(p);
             })));
@@ -83,7 +81,7 @@ public class DailyRewardMenus extends GUIUtils {
                     case 12 -> reward = CustomItems.getStaticpCrateKey(1);
                 }
                 playerData.setClaimedDailyRewardsRank2At(Instant.now().getEpochSecond());
-                Utils.addItemToPlayersInventoryAndDropExtra(p, reward);
+                Utils.Players.addToInventory(p, reward);
                 p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward));
                 mainMenu(p);
             })));

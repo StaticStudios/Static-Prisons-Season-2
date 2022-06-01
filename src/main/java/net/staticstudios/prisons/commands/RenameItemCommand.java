@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands;
 
-import net.staticstudios.prisons.utils.CommandUtils;
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,7 +16,7 @@ public class RenameItemCommand implements CommandExecutor {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
         if (args.length == 0) {
-            player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/renameitem <name>"));
+            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/renameitem <name>"));
             return false;
         }
         if (player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {

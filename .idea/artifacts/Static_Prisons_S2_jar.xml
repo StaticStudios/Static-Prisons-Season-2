@@ -1,13 +1,13 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="Static Prisons S2:jar">
-    <output-path>$PROJECT_DIR$/../../../~MC Servers/Static/live/PrisonsS2/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../Desktop/PrisonsS2/plugins</output-path>
     <root id="archive" name="Static Prisons S2.jar">
       <element id="module-output" name="Static Prisons S2" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/papermc/paperlib/1.0.7/paperlib-1.0.7.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/owlike/genson/1.6/genson-1.6.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/jeff_media/CustomBlockData/1.0.5/CustomBlockData-1.0.5.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/staticstudios/static-gui/1.0.0/static-gui-1.0.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/jeff_media/CustomBlockData/1.0.5/CustomBlockData-1.0.5.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

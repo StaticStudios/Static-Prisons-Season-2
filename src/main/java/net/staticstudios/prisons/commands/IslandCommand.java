@@ -6,7 +6,7 @@ import net.staticstudios.prisons.islands.IslandManager;
 import net.staticstudios.prisons.islands.SkyBlockIsland;
 import net.staticstudios.prisons.islands.invites.SkyblockIslandInviteManager;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
-import net.staticstudios.prisons.utils.CommandUtils;
+import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -21,7 +21,7 @@ public class IslandCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            CommandUtils.logConsoleCannotUseThisCommand();
+            Utils.CommandUtils.logConsoleCannotUseThisCommand();
             return false;
         }
         Player player = (Player) sender;
@@ -34,7 +34,7 @@ public class IslandCommand implements CommandExecutor {
             case "visit" -> {
                 SkyBlockIsland island;
                 if (args.length == 1) {
-                    player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/visit <cell name to visit>"));
+                    player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/visit <cell name to visit>"));
                     return false;
                 }
                 if (!ServerData.ISLANDS.getAllNamesLowercase().contains(args[1].toLowerCase())) {
@@ -135,7 +135,7 @@ public class IslandCommand implements CommandExecutor {
                     return false;
                 }
                 if (args.length == 1) {
-                    player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/cell rename <new name>"));
+                    player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/cell rename <new name>"));
                     return false;
                 }
                 if (island.getIslandMemberUUIDS().contains(player.getUniqueId().toString())) {
@@ -334,10 +334,10 @@ public class IslandCommand implements CommandExecutor {
                     return false;
                 }
                 if (args.length == 1) {
-                    player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/cell invite <player>"));
+                    player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/cell invite <player>"));
                     return false;
                 } else if (Bukkit.getPlayer(args[1]) == null) {
-                    player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/cell invite <player>"));
+                    player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/cell invite <player>"));
                     return false;
                 }
                 Player invited = Bukkit.getPlayer(args[1]);

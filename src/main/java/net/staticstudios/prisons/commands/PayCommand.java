@@ -2,7 +2,6 @@ package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
-import net.staticstudios.prisons.utils.CommandUtils;
 import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,7 +21,7 @@ public class PayCommand implements CommandExecutor {
         Player player = (Player) sender;
         PlayerData playerData = new PlayerData(player);
         if (args.length < 3 ) {
-            player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/pay <who> <money/tokens> <amount>"));
+            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/pay <who> <money/tokens> <amount>"));
             return false;
         }
         PlayerData whoToPay;
@@ -45,7 +44,7 @@ public class PayCommand implements CommandExecutor {
         try {
             amount = new BigInteger(args[2]);
         } catch (NumberFormatException ignore) {
-            player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/pay <who> <money/tokens> <amount>"));
+            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/pay <who> <money/tokens> <amount>"));
             return false;
         }
         if (amount.compareTo(BigInteger.ZERO) < 1) {
@@ -73,7 +72,7 @@ public class PayCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.GREEN + "You have just sent " + Utils.addCommasToNumber(amount) + " tokens to " + whoToPayName);
                 } else player.sendMessage(ChatColor.RED + "You do not have enough money for this!");
             }
-            default -> player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/pay <who> <money/tokens> <amount>"));
+            default -> player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/pay <who> <money/tokens> <amount>"));
         }
         return true;
     }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Deprecated
 public class RerunPurchases {
     static List<String> allPurchases = Utils.getAllLinesInAFile("./data/season2PostResetTebex.txt");
     public static void playerJoined(Player player) {

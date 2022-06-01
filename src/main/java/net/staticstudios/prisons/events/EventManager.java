@@ -3,6 +3,7 @@ package net.staticstudios.prisons.events;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customItems.CustomItems;
 import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.WeightedElements;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -88,18 +89,16 @@ public class EventManager {
         ChatEvent event = new ChatEvent() {
             @Override
             void giveRewards(Player player, String guessed) {
-                ItemStack reward = null;
-                switch (Utils.randomInt(1, 6)) {
-                    case 1 -> reward = CustomItems.getCommonCrateKey(4);
-                    case 2, 3 -> reward = CustomItems.getRareCrateKey(3);
-                    case 4 -> reward = CustomItems.getLegendaryCrateKey(2);
-                    case 5 -> reward = CustomItems.getLegendaryCrateKey(1);
-                    case 6 -> reward = CustomItems.getStaticCrateKey(1);
-                }
-                Utils.addItemToPlayersInventoryAndDropExtra(player, reward);
-                for (Player p : Bukkit.getOnlinePlayers()) {
+                ItemStack reward = new WeightedElements<ItemStack>()
+                        .add(CustomItems.getCommonCrateKey(4), 10)
+                        .add(CustomItems.getRareCrateKey(3), 20)
+                        .add(CustomItems.getLegendaryCrateKey(2), 10)
+                        .add(CustomItems.getLegendaryCrateKey(1), 10)
+                        .add(CustomItems.getStaticCrateKey(1), 10)
+                        .getRandom();
+                Utils.Players.addToInventory(player, reward);
+                for (Player p : Bukkit.getOnlinePlayers())
                     p.sendMessage(ChatColor.AQUA + player.getName() + ChatColor.WHITE + " has won a chat event! They won " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + "!" + ChatColor.WHITE + " They guessed: " + ChatColor.GREEN + guessed);
-                }
             }
         };
         StringBuilder scrambledVersionOfTheWord = new StringBuilder();
@@ -132,7 +131,7 @@ public class EventManager {
                     case 5 -> reward = CustomItems.getLegendaryCrateKey(1);
                     case 6 -> reward = CustomItems.getStaticCrateKey(1);
                 }
-                Utils.addItemToPlayersInventoryAndDropExtra(player, reward);
+                Utils.Players.addToInventory(player, reward);
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     p.sendMessage(ChatColor.AQUA + player.getName() + ChatColor.WHITE + " has won a chat event! They won " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + "!" + ChatColor.WHITE + " They guessed: " + ChatColor.GREEN + guessed);
                 }

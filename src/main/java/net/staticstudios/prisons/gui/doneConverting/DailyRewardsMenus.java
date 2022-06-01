@@ -68,7 +68,7 @@ public class DailyRewardsMenus {
                         case 10 -> item = CustomItems.getLegendaryCrateKey(3);
                         case 11 -> item = CustomItems.getStaticCrateKey(1);
                     }
-                    Utils.addItemToPlayersInventoryAndDropExtra(player, item);
+                    Utils.Players.addToInventory(player, item);
                     player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + Utils.getPrettyItemName(item));
                     playerData.setClaimedDailyRewardsRank1At(Instant.now().toEpochMilli());
                     player.closeInventory();
@@ -96,7 +96,7 @@ public class DailyRewardsMenus {
                         case 8, 9 -> item = CustomItems.getLegendaryCrateKey(2);
                         case 10 -> item = CustomItems.getLegendaryCrateKey(3);
                     }
-                    Utils.addItemToPlayersInventoryAndDropExtra(player, item);
+                    Utils.Players.addToInventory(player, item);
                     player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + Utils.getPrettyItemName(item));
                     playerData.setClaimedDailyRewardsAt(Instant.now().toEpochMilli());
                     player.closeInventory();
@@ -130,7 +130,7 @@ public class DailyRewardsMenus {
                         case 11 -> item = CustomItems.getStaticCrateKey(1);
                         case 12 -> item = CustomItems.getStaticpCrateKey(1);
                     }
-                    Utils.addItemToPlayersInventoryAndDropExtra(player, item);
+                    Utils.Players.addToInventory(player, item);
                     player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + Utils.getPrettyItemName(item));
                     playerData.setClaimedDailyRewardsRank2At(Instant.now().toEpochMilli());
                     player.closeInventory();

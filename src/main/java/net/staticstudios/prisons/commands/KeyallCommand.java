@@ -1,7 +1,6 @@
 package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.customItems.CustomItems;
-import net.staticstudios.prisons.utils.CommandUtils;
 import net.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -18,7 +17,7 @@ public class KeyallCommand implements CommandExecutor {
         Player player = (Player) sender;
         ItemStack item;
         if (args.length == 0) {
-            player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/keyall <common|rare|epic|legendary|static|staticp|vote|kit|pickaxe>"));
+            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/keyall <common|rare|epic|legendary|static|staticp|vote|kit|pickaxe>"));
             return false;
         }
         switch (args[0].toLowerCase()) {
@@ -32,13 +31,13 @@ public class KeyallCommand implements CommandExecutor {
             case "kit" -> item = CustomItems.getKitCrateKey(1);
             case "pickaxe" -> item = CustomItems.getPickaxeCrateKey(1);
             default -> {
-                player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/keyall <common|rare|epic|legendary|static|staticp|vote|kit|pickaxe>"));
+                player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/keyall <common|rare|epic|legendary|static|staticp|vote|kit|pickaxe>"));
                 return false;
             }
         }
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&l[Key All] &fYou have received 1x " + Utils.getPrettyItemName(item) + "&f from a key all!"));
-            Utils.addItemToPlayersInventoryAndDropExtra(p, item);
+            Utils.Players.addToInventory(p, item);
         }
         return false;
     }

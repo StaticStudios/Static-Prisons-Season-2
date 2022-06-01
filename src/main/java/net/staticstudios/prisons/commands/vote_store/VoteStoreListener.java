@@ -33,7 +33,7 @@ public class VoteStoreListener implements CommandExecutor {
                 playerData.addVotes(BigInteger.ONE);
                 playerData.setLastVotedAt(Instant.now().toEpochMilli());
                 Player player = Bukkit.getPlayer(uuid);
-                Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getVoteCrateKey(1));
+                Utils.Players.addToInventory(player, CustomItems.getVoteCrateKey(1));
                 for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(ChatColor.AQUA + player.getName() + ChatColor.WHITE + " voted for the server with " + ChatColor.GREEN + "/vote");
                 player.sendMessage(ChatColor.AQUA + "You have received 1x Vote Key!");
                 VoteParty.addVoteToVoteParty();
@@ -51,16 +51,16 @@ public class VoteStoreListener implements CommandExecutor {
                 switch (args[1]) {
                     case "starterPackageT1" -> {
                         whatWasPurchased = "Starter Package Tier 1";
-                        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getStaticCrateKey(2));
+                        Utils.Players.addToInventory(player, CustomItems.getStaticCrateKey(2));
                         if (!playerData.getPlayerRanks().contains("warrior")) {
                             playerData.setPlayerRank("warrior");
-                        } else Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.WARRIOR_RANK.item);
+                        } else Utils.Players.addToInventory(player, Vouchers.WARRIOR_RANK.item);
                     }
                     case "starterPackageT2" -> {
                         whatWasPurchased = "Starter Package Tier 2";
-                        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getStaticCrateKey(3));
+                        Utils.Players.addToInventory(player, CustomItems.getStaticCrateKey(3));
                         if (playerData.getPrivateMineSquareSize() >= 70) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T3.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T3.item);
                         } else {
                             playerData.setPrivateMineSquareSize(70);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -68,14 +68,14 @@ public class VoteStoreListener implements CommandExecutor {
                         }
                         if (!playerData.getPlayerRanks().contains("master")) {
                             playerData.setPlayerRank("master");
-                        } else Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.MASTER_RANK.item);
+                        } else Utils.Players.addToInventory(player, Vouchers.MASTER_RANK.item);
                     }
                     case "starterPackageT3" -> {
                         whatWasPurchased = "Starter Package Tier 3";
-                        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getStaticpCrateKey(1));
-                        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getStaticCrateKey(2));
+                        Utils.Players.addToInventory(player, CustomItems.getStaticpCrateKey(1));
+                        Utils.Players.addToInventory(player, CustomItems.getStaticCrateKey(2));
                         if (playerData.getPrivateMineSquareSize() >= 90) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T5.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T5.item);
                         } else {
                             playerData.setPrivateMineSquareSize(90);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -83,37 +83,37 @@ public class VoteStoreListener implements CommandExecutor {
                         }
                         if (!playerData.getPlayerRanks().contains("mythic")) {
                             playerData.setPlayerRank("mythic");
-                        } else Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.MYTHIC_RANK.item);
+                        } else Utils.Players.addToInventory(player, Vouchers.MYTHIC_RANK.item);
                     }
                     case "warriorPackage" -> {
                         whatWasPurchased = "Warrior Rank";
                         if (!playerData.getPlayerRanks().contains("warrior")) {
                             playerData.setPlayerRank("warrior");
-                        } else Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.WARRIOR_RANK.item);
+                        } else Utils.Players.addToInventory(player, Vouchers.WARRIOR_RANK.item);
                     }
                     case "masterPackage" -> {
                         whatWasPurchased = "Master Rank";
                         if (!playerData.getPlayerRanks().contains("master")) {
                             playerData.setPlayerRank("master");
-                        } else Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.MASTER_RANK.item);
+                        } else Utils.Players.addToInventory(player, Vouchers.MASTER_RANK.item);
                     }
                     case "mythicPackage" -> {
                         whatWasPurchased = "Mythic Rank";
                         if (!playerData.getPlayerRanks().contains("mythic")) {
                             playerData.setPlayerRank("mythic");
-                        } else Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.MYTHIC_RANK.item);
+                        } else Utils.Players.addToInventory(player, Vouchers.MYTHIC_RANK.item);
                     }
                     case "staticPackage" -> {
                         whatWasPurchased = "Static Rank";
                         if (!playerData.getPlayerRanks().contains("static")) {
                             playerData.setPlayerRank("static");
-                        } else Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.STATIC_RANK.item);
+                        } else Utils.Players.addToInventory(player, Vouchers.STATIC_RANK.item);
                     }
                     case "staticpPackage" -> {
                         whatWasPurchased = "Static+ Rank";
                         if (!playerData.getPlayerRanks().contains("staticp")) {
                             playerData.setPlayerRank("staticp");
-                        } else Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.STATICP_RANK.item);
+                        } else Utils.Players.addToInventory(player, Vouchers.STATICP_RANK.item);
                     }
                     case "warriorToMaster" -> {
                         whatWasPurchased = "Master Rank";
@@ -145,20 +145,20 @@ public class VoteStoreListener implements CommandExecutor {
                     }
                     case "legendaryKey" -> {
                         whatWasPurchased = "1x Legendary Crate Key";
-                        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getLegendaryCrateKey(1));
+                        Utils.Players.addToInventory(player, CustomItems.getLegendaryCrateKey(1));
                     }
                     case "staticKey" -> {
                         whatWasPurchased = "1x Static Crate Key";
-                        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getStaticCrateKey(1));
+                        Utils.Players.addToInventory(player, CustomItems.getStaticCrateKey(1));
                     }
                     case "staticpKey" -> {
                         whatWasPurchased = "1x Static+ Crate Key";
-                        Utils.addItemToPlayersInventoryAndDropExtra(player, CustomItems.getStaticpCrateKey(1));
+                        Utils.Players.addToInventory(player, CustomItems.getStaticpCrateKey(1));
                     }
                     case "privateMineTier1" -> {
                         whatWasPurchased = "Private Mine Tier 1";
                         if (playerData.getPrivateMineSquareSize() >= 50) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T1.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T1.item);
                         } else {
                             playerData.setPrivateMineSquareSize(50);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -168,7 +168,7 @@ public class VoteStoreListener implements CommandExecutor {
                     case "privateMineTier2" -> {
                         whatWasPurchased = "Private Mine Tier 2";
                         if (playerData.getPrivateMineSquareSize() >= 60) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T2.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T2.item);
                         } else {
                             playerData.setPrivateMineSquareSize(60);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -178,7 +178,7 @@ public class VoteStoreListener implements CommandExecutor {
                     case "privateMineTier3" -> {
                         whatWasPurchased = "Private Mine Tier 3";
                         if (playerData.getPrivateMineSquareSize() >= 70) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T3.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T3.item);
                         } else {
                             playerData.setPrivateMineSquareSize(70);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -188,7 +188,7 @@ public class VoteStoreListener implements CommandExecutor {
                     case "privateMineTier4" -> {
                         whatWasPurchased = "Private Mine Tier 4";
                         if (playerData.getPrivateMineSquareSize() >= 80) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T4.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T4.item);
                         } else {
                             playerData.setPrivateMineSquareSize(80);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -198,7 +198,7 @@ public class VoteStoreListener implements CommandExecutor {
                     case "privateMineTier5" -> {
                         whatWasPurchased = "Private Mine Tier 5";
                         if (playerData.getPrivateMineSquareSize() >= 90) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T5.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T5.item);
                         } else {
                             playerData.setPrivateMineSquareSize(90);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -208,7 +208,7 @@ public class VoteStoreListener implements CommandExecutor {
                     case "privateMineTier6" -> {
                         whatWasPurchased = "Private Mine Tier 6";
                         if (playerData.getPrivateMineSquareSize() >= 100) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T6.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T6.item);
                         } else {
                             playerData.setPrivateMineSquareSize(100);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -218,7 +218,7 @@ public class VoteStoreListener implements CommandExecutor {
                     case "privateMineTier7" -> {
                         whatWasPurchased = "Private Mine Tier 7";
                         if (playerData.getPrivateMineSquareSize() >= 110) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T7.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T7.item);
                         } else {
                             playerData.setPrivateMineSquareSize(110);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -228,7 +228,7 @@ public class VoteStoreListener implements CommandExecutor {
                     case "privateMineTier8" -> {
                         whatWasPurchased = "Private Mine Tier 8";
                         if (playerData.getPrivateMineSquareSize() >= 120) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T8.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T8.item);
                         } else {
                             playerData.setPrivateMineSquareSize(120);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -238,7 +238,7 @@ public class VoteStoreListener implements CommandExecutor {
                     case "privateMineTier9" -> {
                         whatWasPurchased = "Private Mine Tier 9";
                         if (playerData.getPrivateMineSquareSize() >= 130) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T9.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T9.item);
                         } else {
                             playerData.setPrivateMineSquareSize(130);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -248,7 +248,7 @@ public class VoteStoreListener implements CommandExecutor {
                     case "privateMineTier10" -> {
                         whatWasPurchased = "Private Mine Tier 10";
                         if (playerData.getPrivateMineSquareSize() >= 140) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T10.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T10.item);
                         } else {
                             playerData.setPrivateMineSquareSize(140);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -258,7 +258,7 @@ public class VoteStoreListener implements CommandExecutor {
                     case "privateMineTier11" -> {
                         whatWasPurchased = "Private Mine Tier 11";
                         if (playerData.getPrivateMineSquareSize() >= 150) {
-                            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.PRIVATE_MINE_T11.item);
+                            Utils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T11.item);
                         } else {
                             playerData.setPrivateMineSquareSize(150);
                             playerData.setPrivateMineMat(Material.STONE);

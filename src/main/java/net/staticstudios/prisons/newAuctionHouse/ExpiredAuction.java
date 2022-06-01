@@ -23,7 +23,6 @@ public class ExpiredAuction {
     public UUID ownerUUID;
     public String encodedItemStack;
 
-
     public static List<ExpiredAuction> getPlayerExpiredAuctions(UUID playerUUID) {
         List<ExpiredAuction> expiredAuctions = new ArrayList<>();
         File folder = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse");

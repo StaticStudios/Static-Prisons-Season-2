@@ -25,7 +25,7 @@ import net.staticstudios.prisons.misc.TimedTasks;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
 import net.staticstudios.prisons.newAuctionHouse.AuctionManager;
 import net.staticstudios.prisons.rankup.RankUpPrices;
-import net.staticstudios.prisons.utils.StaticVars;
+import net.staticstudios.prisons.utils.Constants;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -68,7 +68,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         //AuctionHouseManager.loadAllAuctions();
         IslandManager.initialize();
         //MineManager.initialize();
-        StaticVars.MINES_WORLD = new WorldCreator("mines").createWorld();
+        Constants.MINES_WORLD = new WorldCreator("mines").createWorld();
         GUIPage.initializeGUIPages();
         DiscordLink.initialize();
         TabList.initialize();
@@ -251,7 +251,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
          */
 
         //Load prestige mine requirements
-        for (int i = 0; i < 15; i++) StaticVars.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
+        for (int i = 0; i < 15; i++) Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
         //Load rankup prices
         RankUpPrices.rankPrices = new ArrayList<>();
         for (int i = 0; i < 26; i++) RankUpPrices.rankPrices.add(BigInteger.valueOf(config.getLong("rankup.prices." + (i + 1))));

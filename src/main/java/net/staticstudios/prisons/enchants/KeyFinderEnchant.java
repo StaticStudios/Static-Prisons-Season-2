@@ -37,7 +37,7 @@ public class KeyFinderEnchant extends BaseEnchant {
                 reward = CustomItems.getStaticCrateKey(1);
             } else reward = CustomItems.getStaticpCrateKey(1);
             bb.player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "[Key Finder] " + ChatColor.WHITE + "You found " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + ChatColor.WHITE + " while mining!");
-            Utils.addItemToPlayersInventoryAndDropExtra(bb.player, reward);
+            Utils.Players.addToInventory(bb.player, reward);
         }
     }
 

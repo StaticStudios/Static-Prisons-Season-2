@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.chat.MessageHandler;
-import net.staticstudios.prisons.utils.CommandUtils;
+import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,7 +15,7 @@ public class ReplyCommand implements CommandExecutor {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
         if (args.length < 1) {
-            player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/reply <what>"));
+            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/reply <what>"));
             return false;
         }
         if (!MessageHandler.playerToRecentMessaged.containsKey(player.getUniqueId())) {

@@ -38,7 +38,7 @@ public class SpecialFinderEnchant extends BaseEnchant {
                 }
             }
             bb.player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "[Metal Detector] " + ChatColor.AQUA + "You found " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + ChatColor.AQUA + " while mining!");
-            Utils.addItemToPlayersInventoryAndDropExtra(bb.player, reward);
+            Utils.Players.addToInventory(bb.player, reward);
         }
     }
 

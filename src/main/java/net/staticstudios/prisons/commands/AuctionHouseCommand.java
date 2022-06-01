@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.gui.GUI;
-import net.staticstudios.prisons.utils.CommandUtils;
+import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,7 +24,7 @@ public class AuctionHouseCommand implements CommandExecutor {
                 BigInteger price = new BigInteger(args[1]);
                 //AuctionHouseManager.createAuction(player, player.getInventory().getItemInMainHand(), price);
             } catch (NumberFormatException e) {
-                player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/auctionhousse hand <price>"));
+                player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/auctionhousse hand <price>"));
             }
         }
         return false;

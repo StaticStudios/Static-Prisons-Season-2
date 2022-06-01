@@ -2,7 +2,7 @@ package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
-import net.staticstudios.prisons.utils.CommandUtils;
+import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -16,7 +16,7 @@ public class ModifyStatsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 4) {
-            sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats <stat> <who> <modify> <value>"));
+            sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats <stat> <who> <modify> <value>"));
         }
         if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[1].toLowerCase()) && !args[1].equalsIgnoreCase("self")) {
             sender.sendMessage(ChatColor.RED + "Could not find the player specified!");
@@ -37,7 +37,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                 try {
                     amount = Integer.parseInt(args[3]);
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats minerank <who> <add|remove|set|reset> <amount>"));
+                    sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats minerank <who> <add|remove|set|reset> <amount>"));
                     return false;
                 }
                 switch (args[2].toLowerCase()) {
@@ -45,7 +45,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                     case "remove" -> playerData.removeMineRank(amount);
                     case "set" -> playerData.setMineRank(amount);
                     case "reset" -> playerData.setMineRank(0);
-                    default -> sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats minerank <who> <add|remove|set|reset> <amount>"));
+                    default -> sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats minerank <who> <add|remove|set|reset> <amount>"));
                 }
             }
             case "prestige" -> {
@@ -53,7 +53,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                 try {
                     amount = new BigInteger(args[3]);
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats prestige <who> <add|remove|set|reset> <amount>"));
+                    sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats prestige <who> <add|remove|set|reset> <amount>"));
                     return false;
                 }
                 switch (args[2].toLowerCase()) {
@@ -61,7 +61,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                     case "remove" -> playerData.removePrestige(amount);
                     case "set" -> playerData.setPrestige(amount);
                     case "reset" -> playerData.setPrestige(BigInteger.ZERO);
-                    default -> sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats prestige <who> <add|remove|set|reset> <amount>"));
+                    default -> sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats prestige <who> <add|remove|set|reset> <amount>"));
                 }
             }
             case "backpack" -> {
@@ -69,7 +69,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                 try {
                     amount = new BigInteger(args[3]);
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
+                    sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
                     return false;
                 }
                 switch (args[2].toLowerCase()) {
@@ -77,7 +77,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                     case "remove" -> playerData.setBackpackSize(playerData.getBackpackSize().subtract(amount));
                     case "set" -> playerData.setBackpackSize(amount);
                     case "reset" -> playerData.setBackpackSize(BigInteger.ZERO);
-                    default -> sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
+                    default -> sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
                 }
             }
             case "blocksmined" -> {
@@ -85,7 +85,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                 try {
                     amount = new BigInteger(args[3]);
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats blocksmined <who> <add|remove|set|reset> <amount>"));
+                    sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats blocksmined <who> <add|remove|set|reset> <amount>"));
                     return false;
                 }
                 switch (args[2].toLowerCase()) {
@@ -93,7 +93,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                     case "remove" -> playerData.removeBlocksMined(amount);
                     case "set" -> playerData.setBlocksMined(amount);
                     case "reset" -> playerData.setBlocksMined(BigInteger.ZERO);
-                    default -> sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats blocksmined <who> <add|remove|set|reset> <amount>"));
+                    default -> sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats blocksmined <who> <add|remove|set|reset> <amount>"));
                 }
             }
             case "rawblocks", "rawblocksmined" -> {
@@ -101,7 +101,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                 try {
                     amount = new BigInteger(args[3]);
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats rawblocks <who> <add|remove|set|reset> <amount>"));
+                    sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats rawblocks <who> <add|remove|set|reset> <amount>"));
                     return false;
                 }
                 switch (args[2].toLowerCase()) {
@@ -109,7 +109,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                     case "remove" -> playerData.removeRawBlocksMined(amount);
                     case "set" -> playerData.setRawBlocksMined(amount);
                     case "reset" -> playerData.setRawBlocksMined(BigInteger.ZERO);
-                    default -> sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats rawblocks <who> <add|remove|set|reset> <amount>"));
+                    default -> sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats rawblocks <who> <add|remove|set|reset> <amount>"));
                 }
             }
             case "pmine", "privatemine" -> {
@@ -119,7 +119,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                         try {
                             amount = Integer.parseInt(args[3]);
                         } catch (NumberFormatException e) {
-                            sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats pmine <who> <set> <amount>"));
+                            sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats pmine <who> <set> <amount>"));
                             return false;
                         }
                         playerData.setPrivateMineSquareSize(amount);
@@ -127,7 +127,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                         playerData.setPrivateMineMat(Material.STONE);
                     }
                     case "reset" -> playerData.setHasPrivateMine(false);
-                    default -> sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats pmine <who> <set|reset>"));
+                    default -> sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats pmine <who> <set|reset>"));
                 }
             }
             case "votes", "vote" -> {
@@ -135,7 +135,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                 try {
                     amount = new BigInteger(args[3]);
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats votes <who> <add|remove|set|reset> <amount>"));
+                    sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats votes <who> <add|remove|set|reset> <amount>"));
                     return false;
                 }
                 switch (args[2].toLowerCase()) {
@@ -143,7 +143,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                     case "remove" -> playerData.removeVotes(amount);
                     case "set" -> playerData.setVotes(amount);
                     case "reset" -> playerData.setVotes(BigInteger.ZERO);
-                    default -> sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats votes <who> <add|remove|set|reset> <amount>"));
+                    default -> sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats votes <who> <add|remove|set|reset> <amount>"));
                 }
             }
             case "timeplayed" -> {
@@ -151,7 +151,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                 try {
                     amount = new BigInteger(args[3]);
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats timeplayed <who> <add|remove|set|reset> <amount>"));
+                    sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats timeplayed <who> <add|remove|set|reset> <amount>"));
                     return false;
                 }
                 switch (args[2].toLowerCase()) {
@@ -159,7 +159,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                     case "remove" -> playerData.removeTimePlayed(amount);
                     case "set" -> playerData.setTimePlayed(amount);
                     case "reset" -> playerData.setTimePlayed(BigInteger.ZERO);
-                    default -> sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats timeplayed <who> <add|remove|set|reset> <amount>"));
+                    default -> sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats timeplayed <who> <add|remove|set|reset> <amount>"));
                 }
             }
             case "money" -> {
@@ -167,7 +167,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                 try {
                     amount = new BigInteger(args[3]);
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats money <who> <add|remove|set|reset> <amount>"));
+                    sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats money <who> <add|remove|set|reset> <amount>"));
                     return false;
                 }
                 switch (args[2].toLowerCase()) {
@@ -175,7 +175,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                     case "remove" -> playerData.removeMoney(amount);
                     case "set" -> playerData.setMoney(amount);
                     case "reset" -> playerData.setMoney(BigInteger.ZERO);
-                    default -> sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats money <who> <add|remove|set|reset> <amount>"));
+                    default -> sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats money <who> <add|remove|set|reset> <amount>"));
                 }
             }
             case "tokens" -> {
@@ -183,7 +183,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                 try {
                     amount = new BigInteger(args[3]);
                 } catch (NumberFormatException e) {
-                    sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
+                    sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
                     return false;
                 }
                 switch (args[2].toLowerCase()) {
@@ -191,7 +191,7 @@ public class ModifyStatsCommand implements CommandExecutor {
                     case "remove" -> playerData.removeTokens(amount);
                     case "set" -> playerData.setTokens(amount);
                     case "reset" -> playerData.setTokens(BigInteger.ZERO);
-                    default -> sender.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
+                    default -> sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
                 }
             }
         }

@@ -28,7 +28,7 @@ public class MultiPouch {
     }
     void animateFrame(Player player, String rewardValue, String announcementMessage, int currentPos, int finished) {
         if (currentPos == finished) {
-            Utils.addItemToPlayersInventoryAndDropExtra(player, Vouchers.getMultiplierNote(multiplierAmount, multiplierTime));
+            Utils.Players.addToInventory(player, Vouchers.getMultiplierNote(multiplierAmount, multiplierTime));
             player.sendMessage(announcementMessage);
             return;
         }

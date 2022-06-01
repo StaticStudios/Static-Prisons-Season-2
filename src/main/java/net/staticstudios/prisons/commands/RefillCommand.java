@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.mines.MineManager;
-import net.staticstudios.prisons.utils.CommandUtils;
+import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,7 +13,7 @@ public class RefillCommand implements CommandExecutor {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
         if (args.length == 0) {
-            player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/refill <mine>"));
+            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/refill <mine>"));
             return false;
         }
         switch (args[0].toLowerCase()) {
@@ -64,7 +64,7 @@ public class RefillCommand implements CommandExecutor {
             case "r4" -> MineManager.allMines.get("rankMine-4").refill();
             case "r5" -> MineManager.allMines.get("rankMine-5").refill();
             case "event" -> MineManager.allMines.get("eventMine").refill();
-            default -> player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/refill <mine>"));
+            default -> player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/refill <mine>"));
         }
         return false;
     }

@@ -5,7 +5,7 @@ import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
 import net.staticstudios.prisons.rankup.RankUpPrices;
 import net.staticstudios.prisons.UI.scoreboard.fastBoard.FastBoard;
 import net.staticstudios.prisons.rankup.RankUp;
-import net.staticstudios.prisons.utils.StaticVars;
+import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -140,7 +140,7 @@ public class CustomScoreboard {
                 colorLight + "│ " + colorBase + "Balance: " + colorLight + "$" + Utils.prettyNum(playerData.getMoney()),
                 colorLight + "│ " + colorBase + "Tokens: " + colorLight + "⛃" + Utils.prettyNum(playerData.getTokens()),
                 colorLight + "│ " + colorBase + "Prestige: " + colorLight + Utils.prettyNum(playerData.getPrestige()),
-                colorLight + "│ " + colorBase + "Vote Party: " + colorLight + ServerData.SERVER.getVoteParty() + "/" + StaticVars.VOTES_NEEDED_FOR_VOTE_PARTY,
+                colorLight + "│ " + colorBase + "Vote Party: " + colorLight + ServerData.SERVER.getVoteParty() + "/" + Constants.VOTES_NEEDED_FOR_VOTE_PARTY,
                 ChatColor.GREEN + "",
                 colorLight + " play.static-studios.net"
         );

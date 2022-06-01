@@ -4,7 +4,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.utils.StaticVars;
+import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class MineBombItem {
     public static void itemDropped(PlayerDropItemEvent e) {
         //Check if the item was a mine bomb, if so start a timer for it and set the pickup delay to a big number
-        if (!e.getPlayer().getLocation().getWorld().equals(StaticVars.MINES_WORLD)) return;
+        if (!e.getPlayer().getLocation().getWorld().equals(Constants.MINES_WORLD)) return;
         if (!e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER))
             return;
         e.getItemDrop().setPickupDelay(20 * 10);
@@ -60,7 +60,7 @@ public class MineBombItem {
                     playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(10000)));
                 if (playerData.getBackpackIsFull()) {
                     if (!backpackWasFull) {
-                        if (Utils.checkIfPlayerCanAutoSell(playerData) && playerData.getIsAutoSellEnabled())
+                        if (Utils.Players.canAutoSell(playerData) && playerData.getIsAutoSellEnabled())
                             playerData.sellBackpack(e.getPlayer(), true);
                         e.getPlayer().sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpackSize()) + "/" + Utils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
                         e.getPlayer().sendMessage(ChatColor.RED + "Your backpack is full!");

@@ -34,6 +34,6 @@ public class PickaxeCrate {
         }
         LOCATION.getWorld().spawnParticle(Particle.TOTEM, LOCATION.getBlockX() + 0.5d, LOCATION.getBlockY() + 1, LOCATION.getBlockZ() + 0.5d, 100);
         player.sendMessage(ChatColor.AQUA + "You have just won " + ChatColor.WHITE + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + "!");
-        Utils.addItemToPlayersInventoryAndDropExtra(player, new ItemStack(reward));
+        Utils.Players.addToInventory(player, new ItemStack(reward));
     }
 }

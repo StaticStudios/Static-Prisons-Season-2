@@ -39,7 +39,7 @@ public class AuctionManager {
         auctions.remove(auction);
         playerData.removeMoney(auction.price());
         new PlayerData(auction.owner()).addMoney(auction.price());
-        Utils.addItemToPlayersInventoryAndDropExtra(player, auction.item());
+        Utils.Players.addToInventory(player, auction.item());
         if (Bukkit.getPlayer(auction.owner()) != null) Bukkit.getPlayer(auction.owner()).sendMessage(AH_PREFIX + "" + player.getName() + " bought " + auction.item().getAmount() + "x " + Utils.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from you for " + ChatColor.GREEN + "$" + Utils.addCommasToNumber(auction.price()));
         player.sendMessage(AH_PREFIX + "You bought " + auction.item().getAmount() + "x " + Utils.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from " + ServerData.PLAYERS.getName(auction.owner()) + " for " + ChatColor.GREEN + "$" + Utils.addCommasToNumber(auction.price()));
         return true;

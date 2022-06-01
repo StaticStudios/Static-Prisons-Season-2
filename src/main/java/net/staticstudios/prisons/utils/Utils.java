@@ -16,16 +16,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Utils {
+public final class Utils {
     private static final Random random = new Random();
     /*
     public static void checkIfPlayerHasJoinedBefore(Player player) {
@@ -240,17 +240,6 @@ public class Utils {
         }
     }
 
-    public static ItemStack customSkull(OfflinePlayer player) {
-        ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
-
-        skullMeta.setOwningPlayer(player);
-        skullItem.setItemMeta(skullMeta);
-
-        return skullItem;
-    }
-
-
 
     public static String addCommasToNumber(BigInteger value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
@@ -321,34 +310,6 @@ public class Utils {
         return prettyNum;
     }
 
-    public static void addItemToPlayersInventoryAndDropExtra(Player player, ItemStack _item) {
-        ItemStack item = new ItemStack(_item); //prevent decrementing stack counts
-        int count = item.getAmount();
-        item.setAmount(1);
-        for (int i = 0; i < count; i++) {
-            if (hasAvailableSlot(player, item)) {
-                player.getInventory().addItem(item);
-            } else player.getWorld().dropItem(player.getLocation(), item);
-        }
-    }
-
-    static boolean hasAvailableSlot(Player player, ItemStack itemToAdd) {
-        Inventory inv = player.getInventory();
-        for (ItemStack item : inv.getStorageContents()) {
-            if (item == null) {
-                return true;
-            }
-        }
-        for (ItemStack item : inv.getStorageContents()) {
-            ItemStack _item = item.clone();
-            _item.setAmount(1);
-            if (item.getAmount() != 64 && _item.equals(itemToAdd)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static String getPrettyItemName(ItemStack item) {
         String name;
         if (!item.hasItemMeta()) {
@@ -383,12 +344,12 @@ public class Utils {
         if (item == null) return false;
         if (!item.getType().equals(Material.DIAMOND_PICKAXE)) return false;
         if (!item.hasItemMeta()) return false;
-        return item.getItemMeta().getPersistentDataContainer().has(StaticVars.UUID_NAMESPACEKEY, PersistentDataType.STRING);
+        return item.getItemMeta().getPersistentDataContainer().has(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING);
     }
 
     public static char getMineRankLetterFromMineRank(int mineRank) {
-        if (mineRank > StaticVars.A_THROUGH_Z.length) return 'Z';
-        return StaticVars.A_THROUGH_Z[mineRank];
+        if (mineRank > Constants.A_THROUGH_Z.length) return 'Z';
+        return Constants.A_THROUGH_Z[mineRank];
     }
 
     public static ItemStack createNewPickaxe() {
@@ -417,39 +378,118 @@ public class Utils {
         return newList;
     }
 
-    public static ItemStack findPickaxeInInventoryFromUUID(Player player, String pickaxeUUID) {
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (item == null) continue;
-            if (!checkIsPrisonPickaxe(item)) continue;
-            if (item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(StaticPrisons.getInstance(), "pickaxeUUID"), PersistentDataType.STRING).equals(pickaxeUUID)) {
-                return item;
+    public static class Players {
+
+        public static ItemStack getSkull(OfflinePlayer player) {
+            ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
+            SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
+
+            skullMeta.setOwningPlayer(player);
+            skullItem.setItemMeta(skullMeta);
+
+            return skullItem;
+        }
+
+        /**
+         *
+         * This method will add an item to a player's inventory and drop any extra on the ground if the inventory is full
+         *
+         * @param player Player whose inventory will be affected
+         * @param _item Item to add
+         */
+        public static void addToInventory(Player player, ItemStack _item) {
+            ItemStack item = new ItemStack(_item); //prevent decrementing stack counts
+            int count = item.getAmount();
+            item.setAmount(1);
+            for (int i = 0; i < count; i++) {
+                if (hasAvailableSlot(player, item)) {
+                    player.getInventory().addItem(item);
+                } else player.getWorld().dropItem(player.getLocation(), item);
             }
         }
-        return null;
-    }
-    public static boolean checkIfPlayerCanAutoSell(PlayerData playerData) {
-        if (playerData.getCanExplicitlyEnableAutoSell()) return true;
-        return playerData.getPlayerRanks().contains("warrior") || playerData.getIsNitroBoosting();
-    }
-    public static boolean checkIfPlayerCanAutoSell(Player player) {
-        return checkIfPlayerCanAutoSell(new PlayerData(player));
-    }
 
-    @NotNull
-    public static <T> T getRandomWeightedElement(WeightedElement<T>... weightedElements) {
-        List<T> elements = new ArrayList<>();
-        List<Double> weights = new ArrayList<>();
-        for (WeightedElement<T> weightedElement : weightedElements) elements.add(weightedElement.element);
-        for (WeightedElement<T> weightedElement : weightedElements) weights.add(weightedElement.weight);
-        double totalWeight = 0;
-        for (double weight : weights) totalWeight += weight;
-        double random = Math.random() * totalWeight;
-        double currentWeight = 0;
-        for (int i = 0; i < elements.size(); i++) {
-            currentWeight += weights.get(i);
-            if (random < currentWeight) return elements.get(i);
+        static boolean hasAvailableSlot(Player player, ItemStack itemToAdd) {
+            Inventory inv = player.getInventory();
+            for (ItemStack item : inv.getStorageContents()) {
+                if (item == null) {
+                    return true;
+                }
+            }
+            for (ItemStack item : inv.getStorageContents()) {
+                ItemStack _item = item.clone();
+                _item.setAmount(1);
+                if (item.getAmount() != 64 && _item.equals(itemToAdd)) {
+                    return true;
+                }
+            }
+            return false;
         }
-        return elements.get(0);
+
+        /*
+        public static ItemStack findPickaxeInInventoryFromUUID(Player player, String pickaxeUUID) {
+            for (ItemStack item : player.getInventory().getContents()) {
+                if (item == null) continue;
+                if (!checkIsPrisonPickaxe(item)) continue;
+                if (item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(StaticPrisons.getInstance(), "pickaxeUUID"), PersistentDataType.STRING).equals(pickaxeUUID)) {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+         */
+
+        /**
+         * @return true if this player can auto sell; this will factor in ranks and booster status
+         */
+        public static boolean canAutoSell(PlayerData playerData) {
+            if (playerData.getCanExplicitlyEnableAutoSell()) return true;
+            return playerData.getPlayerRanks().contains("warrior") || playerData.getIsNitroBoosting();
+        }
+
+        public static boolean canAutoSell(Player player) {
+            return canAutoSell(new PlayerData(player));
+        }
     }
 
+    //create a method to format time in miliseconds to a string that will list out the time in days, hours, minutes, and seconds
+    public static String formatTime(long time) {
+        long days = time / 86400000;
+        time -= days * 86400000;
+        long hours = time / 3600000;
+        time -= hours * 3600000;
+        long minutes = time / 60000;
+        time -= minutes * 60000;
+        long seconds = time / 1000;
+        time -= seconds * 1000;
+        long milliseconds = time;
+        StringBuilder sb = new StringBuilder();
+        if (days > 0) {
+            sb.append(days).append("d ");
+        }
+        if (hours > 0) {
+            sb.append(hours).append("h ");
+        }
+        if (minutes > 0) {
+            sb.append(minutes).append("m ");
+        }
+        if (seconds > 0) {
+            sb.append(seconds).append("s ");
+        }
+        if (milliseconds > 0) {
+            sb.append(milliseconds).append("ms");
+        }
+        return sb.toString();
+    }
+
+    public static class CommandUtils {
+        public static final String noPermissionsMessage = org.bukkit.ChatColor.RED + "You do not have permission to use this command!";
+        public static final String commandCannotBeUsedInConsole = org.bukkit.ChatColor.AQUA + "This command cannot be run from the console!";
+        public static String getIncorrectCommandUsageMessage(String correctUsage) {
+            return org.bukkit.ChatColor.BOLD + "" + org.bukkit.ChatColor.RED + "Incorrect command usage!\n" + org.bukkit.ChatColor.RESET + "" + org.bukkit.ChatColor.GRAY + correctUsage;
+        }
+        public static void logConsoleCannotUseThisCommand() {
+            Bukkit.getLogger().log(Level.INFO, commandCannotBeUsedInConsole);
+        }
+    }
 }

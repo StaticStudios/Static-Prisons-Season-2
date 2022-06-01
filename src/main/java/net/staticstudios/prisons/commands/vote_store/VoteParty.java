@@ -3,7 +3,7 @@ package net.staticstudios.prisons.commands.vote_store;
 import net.staticstudios.prisons.customItems.CustomItems;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
-import net.staticstudios.prisons.utils.StaticVars;
+import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,7 +15,7 @@ import java.time.Instant;
 public class VoteParty {
     public static void addVoteToVoteParty() {
         ServerData.SERVER.setVoteParty(ServerData.SERVER.getVoteParty());
-        if (ServerData.SERVER.getVoteParty() >= StaticVars.VOTES_NEEDED_FOR_VOTE_PARTY) {
+        if (ServerData.SERVER.getVoteParty() >= Constants.VOTES_NEEDED_FOR_VOTE_PARTY) {
             ServerData.SERVER.setVoteParty(0);
             for (Player p : Bukkit.getOnlinePlayers()) {
                 PlayerData playerData = new PlayerData(p);
@@ -31,7 +31,7 @@ public class VoteParty {
                     }
                     if (playerData.getIsNitroBoosting()) reward.setAmount(reward.getAmount() * 2);
                     p.sendMessage(ChatColor.WHITE + "You have received " + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + ChatColor.WHITE + " from the vote party! You won this because you have voted within the past 24 hours!");
-                    Utils.addItemToPlayersInventoryAndDropExtra(p, reward);
+                    Utils.Players.addToInventory(p, reward);
                 } else p.sendMessage(ChatColor.RED + "You missed out on winning rewards from the vote party because you have not voted in the past 24 hours! To make sure this doesn't happen again, type " + ChatColor.GREEN + "/vote");
             }
         }

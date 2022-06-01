@@ -49,10 +49,10 @@ public class BlockBreakListener implements Listener {
 
     public static void backpackFullCheck(boolean wasFullBefore, Player player, PlayerData playerData) {
         if (playerData.getBackpackIsFull()) {
-            if (Utils.checkIfPlayerCanAutoSell(playerData) && playerData.getIsAutoSellEnabled()) {
+            if (Utils.Players.canAutoSell(playerData) && playerData.getIsAutoSellEnabled()) {
                 playerData.sellBackpack(player, true);
             } else if (!wasFullBefore) {
-                if (playerData.getIsAutoSellEnabled() && !Utils.checkIfPlayerCanAutoSell(playerData)) playerData.setIsAutoSellEnabled(false);
+                if (playerData.getIsAutoSellEnabled() && !Utils.Players.canAutoSell(playerData)) playerData.setIsAutoSellEnabled(false);
                 player.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpackSize()) + "/" + Utils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
                 player.sendMessage(ChatColor.RED + "Your backpack is full!");
             }

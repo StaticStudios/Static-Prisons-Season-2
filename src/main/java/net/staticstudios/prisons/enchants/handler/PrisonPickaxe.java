@@ -1,29 +1,21 @@
 package net.staticstudios.prisons.enchants.handler;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.data.sql.MySQLConnection;
-import net.staticstudios.prisons.utils.StaticVars;
+import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.projectiles.ProjectileSource;
-import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 public class PrisonPickaxe {
@@ -83,7 +75,7 @@ public class PrisonPickaxe {
     }
 
     public static PrisonPickaxe fromItem(ItemStack item) {
-        PrisonPickaxe pickaxe = PrisonPickaxe.fromID(item.getItemMeta().getPersistentDataContainer().get(StaticVars.UUID_NAMESPACEKEY, PersistentDataType.STRING));
+        PrisonPickaxe pickaxe = PrisonPickaxe.fromID(item.getItemMeta().getPersistentDataContainer().get(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING));
         if (pickaxe != null) pickaxe.item = item;
         return pickaxe;
     }
@@ -108,7 +100,7 @@ public class PrisonPickaxe {
     public PrisonPickaxe(ItemStack item) {
         String uuid = UUID.randomUUID().toString();
         ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(StaticVars.UUID_NAMESPACEKEY, PersistentDataType.STRING, uuid);
+        meta.getPersistentDataContainer().set(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING, uuid);
         item.setItemMeta(meta);
         pickaxeUUIDToPrisonPickaxe.put(uuid, this);
     }

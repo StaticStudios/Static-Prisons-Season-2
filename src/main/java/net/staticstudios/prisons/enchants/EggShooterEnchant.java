@@ -10,7 +10,7 @@ import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.mineBombs.MineBomb;
-import net.staticstudios.prisons.utils.StaticVars;
+import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
-import java.time.Instant;
 import java.util.Map;
 
 public class EggShooterEnchant extends BaseEnchant {
@@ -52,7 +51,7 @@ public class EggShooterEnchant extends BaseEnchant {
     @Override
     public void whileRightClicking(PlayerInteractEvent e, PrisonPickaxe pickaxe) {
         Player player = e.getPlayer();
-        if (e.getPlayer().getWorld() != StaticVars.MINES_WORLD) return;
+        if (e.getPlayer().getWorld() != Constants.MINES_WORLD) return;
         Egg egg = player.getWorld().spawn(player.getEyeLocation(), Egg.class);
         egg.setShooter(new EggShooterPickaxe(player, pickaxe));
         egg.setVelocity(player.getLocation().getDirection().multiply(1));

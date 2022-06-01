@@ -2,7 +2,7 @@ package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.customItems.Vouchers;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.utils.CommandUtils;
+import net.staticstudios.prisons.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,7 +21,7 @@ public class WithdrawCommand implements CommandExecutor {
         Player player = (Player) sender;
         PlayerData playerData = new PlayerData(player);
         if (args.length < 2) {
-            player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
             return true;
         }
         switch (args[0].toLowerCase()) {
@@ -31,7 +31,7 @@ public class WithdrawCommand implements CommandExecutor {
                 try {
                     amount = new BigInteger(args[1]);
                 } catch (NumberFormatException err) {
-                    player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+                    player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
                     return false;
                 }
                 if (amount.compareTo(BigInteger.ZERO) < 1) {
@@ -42,7 +42,7 @@ public class WithdrawCommand implements CommandExecutor {
                     try {
                         stackCount = Integer.parseInt(args[2]);
                     } catch (NumberFormatException err) {
-                        player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+                        player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
                         return false;
                     }
                 }
@@ -61,7 +61,7 @@ public class WithdrawCommand implements CommandExecutor {
                 try {
                     amount = new BigInteger(args[1]);
                 } catch (NumberFormatException err) {
-                    player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+                    player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
                     return false;
                 }
                 if (amount.compareTo(BigInteger.ZERO) < 1) {
@@ -72,7 +72,7 @@ public class WithdrawCommand implements CommandExecutor {
                     try {
                         stackCount = Integer.parseInt(args[2]);
                     } catch (NumberFormatException err) {
-                        player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+                        player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
                         return false;
                     }
                 }
@@ -85,7 +85,7 @@ public class WithdrawCommand implements CommandExecutor {
                     }
                 } else player.sendMessage(ChatColor.RED + "Insufficient Funds!");
             }
-            default -> player.sendMessage(CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+            default -> player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
         }
         return true;
     }
