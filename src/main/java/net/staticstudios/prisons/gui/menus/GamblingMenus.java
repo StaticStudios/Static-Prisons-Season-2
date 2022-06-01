@@ -7,7 +7,7 @@ import net.staticstudios.prisons.gambling.GambleHandler;
 import net.staticstudios.prisons.gambling.TokenFlip;
 import net.staticstudios.prisons.gui.GUI;
 import net.staticstudios.prisons.gui.GUIPage;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -80,13 +80,13 @@ public class GamblingMenus {
                         index += 3;
                     }
                     if (player.equals(cf.owner)) {
-                        menuItems.set(index + 1, GUI.createMenuItem(identifier, icon, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + cf.owner.getName(), ChatColor.DARK_GRAY + "Bet: " + ChatColor.GREEN + "$" + Utils.addCommasToNumber(cf.amount), ChatColor.DARK_GRAY + "Side: " + ChatColor.AQUA + side, "", ChatColor.RED + "Click to cancel"));
+                        menuItems.set(index + 1, GUI.createMenuItem(identifier, icon, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + cf.owner.getName(), ChatColor.DARK_GRAY + "Bet: " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(cf.amount), ChatColor.DARK_GRAY + "Side: " + ChatColor.AQUA + side, "", ChatColor.RED + "Click to cancel"));
                         ItemMeta meta = menuItems.get(index + 1).getItemMeta();
                         meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "uuid"), PersistentDataType.STRING, cf.uuid);
                         meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "isYours"), PersistentDataType.INTEGER, 1);
                         menuItems.get(index + 1).setItemMeta(meta);
                     } else {
-                        menuItems.set(index + 1, GUI.createMenuItem(identifier, icon, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + cf.owner.getName(), ChatColor.DARK_GRAY + "Bet: " + ChatColor.GREEN + "$" + Utils.addCommasToNumber(cf.amount), ChatColor.DARK_GRAY + "Side: " + ChatColor.AQUA + side, "", ChatColor.GREEN + "Click to accept bet"));
+                        menuItems.set(index + 1, GUI.createMenuItem(identifier, icon, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + cf.owner.getName(), ChatColor.DARK_GRAY + "Bet: " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(cf.amount), ChatColor.DARK_GRAY + "Side: " + ChatColor.AQUA + side, "", ChatColor.GREEN + "Click to accept bet"));
                         ItemMeta meta = menuItems.get(index + 1).getItemMeta();
                         meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "uuid"), PersistentDataType.STRING, cf.uuid);
                         meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "isYours"), PersistentDataType.INTEGER, 0);
@@ -163,13 +163,13 @@ public class GamblingMenus {
                         index += 3;
                     }
                     if (player.equals(tf.owner)) {
-                        menuItems.set(index + 1, GUI.createMenuItem(identifier, icon, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + tf.owner.getName(), ChatColor.DARK_GRAY + "Bet: " + ChatColor.GOLD + Utils.addCommasToNumber(tf.amount) + " Tokens", ChatColor.DARK_GRAY + "Side: " + ChatColor.AQUA + side, "", ChatColor.RED + "Click to cancel"));
+                        menuItems.set(index + 1, GUI.createMenuItem(identifier, icon, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + tf.owner.getName(), ChatColor.DARK_GRAY + "Bet: " + ChatColor.GOLD + PrisonUtils.addCommasToNumber(tf.amount) + " Tokens", ChatColor.DARK_GRAY + "Side: " + ChatColor.AQUA + side, "", ChatColor.RED + "Click to cancel"));
                         ItemMeta meta = menuItems.get(index + 1).getItemMeta();
                         meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "uuid"), PersistentDataType.STRING, tf.uuid);
                         meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "isYours"), PersistentDataType.INTEGER, 1);
                         menuItems.get(index + 1).setItemMeta(meta);
                     } else {
-                        menuItems.set(index + 1, GUI.createMenuItem(identifier, icon, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + tf.owner.getName(), ChatColor.DARK_GRAY + "Bet: " + ChatColor.GOLD + Utils.addCommasToNumber(tf.amount) + " Tokens", ChatColor.DARK_GRAY + "Side: " + ChatColor.AQUA + side, "", ChatColor.GREEN + "Click to accept bet"));
+                        menuItems.set(index + 1, GUI.createMenuItem(identifier, icon, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + tf.owner.getName(), ChatColor.DARK_GRAY + "Bet: " + ChatColor.GOLD + PrisonUtils.addCommasToNumber(tf.amount) + " Tokens", ChatColor.DARK_GRAY + "Side: " + ChatColor.AQUA + side, "", ChatColor.GREEN + "Click to accept bet"));
                         ItemMeta meta = menuItems.get(index + 1).getItemMeta();
                         meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "uuid"), PersistentDataType.STRING, tf.uuid);
                         meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "isYours"), PersistentDataType.INTEGER, 0);

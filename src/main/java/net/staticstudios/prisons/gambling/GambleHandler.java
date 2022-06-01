@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.gambling;
 
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -24,7 +24,7 @@ public class GambleHandler {
             return;
         }
         TokenFlip.createTokenFlip(player, amount, isHeads);
-        player.sendMessage(ChatColor.AQUA + "You have successfully created a TokenFlip for " + ChatColor.GOLD + Utils.prettyNum(amount) + "Token(s)");
+        player.sendMessage(ChatColor.AQUA + "You have successfully created a TokenFlip for " + ChatColor.GOLD + PrisonUtils.prettyNum(amount) + "Token(s)");
     }
     public void addCoinFlip(Player player, BigInteger amount, boolean isHeads) {
         if (coinFlips.containsKey(player.getUniqueId().toString())) {
@@ -36,7 +36,7 @@ public class GambleHandler {
             return;
         }
         CoinFlip.createCoinFlip(player, amount, isHeads);
-        player.sendMessage(ChatColor.AQUA + "You have successfully created a CoinFlip for " + ChatColor.GREEN + "$" + Utils.prettyNum(amount));
+        player.sendMessage(ChatColor.AQUA + "You have successfully created a CoinFlip for " + ChatColor.GREEN + "$" + PrisonUtils.prettyNum(amount));
     }
 
 
@@ -51,14 +51,14 @@ public class GambleHandler {
         for (String key : coinFlips.keySet()) {
             CoinFlip cf = coinFlips.get(key);
             if (cf.expireAt <= Instant.now().toEpochMilli()) {
-                cf.owner.sendMessage(ChatColor.RED + "Your CoinFlip for " + ChatColor.GREEN + "$" + Utils.prettyNum(cf.amount) + ChatColor.RED + " has expired!");
+                cf.owner.sendMessage(ChatColor.RED + "Your CoinFlip for " + ChatColor.GREEN + "$" + PrisonUtils.prettyNum(cf.amount) + ChatColor.RED + " has expired!");
                 cf.remove();
             }
         }
         for (String key : tokenFlips.keySet()) {
             TokenFlip tf = tokenFlips.get(key);
             if (tf.expireAt <= Instant.now().toEpochMilli()) {
-                tf.owner.sendMessage(ChatColor.RED + "Your TokenFlip for " + ChatColor.GOLD + Utils.prettyNum(tf.amount) + ChatColor.RED + " has expired!");
+                tf.owner.sendMessage(ChatColor.RED + "Your TokenFlip for " + ChatColor.GOLD + PrisonUtils.prettyNum(tf.amount) + ChatColor.RED + " has expired!");
                 tf.remove();
             }
         }

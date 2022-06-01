@@ -12,7 +12,7 @@ import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.utils.Constants;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,35 +27,19 @@ public class JackHammerEnchant extends BaseEnchant {
         super("jackHammer", "&8&lJack Hammer", 20000, BigInteger.valueOf(250), "&7Chance to destroy a layer of a mine");
     }
 
-
-    @Override
     public void onBlockBreak(PrisonBlockBroken bb) {
-        if (Utils.randomInt(1, 75) != 1) return;
+        if (PrisonUtils.randomInt(1, 75) != 1) return;
         int jackHammerLevel = bb.pickaxe.getEnchantLevel(ENCHANT_ID);
         int doubleWammyLevel = bb.pickaxe.getEnchantLevel(PrisonEnchants.DOUBLE_JACK_HAMMER);
-        if (Utils.randomInt(1, MAX_LEVEL + MAX_LEVEL / 10) <= jackHammerLevel + MAX_LEVEL / 10) {
+        if (PrisonUtils.randomInt(1, MAX_LEVEL + MAX_LEVEL / 10) <= jackHammerLevel + MAX_LEVEL / 10) {
             int howDeepToGo = 1;
-            if (doubleWammyLevel > 0) if (Utils.randomInt(1, PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) <= doubleWammyLevel + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) howDeepToGo += 1;
+            if (doubleWammyLevel > 0) if (PrisonUtils.randomInt(1, PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) <= doubleWammyLevel + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) howDeepToGo += 1;
             BreakLayer bl = new BreakLayer(bb.mine);
             bb.blockTypesBroken.putAll(bl.destroyLayer(bb.blockLocation.getBlockY(), howDeepToGo));
             bb.blocksBroken += bl.totalBlocksBroken;
         }
     }
 
-    @Override
-    public void onPickaxeHeld(Player player, PrisonPickaxe pickaxe) {
-
-    }
-
-    @Override
-    public void onPickaxeUnHeld(Player player, PrisonPickaxe pickaxe) {
-
-    }
-
-    @Override
-    public void whileRightClicking(PlayerInteractEvent e, PrisonPickaxe pickaxe) {
-
-    }
     static class BreakLayer {
         private final StaticMine mine;
         public long totalBlocksBroken = 0;

@@ -14,23 +14,7 @@ public class NightVisionEnchant extends BaseEnchant {
         super("nightVision", "&9&lNight Vision", 1, BigInteger.valueOf(10000), "&7Gives the vanilla night vision effect");
     }
 
-
-    @Override
-    public void onBlockBreak(PrisonBlockBroken bb) {
-    }
-
-    @Override
     public void onPickaxeHeld(Player player, PrisonPickaxe pickaxe) {
         player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(Integer.MAX_VALUE, Math.min(10, pickaxe.getEnchantLevel(ENCHANT_ID) - 1)));
-    }
-
-    @Override
-    public void onPickaxeUnHeld(Player player, PrisonPickaxe pickaxe) {
-        player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-    }
-
-    @Override
-    public void whileRightClicking(PlayerInteractEvent e, PrisonPickaxe pickaxe) {
-
     }
 }

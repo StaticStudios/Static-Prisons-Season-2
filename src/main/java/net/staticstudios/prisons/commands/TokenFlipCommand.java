@@ -3,7 +3,7 @@ package net.staticstudios.prisons.commands;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.gambling.TokenFlip;
 import net.staticstudios.prisons.gui.GUI;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +24,7 @@ public class TokenFlipCommand implements CommandExecutor {
             GUI.getGUIPage("tf").open(player);
             return false;
         } else if (args.length == 1) {
-            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/tokenflip <amount> <heads|tails>"));
+            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/tokenflip <amount> <heads|tails>"));
             return false;
         }
         BigInteger amount;
@@ -32,7 +32,7 @@ public class TokenFlipCommand implements CommandExecutor {
         try {
             amount = new BigInteger(args[0]);
         } catch (NumberFormatException e) {
-            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/tokenflip <amount> <heads|tails>"));
+            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/tokenflip <amount> <heads|tails>"));
             return false;
         }
         if (args[1].equalsIgnoreCase("heads")) {
@@ -40,7 +40,7 @@ public class TokenFlipCommand implements CommandExecutor {
         } else if (args[1].equalsIgnoreCase("tails")) {
             isHeads = false;
         } else {
-            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/tokenflip <amount> <heads|tails>"));
+            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/tokenflip <amount> <heads|tails>"));
             return false;
         }
         if (TokenFlip.checkIfThereAreTooManyActiveFlips()) {
@@ -56,7 +56,7 @@ public class TokenFlipCommand implements CommandExecutor {
             return false;
         }
         TokenFlip.createTokenFlip(player, amount, isHeads);
-        player.sendMessage(ChatColor.AQUA + "You have successfully created a TokenFlip for " + ChatColor.GREEN + Utils.prettyNum(amount) + " Tokens");
+        player.sendMessage(ChatColor.AQUA + "You have successfully created a TokenFlip for " + ChatColor.GREEN + PrisonUtils.prettyNum(amount) + " Tokens");
 
         return true;
     }

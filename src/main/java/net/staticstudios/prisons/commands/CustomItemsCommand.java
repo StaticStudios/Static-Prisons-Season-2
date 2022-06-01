@@ -2,7 +2,7 @@ package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.customItems.CustomItems;
 import net.staticstudios.prisons.customItems.Vouchers;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,7 +16,7 @@ public class CustomItemsCommand implements CommandExecutor {
         Player player = (Player) sender;
         ItemStack item;
         if (args.length == 0) {
-            player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/customitems <common_key|rare_key|epic_key|legendary_key|static_key|staticp_key|vote_key|kit_key|pickaxe_key|money_pouch_1|money_pouch_2|money_pouch_3|token_pouch_1|token_pouch_2|token_pouch_3|multi_pouch_1|multi_pouch_2|multi_pouch_3|pickaxe_1|pickaxe_2|pickaxe_3|pickaxe_4|pickaxe_5|pickaxe_6|pickaxe_7|pickaxe_8|pickaxe_9|pickaxe_10|pmine_voucher_1|pmine_voucher_2|pmine_voucher_3|pmine_voucher_4|pmine_voucher_5|pmine_voucher_6|pmine_voucher_7|pmine_voucher_8|pmine_voucher_9|pmine_voucher_10|pmine_voucher_11|warrior_voucher|master_voucher|mythic_voucher|static_voucher|staticp_voucher|kit_1|kit_2|kit_3|kit_4|kit_5|kit_6|kit_weapons|kit_potions|mine_bomb_1|mine_bomb_2|mine_bomb_3|mine_bomb_4>"));
+            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/customitems <common_key|rare_key|epic_key|legendary_key|static_key|staticp_key|vote_key|kit_key|pickaxe_key|money_pouch_1|money_pouch_2|money_pouch_3|token_pouch_1|token_pouch_2|token_pouch_3|multi_pouch_1|multi_pouch_2|multi_pouch_3|pickaxe_1|pickaxe_2|pickaxe_3|pickaxe_4|pickaxe_5|pickaxe_6|pickaxe_7|pickaxe_8|pickaxe_9|pickaxe_10|pmine_voucher_1|pmine_voucher_2|pmine_voucher_3|pmine_voucher_4|pmine_voucher_5|pmine_voucher_6|pmine_voucher_7|pmine_voucher_8|pmine_voucher_9|pmine_voucher_10|pmine_voucher_11|warrior_voucher|master_voucher|mythic_voucher|static_voucher|staticp_voucher|kit_1|kit_2|kit_3|kit_4|kit_5|kit_6|kit_weapons|kit_potions|mine_bomb_1|mine_bomb_2|mine_bomb_3|mine_bomb_4>"));
             return false;
         }
         switch (args[0].toLowerCase()) {
@@ -76,7 +76,7 @@ public class CustomItemsCommand implements CommandExecutor {
             case "mine_bomb_3" -> item = CustomItems.getMineBombTier3();
             case "mine_bomb_4" -> item = CustomItems.getMineBombTier4();
             default -> {
-                player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/customitems <common_key|rare_key|epic_key|legendary_key|static_key|staticp_key|vote_key|kit_key|pickaxe_key|money_pouch_1|money_pouch_2|money_pouch_3|token_pouch_1|token_pouch_2|token_pouch_3|multi_pouch_1|multi_pouch_2|multi_pouch_3|pickaxe_1|pickaxe_2|pickaxe_3|pickaxe_4|pickaxe_5|pickaxe_6|pickaxe_7|pickaxe_8|pickaxe_9|pickaxe_10|pmine_voucher_1|pmine_voucher_2|pmine_voucher_3|pmine_voucher_4|pmine_voucher_5|pmine_voucher_6|pmine_voucher_7|pmine_voucher_8|pmine_voucher_9|pmine_voucher_10|pmine_voucher_11|warrior_voucher|master_voucher|mythic_voucher|static_voucher|staticp_voucher|kit_1|kit_2|kit_3|kit_4|kit_5|kit_6|kit_weapons|kit_potions|mine_bomb_1|mine_bomb_2|mine_bomb_3|mine_bomb_4>"));
+                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/customitems <common_key|rare_key|epic_key|legendary_key|static_key|staticp_key|vote_key|kit_key|pickaxe_key|money_pouch_1|money_pouch_2|money_pouch_3|token_pouch_1|token_pouch_2|token_pouch_3|multi_pouch_1|multi_pouch_2|multi_pouch_3|pickaxe_1|pickaxe_2|pickaxe_3|pickaxe_4|pickaxe_5|pickaxe_6|pickaxe_7|pickaxe_8|pickaxe_9|pickaxe_10|pmine_voucher_1|pmine_voucher_2|pmine_voucher_3|pmine_voucher_4|pmine_voucher_5|pmine_voucher_6|pmine_voucher_7|pmine_voucher_8|pmine_voucher_9|pmine_voucher_10|pmine_voucher_11|warrior_voucher|master_voucher|mythic_voucher|static_voucher|staticp_voucher|kit_1|kit_2|kit_3|kit_4|kit_5|kit_6|kit_weapons|kit_potions|mine_bomb_1|mine_bomb_2|mine_bomb_3|mine_bomb_4>"));
                 return false;
             }
         }

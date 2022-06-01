@@ -4,7 +4,7 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.gui.GUI;
 import net.staticstudios.prisons.gui.GUIPage;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -39,7 +39,7 @@ public class TokenFlip extends Flip {
             GUI.getGUIPage("tf").open(challenger);
             return;
         }
-        int win = Utils.randomInt(0, 1);
+        int win = PrisonUtils.randomInt(0, 1);
         runAnimation(challenger, (win == 0 && isHeads) || (win == 1 && !isHeads));
         new PlayerData(owner).removeTokens(amount);
         new PlayerData(challenger).removeTokens(amount);
@@ -47,12 +47,12 @@ public class TokenFlip extends Flip {
             if (win == 0) {
                 new PlayerData(owner).addTokens(amount.multiply(BigInteger.TWO));
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + owner.getName() + " has won a TokenFlip against " + challenger.getName() + " for " + Utils.prettyNum(amount) + " Tokens");
+                    p.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + owner.getName() + " has won a TokenFlip against " + challenger.getName() + " for " + PrisonUtils.prettyNum(amount) + " Tokens");
                 }
             } else {
                 new PlayerData(challenger).addTokens(amount.multiply(BigInteger.TWO));
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + challenger.getName() + " has won a TokenFlip against " + owner.getName() + " for " + Utils.prettyNum(amount) + " Tokens");
+                    p.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + challenger.getName() + " has won a TokenFlip against " + owner.getName() + " for " + PrisonUtils.prettyNum(amount) + " Tokens");
                 }
             }
         }, 110);

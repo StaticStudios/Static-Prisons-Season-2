@@ -2,7 +2,7 @@ package net.staticstudios.prisons.chat;
 
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.UI.tablist.TabList;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -56,7 +56,7 @@ public class CustomChatMessage {
 
 
 
-        String prefix = ChatColor.translateAlternateColorCodes('&', "&8[&dP" + Utils.prettyNum(playerData.getPrestige()) + "&8] " + ChatTags.getChatTagFromID(playerData.getChatTag1())  + ChatTags.getChatTagFromID(playerData.getChatTag2()) +
+        String prefix = ChatColor.translateAlternateColorCodes('&', "&8[&dP" + PrisonUtils.prettyNum(playerData.getPrestige()) + "&8] " + ChatTags.getChatTagFromID(playerData.getChatTag1())  + ChatTags.getChatTagFromID(playerData.getChatTag2()) +
                 "&8[" + rankTag + "&8] ");
         String suffix = "";
         String playerName = ChatColor.of("#54f08a") + this.playerName;
@@ -111,15 +111,15 @@ public class CustomChatMessage {
                     componentBuilder.underlined(playerData.getIsChatUnderlined());
 
 
-                    StringBuilder itemHoverText = new StringBuilder(ChatColor.stripColor(Utils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand())) + "\n");
+                    StringBuilder itemHoverText = new StringBuilder(ChatColor.stripColor(PrisonUtils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand())) + "\n");
                     if (e.getPlayer().getInventory().getItemInMainHand().hasItemMeta())
                         if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasLore()) {
                             for (String line : e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getLore()) itemHoverText.append(line).append("\n");
                         }
                     HoverEvent itemHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(itemHoverText.toString()));
 
-                    char[] itemNameArr = (ChatColor.stripColor(Utils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand()) + " ")).toCharArray();
-                    List<List<ChatColor>> itemNameColors = getColorOfEveryCharacter(Utils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand()) + " ");
+                    char[] itemNameArr = (ChatColor.stripColor(PrisonUtils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand()) + " ")).toCharArray();
+                    List<List<ChatColor>> itemNameColors = getColorOfEveryCharacter(PrisonUtils.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand()) + " ");
                     for (int i = 0; i < itemNameArr.length - 1; i++) {
                         componentBuilder.append(itemNameArr[i] + "");
                         componentBuilder.reset();

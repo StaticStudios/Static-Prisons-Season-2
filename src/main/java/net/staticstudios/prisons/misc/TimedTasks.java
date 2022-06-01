@@ -6,13 +6,13 @@ import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.UI.PlayerUI;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.events.EventManager;
+import net.staticstudios.prisons.chat.events.EventManager;
 import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
-import net.staticstudios.prisons.newAuctionHouse.AuctionManager;
+import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.utils.Constants;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -33,8 +33,14 @@ public class TimedTasks {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), DiscordLink::updatePlayerCount, 200, 200);
         //Manages mine refills
         //Bukkit.getScheduler().runTaskTimer(StaticPrisons.getPlugin(), MineManager::refillManager, 0, 2);
+
+
         //Save Pickaxe Data
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::savePickaxeData, 20 * 60 * 5, 20 * 60 * 5);
+        //Update All Pickaxe Lore
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::dumpLoreToAllPickaxes, 20, 20 * 5);
+
+
         //Show all players their backpacks
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -71,7 +77,7 @@ public class TimedTasks {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), LeaderboardManager::updateAll, 20, 20 * 60 * 30);
         //Tips
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
-            String tip = Constants.TIPS[Utils.randomInt(0, Constants.TIPS.length - 1)];
+            String tip = Constants.TIPS[PrisonUtils.randomInt(0, Constants.TIPS.length - 1)];
             for (Player p : Bukkit.getOnlinePlayers()) if (!new PlayerData(p).getAreTipsDisabled()) p.sendMessage(tip);
         }, 20 * 60 * 5, 20 * 60 * 10);
         //Chat Events

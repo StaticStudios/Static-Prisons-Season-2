@@ -4,7 +4,7 @@ import net.staticstudios.prisons.customItems.CustomItems;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.gui.GUI;
 import net.staticstudios.prisons.gui.GUIPage;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -59,7 +59,7 @@ public class DailyRewardsMenus {
                         return;
                     }
                     ItemStack item = null;
-                    switch (Utils.randomInt(1, 11)) {
+                    switch (PrisonUtils.randomInt(1, 11)) {
                         case 1 -> item = CustomItems.getCommonCrateKey(5);
                         case 2, 3 -> item = CustomItems.getCommonCrateKey(8);
                         case 4, 5 -> item = CustomItems.getRareCrateKey(4);
@@ -68,8 +68,8 @@ public class DailyRewardsMenus {
                         case 10 -> item = CustomItems.getLegendaryCrateKey(3);
                         case 11 -> item = CustomItems.getStaticCrateKey(1);
                     }
-                    Utils.Players.addToInventory(player, item);
-                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + Utils.getPrettyItemName(item));
+                    PrisonUtils.Players.addToInventory(player, item);
+                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + PrisonUtils.getPrettyItemName(item));
                     playerData.setClaimedDailyRewardsRank1At(Instant.now().toEpochMilli());
                     player.closeInventory();
                 } else {
@@ -88,7 +88,7 @@ public class DailyRewardsMenus {
                         return;
                     }
                     ItemStack item = null;
-                    switch (Utils.randomInt(1, 10)) {
+                    switch (PrisonUtils.randomInt(1, 10)) {
                         case 1 -> item = CustomItems.getCommonCrateKey(5);
                         case 2, 3 -> item = CustomItems.getCommonCrateKey(8);
                         case 4, 5 -> item = CustomItems.getRareCrateKey(4);
@@ -96,8 +96,8 @@ public class DailyRewardsMenus {
                         case 8, 9 -> item = CustomItems.getLegendaryCrateKey(2);
                         case 10 -> item = CustomItems.getLegendaryCrateKey(3);
                     }
-                    Utils.Players.addToInventory(player, item);
-                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + Utils.getPrettyItemName(item));
+                    PrisonUtils.Players.addToInventory(player, item);
+                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + PrisonUtils.getPrettyItemName(item));
                     playerData.setClaimedDailyRewardsAt(Instant.now().toEpochMilli());
                     player.closeInventory();
                 } else {
@@ -120,7 +120,7 @@ public class DailyRewardsMenus {
                         return;
                     }
                     ItemStack item = null;
-                    switch (Utils.randomInt(1, 12)) {
+                    switch (PrisonUtils.randomInt(1, 12)) {
                         case 1 -> item = CustomItems.getCommonCrateKey(5);
                         case 2, 3 -> item = CustomItems.getCommonCrateKey(8);
                         case 4, 5 -> item = CustomItems.getRareCrateKey(4);
@@ -130,8 +130,8 @@ public class DailyRewardsMenus {
                         case 11 -> item = CustomItems.getStaticCrateKey(1);
                         case 12 -> item = CustomItems.getStaticpCrateKey(1);
                     }
-                    Utils.Players.addToInventory(player, item);
-                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + Utils.getPrettyItemName(item));
+                    PrisonUtils.Players.addToInventory(player, item);
+                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + PrisonUtils.getPrettyItemName(item));
                     playerData.setClaimedDailyRewardsRank2At(Instant.now().toEpochMilli());
                     player.closeInventory();
                 } else {

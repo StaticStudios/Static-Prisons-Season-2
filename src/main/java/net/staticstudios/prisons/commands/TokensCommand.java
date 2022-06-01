@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,7 +13,7 @@ public class TokensCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
-        player.sendMessage(ChatColor.AQUA + "Current token balance: " + Utils.addCommasToNumber(new PlayerData(player).getTokens()));
+        player.sendMessage(ChatColor.AQUA + "Current token balance: " + PrisonUtils.addCommasToNumber(new PlayerData(player).getTokens()));
         return false;
     }
 }

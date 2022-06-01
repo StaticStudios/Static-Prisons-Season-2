@@ -5,7 +5,7 @@ import net.staticstudios.prisons.gui.GUI;
 import net.staticstudios.prisons.gui.GUIPage;
 import net.staticstudios.prisons.misc.Warps;
 import net.staticstudios.prisons.rankup.RankUp;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -39,10 +39,10 @@ public class RankUpMenus {
 
                 for (int i = 0; i < 26; i++) {
                     if (playerData.getMineRank() >= i) {
-                        menuItems.add(GUI.createMenuItem(identifier, rankUpMaterials[i / 2], ChatColor.GREEN + "" + ChatColor.BOLD + "Mine " + Utils.getMineRankLetterFromMineRank(i), ChatColor.AQUA + "You have this mine unlocked!", "", ChatColor.GREEN + "Click to warp!"));
-                    } else menuItems.add(GUI.createMenuItem(identifier, Material.RED_STAINED_GLASS, ChatColor.RED + "" + ChatColor.BOLD + "Mine " + Utils.getMineRankLetterFromMineRank(i), ChatColor.RED + "You do not have this mine unlocked!", ChatColor.GREEN + "" + ChatColor.BOLD + "Costs: ",
-                            "" + ChatColor.GREEN + ChatColor.BOLD + "│ " + ChatColor.GREEN + "$" + Utils.prettyNum(RankUp.calculatePriceToRankUpTo(playerData, i)),
-                            "" + ChatColor.GREEN + ChatColor.BOLD + "│ " + ChatColor.GREEN + "$" + Utils.addCommasToNumber(RankUp.calculatePriceToRankUpTo(playerData, i)), "", ChatColor.GREEN + "Click to unlock!"));
+                        menuItems.add(GUI.createMenuItem(identifier, rankUpMaterials[i / 2], ChatColor.GREEN + "" + ChatColor.BOLD + "Mine " + PrisonUtils.getMineRankLetterFromMineRank(i), ChatColor.AQUA + "You have this mine unlocked!", "", ChatColor.GREEN + "Click to warp!"));
+                    } else menuItems.add(GUI.createMenuItem(identifier, Material.RED_STAINED_GLASS, ChatColor.RED + "" + ChatColor.BOLD + "Mine " + PrisonUtils.getMineRankLetterFromMineRank(i), ChatColor.RED + "You do not have this mine unlocked!", ChatColor.GREEN + "" + ChatColor.BOLD + "Costs: ",
+                            "" + ChatColor.GREEN + ChatColor.BOLD + "│ " + ChatColor.GREEN + "$" + PrisonUtils.prettyNum(RankUp.calculatePriceToRankUpTo(playerData, i)),
+                            "" + ChatColor.GREEN + ChatColor.BOLD + "│ " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(RankUp.calculatePriceToRankUpTo(playerData, i)), "", ChatColor.GREEN + "Click to unlock!"));
 
                 }
 
@@ -56,13 +56,13 @@ public class RankUpMenus {
                     return;
                 }
                 if (playerData.getMoney().compareTo(RankUp.calculatePriceToRankUpTo(playerData, e.getSlot())) > -1) {
-                    player.sendMessage(ChatColor.GREEN + "You have just ranked up! " + ChatColor.AQUA + Utils.getMineRankLetterFromMineRank(playerData.getMineRank()) + " -> " + Utils.getMineRankLetterFromMineRank(e.getSlot()));
+                    player.sendMessage(ChatColor.GREEN + "You have just ranked up! " + ChatColor.AQUA + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank()) + " -> " + PrisonUtils.getMineRankLetterFromMineRank(e.getSlot()));
                     playerData.removeMoney(RankUp.calculatePriceToRankUpTo(playerData, e.getSlot()));
                     playerData.setMineRank(e.getSlot());
                     open(player);
                     return;
                 }
-                player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + Utils.addCommasToNumber(RankUp.calculatePriceToRankUpTo(playerData, e.getSlot())));
+                player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + PrisonUtils.addCommasToNumber(RankUp.calculatePriceToRankUpTo(playerData, e.getSlot())));
             }
         };
         guiPage.identifier = "rankUp";

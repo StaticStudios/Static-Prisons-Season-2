@@ -2,11 +2,9 @@ package net.staticstudios.prisons.data.dataHandling;
 
 
 import net.staticstudios.prisons.data.Prices;
-import net.staticstudios.prisons.enchants.handler.CustomEnchants;
-import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.islands.SkyBlockIsland;
 import net.staticstudios.prisons.islands.SkyBlockIslands;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -252,19 +250,22 @@ public class PlayerData extends DataSet {
         setBackpackItemCount(getBackpackItemCount().add(amount));
     }
     public void sellBackpack(Player player, boolean sendChatMessage) {
+        sellBackpack(player, sendChatMessage, "(x%MULTI%) Sold " + ChatColor.AQUA + "%TOTAL_BACKPACK_COUNT% " + ChatColor.WHITE + "blocks for: " + ChatColor.GREEN + "$%TOTAL_SELL_PRICE%");
+    }
+    public void sellBackpack(Player player, boolean sendChatMessage, String chatMessage) {
         BigDecimal multi = getMoneyMultiplier();
-        //Factor in the merchant enchant
+        //Factor in the merchant enchant //todo
         //multi = multi.add(BigDecimal.valueOf(0.5 / PrisonEnchants.MERCHANT.MAX_LEVEL * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant")));
         BigInteger totalSellPrice = BigInteger.ZERO;
-        if (getBackpackItemCount().compareTo(BigInteger.ZERO) > 0) {
-            for (String key : getBackpackContents().keySet()) {
-                totalSellPrice = totalSellPrice.add(new BigInteger(getBackpackContents().get(key)).multiply(Prices.getSellPriceOf(Material.valueOf(key))));
-            }
-        }
+        if (getBackpackItemCount().compareTo(BigInteger.ZERO) > 0)
+            for (String key : getBackpackContents().keySet()) totalSellPrice = totalSellPrice.add(new BigInteger(getBackpackContents().get(key)).multiply(Prices.getSellPriceOf(Material.valueOf(key))));
         totalSellPrice = new BigDecimal(totalSellPrice).multiply(multi).toBigInteger();
         new PlayerData(player).addMoney(totalSellPrice);
         if (sendChatMessage) {
-            player.sendMessage(org.bukkit.ChatColor.GREEN + "(x" + multi + ") Sold " + Utils.addCommasToNumber(getBackpackItemCount()) + " blocks for: $" + Utils.addCommasToNumber(totalSellPrice));
+            chatMessage = chatMessage.replaceAll("%MULTI%", multi + "");
+            chatMessage = chatMessage.replaceAll("%TOTAL_BACKPACK_COUNT%", PrisonUtils.prettyNum(getBackpackItemCount()) + "");
+            chatMessage = chatMessage.replaceAll("%TOTAL_SELL_PRICE%", PrisonUtils.addCommasToNumber(totalSellPrice) + "");
+            player.sendMessage(chatMessage);
         }
         setBackpackIsFull(false);
         setBackpackItemCount(BigInteger.ZERO);
@@ -351,7 +352,7 @@ public class PlayerData extends DataSet {
     }
 
     public PlayerData setChatTags(List<String> value) {
-        setList("chatTags", Utils.removeDuplicatesInArrayList(value));
+        setList("chatTags", PrisonUtils.removeDuplicatesInArrayList(value));
         return this;
     }
     public List<String> getChatTags() {

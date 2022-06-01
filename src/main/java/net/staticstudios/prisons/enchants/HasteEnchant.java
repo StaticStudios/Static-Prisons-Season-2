@@ -15,17 +15,10 @@ public class HasteEnchant extends BaseEnchant {
         super("haste", "&e&lHaste", 1000000, BigInteger.valueOf(1000), "&7Gives the vanilla haste effect");
     }
 
-
-    @Override
-    public void onBlockBreak(PrisonBlockBroken bb) {}
-    @Override
     public void onPickaxeHeld(Player player, PrisonPickaxe pickaxe) {
         player.addPotionEffect(PotionEffectType.FAST_DIGGING.createEffect(Integer.MAX_VALUE, Math.min(10, pickaxe.getEnchantLevel(ENCHANT_ID) - 1)));
     }
-    @Override
     public void onPickaxeUnHeld(Player player, PrisonPickaxe pickaxe) {
         player.removePotionEffect(PotionEffectType.FAST_DIGGING);
     }
-    @Override
-    public void whileRightClicking(PlayerInteractEvent e, PrisonPickaxe pickaxe) {}
 }

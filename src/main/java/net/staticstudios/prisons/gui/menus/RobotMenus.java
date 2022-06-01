@@ -4,7 +4,7 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.gui.GUI;
 import net.staticstudios.prisons.gui.GUIPage;
 import net.staticstudios.prisons.islands.special.robots.BaseRobot;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -40,7 +40,7 @@ public class RobotMenus {
                 switch (robot.getType()) {
                     case "money" -> {
                         guiTitle = ChatColor.translateAlternateColorCodes('&', "&aMoney Robot");
-                        item = GUI.createEnchantedMenuItem(identifier, Material.PAPER, ChatColor.GREEN + "Claim Money", ChatColor.WHITE + "---------------", ChatColor.AQUA + "Current Amount: " + ChatColor.WHITE + Utils.prettyNum(robot.getValue()), ChatColor.WHITE + "---------------");
+                        item = GUI.createEnchantedMenuItem(identifier, Material.PAPER, ChatColor.GREEN + "Claim Money", ChatColor.WHITE + "---------------", ChatColor.AQUA + "Current Amount: " + ChatColor.WHITE + PrisonUtils.prettyNum(robot.getValue()), ChatColor.WHITE + "---------------");
                         meta = item.getItemMeta();
                         meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "uuid"), PersistentDataType.STRING, args);
                         item.setItemMeta(meta);

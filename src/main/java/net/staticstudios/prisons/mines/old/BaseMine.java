@@ -14,7 +14,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.mines.MineManager;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -67,8 +67,8 @@ public abstract class BaseMine {
 
         loc1.setX(loc1.getX() + mineOffset);
         loc2.setX(loc2.getX() + mineOffset);
-        this.minLocation = Utils.calcMinPoint(loc1, loc2);
-        this.maxLocation = Utils.calcMaxPoint(loc1, loc2);
+        this.minLocation = PrisonUtils.calcMinPoint(loc1, loc2);
+        this.maxLocation = PrisonUtils.calcMaxPoint(loc1, loc2);
 
         region = new CuboidRegion(BukkitAdapter.adapt(minLocation.getWorld()), BlockVector3.at(minLocation.getX(), minLocation.getY(), minLocation.getZ()), BlockVector3.at(maxLocation.getX(), maxLocation.getY(), maxLocation.getZ()));
         whereToTpPlayerOnRefill = new Location(Bukkit.getWorld(mineID), 0, 100, 0);

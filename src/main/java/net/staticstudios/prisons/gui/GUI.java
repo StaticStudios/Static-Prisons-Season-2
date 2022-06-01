@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.gui;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -26,7 +26,7 @@ public class GUI {
     public static ItemStack createMenuItemOfPlayerSkull(String fromPage, OfflinePlayer playerToGetSkullOf, String name, String... lore) {
         List<String> itemLore = new ArrayList<String>();
         Collections.addAll(itemLore, lore);
-        ItemStack item = Utils.Players.getSkull(playerToGetSkullOf);
+        ItemStack item = PrisonUtils.Players.getSkull(playerToGetSkullOf);
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "guiItem"), PersistentDataType.STRING, "normal");
         itemMeta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "fromPage"), PersistentDataType.STRING, fromPage);
@@ -43,7 +43,7 @@ public class GUI {
     public static ItemStack createPlaceholderItemOfPlayerSkull(OfflinePlayer playerToGetSkullOf, String name, String... lore) {
         List<String> itemLore = new ArrayList<String>();
         Collections.addAll(itemLore, lore);
-        ItemStack item = Utils.Players.getSkull(playerToGetSkullOf);
+        ItemStack item = PrisonUtils.Players.getSkull(playerToGetSkullOf);
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "guiItem"), PersistentDataType.STRING, "placeholder");
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);

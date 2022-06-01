@@ -22,9 +22,7 @@ public class PrisonBlockBroken {
     public Map<Material, BigInteger> blockTypesBroken = new HashMap<>();
     public long blocksBroken = 1;
     public double blocksBrokenMultiplier = 1d;
-    public long totalMoneyGained = 1;
     public long totalTokensGained = 0;
-    public double moneyMultiplier = 1d;
     public double tokenMultiplier = 1d;
     public double xpMultiplier = 1d;
     public PrisonBlockBroken(Player player, PlayerData playerData, PrisonPickaxe pickaxe, StaticMine mine, Block block) {

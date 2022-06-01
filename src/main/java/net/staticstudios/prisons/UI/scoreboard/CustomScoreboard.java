@@ -6,7 +6,7 @@ import net.staticstudios.prisons.rankup.RankUpPrices;
 import net.staticstudios.prisons.UI.scoreboard.fastBoard.FastBoard;
 import net.staticstudios.prisons.rankup.RankUp;
 import net.staticstudios.prisons.utils.Constants;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -125,21 +125,21 @@ public class CustomScoreboard {
         updateTitle();
 
         board.updateTitle(boardTitle);
-        String cost = Utils.prettyNum(RankUp.calculatePriceToRankUpTo(playerData, Math.min(25, playerData.getMineRank() + 1)));
-        if (playerData.getMineRank() == 25) cost = Utils.prettyNum(RankUpPrices.getPrestigePrice(playerData.getPrestige(), 1));
+        String cost = PrisonUtils.prettyNum(RankUp.calculatePriceToRankUpTo(playerData, Math.min(25, playerData.getMineRank() + 1)));
+        if (playerData.getMineRank() == 25) cost = PrisonUtils.prettyNum(RankUpPrices.getPrestigePrice(playerData.getPrestige(), 1));
 
         board.updateLines(
                 ChatColor.RED + "",
                 colorDark + "" + ChatColor.BOLD + "Mine Rank",
-                colorLight + "│ " + colorBase + "Current Rank: " + colorLight + Utils.getMineRankLetterFromMineRank(playerData.getMineRank()),
+                colorLight + "│ " + colorBase + "Current Rank: " + colorLight + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank()),
                 colorLight + "│ " + colorBase + "RankUp Cost: " + colorLight + "$" + cost,
                 ChatColor.BLUE + "",
                 colorDark + "" + ChatColor.BOLD + player.getName() ,
                 colorLight + "│ " + colorBase + "Rank: " + colorLight + playerData.getSidebarRank(),
                 //colorLight + "│ " + colorBase + "Shards: " + colorLight + "⬧" + Utils.prettyNum(playerData.getShards()),
-                colorLight + "│ " + colorBase + "Balance: " + colorLight + "$" + Utils.prettyNum(playerData.getMoney()),
-                colorLight + "│ " + colorBase + "Tokens: " + colorLight + "⛃" + Utils.prettyNum(playerData.getTokens()),
-                colorLight + "│ " + colorBase + "Prestige: " + colorLight + Utils.prettyNum(playerData.getPrestige()),
+                colorLight + "│ " + colorBase + "Balance: " + colorLight + "$" + PrisonUtils.prettyNum(playerData.getMoney()),
+                colorLight + "│ " + colorBase + "Tokens: " + colorLight + "⛃" + PrisonUtils.prettyNum(playerData.getTokens()),
+                colorLight + "│ " + colorBase + "Prestige: " + colorLight + PrisonUtils.prettyNum(playerData.getPrestige()),
                 colorLight + "│ " + colorBase + "Vote Party: " + colorLight + ServerData.SERVER.getVoteParty() + "/" + Constants.VOTES_NEEDED_FOR_VOTE_PARTY,
                 ChatColor.GREEN + "",
                 colorLight + " play.static-studios.net"

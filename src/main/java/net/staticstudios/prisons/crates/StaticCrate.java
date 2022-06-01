@@ -2,7 +2,7 @@ package net.staticstudios.prisons.crates;
 
 import net.staticstudios.prisons.customItems.CustomItems;
 import net.staticstudios.prisons.customItems.Vouchers;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,27 +11,27 @@ public class StaticCrate {
     public static Location LOCATION = new Location(Bukkit.getWorld("world"), -15, 80, -137);
     public static CrateReward[] rewards = new CrateReward[] {
             new CrateReward(Vouchers.MONEY_POUCH_T1.item, 2),
-            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 2.5),
-            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 3), 2),
+            new CrateReward(PrisonUtils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 2), 2.5),
+            new CrateReward(PrisonUtils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 3), 2),
             new CrateReward(Vouchers.MONEY_POUCH_T2.item, 7.5),
-            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 2), 3),
-            new CrateReward(Utils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 3), 3),
+            new CrateReward(PrisonUtils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 2), 3),
+            new CrateReward(PrisonUtils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 3), 3),
             new CrateReward(Vouchers.TOKEN_POUCH_T1.item, 3),
-            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 2), 2.5),
-            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 3), 2),
+            new CrateReward(PrisonUtils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 2), 2.5),
+            new CrateReward(PrisonUtils.setItemCount(Vouchers.TOKEN_POUCH_T1.item, 3), 2),
             new CrateReward(Vouchers.TOKEN_POUCH_T2.item, 3.5),
-            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T2.item, 2), 4),
-            new CrateReward(Utils.setItemCount(Vouchers.TOKEN_POUCH_T2.item, 3), 5),
+            new CrateReward(PrisonUtils.setItemCount(Vouchers.TOKEN_POUCH_T2.item, 2), 4),
+            new CrateReward(PrisonUtils.setItemCount(Vouchers.TOKEN_POUCH_T2.item, 3), 5),
             new CrateReward(Vouchers.MULTI_POUCH_T1.item, 3),
-            new CrateReward(Utils.setItemCount(Vouchers.MULTI_POUCH_T1.item, 2), 4),
+            new CrateReward(PrisonUtils.setItemCount(Vouchers.MULTI_POUCH_T1.item, 2), 4),
             new CrateReward(Vouchers.MULTI_POUCH_T2.item, 5),
-            new CrateReward(Utils.setItemCount(Vouchers.MULTI_POUCH_T2.item, 2), 5),
+            new CrateReward(PrisonUtils.setItemCount(Vouchers.MULTI_POUCH_T2.item, 2), 5),
             new CrateReward(Vouchers.MULTI_POUCH_T3.item, 3),
-            new CrateReward(Utils.setItemCount(CustomItems.getMineBombTier2(), 8), 5),
-            new CrateReward(Utils.setItemCount(CustomItems.getMineBombTier3(), 3), 7),
-            new CrateReward(Utils.setItemCount(CustomItems.getMineBombTier3(), 4), 5),
+            new CrateReward(PrisonUtils.setItemCount(CustomItems.getMineBombTier2(), 8), 5),
+            new CrateReward(PrisonUtils.setItemCount(CustomItems.getMineBombTier3(), 3), 7),
+            new CrateReward(PrisonUtils.setItemCount(CustomItems.getMineBombTier3(), 4), 5),
             new CrateReward(CustomItems.getMineBombTier4(), 2),
-            new CrateReward(Utils.setItemCount(CustomItems.getMineBombTier4(), 2), 1),
+            new CrateReward(PrisonUtils.setItemCount(CustomItems.getMineBombTier4(), 2), 1),
             new CrateReward(CustomItems.getCommonCrateKey(15), 3),
             new CrateReward(CustomItems.getRareCrateKey(7), 2),
             new CrateReward(CustomItems.getLegendaryCrateKey(4), 2),
@@ -55,7 +55,7 @@ public class StaticCrate {
 
     public static void open(Player player) {
         //Supports up to 3 decimal places
-        int randomChance = Utils.randomInt(1, 100 * 1000);
+        int randomChance = PrisonUtils.randomInt(1, 100 * 1000);
         ItemStack reward = new ItemStack(Material.AIR);
         int chances = 0;
         for (CrateReward crateReward : rewards) {
@@ -65,7 +65,7 @@ public class StaticCrate {
             } else chances += crateReward.chance * 1000;
         }
         LOCATION.getWorld().spawnParticle(Particle.TOTEM, LOCATION.getBlockX() + 0.5d, LOCATION.getBlockY() + 1, LOCATION.getBlockZ() + 0.5d, 100);
-        player.sendMessage(ChatColor.AQUA + "You have just won " + ChatColor.WHITE + reward.getAmount() + "x " + Utils.getPrettyItemName(reward) + "!");
-        Utils.Players.addToInventory(player, new ItemStack(reward));
+        player.sendMessage(ChatColor.AQUA + "You have just won " + ChatColor.WHITE + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward) + "!");
+        PrisonUtils.Players.addToInventory(player, new ItemStack(reward));
     }
 }

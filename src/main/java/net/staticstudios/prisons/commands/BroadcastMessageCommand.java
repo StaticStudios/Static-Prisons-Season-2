@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.utils.BroadcastMessage;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -18,12 +18,12 @@ public class BroadcastMessageCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 0) {
-                player.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/broadcast <message>"));
+                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/broadcast <message>"));
                 return false;
             }
         } else {
             if (args.length == 0) {
-                Bukkit.getLogger().log(Level.INFO, Utils.CommandUtils.getIncorrectCommandUsageMessage("/broadcast <message>"));
+                Bukkit.getLogger().log(Level.INFO, PrisonUtils.Commands.getCorrectUsage("/broadcast <message>"));
                 return false;
             }
         }

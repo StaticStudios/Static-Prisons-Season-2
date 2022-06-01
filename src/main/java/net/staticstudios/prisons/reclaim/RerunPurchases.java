@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.reclaim;
 
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Deprecated
 public class RerunPurchases {
-    static List<String> allPurchases = Utils.getAllLinesInAFile("./data/season2PostResetTebex.txt");
+    static List<String> allPurchases = PrisonUtils.getAllLinesInAFile("./data/season2PostResetTebex.txt");
     public static void playerJoined(Player player) {
         String uuid = player.getUniqueId().toString();
         List<Integer> linesUsed = new ArrayList<>();
@@ -26,6 +26,6 @@ public class RerunPurchases {
         if (!modified) return;
         Collections.reverse(linesUsed);
         for (int i : linesUsed) allPurchases.remove(i);
-        Utils.writeToAFile("./data/season2PostResetTebex.txt", allPurchases, false);
+        PrisonUtils.writeToAFile("./data/season2PostResetTebex.txt", allPurchases, false);
     }
 }

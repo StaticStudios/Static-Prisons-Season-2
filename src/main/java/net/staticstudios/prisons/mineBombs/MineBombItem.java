@@ -5,7 +5,7 @@ import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.utils.Constants;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -60,9 +60,9 @@ public class MineBombItem {
                     playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(10000)));
                 if (playerData.getBackpackIsFull()) {
                     if (!backpackWasFull) {
-                        if (Utils.Players.canAutoSell(playerData) && playerData.getIsAutoSellEnabled())
+                        if (PrisonUtils.Players.canAutoSell(playerData) && playerData.getIsAutoSellEnabled())
                             playerData.sellBackpack(e.getPlayer(), true);
-                        e.getPlayer().sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + Utils.prettyNum(playerData.getBackpackSize()) + "/" + Utils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
+                        e.getPlayer().sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + "/" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
                         e.getPlayer().sendMessage(ChatColor.RED + "Your backpack is full!");
                     }
                 }

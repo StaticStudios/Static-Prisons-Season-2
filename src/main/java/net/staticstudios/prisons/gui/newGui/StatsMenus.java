@@ -4,7 +4,7 @@ import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -26,13 +26,13 @@ public class StatsMenus extends GUIUtils {
         }
         c.setItems(
                 c.createButton(Material.NETHER_STAR, "&bPlayer Rank:&f " + playerRank, List.of()),
-                c.createButton(Material.COBBLESTONE, "&bRaw Blocks Mined:&f " + Utils.addCommasToNumber(playerData.getRawBlocksMined()), List.of()),
-                c.createButton(Material.STONE, "&bBlocks Mined:&f " + Utils.addCommasToNumber(playerData.getBlocksMined()), List.of()),
-                c.createButton(Material.PAPER, "&bBalance:&f $" + Utils.addCommasToNumber(playerData.getMoney()), List.of()),
-                c.createButton(Material.SUNFLOWER, "&bTokens:&f " + Utils.addCommasToNumber(playerData.getTokens()), List.of()),
-                c.createButton(Material.AMETHYST_SHARD, "&bPrestige:&f " + Utils.addCommasToNumber(playerData.getPrestige()), List.of()),
-                c.createButton(Material.CLOCK, "&bTime Played:&f " + Utils.formatSecondsToTime(playerData.getTimePlayed().longValue()), List.of()),
-                c.createButton(Material.DIAMOND, "&bVotes:&f " + Utils.addCommasToNumber(playerData.getVotes()), List.of()),
+                c.createButton(Material.COBBLESTONE, "&bRaw Blocks Mined:&f " + PrisonUtils.addCommasToNumber(playerData.getRawBlocksMined()), List.of()),
+                c.createButton(Material.STONE, "&bBlocks Mined:&f " + PrisonUtils.addCommasToNumber(playerData.getBlocksMined()), List.of()),
+                c.createButton(Material.PAPER, "&bBalance:&f $" + PrisonUtils.addCommasToNumber(playerData.getMoney()), List.of()),
+                c.createButton(Material.SUNFLOWER, "&bTokens:&f " + PrisonUtils.addCommasToNumber(playerData.getTokens()), List.of()),
+                c.createButton(Material.AMETHYST_SHARD, "&bPrestige:&f " + PrisonUtils.addCommasToNumber(playerData.getPrestige()), List.of()),
+                c.createButton(Material.CLOCK, "&bTime Played:&f " + PrisonUtils.formatTime(playerData.getTimePlayed().longValue()), List.of()),
+                c.createButton(Material.DIAMOND, "&bVotes:&f " + PrisonUtils.addCommasToNumber(playerData.getVotes()), List.of()),
                 c.createButton(Material.BLUE_DYE, "&bDiscord:&f " + playerData.getDiscordName(), List.of())
         );
         c.open(player);

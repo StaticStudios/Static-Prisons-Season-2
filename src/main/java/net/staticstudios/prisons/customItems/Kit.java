@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.customItems;
 
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -39,32 +39,32 @@ public class Kit {
     public ItemStack misc2 = null;
 
     public void addItemsToPlayersInventory(Player player) {
-        if (helmet != null) Utils.Players.addToInventory(player, helmet);
-        if (chestplate != null) Utils.Players.addToInventory(player, chestplate);
-        if (leggings != null) Utils.Players.addToInventory(player, leggings);
-        if (boots != null) Utils.Players.addToInventory(player, boots);
-        if (sword != null) Utils.Players.addToInventory(player, sword);
-        if (axe != null) Utils.Players.addToInventory(player, axe);
-        if (bow != null) Utils.Players.addToInventory(player, bow);
-        if (pickaxe != null) Utils.Players.addToInventory(player, pickaxe);
-        if (arrow != null) Utils.Players.addToInventory(player, arrow);
-        if (food1 != null) Utils.Players.addToInventory(player, food1);
-        if (food2 != null) Utils.Players.addToInventory(player, food2);
-        if (food3 != null) Utils.Players.addToInventory(player, food3);
-        if (potion1 != null) Utils.Players.addToInventory(player, potion1);
-        if (potion2 != null) Utils.Players.addToInventory(player, potion2);
-        if (potion3 != null) Utils.Players.addToInventory(player, potion3);
-        if (potion4 != null) Utils.Players.addToInventory(player, potion4);
-        if (potion5 != null) Utils.Players.addToInventory(player, potion5);
-        if (potion6 != null) Utils.Players.addToInventory(player, potion6);
-        if (potion7 != null) Utils.Players.addToInventory(player, potion7);
-        if (potion8 != null) Utils.Players.addToInventory(player, potion8);
-        if (potion9 != null) Utils.Players.addToInventory(player, potion9);
-        if (potion10 != null) Utils.Players.addToInventory(player, potion10);
-        if (potion11 != null) Utils.Players.addToInventory(player, potion11);
-        if (potion12 != null) Utils.Players.addToInventory(player, potion12);
-        if (potion13 != null) Utils.Players.addToInventory(player, potion13);
-        if (misc1 != null) Utils.Players.addToInventory(player, misc1);
-        if (misc2 != null) Utils.Players.addToInventory(player, misc2);
+        if (helmet != null) PrisonUtils.Players.addToInventory(player, helmet);
+        if (chestplate != null) PrisonUtils.Players.addToInventory(player, chestplate);
+        if (leggings != null) PrisonUtils.Players.addToInventory(player, leggings);
+        if (boots != null) PrisonUtils.Players.addToInventory(player, boots);
+        if (sword != null) PrisonUtils.Players.addToInventory(player, sword);
+        if (axe != null) PrisonUtils.Players.addToInventory(player, axe);
+        if (bow != null) PrisonUtils.Players.addToInventory(player, bow);
+        if (pickaxe != null) PrisonUtils.Players.addToInventory(player, pickaxe);
+        if (arrow != null) PrisonUtils.Players.addToInventory(player, arrow);
+        if (food1 != null) PrisonUtils.Players.addToInventory(player, food1);
+        if (food2 != null) PrisonUtils.Players.addToInventory(player, food2);
+        if (food3 != null) PrisonUtils.Players.addToInventory(player, food3);
+        if (potion1 != null) PrisonUtils.Players.addToInventory(player, potion1);
+        if (potion2 != null) PrisonUtils.Players.addToInventory(player, potion2);
+        if (potion3 != null) PrisonUtils.Players.addToInventory(player, potion3);
+        if (potion4 != null) PrisonUtils.Players.addToInventory(player, potion4);
+        if (potion5 != null) PrisonUtils.Players.addToInventory(player, potion5);
+        if (potion6 != null) PrisonUtils.Players.addToInventory(player, potion6);
+        if (potion7 != null) PrisonUtils.Players.addToInventory(player, potion7);
+        if (potion8 != null) PrisonUtils.Players.addToInventory(player, potion8);
+        if (potion9 != null) PrisonUtils.Players.addToInventory(player, potion9);
+        if (potion10 != null) PrisonUtils.Players.addToInventory(player, potion10);
+        if (potion11 != null) PrisonUtils.Players.addToInventory(player, potion11);
+        if (potion12 != null) PrisonUtils.Players.addToInventory(player, potion12);
+        if (potion13 != null) PrisonUtils.Players.addToInventory(player, potion13);
+        if (misc1 != null) PrisonUtils.Players.addToInventory(player, misc1);
+        if (misc2 != null) PrisonUtils.Players.addToInventory(player, misc2);
     }
 }

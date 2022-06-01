@@ -1,11 +1,10 @@
 package net.staticstudios.prisons.misc;
 
-import net.staticstudios.prisons.enchants.handler.EnchantEffects;
-import net.staticstudios.prisons.events.EventManager;
+import net.staticstudios.prisons.chat.events.EventManager;
 import net.staticstudios.prisons.islands.special.robots.BaseRobot;
 import net.staticstudios.prisons.chat.CustomChatMessage;
 import net.staticstudios.prisons.mineBombs.MineBombItem;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,7 +30,7 @@ public class Events implements Listener {
 
     @EventHandler
     void onDrop(PlayerDropItemEvent e) {
-        if (Utils.checkIsPrisonPickaxe(e.getItemDrop().getItemStack())) {
+        if (PrisonUtils.checkIsPrisonPickaxe(e.getItemDrop().getItemStack())) {
             e.setCancelled(true);
             e.getPlayer().sendMessage(ChatColor.RED + "You cannot drop this item! Type /dropitem to drop it!");
             return;

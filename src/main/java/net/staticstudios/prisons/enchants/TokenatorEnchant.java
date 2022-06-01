@@ -3,7 +3,7 @@ package net.staticstudios.prisons.enchants;
 import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -14,25 +14,8 @@ public class TokenatorEnchant extends BaseEnchant {
         super("tokenator", "&e&lTokenator", 5000, BigInteger.valueOf(450), "&7Increases the chance to find tokens while mining");
     }
 
-
-    @Override
     public void onBlockBreak(PrisonBlockBroken bb) {
-        int chance = (Utils.randomInt(1, 350 - bb.pickaxe.getEnchantLevel(ENCHANT_ID) / 25)); //Max level requires 150 blocks on average
-        if (chance == 1) bb.totalTokensGained += Utils.randomInt(200, 800);
-    }
-
-    @Override
-    public void onPickaxeHeld(Player player, PrisonPickaxe pickaxe) {
-
-    }
-
-    @Override
-    public void onPickaxeUnHeld(Player player, PrisonPickaxe pickaxe) {
-
-    }
-
-    @Override
-    public void whileRightClicking(PlayerInteractEvent e, PrisonPickaxe pickaxe) {
-
+        int chance = (PrisonUtils.randomInt(1, 350 - bb.pickaxe.getEnchantLevel(ENCHANT_ID) / 25)); //Max level requires 150 blocks on average
+        if (chance == 1) bb.totalTokensGained += PrisonUtils.randomInt(200, 800);
     }
 }

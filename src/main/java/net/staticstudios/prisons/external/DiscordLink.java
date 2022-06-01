@@ -4,7 +4,7 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class DiscordLink {
-    public static final int SERVER_ID = Integer.parseInt(Utils.getFileContents("./data/discord/serverID.txt"));
+    public static final int SERVER_ID = Integer.parseInt(PrisonUtils.getFileContents("./data/discord/serverID.txt"));
     public static final int SECONDS_TO_KEEP_LINK_REQUESTS_ALIVE = 300;
     public static final int LINK_CODE_LENGTH = 7;
 

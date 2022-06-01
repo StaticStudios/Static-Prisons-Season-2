@@ -188,10 +188,5 @@
             <version>7.0.6</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>net.staticstudios</groupId>
-            <artifactId>static-gui</artifactId>
-            <version>1.0.0</version>
-        </dependency>
     </dependencies>
 </project>

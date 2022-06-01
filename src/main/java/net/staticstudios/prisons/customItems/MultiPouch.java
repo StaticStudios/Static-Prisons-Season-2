@@ -2,7 +2,7 @@ package net.staticstudios.prisons.customItems;
 
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -28,7 +28,7 @@ public class MultiPouch {
     }
     void animateFrame(Player player, String rewardValue, String announcementMessage, int currentPos, int finished) {
         if (currentPos == finished) {
-            Utils.Players.addToInventory(player, Vouchers.getMultiplierNote(multiplierAmount, multiplierTime));
+            PrisonUtils.Players.addToInventory(player, Vouchers.getMultiplierNote(multiplierAmount, multiplierTime));
             player.sendMessage(announcementMessage);
             return;
         }

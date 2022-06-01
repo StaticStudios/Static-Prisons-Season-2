@@ -3,7 +3,7 @@ package net.staticstudios.prisons.commands;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.chat.ChatTags;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,7 +13,7 @@ public class AddAllPlayerChatTagsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (args.length < 1) {
-            sender.sendMessage(Utils.CommandUtils.getIncorrectCommandUsageMessage("/addallchattags <player>"));
+            sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/addallchattags <player>"));
             return false;
         }
         if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[0].toLowerCase())) {

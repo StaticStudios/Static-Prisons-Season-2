@@ -2,7 +2,7 @@ package net.staticstudios.prisons.customItems;
 
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -26,7 +26,7 @@ public class MoneyPouch {
         if (reward == null) return;
         for (int i = 0; i < formattedRewardValue.length() + 2; i++) {
             int finalI = i;
-            Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> animateFrame(player, playerData, formattedRewardValue, rewardMessage.replace("{reward}", Utils.prettyNum(reward)), finalI, formattedRewardValue.length() + 1), i * timeBetweenFrames);
+            Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> animateFrame(player, playerData, formattedRewardValue, rewardMessage.replace("{reward}", PrisonUtils.prettyNum(reward)), finalI, formattedRewardValue.length() + 1), i * timeBetweenFrames);
         }
     }
     void animateFrame(Player player, PlayerData playerData, String rewardValue, String announcementMessage, int currentPos, int finished) {

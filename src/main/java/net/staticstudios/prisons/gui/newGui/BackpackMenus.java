@@ -3,7 +3,7 @@ package net.staticstudios.prisons.gui.newGui;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,40 +19,40 @@ public class BackpackMenus extends GUIUtils {
         GUICreator c = new GUICreator(9, "Upgrade Your Backpack");
         PlayerData playerData = new PlayerData(player);
         c.setItems(
-                Utils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + Utils.addCommasToNumber((long) (SLOTS_PER_COST * Math.pow(10, 0))) + " Slots", List.of("","&bCurrent Size: &f" + Utils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
-                        "&bCosts: &f1 Token", "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens())), (p, t) -> {
+                PrisonUtils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + PrisonUtils.addCommasToNumber((long) (SLOTS_PER_COST * Math.pow(10, 0))) + " Slots", List.of("","&bCurrent Size: &f" + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
+                        "&bCosts: &f1 Token", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
                     buySlots(p, BigInteger.valueOf((long) (SLOTS_PER_COST * Math.pow(10, 0))));
                 }), 1),
-                Utils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + Utils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 1)))) + " Slots", List.of("","&bCurrent Size: &f" + Utils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
-                        "&bCosts: &f" + Utils.prettyNum((long) (SLOT_COST * Math.pow(10, 1))) + " Tokens", "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens())), (p, t) -> {
+                PrisonUtils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + PrisonUtils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 1)))) + " Slots", List.of("","&bCurrent Size: &f" + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
+                        "&bCosts: &f" + PrisonUtils.prettyNum((long) (SLOT_COST * Math.pow(10, 1))) + " Tokens", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
                     buySlots(p, BigInteger.valueOf((long) (SLOTS_PER_COST * Math.pow(10, 1))));
                 }), 2),
-                Utils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + Utils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 2)))) + " Slots", List.of("","&bCurrent Size: &f" + Utils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
-                        "&bCosts: &f" + Utils.prettyNum((long) (SLOT_COST * Math.pow(10, 2))) + " Tokens", "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens())), (p, t) -> {
+                PrisonUtils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + PrisonUtils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 2)))) + " Slots", List.of("","&bCurrent Size: &f" + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
+                        "&bCosts: &f" + PrisonUtils.prettyNum((long) (SLOT_COST * Math.pow(10, 2))) + " Tokens", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
                     buySlots(p, BigInteger.valueOf((long) (SLOTS_PER_COST * Math.pow(10, 2))));
                 }), 3),
-                Utils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + Utils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 3)))) + " Slots", List.of("","&bCurrent Size: &f" + Utils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
-                        "&bCosts: &f" + Utils.prettyNum((long) (SLOT_COST * Math.pow(10, 3))) + " Tokens", "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens())), (p, t) -> {
+                PrisonUtils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + PrisonUtils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 3)))) + " Slots", List.of("","&bCurrent Size: &f" + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
+                        "&bCosts: &f" + PrisonUtils.prettyNum((long) (SLOT_COST * Math.pow(10, 3))) + " Tokens", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
                     buySlots(p, BigInteger.valueOf((long) (SLOTS_PER_COST * Math.pow(10, 3))));
                 }), 4),
-                Utils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + Utils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 4)))) + " Slots", List.of("","&bCurrent Size: &f" + Utils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
-                        "&bCosts: &f" + Utils.prettyNum((long) (SLOT_COST * Math.pow(10, 4))) + " Tokens", "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens())), (p, t) -> {
+                PrisonUtils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + PrisonUtils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 4)))) + " Slots", List.of("","&bCurrent Size: &f" + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
+                        "&bCosts: &f" + PrisonUtils.prettyNum((long) (SLOT_COST * Math.pow(10, 4))) + " Tokens", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
                     buySlots(p, BigInteger.valueOf((long) (SLOTS_PER_COST * Math.pow(10, 4))));
                 }), 5),
-                Utils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + Utils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 5)))) + " Slots", List.of("","&bCurrent Size: &f" + Utils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
-                        "&bCosts: &f" + Utils.prettyNum((long) (SLOT_COST * Math.pow(10, 5))) + " Tokens", "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens())), (p, t) -> {
+                PrisonUtils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + PrisonUtils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 5)))) + " Slots", List.of("","&bCurrent Size: &f" + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
+                        "&bCosts: &f" + PrisonUtils.prettyNum((long) (SLOT_COST * Math.pow(10, 5))) + " Tokens", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
                     buySlots(p, BigInteger.valueOf((long) (SLOTS_PER_COST * Math.pow(10, 5))));
                 }), 6),
-                Utils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + Utils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 6)))) + " Slots", List.of("","&bCurrent Size: &f" + Utils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
-                        "&bCosts: &f" + Utils.prettyNum((long) (SLOT_COST * Math.pow(10, 6))) + " Tokens", "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens())), (p, t) -> {
+                PrisonUtils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + PrisonUtils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 6)))) + " Slots", List.of("","&bCurrent Size: &f" + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
+                        "&bCosts: &f" + PrisonUtils.prettyNum((long) (SLOT_COST * Math.pow(10, 6))) + " Tokens", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
                     buySlots(p, BigInteger.valueOf((long) (SLOTS_PER_COST * Math.pow(10, 6))));
                 }), 7),
-                Utils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + Utils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 7)))) + " Slots", List.of("","&bCurrent Size: &f" + Utils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
-                        "&bCosts: &f" + Utils.prettyNum((long) (SLOT_COST * Math.pow(10, 7))) + " Tokens", "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens())), (p, t) -> {
+                PrisonUtils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + PrisonUtils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 7)))) + " Slots", List.of("","&bCurrent Size: &f" + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
+                        "&bCosts: &f" + PrisonUtils.prettyNum((long) (SLOT_COST * Math.pow(10, 7))) + " Tokens", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
                     buySlots(p, BigInteger.valueOf((long) (SLOTS_PER_COST * Math.pow(10, 7))));
                 }), 8),
-                Utils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + Utils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 8)))) + " Slots", List.of("","&bCurrent Size: &f" + Utils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
-                        "&bCosts: &f" + Utils.prettyNum((long) (SLOT_COST * Math.pow(10, 8))) + " Tokens", "&bYour Tokens: &f" + Utils.prettyNum(playerData.getTokens())), (p, t) -> {
+                PrisonUtils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + PrisonUtils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 8)))) + " Slots", List.of("","&bCurrent Size: &f" + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
+                        "&bCosts: &f" + PrisonUtils.prettyNum((long) (SLOT_COST * Math.pow(10, 8))) + " Tokens", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
                     buySlots(p, BigInteger.valueOf((long) (SLOTS_PER_COST * Math.pow(10, 8))));
                 }), 64)
         );

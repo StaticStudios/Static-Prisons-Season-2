@@ -1,27 +1,5 @@
 package net.staticstudios.prisons.gui.doneConverting;
 
-import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.enchants.handler.CustomEnchants;
-import net.staticstudios.prisons.enchants.handler.EnchantEffects;
-import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
-import net.staticstudios.prisons.gui.GUI;
-import net.staticstudios.prisons.gui.GUIPage;
-import net.staticstudios.prisons.utils.Utils;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-
 public class EnchantsMenus {
     //Select a pickaxe to enchant
     /*

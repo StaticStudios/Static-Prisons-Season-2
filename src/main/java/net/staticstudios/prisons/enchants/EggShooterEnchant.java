@@ -11,7 +11,7 @@ import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.mineBombs.MineBomb;
 import net.staticstudios.prisons.utils.Constants;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,23 +32,6 @@ public class EggShooterEnchant extends BaseEnchant {
     public EggShooterEnchant() {
         super("eggShooter", "&e&lEgg Shooter", 1000, BigInteger.valueOf(500), "&7Shoot explosive eggs while right clicking");
     }
-
-
-    @Override
-    public void onBlockBreak(PrisonBlockBroken bb) {
-    }
-
-    @Override
-    public void onPickaxeHeld(Player player, PrisonPickaxe pickaxe) {
-
-    }
-
-    @Override
-    public void onPickaxeUnHeld(Player player, PrisonPickaxe pickaxe) {
-
-    }
-
-    @Override
     public void whileRightClicking(PlayerInteractEvent e, PrisonPickaxe pickaxe) {
         Player player = e.getPlayer();
         if (e.getPlayer().getWorld() != Constants.MINES_WORLD) return;
@@ -83,7 +66,7 @@ public class EggShooterEnchant extends BaseEnchant {
             Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
                 finalMine.removeBlocksBrokenInMine(bomb.blocksChanged);
                 int fortune = pickaxe.getEnchantLevel(PrisonEnchants.FORTUNE);
-                if (Utils.randomInt(0, PrisonEnchants.DOUBLE_FORTUNE.MAX_LEVEL) < pickaxe.getEnchantLevel(PrisonEnchants.DOUBLE_FORTUNE)) fortune *= 2;
+                if (PrisonUtils.randomInt(0, PrisonEnchants.DOUBLE_FORTUNE.MAX_LEVEL) < pickaxe.getEnchantLevel(PrisonEnchants.DOUBLE_FORTUNE)) fortune *= 2;
                 PlayerData playerData = new PlayerData(player);
                 boolean backpackWasFull = playerData.getBackpackIsFull();
                 for (Material key : blocksBroken.keySet()) playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(fortune)));

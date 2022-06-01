@@ -3,7 +3,7 @@ package net.staticstudios.prisons.data.dataHandling;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -22,6 +22,7 @@ public class DataSet {
     static void changeOldData() {
         File oldData = new File("./data.json");
         if (oldData.exists()) oldData.renameTo(new File("./data/old/" + Instant.now().toEpochMilli() + ".json"));
+        //todo use a more storage efficient approach
     }
     /**
      * Save data async, do not use this if data needs to be instantly saved in the event of a server close
@@ -30,7 +31,7 @@ public class DataSet {
         changeOldData();
         Map<String, Data> dataMap = new HashMap<>(ALL_DATA);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
-            Utils.writeToAFile("data.json", new Genson().serialize(dataMap, new GenericType<HashMap<String, Data>>(){}));
+            PrisonUtils.writeToAFile("data.json", new Genson().serialize(dataMap, new GenericType<HashMap<String, Data>>(){}));
             Bukkit.getLogger().log(Level.INFO, "Successfully saved all server data");
         });
     }
@@ -40,11 +41,11 @@ public class DataSet {
      */
     public static void saveDataSync() {
         changeOldData();
-        Utils.writeToAFile("data.json", new Genson().serialize(ALL_DATA, new GenericType<HashMap<String, Data>>(){}));
+        PrisonUtils.writeToAFile("data.json", new Genson().serialize(ALL_DATA, new GenericType<HashMap<String, Data>>(){}));
         Bukkit.getLogger().log(Level.INFO, "Successfully saved all server data");
     }
     public static void loadData() {
-        ALL_DATA = new Genson().deserialize(Utils.getFileContents("data.json"), new GenericType<HashMap<String , Data>>(){});
+        ALL_DATA = new Genson().deserialize(PrisonUtils.getFileContents("data.json"), new GenericType<HashMap<String , Data>>(){});
         if (ALL_DATA == null) {
             ALL_DATA = new HashMap<>();
             Bukkit.getLogger().warning("Could not load server data... creating new data instead");

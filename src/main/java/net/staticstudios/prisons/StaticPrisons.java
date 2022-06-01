@@ -7,6 +7,7 @@ import net.staticstudios.prisons.blockBroken.BlockBreakListener;
 import net.staticstudios.prisons.customItems.*;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.Prices;
+import net.staticstudios.prisons.enchants.AutoSellEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.external.DiscordLink;
@@ -23,7 +24,7 @@ import net.staticstudios.prisons.misc.EventListener;
 import net.staticstudios.prisons.misc.Events;
 import net.staticstudios.prisons.misc.TimedTasks;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
-import net.staticstudios.prisons.newAuctionHouse.AuctionManager;
+import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.rankup.RankUpPrices;
 import net.staticstudios.prisons.utils.Constants;
 import net.luckperms.api.LuckPerms;
@@ -74,6 +75,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         TabList.initialize();
         Kits.initialize();
         TimedTasks.startTasks();
+        AutoSellEnchant.initTimer();
 
 
         //Register Commands
@@ -167,6 +169,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         //AuctionHouseManager.saveAllAuctions();
         //PrisonPickaxe.dumpStatsToAllPickaxe();
         PrisonPickaxe.savePickaxeDataNow();
+        PrisonPickaxe.dumpLoreToAllPickaxes();
     }
     static void unloadNetherAndEnd() {
         Bukkit.unloadWorld("world_end", false);

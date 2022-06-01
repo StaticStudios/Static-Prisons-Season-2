@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.data.dataHandling.serverData;
 
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -18,8 +18,8 @@ public class ServerData {
         if (!PLAYERS.getAllUUIDsAsStrings().contains(player.getUniqueId().toString())) {
             //First time joining
             Bukkit.getLogger().log(Level.INFO, "Player has joined for the first time with the uuid: " + player.getUniqueId() + " and the name: " + player.getName());
-            Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + Utils.addCommasToNumber(PLAYERS.getAllUUIDsAsStrings().size() + 1) + ")");
-            Utils.Players.addToInventory(player, Utils.createNewPickaxe());
+            Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + PrisonUtils.addCommasToNumber(PLAYERS.getAllUUIDsAsStrings().size() + 1) + ")");
+            PrisonUtils.Players.addToInventory(player, PrisonUtils.createNewPickaxe());
             PlayerData playerData = new PlayerData(player);
             playerData.setBackpackSize(BigInteger.valueOf(25000));
             playerData.setPlayerRank("member");

@@ -14,7 +14,8 @@ import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
 import net.staticstudios.prisons.gui.newGui.EnchantMenus;
 import net.staticstudios.prisons.reclaim.RerunPurchases;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.Constants;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Objects;
 
@@ -46,7 +48,7 @@ public class EventListener implements Listener {
 
         TabList.addPlayer(player);
         CustomScoreboard.updatePlayerScoreboard(player);
-        Utils.updateLuckPermsForPlayerRanks(player); //Gives the player permission to use certain features if they have a rank
+        PrisonUtils.updateLuckPermsForPlayerRanks(player); //Gives the player permission to use certain features if they have a rank
         //EnchantEffects.giveEffect(player, Utils.getItemInMainHand(player));
 
         //Updates a player's discord name
@@ -59,10 +61,9 @@ public class EventListener implements Listener {
     void playerQuit(PlayerQuitEvent e) {
         e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', "&a&lLeft&a -> &f" + e.getPlayer().getName()));
         Player player = e.getPlayer();
-        //Dump all the pickaxe stats from the buffer to all the items in the players inv
         for (ItemStack item : player.getInventory().getContents()) {
-            if (!Utils.checkIsPrisonPickaxe(item)) continue;
-            //PrisonPickaxe.dumpStatsToPickaxe(item);
+            if (PrisonUtils.checkIsPrisonPickaxe(item))
+            PrisonPickaxe.updateLore(item);
         }
 
         //Remove player from the scoreboard map to prevent updating an offline player's scoreboard
@@ -122,7 +123,7 @@ public class EventListener implements Listener {
         //Check if the player is holding a pickaxe and is trying to open the enchants menu
         if (e.getAction().isRightClick()) {
             if (player.isSneaking()) {
-                if (Utils.checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) {
+                if (PrisonUtils.checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) {
                     if (new PlayerData(player).getIsMobile()) return;
                     EnchantMenus.mainMenu(player, PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()));
                     e.setCancelled(true);
@@ -141,13 +142,12 @@ public class EventListener implements Listener {
     void onChangeItemHeld(PlayerItemHeldEvent e) {
         Player player = e.getPlayer();
         ItemStack[] contents = player.getInventory().getContents();
-        if (Utils.checkIsPrisonPickaxe(contents[e.getPreviousSlot()])) {
+        if (PrisonUtils.checkIsPrisonPickaxe(contents[e.getPreviousSlot()])) {
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(contents[e.getPreviousSlot()]);
             for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onPickaxeUnHeld(player, pickaxe);
         }
-        if (Utils.checkIsPrisonPickaxe(contents[e.getNewSlot()])) {
+        if (PrisonUtils.checkIsPrisonPickaxe(contents[e.getNewSlot()])) {
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(contents[e.getNewSlot()]);
-            //TODO error is being thrown because data is not loading properly
             for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onPickaxeHeld(player, pickaxe);
         }
     }
@@ -157,7 +157,7 @@ public class EventListener implements Listener {
         Player player = e.getPlayer();
         if (player.getInventory().firstEmpty() == -1) return;
         if (player.getInventory().firstEmpty() == player.getInventory().getHeldItemSlot()) {
-            if (!Utils.checkIsPrisonPickaxe(e.getItem().getItemStack())) return;
+            if (!PrisonUtils.checkIsPrisonPickaxe(e.getItem().getItemStack())) return;
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getItem().getItemStack());
             for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onPickaxeHeld(player, pickaxe);
         }
@@ -167,13 +167,13 @@ public class EventListener implements Listener {
     void onClick(InventoryClickEvent e) {
         if (!(e.getWhoClicked() instanceof Player)) return;
         Player player = (Player) e.getWhoClicked();
-        if (Utils.checkIsPrisonPickaxe(e.getCurrentItem())) {
+        if (PrisonUtils.checkIsPrisonPickaxe(e.getCurrentItem())) {
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getCurrentItem());
             if (!player.getInventory().getItemInMainHand().equals(e.getCurrentItem())) return;
             for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onPickaxeUnHeld(player, pickaxe);
             return;
         }
-        if (Utils.checkIsPrisonPickaxe(e.getCursor())) {
+        if (PrisonUtils.checkIsPrisonPickaxe(e.getCursor())) {
             if (e.getClick().equals(ClickType.DOUBLE_CLICK)) return;
             if (player.getInventory().getHeldItemSlot() != e.getSlot()) return;
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getCursor());

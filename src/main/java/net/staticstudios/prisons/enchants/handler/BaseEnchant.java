@@ -1,14 +1,16 @@
 package net.staticstudios.prisons.enchants.handler;
 
+import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigInteger;
 import java.util.List;
 
-public abstract class BaseEnchant implements IBaseEnchant {
+public abstract class BaseEnchant {
 
     public final int MAX_LEVEL;
     public final BigInteger PRICE;
@@ -42,14 +44,24 @@ public abstract class BaseEnchant implements IBaseEnchant {
         }
         if (playerData.getTokens().compareTo(PRICE.multiply(BigInteger.valueOf(levelsToBuy))) > -1) {
             playerData.removeTokens(PRICE.multiply(BigInteger.valueOf(levelsToBuy)));
+            int oldLevel = pickaxe.getEnchantLevel(ENCHANT_ID);
             pickaxe.addEnchantLevel(ENCHANT_ID, levelsToBuy);
+            int newLevel = pickaxe.getEnchantLevel(ENCHANT_ID);
             pickaxe.tryToUpdateLore();
+            onUpgrade(pickaxe, oldLevel, newLevel);
             player.sendMessage(org.bukkit.ChatColor.AQUA + "You successfully upgraded your pickaxe!");
             return true;
         }
         player.sendMessage(org.bukkit.ChatColor.RED + "You do not have enough tokens to buy this!");
         return false;
     }
+
+
+    public void onBlockBreak(PrisonBlockBroken bb) {}
+    public void onPickaxeHeld(Player player, PrisonPickaxe pickaxe) {}
+    public void onPickaxeUnHeld(Player player, PrisonPickaxe pickaxe) {}
+    public void whileRightClicking(PlayerInteractEvent e, PrisonPickaxe pickaxe) {} //TODO clean this up so it is called every tick rather than relying on the interact event, that event timing is inconsistent
+    public void onUpgrade(PrisonPickaxe pickaxe, int oldLevel, int newLevel) {} //todo call this
 
 }
 

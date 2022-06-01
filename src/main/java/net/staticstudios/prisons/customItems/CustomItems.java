@@ -1,8 +1,6 @@
 package net.staticstudios.prisons.customItems;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.enchants.handler.CustomEnchants;
-import net.staticstudios.prisons.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

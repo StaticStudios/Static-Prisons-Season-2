@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,7 +18,7 @@ public class ReclaimCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        List<String> reclaims = Utils.getAllLinesInAFile("./data/reclaim.txt");
+        List<String> reclaims = PrisonUtils.getAllLinesInAFile("./data/reclaim.txt");
         for (int i = 0; i < reclaims.size(); i++) {
             if (reclaims.get(i).split(" \\|\\?\\? ")[0].equals(player.getUniqueId().toString())) {
                 PlayerData playerData = new PlayerData(player);
@@ -33,7 +33,7 @@ public class ReclaimCommand implements CommandExecutor {
                     playerData.setPlayerRank(reclaims.get(i).split(" \\|\\?\\? ")[2]);
                 }
                 reclaims.remove(i);
-                Utils.writeToAFile("./data/reclaim.txt", reclaims, false);
+                PrisonUtils.writeToAFile("./data/reclaim.txt", reclaims, false);
                 return false;
             }
         }

@@ -2,7 +2,7 @@ package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.rankup.RankUp;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,12 +20,12 @@ public class RankUpMaxCommand implements CommandExecutor {
             return false;
         }
         if (playerData.getMoney().compareTo(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) < 0) {
-            player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + Utils.addCommasToNumber(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)));
+            player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + PrisonUtils.addCommasToNumber(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)));
             return false;
         }
         while (playerData.getMineRank() < 25 && playerData.getMoney().compareTo(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) > -1) {
             playerData.removeMoney(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1));
-            player.sendMessage(ChatColor.GREEN + "You have just ranked up! " + ChatColor.AQUA + Utils.getMineRankLetterFromMineRank(playerData.getMineRank()) + " -> " + Utils.getMineRankLetterFromMineRank(playerData.getMineRank() + 1));
+            player.sendMessage(ChatColor.GREEN + "You have just ranked up! " + ChatColor.AQUA + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank()) + " -> " + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank() + 1));
             playerData.addMineRank(1);
         }
         return false;

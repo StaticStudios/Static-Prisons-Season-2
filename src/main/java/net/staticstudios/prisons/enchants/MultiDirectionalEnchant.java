@@ -11,7 +11,7 @@ import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.utils.Constants;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,33 +26,16 @@ public class MultiDirectionalEnchant extends BaseEnchant {
         super("multiDirectional", "&a&lMulti-Directional", 15000, BigInteger.valueOf(500), "&7Chance to destroy a &l+&7 shape in a mine");
     }
 
-
-    @Override
     public void onBlockBreak(PrisonBlockBroken bb) {
-        if (Utils.randomInt(1, 125) != 1) return;
+        if (PrisonUtils.randomInt(1, 125) != 1) return;
         int multiDirectionalLevel = bb.pickaxe.getEnchantLevel(ENCHANT_ID);
-        if (Utils.randomInt(1, MAX_LEVEL + MAX_LEVEL / 10) <= multiDirectionalLevel + MAX_LEVEL / 10) {
+        if (PrisonUtils.randomInt(1, MAX_LEVEL + MAX_LEVEL / 10) <= multiDirectionalLevel + MAX_LEVEL / 10) {
             //Enchant should activate
             int howDeepToGo = Math.max(1, bb.blockLocation.getBlockY() - multiDirectionalLevel * 250 / MAX_LEVEL);
             BreakPlus bp = new BreakPlus(bb.mine, bb.blockLocation);
             bb.blockTypesBroken.putAll(bp.destroySection(bb.blockLocation.getBlockY(), howDeepToGo, bb.blockLocation.getBlockX(), bb.blockLocation.getBlockZ()));
             bb.blocksBroken += bp.totalBlocksBroken;
         }
-    }
-
-    @Override
-    public void onPickaxeHeld(Player player, PrisonPickaxe pickaxe) {
-
-    }
-
-    @Override
-    public void onPickaxeUnHeld(Player player, PrisonPickaxe pickaxe) {
-
-    }
-
-    @Override
-    public void whileRightClicking(PlayerInteractEvent e, PrisonPickaxe pickaxe) {
-
     }
 
     static class BreakPlus {

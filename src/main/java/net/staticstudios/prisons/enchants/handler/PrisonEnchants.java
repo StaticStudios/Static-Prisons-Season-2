@@ -21,6 +21,7 @@ public class PrisonEnchants {
     public static BaseEnchant HASTE;
     public static BaseEnchant SPEED;
     public static BaseEnchant NIGHT_VISION;
+    public static BaseEnchant AUTO_SELL;
 
 
     public static Map<String, BaseEnchant> enchantIDToEnchant = new HashMap<>();
@@ -38,6 +39,7 @@ public class PrisonEnchants {
         MERCHANT = new MerchantEnchant();
         CONSISTENCY = new ConsistencyEnchant();
         EGG_SHOOTER = new EggShooterEnchant();
+        AUTO_SELL = new AutoSellEnchant();
 
         HASTE = new HasteEnchant();
         SPEED = new SpeedEnchant();

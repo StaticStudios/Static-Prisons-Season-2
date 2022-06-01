@@ -2,7 +2,7 @@ package net.staticstudios.prisons.customItems;
 
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.utils.Utils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -391,7 +391,7 @@ public class Vouchers {
             BigInteger value = new BigInteger(player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(StaticPrisons.getInstance(), "noteValue"), PersistentDataType.STRING));
             System.out.println("aadfda");
             new PlayerData(player).addMoney(value.multiply(BigInteger.valueOf(count)));
-            player.sendMessage(ChatColor.GREEN + "You have just claimed a money note worth $" + Utils.addCommasToNumber(value.multiply(BigInteger.valueOf(count))) + "!");
+            player.sendMessage(ChatColor.GREEN + "You have just claimed a money note worth $" + PrisonUtils.addCommasToNumber(value.multiply(BigInteger.valueOf(count))) + "!");
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - count);
         }
     };
@@ -399,12 +399,12 @@ public class Vouchers {
         ItemStack voucher = MONEY_NOTE.item;
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.AQUA + "Created By: " + ChatColor.WHITE + creatorName);
-        lore.add(ChatColor.AQUA + "Redeem Amount: " + ChatColor.WHITE + "$" + Utils.addCommasToNumber(value));
+        lore.add(ChatColor.AQUA + "Redeem Amount: " + ChatColor.WHITE + "$" + PrisonUtils.addCommasToNumber(value));
         lore.add("");
         lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Right click to claim!");
         lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Shift-right click to claim a full stack!");
         ItemMeta meta = voucher.getItemMeta();
-        meta.setDisplayName(ChatColor.GREEN + "Money Note: " + ChatColor.WHITE + "$" + Utils.prettyNum(value));
+        meta.setDisplayName(ChatColor.GREEN + "Money Note: " + ChatColor.WHITE + "$" + PrisonUtils.prettyNum(value));
         meta.setLore(lore);
         meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "noteValue"), PersistentDataType.STRING, value.toString());
         voucher.setItemMeta(meta);
@@ -417,7 +417,7 @@ public class Vouchers {
             if (player.isSneaking()) count = player.getInventory().getItemInMainHand().getAmount();
             BigInteger value = new BigInteger(player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(StaticPrisons.getInstance(), "noteValue"), PersistentDataType.STRING));
             new PlayerData(player).addTokens(value.multiply(BigInteger.valueOf(count)));
-            player.sendMessage(ChatColor.GREEN + "You have just claimed a token note worth " + Utils.addCommasToNumber(value.multiply(BigInteger.valueOf(count))) + " tokens!");
+            player.sendMessage(ChatColor.GREEN + "You have just claimed a token note worth " + PrisonUtils.addCommasToNumber(value.multiply(BigInteger.valueOf(count))) + " tokens!");
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - count);
         }
     };
@@ -425,12 +425,12 @@ public class Vouchers {
         ItemStack voucher = TOKEN_NOTE.item;
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.AQUA + "Created By: " + ChatColor.WHITE + creatorName);
-        lore.add(ChatColor.AQUA + "Redeem Amount: " + ChatColor.WHITE + Utils.addCommasToNumber(value));
+        lore.add(ChatColor.AQUA + "Redeem Amount: " + ChatColor.WHITE + PrisonUtils.addCommasToNumber(value));
         lore.add("");
         lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Right click to claim!");
         lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Shift-right click to claim a full stack!");
         ItemMeta meta = voucher.getItemMeta();
-        meta.setDisplayName(ChatColor.RED + "Token Note: " + ChatColor.WHITE + Utils.prettyNum(value));
+        meta.setDisplayName(ChatColor.RED + "Token Note: " + ChatColor.WHITE + PrisonUtils.prettyNum(value));
         meta.setLore(lore);
         meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "noteValue"), PersistentDataType.STRING, value.toString());
         voucher.setItemMeta(meta);
