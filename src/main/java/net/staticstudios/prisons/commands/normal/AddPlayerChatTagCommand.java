@@ -20,7 +20,7 @@ public class AddPlayerChatTagCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "Player not found!");
             return false;
         }
-        if (ChatTags.getChatTagFromID(args[1]).equals("")) {
+        if (ChatTags.getFromID(args[1]).equals("")) {
             sender.sendMessage(ChatColor.RED + "A chat tag with that ID does not exist!");
             return false;
         }

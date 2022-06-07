@@ -51,33 +51,23 @@ public class JackHammerEnchant extends BaseEnchant {
             Map<Material, BigInteger> blocksBroken = new HashMap<>();
             for (int y = Math.max(1, yLevel - howDeepToGo + 1); y <= yLevel; y++) {
                 for (int x = mine.getMinVector().getBlockX(); x <= mine.getMaxVector().getBlockX(); x++) {
-                    for (int z = mine.getMinVector().getBlockX(); z <= mine.getMaxVector().getBlockZ(); z++) {
+                    for (int z = mine.getMinVector().getBlockZ(); z <= mine.getMaxVector().getBlockZ(); z++) {
                         Material mat = new Location(Constants.MINES_WORLD, x, y, z).getBlock().getType();
-                        if (!mat.equals(Material.AIR)) {
-                            totalBlocksBroken++;
-                            if (!blocksBroken.containsKey(mat)) {
-                                blocksBroken.put(mat, BigInteger.ONE);
-                            } else blocksBroken.put(mat, blocksBroken.get(mat).add(BigInteger.ONE));
-                        }
+                        if (mat.equals(Material.AIR)) continue;
+                        totalBlocksBroken += 1;
+                        if (!blocksBroken.containsKey(mat)) {
+                            blocksBroken.put(mat, BigInteger.ONE);
+                        } else blocksBroken.put(mat, blocksBroken.get(mat).add(BigInteger.ONE));
                     }
                 }
             }
+
+
+
             Region region = new CuboidRegion(mine.getWEWorld(), BlockVector3.at(mine.getMinVector().getBlockX(), yLevel, mine.getMinVector().getBlockZ()), BlockVector3.at(mine.getMaxVector().getBlockX(), Math.max(1, yLevel - howDeepToGo + 1), mine.getMaxVector().getBlockZ()));
             EditSession editSession = WorldEdit.getInstance().newEditSession(region.getWorld());
             editSession.setBlocks(region, BlockTypes.AIR);
             editSession.close();
-            /*
-            if (!mine.brokeBlocksInMine(totalBlocksBroken)) {
-                //Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
-                Region region = new CuboidRegion(BukkitAdapter.adapt(mine.minLocation.getWorld()), BlockVector3.at(mine.minLocation.getX(), yLevel, mine.minLocation.getZ()), BlockVector3.at(mine.maxLocation.getX(), Math.max(1, yLevel - howDeepToGo + 1), mine.maxLocation.getZ()));
-                EditSession editSession = WorldEdit.getInstance().newEditSession(region.getWorld());
-                editSession.setBlocks(region, BlockTypes.AIR);
-                editSession.close();
-                //});
-            }
-
-             */
-
             return blocksBroken;
         }
     }

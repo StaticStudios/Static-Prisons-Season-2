@@ -5,6 +5,8 @@ import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.utils.BroadcastMessage;
+import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,6 +20,7 @@ public class BlockBreakListener implements Listener {
 
     @EventHandler
     void onMineBlockBroken(BlockBrokenInMineEvent e) {
+        if (!e.getPlayer().getWorld().equals(Constants.MINES_WORLD)) return;
         e.getBlockBreakEvent().setDropItems(false);
         e.getBlockBreakEvent().setExpToDrop(0);
         Player player = e.getPlayer();

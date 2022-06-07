@@ -32,6 +32,7 @@ public class PrisonPickaxe {
         for (String key : ymlData.getKeys(false)) {
             ConfigurationSection section = ymlData.getConfigurationSection(key);
             PrisonPickaxe pickaxe = new PrisonPickaxe(key);
+            pickaxe.disabledEnchants = new HashSet<>(section.getStringList("disabledEnchants"));
             pickaxe.level = section.getLong("level");
             pickaxe.xp = section.getLong("xp");
             pickaxe.blocksBroken = section.getLong("blocksBroken");
@@ -59,6 +60,7 @@ public class PrisonPickaxe {
             ConfigurationSection section = ymlData.createSection(key);
             PrisonPickaxe pickaxe = pickaxeUUIDToPrisonPickaxe.get(key);
             for (BaseEnchant enchant : pickaxe.getEnchants()) section.set(enchant.ENCHANT_ID, pickaxe.getEnchantLevel(enchant.ENCHANT_ID));
+            section.set("disabledEnchants", new ArrayList<>(pickaxe.disabledEnchants));
             section.set("level", pickaxe.level);
             section.set("xp", pickaxe.xp);
             section.set("blocksBroken", pickaxe.blocksBroken);
@@ -85,21 +87,33 @@ public class PrisonPickaxe {
         return pickaxeUUIDToPrisonPickaxe.get(pickaxeUUID);
     }
 
+    private final String pickaxeUUID;
     public ItemStack item = null;
     private Map<String, Integer> enchantLevels = new HashMap<>();
+    private Set<String> disabledEnchants = new HashSet<>();
     private List<String> topLore = new ArrayList<>();
+    public PrisonPickaxe setTopLore(List<String> topLore) {
+        this.topLore = topLore;
+        return this;
+    }
     private List<String> bottomLore = new ArrayList<>();
+    public PrisonPickaxe setBottomLore(List<String> bottomLore) {
+        this.bottomLore = bottomLore;
+        return this;
+    }
     private long level = 0;
     private long xp = 0;
     private long blocksBroken = 0;
     private long rawBlocksBroken = 0;
 
     public PrisonPickaxe(String uuid) {
+        pickaxeUUID = uuid;
         pickaxeUUIDToPrisonPickaxe.put(uuid, this);
     }
 
     public PrisonPickaxe(ItemStack item) {
         String uuid = UUID.randomUUID().toString();
+        pickaxeUUID = uuid;
         ItemMeta meta = item.getItemMeta();
         meta.getPersistentDataContainer().set(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING, uuid);
         item.setItemMeta(meta);
@@ -119,7 +133,24 @@ public class PrisonPickaxe {
         if (enchantLevels.containsKey(enchantID)) return enchantLevels.get(enchantID);
         return 0;
     }
-    //todo add a way to get and set if an enchant is enabled or not
+
+
+    public void setIsEnchantEnabled(BaseEnchant enchant, boolean enabled) {
+        setIsEnchantEnabled(enchant.ENCHANT_ID, enabled);
+    }
+    public void setIsEnchantEnabled(String enchantID, boolean enabled) {
+        if (enabled) {
+            disabledEnchants.remove(enchantID);
+        } else disabledEnchants.add(enchantID);
+    }
+    public boolean getIsEnchantEnabled(BaseEnchant enchant) {
+        return getIsEnchantEnabled(enchant.ENCHANT_ID);
+    }
+    public boolean getIsEnchantEnabled(String enchantID) {
+        return !disabledEnchants.contains(enchantID);
+    }
+
+
 
     public void setEnchantsLevel(BaseEnchant enchant, int level) {
         updateLoreQueue.add(this);
@@ -198,22 +229,24 @@ public class PrisonPickaxe {
         updateLoreQueue.remove(pickaxe);
     }
 
-    public boolean tryToUpdateLore() {
-        if (item == null) return false;
+    public PrisonPickaxe tryToUpdateLore() {
+        if (item == null) return this;
         updateLore(item);
-        return true;
+        return this;
     }
 
     final String LORE_DIVIDER = ChatColor.translateAlternateColorCodes('&', "&7---------------");
     public List<String> buildLore() {
-        List<String> lore = new ArrayList<>(topLore);
+        List<String> lore = new ArrayList<>();
+        if (topLore != null) lore.addAll(topLore);
         lore.addAll(buildStatLore());
         lore.add(LORE_DIVIDER);
         lore.addAll(buildEnchantLore());
-        if (!bottomLore.isEmpty()) {
+        if (bottomLore != null && !bottomLore.isEmpty()) {
             lore.add(LORE_DIVIDER);
             lore.addAll(bottomLore);
         }
+        for (int i = 0; i < lore.size(); i++) lore.set(i, ChatColor.translateAlternateColorCodes('&', lore.get(i)));
         return lore;
     }
 
@@ -226,9 +259,23 @@ public class PrisonPickaxe {
         return lore;
     }
 
-    private List<String> buildEnchantLore() {
+    private List<String> buildEnchantLore() { //todo order these
         List<String> lore = new ArrayList<>();
-        for (String enchantID : enchantLevels.keySet()) lore.add(ChatColor.AQUA + PrisonEnchants.enchantIDToEnchant.get(enchantID).UNFORMATTED_DISPLAY_NAME + ": " + PrisonUtils.addCommasToNumber(getEnchantLevel(enchantID)));
+        for (BaseEnchant ench : PrisonEnchants.ORDERED_ENCHANTS) {
+            int level = getEnchantLevel(ench);
+            if (level > 0) lore.add(ChatColor.AQUA + ench.UNFORMATTED_DISPLAY_NAME + ": " + PrisonUtils.addCommasToNumber(level));
+        }
         return lore;
+    }
+
+
+    /**
+     * Remove this pickaxe from the internal mapping, this should only be called on pickaxes that are "templates" and will only ever be used to view a preview of the ItemStack
+     *
+     * Once a pickaxe is removed, it can no longer be used by a player
+     */
+    public PrisonPickaxe delete() {
+        pickaxeUUIDToPrisonPickaxe.remove(pickaxeUUID);
+        return this;
     }
 }

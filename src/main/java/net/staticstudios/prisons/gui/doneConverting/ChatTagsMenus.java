@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.gui.menus;
+package net.staticstudios.prisons.gui.doneConverting;
 
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.gui.GUI;
@@ -21,7 +21,7 @@ public class ChatTagsMenus {
                 menuItems = new ArrayList<>();
                 menuItems.add(GUI.createMenuItem(identifier, Material.PAPER, ChatColor.RED + "Remove all active chat tags", ChatColor.GRAY + "This will make them not display in chat", ChatColor.GRAY + "You may re-enable them later."));
                 for (String tag : playerData.getChatTags()) {
-                    menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.NAME_TAG, ChatTags.getChatTagFromID(tag), ChatColor.GRAY + "Click to apply/remove this tag"));
+                    menuItems.add(GUI.createEnchantedMenuItem(identifier, Material.NAME_TAG, ChatTags.getFromID(tag), ChatColor.GRAY + "Click to apply/remove this tag"));
                 }
             }
             @Override
@@ -58,9 +58,9 @@ public class ChatTagsMenus {
                 tagID = args;
                 menuItems = new ArrayList<>();
                 for (int i = 0; i < 8; i++) menuItems.add(GUI.createDarkGrayPlaceholderItem());
-                menuItems.set(3, GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Set tag in slot #1", ChatColor.GRAY + "Current tag in slot #1: " + ChatTags.getChatTagFromID(playerData.getChatTag1())));
-                menuItems.set(4, GUI.createEnchantedMenuItem(identifier, Material.NAME_TAG, ChatTags.getChatTagFromID(tagID), ""));
-                menuItems.set(5, GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Set tag in slot #2", ChatColor.GRAY + "Current tag in slot #2: " + ChatTags.getChatTagFromID(playerData.getChatTag2())));
+                menuItems.set(3, GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Set tag in slot #1", ChatColor.GRAY + "Current tag in slot #1: " + ChatTags.getFromID(playerData.getChatTag1())));
+                menuItems.set(4, GUI.createEnchantedMenuItem(identifier, Material.NAME_TAG, ChatTags.getFromID(tagID), ""));
+                menuItems.set(5, GUI.createMenuItem(identifier, Material.LIME_STAINED_GLASS_PANE, ChatColor.GREEN + "Set tag in slot #2", ChatColor.GRAY + "Current tag in slot #2: " + ChatTags.getFromID(playerData.getChatTag2())));
             }
             @Override
             public void item3Clicked(InventoryClickEvent e) {

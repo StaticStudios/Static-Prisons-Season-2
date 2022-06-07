@@ -56,7 +56,7 @@ public class CustomChatMessage {
 
 
 
-        String prefix = ChatColor.translateAlternateColorCodes('&', "&8[&dP" + PrisonUtils.prettyNum(playerData.getPrestige()) + "&8] " + ChatTags.getChatTagFromID(playerData.getChatTag1())  + ChatTags.getChatTagFromID(playerData.getChatTag2()) +
+        String prefix = ChatColor.translateAlternateColorCodes('&', "&8[&dP" + PrisonUtils.prettyNum(playerData.getPrestige()) + "&8] " + ChatTags.getFromID(playerData.getChatTag1())  + ChatTags.getFromID(playerData.getChatTag2()) +
                 "&8[" + rankTag + "&8] ");
         String suffix = "";
         String playerName = ChatColor.of("#54f08a") + this.playerName;

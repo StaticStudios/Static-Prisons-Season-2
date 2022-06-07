@@ -7,4 +7,11 @@ public class WeightedElement<T> {
         this.weight = weight;
         this.element = element;
     }
+
+    public T getElement() {
+        return element;
+    }
+    public double getWeight() {
+        return weight;
+    }
 }

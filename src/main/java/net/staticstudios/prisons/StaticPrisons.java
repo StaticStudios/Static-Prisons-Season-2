@@ -1,14 +1,19 @@
 package net.staticstudios.prisons;
 
+import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.WorldEdit;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.blockBroken.BlockBreakListener;
+import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.commands.normal.*;
+import net.staticstudios.prisons.crates.Crate;
+import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customItems.*;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.Prices;
 import net.staticstudios.prisons.enchants.AutoSellEnchant;
+import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.external.DiscordLink;
@@ -29,12 +34,14 @@ import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.rankup.RankUpPrices;
 import net.staticstudios.prisons.utils.Constants;
 import net.luckperms.api.LuckPerms;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -51,21 +58,36 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     private static StaticPrisons plugin;
     public static LuckPerms luckPerms;
     public static final WorldEdit worldEdit = WorldEdit.getInstance();
+    public static WorldBorderApi worldBorderAPI;
     public static long currentTick = 0;
+
+    void loadWorldBoarderAPI() {
+        RegisteredServiceProvider<WorldBorderApi> worldBorderApiRegisteredServiceProvider = Bukkit.getServer().getServicesManager().getRegistration(WorldBorderApi.class);
+        worldBorderAPI = worldBorderApiRegisteredServiceProvider.getProvider();
+    }
 
     @Override
     public void onEnable() {
         plugin = this;
+        loadWorldBoarderAPI();
+        PrisonUtils.init();
         MineManager.init();
+        BaseEnchant.init();
+        PrisonEnchants.init();
+        CustomItems.init();
+        Crate.init();
+        Crates.init();
+
+
         StaticGUI.enable(this);
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
         loadConfig();
         unloadNetherAndEnd();
         //DataWriter.loadData();
         DataSet.loadData();
+        CellManager.load();
         AuctionManager.loadAllAuctions();
         //PrisonEnchants.initialize(); //todo delete soon
-        PrisonEnchants.createEnchants();
         PrisonPickaxe.loadPickaxeData();
         //AuctionHouseManager.loadAllAuctions();
         IslandManager.initialize();
@@ -105,7 +127,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("exemptfromleaderboards").setExecutor(new ExemptFromLeaderboardsCommand());
         getCommand("givevote").setExecutor(new GiveVoteCommand());
         getCommand("watchmessages").setExecutor(new MessageSpyCommand());
-        getCommand("debug").setExecutor(new DebugCommand());
+        //getCommand("debug").setExecutor(new DebugCommand());
         getCommand("reload-config").setExecutor(new ReloadConfigCommand());
         //--Normal Commands
         getCommand("rules").setExecutor(new RulesCommand());
@@ -166,6 +188,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public void onDisable() {
         StaticMines.disable();
         DataSet.saveDataSync();
+        CellManager.saveSync();
         AuctionManager.saveAllAuctionsSync();
         //AuctionHouseManager.saveAllAuctions();
         //PrisonPickaxe.dumpStatsToAllPickaxe();

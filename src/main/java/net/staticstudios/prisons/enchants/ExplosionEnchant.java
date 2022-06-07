@@ -2,11 +2,8 @@ package net.staticstudios.prisons.enchants;
 
 import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
-import net.staticstudios.prisons.mineBombs.MineBomb;
+import net.staticstudios.prisons.customItems.mineBombs.MineBomb;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.math.BigInteger;
 

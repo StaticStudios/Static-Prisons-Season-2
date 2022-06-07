@@ -25,6 +25,7 @@ public class AutoSellEnchant extends BaseEnchant {
 
     static void onSell(PrisonPickaxe pickaxe, Player player) {
         PlayerData playerData = new PlayerData(player);
+        if (playerData.getBackpackItemCount().equals(BigInteger.ZERO)) return;
         playerData.sellBackpack(player, true, ChatColor.GREEN + "[Auto Sell] " + ChatColor.WHITE + "(x%MULTI%) Sold " + ChatColor.AQUA + "%TOTAL_BACKPACK_COUNT% " + ChatColor.WHITE + "blocks for: " + ChatColor.GREEN + "$%TOTAL_SELL_PRICE%");
     }
     static final int MAX_INTERVAL = 600;
@@ -53,7 +54,7 @@ public class AutoSellEnchant extends BaseEnchant {
     public void onPickaxeUnHeld(Player player, PrisonPickaxe pickaxe) {
         activePickaxes.remove(pickaxe);
     }
-    public void onUpgrade(PrisonPickaxe pickaxe, int oldLevel, int newLevel) {
+    public void onUpgrade(Player player, PrisonPickaxe pickaxe, int oldLevel, int newLevel) {
         int intervalDecrease = getSecBetweenInterval(oldLevel) - getSecBetweenInterval(newLevel);
         if (!autoSellTimeLeft.containsKey(pickaxe)) autoSellTimeLeft.put(pickaxe, getSecBetweenInterval(pickaxe.getEnchantLevel(ENCHANT_ID)));
         autoSellTimeLeft.put(pickaxe, autoSellTimeLeft.get(pickaxe) - intervalDecrease);

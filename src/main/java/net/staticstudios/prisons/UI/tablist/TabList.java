@@ -29,7 +29,7 @@ public class TabList {
     };
     public static Scoreboard sb;
 
-    public static void initialize() {
+    public static void initialize() { //todo: look into ProtocolLib and see if this can be done with packets
         sb = Bukkit.getScoreboardManager().getMainScoreboard();
         for (String[] arr : TEAMS) {
             if (sb.getTeam(arr[0]) != null) sb.getTeam(arr[0]).unregister();

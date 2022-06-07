@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.leaderboards;
 
-public class LeaderboardManager {
+public class LeaderboardManager { //todo switch to using api
     public static void updateAll() {
         try {
             BlocksMinedTop.calculateLeaderBoard();

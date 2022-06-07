@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.misc;
 
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.UI.PlayerUI;
@@ -24,7 +25,9 @@ public class TimedTasks {
 
     public static void startTasks() {
         //Auto saves data
-        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), DataSet::saveData, 0, 20 * 60 * 5);
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), DataSet::saveData, 20 * 60 * 5, 20 * 60 * 5);
+        //Auto saves cell data
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), CellManager::save, 20 * 60 * 7, 20 * 60 * 5);
         //Save all auctions
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), AuctionManager::saveAllAuctions, 0, 20 * 60 * 5);
         //Update Expired Auctions
@@ -38,7 +41,7 @@ public class TimedTasks {
         //Save Pickaxe Data
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::savePickaxeData, 20 * 60 * 5, 20 * 60 * 5);
         //Update All Pickaxe Lore
-        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::dumpLoreToAllPickaxes, 20, 20 * 5);
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::dumpLoreToAllPickaxes, 20, 20 * 5); //possibly spread this across multiple ticks so like do 1% of the pickaxes every tick
 
 
         //Show all players their backpacks

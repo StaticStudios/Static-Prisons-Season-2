@@ -268,7 +268,7 @@ public class VoteStoreListener implements CommandExecutor {
                     default -> {
                         if (args[1].startsWith("tag-")) {
                             String tagName = args[1].split("tag-")[1];
-                            String tagDisplay = ChatTags.getChatTagFromID(tagName);
+                            String tagDisplay = ChatTags.getFromID(tagName);
                             if (tagDisplay.equals("")) {
                                 UUID errorCode = UUID.randomUUID();
                                 Bukkit.getLogger().warning("Got a Tebex package request for an invalid package! Package ID: " + args[1] + " | Error code: " + errorCode);

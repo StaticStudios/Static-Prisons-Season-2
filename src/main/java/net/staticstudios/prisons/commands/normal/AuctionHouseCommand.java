@@ -29,7 +29,7 @@ public class AuctionHouseCommand implements CommandExecutor {
                 AuctionManager.createAuction(player, player.getInventory().getItemInMainHand(), price);
                 player.getInventory().getItemInMainHand().setAmount(0);
             } catch (NumberFormatException e) {
-                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/ah hand <price>")); //todo make this work
+                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/ah hand <price>"));
             }
         } else AuctionHouseMenus.openMenu(player, 0);
         return false;

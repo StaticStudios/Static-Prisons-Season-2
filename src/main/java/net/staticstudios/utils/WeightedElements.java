@@ -1,5 +1,6 @@
 package net.staticstudios.utils;
 
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -29,6 +30,31 @@ public class WeightedElements<T> {
     }
 
     private final List<WeightedElement<T>> elements = new ArrayList<WeightedElement<T>>();
+
+    public List<WeightedElement<T>> getElements() {
+        return elements;
+    }
+    public WeightedElement<T> getElement(int index) {
+        return elements.get(index);
+    }
+    public double getChance(int index) {
+        return (elements.get(index).getWeight() / getTotalWeight()) * 100;
+    }
+    public double getChance(Object o) {
+        for (WeightedElement<T> element : elements)
+            if (element.element.equals(o)) return (element.getWeight() / getTotalWeight()) * 100;
+        return 0;
+    }
+    public double getTotalWeight() {
+        double totalWeight = 0;
+        for (WeightedElement<T> element : elements) totalWeight += element.weight;
+        return totalWeight;
+    }
+    public List<T> getInternalList() {
+        List<T> elements = new ArrayList<>();
+        for (WeightedElement<T> weightedElement : this.elements) elements.add(weightedElement.element);
+        return elements;
+    }
 
     public WeightedElements<T> add(WeightedElement<T> e) {
         elements.add(e);

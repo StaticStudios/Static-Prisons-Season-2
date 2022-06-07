@@ -28,6 +28,7 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 
 public class StaticMine {
@@ -61,7 +62,7 @@ public class StaticMine {
     private long blocksInMine;
     private long blocksInFullMine;
     private double refillAtPercentLeft = 50d; //TODO: can configure in config
-    private MineRunnable runOnRefill = (m) -> {};
+    private Consumer<StaticMine> runOnRefill = mine -> {};
 
     public String getID() { return id; }
     public org.bukkit.World getWorld() { return world; }
@@ -83,8 +84,8 @@ public class StaticMine {
         blocksInMine -= blocksBroken;
         if ((double) blocksInMine / blocksInFullMine < refillAtPercentLeft / 100) refill();
     }
-    public void setRunOnRefill(MineRunnable runOnRefill) { this.runOnRefill = runOnRefill; }
-    public MineRunnable getRunOnRefill() { return runOnRefill; }
+    public void setRunOnRefill(Consumer<StaticMine> runOnRefill) { this.runOnRefill = runOnRefill; }
+    public Consumer<StaticMine> getRunOnRefill() { return runOnRefill; }
 
 
     public List<Player> getPlayersInMine() {
@@ -138,7 +139,7 @@ public class StaticMine {
         if (async) {
             Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint())));
         } else Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint()));
-        Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> runOnRefill.run(this));
+        Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> runOnRefill.accept(this));
     }
 
 

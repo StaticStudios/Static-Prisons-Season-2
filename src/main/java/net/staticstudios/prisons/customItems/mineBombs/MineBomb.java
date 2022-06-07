@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.mineBombs;
+package net.staticstudios.prisons.customItems.mineBombs;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;

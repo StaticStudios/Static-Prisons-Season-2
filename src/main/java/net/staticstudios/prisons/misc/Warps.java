@@ -8,6 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.concurrent.CompletableFuture;
+
 public class Warps {
     public static final Location SPAWN = new Location(Bukkit.getWorld("world"), 0.5, 100, 0.5, -145, 0);
     public static final Location CRATES = new Location(Bukkit.getWorld("world"), -49.5, 79, -128.5, -90, 0);
@@ -66,139 +68,81 @@ public class Warps {
     public static final Location RANK_MINE_5 = new Location(Bukkit.getWorld("mines"), 41.5 + BaseMine.distanceBetweenMines * 45, 103, 87.5, 135, 0);
 
     public static final Location EVENT_MINE = new Location(Bukkit.getWorld("mines"), -72.5 + BaseMine.distanceBetweenMines * 46, 103, -39.5, -45, 0);
-    public static void warpSomewhere(Player player, Location where, boolean flight) {
-        PaperLib.teleportAsync(player, where);
-        player.setAllowFlight(flight);
-        if (flight) {
-            Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 10);
-            Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 20);
-            Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 30);
-        }
+    public static CompletableFuture<Void> warpSomewhere(Player player, Location where, boolean flight) {
+        return PaperLib.teleportAsync(player, where).thenRun(() -> player.setAllowFlight(flight));
     }
     public static void warpToSpawn(Player player) {
-        PaperLib.teleportAsync(player, SPAWN);
-        player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 10);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 20);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 30);
+        PaperLib.teleportAsync(player, SPAWN).thenRun(() -> player.setAllowFlight(true));
     }
     public static void warpToCrates(Player player) {
-        PaperLib.teleportAsync(player, CRATES);
-        player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 10);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 20);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 30);
+        PaperLib.teleportAsync(player, CRATES).thenRun(() -> player.setAllowFlight(true));
     }
     public static void warpToLeaderboards(Player player) {
-        PaperLib.teleportAsync(player, LEADERBOARDS);
-        player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 10);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 20);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> player.setAllowFlight(true), 30);
+        PaperLib.teleportAsync(player, LEADERBOARDS).thenRun(() -> player.setAllowFlight(true));
     }
     public static void warpToMine(Player player, int mine) {
         switch (mine) {
-            case 0 -> PaperLib.teleportAsync(player, MINE_A);
-            case 1 -> PaperLib.teleportAsync(player, MINE_B);
-            case 2 -> PaperLib.teleportAsync(player, MINE_C);
-            case 3 -> PaperLib.teleportAsync(player, MINE_D);
-            case 4 -> PaperLib.teleportAsync(player, MINE_E);
-            case 5 -> PaperLib.teleportAsync(player, MINE_F);
-            case 6 -> PaperLib.teleportAsync(player, MINE_G);
-            case 7 -> PaperLib.teleportAsync(player, MINE_H);
-            case 8 -> PaperLib.teleportAsync(player, MINE_I);
-            case 9 -> PaperLib.teleportAsync(player, MINE_J);
-            case 10 -> PaperLib.teleportAsync(player, MINE_K);
-            case 11 -> PaperLib.teleportAsync(player, MINE_L);
-            case 12 -> PaperLib.teleportAsync(player, MINE_M);
-            case 13 -> PaperLib.teleportAsync(player, MINE_N);
-            case 14 -> PaperLib.teleportAsync(player, MINE_O);
-            case 15 -> PaperLib.teleportAsync(player, MINE_P);
-            case 16 -> PaperLib.teleportAsync(player, MINE_Q);
-            case 17 -> PaperLib.teleportAsync(player, MINE_R);
-            case 18 -> PaperLib.teleportAsync(player, MINE_S);
-            case 19 -> PaperLib.teleportAsync(player, MINE_T);
-            case 20 -> PaperLib.teleportAsync(player, MINE_U);
-            case 21 -> PaperLib.teleportAsync(player, MINE_V);
-            case 22 -> PaperLib.teleportAsync(player, MINE_W);
-            case 23 -> PaperLib.teleportAsync(player, MINE_X);
-            case 24 -> PaperLib.teleportAsync(player, MINE_Y);
-            case 25 -> PaperLib.teleportAsync(player, MINE_Z);
+            case 0 -> PaperLib.teleportAsync(player, MINE_A).thenRun(() -> player.setAllowFlight(true));
+            case 1 -> PaperLib.teleportAsync(player, MINE_B).thenRun(() -> player.setAllowFlight(true));
+            case 2 -> PaperLib.teleportAsync(player, MINE_C).thenRun(() -> player.setAllowFlight(true));
+            case 3 -> PaperLib.teleportAsync(player, MINE_D).thenRun(() -> player.setAllowFlight(true));
+            case 4 -> PaperLib.teleportAsync(player, MINE_E).thenRun(() -> player.setAllowFlight(true));
+            case 5 -> PaperLib.teleportAsync(player, MINE_F).thenRun(() -> player.setAllowFlight(true));
+            case 6 -> PaperLib.teleportAsync(player, MINE_G).thenRun(() -> player.setAllowFlight(true));
+            case 7 -> PaperLib.teleportAsync(player, MINE_H).thenRun(() -> player.setAllowFlight(true));
+            case 8 -> PaperLib.teleportAsync(player, MINE_I).thenRun(() -> player.setAllowFlight(true));
+            case 9 -> PaperLib.teleportAsync(player, MINE_J).thenRun(() -> player.setAllowFlight(true));
+            case 10 -> PaperLib.teleportAsync(player, MINE_K).thenRun(() -> player.setAllowFlight(true));
+            case 11 -> PaperLib.teleportAsync(player, MINE_L).thenRun(() -> player.setAllowFlight(true));
+            case 12 -> PaperLib.teleportAsync(player, MINE_M).thenRun(() -> player.setAllowFlight(true));
+            case 13 -> PaperLib.teleportAsync(player, MINE_N).thenRun(() -> player.setAllowFlight(true));
+            case 14 -> PaperLib.teleportAsync(player, MINE_O).thenRun(() -> player.setAllowFlight(true));
+            case 15 -> PaperLib.teleportAsync(player, MINE_P).thenRun(() -> player.setAllowFlight(true));
+            case 16 -> PaperLib.teleportAsync(player, MINE_Q).thenRun(() -> player.setAllowFlight(true));
+            case 17 -> PaperLib.teleportAsync(player, MINE_R).thenRun(() -> player.setAllowFlight(true));
+            case 18 -> PaperLib.teleportAsync(player, MINE_S).thenRun(() -> player.setAllowFlight(true));
+            case 19 -> PaperLib.teleportAsync(player, MINE_T).thenRun(() -> player.setAllowFlight(true));
+            case 20 -> PaperLib.teleportAsync(player, MINE_U).thenRun(() -> player.setAllowFlight(true));
+            case 21 -> PaperLib.teleportAsync(player, MINE_V).thenRun(() -> player.setAllowFlight(true));
+            case 22 -> PaperLib.teleportAsync(player, MINE_W).thenRun(() -> player.setAllowFlight(true));
+            case 23 -> PaperLib.teleportAsync(player, MINE_X).thenRun(() -> player.setAllowFlight(true));
+            case 24 -> PaperLib.teleportAsync(player, MINE_Y).thenRun(() -> player.setAllowFlight(true));
+            case 25 -> PaperLib.teleportAsync(player, MINE_Z).thenRun(() -> player.setAllowFlight(true));
         }
-        player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 10);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 20);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 30);
         IslandManager.playerLeftIsland(player);
     }
     public static void warpToPrestigeMine(Player player, int mine) {
         switch (mine) {
-            case 0 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_1);
-            case 1 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_2);
-            case 2 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_3);
-            case 3 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_4);
-            case 4 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_5);
-            case 5 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_6);
-            case 6 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_7);
-            case 7 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_8);
-            case 8 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_9);
-            case 9 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_10);
-            case 10 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_11);
-            case 11 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_12);
-            case 12 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_13);
-            case 13 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_14);
-            case 14 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_15);
+            case 0 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_1).thenRun(() -> player.setAllowFlight(true));
+            case 1 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_2).thenRun(() -> player.setAllowFlight(true));
+            case 2 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_3).thenRun(() -> player.setAllowFlight(true));
+            case 3 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_4).thenRun(() -> player.setAllowFlight(true));
+            case 4 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_5).thenRun(() -> player.setAllowFlight(true));
+            case 5 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_6).thenRun(() -> player.setAllowFlight(true));
+            case 6 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_7).thenRun(() -> player.setAllowFlight(true));
+            case 7 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_8).thenRun(() -> player.setAllowFlight(true));
+            case 8 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_9).thenRun(() -> player.setAllowFlight(true));
+            case 9 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_10).thenRun(() -> player.setAllowFlight(true));
+            case 10 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_11).thenRun(() -> player.setAllowFlight(true));
+            case 11 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_12).thenRun(() -> player.setAllowFlight(true));
+            case 12 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_13).thenRun(() -> player.setAllowFlight(true));
+            case 13 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_14).thenRun(() -> player.setAllowFlight(true));
+            case 14 -> PaperLib.teleportAsync(player, PRESTIGE_MINE_15).thenRun(() -> player.setAllowFlight(true));
         }
-        player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 10);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 20);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 30);
         IslandManager.playerLeftIsland(player);
     }
     public static void warpToRankMine(Player player, int mine) {
         switch (mine) {
-            case 0 -> PaperLib.teleportAsync(player, RANK_MINE_1);
-            case 1 -> PaperLib.teleportAsync(player, RANK_MINE_2);
-            case 2 -> PaperLib.teleportAsync(player, RANK_MINE_3);
-            case 3 -> PaperLib.teleportAsync(player, RANK_MINE_4);
-            case 4 -> PaperLib.teleportAsync(player, RANK_MINE_5);
+            case 0 -> PaperLib.teleportAsync(player, RANK_MINE_1).thenRun(() -> player.setAllowFlight(true));
+            case 1 -> PaperLib.teleportAsync(player, RANK_MINE_2).thenRun(() -> player.setAllowFlight(true));
+            case 2 -> PaperLib.teleportAsync(player, RANK_MINE_3).thenRun(() -> player.setAllowFlight(true));
+            case 3 -> PaperLib.teleportAsync(player, RANK_MINE_4).thenRun(() -> player.setAllowFlight(true));
+            case 4 -> PaperLib.teleportAsync(player, RANK_MINE_5).thenRun(() -> player.setAllowFlight(true));
         }
-        player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 10);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 20);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 30);
         IslandManager.playerLeftIsland(player);
     }
     public static void warEventMine(Player player) {
-        PaperLib.teleportAsync(player, EVENT_MINE);
-        player.setAllowFlight(true);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 10);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 20);
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (player.getWorld().getName().equals("mines")) player.setAllowFlight(true);
-        }, 30);
+        PaperLib.teleportAsync(player, EVENT_MINE).thenRun(() -> player.setAllowFlight(true));
         IslandManager.playerLeftIsland(player);
     }
 }

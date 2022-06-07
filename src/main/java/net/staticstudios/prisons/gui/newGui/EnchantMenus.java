@@ -29,7 +29,7 @@ public class EnchantMenus extends GUIUtils {
     }
     public static void mainMenu(Player player, PrisonPickaxe pickaxe) {
         PlayerData playerData = new PlayerData(player);
-        GUICreator c = new GUICreator(45, "Enchants");
+        GUICreator c = new GUICreator(54, "Enchants");
         c.setItems(
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
@@ -75,7 +75,19 @@ public class EnchantMenus extends GUIUtils {
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                createGrayPlaceHolder()
+                createGrayPlaceHolder(),
+
+                createLightGrayPlaceHolder(),
+                createLightGrayPlaceHolder(),
+                createLightGrayPlaceHolder(),
+                createLightGrayPlaceHolder(),
+                c.createButton(Material.GUNPOWDER, "&c&lEnchant Settings", List.of("Enable/disable an enchant"), (p, t) -> {
+                    //todo
+                }),
+                createLightGrayPlaceHolder(),
+                createLightGrayPlaceHolder(),
+                createLightGrayPlaceHolder(),
+                createLightGrayPlaceHolder()
         );
         c.open(player);
         //c.setOnCloseRun((p, t) -> MainMenus.open(p));

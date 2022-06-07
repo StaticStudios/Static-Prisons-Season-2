@@ -1,31 +1,42 @@
 package net.staticstudios.prisons.utils;
 
+import com.destroystokyo.paper.event.server.ServerTickStartEvent;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
+import net.staticstudios.prisons.mines.MineManager;
 import org.bukkit.*;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 import java.math.BigInteger;
 import java.text.NumberFormat;
+import java.time.Instant;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public final class PrisonUtils {
+public final class PrisonUtils { //todo clean this up
+    public static void init() {
+        Players.init(StaticPrisons.getInstance());
+    }
 
     public static String formatTime(long milliseconds) {
         long days = milliseconds / 86400000;
@@ -67,13 +78,16 @@ public final class PrisonUtils {
         return new Random().nextDouble((max - min) + 1) + min;
     }
 
-    public static BigInteger randomBigInt(BigInteger min, BigInteger max) {
-        BigInteger bigInteger = max.subtract(min);
-        BigInteger res = new BigInteger(max.bitLength(), new Random());
-        if (res.compareTo(min) < 0) res = res.add(min);
-        if (res.compareTo(bigInteger) >= 0) res = res.mod(bigInteger).add(min);
-        return res;
+    public static BigInteger randomBigInt(BigInteger min, BigInteger max) { //github copilot created this and i have no idea if it works
+        return min.add(new BigInteger(String.valueOf(Math.round(Math.random() * (max.subtract(min).doubleValue())))));
     }
+//    public static BigInteger randomBigInt(BigInteger min, BigInteger max) {
+//        BigInteger bigInteger = max.subtract(min);
+//        BigInteger res = new BigInteger(max.bitLength(), new Random());
+//        if (res.compareTo(min) < 0) res = res.add(min);
+//        if (res.compareTo(bigInteger) >= 0) res = res.mod(bigInteger).add(min);
+//        return res;
+//    }
 
     public static ItemStack setItemCount(ItemStack itemStack, int amount) {
         itemStack = new ItemStack(itemStack);
@@ -366,7 +380,61 @@ public final class PrisonUtils {
         return newList;
     }
 
-    public static class Players {
+    public static class Items {
+        public static ItemStack appendLoreToItem(ItemStack item, List<String> extraLore) {
+            item = item.clone();
+            List<String> mutableLore = new ArrayList<>(); //Make sure the list is mutable
+            for (String line : extraLore) mutableLore.add(ChatColor.translateAlternateColorCodes('&', line));
+            ItemMeta meta = item.getItemMeta();
+            List<String> lore = new ArrayList<>();
+            if (meta.hasLore()) lore = meta.getLore();
+            lore.addAll(mutableLore);
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+            return item;
+        }
+    }
+
+    public static class Players implements Listener {
+        private static JavaPlugin parent;
+        private static long currentTick = 0;
+        private static final int HOLDING_THRESHOLD = 5;
+        public static void init(JavaPlugin parent) {
+            Players.parent = parent;
+            parent.getServer().getPluginManager().registerEvents(new Players(), parent);
+
+            Bukkit.getScheduler().runTaskTimer(parent, () -> {
+                for (Player player : playerHoldingClicks.keySet()) {
+                    RightClick rc = playerHoldingClicks.get(player);
+                    if (rc.lastUpdatedAt() + HOLDING_THRESHOLD >= currentTick) continue;
+                    playerHoldingClicks.remove(player);
+                }
+            }, 20, 4); //The interact event gets called once every 4 ticks
+        }
+
+        public static final Map<Player, RightClick> playerHoldingClicks = new HashMap<>();
+        private static record RightClick(boolean isRightClicking, long heldFor, long lastUpdatedAt) {}
+        @EventHandler
+        void onInteract(PlayerInteractEvent e) {
+            if (!e.getAction().isRightClick()) return;
+            long heldFor = 0;
+            if (playerHoldingClicks.containsKey(e.getPlayer())) {
+                RightClick rc =  playerHoldingClicks.get(e.getPlayer());
+                heldFor = rc.heldFor() + currentTick - rc.lastUpdatedAt();
+            }
+            playerHoldingClicks.put(e.getPlayer(), new RightClick(true, heldFor, currentTick));
+        }
+        @EventHandler(priority = EventPriority.HIGHEST)
+        void tickStarted(ServerTickStartEvent e) {
+            currentTick += 1;
+        }
+
+        public static boolean isHoldingRightClick(Player player) {
+            if (!playerHoldingClicks.containsKey(player)) return false;
+            return playerHoldingClicks.get(player).heldFor() > HOLDING_THRESHOLD;
+        }
+
+
 
         public static ItemStack getSkull(OfflinePlayer player) {
             ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);

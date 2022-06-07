@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import java.time.Instant;
 import java.util.*;
 
-public class EventManager {
+public class EventManager { //todo: fix.
     static List<ChatEvent> activeEvents = new ArrayList<>();
     public static final String[] wordUnscrambleWords = new String[]{
             "cat",

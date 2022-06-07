@@ -1,16 +1,32 @@
 package net.staticstudios.prisons.enchants.handler;
 
+import jdk.jshell.execution.Util;
+import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.prisons.utils.PrisonUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigInteger;
 import java.util.List;
 
-public abstract class BaseEnchant {
+public abstract class BaseEnchant implements Listener {
+    public static void init() {
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (PrisonUtils.Players.isHoldingRightClick(player)) {
+                    ItemStack item = player.getInventory().getItemInMainHand();
+                    PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(item);
+                    if (PrisonUtils.checkIsPrisonPickaxe(item)) for (BaseEnchant ench : pickaxe.getEnchants()) ench.whileRightClicking(player, pickaxe);
+                }
+            }
+        }, 20, 7);
+    }
 
     public final int MAX_LEVEL;
     public final BigInteger PRICE;
@@ -48,7 +64,7 @@ public abstract class BaseEnchant {
             pickaxe.addEnchantLevel(ENCHANT_ID, levelsToBuy);
             int newLevel = pickaxe.getEnchantLevel(ENCHANT_ID);
             pickaxe.tryToUpdateLore();
-            onUpgrade(pickaxe, oldLevel, newLevel);
+            onUpgrade(player, pickaxe, oldLevel, newLevel);
             player.sendMessage(org.bukkit.ChatColor.AQUA + "You successfully upgraded your pickaxe!");
             return true;
         }
@@ -60,8 +76,8 @@ public abstract class BaseEnchant {
     public void onBlockBreak(PrisonBlockBroken bb) {}
     public void onPickaxeHeld(Player player, PrisonPickaxe pickaxe) {}
     public void onPickaxeUnHeld(Player player, PrisonPickaxe pickaxe) {}
-    public void whileRightClicking(PlayerInteractEvent e, PrisonPickaxe pickaxe) {} //TODO clean this up so it is called every tick rather than relying on the interact event, that event timing is inconsistent
-    public void onUpgrade(PrisonPickaxe pickaxe, int oldLevel, int newLevel) {} //todo call this
+    public void whileRightClicking(Player player, PrisonPickaxe pickaxe) {}
+    public void onUpgrade(Player player, PrisonPickaxe pickaxe, int oldLevel, int newLevel) {}
 
 }
 

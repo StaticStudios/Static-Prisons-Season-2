@@ -2,9 +2,16 @@ package net.staticstudios.prisons.customItems;
 
 import net.staticstudios.prisons.StaticPrisons;
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.prisons.customItems.mineBombs.MineBombItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,22 +20,25 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomItems {
-    public static final String PICKAXE_TIER_1_NAME = ChatColor.translateAlternateColorCodes('&', "&bPickaxe Tier 1");
-    public static final String PICKAXE_TIER_2_NAME = ChatColor.translateAlternateColorCodes('&', "&bPickaxe Tier 2");
-    public static final String PICKAXE_TIER_3_NAME = ChatColor.translateAlternateColorCodes('&', "&bPickaxe Tier 3");
-    public static final String PICKAXE_TIER_4_NAME = ChatColor.translateAlternateColorCodes('&', "&bPickaxe Tier 4");
-    public static final String PICKAXE_TIER_5_NAME = ChatColor.translateAlternateColorCodes('&', "&bPickaxe Tier 5");
-    public static final String PICKAXE_TIER_6_NAME = ChatColor.translateAlternateColorCodes('&', "&bPickaxe Tier 6");
-    public static final String PICKAXE_TIER_7_NAME = ChatColor.translateAlternateColorCodes('&', "&bPickaxe Tier 7");
-    public static final String PICKAXE_TIER_8_NAME = ChatColor.translateAlternateColorCodes('&', "&bPickaxe Tier 8");
-    public static final String PICKAXE_TIER_9_NAME = ChatColor.translateAlternateColorCodes('&', "&bPickaxe Tier 9");
-    public static final String PICKAXE_TIER_10_NAME = ChatColor.translateAlternateColorCodes('&', "&bPickaxe Tier 10");
+public class CustomItems implements Listener { //todo add an internal mapping that maps an ID to an item/runnable to get the item so commands can be used with tab completion
+    public static void init() {
+        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new CustomItems(), StaticPrisons.getInstance());
+    }
+
+
+    @EventHandler
+    void onDrop(PlayerDropItemEvent e) {
+        MineBombItem.itemDropped(e);
+    }
+    @EventHandler(priority = EventPriority.HIGHEST) //do this to "fight" worldguard
+    void onPlace(BlockPlaceEvent e) {
+        if (e.getHand().equals(EquipmentSlot.OFF_HAND)) return;
+        MineBombItem.blockPlaced(e);
+    }
     private static ItemStack crateCrateKey(String type, String name) {
         ItemStack item = new ItemStack(Material.TRIPWIRE_HOOK);
         ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "customItemGroup"), PersistentDataType.STRING, "crateKey");
-        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "customItemType"), PersistentDataType.STRING, type);
+        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "crateKey"), PersistentDataType.STRING, type);
         meta.setDisplayName(name);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -85,133 +95,6 @@ public class CustomItems {
         item.setAmount(amount);
         return item;
     }
-    public static ItemStack getPickaxeTier1() { return null; }
-    public static ItemStack getPickaxeTier2() { return null; }
-    public static ItemStack getPickaxeTier3() { return null; }
-    public static ItemStack getPickaxeTier4() { return null; }
-    public static ItemStack getPickaxeTier5() { return null; }
-    public static ItemStack getPickaxeTier6() { return null; }
-    public static ItemStack getPickaxeTier7() { return null; }
-    public static ItemStack getPickaxeTier8() { return null; }
-    public static ItemStack getPickaxeTier9() { return null; }
-    public static ItemStack getPickaxeTier10() { return null; }
-/*
-    //Pickaxes
-    public static ItemStack getPickaxeTier1() {
-        ItemStack item = Utils.createNewPickaxe();
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(PICKAXE_TIER_1_NAME);
-        item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 25);
-        return item;
-    }
-    public static ItemStack getPickaxeTier2() {
-        ItemStack item = Utils.createNewPickaxe();
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(PICKAXE_TIER_2_NAME);
-        item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 50);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 20);
-        return item;
-    }
-    public static ItemStack getPickaxeTier3() {
-        ItemStack item = Utils.createNewPickaxe();
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(PICKAXE_TIER_3_NAME);
-        item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 100);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 50);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 15);
-        return item;
-    }
-    public static ItemStack getPickaxeTier4() {
-        ItemStack item = Utils.createNewPickaxe();
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(PICKAXE_TIER_4_NAME);
-        item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 250);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 75);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 75);
-        return item;
-    }
-    public static ItemStack getPickaxeTier5() {
-        ItemStack item = Utils.createNewPickaxe();
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(PICKAXE_TIER_5_NAME);
-        item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 350);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 100);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 150);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 75);
-        return item;
-    }
-    public static ItemStack getPickaxeTier6() {
-        ItemStack item = Utils.createNewPickaxe();
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(PICKAXE_TIER_6_NAME);
-        item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 500);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 150);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 250);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 150);
-        return item;
-    }
-    public static ItemStack getPickaxeTier7() {
-        ItemStack item = Utils.createNewPickaxe();
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(PICKAXE_TIER_7_NAME);
-        item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 750);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 250);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 250);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 250);
-        CustomEnchants.setEnchantLevel(item, "keyFinder", 100);
-        return item;
-    }
-    public static ItemStack getPickaxeTier8() {
-        ItemStack item = Utils.createNewPickaxe();
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(PICKAXE_TIER_8_NAME);
-        item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 1000);
-        CustomEnchants.setEnchantLevel(item, "oreSplitter", 10);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 400);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 400);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 400);
-        CustomEnchants.setEnchantLevel(item, "keyFinder", 250);
-        return item;
-    }
-    public static ItemStack getPickaxeTier9() {
-        ItemStack item = Utils.createNewPickaxe();
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(PICKAXE_TIER_9_NAME);
-        item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 1500);
-        CustomEnchants.setEnchantLevel(item, "oreSplitter", 25);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 500);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 1000);
-        CustomEnchants.setEnchantLevel(item, "doubleWammy", 10);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 1000);
-        CustomEnchants.setEnchantLevel(item, "keyFinder", 500);
-        return item;
-    }
-    public static ItemStack getPickaxeTier10() {
-        ItemStack item = Utils.createNewPickaxe();
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(PICKAXE_TIER_10_NAME);
-        item.setItemMeta(meta);
-        CustomEnchants.setEnchantLevel(item, "fortune", 3000);
-        CustomEnchants.setEnchantLevel(item, "oreSplitter", 75);
-        CustomEnchants.setEnchantLevel(item, "tokenator", 1000);
-        CustomEnchants.setEnchantLevel(item, "jackHammer", 2500);
-        CustomEnchants.setEnchantLevel(item, "doubleWammy", 50);
-        CustomEnchants.setEnchantLevel(item, "multiDirectional", 2500);
-        CustomEnchants.setEnchantLevel(item, "keyFinder", 1000);
-        CustomEnchants.setEnchantLevel(item, "consistency", 1);
-        return item;
-    }
-
- */
 
     public static ItemStack getMineBombTier1() {
         ItemStack item = new ItemStack(Material.TNT);

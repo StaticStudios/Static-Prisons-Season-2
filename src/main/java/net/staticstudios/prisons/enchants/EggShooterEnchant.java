@@ -4,12 +4,11 @@ import com.sk89q.worldedit.math.BlockVector3;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockBroken.BlockBreakListener;
-import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
-import net.staticstudios.prisons.mineBombs.MineBomb;
+import net.staticstudios.prisons.customItems.mineBombs.MineBomb;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -19,7 +18,6 @@ import org.bukkit.entity.Egg;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -30,11 +28,10 @@ import java.util.Map;
 
 public class EggShooterEnchant extends BaseEnchant {
     public EggShooterEnchant() {
-        super("eggShooter", "&e&lEgg Shooter", 1000, BigInteger.valueOf(500), "&7Shoot explosive eggs while right clicking");
+        super("eggShooter", "&e&lEgg Shooter", 1000, BigInteger.valueOf(500), "&7Shoot explosive eggs while right-clicking");
     }
-    public void whileRightClicking(PlayerInteractEvent e, PrisonPickaxe pickaxe) {
-        Player player = e.getPlayer();
-        if (e.getPlayer().getWorld() != Constants.MINES_WORLD) return;
+    public void whileRightClicking(Player player, PrisonPickaxe pickaxe) {
+        if (player.getWorld() != Constants.MINES_WORLD) return;
         Egg egg = player.getWorld().spawn(player.getEyeLocation(), Egg.class);
         egg.setShooter(new EggShooterPickaxe(player, pickaxe));
         egg.setVelocity(player.getLocation().getDirection().multiply(1));
@@ -65,6 +62,8 @@ public class EggShooterEnchant extends BaseEnchant {
             Map<Material, BigInteger> blocksBroken = bomb.explode(finalMine, 10);
             Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
                 finalMine.removeBlocksBrokenInMine(bomb.blocksChanged);
+                pickaxe.addBlocksBroken(bomb.blocksChanged);
+                pickaxe.addXp(bomb.blocksChanged * 2);
                 int fortune = pickaxe.getEnchantLevel(PrisonEnchants.FORTUNE);
                 if (PrisonUtils.randomInt(0, PrisonEnchants.DOUBLE_FORTUNE.MAX_LEVEL) < pickaxe.getEnchantLevel(PrisonEnchants.DOUBLE_FORTUNE)) fortune *= 2;
                 PlayerData playerData = new PlayerData(player);

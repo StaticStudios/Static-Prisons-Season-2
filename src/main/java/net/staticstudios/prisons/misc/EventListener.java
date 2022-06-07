@@ -7,14 +7,12 @@ import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.external.DiscordLink;
-import net.staticstudios.prisons.crates.CrateManager;
 import net.staticstudios.prisons.customItems.Vouchers;
 import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
 import net.staticstudios.prisons.gui.newGui.EnchantMenus;
 import net.staticstudios.prisons.reclaim.RerunPurchases;
-import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -28,7 +26,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Objects;
 
@@ -110,7 +107,7 @@ public class EventListener implements Listener {
         Player player = e.getPlayer();
         if (Objects.equals(e.getHand(), EquipmentSlot.OFF_HAND)) return;
         if (Vouchers.onInteract(e)) return;
-        if (CrateManager.checkIfCrateWasClicked(e)) return;
+        //if (CrateManager.checkIfCrateWasClicked(e)) return;
 
 
 
@@ -129,11 +126,6 @@ public class EventListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
-            }
-            PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
-            if (pickaxe != null) {
-                //if (StaticPrisons.currentTick % 3 != 0) return;
-                for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.whileRightClicking(e, pickaxe);
             }
         }
     }

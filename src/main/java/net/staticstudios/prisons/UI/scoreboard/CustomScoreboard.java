@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import java.util.Hashtable;
 import java.util.Map;
 
-public class CustomScoreboard {
+public class CustomScoreboard { //todo make a custom thing instead of fastboard
     public static Map<String, CustomScoreboard> boards = new Hashtable<>();
     public Player player;
     public FastBoard board;
