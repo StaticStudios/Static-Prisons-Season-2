@@ -29,7 +29,7 @@ public class Events implements Listener {
         //EnchantEffects.giveEffect((Player) e.getWhoClicked(), e.getWhoClicked().getInventory().getItemInMainHand());
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler
     void onDrop(PlayerDropItemEvent e) {
         if (PrisonUtils.checkIsPrisonPickaxe(e.getItemDrop().getItemStack())) {
             e.setCancelled(true);

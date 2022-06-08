@@ -4,6 +4,7 @@ import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.WorldEdit;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
+import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.blockBroken.BlockBreakListener;
 import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.commands.normal.*;
@@ -31,6 +32,7 @@ import net.staticstudios.prisons.misc.Events;
 import net.staticstudios.prisons.misc.TimedTasks;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
 import net.staticstudios.prisons.auctionHouse.AuctionManager;
+import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.rankup.RankUpPrices;
 import net.staticstudios.prisons.utils.Constants;
 import net.luckperms.api.LuckPerms;
@@ -41,11 +43,13 @@ import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -72,6 +76,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         loadWorldBoarderAPI();
         PrisonUtils.init();
         MineManager.init();
+        PrivateMine.init();
         BaseEnchant.init();
         PrisonEnchants.init();
         CustomItems.init();
@@ -207,7 +212,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         //Load block sell prices
         for (String key : config.getConfigurationSection("sellPrices").getKeys(false)) {
             try {
-                Prices.BLOCK_SELL_PRICES.put(Material.valueOf(key), BigInteger.valueOf(config.getInt("sellPrices." + key)));
+                Prices.BLOCK_SELL_PRICES.put(Material.valueOf(key), BigDecimal.valueOf(config.getInt("sellPrices." + key)));
             } catch (IllegalArgumentException e) {
                 Bukkit.getLogger().warning("There was an error while loading the config! Unknown material '" + key + "'");
             } catch (NullPointerException e) {

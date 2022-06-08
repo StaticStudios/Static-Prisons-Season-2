@@ -17,7 +17,7 @@ public class ExplosionEnchant extends BaseEnchant {
         int radius = 5 + explosionLevel / 1500;
         radius += PrisonUtils.randomDouble(0, 0.4) * radius;
         MineBomb bomb = new MineBomb(bb.blockLocation, radius);
-        bb.blockTypesBroken.putAll(bomb.explode(bb.mine));
-        bb.blocksBroken += bomb.blocksChanged - 1;
+        bb.legacySellValues.putAll(bomb.explode(bb.mine));
+        bb.amountOfBlocksBroken += bomb.blocksChanged - 1;
     }
 }

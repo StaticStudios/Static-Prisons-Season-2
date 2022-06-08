@@ -434,8 +434,6 @@ public final class PrisonUtils { //todo clean this up
             return playerHoldingClicks.get(player).heldFor() > HOLDING_THRESHOLD;
         }
 
-
-
         public static ItemStack getSkull(OfflinePlayer player) {
             ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
@@ -451,49 +449,11 @@ public final class PrisonUtils { //todo clean this up
          * This method will add an item to a player's inventory and drop any extra on the ground if the inventory is full
          *
          * @param player Player whose inventory will be affected
-         * @param _item Item to add
+         * @param items Item to add
          */
-        public static void addToInventory(Player player, ItemStack _item) {
-            ItemStack item = new ItemStack(_item); //prevent decrementing stack counts
-            int count = item.getAmount();
-            item.setAmount(1);
-            for (int i = 0; i < count; i++) {
-                if (hasAvailableSlot(player, item)) {
-                    player.getInventory().addItem(item);
-                } else player.getWorld().dropItem(player.getLocation(), item);
-            }
+        public static void addToInventory(Player player, ItemStack items) {
+            player.getInventory().addItem(items).forEach((slot, item) -> player.getWorld().dropItem(player.getLocation(), item));
         }
-
-        static boolean hasAvailableSlot(Player player, ItemStack itemToAdd) {
-            Inventory inv = player.getInventory();
-            for (ItemStack item : inv.getStorageContents()) {
-                if (item == null) {
-                    return true;
-                }
-            }
-            for (ItemStack item : inv.getStorageContents()) {
-                ItemStack _item = item.clone();
-                _item.setAmount(1);
-                if (item.getAmount() != 64 && _item.equals(itemToAdd)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /*
-        public static ItemStack findPickaxeInInventoryFromUUID(Player player, String pickaxeUUID) {
-            for (ItemStack item : player.getInventory().getContents()) {
-                if (item == null) continue;
-                if (!checkIsPrisonPickaxe(item)) continue;
-                if (item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(StaticPrisons.getInstance(), "pickaxeUUID"), PersistentDataType.STRING).equals(pickaxeUUID)) {
-                    return item;
-                }
-            }
-            return null;
-        }
-
-         */
 
         /**
          * @return true if this player can auto sell; this will factor in ranks and booster status

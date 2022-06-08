@@ -5,6 +5,7 @@ import net.staticstudios.prisons.crates.Crate;
 import net.staticstudios.prisons.crates.CrateReward;
 import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customItems.pickaxes.PickaxeTemplates;
+import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.Bukkit;
@@ -41,7 +42,8 @@ public class TestCommand implements CommandExecutor {
 //        }
 //        player.sendMessage("Total time taken: " + (System.currentTimeMillis() - start) + "ms");
         //Crates.COMMON.preview(player);
-        Cell.createCell(player);
+        //Cell.createCell(player);
+        PrivateMine.getPrivateMineFromPlayer(player).registerMine();
         return false;
     }
 }

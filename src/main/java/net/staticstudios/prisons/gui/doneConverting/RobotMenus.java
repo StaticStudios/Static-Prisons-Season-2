@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.gui.menus;
+package net.staticstudios.prisons.gui.doneConverting;
 
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.gui.GUI;

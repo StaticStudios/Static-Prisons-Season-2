@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.*;
 
@@ -202,8 +203,12 @@ public class PlayerData extends DataSet {
         return multi;
     }
     //Backpack
-    public PlayerData setBackpackContents(Map<String, String> value) {
-        setMap("backpackContents", value);
+    public PlayerData setBackpackContents(Map<BigInteger, BigDecimal> value) {
+        Map<String, String> map = new HashMap<>();
+        for (Map.Entry<BigInteger, BigDecimal> entry : value.entrySet()) {
+            map.put(entry.getKey().toString(), entry.getValue().toString());
+        }
+        setMap("backpackContents", map);
         return this;
     }
     public PlayerData setBackpackItemCount(BigInteger value) {
@@ -220,10 +225,6 @@ public class PlayerData extends DataSet {
     public BigInteger getBackpackSize() {
         return getBigInt("backpackSize");
     }
-    public PlayerData setBackpackIsFull(boolean value) {
-        setBoolean("backpackIsFull", value);
-        return this;
-    }
     public boolean getBackpackIsFull() {
         return getBackpackSize().equals(getBackpackItemCount());
     }
@@ -231,23 +232,27 @@ public class PlayerData extends DataSet {
         return (Map<String, String>) getMap("backpackContents");
     }
 
-    public BigInteger getBackpackAmountOf(Material mat) {
-        if (getBackpackContents().containsKey(mat.name())) return new BigInteger(getBackpackContents().get(mat.name()));
-        return BigInteger.ZERO;
-    }
+//    public BigInteger getBackpackAmountOf(Material mat) {
+//        if (getBackpackContents().containsKey(mat.name())) return new BigInteger(getBackpackContents().get(mat.name()));
+//        return BigInteger.ZERO;
+//    }
 
-    public void addBackpackAmountOf(Material mat, BigInteger amount) {
+    public void addAllToBackpack(Map<BigInteger, BigDecimal> whatToAdd) {
         if (getBackpackIsFull()) return;
         BigInteger itemCount = getBackpackItemCount();
         BigInteger size = getBackpackSize();
-        if (itemCount.add(amount).compareTo(size) > 0) {
-            amount = size.subtract(itemCount);
-            setBackpackIsFull(true);
+        BigInteger amountOfItems = BigInteger.ZERO;
+        for (BigInteger key : whatToAdd.keySet()) amountOfItems = amountOfItems.add(key);
+        if (itemCount.add(amountOfItems).compareTo(size) > 0) amountOfItems = size.subtract(itemCount);
+        Map<BigInteger, BigDecimal> actualContents = new HashMap<>();
+        for (Map.Entry<String, String> entry : getBackpackContents().entrySet()) actualContents.put(new BigInteger(entry.getKey()), new BigDecimal(entry.getValue()));
+        for (Map.Entry<BigInteger, BigDecimal> entry : whatToAdd.entrySet()) {
+            if (actualContents.containsKey(entry.getKey())) {
+                actualContents.put(entry.getKey(), actualContents.get(entry.getKey()).add(entry.getValue().setScale(2, RoundingMode.HALF_UP)));
+            } else actualContents.put(entry.getKey(), entry.getValue().setScale(2, RoundingMode.HALF_UP));
         }
-        Map<String, String> map = getBackpackContents();
-        map.put(mat.name(), getBackpackAmountOf(mat).add(amount).toString());
-        setBackpackContents(map);
-        setBackpackItemCount(getBackpackItemCount().add(amount));
+        setBackpackContents(actualContents);
+        setBackpackItemCount(getBackpackItemCount().add(amountOfItems));
     }
     public void sellBackpack(Player player, boolean sendChatMessage) {
         sellBackpack(player, sendChatMessage, "(x%MULTI%) Sold " + ChatColor.AQUA + "%TOTAL_BACKPACK_COUNT% " + ChatColor.WHITE + "blocks for: " + ChatColor.GREEN + "$%TOTAL_SELL_PRICE%");
@@ -256,18 +261,21 @@ public class PlayerData extends DataSet {
         BigDecimal multi = getMoneyMultiplier();
         //Factor in the merchant enchant //todo
         //multi = multi.add(BigDecimal.valueOf(0.5 / PrisonEnchants.MERCHANT.MAX_LEVEL * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant")));
-        BigInteger totalSellPrice = BigInteger.ZERO;
-        if (getBackpackItemCount().compareTo(BigInteger.ZERO) > 0)
-            for (String key : getBackpackContents().keySet()) totalSellPrice = totalSellPrice.add(new BigInteger(getBackpackContents().get(key)).multiply(Prices.getSellPriceOf(Material.valueOf(key))));
-        totalSellPrice = new BigDecimal(totalSellPrice).multiply(multi).toBigInteger();
-        new PlayerData(player).addMoney(totalSellPrice);
+        BigDecimal totalSellPrice = BigDecimal.ZERO;
+        if (getBackpackItemCount().compareTo(BigInteger.ZERO) > 0) {
+            for (Map.Entry<String, String> entry : getBackpackContents().entrySet()) {
+                totalSellPrice = totalSellPrice.add(new BigDecimal(entry.getKey()).multiply(new BigDecimal(entry.getValue())));
+            }
+        }
+        totalSellPrice = totalSellPrice.multiply(multi);
+        BigInteger soldFor = totalSellPrice.toBigInteger();
+        new PlayerData(player).addMoney(soldFor);
         if (sendChatMessage) {
             chatMessage = chatMessage.replaceAll("%MULTI%", multi + "");
             chatMessage = chatMessage.replaceAll("%TOTAL_BACKPACK_COUNT%", PrisonUtils.prettyNum(getBackpackItemCount()) + "");
-            chatMessage = chatMessage.replaceAll("%TOTAL_SELL_PRICE%", PrisonUtils.addCommasToNumber(totalSellPrice) + "");
+            chatMessage = chatMessage.replaceAll("%TOTAL_SELL_PRICE%", PrisonUtils.addCommasToNumber(soldFor) + "");
             player.sendMessage(chatMessage);
         }
-        setBackpackIsFull(false);
         setBackpackItemCount(BigInteger.ZERO);
         setBackpackContents(new HashMap<>());
     }

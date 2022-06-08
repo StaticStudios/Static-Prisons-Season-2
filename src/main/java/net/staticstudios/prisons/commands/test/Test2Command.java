@@ -5,6 +5,8 @@ import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.gui.newGui.ChatTagMenus;
+import net.staticstudios.prisons.privateMines.PrivateMine;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,9 +18,12 @@ public class Test2Command implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         Player player = (Player) commandSender;
         //Crates.COMMON.open(player);
-        Cell cell = Cell.getCell(CellManager.playersToCell.get(player.getUniqueId()));
-        CellManager.cells.remove(cell.cellUuid);
-        CellManager.playersToCell.remove(player.getUniqueId());
+//        Cell cell = Cell.getCell(CellManager.playersToCell.get(player.getUniqueId()));
+//        CellManager.cells.remove(cell.cellUuid);
+//        CellManager.playersToCell.remove(player.getUniqueId());
+        //Bukkit.unloadWorld("private_mines", false);
+        PrivateMine privateMine = PrivateMine.createPrivateMine(player);
+        privateMine.warpTo(player);
         return false;
     }
 }

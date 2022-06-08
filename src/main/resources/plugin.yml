@@ -3,7 +3,7 @@ version: '${project.version}'
 description: This plugin allows static prisons to run!
 main: net.staticstudios.prisons.StaticPrisons
 api-version: 1.18
-depend: [ WorldEdit, WorldGuard, LuckPerms, WorldBorderAPI ]
+depend: [ WorldEdit, WorldGuard, LuckPerms, WorldBorderAPI, ProtocolLib ]
 commands:
   test:
     description: a

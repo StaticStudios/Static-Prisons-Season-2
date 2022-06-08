@@ -5,7 +5,7 @@ import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.utils.BroadcastMessage;
+import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
@@ -15,18 +15,19 @@ import org.bukkit.event.Listener;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BlockBreakListener implements Listener {
 
     @EventHandler
     void onMineBlockBroken(BlockBrokenInMineEvent e) {
-        if (!e.getPlayer().getWorld().equals(Constants.MINES_WORLD)) return;
+        if (!e.getPlayer().getWorld().equals(Constants.MINES_WORLD) && !e.getPlayer().getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD)) return;
         e.getBlockBreakEvent().setDropItems(false);
         e.getBlockBreakEvent().setExpToDrop(0);
         Player player = e.getPlayer();
         PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
         if (pickaxe == null) return;
-
 
         PlayerData playerData = new PlayerData(player);
         PrisonBlockBroken bb = new PrisonBlockBroken(player, playerData, pickaxe, e.getMine(), e.getBlock());
@@ -34,9 +35,11 @@ public class BlockBreakListener implements Listener {
         //Event mine
         if (e.getMine().getID().equals("eventMine")) bb.tokenMultiplier += .2d;
 
-        long totalBlocksBroken = (long) (bb.blocksBroken * bb.blocksBrokenMultiplier);
+        long totalBlocksBroken = bb.amountOfBlocksBroken * bb.blocksBrokenMultiplier;
         long tokensFound = (long) (bb.totalTokensGained * bb.tokenMultiplier);
 
+        if (!e.hasRunOnProcessEvent()) bb.applyMoneyMulti();
+        else e.runOnProcessEvent(bb);
 
         if (tokensFound > 0) {
             player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + PrisonUtils.addCommasToNumber(tokensFound) + ChatColor.GRAY + ChatColor.ITALIC + " (Tokenator)");
@@ -48,10 +51,10 @@ public class BlockBreakListener implements Listener {
         pickaxe.addXp((long) (totalBlocksBroken * 2 * bb.xpMultiplier));
 
 
-        e.getMine().removeBlocksBrokenInMine(bb.blocksBroken - 1);
+        e.getMine().removeBlocksBrokenInMine(bb.amountOfBlocksBroken - 1);
 
         boolean backpackWasFull = playerData.getBackpackIsFull();
-        for (Material key : bb.blockTypesBroken.keySet()) playerData.addBackpackAmountOf(key, new BigDecimal(bb.blockTypesBroken.get(key)).multiply(BigDecimal.valueOf(bb.blocksBrokenMultiplier)).toBigInteger());
+        playerData.addAllToBackpack(bb.blocksBroken);
         backpackFullCheck(backpackWasFull, player, playerData);
     }
 

@@ -10,13 +10,10 @@ import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
-import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -35,8 +32,8 @@ public class JackHammerEnchant extends BaseEnchant {
             int howDeepToGo = 1;
             if (doubleWammyLevel > 0) if (PrisonUtils.randomInt(1, PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) <= doubleWammyLevel + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) howDeepToGo += 1;
             BreakLayer bl = new BreakLayer(bb.mine);
-            bb.blockTypesBroken.putAll(bl.destroyLayer(bb.blockLocation.getBlockY(), howDeepToGo));
-            bb.blocksBroken += bl.totalBlocksBroken;
+            bb.legacySellValues.putAll(bl.destroyLayer(bb.blockLocation.getBlockY(), howDeepToGo));
+            bb.amountOfBlocksBroken += bl.totalBlocksBroken;
         }
     }
 

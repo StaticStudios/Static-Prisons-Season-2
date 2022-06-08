@@ -9,14 +9,19 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Consumer;
 
 public class BlockBrokenInMineEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled;private final Block block;
+    private boolean cancelled;
+    private final Block block;
     private final Player player;
     private final String mindID;
     private final BlockBreakEvent blockBreakEvent;
     private final StaticMine mine;
+    private Consumer<Object> runOnProcessEvent = null;
 
     public boolean isCancelled() {
         return cancelled;
@@ -39,6 +44,13 @@ public class BlockBrokenInMineEvent extends Event implements Cancellable {
         this.mine = StaticMine.getMine(mineID);
     }
 
+    /**
+     * This does not get run by default, you are responsible for calling this
+     */
+    public void setRunOnProcessEvent(Consumer<Object> runOnProcessEvent) {
+        this.runOnProcessEvent = runOnProcessEvent;
+    }
+
     public BlockBreakEvent getBlockBreakEvent() { return blockBreakEvent; }
     public Block getBlock() { return block; }
     public Location getBlockLocation() { return block.getLocation(); }
@@ -46,5 +58,12 @@ public class BlockBrokenInMineEvent extends Event implements Cancellable {
     public Player getPlayer() { return player; }
     public String getMindID() { return mindID; }
     public StaticMine getMine() { return mine; }
+    /**
+     * This does not get run by default, you are responsible for calling this
+     */
+    public boolean hasRunOnProcessEvent() {
+        return runOnProcessEvent != null;
+    }
+    public void runOnProcessEvent(Object o) { runOnProcessEvent.accept(o); }
 
 }

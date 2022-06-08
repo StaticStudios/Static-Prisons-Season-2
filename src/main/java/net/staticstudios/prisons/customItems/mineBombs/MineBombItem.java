@@ -3,6 +3,7 @@ package net.staticstudios.prisons.customItems.mineBombs;
 import com.sk89q.worldedit.math.BlockVector3;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.data.Prices;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -11,16 +12,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MineBombItem {
+    private static final BigDecimal VIRTUAL_FORTUNE = BigDecimal.valueOf(10000);
     public static void blockPlaced(BlockPlaceEvent e) {
         if (!e.getPlayer().getLocation().getWorld().equals(Constants.MINES_WORLD)) return;
         if (!e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER)) return;
@@ -58,8 +60,13 @@ public class MineBombItem {
                 e.getBlock().setType(Material.AIR);
                 e.getPlayer().getInventory().getItemInMainHand().setAmount(e.getPlayer().getInventory().getItemInMainHand().getAmount() - 1);
                 boolean backpackWasFull = playerData.getBackpackIsFull();
-                if (!backpackWasFull) for (Material key : blocksBroken.keySet())
-                    playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(10000)));
+                if (!backpackWasFull) {
+                    Map<BigInteger, BigDecimal> map = new HashMap<>();
+                    for (Map.Entry<Material, BigInteger> entry: blocksBroken.entrySet()) {
+                        map.put(entry.getValue(), Prices.getSellPriceOf(entry.getKey()).multiply(VIRTUAL_FORTUNE));
+                    }
+                    playerData.addAllToBackpack(map);
+                }
                 if (playerData.getBackpackIsFull()) {
                     if (!backpackWasFull) {
                         if (PrisonUtils.Players.canAutoSell(playerData) && playerData.getIsAutoSellEnabled())
@@ -108,8 +115,13 @@ public class MineBombItem {
                 finalMine.removeBlocksBrokenInMine(bomb.blocksChanged);
                 e.getItemDrop().remove();
                 boolean backpackWasFull = playerData.getBackpackIsFull();
-                if (!backpackWasFull) for (Material key : blocksBroken.keySet())
-                    playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(10000)));
+                if (!backpackWasFull) {
+                    Map<BigInteger, BigDecimal> map = new HashMap<>();
+                    for (Map.Entry<Material, BigInteger> entry: blocksBroken.entrySet()) {
+                        map.put(entry.getValue(), Prices.getSellPriceOf(entry.getKey()).multiply(VIRTUAL_FORTUNE));
+                    }
+                    playerData.addAllToBackpack(map);
+                }
                 if (playerData.getBackpackIsFull()) {
                     if (!backpackWasFull) {
                         if (PrisonUtils.Players.canAutoSell(playerData) && playerData.getIsAutoSellEnabled())

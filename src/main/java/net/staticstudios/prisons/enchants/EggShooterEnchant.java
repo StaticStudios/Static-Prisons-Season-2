@@ -4,6 +4,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockBroken.BlockBreakListener;
+import net.staticstudios.prisons.data.Prices;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
@@ -23,7 +24,9 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.Map;
 
 public class EggShooterEnchant extends BaseEnchant {
@@ -68,7 +71,14 @@ public class EggShooterEnchant extends BaseEnchant {
                 if (PrisonUtils.randomInt(0, PrisonEnchants.DOUBLE_FORTUNE.MAX_LEVEL) < pickaxe.getEnchantLevel(PrisonEnchants.DOUBLE_FORTUNE)) fortune *= 2;
                 PlayerData playerData = new PlayerData(player);
                 boolean backpackWasFull = playerData.getBackpackIsFull();
-                for (Material key : blocksBroken.keySet()) playerData.addBackpackAmountOf(key, blocksBroken.get(key).multiply(BigInteger.valueOf(fortune)));
+                if (!backpackWasFull) {
+                    Map<BigInteger, BigDecimal> map = new HashMap<>();
+                    for (Map.Entry<Material, BigInteger> entry: blocksBroken.entrySet()) {
+                        map.put(entry.getValue(), Prices.getSellPriceOf(entry.getKey()).multiply(BigDecimal.valueOf(fortune)));
+                    }
+                    playerData.addAllToBackpack(map);
+                }
+                //for (Material key : blocksBroken.keySet()) playerData.addAllToBackpack(key, blocksBroken.get(key).multiply(BigInteger.valueOf(fortune)));
                 BlockBreakListener.backpackFullCheck(backpackWasFull, player, playerData);
             });
         });

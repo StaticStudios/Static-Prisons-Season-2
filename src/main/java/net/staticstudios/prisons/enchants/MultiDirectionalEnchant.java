@@ -9,13 +9,10 @@ import com.sk89q.worldedit.world.block.BlockTypes;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -33,8 +30,8 @@ public class MultiDirectionalEnchant extends BaseEnchant {
             //Enchant should activate
             int howDeepToGo = Math.max(1, bb.blockLocation.getBlockY() - multiDirectionalLevel * 250 / MAX_LEVEL);
             BreakPlus bp = new BreakPlus(bb.mine, bb.blockLocation);
-            bb.blockTypesBroken.putAll(bp.destroySection(bb.blockLocation.getBlockY(), howDeepToGo, bb.blockLocation.getBlockX(), bb.blockLocation.getBlockZ()));
-            bb.blocksBroken += bp.totalBlocksBroken;
+            bb.legacySellValues.putAll(bp.destroySection(bb.blockLocation.getBlockY(), howDeepToGo, bb.blockLocation.getBlockX(), bb.blockLocation.getBlockZ()));
+            bb.amountOfBlocksBroken += bp.totalBlocksBroken;
         }
     }
 

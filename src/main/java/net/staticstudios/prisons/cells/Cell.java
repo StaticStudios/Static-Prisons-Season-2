@@ -1,6 +1,5 @@
 package net.staticstudios.prisons.cells;
 
-import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -12,7 +11,6 @@ import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
-import net.staticstudios.prisons.islands.IslandManager;
 import net.staticstudios.prisons.misc.Warps;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -60,7 +58,7 @@ public class Cell {
     void buildCell() {
         int[] position = CellManager.getCellPosition(gridPosition);
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(Bukkit.getWorld("islands")))) {
-            Operation operation = new ClipboardHolder(IslandManager.islandTemplate)
+            Operation operation = new ClipboardHolder(CellManager.islandTemplate)
                     .createPaste(editSession)
                     .to(BlockVector3.at(position[0], 100, position[1]))
                     .build();
