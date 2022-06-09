@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.privateMines;
 
+import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -10,6 +11,7 @@ import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
@@ -28,6 +30,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class PrivateMine {
 
@@ -38,10 +41,12 @@ public class PrivateMine {
     public static LinkedHashMap<Integer, Integer> SIZE_BY_LEVEL;
     public static LinkedHashMap<Integer, WeightedElements<MineBlock>> BLOCKS_BY_LEVEL;
     public static LinkedHashMap<Integer, Clipboard> SCHEMATICS_BY_LEVEL;
+    public static LinkedHashMap<Integer, Integer[]> WORLD_BOARDER_BY_LEVEL;
 
     public static World PRIVATE_MINES_WORLD;
 
     public static Map<UUID, PrivateMine> PRIVATE_MINES = new HashMap<>();
+    public static TreeMap<Integer, PrivateMine> PRIVATE_MINES_SORTED_BY_LEVEL = new TreeMap<>();
     public static Map<UUID, PrivateMine> PLAYER_PRIVATE_MINES = new HashMap<>();
     public static Map<String, PrivateMine> MINE_ID_TO_PRIVATE_MINE = new HashMap<>();
 
@@ -57,6 +62,10 @@ public class PrivateMine {
     public static Clipboard getSchematic(int level) {
         if (SCHEMATICS_BY_LEVEL.containsKey(level)) return SCHEMATICS_BY_LEVEL.get(level);
         return SCHEMATICS_BY_LEVEL.get(SCHEMATICS_BY_LEVEL.size() - 1);
+    }
+    public static Integer[] getWorldBorder(int level) {
+        if (WORLD_BOARDER_BY_LEVEL.containsKey(level)) return WORLD_BOARDER_BY_LEVEL.get(level);
+        return WORLD_BOARDER_BY_LEVEL.get(WORLD_BOARDER_BY_LEVEL.size() - 1);
     }
 
     public static void init() {
@@ -93,6 +102,16 @@ public class PrivateMine {
             }
             BLOCKS_BY_LEVEL.put(level, blocks);
         }
+        WORLD_BOARDER_BY_LEVEL = new LinkedHashMap<>();
+        for (String key : config.getConfigurationSection("border_by_level").getKeys(false)) {
+            int level = Integer.parseInt(key);
+            WORLD_BOARDER_BY_LEVEL.put(level, new Integer[]{
+                    config.getInt("border_by_level." + key + ".offset.x"),
+                    config.getInt("border_by_level." + key + ".offset.z"),
+                    config.getInt("border_by_level." + key + ".size")
+            });
+        }
+
         SCHEMATICS_BY_LEVEL = new LinkedHashMap<>();
         for (String key : config.getConfigurationSection("schematics_by_level").getKeys(false)) {
             int level = Integer.parseInt(key);
@@ -111,44 +130,111 @@ public class PrivateMine {
     public int gridPosition;
     public UUID owner;
     public String name;
-    public int level;
+    private int level;
+    public int getLevel() {
+        return level;
+    }
+    public void setLevel(int level) {
+        if (this.level != level) {
+            PRIVATE_MINES_SORTED_BY_LEVEL.remove(this.level);
+            PRIVATE_MINES_SORTED_BY_LEVEL.put(level, this);
+        }
+        size = getSize(level);
+        this.level = level;
+    }
     public int size;
     public double visitorTax;
     public boolean isPublic;
     public double sellPercentage;
-    //todo so far a schem is placed and the mine is created, that is all that is done
 
     public StaticMine mine = null;
 
-    public static PrivateMine getPrivateMine(UUID privateMineId) {
-        return PRIVATE_MINES.get(privateMineId);
+    public boolean isLoaded = false;
+    public static final int REFILL_DELAY = 1000 * 30;
+    private long lastRefilledAt;
+
+    public static CompletableFuture<PrivateMine> getPrivateMine(UUID privateMineId) {
+        PrivateMine privateMine = PRIVATE_MINES.get(privateMineId);
+        if (privateMine == null) return CompletableFuture.completedFuture(null);
+        if (privateMine.isLoaded) return CompletableFuture.completedFuture(privateMine);
+        CompletableFuture<PrivateMine> future = new CompletableFuture<>();
+        loadPrivateMine(privateMineId).thenAccept(future::complete);
+        return future;
     }
 
-    public static PrivateMine getPrivateMineFromPlayer(UUID playerUUID) {
-        return PLAYER_PRIVATE_MINES.get(playerUUID);
+    public static CompletableFuture<PrivateMine> getPrivateMineFromPlayer(UUID playerUUID) {
+        PrivateMine privateMine = PLAYER_PRIVATE_MINES.get(playerUUID);
+        if (privateMine == null) return CompletableFuture.completedFuture(null);
+        if (privateMine.isLoaded) return CompletableFuture.completedFuture(privateMine);
+        CompletableFuture<PrivateMine> future = new CompletableFuture<>();
+        loadPrivateMine(privateMine.privateMineId).thenAccept(future::complete);
+        return future;
     }
-    public static PrivateMine getPrivateMineFromPlayer(Player player) {
+    public static CompletableFuture<PrivateMine> getPrivateMineFromPlayer(Player player) {
         return getPrivateMineFromPlayer(player.getUniqueId());
     }
+    public static PrivateMine getPrivateMineWithoutLoading(UUID privateMineId) {
+        return PRIVATE_MINES.get(privateMineId);
+    }
+    public static PrivateMine getPrivateMineFromPlayerWithoutLoading(Player player) {
+        return getPrivateMineFromPlayerWithoutLoading(player.getUniqueId());
+    }
+    public static PrivateMine getPrivateMineFromPlayerWithoutLoading(UUID playerUUID) {
+        return PLAYER_PRIVATE_MINES.get(playerUUID);
+    }
 
-    public static PrivateMine createPrivateMine(Player player) {
+    public static boolean playerHasPrivateMine(UUID playerUUID) {
+        return PLAYER_PRIVATE_MINES.containsKey(playerUUID);
+    }
+    public static boolean playerHasPrivateMine(Player player) {
+        return playerHasPrivateMine(player.getUniqueId());
+    }
+    public static boolean privateMineExists(UUID privateMineId) {
+        return PRIVATE_MINES.containsKey(privateMineId);
+    }
+
+    public static CompletableFuture<PrivateMine> createPrivateMine(Player player) {
+        CompletableFuture<PrivateMine> future = new CompletableFuture<>();
         PrivateMine privateMine = new PrivateMine();
         privateMine.privateMineId = UUID.randomUUID();
         privateMine.gridPosition = PrivateMineManager.createNewIslandOnGrid();
         privateMine.owner = player.getUniqueId();
-        privateMine.name = player.getName();
+        privateMine.name = player.getName() + "'s Private Mine";
         privateMine.level = 0;
         privateMine.size = START_SIZE;
         privateMine.visitorTax = 0.15;
         privateMine.isPublic = true;
         privateMine.sellPercentage = DEFAULT_SELL_PERCENTAGE;
-        privateMine.updateBuild();
         PRIVATE_MINES.put(privateMine.privateMineId, privateMine);
         PLAYER_PRIVATE_MINES.put(privateMine.owner, privateMine);
-        return privateMine;
+        PRIVATE_MINES_SORTED_BY_LEVEL.put(privateMine.level, privateMine);
+        privateMine.updateBuild().thenAccept(PrivateMine::registerMine).thenRun(() -> future.complete(privateMine));
+        return future;
+    }
+    public PrivateMine(UUID privateMineId, int gridPosition, UUID owner, String name, int level, int size, double visitorTax, boolean isPublic, double sellPercentage) {
+        this.privateMineId = privateMineId;
+        this.gridPosition = gridPosition;
+        this.owner = owner;
+        this.name = name;
+        this.size = size;
+        setLevel(level);
+        this.visitorTax = visitorTax;
+        this.isPublic = isPublic;
+        this.sellPercentage = sellPercentage;
+        PRIVATE_MINES.put(privateMineId, this);
+        PLAYER_PRIVATE_MINES.put(owner, this);
+    }
+    private PrivateMine() {}
+    public static CompletableFuture<PrivateMine> loadPrivateMine(UUID privateMineId) {
+        CompletableFuture<PrivateMine> future = new CompletableFuture<>();
+        PrivateMine privateMine = PRIVATE_MINES.get(privateMineId);
+        if (privateMine == null) return null;
+        privateMine.updateBuild().thenRun(() -> privateMine.registerMine().thenRun(() -> future.complete(privateMine)));
+        return future;
     }
 
-    public void registerMine() {
+    public CompletableFuture<StaticMine> registerMine() {
+        CompletableFuture<StaticMine> future = new CompletableFuture<>();
         int distanceFromCenter = getSize(level) / 2;
         int[] center = PrivateMineManager.getPosition(gridPosition);
         StaticMine mine = new StaticMine("private_mine-" + privateMineId, new Location(PRIVATE_MINES_WORLD, center[0] - distanceFromCenter, 1, center[1] - distanceFromCenter), new Location(PRIVATE_MINES_WORLD, center[0] + distanceFromCenter, 99, center[1] + distanceFromCenter));
@@ -157,18 +243,44 @@ public class PrivateMine {
         for (WeightedElement<MineBlock> block : getBlocks(level).getElements())
             mineBlocks.add(new StaticMine.MineBlock(BukkitAdapter.asBlockType(block.getElement().blockType), block.getWeight()));
         mine.setMineBlocks(mineBlocks.toArray(new StaticMine.MineBlock[0]));
-        mine.refill();
+        this.mine = mine;
         MINE_ID_TO_PRIVATE_MINE.put(mine.getID(), this);
+        isLoaded = true;
+        mine.refill().thenAccept(m -> {
+            lastRefilledAt = System.currentTimeMillis();
+            future.complete(mine);
+        });
+        return future;
+    }
+    public void manualRefill(Player player) {
+        if (mine == null) return;
+        if (lastRefilledAt + REFILL_DELAY > System.currentTimeMillis()) {
+            player.sendMessage(ChatColor.RED + "You must wait " + ((lastRefilledAt + REFILL_DELAY - System.currentTimeMillis()) / 1000) + " seconds before you can refill this mine");
+            return;
+        }
+        lastRefilledAt = System.currentTimeMillis();
+        mine.refill();
     }
 
 
     public void warpTo(Player player) {
         int[] position = PrivateMineManager.getPosition(gridPosition);
-        Warps.warpSomewhere(player, new Location(PRIVATE_MINES_WORLD, position[0] + 0.5, 100, position[1] + 0.5, -90, 0), true).thenRun(() -> StaticPrisons.worldBorderAPI.setBorder(player, 500d, new Location(PRIVATE_MINES_WORLD, position[0] + 0.5, 100, position[1] + 0.5)));
+        Warps.warpSomewhere(player, new Location(PRIVATE_MINES_WORLD, position[0] + 0.5, 100, position[1] + 0.5, -90, 0), true).thenRun(() -> showWorldBoarder(player));
+    }
+    public List<Player> getAllPlayersInPrivateMine() {
+        List<Player> players = new ArrayList<>();
+        for (Player player : PRIVATE_MINES_WORLD.getPlayers()) if (isPlayerInMine(player)) players.add(player);
+        return players;
+    }
+    public boolean isPlayerInMine(Player player) {
+        int[] position = PrivateMineManager.getPosition(gridPosition);
+        Vector3 min = Vector3.at(position[0] - 300, 0, position[1] - 300);
+        Vector3 max = Vector3.at(position[0] + 300, 255, position[1] + 300);
+        return Vector3.at(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ()).containedWithin(min, max);
     }
 
-    CompletableFuture<Void> updateBuild() {
-        CompletableFuture<Void> future = new CompletableFuture<>();
+    public CompletableFuture<PrivateMine> updateBuild() {
+        CompletableFuture<PrivateMine> future = new CompletableFuture<>();
         int[] position = PrivateMineManager.getPosition(gridPosition);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
             try (EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(PRIVATE_MINES_WORLD))) {
@@ -176,15 +288,35 @@ public class PrivateMine {
                         .createPaste(editSession)
                         .to(BlockVector3.at(position[0], 100, position[1]))
                         .build();
-                Operations.complete(operation); //TODO I BELIEVE THAT THIS CALL IS MADE SYNC, DO IT ASYNC
+                Operations.complete(operation);
             }
-            future.complete(null);
+            Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
+                for (Player p : getAllPlayersInPrivateMine()) warpTo(p);
+                future.complete(this);
+            });
         });
         return future;
     }
 
+    public void levelUp(int newLevel) {
+        setLevel(newLevel);
+        updateBuild().thenRun(() -> {
+            mine.delete();
+            MINE_ID_TO_PRIVATE_MINE.remove(mine.getID());
+            registerMine();
+        });
+    }
+
     void updateMineWorldguardRegion() {
         //todo if the mine is public allow others to mine here, otherwise only allow owner to mine
+    }
+    void showWorldBoarder(Player player) {
+        WorldBorderApi worldBorderApi = StaticPrisons.worldBorderAPI;
+        int[] position = PrivateMineManager.getPosition(gridPosition);
+        Integer[] borderData = getWorldBorder(level);
+        position[0] += borderData[0];
+        position[1] += borderData[1];
+        worldBorderApi.setBorder(player, borderData[2], new Location(PRIVATE_MINES_WORLD, position[0] + 0.5, 100, position[1] + 0.5));
     }
 
 

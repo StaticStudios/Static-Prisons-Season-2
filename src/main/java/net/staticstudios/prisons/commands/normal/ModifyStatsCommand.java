@@ -178,6 +178,38 @@ public class ModifyStatsCommand implements CommandExecutor {
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats money <who> <add|remove|set|reset> <amount>"));
                 }
             }
+            case "xp" -> {
+                long amount;
+                try {
+                    amount = Long.parseLong(args[3]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats xp <who> <add|remove|set|reset> <amount>"));
+                    return false;
+                }
+                switch (args[2].toLowerCase()) {
+                    case "add" -> playerData.addPlayerXP(amount);
+                    case "remove" -> playerData.removePlayerXP(amount);
+                    case "set" -> playerData.setPlayerXP(amount);
+                    case "reset" -> playerData.setPlayerXP(0);
+                    default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats xp <who> <add|remove|set|reset> <amount>"));
+                }
+            }
+            case "level" -> {
+                int amount;
+                try {
+                    amount = Integer.parseInt(args[3]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats xp <who> <add|remove|set|reset> <amount>"));
+                    return false;
+                }
+                switch (args[2].toLowerCase()) {
+                    case "add" -> playerData.addPlayerLevel(amount);
+                    case "remove" -> playerData.removePlayerLevel(amount);
+                    case "set" -> playerData.setPlayerLevel(amount);
+                    case "reset" -> playerData.setPlayerLevel(0);
+                    default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats level <who> <add|remove|set|reset> <amount>"));
+                }
+            }
             case "tokens" -> {
                 BigInteger amount;
                 try {

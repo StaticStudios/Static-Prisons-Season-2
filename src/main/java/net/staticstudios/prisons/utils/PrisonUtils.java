@@ -380,6 +380,11 @@ public final class PrisonUtils { //todo clean this up
         return newList;
     }
 
+    //Create a method that can calculate compound intrest without using a for loop
+    public static double compoundInterest(double principal, double interest, int years) {
+        return principal * Math.pow(1 + interest, years);
+    }
+
     public static class Items {
         public static ItemStack appendLoreToItem(ItemStack item, List<String> extraLore) {
             item = item.clone();

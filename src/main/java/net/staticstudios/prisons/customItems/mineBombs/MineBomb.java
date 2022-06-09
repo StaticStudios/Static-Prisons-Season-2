@@ -10,6 +10,8 @@ import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.privateMines.PrivateMine;
+import net.staticstudios.prisons.utils.Constants;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -35,7 +37,7 @@ public class MineBomb {
 
     public MineBomb(Location origin, double radius) {
         this.location = origin;
-        canExplode = location.getWorld().getName().equalsIgnoreCase("mines");
+        canExplode = location.getWorld().equals(Constants.MINES_WORLD) || location.getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD);
         this.originX = origin.getBlockX();
         this.originY = origin.getBlockY();
         this.originZ = origin.getBlockZ();

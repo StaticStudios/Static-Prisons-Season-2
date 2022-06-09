@@ -12,6 +12,7 @@ import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.auctionHouse.AuctionManager;
+import net.staticstudios.prisons.privateMines.PrivateMineManager;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -26,6 +27,8 @@ public class TimedTasks {
     public static void startTasks() {
         //Auto saves data
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), DataSet::saveData, 20 * 60 * 5, 20 * 60 * 5);
+        //Auto saves private mine data
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrivateMineManager::save, 20 * 60 * 6, 20 * 60 * 5);
         //Auto saves cell data
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), CellManager::save, 20 * 60 * 7, 20 * 60 * 5);
         //Save all auctions

@@ -260,3 +260,9 @@ commands:
   reload-config:
     description: a
     permission: op
+  level:
+    description: a
+    aliases:
+      - lvl
+      - levelup
+      - xp

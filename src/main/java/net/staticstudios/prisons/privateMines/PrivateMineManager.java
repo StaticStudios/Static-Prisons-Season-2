@@ -23,34 +23,46 @@ import java.util.UUID;
 public class PrivateMineManager {
     public static final int DISTANCE_BETWEEN_GRID_POSITIONS = 1000;
     //todo save and load to file
-//    public static void saveSync() {
-//        FileConfiguration fileData = new YamlConfiguration();
-//        for (Map.Entry<UUID, Cell> entry : cells.entrySet()) {
-//            ConfigurationSection section = fileData.createSection(entry.getKey().toString());
-//            section.set("owner", entry.getValue().cellOwnerUUID.toString());
-//            section.set("name", entry.getValue().cellName);
-//            section.set("gridPos", entry.getValue().gridPosition);
-//        }
-//        try {
-//            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//    public static void save() {
-//        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), PrivateMineManager::saveSync);
-//    }
-//    public static void load() {
-//        FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));
-//        for (String key : fileData.getKeys(false)) {
-//            UUID uuid = UUID.fromString(key);
-//            String name = fileData.getString(key + ".name");
-//            UUID owner = UUID.fromString(fileData.getString(key + ".owner"));
-//            int gridPos = fileData.getInt(key + ".gridPos");
-//            cells.put(uuid, new Cell(uuid, name, owner, gridPos));
-//            playersToCell.put(owner, uuid);
-//        }
-//    }
+    public static void saveSync() {
+        FileConfiguration fileData = new YamlConfiguration();
+        for (Map.Entry<UUID, PrivateMine> entry : PrivateMine.PRIVATE_MINES.entrySet()) {
+            ConfigurationSection section = fileData.createSection(entry.getKey().toString());
+            section.set("gridPosition", entry.getValue().gridPosition);
+            section.set("owner", entry.getValue().owner.toString());
+            section.set("name", entry.getValue().name);
+            section.set("level", entry.getValue().getLevel());
+            section.set("size", entry.getValue().size);
+            section.set("visitorTax", entry.getValue().visitorTax);
+            section.set("isPublic", entry.getValue().isPublic);
+            section.set("sellPercentage", entry.getValue().sellPercentage);
+        }
+        try {
+            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void save() {
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), PrivateMineManager::saveSync);
+    }
+    public static void load() {
+        FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
+        for (String key : fileData.getKeys(false)) {
+            ConfigurationSection section = fileData.getConfigurationSection(key);
+            PrivateMine mine = new PrivateMine(
+                    UUID.fromString(key),
+                    section.getInt("gridPosition"),
+                    UUID.fromString(section.getString("owner")),
+                    section.getString("name"),
+                    section.getInt("level"),
+                    section.getInt("size"),
+                    section.getDouble("visitorTax"),
+                    section.getBoolean("isPublic"),
+                    section.getDouble("sellPercentage")
+            );
+            PrivateMine.PRIVATE_MINES_SORTED_BY_LEVEL.put(mine.getLevel(), mine);
+        }
+    }
 
     /**
      * @return the grid position of the new island which can be used to find the x and z location of the island with the getPosOfIslandOnGrid method

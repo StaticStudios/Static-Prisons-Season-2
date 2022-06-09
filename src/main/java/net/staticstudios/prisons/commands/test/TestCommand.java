@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class TestCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         Player player = null;
         if (commandSender instanceof Player) {
             player = (Player) commandSender;
@@ -43,7 +43,7 @@ public class TestCommand implements CommandExecutor {
 //        player.sendMessage("Total time taken: " + (System.currentTimeMillis() - start) + "ms");
         //Crates.COMMON.preview(player);
         //Cell.createCell(player);
-        PrivateMine.getPrivateMineFromPlayer(player).registerMine();
+        PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.levelUp(Integer.parseInt(args[0])));
         return false;
     }
 }

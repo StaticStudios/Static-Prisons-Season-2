@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.commands.test;
 
+import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.cells.Cell;
 import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.crates.Crates;
@@ -22,8 +23,11 @@ public class Test2Command implements CommandExecutor {
 //        CellManager.cells.remove(cell.cellUuid);
 //        CellManager.playersToCell.remove(player.getUniqueId());
         //Bukkit.unloadWorld("private_mines", false);
-        PrivateMine privateMine = PrivateMine.createPrivateMine(player);
-        privateMine.warpTo(player);
+//        PrivateMine.createPrivateMine(player).thenRun(() -> {
+//            PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayer(player);
+//            privateMine.registerMine();
+//            privateMine.warpTo(player);
+//        });
         return false;
     }
 }

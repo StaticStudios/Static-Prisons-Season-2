@@ -32,6 +32,7 @@ public class BlockBreakListener implements Listener {
         PlayerData playerData = new PlayerData(player);
         PrisonBlockBroken bb = new PrisonBlockBroken(player, playerData, pickaxe, e.getMine(), e.getBlock());
         for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onBlockBreak(bb);
+        //todo make sure that tokenator still procs even if it is not on the pickaxe as players have no other way to get xp
         //Event mine
         if (e.getMine().getID().equals("eventMine")) bb.tokenMultiplier += .2d;
 
@@ -42,7 +43,7 @@ public class BlockBreakListener implements Listener {
         else e.runOnProcessEvent(bb);
 
         if (tokensFound > 0) {
-            player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + PrisonUtils.addCommasToNumber(tokensFound) + ChatColor.GRAY + ChatColor.ITALIC + " (Tokenator)");
+            player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + PrisonUtils.addCommasToNumber(tokensFound) + " Tokens" + ChatColor.GRAY + ChatColor.ITALIC + " (Tokenator)");
             playerData.addTokens(BigInteger.valueOf(tokensFound));
         }
 

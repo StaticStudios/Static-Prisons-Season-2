@@ -137,6 +137,7 @@ public class CustomScoreboard { //todo make a custom thing instead of fastboard
                 colorDark + "" + ChatColor.BOLD + player.getName() ,
                 colorLight + "│ " + colorBase + "Rank: " + colorLight + playerData.getSidebarRank(),
                 //colorLight + "│ " + colorBase + "Shards: " + colorLight + "⬧" + Utils.prettyNum(playerData.getShards()),
+                colorLight + "│ " + colorBase + "Level: " + colorLight + "" + PrisonUtils.prettyNum(playerData.getPlayerLevel()),
                 colorLight + "│ " + colorBase + "Balance: " + colorLight + "$" + PrisonUtils.prettyNum(playerData.getMoney()),
                 colorLight + "│ " + colorBase + "Tokens: " + colorLight + "⛃" + PrisonUtils.prettyNum(playerData.getTokens()),
                 colorLight + "│ " + colorBase + "Prestige: " + colorLight + PrisonUtils.prettyNum(playerData.getPrestige()),

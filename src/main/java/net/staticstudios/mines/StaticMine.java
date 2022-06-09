@@ -29,6 +29,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
@@ -39,11 +40,10 @@ public class StaticMine {
      * refill timer as well
      */
 
-    public static RegionManager WORLDGAURD_MINE_REGION_MANAGER;
     private static boolean hasRemovedOldWGRegions = false;
 
     private static Map<String, StaticMine> ALL_MINES = new HashMap<>();
-    private static List<String> SORTED_MINE_IDS = new ArrayList<>();
+    private static final List<String> SORTED_MINE_IDS = new ArrayList<>();
     public static StaticMine getMine(String id) { return ALL_MINES.get(id); }
     public static Collection<StaticMine> getAllMines() { return ALL_MINES.values(); }
     public static Set<String> getAllMineIDS() { return ALL_MINES.keySet(); }
@@ -118,20 +118,25 @@ public class StaticMine {
         wgRegion = new ProtectedCuboidRegion(id + "--static-mine", this.minPoint, this.maxPoint);
         wgRegion.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
         wgRegion.setPriority(1);
-        WORLDGAURD_MINE_REGION_MANAGER.addRegion(wgRegion);
-
+        WorldGuard.getInstance().getPlatform().getRegionContainer().get(weWorld).addRegion(wgRegion);
         ALL_MINES.put(this.id, this);
         SORTED_MINE_IDS.add(this.id);
         Bukkit.getPluginManager().callEvent(new MineCreatedEvent(this));
     }
 
-    public void refill() {
+    public CompletableFuture<StaticMine> refill() {
+        CompletableFuture<StaticMine> future = new CompletableFuture<>();
+        blocksInMine = (long) (maxPoint.getBlockX() - minPoint.getBlockX()) * (maxPoint.getBlockY() - minPoint.getBlockY()) * (maxPoint.getBlockZ() - minPoint.getBlockZ());
         if (!shouldRefillSync) {
-            Bukkit.getScheduler().runTaskAsynchronously(StaticMines.getParent(), () -> refillMine(true));
-        } else refillMine(false);
+            Bukkit.getScheduler().runTaskAsynchronously(StaticMines.getParent(), () -> {
+                refillMine(true).thenRun(() -> future.complete(this));
+            });
+        } else refillMine(false).thenRun(() -> future.complete(this));
+        return future;
     }
 
-    void refillMine(boolean async) {
+    CompletableFuture<StaticMine> refillMine(boolean async) {
+        CompletableFuture<StaticMine> future = new CompletableFuture<>();
         EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld);
         editSession.setBlocks(region, getBlockPattern());
         editSession.close();
@@ -140,7 +145,17 @@ public class StaticMine {
         if (async) {
             Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint())));
         } else Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint()));
-        Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> runOnRefill.accept(this));
+        Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> {
+            runOnRefill.accept(this);
+            future.complete(this);
+        });
+        return future;
+    }
+
+    public void delete() {
+        WorldGuard.getInstance().getPlatform().getRegionContainer().get(weWorld).removeRegion(id + "--static-mine");
+        ALL_MINES.remove(id);
+        SORTED_MINE_IDS.remove(id);
     }
 
 
@@ -159,10 +174,10 @@ public class StaticMine {
             Bukkit.getScheduler().runTaskLater(StaticMines.getParent(), () -> tryToLoadMines(worldToWaitFor, waitAfterWorldLoads), 1);
             return;
         }
-        if (WORLDGAURD_MINE_REGION_MANAGER == null) WORLDGAURD_MINE_REGION_MANAGER = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(worldToWaitFor)));
         if (!hasRemovedOldWGRegions) {
-            for (String rgID : WORLDGAURD_MINE_REGION_MANAGER.getRegions().keySet()) {
-                if (rgID.endsWith("--static-mine")) WORLDGAURD_MINE_REGION_MANAGER.removeRegion(rgID);
+            World weWorld = BukkitAdapter.adapt(Bukkit.getWorld(worldToWaitFor));
+            for (String rgID : WorldGuard.getInstance().getPlatform().getRegionContainer().get(weWorld).getRegions().keySet()) {
+                if (rgID.endsWith("--static-mine")) WorldGuard.getInstance().getPlatform().getRegionContainer().get(weWorld).removeRegion(rgID);
             }
             hasRemovedOldWGRegions = true;
         }

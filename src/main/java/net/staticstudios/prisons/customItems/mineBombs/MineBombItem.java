@@ -5,6 +5,7 @@ import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.Prices;
 import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
@@ -24,7 +25,7 @@ import java.util.Map;
 public class MineBombItem {
     private static final BigDecimal VIRTUAL_FORTUNE = BigDecimal.valueOf(10000);
     public static void blockPlaced(BlockPlaceEvent e) {
-        if (!e.getPlayer().getLocation().getWorld().equals(Constants.MINES_WORLD)) return;
+        if (!e.getPlayer().getLocation().getWorld().equals(Constants.MINES_WORLD) && !e.getPlayer().getLocation().getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD)) return;
         if (!e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER)) return;
         int size = e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER);
         double radius = 0;
@@ -80,7 +81,7 @@ public class MineBombItem {
     }
     public static void itemDropped(PlayerDropItemEvent e) {
         //Check if the item was a mine bomb, if so start a timer for it and set the pickup delay to a big number
-        if (!e.getPlayer().getLocation().getWorld().equals(Constants.MINES_WORLD)) return;
+        if (!e.getPlayer().getLocation().getWorld().equals(Constants.MINES_WORLD) && !e.getPlayer().getLocation().getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD)) return;
         if (!e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER)) return;
         e.getItemDrop().setPickupDelay(20 * 10);
         int size = e.getItemDrop().getItemStack().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER);

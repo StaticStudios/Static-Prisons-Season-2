@@ -62,7 +62,7 @@ public class EnchantMenus extends GUIUtils {
                 createEnchantButton(playerData, pickaxe, PrisonEnchants.CONSISTENCY, c, Material.EMERALD, true),
                 createEnchantButton(playerData, pickaxe, PrisonEnchants.EGG_SHOOTER, c, Material.EGG, true),
                 createEnchantButton(playerData, pickaxe, PrisonEnchants.AUTO_SELL, c, Material.GOLD_NUGGET, true),
-                createLightBluePlaceHolder(),
+                createEnchantButton(playerData, pickaxe, PrisonEnchants.XP_FINDER, c, Material.EXPERIENCE_BOTTLE, true),
                 createLightBluePlaceHolder(),
                 createGrayPlaceHolder(),
                 createEnchantButton(playerData, pickaxe, PrisonEnchants.NIGHT_VISION, c, Material.LAPIS_LAZULI, true),

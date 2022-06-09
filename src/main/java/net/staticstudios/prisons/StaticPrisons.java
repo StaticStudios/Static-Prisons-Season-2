@@ -33,6 +33,8 @@ import net.staticstudios.prisons.misc.TimedTasks;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
 import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.privateMines.PrivateMine;
+import net.staticstudios.prisons.privateMines.PrivateMineCommand;
+import net.staticstudios.prisons.privateMines.PrivateMineManager;
 import net.staticstudios.prisons.rankup.RankUpPrices;
 import net.staticstudios.prisons.utils.Constants;
 import net.luckperms.api.LuckPerms;
@@ -91,6 +93,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         //DataWriter.loadData();
         DataSet.loadData();
         CellManager.load();
+        PrivateMineManager.load();
         AuctionManager.loadAllAuctions();
         //PrisonEnchants.initialize(); //todo delete soon
         PrisonPickaxe.loadPickaxeData();
@@ -166,7 +169,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("stats").setExecutor(new StatsCommand());
         getCommand("color").setExecutor(new ColorCommand());
         getCommand("mobilesupport").setExecutor(new MobileSupportCommand());
-        //getCommand("privatemine").setExecutor(new PrivateMineCommand());
+        getCommand("privatemine").setExecutor(new PrivateMineCommand());
         getCommand("auctionhouse").setExecutor(new AuctionHouseCommand());
         getCommand("prestige").setExecutor(new PrestigeCommand());
         getCommand("enderchest").setExecutor(new EnderChestCommand());
@@ -178,6 +181,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("rankupmax").setExecutor(new RankUpMaxCommand());
         getCommand("gui").setExecutor(new GUICommand());
         getCommand("npcdiag").setExecutor(new NPCDialogCommand());
+        getCommand("level").setExecutor(new LevelCommand());
         //Tab completion
         getCommand("island").setTabCompleter(new IslandTabCompletion());
         //Register Events
@@ -194,6 +198,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         StaticMines.disable();
         DataSet.saveDataSync();
         CellManager.saveSync();
+        PrivateMineManager.saveSync();
         AuctionManager.saveAllAuctionsSync();
         //AuctionHouseManager.saveAllAuctions();
         //PrisonPickaxe.dumpStatsToAllPickaxe();

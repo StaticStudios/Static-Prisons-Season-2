@@ -10,6 +10,7 @@ import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.customItems.mineBombs.MineBomb;
+import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -34,7 +35,7 @@ public class EggShooterEnchant extends BaseEnchant {
         super("eggShooter", "&e&lEgg Shooter", 1000, BigInteger.valueOf(500), "&7Shoot explosive eggs while right-clicking");
     }
     public void whileRightClicking(Player player, PrisonPickaxe pickaxe) {
-        if (player.getWorld() != Constants.MINES_WORLD) return;
+        if (!player.getWorld().equals(Constants.MINES_WORLD) && !player.getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD)) return;
         Egg egg = player.getWorld().spawn(player.getEyeLocation(), Egg.class);
         egg.setShooter(new EggShooterPickaxe(player, pickaxe));
         egg.setVelocity(player.getLocation().getDirection().multiply(1));

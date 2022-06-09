@@ -1,11 +1,12 @@
 package net.staticstudios.prisons.data.dataHandling;
 
 
-import net.staticstudios.prisons.data.Prices;
+import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
 import net.staticstudios.prisons.islands.SkyBlockIsland;
 import net.staticstudios.prisons.islands.SkyBlockIslands;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -82,6 +83,65 @@ public class PlayerData extends DataSet {
     public PlayerData removeShards(BigInteger value) {
         return setShards(getShards().subtract(value));
     }
+    //Player XP
+    public long getPlayerXP() {
+        return getLong("playerXP");
+    }
+    public PlayerData setPlayerXP(long value) {
+        setLong("playerXP", value);
+        updatePlayerLevel();
+        return this;
+    }
+    public PlayerData addPlayerXP(long value) {
+        return setPlayerXP(getPlayerXP() + value);
+    }
+    public PlayerData removePlayerXP(long value) {
+        return setPlayerXP(getPlayerXP() - value);
+    }
+    //Player Level
+    private static final int BASE_XP_PER_LEVEL = 1000;
+    private static final double LEVEL_RATE_OF_INCREASE = 2.5;
+    public static long getLevelRequirement(int level) {
+        if (level <= 0) return 0;
+        return (long) (BASE_XP_PER_LEVEL * level * LEVEL_RATE_OF_INCREASE);
+    }
+    public long getNextLevelRequirement() {
+        return getLevelRequirement(getPlayerLevel() + 1);
+    }
+    void updatePlayerLevel() {
+        //Calculate player level
+        while (true) {
+            long xp = getPlayerXP();
+            if (getPlayerLevel() > 10000) return;
+            if (xp >= getNextLevelRequirement()) {
+                addPlayerLevel(1);
+                if (Bukkit.getPlayer(uuid) != null) Bukkit.getPlayer(uuid).sendMessage("You leveled up to level " + ChatColor.YELLOW + ChatColor.BOLD + PrisonUtils.addCommasToNumber(getPlayerLevel()) + "!" + ChatColor.RESET +
+                        "\nNext level: " + ChatColor.YELLOW + ChatColor.BOLD + PrisonUtils.prettyNum(getPlayerXP()) + "/" +PrisonUtils.prettyNum(getNextLevelRequirement()) + " XP");
+                if (getPlayerLevel() % 10 == 0) {
+                    String msg = ServerData.PLAYERS.getName(uuid) + " has reached level " + ChatColor.YELLOW + ChatColor.BOLD + PrisonUtils.addCommasToNumber(getPlayerLevel()) + "!";
+                    for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(msg);
+                }
+            } else if (xp < getLevelRequirement(getPlayerLevel())) {
+                removePlayerLevel(1);
+            }
+            else break;
+        }
+
+    }
+    public int getPlayerLevel() {
+        return getInt("playerLevel");
+    }
+    public PlayerData setPlayerLevel(int value) {
+        setInt("playerLevel", value);
+        return this;
+    }
+    public PlayerData addPlayerLevel(int value) {
+        return setPlayerLevel(getPlayerLevel() + value);
+    }
+    public PlayerData removePlayerLevel(int value) {
+        return setPlayerLevel(getPlayerLevel() - value);
+    }
+
     //Time played
     public BigInteger getTimePlayed() {
         return getBigInt("timePlayed");
