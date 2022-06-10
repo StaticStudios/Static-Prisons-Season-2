@@ -64,6 +64,7 @@ public class StaticMine {
     private long blocksInFullMine;
     private double refillAtPercentLeft = 50d; //TODO: can configure in config
     private Consumer<StaticMine> runOnRefill = mine -> {};
+    //todo refill on a timer
 
     public String getID() { return id; }
     public org.bukkit.World getWorld() { return world; }

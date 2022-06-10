@@ -49,7 +49,7 @@ public class PrivateMineMenus extends GUIUtils {
 
     public static void cannotView(Player player, GUIRunnable onClose) {
         GUICreator c = new GUICreator(27, "Private Mines");
-        c.setItem(11, c.createButton(Material.NETHER_STAR, "&b&lPublic Mines", List.of("View mines that have", "been opened to the public.", "", "&cYou must be level 5 before you can access this!")));
+        c.setItem(11, c.createButton(Material.NETHER_STAR, "&b&lPublic Mines", List.of("View private mines that have", "been opened to the public.", "", "&cYou must be level 5 before you can access this!")));
         c.setItem(13, ench(c.createButtonOfPlayerSkull(player, "&a&lYour Mine", List.of("Manage your private mine.", "", "&cYou must be level 10 before you can access this!"))));
         c.setItem(15, c.createButton(Material.ENCHANTED_BOOK, "&d&lInvited Mines", List.of("View mines that you have", "been invited to by other players.", "", "&cYou must be level 5 before you can access this!")));
         c.fill(createGrayPlaceHolder());
@@ -80,6 +80,9 @@ public class PrivateMineMenus extends GUIUtils {
             })));
             c.setItem(13, ench(c.createButton(Material.REDSTONE_TORCH, "&a&lSettings", List.of("Manage your private mine settings."), (p, t) -> {
                 PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(p); //todo
+                //is public
+                //tax
+
             })));
             c.setItem(14, ench(c.createButton(Material.WRITABLE_BOOK, "&a&lInfo", List.of("View information about your private mine."), (p, t) -> {
                 PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(p); //todo
@@ -187,5 +190,9 @@ public class PrivateMineMenus extends GUIUtils {
         c.setOnCloseRun((p, t) -> publicMines(player, page, fromCommand));
         c.fill(createGrayPlaceHolder());
         c.open(player);
+    }
+    public static void settings(Player player, int page, boolean fromCommand) {
+        GUICreator c = new GUICreator(54, "Settings");
+
     }
 }

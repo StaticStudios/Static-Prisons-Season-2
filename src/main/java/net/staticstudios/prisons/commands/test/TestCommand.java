@@ -10,12 +10,16 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestCommand implements CommandExecutor {
     @Override
@@ -44,6 +48,7 @@ public class TestCommand implements CommandExecutor {
         //Crates.COMMON.preview(player);
         //Cell.createCell(player);
         PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.levelUp(Integer.parseInt(args[0])));
+
         return false;
     }
 }
