@@ -30,8 +30,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
+
+//todo
+/*
+- add a way to track xp and level up
+
+ */
 public class PrivateMine {
 
     public static int UNLOCK_AT_PLAYER_LEVEL;
@@ -46,7 +51,7 @@ public class PrivateMine {
     public static World PRIVATE_MINES_WORLD;
 
     public static Map<UUID, PrivateMine> PRIVATE_MINES = new HashMap<>();
-    public static TreeMap<Integer, PrivateMine> PRIVATE_MINES_SORTED_BY_LEVEL = new TreeMap<>();
+    public static TreeMap<Integer, List<PrivateMine>> PRIVATE_MINES_SORTED_BY_LEVEL = new TreeMap<>();
     public static Map<UUID, PrivateMine> PLAYER_PRIVATE_MINES = new HashMap<>();
     public static Map<String, PrivateMine> MINE_ID_TO_PRIVATE_MINE = new HashMap<>();
 
@@ -90,6 +95,7 @@ public class PrivateMine {
             if (!SIZE_BY_LEVEL.containsKey(i)) SIZE_BY_LEVEL.put(i, SIZE_BY_LEVEL.get(lastDefined));
             else lastDefined = i;
         }
+        maxDefinedLevel = 0;
         BLOCKS_BY_LEVEL = new LinkedHashMap<>();
         BLOCKS_BY_LEVEL.put(0, new WeightedElements<MineBlock>().add(new MineBlock(Material.STONE), 100));
         for (String key : config.getConfigurationSection("blocks_by_level").getKeys(false)) {
@@ -101,7 +107,14 @@ public class PrivateMine {
                 blocks.add(new MineBlock(material), weight);
             }
             BLOCKS_BY_LEVEL.put(level, blocks);
+            if (level > maxDefinedLevel) maxDefinedLevel = level;
         }
+        lastDefined = 0;
+        for (int i = 0; i < maxDefinedLevel; i++) {
+            if (!BLOCKS_BY_LEVEL.containsKey(i)) BLOCKS_BY_LEVEL.put(i, BLOCKS_BY_LEVEL.get(lastDefined));
+            else lastDefined = i;
+        }
+        maxDefinedLevel = 0;
         WORLD_BOARDER_BY_LEVEL = new LinkedHashMap<>();
         for (String key : config.getConfigurationSection("border_by_level").getKeys(false)) {
             int level = Integer.parseInt(key);
@@ -110,8 +123,14 @@ public class PrivateMine {
                     config.getInt("border_by_level." + key + ".offset.z"),
                     config.getInt("border_by_level." + key + ".size")
             });
+            if (level > maxDefinedLevel) maxDefinedLevel = level;
         }
-
+        lastDefined = 0;
+        for (int i = 0; i < maxDefinedLevel; i++) {
+            if (!WORLD_BOARDER_BY_LEVEL.containsKey(i)) WORLD_BOARDER_BY_LEVEL.put(i, WORLD_BOARDER_BY_LEVEL.get(lastDefined));
+            else lastDefined = i;
+        }
+        maxDefinedLevel = 0;
         SCHEMATICS_BY_LEVEL = new LinkedHashMap<>();
         for (String key : config.getConfigurationSection("schematics_by_level").getKeys(false)) {
             int level = Integer.parseInt(key);
@@ -120,9 +139,15 @@ public class PrivateMine {
             ClipboardFormat format = ClipboardFormats.findByFile(schemFile);
             try (ClipboardReader reader = format.getReader(new FileInputStream(schemFile))) {
                 SCHEMATICS_BY_LEVEL.put(level, reader.read());
+                if (level > maxDefinedLevel) maxDefinedLevel = level;
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        lastDefined = 0;
+        for (int i = 0; i < maxDefinedLevel; i++) {
+            if (!SCHEMATICS_BY_LEVEL.containsKey(i)) SCHEMATICS_BY_LEVEL.put(i, SCHEMATICS_BY_LEVEL.get(lastDefined));
+            else lastDefined = i;
         }
     }
 
@@ -130,19 +155,79 @@ public class PrivateMine {
     public int gridPosition;
     public UUID owner;
     public String name;
+    private long xp = 0;
+    public long getXp() {
+        return xp;
+    }
+    public void setXp(long xp, boolean normalUpdate) {
+        if (normalUpdate) setXp(xp);
+        else {
+            this.xp = xp;
+            int l = 0;
+            while (xp >= getLevelRequirement(l + 1)) {
+                xp -= getLevelRequirement(l + 1);
+                l += 1;
+            }
+            if (l > 0) l += 1;
+            setLevel(l, false);
+        }
+    }
+    public void setXp(long xp) {
+        this.xp = xp;
+        if (xp >= getNextLevelRequirement()) {
+            setLevel(getLevel() + 1);
+        }
+    }
     private int level;
     public int getLevel() {
         return level;
     }
-    public void setLevel(int level) {
-        if (this.level != level) {
-            PRIVATE_MINES_SORTED_BY_LEVEL.remove(this.level);
-            PRIVATE_MINES_SORTED_BY_LEVEL.put(level, this);
-        }
-        size = getSize(level);
-        this.level = level;
+    public void setLevel(int level, boolean updateStats) {
+        if (updateStats) setLevel(level);
+        else this.level = level;
     }
-    public int size;
+    public void setLevel(int level) {
+        int oldLevel = this.level;
+        this.level = level;
+        if (oldLevel != level) { //todo check if this level needs to have stats changed like schem, mine size, blocks, ect. if so do it
+            if (!getSchematic(level).equals(getSchematic(oldLevel))) {
+                updateBuild().thenRun(() -> {
+                    updateMine().thenRun(() -> {
+                        for (Player p : getAllPlayersInPrivateMine()) {
+                            p.sendMessage(ChatColor.GREEN + "This private mine has leveled up!");
+                            warpTo(p);
+                        }
+                    });
+                });
+            } else if (getSize(level) != getSize(oldLevel) || !getBlocks(level).equals(getBlocks(oldLevel))) updateMine().thenRun(() -> {
+                    for (Player p : getAllPlayersInPrivateMine()) {
+                        p.sendMessage(ChatColor.GREEN + "This private mine has leveled up!");
+                        warpTo(p);
+                    }
+                });
+            updateTreeMap();
+        }
+    }
+    private void updateTreeMap() {
+        if (PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) PRIVATE_MINES_SORTED_BY_LEVEL.get(level).remove(this);
+        if (PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) if (PRIVATE_MINES_SORTED_BY_LEVEL.get(level).isEmpty()) PRIVATE_MINES_SORTED_BY_LEVEL.remove(level);
+        if (!PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) PRIVATE_MINES_SORTED_BY_LEVEL.put(level, new ArrayList<>());
+        PRIVATE_MINES_SORTED_BY_LEVEL.get(level).add(this);
+    }
+    private static final int BASE_XP_PER_LEVEL = 1000;
+    private static final double LEVEL_RATE_OF_INCREASE = 1.2;
+    public static long getLevelRequirement(int level) {
+        if (level <= 0) return 0;
+        return (long) (BASE_XP_PER_LEVEL * Math.pow(LEVEL_RATE_OF_INCREASE, level - 1));
+    }
+    public long getNextLevelRequirement() {
+        return getLevelRequirement(getLevel() + 1);
+    }
+
+    public int getSize() {
+        return getSize(getLevel());
+    }
+    //public int size;
     public double visitorTax;
     public boolean isPublic;
     public double sellPercentage;
@@ -201,28 +286,30 @@ public class PrivateMine {
         privateMine.owner = player.getUniqueId();
         privateMine.name = player.getName() + "'s Private Mine";
         privateMine.level = 0;
-        privateMine.size = START_SIZE;
+        //privateMine.size = START_SIZE;
         privateMine.visitorTax = 0.15;
         privateMine.isPublic = true;
         privateMine.sellPercentage = DEFAULT_SELL_PERCENTAGE;
         PRIVATE_MINES.put(privateMine.privateMineId, privateMine);
         PLAYER_PRIVATE_MINES.put(privateMine.owner, privateMine);
-        PRIVATE_MINES_SORTED_BY_LEVEL.put(privateMine.level, privateMine);
+        privateMine.updateTreeMap();
         privateMine.updateBuild().thenAccept(PrivateMine::registerMine).thenRun(() -> future.complete(privateMine));
         return future;
     }
-    public PrivateMine(UUID privateMineId, int gridPosition, UUID owner, String name, int level, int size, double visitorTax, boolean isPublic, double sellPercentage) {
+    public PrivateMine(UUID privateMineId, int gridPosition, UUID owner, String name, long xp, int size, double visitorTax, boolean isPublic, double sellPercentage) {
         this.privateMineId = privateMineId;
         this.gridPosition = gridPosition;
         this.owner = owner;
         this.name = name;
-        this.size = size;
-        setLevel(level);
+        //this.size = size;
+        setXp(xp, false);
+        //setLevel(level, false); -- calculated from xp
         this.visitorTax = visitorTax;
         this.isPublic = isPublic;
         this.sellPercentage = sellPercentage;
         PRIVATE_MINES.put(privateMineId, this);
         PLAYER_PRIVATE_MINES.put(owner, this);
+        updateTreeMap();
     }
     private PrivateMine() {}
     public static CompletableFuture<PrivateMine> loadPrivateMine(UUID privateMineId) {
@@ -233,6 +320,19 @@ public class PrivateMine {
         return future;
     }
 
+    public static final int XP_PER_BLOCK_BROKEN = 1;
+    public void blockBroken() {
+        setXp(getXp() + XP_PER_BLOCK_BROKEN);
+    }
+
+    public CompletableFuture<StaticMine> updateMine() {
+        CompletableFuture<StaticMine> future = new CompletableFuture<>();
+        mine.delete();
+        MINE_ID_TO_PRIVATE_MINE.remove(mine.getID());
+        registerMine();
+        future.complete(mine);
+        return future;
+    }
     public CompletableFuture<StaticMine> registerMine() {
         CompletableFuture<StaticMine> future = new CompletableFuture<>();
         int distanceFromCenter = getSize(level) / 2;

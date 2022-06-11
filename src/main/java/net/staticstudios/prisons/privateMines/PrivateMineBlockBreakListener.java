@@ -19,6 +19,7 @@ public class PrivateMineBlockBreakListener implements Listener {
         e.setRunOnProcessEvent(p -> {
             PrisonBlockBroken bb = (PrisonBlockBroken) p;
             PrivateMine privateMine = PrivateMine.MINE_ID_TO_PRIVATE_MINE.get(e.getMine().getID());
+            privateMine.blockBroken();
             bb.moneyMultiplier *= privateMine.sellPercentage;
             if (e.getPlayer().getUniqueId().equals(privateMine.owner)) {
                 bb.applyMoneyMulti();

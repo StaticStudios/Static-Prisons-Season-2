@@ -47,7 +47,7 @@ public class TestCommand implements CommandExecutor {
 //        player.sendMessage("Total time taken: " + (System.currentTimeMillis() - start) + "ms");
         //Crates.COMMON.preview(player);
         //Cell.createCell(player);
-        PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.levelUp(Integer.parseInt(args[0])));
+        PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.setXp(Integer.parseInt(args[0]), true));
 
         return false;
     }

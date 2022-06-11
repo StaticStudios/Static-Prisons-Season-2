@@ -30,8 +30,9 @@ public class PrivateMineManager {
             section.set("gridPosition", entry.getValue().gridPosition);
             section.set("owner", entry.getValue().owner.toString());
             section.set("name", entry.getValue().name);
+            section.set("xp", entry.getValue().getXp());
             section.set("level", entry.getValue().getLevel());
-            section.set("size", entry.getValue().size);
+            section.set("size", entry.getValue().getSize());
             section.set("visitorTax", entry.getValue().visitorTax);
             section.set("isPublic", entry.getValue().isPublic);
             section.set("sellPercentage", entry.getValue().sellPercentage);
@@ -54,13 +55,12 @@ public class PrivateMineManager {
                     section.getInt("gridPosition"),
                     UUID.fromString(section.getString("owner")),
                     section.getString("name"),
-                    section.getInt("level"),
+                    section.getLong("xp"),
                     section.getInt("size"),
                     section.getDouble("visitorTax"),
                     section.getBoolean("isPublic"),
                     section.getDouble("sellPercentage")
             );
-            PrivateMine.PRIVATE_MINES_SORTED_BY_LEVEL.put(mine.getLevel(), mine);
         }
     }
 

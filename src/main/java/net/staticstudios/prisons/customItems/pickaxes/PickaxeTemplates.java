@@ -16,11 +16,12 @@ public class PickaxeTemplates {
     public static final PickaxeTemplates TIER_1 = new PickaxeTemplates(
             1,
             new EnchantHolder[]{
-                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 25)
+                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 25),
+                    new EnchantHolder(PrisonEnchants.TOKENATOR.ENCHANT_ID, 1)
             },
             null,
             null,
-            "&c&lTrash Pickaxe!"
+            "&c&lTrash Pickaxe"
     );
 
     public static final PickaxeTemplates TIER_2 = new PickaxeTemplates(
@@ -31,7 +32,7 @@ public class PickaxeTemplates {
             },
             null,
             null,
-            "&c&lMeh Pickaxe!"
+            "&c&lMeh Pickaxe"
     );
 
     public static final PickaxeTemplates TIER_3 = new PickaxeTemplates(
@@ -43,7 +44,7 @@ public class PickaxeTemplates {
             },
             null,
             null,
-            "&e&lOk Pickaxe!"
+            "&e&lOk Pickaxe"
     );
 
     public static final PickaxeTemplates TIER_4 = new PickaxeTemplates(
@@ -56,7 +57,7 @@ public class PickaxeTemplates {
             },
             null,
             null,
-            "&e&lDecent Pickaxe!"
+            "&e&lDecent Pickaxe"
     );
 
     public static final PickaxeTemplates TIER_5 = new PickaxeTemplates(
@@ -69,7 +70,7 @@ public class PickaxeTemplates {
             },
             null,
             null,
-            "&a&lGood Pickaxe!"
+            "&a&lGood Pickaxe"
     );
 
     public static final PickaxeTemplates TIER_6 = new PickaxeTemplates(
@@ -82,7 +83,7 @@ public class PickaxeTemplates {
             },
             null,
             null,
-            "&a&lPretty Good Pickaxe!"
+            "&a&lPretty Good Pickaxe"
     );
 
     public static final PickaxeTemplates TIER_7 = new PickaxeTemplates(
@@ -96,7 +97,7 @@ public class PickaxeTemplates {
             },
             null,
             null,
-            "&b&lEfficient Pickaxe!"
+            "&b&lEfficient Pickaxe"
     );
 
     public static final PickaxeTemplates TIER_8 = new PickaxeTemplates(
@@ -111,7 +112,7 @@ public class PickaxeTemplates {
             },
             null,
             null,
-            "&b&lEffective Pickaxe!"
+            "&b&lEffective Pickaxe"
     );
 
     public static final PickaxeTemplates TIER_9 = new PickaxeTemplates(
@@ -127,7 +128,7 @@ public class PickaxeTemplates {
             },
             null,
             null,
-            "&d&lBroken Pickaxe!"
+            "&d&lBroken Pickaxe"
     );
 
     public static final PickaxeTemplates TIER_10 = new PickaxeTemplates(
@@ -144,7 +145,7 @@ public class PickaxeTemplates {
             },
             null,
             null,
-            "&d&lWooden Pickaxe!"
+            "&c&lWooden Pickaxe"
     );
 
 

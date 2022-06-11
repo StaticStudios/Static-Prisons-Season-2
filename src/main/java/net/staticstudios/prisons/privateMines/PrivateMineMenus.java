@@ -66,6 +66,7 @@ public class PrivateMineMenus extends GUIUtils {
             })));
         } else {
             //todo finish these then change the colors and text
+            PrivateMine unloadedPrivateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
             c.setItem(11, ench(c.createButton(Material.COMPASS, "&a&lWarp to Mine", List.of("Warp to your private mine."), (p, t) -> {
                 p.closeInventory();
                 if (!PrivateMine.getPrivateMineFromPlayerWithoutLoading(player).isLoaded) p.sendMessage(ChatColor.AQUA + "Loading your private mine...");
@@ -84,7 +85,17 @@ public class PrivateMineMenus extends GUIUtils {
                 //tax
 
             })));
-            c.setItem(14, ench(c.createButton(Material.WRITABLE_BOOK, "&a&lInfo", List.of("View information about your private mine."), (p, t) -> {
+            c.setItem(14, ench(c.createButton(Material.WRITABLE_BOOK, "&e&lInfo", List.of(
+                    "&cOwner: &f" + ServerData.PLAYERS.getName(unloadedPrivateMine.owner),
+                    "&cLevel: &f" + PrisonUtils.addCommasToNumber(unloadedPrivateMine.getLevel()),
+                    "&cExperience: &f" + PrisonUtils.prettyNum(unloadedPrivateMine.getXp()) + " / " + PrisonUtils.prettyNum(unloadedPrivateMine.getNextLevelRequirement()),
+                    "&cSize: &f" + (unloadedPrivateMine.getSize() + 1) + "x" + (unloadedPrivateMine.getSize() + 1),
+                    "&cTax: &f" + (unloadedPrivateMine.visitorTax * 100) + "%",
+                    "&cSell Percentage: &f" + (unloadedPrivateMine.sellPercentage * 100) + "%",
+                    "",
+                    "&c&lSpecial Attributes: &fnone",
+                    ""
+            ), (p, t) -> {
                 PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(p); //todo
             })));
             c.setItem(15, ench(c.createButton(Material.ENCHANTED_BOOK, "&a&lInvite Someone", List.of("Invite another player to your private mine.", "Players that you have invited will be able to", "use your private mine even when it isn't open to the public."), (p, t) -> {
@@ -99,10 +110,13 @@ public class PrivateMineMenus extends GUIUtils {
     public static void publicMines(Player player, int page, boolean fromCommand) {
         int startIndex = page * MINES_PER_PAGE;
         GUICreator c = new GUICreator(54, "Public Private Mines (Page " + (page + 1) + ")");
-        List<PrivateMine> orderedMines = new ArrayList<>(PrivateMine.PRIVATE_MINES_SORTED_BY_LEVEL.values());
+        List<PrivateMine> mines = new ArrayList<>();
+        List<List<PrivateMine>> orderedMines = new ArrayList<>(PrivateMine.PRIVATE_MINES_SORTED_BY_LEVEL.values());
+        for (List<PrivateMine> list : orderedMines) {
+            mines.addAll(list);
+        }
         List<PrivateMine> publicMines = new ArrayList<>();
-        for (PrivateMine mine : orderedMines) if (mine.isPublic) publicMines.add(mine);
-        orderedMines.clear();
+        for (PrivateMine mine : mines) if (mine.isPublic) publicMines.add(mine);
 
 
         for (int i = 0; i < MINES_PER_PAGE; i++) {
@@ -113,7 +127,8 @@ public class PrivateMineMenus extends GUIUtils {
             c.setItem(i, c.createButton(Material.COBBLESTONE, ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, List.of(
                     "&cOwner: &f" + ServerData.PLAYERS.getName(privateMine.owner),
                     "&cLevel: &f" + PrisonUtils.addCommasToNumber(privateMine.getLevel()),
-                    "&cSize: &f" + (privateMine.size + 1) + "x" + (privateMine.size + 1),
+                    "&cExperience: &f" + PrisonUtils.prettyNum(privateMine.getXp()) + " / " + PrisonUtils.prettyNum(privateMine.getNextLevelRequirement()),
+                    "&cSize: &f" + (privateMine.getSize() + 1) + "x" + (privateMine.getSize() + 1),
                     "&cTax: &f" + (privateMine.visitorTax * 100) + "%",
                     "&cSell Percentage: &f" + (privateMine.sellPercentage * 100) + "%",
                     "",
@@ -162,7 +177,7 @@ public class PrivateMineMenus extends GUIUtils {
         c.setItem(13, c.createButton(Material.COBBLESTONE, ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, List.of(
                 "&cOwner: &f" + ServerData.PLAYERS.getName(privateMine.owner),
                 "&cLevel: &f" + PrisonUtils.addCommasToNumber(privateMine.getLevel()),
-                "&cSize: &f" + (privateMine.size + 1) + "x" + (privateMine.size + 1),
+                "&cSize: &f" + (privateMine.getSize() + 1) + "x" + (privateMine.getSize() + 1),
                 "&cTax: &f" + (privateMine.visitorTax * 100) + "%",
                 "&cSell Percentage: &f" + (privateMine.sellPercentage * 100) + "%",
                 "",

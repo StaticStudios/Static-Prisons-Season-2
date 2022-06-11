@@ -301,12 +301,24 @@ public class PlayerData extends DataSet {
         if (getBackpackIsFull()) return;
         BigInteger itemCount = getBackpackItemCount();
         BigInteger size = getBackpackSize();
-        BigInteger amountOfItems = BigInteger.ZERO;
-        for (BigInteger key : whatToAdd.keySet()) amountOfItems = amountOfItems.add(key);
+        BigInteger amountOfItems = itemCount;
+        Map<BigInteger, BigDecimal> whatToActuallyAdd = new HashMap<>();
+        for (Map.Entry<BigInteger, BigDecimal> entry : whatToAdd.entrySet()) {
+            if (amountOfItems.equals(size)) break;
+            if (amountOfItems.add(entry.getKey()).compareTo(size) < 1) {
+                whatToActuallyAdd.put(entry.getKey(), entry.getValue());
+                amountOfItems = amountOfItems.add(entry.getKey());
+            } else {
+                whatToActuallyAdd.put(size.subtract(amountOfItems), entry.getValue());
+                amountOfItems = size;
+                break;
+            }
+        }
+        //for (BigInteger key : whatToAdd.keySet()) amountOfItems = amountOfItems.add(key);
         if (itemCount.add(amountOfItems).compareTo(size) > 0) amountOfItems = size.subtract(itemCount);
         Map<BigInteger, BigDecimal> actualContents = new HashMap<>();
         for (Map.Entry<String, String> entry : getBackpackContents().entrySet()) actualContents.put(new BigInteger(entry.getKey()), new BigDecimal(entry.getValue()));
-        for (Map.Entry<BigInteger, BigDecimal> entry : whatToAdd.entrySet()) {
+        for (Map.Entry<BigInteger, BigDecimal> entry : whatToActuallyAdd.entrySet()) {
             if (actualContents.containsKey(entry.getKey())) {
                 actualContents.put(entry.getKey(), actualContents.get(entry.getKey()).add(entry.getValue().setScale(2, RoundingMode.HALF_UP)));
             } else actualContents.put(entry.getKey(), entry.getValue().setScale(2, RoundingMode.HALF_UP));
