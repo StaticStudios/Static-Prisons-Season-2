@@ -21,9 +21,6 @@ public class PrivateMineCommand implements CommandExecutor {
             default -> {
                 PrivateMineMenus.open(player, true);
             }
-            case "info" -> {
-
-            }
             case "refill" -> {
                 if (!PrivateMine.playerHasPrivateMine(player)) {
                     player.sendMessage("You don't have a private mine!");
@@ -34,6 +31,7 @@ public class PrivateMineCommand implements CommandExecutor {
                     PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.warpTo(player));
                 } else PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.manualRefill(player));
             }
+            case "info", "about" -> PrivateMine.getPrivateMineFromPlayerWithoutLoading(player).sendInfo(player);
             case "go", "warp" -> {
                 if (!PrivateMine.playerHasPrivateMine(player)) {
                     player.sendMessage("You don't have a private mine!");
@@ -45,4 +43,5 @@ public class PrivateMineCommand implements CommandExecutor {
         }
         return false;
     }
+    //todo tab completion
 }

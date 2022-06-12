@@ -76,11 +76,8 @@ public class EggShooterEnchant extends BaseEnchant {
                 PrivateMine privateMine = PrivateMine.MINE_ID_TO_PRIVATE_MINE.get(finalMine.getID());
                 if (privateMine != null) multiplier = BigDecimal.valueOf(privateMine.sellPercentage);
                 if (!backpackWasFull) {
-                    Map<BigInteger, BigDecimal> map = new HashMap<>();
-                    for (Map.Entry<Material, BigInteger> entry: blocksBroken.entrySet()) {
-                        map.put(entry.getValue().multiply(BigInteger.valueOf(fortune)), Prices.getSellPriceOf(entry.getKey()).multiply(multiplier));
-                    }
-                    player.sendMessage(map.toString());
+                    Map<BigDecimal, BigInteger> map = new HashMap<>();
+                    for (Map.Entry<Material, BigInteger> entry: blocksBroken.entrySet()) map.put(Prices.getSellPriceOf(entry.getKey()).multiply(multiplier), entry.getValue().multiply(BigInteger.valueOf(fortune)));
                     playerData.addAllToBackpack(map);
                 }
                 //for (Material key : blocksBroken.keySet()) playerData.addAllToBackpack(key, blocksBroken.get(key).multiply(BigInteger.valueOf(fortune)));

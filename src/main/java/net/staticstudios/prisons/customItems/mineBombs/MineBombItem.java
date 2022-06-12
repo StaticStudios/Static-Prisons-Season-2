@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MineBombItem {
-    private static final BigDecimal VIRTUAL_FORTUNE = BigDecimal.valueOf(10000);
+    private static final BigInteger VIRTUAL_FORTUNE = BigInteger.valueOf(10000);
     public static void blockPlaced(BlockPlaceEvent e) {
         if (!e.getPlayer().getLocation().getWorld().equals(Constants.MINES_WORLD) && !e.getPlayer().getLocation().getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD)) return;
         if (!e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER)) return;
@@ -62,9 +62,9 @@ public class MineBombItem {
                 e.getPlayer().getInventory().getItemInMainHand().setAmount(e.getPlayer().getInventory().getItemInMainHand().getAmount() - 1);
                 boolean backpackWasFull = playerData.getBackpackIsFull();
                 if (!backpackWasFull) {
-                    Map<BigInteger, BigDecimal> map = new HashMap<>();
+                    Map<BigDecimal, BigInteger> map = new HashMap<>();
                     for (Map.Entry<Material, BigInteger> entry: blocksBroken.entrySet()) {
-                        map.put(entry.getValue(), Prices.getSellPriceOf(entry.getKey()).multiply(VIRTUAL_FORTUNE));
+                        map.put(Prices.getSellPriceOf(entry.getKey()), entry.getValue().multiply(VIRTUAL_FORTUNE));
                     }
                     playerData.addAllToBackpack(map);
                 }
@@ -117,9 +117,9 @@ public class MineBombItem {
                 e.getItemDrop().remove();
                 boolean backpackWasFull = playerData.getBackpackIsFull();
                 if (!backpackWasFull) {
-                    Map<BigInteger, BigDecimal> map = new HashMap<>();
+                    Map<BigDecimal, BigInteger> map = new HashMap<>();
                     for (Map.Entry<Material, BigInteger> entry: blocksBroken.entrySet()) {
-                        map.put(entry.getValue(), Prices.getSellPriceOf(entry.getKey()).multiply(VIRTUAL_FORTUNE));
+                        map.put(Prices.getSellPriceOf(entry.getKey()), entry.getValue().multiply(VIRTUAL_FORTUNE));
                     }
                     playerData.addAllToBackpack(map);
                 }

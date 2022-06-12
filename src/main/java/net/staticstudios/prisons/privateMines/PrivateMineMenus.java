@@ -9,11 +9,13 @@ import net.staticstudios.prisons.data.dataHandling.PlayerData;
 import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
 import net.staticstudios.prisons.gui.newGui.MainMenus;
 import net.staticstudios.prisons.utils.PrisonUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,38 +67,35 @@ public class PrivateMineMenus extends GUIUtils {
                 PrivateMine.createPrivateMine(p).thenAccept(pm -> pm.warpTo(p));
             })));
         } else {
-            //todo finish these then change the colors and text
             PrivateMine unloadedPrivateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
-            c.setItem(11, ench(c.createButton(Material.COMPASS, "&a&lWarp to Mine", List.of("Warp to your private mine."), (p, t) -> {
+            c.setItem(11, ench(c.createButton(Material.COMPASS, "&b&lWarp to Mine", List.of("Warp to your private mine"), (p, t) -> {
                 p.closeInventory();
                 if (!PrivateMine.getPrivateMineFromPlayerWithoutLoading(player).isLoaded) p.sendMessage(ChatColor.AQUA + "Loading your private mine...");
                 PrivateMine.getPrivateMineFromPlayer(p).thenAccept(pm -> pm.warpTo(p));
             })));
-            c.setItem(12, ench(c.createButton(Material.AMETHYST_SHARD, "&a&lRefill Mine", List.of("Refill your private mine."), (p, t) -> {
+            c.setItem(12, ench(c.createButton(Material.AMETHYST_SHARD, "&d&lRefill Mine", List.of("Refill your private mine (/pmine refill)", "", "&c&oThis action can only be done once every 30 seconds!"), (p, t) -> {
                 p.closeInventory();
                 if (!PrivateMine.getPrivateMineFromPlayerWithoutLoading(player).isLoaded) {
                     p.sendMessage(ChatColor.AQUA + "Loading your private mine...");
                     PrivateMine.getPrivateMineFromPlayer(p).thenAccept(pm -> pm.warpTo(p));
                 } else PrivateMine.getPrivateMineFromPlayer(p).thenAccept(pm -> pm.manualRefill(p));
             })));
-            c.setItem(13, ench(c.createButton(Material.REDSTONE_TORCH, "&a&lSettings", List.of("Manage your private mine settings."), (p, t) -> {
-                PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(p); //todo
-                //is public
-                //tax
-
+            c.setItem(13, ench(c.createButton(Material.REDSTONE_TORCH, "&c&lSettings", List.of("- Make public/private", "- Raise/lower tax"), (p, t) -> {
+                settings(p, fromCommand);
             })));
             c.setItem(14, ench(c.createButton(Material.WRITABLE_BOOK, "&e&lInfo", List.of(
                     "&cOwner: &f" + ServerData.PLAYERS.getName(unloadedPrivateMine.owner),
                     "&cLevel: &f" + PrisonUtils.addCommasToNumber(unloadedPrivateMine.getLevel()),
                     "&cExperience: &f" + PrisonUtils.prettyNum(unloadedPrivateMine.getXp()) + " / " + PrisonUtils.prettyNum(unloadedPrivateMine.getNextLevelRequirement()),
                     "&cSize: &f" + (unloadedPrivateMine.getSize() + 1) + "x" + (unloadedPrivateMine.getSize() + 1),
-                    "&cTax: &f" + (unloadedPrivateMine.visitorTax * 100) + "%",
-                    "&cSell Percentage: &f" + (unloadedPrivateMine.sellPercentage * 100) + "%",
+                    "&cTax: &f" + new DecimalFormat("0").format(unloadedPrivateMine.visitorTax * 100) + "%",
+                    "&cSell Percentage: &f" +  new DecimalFormat("0.0").format(unloadedPrivateMine.sellPercentage * 100) + "%",
                     "",
                     "&c&lSpecial Attributes: &fnone",
                     ""
             ), (p, t) -> {
-                PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(p); //todo
+                PrivateMine.getPrivateMineFromPlayerWithoutLoading(p).sendInfo(p);
+                p.closeInventory();
             })));
             c.setItem(15, ench(c.createButton(Material.ENCHANTED_BOOK, "&a&lInvite Someone", List.of("Invite another player to your private mine.", "Players that you have invited will be able to", "use your private mine even when it isn't open to the public."), (p, t) -> {
                 PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(p); //todo
@@ -106,6 +105,43 @@ public class PrivateMineMenus extends GUIUtils {
         c.setOnCloseRun((p, t) -> open(p, fromCommand));
         c.open(player);
     }
+
+    public static void settings(Player player, boolean fromCommand) {
+        GUICreator c = new GUICreator(27, "Private Mine Settings");
+        PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
+
+        //is public
+        //tax
+
+
+        c.setItem(11, c.createButton(Material.RED_TERRACOTTA, "&c&lLower Tax (By 1%)", List.of("&6Current Tax: &f" + new DecimalFormat("0").format(privateMine.visitorTax * 100) + "%", "Lower the tax that others will", "pay when mining in your mine."), (p, t) -> {
+            privateMine.visitorTax = Math.max(0, privateMine.visitorTax - 0.01);
+            settings(p, fromCommand);
+        }));
+
+        if (privateMine.isPublic) {
+            c.setItem(13, c.createButton(Material.RED_DYE, "&c&lMake Private", List.of("Making this mine private will not allow", "visitors to warp here and mine."), (p, t) -> {
+                privateMine.isPublic = false;
+                settings(p, fromCommand);
+            }));
+        } else {
+            c.setItem(13, c.createButton(Material.LIME_DYE, "&a&lMake Public", List.of("Making this mine public will allow", "visitors to warp here and mine."), (p, t) -> {
+                privateMine.isPublic = true;
+                settings(p, fromCommand);
+            }));
+        }
+
+        c.setItem(15, c.createButton(Material.GREEN_TERRACOTTA, "&a&lRaise Tax (By 1%)", List.of("&6Current Tax: &f" + new DecimalFormat("0").format(privateMine.visitorTax * 100) + "%", "Raise the tax that others will", "pay when mining in your mine."), (p, t) -> {
+            privateMine.visitorTax = Math.min(0.25, privateMine.visitorTax + 0.01);
+            settings(p, fromCommand);
+        }));
+
+        c.fill(createGrayPlaceHolder());
+        c.setOnCloseRun((p, t) -> open(p, fromCommand));
+        c.open(player);
+
+    }
+
     public static final int MINES_PER_PAGE = 45;
     public static void publicMines(Player player, int page, boolean fromCommand) {
         int startIndex = page * MINES_PER_PAGE;
@@ -120,17 +156,17 @@ public class PrivateMineMenus extends GUIUtils {
 
 
         for (int i = 0; i < MINES_PER_PAGE; i++) {
-            if (PrivateMine.PRIVATE_MINES_SORTED_BY_LEVEL.size() - 1 < startIndex + i) break;
+            if (publicMines.size() - 1 < startIndex + i) break;
             PrivateMine privateMine = publicMines.get(startIndex + i);
 
 
-            c.setItem(i, c.createButton(Material.COBBLESTONE, ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, List.of(
+            c.setItem(i, c.createButtonOfPlayerSkull(Bukkit.getOfflinePlayer(privateMine.owner), ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, List.of(
                     "&cOwner: &f" + ServerData.PLAYERS.getName(privateMine.owner),
                     "&cLevel: &f" + PrisonUtils.addCommasToNumber(privateMine.getLevel()),
                     "&cExperience: &f" + PrisonUtils.prettyNum(privateMine.getXp()) + " / " + PrisonUtils.prettyNum(privateMine.getNextLevelRequirement()),
                     "&cSize: &f" + (privateMine.getSize() + 1) + "x" + (privateMine.getSize() + 1),
-                    "&cTax: &f" + (privateMine.visitorTax * 100) + "%",
-                    "&cSell Percentage: &f" + (privateMine.sellPercentage * 100) + "%",
+                    "&cTax: &f" + new DecimalFormat("0").format(privateMine.visitorTax * 100) + "%",
+                    "&cSell Percentage: &f" +  new DecimalFormat("0.0").format(privateMine.sellPercentage * 100) + "%",
                     "",
                     "&c&lSpecial Attributes: &fnone",
                     "",
@@ -174,17 +210,18 @@ public class PrivateMineMenus extends GUIUtils {
                 PrivateMine.getPrivateMine(privateMine.privateMineId).thenAccept(pm -> pm.warpTo(p));
             } else privateMine.warpTo(p);
         })));
-        c.setItem(13, c.createButton(Material.COBBLESTONE, ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, List.of(
+        c.setItem(13, c.createButtonOfPlayerSkull(Bukkit.getOfflinePlayer(privateMine.owner), ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, List.of(
                 "&cOwner: &f" + ServerData.PLAYERS.getName(privateMine.owner),
                 "&cLevel: &f" + PrisonUtils.addCommasToNumber(privateMine.getLevel()),
+                "&cExperience: &f" + PrisonUtils.prettyNum(privateMine.getXp()) + " / " + PrisonUtils.prettyNum(privateMine.getNextLevelRequirement()),
                 "&cSize: &f" + (privateMine.getSize() + 1) + "x" + (privateMine.getSize() + 1),
-                "&cTax: &f" + (privateMine.visitorTax * 100) + "%",
-                "&cSell Percentage: &f" + (privateMine.sellPercentage * 100) + "%",
+                "&cTax: &f" + new DecimalFormat("0").format(privateMine.visitorTax * 100) + "%",
+                "&cSell Percentage: &f" +  new DecimalFormat("0.0").format(privateMine.sellPercentage * 100) + "%",
                 "",
-                "&c&lSpecial Attribute(s): &fnone"
-        )));
+                "&c&lSpecial Attributes: &fnone"
+        ), (p, t) -> privateMine.sendInfo(p)));
 
-        c.setItem(15, c.createButton(Material.ENCHANTED_BOOK, "&a&lWhat are public private mines?", List.of(
+        c.setItem(15, c.createButton(Material.ENCHANTED_BOOK, "&a&lWhat Are Public Private-Mines?", List.of(
                 "Private mines can be created by",
                 "any player who has reached level 10.",
                 "",
@@ -199,7 +236,7 @@ public class PrivateMineMenus extends GUIUtils {
                 "Private mines can sometime have a different",
                 "sell percentage, this means that when",
                 "a block is mined in this private mine,",
-                "it will only be sold for " + (privateMine.sellPercentage * 100) + "% of",
+                "it will only be sold for " + new DecimalFormat("0.0").format(privateMine.sellPercentage * 100) + "% of",
                 "its value (before the owner's tax)."
         )));
         c.setOnCloseRun((p, t) -> publicMines(player, page, fromCommand));

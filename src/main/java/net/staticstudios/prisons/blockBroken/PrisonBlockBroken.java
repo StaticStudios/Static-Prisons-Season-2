@@ -23,7 +23,7 @@ public class PrisonBlockBroken {
     public Location blockLocation;
     public Block block;
     public Map<Material, BigInteger> legacySellValues = new HashMap<>();
-    public Map<BigInteger, BigDecimal> blocksBroken = new HashMap<>();
+    public Map<BigDecimal, BigInteger> blocksBroken = new HashMap<>();
     public long amountOfBlocksBroken = 1;
     public long blocksBrokenMultiplier = 1;
     public long totalTokensGained = 0;
@@ -37,23 +37,20 @@ public class PrisonBlockBroken {
         this.mine = mine;
         this.blockLocation = block.getLocation();
         this.block = block;
-        blocksBroken.put(BigInteger.ONE, Prices.getSellPriceOf(block.getType()));
+        blocksBroken.put(Prices.getSellPriceOf(block.getType()), BigInteger.ONE);
     }
 
     public void convertFromLegacySellValues() {
         for (Map.Entry<Material, BigInteger> entry : legacySellValues.entrySet()) {
-            blocksBroken.put(entry.getValue(), Prices.getSellPriceOf(entry.getKey()));
+            blocksBroken.put(Prices.getSellPriceOf(entry.getKey()), entry.getValue());
         }
         legacySellValues.clear();
     }
 
     public void applyMoneyMulti() {
         if (!legacySellValues.isEmpty()) convertFromLegacySellValues();
-        Map<BigInteger, BigDecimal> temp = new HashMap<>(blocksBroken);
-        blocksBroken.clear();
-        for (Map.Entry<BigInteger, BigDecimal> entry : temp.entrySet()) {
-            blocksBroken.put(entry.getKey().multiply(BigInteger.valueOf(blocksBrokenMultiplier)), entry.getValue());
-        }
-        blocksBroken.replaceAll((k, v) -> v.multiply(BigDecimal.valueOf(moneyMultiplier)));
+        Map<BigDecimal, BigInteger> temp = new HashMap<>();
+        for (Map.Entry<BigDecimal, BigInteger> entry : blocksBroken.entrySet()) temp.put(entry.getKey().multiply(BigDecimal.valueOf(moneyMultiplier)), entry.getValue().multiply(BigInteger.valueOf(blocksBrokenMultiplier)));
+        blocksBroken = temp;
     }
 }

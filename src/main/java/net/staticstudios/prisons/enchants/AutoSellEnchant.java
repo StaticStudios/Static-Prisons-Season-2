@@ -25,7 +25,7 @@ public class AutoSellEnchant extends BaseEnchant {
 
     static void onSell(PrisonPickaxe pickaxe, Player player) {
         PlayerData playerData = new PlayerData(player);
-        if (playerData.getBackpackItemCount().equals(BigInteger.ZERO)) return;
+        if (playerData.getBackpackItemCount() == 0) return;
         playerData.sellBackpack(player, true, ChatColor.GREEN + "[Auto Sell] " + ChatColor.WHITE + "(x%MULTI%) Sold " + ChatColor.AQUA + "%TOTAL_BACKPACK_COUNT% " + ChatColor.WHITE + "blocks for: " + ChatColor.GREEN + "$%TOTAL_SELL_PRICE%");
     }
     static final int MAX_INTERVAL = 600;

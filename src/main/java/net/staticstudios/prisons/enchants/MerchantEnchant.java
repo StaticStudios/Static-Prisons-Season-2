@@ -10,6 +10,6 @@ import java.math.BigInteger;
 
 public class MerchantEnchant extends BaseEnchant {
     public MerchantEnchant() {
-        super("merchant", "&a&lMerchant", 2500, BigInteger.valueOf(500), "&7Permanent +50% sell multiplier at max level");
+        super("merchant", "&a&lMerchant", 5000, BigInteger.valueOf(500), "&7Permanent +400% sell multiplier at max level");
     }
 }

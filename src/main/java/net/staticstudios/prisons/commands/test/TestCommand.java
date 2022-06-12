@@ -1,5 +1,7 @@
 package net.staticstudios.prisons.commands.test;
 
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.staticstudios.prisons.cells.Cell;
 import net.staticstudios.prisons.crates.Crate;
 import net.staticstudios.prisons.crates.CrateReward;
@@ -48,7 +50,7 @@ public class TestCommand implements CommandExecutor {
         //Crates.COMMON.preview(player);
         //Cell.createCell(player);
         PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.setXp(Integer.parseInt(args[0]), true));
-
+        for (int i = 0; i < 150; i++) player.sendMessage(PrisonUtils.prettyNum(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
         return false;
     }
 }

@@ -84,7 +84,7 @@ public class BackpackMenus {
                 BigInteger price = slotsToBuy.multiply(BigInteger.valueOf(slotCost)).divide(BigInteger.valueOf(slotsPerCost));
                 if (playerData.getTokens().compareTo(price) > -1) {
                     playerData.removeTokens(price);
-                    playerData.setBackpackSize(playerData.getBackpackSize().add(slotsToBuy));
+                    //playerData.setBackpackSize(playerData.getBackpackSize().add(slotsToBuy));
                     //playerData.updateBackpackIsFull(); //Cannot add blocks to backpack if backpack is full, then upgraded, then this method is not called
                     player.sendMessage(ChatColor.AQUA + "You've successfully upgraded your backpack!");
                     open(player);

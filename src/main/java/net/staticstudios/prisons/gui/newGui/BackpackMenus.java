@@ -65,7 +65,7 @@ public class BackpackMenus extends GUIUtils {
         BigInteger price = slotsToBuy.multiply(BigInteger.valueOf(SLOT_COST)).divide(BigInteger.valueOf(SLOTS_PER_COST));
         if (playerData.getTokens().compareTo(price) > -1) {
             playerData.removeTokens(price);
-            playerData.setBackpackSize(playerData.getBackpackSize().add(slotsToBuy));
+            playerData.setBackpackSize(playerData.getBackpackSize() + slotsToBuy.longValue());
             player.sendMessage(ChatColor.AQUA + "You've successfully upgraded your backpack!");
             upgradeBag(player);
         } else player.sendMessage(ChatColor.RED + "You do not have enough tokens to prestige!");

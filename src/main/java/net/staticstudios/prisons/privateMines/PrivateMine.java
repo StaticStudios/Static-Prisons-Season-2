@@ -16,8 +16,10 @@ import com.sk89q.worldedit.session.ClipboardHolder;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.cells.CellManager;
+import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.misc.Warps;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElement;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.*;
@@ -28,6 +30,7 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -215,10 +218,10 @@ public class PrivateMine {
         PRIVATE_MINES_SORTED_BY_LEVEL.get(level).add(this);
     }
     private static final int BASE_XP_PER_LEVEL = 1000;
-    private static final double LEVEL_RATE_OF_INCREASE = 1.2;
+    private static final double LEVEL_RATE_OF_INCREASE = 1.9;
     public static long getLevelRequirement(int level) {
-        if (level <= 0) return 0;
-        return (long) (BASE_XP_PER_LEVEL * Math.pow(LEVEL_RATE_OF_INCREASE, level - 1));
+        if (level <= 0) return BASE_XP_PER_LEVEL;
+        return (long) ((long) BASE_XP_PER_LEVEL * level + level * Math.pow(LEVEL_RATE_OF_INCREASE * level, LEVEL_RATE_OF_INCREASE));
     }
     public long getNextLevelRequirement() {
         return getLevelRequirement(getLevel() + 1);
@@ -287,7 +290,7 @@ public class PrivateMine {
         privateMine.name = player.getName() + "'s Private Mine";
         privateMine.level = 0;
         //privateMine.size = START_SIZE;
-        privateMine.visitorTax = 0.15;
+        privateMine.visitorTax = 0.05;
         privateMine.isPublic = true;
         privateMine.sellPercentage = DEFAULT_SELL_PERCENTAGE;
         PRIVATE_MINES.put(privateMine.privateMineId, privateMine);
@@ -396,6 +399,20 @@ public class PrivateMine {
             });
         });
         return future;
+    }
+
+    public void sendInfo(Player player) {
+        player.sendMessage(
+                ChatColor.translateAlternateColorCodes('&',
+                "&e&l" + name + ":" + "\n&a\n" +
+                "&cOwner: &f" + ServerData.PLAYERS.getName(owner) + "\n" +
+                "&cLevel: &f" + PrisonUtils.addCommasToNumber(getLevel()) + "\n" +
+                "&cExperience: &f" + PrisonUtils.prettyNum(getXp()) + " / " + PrisonUtils.prettyNum(getNextLevelRequirement()) + "\n" +
+                "&cSize: &f" + (getSize() + 1) + "x" + (getSize() + 1) + "\n" +
+                "&cTax: &f" + new DecimalFormat("0").format(visitorTax * 100) + "%" + "\n" +
+                "&cSell Percentage: &f" +  new DecimalFormat("0.0").format(sellPercentage * 100) + "%" + "\n" +
+                "&a" + "\n" +
+                "&c&lSpecial Attributes: &fnone"));
     }
 
     public void levelUp(int newLevel) {

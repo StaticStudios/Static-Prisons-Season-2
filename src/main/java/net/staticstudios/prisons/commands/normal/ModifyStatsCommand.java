@@ -65,18 +65,18 @@ public class ModifyStatsCommand implements CommandExecutor {
                 }
             }
             case "backpack" -> {
-                BigInteger amount;
+                long amount;
                 try {
-                    amount = new BigInteger(args[3]);
+                    amount = Long.parseLong(args[3]);
                 } catch (NumberFormatException e) {
                     sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
                     return false;
                 }
                 switch (args[2].toLowerCase()) {
-                    case "add" -> playerData.setBackpackSize(playerData.getBackpackSize().add(amount));
-                    case "remove" -> playerData.setBackpackSize(playerData.getBackpackSize().subtract(amount));
+                    case "add" -> playerData.setBackpackSize(playerData.getBackpackSize() + amount);
+                    case "remove" -> playerData.setBackpackSize(playerData.getBackpackSize() - amount);
                     case "set" -> playerData.setBackpackSize(amount);
-                    case "reset" -> playerData.setBackpackSize(BigInteger.ZERO);
+                    case "reset" -> playerData.setBackpackSize(0);
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
                 }
             }
