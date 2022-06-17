@@ -69,8 +69,8 @@ public class Crate {
         else if (chance <= 25) colorPrefix = "&e";
         else if (chance <= 50) colorPrefix = "&6";
         colorPrefix = ChatColor.translateAlternateColorCodes('&', colorPrefix);
-        player.sendMessage(CRATE_PREFIX + "You've won " + rewardString + "!" + ChatColor.RESET + colorPrefix + " (" + new DecimalFormat("#.##").format(chance) + "% chance)" + ChatColor.RESET + " from a " + DISPLAY_NAME + "!");
-        if (chance < 5) for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(CRATE_PREFIX + player.getName() + " won " + rewardString + "!" + ChatColor.RESET + colorPrefix + " (" + new DecimalFormat("#.##").format(chance) + "% chance)" + ChatColor.RESET + " from a " + DISPLAY_NAME + "!");
+        player.sendMessage(CRATE_PREFIX + "You've won " + rewardString + "!" + ChatColor.RESET + colorPrefix + " (" + new DecimalFormat("0.0").format(chance) + "% chance)" + ChatColor.RESET + " from a " + DISPLAY_NAME + "!");
+        if (chance < 5) for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(CRATE_PREFIX + player.getName() + " won " + rewardString + "!" + ChatColor.RESET + colorPrefix + " (" + new DecimalFormat("0.0").format(chance) + "% chance)" + ChatColor.RESET + " from a " + DISPLAY_NAME + "!");
         if (reward.itemReward != null) PrisonUtils.Players.addToInventory(player, new ItemStack(reward.itemReward));
         else reward.runnableReward.accept(player);
 
@@ -93,7 +93,7 @@ public class Crate {
             c.setItem(i, PrisonUtils.Items.appendLoreToItem(reward.icon, List.of(
                     "",
                     "&f--------------------",
-                    colorPrefix + "Chance to win: &f" + new DecimalFormat("##0.00").format(BigDecimal.valueOf(chance)) + "%",
+                    colorPrefix + "Chance to win: &f" + new DecimalFormat("0.0").format(BigDecimal.valueOf(chance)) + "%",
                     "&f--------------------")));
         }
         c.open(player);

@@ -15,6 +15,7 @@ import net.staticstudios.prisons.gui.newGui.EnchantMenus;
 import net.staticstudios.prisons.reclaim.RerunPurchases;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -73,6 +74,7 @@ public class EventListener implements Listener {
         Player player = e.getPlayer();
 
         if (e.getTo().getY() < 0) {
+            if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE) || e.getPlayer().getGameMode().equals(GameMode.SPECTATOR)) return;
             Warps.warpToSpawn(player);
             return;
         }
@@ -157,8 +159,7 @@ public class EventListener implements Listener {
 
     @EventHandler
     void onClick(InventoryClickEvent e) {
-        if (!(e.getWhoClicked() instanceof Player)) return;
-        Player player = (Player) e.getWhoClicked();
+        if (!(e.getWhoClicked() instanceof Player player)) return;
         if (PrisonUtils.checkIsPrisonPickaxe(e.getCurrentItem())) {
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getCurrentItem());
             if (!player.getInventory().getItemInMainHand().equals(e.getCurrentItem())) return;

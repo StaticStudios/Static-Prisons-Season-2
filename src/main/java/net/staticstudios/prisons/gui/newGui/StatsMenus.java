@@ -31,7 +31,7 @@ public class StatsMenus extends GUIUtils {
                 c.createButton(Material.PAPER, "&bBalance:&f $" + PrisonUtils.addCommasToNumber(playerData.getMoney()), List.of()),
                 c.createButton(Material.SUNFLOWER, "&bTokens:&f " + PrisonUtils.addCommasToNumber(playerData.getTokens()), List.of()),
                 c.createButton(Material.AMETHYST_SHARD, "&bPrestige:&f " + PrisonUtils.addCommasToNumber(playerData.getPrestige()), List.of()),
-                c.createButton(Material.CLOCK, "&bTime Played:&f " + PrisonUtils.formatTime(playerData.getTimePlayed().longValue()), List.of()),
+                c.createButton(Material.CLOCK, "&bTime Played:&f " + PrisonUtils.formatTime(playerData.getTimePlayed().longValue() * 1000), List.of()),
                 c.createButton(Material.DIAMOND, "&bVotes:&f " + PrisonUtils.addCommasToNumber(playerData.getVotes()), List.of()),
                 c.createButton(Material.BLUE_DYE, "&bDiscord:&f " + playerData.getDiscordName(), List.of())
         );

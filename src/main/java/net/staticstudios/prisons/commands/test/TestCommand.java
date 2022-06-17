@@ -7,6 +7,7 @@ import net.staticstudios.prisons.crates.Crate;
 import net.staticstudios.prisons.crates.CrateReward;
 import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customItems.pickaxes.PickaxeTemplates;
+import net.staticstudios.prisons.gui.newGui.SettingsMenus;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
@@ -20,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +51,9 @@ public class TestCommand implements CommandExecutor {
 //        player.sendMessage("Total time taken: " + (System.currentTimeMillis() - start) + "ms");
         //Crates.COMMON.preview(player);
         //Cell.createCell(player);
-        PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.setXp(Integer.parseInt(args[0]), true));
-        for (int i = 0; i < 150; i++) player.sendMessage(PrisonUtils.prettyNum(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
+       //PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.setXp(Integer.parseInt(args[0]), true));
+       //for (int i = 0; i < 150; i++) player.sendMessage(PrisonUtils.prettyNum(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
+        SettingsMenus.open(player, true);
         return false;
     }
 }

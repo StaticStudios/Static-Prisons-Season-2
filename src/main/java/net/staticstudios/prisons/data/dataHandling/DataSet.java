@@ -122,7 +122,7 @@ public class DataSet {
         if (!dataExists(key)) setData(key, new Data());
         return getData(key).map;
     }
-    public void setBigInt(String key, BigInteger value) {
+    public void setBigInt(String key, BigInteger value) { //todo store big ints as actual big ints
         setString(key, value.toString());
     }
     public BigInteger getBigInt(String key) {

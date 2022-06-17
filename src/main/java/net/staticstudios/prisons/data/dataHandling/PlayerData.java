@@ -723,6 +723,7 @@ public class PlayerData extends DataSet {
         setBoolean("isWatchingMessages", value);
         return this;
     }
+    @Deprecated
     public Material getUITheme() {
         String theme = getString("UITheme");
         if (theme.equals("")) {
@@ -731,8 +732,64 @@ public class PlayerData extends DataSet {
         }
         return Material.valueOf(theme);
     }
+    @Deprecated
     public PlayerData setUITheme(Material value) {
         setString("UITheme", value.name());
+        return this;
+    }
+
+
+    public ChatColor getPrimaryUITheme() {
+        return getPrimaryUITheme(getUIThemeID());
+    }
+    public ChatColor getSecondaryUITheme() {
+        return getSecondaryUITheme(getUIThemeID());
+    }
+    public static ChatColor getPrimaryUITheme(String theme) {
+        switch (theme) {
+            default -> { //b
+                return ChatColor.of("#3dc2ff");
+            }
+            case "5" -> {
+                return ChatColor.of("#b638ff");
+            }
+            case "2" -> {
+                return ChatColor.of("#00ba31");
+            }
+            case "4" -> {
+                return ChatColor.DARK_RED;
+            }
+            case "6" -> {
+                return ChatColor.of("#ffcc00");
+            }
+        }
+    }
+    public static ChatColor getSecondaryUITheme(String theme) {
+        switch (theme) {
+            default -> { //b
+                return ChatColor.AQUA;
+            }
+            case "5" -> {
+                return ChatColor.LIGHT_PURPLE;
+            }
+            case "2" -> {
+                return ChatColor.GREEN;
+            }
+            case "4" -> {
+                return ChatColor.RED;
+            }
+            case "6" -> {
+                return ChatColor.GOLD;
+            }
+        }
+    }
+    public String getUIThemeID() {
+        String str = getString("UIThemeID");
+        if (str.isEmpty()) str = "b";
+        return str;
+    }
+    public PlayerData setUIThemeID(String value) {
+        setString("UIThemeID", value);
         return this;
     }
 }

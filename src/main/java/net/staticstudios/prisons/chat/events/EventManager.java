@@ -123,14 +123,13 @@ public class EventManager { //todo: fix.
         ChatEvent event = new ChatEvent() {
             @Override
             void giveRewards(Player player, String guessed) {
-                ItemStack reward = null;
-                switch (PrisonUtils.randomInt(1, 6)) {
-                    case 1 -> reward = CustomItems.getCommonCrateKey(4);
-                    case 2, 3 -> reward = CustomItems.getRareCrateKey(3);
-                    case 4 -> reward = CustomItems.getLegendaryCrateKey(2);
-                    case 5 -> reward = CustomItems.getLegendaryCrateKey(1);
-                    case 6 -> reward = CustomItems.getStaticCrateKey(1);
-                }
+                ItemStack reward = new WeightedElements<ItemStack>()
+                        .add(CustomItems.getCommonCrateKey(4), 10)
+                        .add(CustomItems.getRareCrateKey(3), 20)
+                        .add(CustomItems.getLegendaryCrateKey(2), 10)
+                        .add(CustomItems.getLegendaryCrateKey(1), 10)
+                        .add(CustomItems.getStaticCrateKey(1), 10)
+                        .getRandom();
                 PrisonUtils.Players.addToInventory(player, reward);
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     p.sendMessage(ChatColor.AQUA + player.getName() + ChatColor.WHITE + " has won a chat event! They won " + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward) + "!" + ChatColor.WHITE + " They guessed: " + ChatColor.GREEN + guessed);

@@ -52,31 +52,8 @@ public class TabList {
 
         PlayerData playerData = new PlayerData(player);
 
-        ChatColor colorDark;
-        ChatColor colorLight;
-
-        switch (playerData.getUITheme()) {
-            case PURPLE_DYE -> {
-                colorDark = ChatColor.of("#b638ff");
-                colorLight = ChatColor.LIGHT_PURPLE;
-            }
-            case LIME_DYE -> {
-                colorDark = ChatColor.of("#00ba31");
-                colorLight = ChatColor.GREEN;
-            }
-            case RED_DYE -> {
-                colorDark = ChatColor.DARK_RED;
-                colorLight = ChatColor.RED;
-            }
-            case ORANGE_DYE -> {
-                colorDark = ChatColor.of("#ffcc00");
-                colorLight = ChatColor.GOLD;
-            }
-            default -> {
-                colorDark = ChatColor.of("#3dc2ff");
-                colorLight = ChatColor.AQUA;
-            }
-        }
+        ChatColor colorDark = playerData.getPrimaryUITheme();
+        ChatColor colorLight = playerData.getSecondaryUITheme();
 
         player.setPlayerListHeaderFooter(ChatColor.translateAlternateColorCodes('&', "\n\n &7&l-->> &r&f&o&lWelcome To " + colorDark + "&o&lStatic Prisons &r&7&l<<--\n"),
                 ChatColor.translateAlternateColorCodes('&', "\n" + colorLight + "&lPLAYERS ONLINE: &r&f" + Bukkit.getOnlinePlayers().size() + " &r&7| " + colorLight + "&lYOUR PING: &r&f" +

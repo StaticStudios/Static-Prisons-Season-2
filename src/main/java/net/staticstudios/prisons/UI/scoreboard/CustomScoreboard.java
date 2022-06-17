@@ -99,29 +99,8 @@ public class CustomScoreboard { //todo make a custom thing instead of fastboard
     }
     void updateBoard() {
         PlayerData playerData = new PlayerData(player);
-
-        switch (playerData.getUITheme()) {
-            case PURPLE_DYE -> {
-                colorDark = ChatColor.of("#b638ff");
-                colorLight = ChatColor.LIGHT_PURPLE;
-            }
-            case LIME_DYE -> {
-                colorDark = ChatColor.of("#00ba31");
-                colorLight = ChatColor.GREEN;
-            }
-            case RED_DYE -> {
-                colorDark = ChatColor.DARK_RED;
-                colorLight = ChatColor.RED;
-            }
-            case ORANGE_DYE -> {
-                colorDark = ChatColor.of("#ffcc00");
-                colorLight = ChatColor.GOLD;
-            }
-            default -> {
-                colorDark = ChatColor.of("#3dc2ff");
-                colorLight = ChatColor.AQUA;
-            }
-        }
+        colorDark = playerData.getPrimaryUITheme();
+        colorLight = playerData.getSecondaryUITheme();
         updateTitle();
 
         board.updateTitle(boardTitle);

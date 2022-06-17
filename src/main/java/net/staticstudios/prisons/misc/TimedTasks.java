@@ -79,7 +79,7 @@ public class TimedTasks {
         //Bukkit.getScheduler().runTaskTimer(Main.getMain(), AuctionHouseManager::expireAllExpiredAuctions, 120, 2);
         //Give everyone with potion enchants their effect(s)
         //Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), EnchantEffects::giveEffects, 10, 400);
-        //Update all of the leaderboards
+        //Update all the leaderboards
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), LeaderboardManager::updateAll, 20, 20 * 60 * 30);
         //Tips
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
