@@ -3,20 +3,17 @@ package net.staticstudios.prisons.blockBroken;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
+import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
 
 public class BlockBreakListener implements Listener {
 
@@ -31,8 +28,19 @@ public class BlockBreakListener implements Listener {
 
         PlayerData playerData = new PlayerData(player);
         PrisonBlockBroken bb = new PrisonBlockBroken(player, playerData, pickaxe, e.getMine(), e.getBlock());
-        for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onBlockBreak(bb);
-        //todo make sure that tokenator still procs even if it is not on the pickaxe as players have no other way to get xp
+
+        //Ensure all pickaxes have tokenator
+        boolean hasTokenator = false;
+        for (BaseEnchant enchant : pickaxe.getEnchants()) {
+            if (enchant.equals(PrisonEnchants.TOKENATOR)) hasTokenator = true;
+            enchant.onBlockBreak(bb);
+        }
+        if (!hasTokenator) { //The pickaxe did not have tokenator, so it was added and the enchant was called
+            pickaxe.setEnchantsLevel(PrisonEnchants.TOKENATOR, 1);
+            PrisonEnchants.TOKENATOR.onBlockBreak(bb);
+        }
+
+
         //Event mine
         if (e.getMine().getID().equals("eventMine")) bb.tokenMultiplier += .2d;
 
@@ -49,6 +57,8 @@ public class BlockBreakListener implements Listener {
 
         pickaxe.addBlocksBroken(totalBlocksBroken);
         pickaxe.addRawBlocksBroken(1);
+        playerData.addBlocksMined(BigInteger.valueOf(bb.amountOfBlocksBroken));
+        playerData.addRawBlocksMined(BigInteger.ONE);
         pickaxe.addXp((long) (totalBlocksBroken * 2 * bb.xpMultiplier));
 
 

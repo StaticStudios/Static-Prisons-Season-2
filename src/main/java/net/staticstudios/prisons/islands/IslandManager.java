@@ -4,7 +4,7 @@ import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 

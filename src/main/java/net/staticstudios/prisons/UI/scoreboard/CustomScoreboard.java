@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.UI.scoreboard;
 
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
+import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.rankup.RankUpPrices;
 import net.staticstudios.prisons.UI.scoreboard.fastBoard.FastBoard;
 import net.staticstudios.prisons.rankup.RankUp;

@@ -1,8 +1,8 @@
 package net.staticstudios.prisons.auctionHouse;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
+import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -91,26 +91,17 @@ public class AuctionManager {
             player.sendMessage(AH_PREFIX + ChatColor.RED + "You do not have any auction(s) to claim");
             return;
         }
-        for (ExpiredAuction expiredAuction : expiredAuctions)
-        PrisonUtils.Players.addToInventory(player, expiredAuction.getItem());
+        for (ExpiredAuction expiredAuction : expiredAuctions) PrisonUtils.Players.addToInventory(player, expiredAuction.getItem());
         ExpiredAuction.clearPlayerExpiredAuctions(player.getUniqueId());
         player.sendMessage(AH_PREFIX + "You claimed all of your expired auctions");
     }
 
     public static void saveAllAuctions() {
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), AuctionManager::saveAllAuctions);
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), AuctionManager::saveAllAuctionsSync);
     }
 
     public static void saveAllAuctionsSync() {
         File file = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml");
-        if (!file.exists()) {
-            file.getParentFile().mkdirs();
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         FileConfiguration fileData = new YamlConfiguration();
         for (Auction auction : auctions) {
             fileData.set("auctions." + auction.id().toString() + ".item", ExpiredAuction.toBase64(auction.item()));

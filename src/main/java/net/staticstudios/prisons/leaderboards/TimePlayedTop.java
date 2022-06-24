@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.leaderboards;
 
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
+import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import org.bukkit.Bukkit;
 
 import java.math.BigInteger;
@@ -17,7 +17,7 @@ public class TimePlayedTop {
     public static void calculateLeaderBoard() {
         List<UUID> topUUIDs = new ArrayList<>();
         List<BigInteger> topValues = new ArrayList<>();
-        for (String uuid : ServerData.PLAYERS.getAllUUIDsAsStrings()) {
+        for (UUID uuid : ServerData.PLAYERS.getAllUUIDs()) {
             boolean ranked = false;
             PlayerData playerData = new PlayerData(uuid);
             if (playerData.getIsExemptFromLeaderboards()) continue;

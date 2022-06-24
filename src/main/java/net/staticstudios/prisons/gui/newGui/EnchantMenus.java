@@ -2,7 +2,7 @@ package net.staticstudios.prisons.gui.newGui;
 
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;

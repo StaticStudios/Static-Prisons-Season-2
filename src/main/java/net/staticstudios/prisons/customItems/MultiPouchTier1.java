@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.customItems;
 
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

@@ -2,7 +2,7 @@ package net.staticstudios.prisons.privateMines;
 
 import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Map;
-import java.util.UUID;
 
 public class PrivateMineBlockBreakListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)

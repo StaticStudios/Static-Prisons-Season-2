@@ -3,7 +3,7 @@ package net.staticstudios.prisons.auctionHouse;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

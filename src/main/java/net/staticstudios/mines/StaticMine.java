@@ -13,7 +13,6 @@ import com.sk89q.worldedit.world.block.BlockTypes;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.staticstudios.mines.minesapi.events.MineCreatedEvent;
@@ -24,10 +23,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -64,7 +63,18 @@ public class StaticMine {
     private long blocksInFullMine;
     private double refillAtPercentLeft = 50d; //TODO: can configure in config
     private Consumer<StaticMine> runOnRefill = mine -> {};
-    //todo refill on a timer
+
+    //todo: add these options to the config later on
+    public int secondsBetweenRefills = 600; //Refill every 10mins
+    private long refillNextAt = Long.MAX_VALUE;
+    public boolean shouldRefillOnTimer = true;
+    public static void refillAllTimedMines() {
+        for (StaticMine mine : getAllMines()) {
+            if (mine.shouldRefillOnTimer && mine.refillNextAt < Instant.now().getEpochSecond()) {
+                if (mine.blocksInMine != mine.blocksInFullMine) mine.refill();
+            }
+        }
+    }
 
     public String getID() { return id; }
     public org.bukkit.World getWorld() { return world; }
@@ -128,6 +138,7 @@ public class StaticMine {
     public CompletableFuture<StaticMine> refill() {
         CompletableFuture<StaticMine> future = new CompletableFuture<>();
         blocksInMine = (long) (maxPoint.getBlockX() - minPoint.getBlockX()) * (maxPoint.getBlockY() - minPoint.getBlockY()) * (maxPoint.getBlockZ() - minPoint.getBlockZ());
+        refillNextAt = Instant.now().getEpochSecond() + secondsBetweenRefills;
         if (!shouldRefillSync) {
             Bukkit.getScheduler().runTaskAsynchronously(StaticMines.getParent(), () -> {
                 refillMine(true).thenRun(() -> future.complete(this));
@@ -142,6 +153,7 @@ public class StaticMine {
         editSession.setBlocks(region, getBlockPattern());
         editSession.close();
         blocksInMine = (long) (maxPoint.getBlockX() - minPoint.getBlockX()) * (maxPoint.getBlockY() - minPoint.getBlockY()) * (maxPoint.getBlockZ() - minPoint.getBlockZ());
+        refillNextAt = Instant.now().getEpochSecond() + secondsBetweenRefills;
         Bukkit.getLogger().log(Level.INFO, "Refilled mine: " + id);
         if (async) {
             Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint())));

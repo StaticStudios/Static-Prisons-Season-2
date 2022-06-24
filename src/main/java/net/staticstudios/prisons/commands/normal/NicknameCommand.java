@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

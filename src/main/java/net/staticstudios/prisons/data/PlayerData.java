@@ -1,7 +1,9 @@
-package net.staticstudios.prisons.data.dataHandling;
+package net.staticstudios.prisons.data;
 
 
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
+import net.staticstudios.prisons.data.dataHandling.DataSet;
+import net.staticstudios.prisons.data.dataHandling.DataTypes;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.islands.SkyBlockIsland;
@@ -15,7 +17,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.*;
 
@@ -240,7 +241,7 @@ public class PlayerData extends DataSet {
         return multiplier;
     }
     public PlayerData setTempMoneyMultiplierList(List<String> value) {
-        setList("tempMoneyMultipliers", value);
+        setStringList("tempMoneyMultipliers", value);
         return this;
     }
     public BigDecimal addTempMoneyMultiplier(BigDecimal amount, long lengthInMS) {
@@ -250,7 +251,7 @@ public class PlayerData extends DataSet {
         return getTempMoneyMultiplier();
     }
     List<String> getTempMoneyMultiplierList() {
-        List<String> initialMultipliers = (List<String>) getList("tempMoneyMultipliers");
+        List<String> initialMultipliers = getStringList("tempMoneyMultipliers");
         List<String> multipliers = new ArrayList<>(initialMultipliers);
         List<String> multipliersToRemove = new ArrayList<>();
         for (String multi : multipliers) {
@@ -260,7 +261,7 @@ public class PlayerData extends DataSet {
             }
         }
         multipliers.removeAll(multipliersToRemove);
-        if (!multipliers.equals(initialMultipliers)) setList("tempMoneyMultipliers", multipliers);
+        if (!multipliers.equals(initialMultipliers)) setStringList("tempMoneyMultipliers", multipliers);
         return multipliers;
     }
     public BigDecimal getTokenMultiplier() {
@@ -476,11 +477,11 @@ public class PlayerData extends DataSet {
     }
 
     public PlayerData setChatTags(List<String> value) {
-        setList("chatTags", PrisonUtils.removeDuplicatesInArrayList(value));
+        setStringList("chatTags", PrisonUtils.removeDuplicatesInArrayList(value));
         return this;
     }
     public List<String> getChatTags() {
-        return (List<String>) getList("chatTags");
+        return getStringList("chatTags");
     }
     public void removeChatTag(String value) {
         List<String> tags = getChatTags();

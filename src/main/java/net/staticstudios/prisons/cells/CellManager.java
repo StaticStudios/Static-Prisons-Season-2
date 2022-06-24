@@ -5,13 +5,12 @@ import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,7 +40,6 @@ public class CellManager {
 
     public static Map<UUID, Cell> cells = new HashMap<>();
     public static Map<UUID, UUID> playersToCell = new HashMap<>();
-    //todo save and load to file
     public static void saveSync() {
         FileConfiguration fileData = new YamlConfiguration();
         for (Map.Entry<UUID, Cell> entry : cells.entrySet()) {

@@ -15,8 +15,7 @@ import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.cells.CellManager;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.misc.Warps;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -342,6 +341,7 @@ public class PrivateMine {
         int[] center = PrivateMineManager.getPosition(gridPosition);
         StaticMine mine = new StaticMine("private_mine-" + privateMineId, new Location(PRIVATE_MINES_WORLD, center[0] - distanceFromCenter, 1, center[1] - distanceFromCenter), new Location(PRIVATE_MINES_WORLD, center[0] + distanceFromCenter, 99, center[1] + distanceFromCenter));
         mine.setShouldSaveToFile(false);
+        mine.shouldRefillOnTimer = false;
         List<StaticMine.MineBlock> mineBlocks = new ArrayList<>();
         for (WeightedElement<MineBlock> block : getBlocks(level).getElements())
             mineBlocks.add(new StaticMine.MineBlock(BukkitAdapter.asBlockType(block.getElement().blockType), block.getWeight()));

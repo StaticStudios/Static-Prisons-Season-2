@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gui.newGui.WarpMenus;
 import net.staticstudios.prisons.misc.Warps;
 import net.staticstudios.prisons.utils.Constants;

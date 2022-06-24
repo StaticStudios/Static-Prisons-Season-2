@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.gui.menus;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gambling.CoinFlip;
 import net.staticstudios.prisons.gambling.GambleHandler;
 import net.staticstudios.prisons.gambling.TokenFlip;

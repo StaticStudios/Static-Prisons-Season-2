@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.islands;
 
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import org.bukkit.entity.Player;
 
 public class SkyBlockIslands {

@@ -4,7 +4,6 @@ import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.WorldEdit;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
-import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.blockBroken.BlockBreakListener;
 import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.commands.normal.*;
@@ -45,7 +44,6 @@ import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -105,7 +103,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         DiscordLink.initialize();
         TabList.initialize();
         Kits.initialize();
-        TimedTasks.startTasks();
+        TimedTasks.initTasks();
         AutoSellEnchant.initTimer();
 
 

@@ -2,7 +2,7 @@ package net.staticstudios.prisons.enchants;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.utils.PrisonUtils;
 

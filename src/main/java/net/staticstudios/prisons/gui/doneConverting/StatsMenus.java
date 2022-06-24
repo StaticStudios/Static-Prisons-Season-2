@@ -1,9 +1,9 @@
 package net.staticstudios.prisons.gui.doneConverting;
 
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gui.GUI;
 import net.staticstudios.prisons.gui.GUIPage;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

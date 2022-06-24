@@ -1,29 +1,13 @@
 package net.staticstudios.prisons.commands.test;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.staticstudios.prisons.cells.Cell;
-import net.staticstudios.prisons.crates.Crate;
-import net.staticstudios.prisons.crates.CrateReward;
-import net.staticstudios.prisons.crates.Crates;
-import net.staticstudios.prisons.customItems.pickaxes.PickaxeTemplates;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gui.newGui.SettingsMenus;
-import net.staticstudios.prisons.privateMines.PrivateMine;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TestCommand implements CommandExecutor {
     @Override
@@ -32,7 +16,6 @@ public class TestCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             player = (Player) commandSender;
         }
-        assert player != null;
         //AuctionHouseMenus.openMenu(player, 0);
         player.sendMessage(
                 new WeightedElements<String>()
@@ -54,6 +37,19 @@ public class TestCommand implements CommandExecutor {
        //PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.setXp(Integer.parseInt(args[0]), true));
        //for (int i = 0; i < 150; i++) player.sendMessage(PrisonUtils.prettyNum(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
         SettingsMenus.open(player, true);
+//        Player finalPlayer = player;
+//        TickUtils.init(StaticPrisons.getInstance());
+//        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
+//            finalPlayer.sendMessage(TickUtils.getMSPT(20) + "ms | " + TickUtils.getTPS() + "tps");
+//        }, 0, 1);
+        PlayerData playerData = new PlayerData(player);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 10000; i++) {
+            playerData.setChatTag1("dev");
+        }
+        player.sendMessage("Total time taken: " + (System.currentTimeMillis() - start) + "ms");
+
         return false;
     }
+
 }

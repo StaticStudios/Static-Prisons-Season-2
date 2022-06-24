@@ -5,7 +5,7 @@ import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockBroken.BlockBreakListener;
 import net.staticstudios.prisons.data.Prices;
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;

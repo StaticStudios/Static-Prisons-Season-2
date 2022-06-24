@@ -1,7 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
-import net.staticstudios.prisons.gui.GUI;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.gui.newGui.StatsMenus;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

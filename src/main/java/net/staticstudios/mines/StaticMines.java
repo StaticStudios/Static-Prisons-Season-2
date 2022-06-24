@@ -71,6 +71,7 @@ public final class StaticMines implements Listener {
             parent.getCommand(commandLabel).setExecutor(new StaticMinesCommand());
             parent.getCommand(commandLabel).setTabCompleter(new StaticMinesCommand());
         }
+        Bukkit.getScheduler().runTaskTimer(parent, StaticMine::refillAllTimedMines, 0, 1);
     }
 
     public void onDisable() {

@@ -1,132 +1,265 @@
 package net.staticstudios.prisons.data.dataHandling;
 
-import com.owlike.genson.GenericType;
-import com.owlike.genson.Genson;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class DataSet {
-    //All data is stored in this map
+    //Map containing all server data including player data and any other data that is being stored by this plugin
     private static Map<String, Data> ALL_DATA = new HashMap<>();
 
-    //Saving/loading
+    /**
+     * Archive old data in the event that something gets corrupted and a rollback is needed
+     */
     static void changeOldData() {
-        File oldData = new File("./data.json");
-        if (oldData.exists()) oldData.renameTo(new File("./data/old/" + Instant.now().toEpochMilli() + ".json"));
-        //todo use a more storage efficient approach
+        File oldData = new File(StaticPrisons.getInstance().getDataFolder(),"data.yml");
+        if (oldData.exists()) oldData.renameTo(new File(StaticPrisons.getInstance().getDataFolder(), Instant.now().toEpochMilli() + "-oldData.yml"));
+        //todo use a more storage efficient approach such as filtering old data for the previous day and only saving one file per hour worth of data for that time period, then zip the directory and delete the old files.
     }
     /**
      * Save data async, do not use this if data needs to be instantly saved in the event of a server close
      */
     public static void saveData() {
         changeOldData();
-        Map<String, Data> dataMap = new HashMap<>(ALL_DATA);
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
-            PrisonUtils.writeToAFile("data.json", new Genson().serialize(dataMap, new GenericType<HashMap<String, Data>>(){}));
-            Bukkit.getLogger().log(Level.INFO, "Successfully saved all server data");
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), DataSet::saveDataSync);
     }
 
     /**
-     * immediately save all data
+     * Immediately save all data
      */
     public static void saveDataSync() {
         changeOldData();
-        PrisonUtils.writeToAFile("data.json", new Genson().serialize(ALL_DATA, new GenericType<HashMap<String, Data>>(){}));
-        Bukkit.getLogger().log(Level.INFO, "Successfully saved all server data");
+        FileConfiguration fileData = new YamlConfiguration();
+        for (Map.Entry<String, Data> entry : ALL_DATA.entrySet()) {
+            try {
+                fileData.set(entry.getKey(), entry.getValue().toConfigurationSection());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Bukkit.getLogger().log(Level.INFO, "Finished saving all server data");
     }
     public static void loadData() {
-        ALL_DATA = new Genson().deserialize(PrisonUtils.getFileContents("data.json"), new GenericType<HashMap<String , Data>>(){});
-        if (ALL_DATA == null) {
-            ALL_DATA = new HashMap<>();
-            Bukkit.getLogger().warning("Could not load server data... creating new data instead");
-        } else Bukkit.getLogger().log(Level.INFO, "Successfully loaded all server data");
+        ALL_DATA = new HashMap<>();
+        FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
+        for (String key : fileData.getKeys(false)) {
+            try {
+                ALL_DATA.put(key, Data.fromConfigurationSection(key, fileData.getConfigurationSection(key)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Bukkit.getLogger().log(Level.INFO, "Finished loading all server data");
     }
 
-
+    /**
+     * The key that gets built when a new instance of this class is created
+     *<br> Ex: "SERVER-players-" | The container key is then appended onto this key to create the actual key for the data in the map
+     *<br> Ex: "SERVER-players-namesToUUIDs" or "PLAYERS-1234567890-money"
+     */
     private final String key;
     public DataSet(DataTypes dataType, String container) { key = dataType.name() + "-" + container + "-"; }
+
+    /**
+     * Put a new data object into the map using the key that was built in the constructor and the container key
+     * @param value The data object to put into the map
+     * @param containerKey The final part of the key that will be put into the map, EX: "playerNames", "money", "timePlayed", etc.
+     */
     private void setData(String containerKey, Data value) { ALL_DATA.put(this.key + containerKey, value); }
+
+    @Nullable
     private Data getData(String containerKey) { return ALL_DATA.get(this.key + containerKey); }
-    private boolean dataExists(String containerKey) { return ALL_DATA.containsKey(this.key + containerKey); }
+
+
+    /**
+     * @return The data object from the map with the given key, if the object is not found, a new one will be created and added to the map.
+     */
+    @NotNull
+    private Data getDataNotNull(String key) {
+        Data data = getData(key);
+        if (data == null) { //If the data is null, create a new one and add it to the map
+            data = new Data(key);
+            setData(key, data);
+        }
+        return data;
+    }
+
+
+
+    //          vvv         The following methods should be used by any other class that extends this class to access data.          vvv
+
 
     public void setString(String key, String value) {
-        Data data = new Data();
-        data._string = value;
+        Data data = new Data(key);
+        data.setString(value);
         setData(key, data);
     }
+    @NotNull
     public String getString(String key) {
-        if (!dataExists(key)) setData(key, new Data());
-        return getData(key)._string;
+        return getDataNotNull(key).getString();
     }
     public void setInt(String key, int value) {
-        Data data = new Data();
-        data._int = value;
+        Data data = new Data(key);
+        data.setInt(value);
         setData(key, data);
     }
+    @NotNull
     public int getInt(String key) {
-        if (!dataExists(key)) setData(key, new Data());
-        return getData(key)._int;
+        return getDataNotNull(key).getInt();
     }
     public void setDouble(String key, double value) {
-        Data data = new Data();
-        data._double = value;
+        Data data = new Data(key);
+        data.setDouble(value);
         setData(key, data);
     }
+    @NotNull
     public double getDouble(String key) {
-        if (!dataExists(key)) setData(key, new Data());
-        return getData(key)._double;
+        return getDataNotNull(key).getDouble();
     }
     public void setLong(String key, long value) {
-        Data data = new Data();
-        data._long = value;
+        Data data = new Data(key);
+        data.setLong(value);
         setData(key, data);
     }
+    @NotNull
     public long getLong(String key) {
-        if (!dataExists(key)) setData(key, new Data());
-        return getData(key)._long;
+        return getDataNotNull(key).getLong();
     }
     public void setBoolean(String key, boolean value) {
-        Data data = new Data();
-        data._boolean = value;
+        Data data = new Data(key);
+        data.setBoolean(value);
         setData(key, data);
     }
+    @NotNull
     public boolean getBoolean(String key) {
-        if (!dataExists(key)) setData(key, new Data());
-        return getData(key)._boolean;
+        return getDataNotNull(key).getBoolean();
     }
-    public void setList(String key, List<?> value) {
-        Data data = new Data();
-        data.list = value;
+    public void setGenericList(String key, List<? extends ConfigurationSerializable> value) {
+        Data data = new Data(key);
+        data.setGenericList(value);
         setData(key, data);
     }
-    public List<?> getList(String key) {
-        if (!dataExists(key)) setData(key, new Data());
-        return getData(key).list;
-    }
-    public void setMap(String key, Map<?, ?> value) {
-        Data data = new Data();
-        data.map = value;
+    public void setStringList(String key, List<String> value) {
+        Data data = new Data(key);
+        data.setStringList(value);
         setData(key, data);
     }
-    public Map<?, ?> getMap(String key) {
-        if (!dataExists(key)) setData(key, new Data());
-        return getData(key).map;
+    public void setUUIDList(String key, List<UUID> value) {
+        Data data = new Data(key);
+        data.setUuidList(value);
+        setData(key, data);
     }
-    public void setBigInt(String key, BigInteger value) { //todo store big ints as actual big ints
-        setString(key, value.toString());
+    @NotNull
+    public List<? extends ConfigurationSerializable> getGenericList(String key) {
+        return getDataNotNull(key).getGenericList();
     }
+    @NotNull
+    public List<String> getStringList(String key) {
+        return getDataNotNull(key).getStringList();
+    }
+    @NotNull
+    public List<UUID> getUUIDList(String key) {
+        return getDataNotNull(key).getUuidList();
+    }
+    /**
+     * This has not yet been tested and is not guaranteed to work.
+     */
+    @Deprecated
+    public void setGenericMap(String key, Map<? extends ConfigurationSerializable, ? extends ConfigurationSerializable> value) {
+        Data data = new Data(key);
+        data.setGenericMap(value);
+        setData(key, data);
+    }
+    /**
+     * This has not yet been tested and is not guaranteed to work.
+     */
+    @Deprecated
+    public void setStringObjectMap(String key, Map<String, ? extends ConfigurationSerializable> value) {
+        Data data = new Data(key);
+        data.setStringObjectMap(value);
+        setData(key, data);
+    }
+    /**
+     * This has not yet been tested and is not guaranteed to work.
+     */
+    @Deprecated
+    public void setUUIDObjectMap(String key, Map<UUID, ? extends ConfigurationSerializable> value) {
+        Data data = new Data(key);
+        data.setUuidObjectMap(value);
+        setData(key, data);
+    }
+    /**
+     * This has not yet been tested and is not guaranteed to work.
+     */
+    @Deprecated
+    @NotNull
+    public Map<? extends ConfigurationSerializable, ? extends ConfigurationSerializable> getGenericMap(String key) {
+        return getDataNotNull(key).getGenericMap();
+    }
+    /**
+     * This has not yet been tested and is not guaranteed to work.
+     */
+    @Deprecated
+    @NotNull
+    public Map<String, ? extends ConfigurationSerializable> getStringObjectMap(String key) {
+        return getDataNotNull(key).getStringObjectMap();
+    }
+
+    /**
+     * This has not yet been tested and is not guaranteed to work.
+     */
+    @Deprecated
+    @NotNull
+    public Map<UUID, ? extends ConfigurationSerializable> getUUIDObjectMap(String key) {
+        return getDataNotNull(key).getUuidObjectMap();
+    }
+    public void setUUIDStringMap(String key, Map<UUID, String> value) {
+        Data data = new Data(key);
+        data.setUuidStringMap(value);
+        setData(key, data);
+    }
+    @NotNull
+    public Map<UUID, String> getUUIDStringMap(String key) {
+        return getDataNotNull(key).getUuidStringMap();
+    }
+    public void setStringUUIDMap(String key, Map<String, UUID> value) {
+        Data data = new Data(key);
+        data.setStringUuidMap(value);
+        setData(key, data);
+    }
+    @NotNull
+    public Map<String, UUID> getStringUUIDMap(String key) {
+        return getDataNotNull(key).getStringUuidMap();
+    }
+
+    public void setBigInt(String key, BigInteger value) {
+        Data data = new Data(key);
+        data.setBigInt(value);
+        setData(key, data);
+    }
+    @NotNull
     public BigInteger getBigInt(String key) {
-        if (!dataExists(key)) setBigInt(key, BigInteger.ZERO);
-        return new BigInteger(getString(key));
+        return getDataNotNull(key).getBigInt();
     }
 }

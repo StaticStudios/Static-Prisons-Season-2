@@ -4,7 +4,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.Prices;
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;

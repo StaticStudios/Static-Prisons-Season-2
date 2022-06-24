@@ -1,7 +1,9 @@
-package net.staticstudios.prisons.data.dataHandling;
+package net.staticstudios.prisons.data;
 
+import net.staticstudios.prisons.data.dataHandling.DataSet;
+import net.staticstudios.prisons.data.dataHandling.DataTypes;
 import net.staticstudios.prisons.islands.IslandManager;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -129,10 +131,10 @@ public class IslandData extends DataSet {
 
     //Island Admins
     public List<String> getIslandAdminUUIDS() {
-        return (List<String>) getList("islandAdmins");
+        return getStringList("islandAdmins");
     }
     public IslandData setIslandAdminUUIDS(List<String> value) {
-        setList("islandAdmins", value);
+        setStringList("islandAdmins", value);
         return this;
     }
     public IslandData addIslandAdminUUID(String value) {
@@ -147,10 +149,10 @@ public class IslandData extends DataSet {
     }
     //Island Members - Management perms, not players
     public List<String> getIslandMemberUUIDS() {
-        return (List<String>) getList("islandMembers");
+        return getStringList("islandMembers");
     }
     public IslandData setIslandMemberUUIDS(List<String> value) {
-        setList("islandMembers", value);
+        setStringList("islandMembers", value);
         return this;
     }
     public IslandData addIslandMemberUUID(String value) {
@@ -166,10 +168,10 @@ public class IslandData extends DataSet {
 
     //Island Players - all players on the island
     public List<String> getIslandPlayerUUIDS() {
-        return (List<String>) getList("islandPlayers");
+        return getStringList("islandPlayers");
     }
     public IslandData setIslandPlayerUUIDS(List<String> value) {
-        setList("islandPlayers", value);
+        setStringList("islandPlayers", value);
         return this;
     }
     public IslandData addIslandPlayerUUID(String value) {
@@ -185,10 +187,10 @@ public class IslandData extends DataSet {
 
     //Banned players
     public List<String> getBannedPlayerUUIDS() {
-        return (List<String>) getList("bannedPlayers");
+        return getStringList("bannedPlayers");
     }
     public IslandData setBannedPlayerUUIDS(List<String> value) {
-        setList("bannedPlayers", value);
+        setStringList("bannedPlayers", value);
         return this;
     }
     public IslandData addBannedPlayerUUID(String value) {

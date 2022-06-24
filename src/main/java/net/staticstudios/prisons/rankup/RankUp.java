@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.rankup;
 
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 
 import java.math.BigInteger;
 

@@ -26,8 +26,7 @@ public class AuctionHouseCommand implements CommandExecutor {
             }
             try {
                 BigInteger price = new BigInteger(args[1]);
-                AuctionManager.createAuction(player, player.getInventory().getItemInMainHand(), price);
-                player.getInventory().getItemInMainHand().setAmount(0);
+                if (AuctionManager.createAuction(player, player.getInventory().getItemInMainHand(), price)) player.getInventory().getItemInMainHand().setAmount(0);
             } catch (NumberFormatException e) {
                 player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/ah hand <price>"));
             }

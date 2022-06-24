@@ -1,18 +1,12 @@
 package net.staticstudios.prisons.commands.tabCompletion;
 
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.islands.SkyBlockIsland;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 public class IslandTabCompletion implements TabCompleter {
     @Override

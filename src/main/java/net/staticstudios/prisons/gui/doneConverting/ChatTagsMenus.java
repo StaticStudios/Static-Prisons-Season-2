@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.gui.doneConverting;
 
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gui.GUI;
 import net.staticstudios.prisons.gui.GUIPage;
 import net.staticstudios.prisons.chat.ChatTags;

@@ -6,7 +6,7 @@ import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.UI.PlayerUI;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.chat.events.EventManager;
 import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
@@ -24,7 +24,7 @@ import java.time.Instant;
 
 public class TimedTasks {
 
-    public static void startTasks() {
+    public static void initTasks() {
         //Auto saves data
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), DataSet::saveData, 20 * 60 * 5, 20 * 60 * 5);
         //Auto saves private mine data

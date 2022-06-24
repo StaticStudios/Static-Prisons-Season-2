@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
-import net.staticstudios.prisons.data.dataHandling.serverData.ServerData;
+import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,7 +21,7 @@ public class ListStaffRankCommand implements CommandExecutor {
             return false;
         }
         List<String> names = new ArrayList<>();
-        for (String uuid : ServerData.PLAYERS.getAllUUIDsAsStrings()) if (new PlayerData(uuid).getStaffRank().equals(args[0])) names.add(ServerData.PLAYERS.getName(UUID.fromString(uuid)));
+        for (UUID uuid : ServerData.PLAYERS.getAllUUIDs()) if (new PlayerData(uuid).getStaffRank().equals(args[0])) names.add(ServerData.PLAYERS.getName(uuid));
         sender.sendMessage("The following players have this rank: " + names);
         return false;
     }

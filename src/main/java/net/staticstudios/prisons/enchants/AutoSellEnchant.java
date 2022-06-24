@@ -1,16 +1,13 @@
 package net.staticstudios.prisons.enchants;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
-import net.staticstudios.prisons.data.dataHandling.PlayerData;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
-import net.staticstudios.prisons.utils.BroadcastMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.math.BigInteger;
 import java.util.*;
