@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigInteger;
+import java.util.Map;
 
 public class WithdrawCommand implements CommandExecutor {
 
@@ -46,13 +47,19 @@ public class WithdrawCommand implements CommandExecutor {
                         return false;
                     }
                 }
-                if (stackCount > 1000) stackCount = 1000;
                 if (playerData.getMoney().compareTo(amount.multiply(BigInteger.valueOf(stackCount))) > -1) {
-                    playerData.removeMoney(amount.multiply(BigInteger.valueOf(stackCount)));
+                    BigInteger removed = BigInteger.ZERO;
                     ItemStack note = Vouchers.getMoneyNote(player.getName(), amount);
+
                     for (int i = 0; i < stackCount; i++) {
-                        player.getInventory().addItem(note);
+                        Map<Integer, ItemStack> result = player.getInventory().addItem(note);
+                        if (!result.isEmpty()) {
+                            result.clear();
+                            break;
+                        }
+                        removed = removed.add(amount);
                     }
+                    playerData.removeMoney(removed);
                 } else player.sendMessage(ChatColor.RED + "Insufficient Funds!");
             }
             case "tokens" -> {
@@ -76,13 +83,19 @@ public class WithdrawCommand implements CommandExecutor {
                         return false;
                     }
                 }
-                if (stackCount > 1000) stackCount = 1000;
                 if (playerData.getTokens().compareTo(amount.multiply(BigInteger.valueOf(stackCount))) > -1) {
-                    playerData.removeTokens(amount.multiply(BigInteger.valueOf(stackCount)));
+                    BigInteger removed = BigInteger.ZERO;
                     ItemStack note = Vouchers.getTokenNote(player.getName(), amount);
+
                     for (int i = 0; i < stackCount; i++) {
-                        player.getInventory().addItem(note);
+                        Map<Integer, ItemStack> result = player.getInventory().addItem(note);
+                        if (!result.isEmpty()) {
+                            result.clear();
+                            break;
+                        }
+                        removed = removed.add(amount);
                     }
+                    playerData.removeTokens(removed);
                 } else player.sendMessage(ChatColor.RED + "Insufficient Funds!");
             }
             default -> player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));

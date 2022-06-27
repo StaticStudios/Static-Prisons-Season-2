@@ -29,7 +29,7 @@ public class DataSet {
      */
     static void changeOldData() {
         File oldData = new File(StaticPrisons.getInstance().getDataFolder(),"data.yml");
-        if (oldData.exists()) oldData.renameTo(new File(StaticPrisons.getInstance().getDataFolder(), Instant.now().toEpochMilli() + "-oldData.yml"));
+        if (oldData.exists()) oldData.renameTo(new File(StaticPrisons.getInstance().getDataFolder(), "data/oldServer/" + Instant.now().toEpochMilli() + "-oldData.yml"));
         //todo use a more storage efficient approach such as filtering old data for the previous day and only saving one file per hour worth of data for that time period, then zip the directory and delete the old files.
     }
     /**

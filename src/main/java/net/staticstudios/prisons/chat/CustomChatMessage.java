@@ -148,7 +148,7 @@ public class CustomChatMessage {
                 } else componentBuilder.append(chatMessage);
             } else componentBuilder.append(chatMessage);
         } else componentBuilder.append(chatMessage);
-        if (playerData.getIsChatColorEnabled()) componentBuilder.color(playerData.getChatColor());
+        componentBuilder.color(playerData.getChatColor());
         componentBuilder.bold(playerData.getIsChatBold());
         componentBuilder.italic(playerData.getIsChatItalic());
         componentBuilder.underlined(playerData.getIsChatUnderlined());

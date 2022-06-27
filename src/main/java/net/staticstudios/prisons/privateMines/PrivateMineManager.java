@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class PrivateMineManager {
     public static final int DISTANCE_BETWEEN_GRID_POSITIONS = 1000;
-    //todo save and load to file
+
     public static void saveSync() {
         FileConfiguration fileData = new YamlConfiguration();
         for (Map.Entry<UUID, PrivateMine> entry : PrivateMine.PRIVATE_MINES.entrySet()) {

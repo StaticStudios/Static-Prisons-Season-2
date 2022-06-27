@@ -29,7 +29,6 @@ public class Test2Command implements CommandExecutor {
 //            privateMine.warpTo(player);
 //        });
         PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
-        privateMine.setLevel(0);
         privateMine.setXp(Integer.parseInt(strings[0]));
         return false;
     }

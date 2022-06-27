@@ -26,7 +26,6 @@ public class PrivateMineBlockBreakListener implements Listener {
             }
             bb.convertFromLegacySellValues();
             BigDecimal totalSellValue = BigDecimal.ZERO;
-            //for (Map.Entry<BigInteger, BigDecimal> entry : bb.blocksBroken.entrySet()) totalSellValue = totalSellValue.add(entry.getValue().multiply(new BigDecimal(entry.getKey())));
             for (Map.Entry<BigDecimal, BigInteger> entry : bb.blocksBroken.entrySet()) totalSellValue = totalSellValue.add(entry.getKey().multiply(new BigDecimal(entry.getValue())));
             new PlayerData(privateMine.owner).addMoney(totalSellValue.multiply(BigDecimal.valueOf(privateMine.visitorTax * bb.moneyMultiplier * bb.blocksBrokenMultiplier)).toBigInteger());
             bb.moneyMultiplier *= 1 - privateMine.visitorTax;

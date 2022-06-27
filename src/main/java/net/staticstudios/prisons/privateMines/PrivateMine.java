@@ -13,6 +13,8 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.serverData.ServerData;
@@ -33,12 +35,6 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-
-//todo
-/*
-- add a way to track xp and level up
-
- */
 public class PrivateMine {
 
     public static int UNLOCK_AT_PLAYER_LEVEL;
@@ -78,6 +74,14 @@ public class PrivateMine {
     public static void init() {
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PrivateMineBlockBreakListener(), StaticPrisons.getInstance());
         PRIVATE_MINES_WORLD = new WorldCreator("private_mines").createWorld();
+
+        //Remove all WorldGuard regions in the world from the previous time the server was loaded | Set the only region to the global region
+        Map<String, ProtectedRegion> regions = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(PRIVATE_MINES_WORLD)).getRegions();
+        Map<String, ProtectedRegion> globalRegionMap = new HashMap<>();
+        globalRegionMap.put("__global__", regions.get("__global__"));
+        WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(PRIVATE_MINES_WORLD)).setRegions(globalRegionMap);
+
+        //Load config data
         File file = new File(StaticPrisons.getInstance().getDataFolder(), "private_mines_config.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         UNLOCK_AT_PLAYER_LEVEL = config.getInt("unlock_at_player_level");
@@ -191,7 +195,7 @@ public class PrivateMine {
     public void setLevel(int level) {
         int oldLevel = this.level;
         this.level = level;
-        if (oldLevel != level) { //todo check if this level needs to have stats changed like schem, mine size, blocks, ect. if so do it
+        if (oldLevel != level) { //check if this level needs to have stats changed like schem, mine size, blocks, ect. if so do it
             if (!getSchematic(level).equals(getSchematic(oldLevel))) {
                 updateBuild().thenRun(() -> {
                     updateMine().thenRun(() -> {

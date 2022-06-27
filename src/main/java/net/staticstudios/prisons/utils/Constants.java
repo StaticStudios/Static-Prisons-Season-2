@@ -38,7 +38,7 @@ public class Constants {
             'Y',
             'Z',
     };
-    public static final String[] TIPS = {
+    public static final String[] TIPS = { //todo: clean these up
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fTired of seeing tips? You can disable them in your settings. &7/settings"),
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fJoin our Discord for update details, giveaways, and more! &9/discord"),
             ChatColor.translateAlternateColorCodes('&', "&b&lTips &8&l> &fWant to help support the server for free? All you have to do is vote! You will receive a vote crate key for every time that you vote! &a/vote"),

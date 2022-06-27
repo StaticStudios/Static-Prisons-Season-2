@@ -1,4 +1,4 @@
-package net.staticstudios.utils;
+package net.staticstudios.utils.physics;
 
 public class PhysicsUtils {
     /**
@@ -12,5 +12,7 @@ public class PhysicsUtils {
                 originalPosition[2] + velocityZ * time + 0.5 * accelerationZ * time * time
         };
     }
+
+
 
 }

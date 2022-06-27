@@ -266,3 +266,8 @@ commands:
       - lvl
       - levelup
       - xp
+  gang:
+    description: a
+    aliases:
+      - gangs
+      - team

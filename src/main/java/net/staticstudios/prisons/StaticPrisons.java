@@ -13,6 +13,7 @@ import net.staticstudios.prisons.customItems.*;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.Prices;
 import net.staticstudios.prisons.enchants.AutoSellEnchant;
+import net.staticstudios.prisons.enchants.ConsistencyEnchant;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
@@ -20,6 +21,7 @@ import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.commands.tabCompletion.IslandTabCompletion;
 import net.staticstudios.prisons.commands.test.Test2Command;
 import net.staticstudios.prisons.commands.test.TestCommand;
+import net.staticstudios.prisons.gangs.GangCommand;
 import net.staticstudios.prisons.gui.GUIListener;
 import net.staticstudios.prisons.gui.GUIPage;
 import net.staticstudios.prisons.islands.IslandManager;
@@ -105,6 +107,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         Kits.initialize();
         TimedTasks.initTasks();
         AutoSellEnchant.initTimer();
+        ConsistencyEnchant.init();
 
 
         //Register Commands
@@ -180,6 +183,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("gui").setExecutor(new GUICommand());
         getCommand("npcdiag").setExecutor(new NPCDialogCommand());
         getCommand("level").setExecutor(new LevelCommand());
+        getCommand("gang").setExecutor(new GangCommand());
         //Tab completion
         getCommand("island").setTabCompleter(new IslandTabCompletion());
         //Register Events

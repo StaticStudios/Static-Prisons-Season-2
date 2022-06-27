@@ -22,7 +22,7 @@ public class LevelCommand extends GUIUtils implements CommandExecutor {
         PlayerData playerData = new PlayerData(player);
         GUICreator c = new GUICreator(27, "Your Level");
         String levelUpPercent = new DecimalFormat("0.00").format(BigDecimal.valueOf(
-                ((double) playerData.getPlayerXP() - PlayerData.getLevelRequirement(playerData.getPlayerLevel())) / playerData.getNextLevelRequirement() * 100).setScale(2, RoundingMode.FLOOR)) + "%";
+                (double) playerData.getPlayerXP() / playerData.getNextLevelRequirement() * 100).setScale(2, RoundingMode.FLOOR)) + "%";
         c.setItem(11, c.createButton(Material.NETHER_STAR, "&a&lCurrent Level: " + PrisonUtils.prettyNum(playerData.getPlayerLevel()), List.of("", "&aNext Level: &f" + PrisonUtils.prettyNum(playerData.getNextLevelRequirement()) + " XP", "&aLevel up progress: &f" + levelUpPercent)));
         c.setItem(13, c.createButton(Material.ANVIL, "&e&lPlayer Levels", List.of("", "Leveling up allows players to unlock new", "things such as: private mines, enchants, and more!", "", "Player can earn XP from mining", "with the &aXP Finder &7enchantment.")));
         c.setItem(15, ench(c.createButton(Material.EXPERIENCE_BOTTLE, "&b&lCurrent XP: " + PrisonUtils.prettyNum(playerData.getPlayerXP()), List.of("", "&bNext Level: &f" + PrisonUtils.prettyNum(playerData.getNextLevelRequirement()) + " XP", "&bLevel up progress: &f" + levelUpPercent))));

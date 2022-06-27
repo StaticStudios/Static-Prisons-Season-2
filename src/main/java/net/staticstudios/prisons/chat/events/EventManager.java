@@ -13,8 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import java.time.Instant;
 import java.util.*;
 
-public class EventManager { //todo: fix.
-    static List<ChatEvent> activeEvents = new ArrayList<>();
+public class EventManager { //todo: rewite this class to use random math events, and clean it up
+    static List<ChatEvent> activeEvents = new ArrayList<>(); //todo this class is still broken
     public static final String[] wordUnscrambleWords = new String[]{
             "cat",
             "minecraft",
@@ -55,7 +55,7 @@ public class EventManager { //todo: fix.
             "word"
     };
     //Question, answer
-    public static final String[][] mathQuestions = new String[][]{
+    public static final String[][] mathQuestions = new String[][]{ //TODO: randomize
             {"1 + 10 * 6 - 2", "59"},
             {"156 - 72 + 12 * 4", "132"},
             {"16 - 2^4", "0"},
@@ -70,13 +70,13 @@ public class EventManager { //todo: fix.
     };
 
     public static void chatMessageReceived(AsyncPlayerChatEvent e) {
-        if (activeEvents.size() == 0) return;
-        try {
+        Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
+            if (activeEvents.size() == 0) return;
             for (ChatEvent chatEvent : activeEvents) {
                 if (chatEvent == null) continue;
                 if (chatEvent.onGuess(e)) return;
             }
-        } catch (ConcurrentModificationException ignore) {}
+        });
     }
     public static void runNewEvent() {
         switch (PrisonUtils.randomInt(0, 1)) {
@@ -113,6 +113,7 @@ public class EventManager { //todo: fix.
             chars.remove(i);
         }
         event.listenFor = currentWord;
+        Bukkit.broadcastMessage(currentWord);
         activeEvents.add(event);
         Bukkit.broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Word Un-Scramble " + ChatColor.DARK_GRAY + "> " + ChatColor.RESET + ChatColor.LIGHT_PURPLE + "EVENT STARTED: " + ChatColor.AQUA + "the first player to currently unscramble this word will get a reward! " + ChatColor.GREEN + "" + ChatColor.BOLD + scrambledVersionOfTheWord);
     }
@@ -143,26 +144,27 @@ public class EventManager { //todo: fix.
         Bukkit.broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Math Equation " + ChatColor.DARK_GRAY + "> " + ChatColor.RESET + ChatColor.LIGHT_PURPLE + "EVENT STARTED: " + ChatColor.AQUA + "the first player to currently answer the following math equation will win a reward! " + ChatColor.GREEN + equation);
     }
 
+    static class ChatEvent{
+        String listenFor = "";
+        long expireAt = Instant.now().getEpochSecond() + 120;
+        boolean onGuess(AsyncPlayerChatEvent e) {
+            if (Instant.now().getEpochSecond() >= expireAt) {
+                EventManager.activeEvents.remove(this);
+            }
+            if (e.getMessage().equalsIgnoreCase(listenFor)) {
+                eventWon(e.getPlayer(), e.getMessage());
+                return true;
+            }
+            return false;
+        }
+        void eventWon(Player player, String guessed) {
+            EventManager.activeEvents.remove(this);
+            Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
+                giveRewards(player, guessed);
+            });
+        }
+        void giveRewards(Player player, String guessed) {}
+    }
+
 }
 
-class ChatEvent{
-    String listenFor = "";
-    long expireAt = Instant.now().getEpochSecond() + 120;
-    boolean onGuess(AsyncPlayerChatEvent e) {
-        if (Instant.now().getEpochSecond() >= expireAt) {
-            EventManager.activeEvents.remove(this);
-        }
-        if (e.getMessage().equalsIgnoreCase(listenFor)) {
-            eventWon(e.getPlayer(), e.getMessage());
-            return true;
-        }
-        return false;
-    }
-    void eventWon(Player player, String guessed) {
-        EventManager.activeEvents.remove(this);
-        Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
-            giveRewards(player, guessed);
-        });
-    }
-    void giveRewards(Player player, String guessed) {}
-}

@@ -70,7 +70,12 @@ public class StaticMine {
     public boolean shouldRefillOnTimer = true;
     public static void refillAllTimedMines() {
         for (StaticMine mine : getAllMines()) {
-            if (mine.shouldRefillOnTimer && mine.refillNextAt < Instant.now().getEpochSecond()) {
+            if (!mine.shouldRefillOnTimer) continue;
+            if (mine.blocksInMine == mine.blocksInFullMine) { //If the mine is full, delay the refill timer
+                mine.refillNextAt = Instant.now().getEpochSecond() + mine.secondsBetweenRefills;
+                continue;
+            }
+            if (mine.refillNextAt < Instant.now().getEpochSecond()) { //The mine has had blocks broken in it for a while, refill it
                 if (mine.blocksInMine != mine.blocksInFullMine) mine.refill();
             }
         }

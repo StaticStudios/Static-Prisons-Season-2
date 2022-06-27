@@ -51,7 +51,8 @@ public class EggShooterEnchant extends BaseEnchant {
         PrisonPickaxe pickaxe = eggShooterPickaxe.pickaxe;
         StaticMine mine = null;
         Location loc = e.getHitBlock().getLocation();
-        for (StaticMine m : StaticMine.getAllMines()) {
+        for (StaticMine m : StaticMine.getAllMines()) {  //todo: optimize this, do the same optimization as the one in net.staticstudios.mines.StaticMines.java | make one method for both since they do the same thing? StaticMine#getMineAt(Location)
+            if (!loc.getWorld().equals(m.getWorld())) continue;
             BlockVector3 minPoint = m.getMinVector();
             BlockVector3 maxPoint = m.getMaxVector();
             if (minPoint.getBlockX() <= loc.getBlockX() && minPoint.getBlockZ() <= loc.getBlockZ() && maxPoint.getBlockX() >= loc.getBlockX() && maxPoint.getBlockZ() >= loc.getBlockZ()) {

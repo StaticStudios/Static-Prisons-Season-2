@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GUI {
+public class GUI { //todo finish converting the menus to the new gui and completely remove this old system
     //TODO: make a error page to send players to when the page isn't found
     public static GUIPage getGUIPage(String id) {
         if (!GUIPage.guiPages.containsKey(id)) return null;

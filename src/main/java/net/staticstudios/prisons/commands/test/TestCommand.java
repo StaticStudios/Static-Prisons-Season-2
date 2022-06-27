@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.commands.test;
 
+import net.staticstudios.prisons.chat.events.EventManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gui.newGui.SettingsMenus;
 import net.staticstudios.utils.WeightedElements;
@@ -36,20 +37,33 @@ public class TestCommand implements CommandExecutor {
         //Cell.createCell(player);
        //PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.setXp(Integer.parseInt(args[0]), true));
        //for (int i = 0; i < 150; i++) player.sendMessage(PrisonUtils.prettyNum(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
-        SettingsMenus.open(player, true);
+        //SettingsMenus.open(player, true);
 //        Player finalPlayer = player;
 //        TickUtils.init(StaticPrisons.getInstance());
 //        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
 //            finalPlayer.sendMessage(TickUtils.getMSPT(20) + "ms | " + TickUtils.getTPS() + "tps");
 //        }, 0, 1);
         PlayerData playerData = new PlayerData(player);
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < 10000; i++) {
-            playerData.setChatTag1("dev");
-        }
-        player.sendMessage("Total time taken: " + (System.currentTimeMillis() - start) + "ms");
-
+//        long start = System.currentTimeMillis();
+//        for (int i = 0; i < 10000; i++) {
+//            playerData.setChatTag1("dev");
+//        }
+//        player.sendMessage("Total time taken: " + (System.currentTimeMillis() - start) + "ms");
+        EventManager.runWordUnscramble();
         return false;
+    }
+
+
+
+    static void test() {
+        int i = 0;
+        while (i < 10) {
+            i++;
+        }
+
+        for (int x = 0; x < 10; x++) {
+
+        }
     }
 
 }

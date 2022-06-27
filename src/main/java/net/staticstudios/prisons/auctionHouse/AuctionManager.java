@@ -20,7 +20,6 @@ import java.util.*;
 
 public class AuctionManager {
 
-    public static final int MAX_AUCTIONS_PER_PLAYER = 3; //todo factor ranks into this and allow different ranks to have different amounts of auctions
     public static final String AH_PREFIX = ChatColor.translateAlternateColorCodes('&', "&b[Auction House] &r");
     public static final int SEC_TO_LIVE = 2 * 24 * 3600;
     public static final Material[] BLACKLISTED_TYPES = {
@@ -28,6 +27,20 @@ public class AuctionManager {
     };
 
     public static List<Auction> auctions = new ArrayList<>();
+
+    public static int getMaxAuctionsPerPlayer(Player player) {
+        PlayerData playerData = new PlayerData(player);
+        int amount = 3;
+        switch (playerData.getPlayerRank()) {
+            case "warrior" -> amount = 4;
+            case "master" -> amount = 6;
+            case "mythic" -> amount = 9;
+            case "static" -> amount = 12;
+            case "staticp" -> amount = 15;
+        }
+        return amount;
+    }
+
 
     public static boolean createAuction(Player player, ItemStack item, BigInteger price) {
         int playerAuctions = 0;
@@ -38,8 +51,9 @@ public class AuctionManager {
                 return false;
             }
         }
-        if (playerAuctions >= MAX_AUCTIONS_PER_PLAYER) {
-            player.sendMessage(AH_PREFIX + ChatColor.RED + "You already have the max amount of auctions on the auction house, you cannot have more than " + MAX_AUCTIONS_PER_PLAYER + " active auctions at a time");
+        int maxAuctions = getMaxAuctionsPerPlayer(player);
+        if (playerAuctions >= maxAuctions) {
+            player.sendMessage(AH_PREFIX + ChatColor.RED + "You already have the max amount of auctions on the auction house, you cannot have more than " + maxAuctions + " active auctions at a time");
             return false;
         }
         auctions.add(0, new Auction(UUID.randomUUID(), item.clone(), player.getUniqueId(), Instant.now().getEpochSecond() + SEC_TO_LIVE, price));

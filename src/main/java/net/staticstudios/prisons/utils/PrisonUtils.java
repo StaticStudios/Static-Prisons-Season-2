@@ -406,8 +406,9 @@ public final class PrisonUtils { //todo clean this up
             parent.getServer().getPluginManager().registerEvents(new Players(), parent);
 
             Bukkit.getScheduler().runTaskTimer(parent, () -> {
-                for (Player player : playerHoldingClicks.keySet()) {
-                    RightClick rc = playerHoldingClicks.get(player);
+                for (Map.Entry<Player, RightClick> entry : new HashSet<>(playerHoldingClicks.entrySet())) {
+                    Player player = entry.getKey();
+                    RightClick rc = entry.getValue();
                     if (rc.lastUpdatedAt() + HOLDING_THRESHOLD >= currentTick) continue;
                     playerHoldingClicks.remove(player);
                 }

@@ -264,10 +264,13 @@ public class PlayerData extends DataSet {
         if (!multipliers.equals(initialMultipliers)) setStringList("tempMoneyMultipliers", multipliers);
         return multipliers;
     }
+
+    /**
+     * This does nothing for the time being
+     */
     public BigDecimal getTokenMultiplier() {
         BigDecimal multi = BigDecimal.ZERO;
         //Factor in the consistency enchant
-        //TODO
         return multi;
     }
     //Backpack
@@ -402,7 +405,7 @@ public class PlayerData extends DataSet {
 
     //TabList
     public void updateTabListPrefixID() {
-        if (!getStaffRank().equals("member") && !getStaffRank().equals("")) { //TODO move this out of this file
+        if (!getStaffRank().equals("member") && !getStaffRank().equals("")) {
             setTabListPrefixID(getStaffRank());
         } else if (!getPlayerRank().equals("member")) {
             setTabListPrefixID(getPlayerRank());
@@ -427,7 +430,7 @@ public class PlayerData extends DataSet {
         return this;
     }
 
-    public List<String> getPlayerRanks() { //TODO use ints instead to make it more genaric
+    public List<String> getPlayerRanks() {
         List<String> ranks = new ArrayList<>();
         ranks.add("member");
         switch (getPlayerRank()) {
@@ -453,7 +456,7 @@ public class PlayerData extends DataSet {
         return this;
     }
 
-    public String getSidebarRank() { //TODO use ints
+    public String getSidebarRank() {
         switch (getPlayerRank()) {
             case "warrior" -> {
                 return "Warrior";
@@ -586,6 +589,7 @@ public class PlayerData extends DataSet {
     }
     public ChatColor getChatColor() {
         String str = getString("chatColor");
+        if (str.isEmpty()) return ChatColor.WHITE;
         if (str.length() < 6) return ChatColor.getByChar(str.toCharArray()[0]);
         return ChatColor.of(str);
     }

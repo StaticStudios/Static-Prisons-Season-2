@@ -63,7 +63,10 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
 
 
 
-    private String menuID = ""; //An ID that can be used to check what menu a player has opened. For example, the ID could be "shop-food"and if you called the getMenuID() method on the menu that the player has opened, then you would know that they are looking at the food shop
+    // An ID that can be used to check what menu a player has opened.
+    // For example, the ID could be "shop-food" and if you called the getMenuID() method
+    // on the menu that the player has opened, then you would know that they are looking at the food shop menu.
+    private String menuID = "";
     public String getMenuID() { return menuID; }
     public void setMenuID(String menuID) { this.menuID = menuID; }
     public boolean destroyOnClose = false;
