@@ -16,8 +16,8 @@ import java.util.Map;
 
 public class ConsistencyEnchant extends BaseEnchant {
     public ConsistencyEnchant() {
-        super("consistency", "&d&lConsistency", 25, BigInteger.valueOf(1000000), "&7+1% token multi every 2 mins of consistent mining", "&7Increases your max multi by 5% for every level", "&7Multiplier expires after 2 minutes of not mining");
-    } //todo
+        super("consistency", "&d&lConsistency", 15, BigInteger.valueOf(1000000), "&7+1% token multi every 2 mins of consistent mining", "&7Increases your max multi by 5% for every level", "&7Multiplier expires after 2 minutes of not mining");
+    }
 
 
     static final int MAX_POSSIBLE_MS_BETWEEN_BREAKS = 1000 * 60 * 2;
