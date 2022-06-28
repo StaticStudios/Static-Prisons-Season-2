@@ -41,6 +41,7 @@ public class MineBombItem {
             Location loc = e.getBlock().getLocation();
             StaticMine mine = null;
             for (StaticMine m : StaticMine.getAllMines()) {
+                if (!loc.getWorld().equals(m.getWorld())) continue;
                 BlockVector3 minPoint = m.getMinVector();
                 BlockVector3 maxPoint = m.getMaxVector();
                 if (minPoint.getBlockX() <= loc.getBlockX() && minPoint.getBlockZ() <= loc.getBlockZ() && maxPoint.getBlockX() >= loc.getBlockX() && maxPoint.getBlockZ() >= loc.getBlockZ()) {
@@ -98,6 +99,7 @@ public class MineBombItem {
             Location loc = e.getItemDrop().getLocation();
             StaticMine mine = null;
             for (StaticMine m : StaticMine.getAllMines()) {
+                if (!loc.getWorld().equals(m.getWorld())) continue;
                 BlockVector3 minPoint = m.getMinVector();
                 BlockVector3 maxPoint = m.getMaxVector();
                 if (minPoint.getBlockX() <= loc.getBlockX() && minPoint.getBlockZ() <= loc.getBlockZ() && maxPoint.getBlockX() >= loc.getBlockX() && maxPoint.getBlockZ() >= loc.getBlockZ()) {

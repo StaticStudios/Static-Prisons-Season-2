@@ -9,7 +9,6 @@ import com.sk89q.worldedit.world.block.BlockTypes;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -56,7 +55,7 @@ public class MultiDirectionalEnchant extends BaseEnchant {
             int blockX = loc.getBlockX();
             for(int y = minY; y <= fromY; y++) {
                 for (int x = mine.getMinVector().getBlockX(); x < mine.getMaxVector().getBlockX() + 1; x++) {
-                    Material mat = new Location(Constants.MINES_WORLD, x, y, blockZ).getBlock().getType();
+                    Material mat = new Location(mine.getWorld(), x, y, blockZ).getBlock().getType();
                     if (!mat.equals(Material.AIR)) {
                         totalBlocksBroken++;
                         if (!blocksBroken.containsKey(mat)) {
@@ -66,7 +65,7 @@ public class MultiDirectionalEnchant extends BaseEnchant {
                 }
                 for (int z = mine.getMinVector().getBlockZ(); z < mine.getMaxVector().getBlockZ() + 1; z++) {
                     if (z == blockZ) continue; //We already got the 0 pos with the x loop
-                    Material mat = new Location(Constants.MINES_WORLD, blockX, y, z).getBlock().getType();
+                    Material mat = new Location(mine.getWorld(), blockX, y, z).getBlock().getType();
                     if (!mat.equals(Material.AIR)) {
                         totalBlocksBroken++;
                         if (!blocksBroken.containsKey(mat)) {

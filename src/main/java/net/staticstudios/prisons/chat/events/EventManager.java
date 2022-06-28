@@ -113,7 +113,6 @@ public class EventManager { //todo: rewite this class to use random math events,
             chars.remove(i);
         }
         event.listenFor = currentWord;
-        Bukkit.broadcastMessage(currentWord);
         activeEvents.add(event);
         Bukkit.broadcastMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Word Un-Scramble " + ChatColor.DARK_GRAY + "> " + ChatColor.RESET + ChatColor.LIGHT_PURPLE + "EVENT STARTED: " + ChatColor.AQUA + "the first player to currently unscramble this word will get a reward! " + ChatColor.GREEN + "" + ChatColor.BOLD + scrambledVersionOfTheWord);
     }

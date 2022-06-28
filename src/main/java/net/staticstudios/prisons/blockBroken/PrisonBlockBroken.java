@@ -49,7 +49,8 @@ public class PrisonBlockBroken {
     public void applyMoneyMulti() {
         if (!legacySellValues.isEmpty()) convertFromLegacySellValues();
         Map<BigDecimal, BigInteger> temp = new HashMap<>();
-        for (Map.Entry<BigDecimal, BigInteger> entry : blocksBroken.entrySet()) temp.put(entry.getKey().multiply(BigDecimal.valueOf(moneyMultiplier)), entry.getValue().multiply(BigInteger.valueOf(blocksBrokenMultiplier)));
+        for (Map.Entry<BigDecimal, BigInteger> entry : blocksBroken.entrySet())
+            temp.put(entry.getKey().multiply(BigDecimal.valueOf(moneyMultiplier)), entry.getValue().multiply(BigInteger.valueOf(blocksBrokenMultiplier)));
         blocksBroken = temp;
     }
 }

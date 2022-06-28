@@ -3,6 +3,7 @@ package net.staticstudios.prisons.commands.test;
 import net.staticstudios.prisons.chat.events.EventManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gui.newGui.SettingsMenus;
+import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,7 +36,7 @@ public class TestCommand implements CommandExecutor {
 //        player.sendMessage("Total time taken: " + (System.currentTimeMillis() - start) + "ms");
         //Crates.COMMON.preview(player);
         //Cell.createCell(player);
-       //PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.setXp(Integer.parseInt(args[0]), true));
+       PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.setXp(Integer.parseInt(args[0]), true));
        //for (int i = 0; i < 150; i++) player.sendMessage(PrisonUtils.prettyNum(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
         //SettingsMenus.open(player, true);
 //        Player finalPlayer = player;
@@ -49,7 +50,7 @@ public class TestCommand implements CommandExecutor {
 //            playerData.setChatTag1("dev");
 //        }
 //        player.sendMessage("Total time taken: " + (System.currentTimeMillis() - start) + "ms");
-        EventManager.runWordUnscramble();
+        //EventManager.runWordUnscramble();
         return false;
     }
 

@@ -10,7 +10,6 @@ import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
-import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -49,7 +48,7 @@ public class JackHammerEnchant extends BaseEnchant {
             for (int y = Math.max(1, yLevel - howDeepToGo + 1); y <= yLevel; y++) {
                 for (int x = mine.getMinVector().getBlockX(); x <= mine.getMaxVector().getBlockX(); x++) {
                     for (int z = mine.getMinVector().getBlockZ(); z <= mine.getMaxVector().getBlockZ(); z++) {
-                        Material mat = new Location(Constants.MINES_WORLD, x, y, z).getBlock().getType();
+                        Material mat = new Location(mine.getWorld(), x, y, z).getBlock().getType();
                         if (mat.equals(Material.AIR)) continue;
                         totalBlocksBroken += 1;
                         if (!blocksBroken.containsKey(mat)) {

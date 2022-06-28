@@ -8,11 +8,19 @@ import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
+import com.sk89q.worldedit.function.mask.BlockMask;
+import com.sk89q.worldedit.function.mask.BlockTypeMask;
+import com.sk89q.worldedit.function.mask.InverseSingleBlockTypeMask;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.Vector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldedit.world.block.BaseBlock;
+import com.sk89q.worldedit.world.block.BlockState;
+import com.sk89q.worldedit.world.block.BlockTypes;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.staticstudios.mines.StaticMine;
@@ -170,10 +178,7 @@ public class PrivateMine {
         else {
             this.xp = xp;
             int l = 0;
-            while (xp >= getLevelRequirement(l + 1)) {
-                xp -= getLevelRequirement(l + 1);
-                l += 1;
-            }
+            while (xp >= getLevelRequirement(l + 1)) l += 1;
             if (l > 0) l += 1;
             setLevel(l, false);
         }
@@ -322,7 +327,15 @@ public class PrivateMine {
         CompletableFuture<PrivateMine> future = new CompletableFuture<>();
         PrivateMine privateMine = PRIVATE_MINES.get(privateMineId);
         if (privateMine == null) return null;
-        privateMine.updateBuild().thenRun(() -> privateMine.registerMine().thenRun(() -> future.complete(privateMine)));
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
+            //Delete old builds since the private mine is being loaded for the first time
+            int[] position = PrivateMineManager.getPosition(privateMine.gridPosition);
+            EditSession es = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(PRIVATE_MINES_WORLD));
+            Region region = new CuboidRegion(BukkitAdapter.adapt(PRIVATE_MINES_WORLD), BlockVector3.at(position[0] + 250, 0, position[1] + 250), BlockVector3.at(position[0] - 250, 255, position[1] - 250));
+            es.setBlocks(region, BlockTypes.AIR);
+            es.close();
+            privateMine.updateBuild().thenRun(() -> privateMine.registerMine().thenRun(() -> future.complete(privateMine)));
+        });
         return future;
     }
 
