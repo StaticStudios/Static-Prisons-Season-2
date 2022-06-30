@@ -1,8 +1,6 @@
 package net.staticstudios.prisons.commands.test;
 
-import net.staticstudios.prisons.chat.events.EventManager;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.gui.newGui.SettingsMenus;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.command.Command;
@@ -57,6 +55,8 @@ public class TestCommand implements CommandExecutor {
 
 
     static void test() {
+
+
         int i = 0;
         while (i < 10) {
             i++;

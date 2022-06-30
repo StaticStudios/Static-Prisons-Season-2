@@ -4,6 +4,7 @@ import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.customItems.CustomItems;
 import net.staticstudios.prisons.customItems.Vouchers;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
+import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
@@ -31,7 +32,8 @@ public class SpecialFinderEnchant extends BaseEnchant {
                     .add(CustomItems.getMineBombTier3(), 5)
                     .add(CustomItems.getMineBombTier4(), 5)
                     .getRandom();
-            bb.player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "[Metal Detector] " + ChatColor.AQUA + "You found " + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward) + ChatColor.AQUA + " while mining!");
+            //bb.player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "[Metal Detector] " + ChatColor.AQUA + "You found " + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward) + ChatColor.AQUA + " while mining!");
+            bb.player.sendMessage(ChatColor.translateAlternateColorCodes('&', DISPLAY_NAME + " &8&l>> &fFound " + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward) + "&f while mining!"));
             PrisonUtils.Players.addToInventory(bb.player, reward);
         }
     }

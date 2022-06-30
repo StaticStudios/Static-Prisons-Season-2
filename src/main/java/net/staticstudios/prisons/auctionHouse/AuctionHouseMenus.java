@@ -35,7 +35,7 @@ public class AuctionHouseMenus extends GUIUtils {
             lore.add("");
             if (auction.owner().equals(player.getUniqueId())) {
                 lore.add("&7&oClick to reclaim this!");
-            } else lore.add("7&oClick to buy!");
+            } else lore.add("&7&oClick to buy!");
             PrisonUtils.applyLoreToItem(item, lore);
             c.setItem(i, c.createButton(item, (p, t) -> {
                 if (!AuctionManager.auctions.contains(auction)) {

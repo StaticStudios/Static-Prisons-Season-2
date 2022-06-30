@@ -3,6 +3,7 @@ package net.staticstudios.prisons.customItems.mineBombs;
 import com.sk89q.worldedit.math.BlockVector3;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.blockBroken.BlockBreakListener;
 import net.staticstudios.prisons.data.Prices;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.privateMines.PrivateMine;
@@ -13,8 +14,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.math.BigDecimal;
@@ -24,8 +27,11 @@ import java.util.Map;
 
 public class MineBombItem {
     private static final BigInteger VIRTUAL_FORTUNE = BigInteger.valueOf(10000);
-    public static void blockPlaced(BlockPlaceEvent e) {
+    public static void blockPlaced(PlayerInteractEvent e) {
+        if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
         if (!e.getPlayer().getLocation().getWorld().equals(Constants.MINES_WORLD) && !e.getPlayer().getLocation().getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD)) return;
+        if (e.getItem() == null) return;
+        if (e.getItem().getItemMeta() == null) return;
         if (!e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER)) return;
         int size = e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER);
         double radius = 0;
@@ -38,7 +44,7 @@ public class MineBombItem {
         double finalRadius = radius;
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
             PlayerData playerData = new PlayerData(e.getPlayer());
-            Location loc = e.getBlock().getLocation();
+            Location loc = e.getInteractionPoint();
             StaticMine mine = null;
             for (StaticMine m : StaticMine.getAllMines()) {
                 if (!loc.getWorld().equals(m.getWorld())) continue;
@@ -58,9 +64,7 @@ public class MineBombItem {
             StaticMine finalMine = mine;
             Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
                 finalMine.removeBlocksBrokenInMine(bomb.blocksChanged);
-                e.setCancelled(true);
-                e.getBlock().setType(Material.AIR);
-                e.getPlayer().getInventory().getItemInMainHand().setAmount(e.getPlayer().getInventory().getItemInMainHand().getAmount() - 1);
+                e.getItem().setAmount(e.getItem().getAmount() - 1);
                 boolean backpackWasFull = playerData.getBackpackIsFull();
                 if (!backpackWasFull) {
                     Map<BigDecimal, BigInteger> map = new HashMap<>();
@@ -69,14 +73,15 @@ public class MineBombItem {
                     }
                     playerData.addAllToBackpack(map);
                 }
-                if (playerData.getBackpackIsFull()) {
-                    if (!backpackWasFull) {
-                        if (PrisonUtils.Players.canAutoSell(playerData) && playerData.getIsAutoSellEnabled())
-                            playerData.sellBackpack(e.getPlayer(), true);
-                        e.getPlayer().sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + "/" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
-                        e.getPlayer().sendMessage(ChatColor.RED + "Your backpack is full!");
-                    }
-                }
+                BlockBreakListener.backpackFullCheck(backpackWasFull, e.getPlayer(), playerData);
+//                if (playerData.getBackpackIsFull()) {
+//                    if (!backpackWasFull) {
+//                        if (PrisonUtils.Players.canAutoSell(playerData) && playerData.getIsAutoSellEnabled())
+//                            playerData.sellBackpack(e.getPlayer(), true);
+//                        e.getPlayer().sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + "/" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
+//                        e.getPlayer().sendMessage(ChatColor.RED + "Your backpack is full!");
+//                    }
+//                }
             });
         });
     }
@@ -125,14 +130,15 @@ public class MineBombItem {
                     }
                     playerData.addAllToBackpack(map);
                 }
-                if (playerData.getBackpackIsFull()) {
-                    if (!backpackWasFull) {
-                        if (PrisonUtils.Players.canAutoSell(playerData) && playerData.getIsAutoSellEnabled())
-                            playerData.sellBackpack(e.getPlayer(), true);
-                        e.getPlayer().sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + "/" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
-                        e.getPlayer().sendMessage(ChatColor.RED + "Your backpack is full!");
-                    }
-                }
+                BlockBreakListener.backpackFullCheck(backpackWasFull, e.getPlayer(), playerData);
+//                if (playerData.getBackpackIsFull()) {
+//                    if (!backpackWasFull) {
+//                        if (PrisonUtils.Players.canAutoSell(playerData) && playerData.getIsAutoSellEnabled())
+//                            playerData.sellBackpack(e.getPlayer(), true);
+//                        e.getPlayer().sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + "/" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
+//                        e.getPlayer().sendMessage(ChatColor.RED + "Your backpack is full!");
+//                    }
+//                }
             });
         }, 20 * 5);
     }

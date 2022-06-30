@@ -1,14 +1,12 @@
 package net.staticstudios.prisons.misc;
 
-import net.staticstudios.prisons.chat.events.EventManager;
+import net.staticstudios.prisons.chat.events.ChatEvents;
 import net.staticstudios.prisons.islands.special.robots.BaseRobot;
 import net.staticstudios.prisons.chat.CustomChatMessage;
-import net.staticstudios.prisons.customItems.mineBombs.MineBombItem;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
@@ -17,7 +15,7 @@ public class Events implements Listener {
     @EventHandler
     void onChat(AsyncPlayerChatEvent e) {
         new CustomChatMessage(e).sendFormatted();
-        EventManager.chatMessageReceived(e);
+        ChatEvents.chatMessageReceived(e);
     }
     @EventHandler
     void onChangeHeld(PlayerItemHeldEvent e) {

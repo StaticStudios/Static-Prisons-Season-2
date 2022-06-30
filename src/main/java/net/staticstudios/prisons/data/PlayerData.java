@@ -381,7 +381,10 @@ public class PlayerData extends DataSet {
         BigDecimal multi = getMoneyMultiplier();
         //Factor in the merchant enchant
         ItemStack item = player.getInventory().getItemInMainHand();
-        if (PrisonUtils.checkIsPrisonPickaxe(item)) multi = multi.add(BigDecimal.valueOf(PrisonPickaxe.fromItem(item).getEnchantLevel(PrisonEnchants.MERCHANT) / 1250d));
+        if (PrisonUtils.checkIsPrisonPickaxe(item)) {
+            PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(item);
+            if (pickaxe.getIsEnchantEnabled(PrisonEnchants.MERCHANT)) multi = multi.add(BigDecimal.valueOf(pickaxe.getEnchantLevel(PrisonEnchants.MERCHANT) / 1250d));
+        }
         //multi = multi.add(BigDecimal.valueOf(0.5 / PrisonEnchants.MERCHANT.MAX_LEVEL * CustomEnchants.getEnchantLevel(player.getInventory().getItemInMainHand(), "merchant")));;
 //        if (getBackpackItemCount().compareTo(BigInteger.ZERO) > 0) {
 //            for (Map.Entry<String, String> entry : getBackpackContents().entrySet()) {

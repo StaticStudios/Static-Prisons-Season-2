@@ -86,6 +86,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         Crates.init();
 
 
+        CellManager.init();
+
+
         StaticGUI.enable(this);
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
         loadConfig();

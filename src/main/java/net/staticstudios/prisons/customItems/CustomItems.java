@@ -11,6 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -30,8 +31,9 @@ public class CustomItems implements Listener { //todo add an internal mapping th
     void onDrop(PlayerDropItemEvent e) {
         MineBombItem.itemDropped(e);
     }
-    @EventHandler(priority = EventPriority.HIGHEST) //do this to "fight" worldguard
-    void onPlace(BlockPlaceEvent e) {
+    @EventHandler //do this to "fight" worldguard
+    void onRightClick(PlayerInteractEvent e) {
+        if (e.getHand() == null) return;
         if (e.getHand().equals(EquipmentSlot.OFF_HAND)) return;
         MineBombItem.blockPlaced(e);
     }

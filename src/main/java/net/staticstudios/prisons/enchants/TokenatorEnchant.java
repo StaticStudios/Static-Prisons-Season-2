@@ -11,7 +11,7 @@ import java.math.BigInteger;
 
 public class TokenatorEnchant extends BaseEnchant {
     public TokenatorEnchant() {
-        super("tokenator", "&e&lTokenator", 5000, BigInteger.valueOf(450), "&7Increases the chance to find tokens while mining");
+        super("tokenator", "&6&lTokenator", 5000, BigInteger.valueOf(450), "&7Increases the chance to find tokens while mining");
     }
 
     public void onBlockBreak(PrisonBlockBroken bb) {

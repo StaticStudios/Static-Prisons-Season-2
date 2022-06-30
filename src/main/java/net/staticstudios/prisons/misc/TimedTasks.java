@@ -7,7 +7,7 @@ import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.UI.PlayerUI;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.chat.events.EventManager;
+import net.staticstudios.prisons.chat.events.ChatEvents;
 import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
@@ -87,7 +87,7 @@ public class TimedTasks {
             for (Player p : Bukkit.getOnlinePlayers()) if (!new PlayerData(p).getAreTipsDisabled()) p.sendMessage(tip);
         }, 20 * 60 * 5, 20 * 60 * 10);
         //Chat Events
-        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), EventManager::runNewEvent, 20 * 60 * 12, 20 * 60 * 25);
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), ChatEvents::runNewEvent, 20 * 60 * 12, 20 * 60 * 25);
         //Update Pickaxe Lore With Stats
         //Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::dumpStatsToAllPickaxe, 0, 20 * 10);
         //Consistency enchant

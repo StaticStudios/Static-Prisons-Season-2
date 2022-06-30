@@ -33,6 +33,7 @@ public class BlockBreakListener implements Listener {
         boolean hasTokenator = false;
         for (BaseEnchant enchant : pickaxe.getEnchants()) {
             if (enchant.equals(PrisonEnchants.TOKENATOR)) hasTokenator = true;
+            if (!pickaxe.getIsEnchantEnabled(enchant)) continue;
             enchant.onBlockBreak(bb);
         }
         if (!hasTokenator) { //The pickaxe did not have tokenator, so it was added and the enchant was called
@@ -44,22 +45,22 @@ public class BlockBreakListener implements Listener {
         //Event mine
         if (e.getMine().getID().equals("eventMine")) bb.tokenMultiplier += .2d;
 
-        long totalBlocksBroken = bb.amountOfBlocksBroken * bb.blocksBrokenMultiplier;
         long tokensFound = (long) (bb.totalTokensGained * bb.tokenMultiplier);
 
         if (!e.hasRunOnProcessEvent()) bb.applyMoneyMulti();
         else e.runOnProcessEvent(bb);
 
         if (tokensFound > 0) {
-            player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + PrisonUtils.addCommasToNumber(tokensFound) + " Tokens" + ChatColor.GRAY + ChatColor.ITALIC + " (Tokenator)");
+            //player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + PrisonUtils.addCommasToNumber(tokensFound) + " Tokens" + ChatColor.GRAY + ChatColor.ITALIC + " (Tokenator)");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', PrisonEnchants.TOKENATOR.DISPLAY_NAME + " &8&l>> &fFound " + PrisonUtils.addCommasToNumber(tokensFound) + " tokens!"));
             playerData.addTokens(BigInteger.valueOf(tokensFound));
         }
 
-        pickaxe.addBlocksBroken(totalBlocksBroken);
+        pickaxe.addBlocksBroken(bb.amountOfBlocksBroken);
         pickaxe.addRawBlocksBroken(1);
         playerData.addBlocksMined(BigInteger.valueOf(bb.amountOfBlocksBroken));
         playerData.addRawBlocksMined(BigInteger.ONE);
-        pickaxe.addXp((long) (totalBlocksBroken * 2 * bb.xpMultiplier));
+        pickaxe.addXp((long) (bb.amountOfBlocksBroken * 2 * bb.xpMultiplier));
 
 
         e.getMine().removeBlocksBrokenInMine(bb.amountOfBlocksBroken - 1);
@@ -72,7 +73,7 @@ public class BlockBreakListener implements Listener {
     public static void backpackFullCheck(boolean wasFullBefore, Player player, PlayerData playerData) {
         if (playerData.getBackpackIsFull()) {
             if (PrisonUtils.Players.canAutoSell(playerData) && playerData.getIsAutoSellEnabled()) {
-                playerData.sellBackpack(player, true, ChatColor.LIGHT_PURPLE + "[Auto Sell] " + ChatColor.WHITE + "(x%MULTI%) Sold " + ChatColor.AQUA + "%TOTAL_BACKPACK_COUNT% " + ChatColor.WHITE + "blocks for: " + ChatColor.GREEN + "$%TOTAL_SELL_PRICE%");
+                playerData.sellBackpack(player, true, ChatColor.translateAlternateColorCodes('&', "&a&lAuto Sell &8&l>> &f(x%MULTI%) Sold &b%TOTAL_BACKPACK_COUNT% &fblocks for: &a$%TOTAL_SELL_PRICE%"));
             } else if (!wasFullBefore) {
                 if (playerData.getIsAutoSellEnabled() && !PrisonUtils.Players.canAutoSell(playerData)) playerData.setIsAutoSellEnabled(false);
                 player.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + "/" + PrisonUtils.prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);

@@ -29,7 +29,9 @@ public class JackHammerEnchant extends BaseEnchant {
         int doubleWammyLevel = bb.pickaxe.getEnchantLevel(PrisonEnchants.DOUBLE_JACK_HAMMER);
         if (PrisonUtils.randomInt(1, MAX_LEVEL + MAX_LEVEL / 10) <= jackHammerLevel + MAX_LEVEL / 10) {
             int howDeepToGo = 1;
-            if (doubleWammyLevel > 0) if (PrisonUtils.randomInt(1, PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) <= doubleWammyLevel + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) howDeepToGo += 1;
+            if (doubleWammyLevel > 0 && bb.pickaxe.getIsEnchantEnabled(PrisonEnchants.DOUBLE_JACK_HAMMER)) {
+                if (PrisonUtils.randomInt(1, PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) <= doubleWammyLevel + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) howDeepToGo += 1;
+            }
             BreakLayer bl = new BreakLayer(bb.mine);
             bb.legacySellValues.putAll(bl.destroyLayer(bb.blockLocation.getBlockY(), howDeepToGo));
             bb.amountOfBlocksBroken += bl.totalBlocksBroken;

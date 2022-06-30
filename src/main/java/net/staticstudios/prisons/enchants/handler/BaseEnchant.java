@@ -19,8 +19,12 @@ public abstract class BaseEnchant implements Listener {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (PrisonUtils.Players.isHoldingRightClick(player)) {
                     ItemStack item = player.getInventory().getItemInMainHand();
+                    if (!PrisonUtils.checkIsPrisonPickaxe(item)) continue;
                     PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(item);
-                    if (PrisonUtils.checkIsPrisonPickaxe(item)) for (BaseEnchant ench : pickaxe.getEnchants()) ench.whileRightClicking(player, pickaxe);
+                    for (BaseEnchant enchant : pickaxe.getEnchants()) {
+                        if (!pickaxe.getIsEnchantEnabled(enchant)) continue;
+                        enchant.whileRightClicking(player, pickaxe);
+                    }
                 }
             }
         }, 20, 7);
@@ -62,7 +66,7 @@ public abstract class BaseEnchant implements Listener {
             pickaxe.addEnchantLevel(ENCHANT_ID, levelsToBuy);
             int newLevel = pickaxe.getEnchantLevel(ENCHANT_ID);
             pickaxe.tryToUpdateLore();
-            onUpgrade(player, pickaxe, oldLevel, newLevel);
+            if (pickaxe.getIsEnchantEnabled(ENCHANT_ID)) onUpgrade(player, pickaxe, oldLevel, newLevel);
             player.sendMessage(org.bukkit.ChatColor.AQUA + "You successfully upgraded your pickaxe!");
             return true;
         }

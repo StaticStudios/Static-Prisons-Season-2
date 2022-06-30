@@ -138,11 +138,17 @@ public class EventListener implements Listener {
         ItemStack[] contents = player.getInventory().getContents();
         if (PrisonUtils.checkIsPrisonPickaxe(contents[e.getPreviousSlot()])) {
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(contents[e.getPreviousSlot()]);
-            for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onPickaxeUnHeld(player, pickaxe);
+            for (BaseEnchant enchant : pickaxe.getEnchants()) {
+                if (!pickaxe.getIsEnchantEnabled(enchant)) continue;
+                enchant.onPickaxeUnHeld(player, pickaxe);
+            }
         }
         if (PrisonUtils.checkIsPrisonPickaxe(contents[e.getNewSlot()])) {
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(contents[e.getNewSlot()]);
-            for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onPickaxeHeld(player, pickaxe);
+            for (BaseEnchant enchant : pickaxe.getEnchants()) {
+                if (!pickaxe.getIsEnchantEnabled(enchant)) continue;
+                enchant.onPickaxeHeld(player, pickaxe);
+            }
         }
     }
 
@@ -153,7 +159,10 @@ public class EventListener implements Listener {
         if (player.getInventory().firstEmpty() == player.getInventory().getHeldItemSlot()) {
             if (!PrisonUtils.checkIsPrisonPickaxe(e.getItem().getItemStack())) return;
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getItem().getItemStack());
-            for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onPickaxeHeld(player, pickaxe);
+            for (BaseEnchant enchant : pickaxe.getEnchants()) {
+                if (!pickaxe.getIsEnchantEnabled(enchant)) continue;
+                enchant.onPickaxeHeld(player, pickaxe);
+            }
         }
     }
 
@@ -163,14 +172,20 @@ public class EventListener implements Listener {
         if (PrisonUtils.checkIsPrisonPickaxe(e.getCurrentItem())) {
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getCurrentItem());
             if (!player.getInventory().getItemInMainHand().equals(e.getCurrentItem())) return;
-            for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onPickaxeUnHeld(player, pickaxe);
+            for (BaseEnchant enchant : pickaxe.getEnchants()) {
+                if (!pickaxe.getIsEnchantEnabled(enchant)) continue;
+                enchant.onPickaxeUnHeld(player, pickaxe);
+            }
             return;
         }
         if (PrisonUtils.checkIsPrisonPickaxe(e.getCursor())) {
             if (e.getClick().equals(ClickType.DOUBLE_CLICK)) return;
             if (player.getInventory().getHeldItemSlot() != e.getSlot()) return;
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getCursor());
-            for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onPickaxeHeld(player, pickaxe);
+            for (BaseEnchant enchant : pickaxe.getEnchants()) {
+                if (!pickaxe.getIsEnchantEnabled(enchant)) continue;
+                enchant.onPickaxeHeld(player, pickaxe);
+            }
         }
     }
 

@@ -12,7 +12,7 @@ public class GangCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) return false;
         if (args.length == 0) {
-            //todo open gui
+            GangMenus.openYourGang(player, true);
             return false;
         }
         switch (args[0].toLowerCase()) {

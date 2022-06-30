@@ -14,7 +14,7 @@ public class ExplosionEnchant extends BaseEnchant {
     public void onBlockBreak(PrisonBlockBroken bb) {
         int explosionLevel = bb.pickaxe.getEnchantLevel(ENCHANT_ID);
         if (PrisonUtils.randomInt(1, 4500 - (int) (explosionLevel / 3.75)) != 1) return;
-        int radius = 5 + explosionLevel / 1500;
+        int radius = 5 + explosionLevel / 750;
         radius += PrisonUtils.randomDouble(0, 0.4) * radius;
         MineBomb bomb = new MineBomb(bb.blockLocation, radius);
         bb.legacySellValues.putAll(bomb.explode(bb.mine));

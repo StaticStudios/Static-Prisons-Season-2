@@ -1,12 +1,12 @@
 package net.staticstudios.prisons.enchants;
 
+import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.math.BigInteger;
@@ -14,7 +14,7 @@ import java.util.*;
 
 public class AutoSellEnchant extends BaseEnchant {
     public AutoSellEnchant() {
-        super("autoSell", "&a&lAuto Sell", 50000, BigInteger.valueOf(75), "&7Decrease the time between the", "&7automatic selling of your backpack", "&7Minimum interval: 60 seconds");
+        super("autoSell", "&d&lAuto Sell", 50000, BigInteger.valueOf(75), "&7Decrease the time between the", "&7automatic selling of your backpack", "&7Minimum interval: 60 seconds");
     }
 
     public static Map<PrisonPickaxe, Integer> autoSellTimeLeft = new HashMap<>();
@@ -23,7 +23,7 @@ public class AutoSellEnchant extends BaseEnchant {
     static void onSell(PrisonPickaxe pickaxe, Player player) {
         PlayerData playerData = new PlayerData(player);
         if (playerData.getBackpackItemCount() == 0) return;
-        playerData.sellBackpack(player, true, ChatColor.GREEN + "[Auto Sell] " + ChatColor.WHITE + "(x%MULTI%) Sold " + ChatColor.AQUA + "%TOTAL_BACKPACK_COUNT% " + ChatColor.WHITE + "blocks for: " + ChatColor.GREEN + "$%TOTAL_SELL_PRICE%");
+        playerData.sellBackpack(player, true, ChatColor.translateAlternateColorCodes('&', "&d&lAuto Sell &7&o(Enchant) &8&l>> &f(x%MULTI%) Sold &b%TOTAL_BACKPACK_COUNT% &fblocks for: &a$%TOTAL_SELL_PRICE%"));
     }
     static final int MAX_INTERVAL = 600;
     static final int STEP = 93;
@@ -34,6 +34,11 @@ public class AutoSellEnchant extends BaseEnchant {
     public static void initTimer() {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
             for (PrisonPickaxe pickaxe : activePickaxes.keySet()) {
+                if (!pickaxe.getIsEnchantEnabled(PrisonEnchants.AUTO_SELL)) { //The enchantment was just disabled
+                    activePickaxes.remove(pickaxe);
+                    autoSellTimeLeft.remove(pickaxe);
+                    continue;
+                }
                 autoSellTimeLeft.put(pickaxe, autoSellTimeLeft.get(pickaxe) - 3);
                 if (autoSellTimeLeft.get(pickaxe) <= 0) {
                     autoSellTimeLeft.put(pickaxe, getSecBetweenInterval(pickaxe.getEnchantLevel(PrisonEnchants.AUTO_SELL.ENCHANT_ID)));

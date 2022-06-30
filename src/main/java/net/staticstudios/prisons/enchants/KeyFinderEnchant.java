@@ -6,6 +6,7 @@ import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.utils.WeightedElements;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -21,20 +22,15 @@ public class KeyFinderEnchant extends BaseEnchant {
         if (PrisonUtils.randomInt(0, 2500) != 1) return;
         int keyFinderLevel = bb.pickaxe.getEnchantLevel(ENCHANT_ID);
         if (PrisonUtils.randomInt(1, MAX_LEVEL + MAX_LEVEL / 10) <= keyFinderLevel + MAX_LEVEL / 10) {
-            ItemStack reward;
-            int randomReward = PrisonUtils.randomInt(1, 100);
-            if (randomReward <= 15) {
-                reward = CustomItems.getCommonCrateKey(2);
-            } else if (randomReward <= 45) {
-                reward = CustomItems.getRareCrateKey(1);
-            } else if (randomReward <= 90) {
-                reward = CustomItems.getEpicCrateKey(1);
-            } else if (randomReward <= 95) {
-                reward = CustomItems.getLegendaryCrateKey(1);
-            } else if (randomReward <= 99) {
-                reward = CustomItems.getStaticCrateKey(1);
-            } else reward = CustomItems.getStaticpCrateKey(1);
-            bb.player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "[Key Finder] " + ChatColor.WHITE + "You found " + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward) + ChatColor.WHITE + " while mining!");
+            ItemStack reward = new WeightedElements<ItemStack>()
+                    .add(CustomItems.getCommonCrateKey(2), 15)
+                    .add(CustomItems.getRareCrateKey(2), 30)
+                    .add(CustomItems.getEpicCrateKey(2), 45)
+                    .add(CustomItems.getLegendaryCrateKey(2), 5)
+                    .add(CustomItems.getStaticCrateKey(2), 4)
+                    .add(CustomItems.getStaticCrateKey(2), 1)
+                    .getRandom();
+            bb.player.sendMessage(ChatColor.translateAlternateColorCodes('&', DISPLAY_NAME + " &8&l>> &fFound " + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward) + "&f while mining!"));
             PrisonUtils.Players.addToInventory(bb.player, reward);
         }
     }

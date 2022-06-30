@@ -10,7 +10,7 @@ import java.math.BigInteger;
 
 public class XPFinderEnchant extends BaseEnchant {
     public XPFinderEnchant() {
-        super("xpFinder", "&b&lXP Finder", 1000, BigInteger.valueOf(1000), "&7Increase the chance to find XP whilst mining");
+        super("xpFinder", "&a&lXP Finder", 1000, BigInteger.valueOf(1000), "&7Increase the chance to find XP whilst mining");
     }
 
     public void onBlockBreak(PrisonBlockBroken bb) {
@@ -18,6 +18,8 @@ public class XPFinderEnchant extends BaseEnchant {
         int enchLevel = bb.pickaxe.getEnchantLevel(this);
         int xpFound = Math.max(1, PrisonUtils.randomInt(enchLevel / 10, 100));
         new PlayerData(bb.player).addPlayerXP(xpFound);
-        bb.player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "+ " + PrisonUtils.addCommasToNumber(xpFound) + " Experience" + ChatColor.GRAY + ChatColor.ITALIC + " (XP Finder)");
+//        bb.player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "+ " + PrisonUtils.addCommasToNumber(xpFound) + " Experience" + ChatColor.GRAY + ChatColor.ITALIC + " (XP Finder)");
+        bb.player.sendMessage(ChatColor.translateAlternateColorCodes('&', DISPLAY_NAME + " &8&l>> &fFound " + PrisonUtils.addCommasToNumber(xpFound) + " experience!"));
+
     }
 }

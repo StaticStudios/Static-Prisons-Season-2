@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PrivateMineMenus extends GUIUtils {
@@ -146,6 +147,7 @@ public class PrivateMineMenus extends GUIUtils {
         for (List<PrivateMine> list : orderedMines) {
             mines.addAll(list);
         }
+        Collections.reverse(mines);
         List<PrivateMine> publicMines = new ArrayList<>();
         for (PrivateMine mine : mines) if (mine.isPublic) publicMines.add(mine);
 

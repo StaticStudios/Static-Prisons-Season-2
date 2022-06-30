@@ -16,6 +16,8 @@ import java.util.*;
 
 public class PrisonGang {//todo: this
 
+    public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&6&lGangs &8&l>> &r");
+
     public static int MAX_GANG_SIZE = 5;
 
     static final Map<UUID, PrisonGang> GANGS = new HashMap<>();
@@ -26,17 +28,58 @@ public class PrisonGang {//todo: this
     private UUID owner;
     private String name;
     private List<UUID> members;
+    public UUID getOwner() {
+        return owner;
+    }
+    public String getName() {
+        return name;
+    }
+    public List<UUID> getMembers() {
+        return members;
+    }
 
     //Settings
     private boolean isPublic = false;
     private boolean acceptingInvites = true;
     private boolean friendlyFire = false;
+    private boolean canMembersWithdrawFomBank = true;
+    public boolean isPublic() {
+        return isPublic;
+    }
+    public boolean isAcceptingInvites() {
+        return acceptingInvites;
+    }
+    public boolean isFriendlyFire() {
+        return friendlyFire;
+    }
+    public boolean canMembersWithdrawFomBank() {
+        return canMembersWithdrawFomBank;
+    }
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
+    }
+    public void setAcceptingInvites(boolean acceptingInvites) {
+        this.acceptingInvites = acceptingInvites;
+    }
+    public void setFriendlyFire(boolean friendlyFire) {
+        this.friendlyFire = friendlyFire;
+    }
+    public void setCanMembersWithdrawFomBank(boolean canMembersWithdrawFomBank) {
+        this.canMembersWithdrawFomBank = canMembersWithdrawFomBank;
+    }
 
     //Stats
-    private int rawBlocksMined = 0;
-    private int blocksMined = 0;
-    private long xp = 0;
-    private int level = 0;
+    private long rawBlocksMined = 0;
+    private long blocksMined = 0;
+    private long secondsPlayed = 0;
+    private BigInteger moneyMade = BigInteger.ZERO;
+    private BigInteger tokensFound = BigInteger.ZERO;
+    public long getRawBlocksMined() {
+        return rawBlocksMined;
+    }
+    public long getBlocksMined() {
+        return blocksMined;
+    }
 
     //Bank
     private BigInteger bankMoney = BigInteger.ZERO;
@@ -69,8 +112,8 @@ public class PrisonGang {//todo: this
     }
     public static PrisonGang loadGang(UUID uuid,
                                       UUID owner, String name, List<UUID> members,
-                                      boolean isPublic, boolean acceptingInvites, boolean friendlyFire,
-                                      int rawBlocksMined, int blocksMined, long xp, int level,
+                                      boolean isPublic, boolean acceptingInvites, boolean friendlyFire, boolean canMembersWithdrawFomBank,
+                                      long rawBlocksMined, long blocksMined, long secondsPlayed, BigInteger moneyMade, BigInteger tokensFound,
                                       BigInteger bankMoney, BigInteger bankTokens) {
         PrisonGang gang = new PrisonGang();
         gang.uuid = uuid;
@@ -80,10 +123,12 @@ public class PrisonGang {//todo: this
         gang.isPublic = isPublic;
         gang.acceptingInvites = acceptingInvites;
         gang.friendlyFire = friendlyFire;
+        gang.canMembersWithdrawFomBank = canMembersWithdrawFomBank;
         gang.rawBlocksMined = rawBlocksMined;
         gang.blocksMined = blocksMined;
-        gang.xp = xp;
-        gang.level = level;
+        gang.secondsPlayed = secondsPlayed;
+        gang.moneyMade = moneyMade;
+        gang.tokensFound = tokensFound;
         gang.bankMoney = bankMoney;
         gang.bankTokens = bankTokens;
         GANGS.put(gang.uuid, gang);
@@ -99,10 +144,12 @@ public class PrisonGang {//todo: this
         section.set("isPublic", gang.isPublic);
         section.set("acceptingInvites", gang.acceptingInvites);
         section.set("friendlyFire", gang.friendlyFire);
+        section.set("canMembersWithdrawFomBank", gang.canMembersWithdrawFomBank);
         section.set("rawBlocksMined", gang.rawBlocksMined);
         section.set("blocksMined", gang.blocksMined);
-        section.set("xp", gang.xp);
-        section.set("level", gang.level);
+        section.set("secondsPlayed", gang.secondsPlayed);
+        section.set("moneyMade", gang.moneyMade.toString());
+        section.set("tokensFound", gang.tokensFound.toString());
         section.set("bankMoney", gang.bankMoney.toString());
         section.set("bankTokens", gang.bankTokens.toString());
         return section;
@@ -131,13 +178,19 @@ public class PrisonGang {//todo: this
             boolean isPublic = section.getBoolean("isPublic");
             boolean acceptingInvites = section.getBoolean("acceptingInvites");
             boolean friendlyFire = section.getBoolean("friendlyFire");
-            int rawBlocksMined = section.getInt("rawBlocksMined");
-            int blocksMined = section.getInt("blocksMined");
-            long xp = section.getLong("xp");
-            int level = section.getInt("level");
+            boolean canMembersWithdrawFomBank = section.getBoolean("canMembersWithdrawFomBank");
+            long rawBlocksMined = section.getLong("rawBlocksMined");
+            long blocksMined = section.getLong("blocksMined");
+            long secondsPlayed = section.getLong("secondsPlayed");
+            section.addDefault("moneyMade", "0");
+            section.addDefault("tokensFound", "0");
+            section.addDefault("bankMoney", "0");
+            section.addDefault("bankTokens", "0");
+            BigInteger moneyMade = new BigInteger(section.getString("moneyMade"));
+            BigInteger tokensFound = new BigInteger(section.getString("tokensFound"));
             BigInteger bankMoney = new BigInteger(section.getString("bankMoney"));
             BigInteger bankTokens = new BigInteger(section.getString("bankTokens"));
-            loadGang(uuid, owner, name, members, isPublic, acceptingInvites, friendlyFire, rawBlocksMined, blocksMined, xp, level, bankMoney, bankTokens);
+            loadGang(uuid, owner, name, members, isPublic, acceptingInvites, friendlyFire, canMembersWithdrawFomBank, rawBlocksMined, blocksMined, secondsPlayed, moneyMade, tokensFound, bankMoney, bankTokens);
         }
     }
 

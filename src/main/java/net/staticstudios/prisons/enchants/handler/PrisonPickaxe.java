@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -135,13 +136,34 @@ public class PrisonPickaxe {
     }
 
 
-    public void setIsEnchantEnabled(BaseEnchant enchant, boolean enabled) {
-        setIsEnchantEnabled(enchant.ENCHANT_ID, enabled);
+    public void setIsEnchantEnabled(Player player, BaseEnchant enchant, boolean enabled) {
+        setIsEnchantEnabled(player, enchant.ENCHANT_ID, enabled);
     }
-    public void setIsEnchantEnabled(String enchantID, boolean enabled) {
+    public void setIsEnchantEnabled(Player player, String enchantID, boolean enabled) {
         if (enabled) {
             disabledEnchants.remove(enchantID);
         } else disabledEnchants.add(enchantID);
+
+        if (player.getInventory().getItemInMainHand().equals(item)) {
+            if (enabled) {
+                //The player is holding the pickaxe and the held method should be called
+                for (BaseEnchant enchant : getEnchants()) {
+                    if (enchant.ENCHANT_ID.equals(enchantID)) {
+                        enchant.onPickaxeHeld(player, this);
+                        break;
+                    }
+                }
+            } else {
+                //The player is holding the pickaxe and the unheld method should be called
+                for (BaseEnchant enchant : getEnchants()) {
+                    if (enchant.ENCHANT_ID.equals(enchantID)) {
+                        enchant.onPickaxeUnHeld(player, this);
+                        break;
+                    }
+                }
+            }
+
+        }
     }
     public boolean getIsEnchantEnabled(BaseEnchant enchant) {
         return getIsEnchantEnabled(enchant.ENCHANT_ID);

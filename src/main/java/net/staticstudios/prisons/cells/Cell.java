@@ -7,6 +7,7 @@ import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import net.staticstudios.prisons.StaticPrisons;
@@ -73,5 +74,6 @@ public class Cell {
         members.addPlayer(cellOwnerUUID);
         region.setMembers(members);
         region.setPriority(1);
+        WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld("islands"))).addRegion(region);
     }
 }
