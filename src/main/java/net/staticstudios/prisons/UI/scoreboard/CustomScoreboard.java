@@ -2,7 +2,6 @@ package net.staticstudios.prisons.UI.scoreboard;
 
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
-import net.staticstudios.prisons.rankup.RankUpPrices;
 import net.staticstudios.prisons.UI.scoreboard.fastBoard.FastBoard;
 import net.staticstudios.prisons.rankup.RankUp;
 import net.staticstudios.prisons.utils.Constants;
@@ -105,7 +104,7 @@ public class CustomScoreboard { //todo make a custom thing instead of fastboard
 
         board.updateTitle(boardTitle);
         String cost = PrisonUtils.prettyNum(RankUp.calculatePriceToRankUpTo(playerData, Math.min(25, playerData.getMineRank() + 1)));
-        if (playerData.getMineRank() == 25) cost = PrisonUtils.prettyNum(RankUpPrices.getPrestigePrice(playerData.getPrestige(), 1));
+        if (playerData.getMineRank() == 25) cost = PrisonUtils.prettyNum(RankUp.getPrestigePrice(playerData.getPrestige(), 1));
 
         board.updateLines(
                 ChatColor.RED + "",

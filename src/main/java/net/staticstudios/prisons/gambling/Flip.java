@@ -14,4 +14,10 @@ public class Flip {
     public Material headsIcon;
     public Material tailsIcon;
     public long expireAt;
+
+    public enum WhoWins {
+        OWNER,
+        CHALLENGER,
+        HOUSE
+    }
 }

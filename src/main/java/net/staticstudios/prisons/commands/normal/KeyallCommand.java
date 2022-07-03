@@ -36,7 +36,7 @@ public class KeyallCommand implements CommandExecutor {
             }
         }
         for (Player p : Bukkit.getOnlinePlayers()) {
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&l[Key All] &fYou have received 1x " + PrisonUtils.getPrettyItemName(item) + "&f from a key all!"));
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&l[Key All] &fYou have received 1x " + PrisonUtils.Items.getPrettyItemName(item) + "&f from a key all!"));
             PrisonUtils.Players.addToInventory(p, item);
         }
         return false;

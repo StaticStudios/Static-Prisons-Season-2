@@ -1,13 +1,7 @@
 package net.staticstudios.prisons.commands.test;
 
-import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.cells.Cell;
-import net.staticstudios.prisons.cells.CellManager;
-import net.staticstudios.prisons.crates.Crates;
-import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
-import net.staticstudios.prisons.gui.newGui.ChatTagMenus;
-import net.staticstudios.prisons.privateMines.PrivateMine;
-import org.bukkit.Bukkit;
+import net.staticstudios.prisons.data.backups.DataBackup;
+import net.staticstudios.prisons.gambling.GamblingMenus;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,8 +22,12 @@ public class Test2Command implements CommandExecutor {
 //            privateMine.registerMine();
 //            privateMine.warpTo(player);
 //        });
-        PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
-        privateMine.setXp(Integer.parseInt(strings[0]));
+//        PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
+//        privateMine.setXp(Integer.parseInt(strings[0]));
+//        ChatEvents.runEvent(ChatEvents.EventType.MATH);
+//        RankUpMenus.open(player, true);
+//        GamblingMenus.openMain(player);
+        DataBackup.init();
         return false;
     }
 }

@@ -49,7 +49,7 @@ public abstract class BaseEnchant implements Listener {
         PrisonEnchants.enchantIDToEnchant.put(ENCHANT_ID, this);
     }
 
-    public boolean tryToBuyLevels(Player player, PrisonPickaxe pickaxe, int levelsToBuy) {
+    public boolean tryToBuyLevels(Player player, PrisonPickaxe pickaxe, long levelsToBuy) {
         PlayerData playerData = new PlayerData(player);
         if (levelsToBuy <= 0) {
             player.sendMessage(org.bukkit.ChatColor.RED + "You do not have enough tokens to buy this!");
@@ -63,7 +63,7 @@ public abstract class BaseEnchant implements Listener {
         if (playerData.getTokens().compareTo(PRICE.multiply(BigInteger.valueOf(levelsToBuy))) > -1) {
             playerData.removeTokens(PRICE.multiply(BigInteger.valueOf(levelsToBuy)));
             int oldLevel = pickaxe.getEnchantLevel(ENCHANT_ID);
-            pickaxe.addEnchantLevel(ENCHANT_ID, levelsToBuy);
+            pickaxe.addEnchantLevel(ENCHANT_ID, (int) levelsToBuy);
             int newLevel = pickaxe.getEnchantLevel(ENCHANT_ID);
             pickaxe.tryToUpdateLore();
             if (pickaxe.getIsEnchantEnabled(ENCHANT_ID)) onUpgrade(player, pickaxe, oldLevel, newLevel);

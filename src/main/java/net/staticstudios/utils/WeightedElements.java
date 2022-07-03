@@ -1,5 +1,6 @@
 package net.staticstudios.utils;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -42,8 +43,9 @@ public class WeightedElements<T> {
      * @param weight The weight of the object.
      * @return A new WeightedElements object.
      */
-    public static WeightedElement of(Object o, double weight) {
-        return new WeightedElement(o, weight);
+    @Contract(value = "_, _ -> new", pure = true)
+    public static <T> @NotNull WeightedElement<T> of(T o, double weight) {
+        return new WeightedElement<T>(o, weight);
     }
 
     //List of weighted elements
@@ -136,7 +138,7 @@ public class WeightedElements<T> {
      * @param e The object to remove from the internal list.
      * @return The current WeightedElements object.
      */
-    public WeightedElements<T> remove(WeightedElement e) {
+    public WeightedElements<T> remove(WeightedElement<T> e) {
         elements.remove(e);
         return this;
     }
@@ -153,7 +155,8 @@ public class WeightedElements<T> {
      * @param e The new list of WeightedElements.
      * @return The current WeightedElements object.
      */
-    public WeightedElements<T> set(WeightedElement<T>... e) {
+    @SafeVarargs
+    public final WeightedElements<T> set(WeightedElement<T>... e) {
         elements.clear();
         elements.addAll(List.of(e));
         return this;

@@ -69,7 +69,7 @@ public class DailyRewardsMenus {
                         case 11 -> item = CustomItems.getStaticCrateKey(1);
                     }
                     PrisonUtils.Players.addToInventory(player, item);
-                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + PrisonUtils.getPrettyItemName(item));
+                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(item));
                     playerData.setClaimedDailyRewardsRank1At(Instant.now().toEpochMilli());
                     player.closeInventory();
                 } else {
@@ -97,7 +97,7 @@ public class DailyRewardsMenus {
                         case 10 -> item = CustomItems.getLegendaryCrateKey(3);
                     }
                     PrisonUtils.Players.addToInventory(player, item);
-                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + PrisonUtils.getPrettyItemName(item));
+                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(item));
                     playerData.setClaimedDailyRewardsAt(Instant.now().toEpochMilli());
                     player.closeInventory();
                 } else {
@@ -131,7 +131,7 @@ public class DailyRewardsMenus {
                         case 12 -> item = CustomItems.getStaticpCrateKey(1);
                     }
                     PrisonUtils.Players.addToInventory(player, item);
-                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + PrisonUtils.getPrettyItemName(item));
+                    player.sendMessage(ChatColor.WHITE + "You've been given " + item.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(item));
                     playerData.setClaimedDailyRewardsRank2At(Instant.now().toEpochMilli());
                     player.closeInventory();
                 } else {

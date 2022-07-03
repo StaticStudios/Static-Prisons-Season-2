@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.misc;
 
 import com.destroystokyo.paper.event.server.ServerTickStartEvent;
+import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.enchants.EggShooterEnchant;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
@@ -170,6 +171,7 @@ public class EventListener implements Listener {
     void onClick(InventoryClickEvent e) {
         if (!(e.getWhoClicked() instanceof Player player)) return;
         if (PrisonUtils.checkIsPrisonPickaxe(e.getCurrentItem())) {
+            if (e.getClickedInventory() != null && e.getClickedInventory().getHolder() instanceof StaticGUI) return;
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getCurrentItem());
             if (!player.getInventory().getItemInMainHand().equals(e.getCurrentItem())) return;
             for (BaseEnchant enchant : pickaxe.getEnchants()) {
@@ -179,6 +181,7 @@ public class EventListener implements Listener {
             return;
         }
         if (PrisonUtils.checkIsPrisonPickaxe(e.getCursor())) {
+            if (e.getClickedInventory() != null && e.getClickedInventory().getHolder() instanceof StaticGUI) return;
             if (e.getClick().equals(ClickType.DOUBLE_CLICK)) return;
             if (player.getInventory().getHeldItemSlot() != e.getSlot()) return;
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getCursor());

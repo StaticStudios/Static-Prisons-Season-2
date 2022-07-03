@@ -8,9 +8,6 @@ import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
-import com.sk89q.worldedit.function.mask.BlockMask;
-import com.sk89q.worldedit.function.mask.BlockTypeMask;
-import com.sk89q.worldedit.function.mask.InverseSingleBlockTypeMask;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
@@ -18,8 +15,6 @@ import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.session.ClipboardHolder;
-import com.sk89q.worldedit.world.block.BaseBlock;
-import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -44,6 +39,8 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class PrivateMine {
+
+    public static boolean finishedInitTasks = false;
 
     public static int UNLOCK_AT_PLAYER_LEVEL;
     public static int START_SIZE;
@@ -80,15 +77,20 @@ public class PrivateMine {
     }
 
     public static void init() {
+        StaticPrisons.log("[Private-Mines] Beginning init tasks...");
+        long startTime = System.currentTimeMillis();
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PrivateMineBlockBreakListener(), StaticPrisons.getInstance());
+        StaticPrisons.log("[Private-Mines] Loading the Bukkit world...");
         PRIVATE_MINES_WORLD = new WorldCreator("private_mines").createWorld();
 
+        StaticPrisons.log("[Private-Mines] Cleaning up old region data...");
         //Remove all WorldGuard regions in the world from the previous time the server was loaded | Set the only region to the global region
         Map<String, ProtectedRegion> regions = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(PRIVATE_MINES_WORLD)).getRegions();
         Map<String, ProtectedRegion> globalRegionMap = new HashMap<>();
         globalRegionMap.put("__global__", regions.get("__global__"));
         WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(PRIVATE_MINES_WORLD)).setRegions(globalRegionMap);
 
+        StaticPrisons.log("[Private-Mines] Loading config data...");
         //Load config data
         File file = new File(StaticPrisons.getInstance().getDataFolder(), "private_mines_config.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
@@ -144,26 +146,43 @@ public class PrivateMine {
             if (!WORLD_BOARDER_BY_LEVEL.containsKey(i)) WORLD_BOARDER_BY_LEVEL.put(i, WORLD_BOARDER_BY_LEVEL.get(lastDefined));
             else lastDefined = i;
         }
-        maxDefinedLevel = 0;
-        SCHEMATICS_BY_LEVEL = new LinkedHashMap<>();
-        for (String key : config.getConfigurationSection("schematics_by_level").getKeys(false)) {
-            int level = Integer.parseInt(key);
-            String path = config.getString("schematics_by_level." + key);
-            File schemFile = new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/schematics/" + path);
-            ClipboardFormat format = ClipboardFormats.findByFile(schemFile);
-            try (ClipboardReader reader = format.getReader(new FileInputStream(schemFile))) {
-                SCHEMATICS_BY_LEVEL.put(level, reader.read());
-                if (level > maxDefinedLevel) maxDefinedLevel = level;
-            } catch (IOException e) {
-                e.printStackTrace();
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
+            int _maxDefinedLevel = 0;
+            long schemStartTime = System.currentTimeMillis();
+            int schematicsLoaded = 0;
+            LinkedHashMap<Integer, Clipboard> tempSchematicsByLevel = new LinkedHashMap<>();
+            StaticPrisons.log("[Private-Mines] Loading schematics on an async thread...");
+            for (String key : config.getConfigurationSection("schematics_by_level").getKeys(false)) {
+                int level = Integer.parseInt(key);
+                String path = config.getString("schematics_by_level." + key);
+                File schemFile = new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/schematics/" + path);
+                ClipboardFormat format = ClipboardFormats.findByFile(schemFile);
+                try (ClipboardReader reader = format.getReader(new FileInputStream(schemFile))) {
+                    tempSchematicsByLevel.put(level, reader.read());
+                    schematicsLoaded++;
+                    if (level > _maxDefinedLevel) _maxDefinedLevel = level;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        lastDefined = 0;
-        for (int i = 0; i < maxDefinedLevel; i++) {
-            if (!SCHEMATICS_BY_LEVEL.containsKey(i)) SCHEMATICS_BY_LEVEL.put(i, SCHEMATICS_BY_LEVEL.get(lastDefined));
-            else lastDefined = i;
-        }
+            StaticPrisons.log("[Private-Mines] Finished loading " + schematicsLoaded + " schematics! Took a total of " + (System.currentTimeMillis() - schemStartTime) + "ms");
+            int final_maxDefinedLevel = _maxDefinedLevel;
+            Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
+                StaticPrisons.log("[Private-Mines] Finishing init tasks on the main thread...");
+                SCHEMATICS_BY_LEVEL = new LinkedHashMap<>(tempSchematicsByLevel);
+                int _lastDefined = 0;
+                for (int i = 0; i < final_maxDefinedLevel; i++) {
+                    if (!SCHEMATICS_BY_LEVEL.containsKey(i)) SCHEMATICS_BY_LEVEL.put(i, SCHEMATICS_BY_LEVEL.get(_lastDefined));
+                    else _lastDefined = i;
+                }
+                StaticPrisons.log("[Private-Mines] Successfully finished initialization! Took a total of " + (System.currentTimeMillis() - startTime) + "ms");
+                PrivateMineManager.init();
+                finishedInitTasks = true;
+            });
+        });
     }
+
+    boolean isLoading = false;
 
     public UUID privateMineId;
     public int gridPosition;
@@ -290,7 +309,6 @@ public class PrivateMine {
     }
 
     public static CompletableFuture<PrivateMine> createPrivateMine(Player player) {
-        CompletableFuture<PrivateMine> future = new CompletableFuture<>();
         PrivateMine privateMine = new PrivateMine();
         privateMine.privateMineId = UUID.randomUUID();
         privateMine.gridPosition = PrivateMineManager.createNewIslandOnGrid();
@@ -304,8 +322,8 @@ public class PrivateMine {
         PRIVATE_MINES.put(privateMine.privateMineId, privateMine);
         PLAYER_PRIVATE_MINES.put(privateMine.owner, privateMine);
         privateMine.updateTreeMap();
-        privateMine.updateBuild().thenAccept(PrivateMine::registerMine).thenRun(() -> future.complete(privateMine));
-        return future;
+//        privateMine.updateBuild().thenAccept(PrivateMine::registerMine).thenRun(() -> future.complete(privateMine));
+        return loadPrivateMine(privateMine.privateMineId);
     }
     public PrivateMine(UUID privateMineId, int gridPosition, UUID owner, String name, long xp, int size, double visitorTax, boolean isPublic, double sellPercentage) {
         this.privateMineId = privateMineId;
@@ -323,10 +341,13 @@ public class PrivateMine {
         updateTreeMap();
     }
     private PrivateMine() {}
+    CompletableFuture<PrivateMine> loadingFuture = new CompletableFuture<>();
     public static CompletableFuture<PrivateMine> loadPrivateMine(UUID privateMineId) {
-        CompletableFuture<PrivateMine> future = new CompletableFuture<>();
         PrivateMine privateMine = PRIVATE_MINES.get(privateMineId);
         if (privateMine == null) return null;
+        if (privateMine.isLoaded) return CompletableFuture.completedFuture(privateMine);
+        if (privateMine.isLoading) return privateMine.loadingFuture; //To prevent a private mine being loaded multiple times at once
+        privateMine.isLoading = true;
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
             //Delete old builds since the private mine is being loaded for the first time
             int[] position = PrivateMineManager.getPosition(privateMine.gridPosition);
@@ -334,9 +355,13 @@ public class PrivateMine {
             Region region = new CuboidRegion(BukkitAdapter.adapt(PRIVATE_MINES_WORLD), BlockVector3.at(position[0] + 250, 0, position[1] + 250), BlockVector3.at(position[0] - 250, 255, position[1] - 250));
             es.setBlocks(region, BlockTypes.AIR);
             es.close();
-            privateMine.updateBuild().thenRun(() -> privateMine.registerMine().thenRun(() -> future.complete(privateMine)));
+            privateMine.updateBuild().thenRun(() -> privateMine.registerMine().thenRun(() -> {
+                privateMine.loadingFuture.complete(privateMine);
+                privateMine.isLoaded = true;
+                privateMine.isLoading = false;
+            }));
         });
-        return future;
+        return privateMine.loadingFuture;
     }
 
     public static final int XP_PER_BLOCK_BROKEN = 1;
@@ -352,7 +377,7 @@ public class PrivateMine {
         future.complete(mine);
         return future;
     }
-    public CompletableFuture<StaticMine> registerMine() {
+    CompletableFuture<StaticMine> registerMine() {
         CompletableFuture<StaticMine> future = new CompletableFuture<>();
         int distanceFromCenter = getSize(level) / 2;
         int[] center = PrivateMineManager.getPosition(gridPosition);
@@ -399,7 +424,7 @@ public class PrivateMine {
         return Vector3.at(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ()).containedWithin(min, max);
     }
 
-    public CompletableFuture<PrivateMine> updateBuild() {
+    CompletableFuture<PrivateMine> updateBuild() {
         CompletableFuture<PrivateMine> future = new CompletableFuture<>();
         int[] position = PrivateMineManager.getPosition(gridPosition);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
@@ -430,15 +455,6 @@ public class PrivateMine {
                 "&cSell Percentage: &f" +  new DecimalFormat("0.0").format(sellPercentage * 100) + "%" + "\n" +
                 "&a" + "\n" +
                 "&c&lSpecial Attributes: &fnone"));
-    }
-
-    public void levelUp(int newLevel) {
-        setLevel(newLevel);
-        updateBuild().thenRun(() -> {
-            mine.delete();
-            MINE_ID_TO_PRIVATE_MINE.remove(mine.getID());
-            registerMine();
-        });
     }
 
     void updateMineWorldguardRegion() {

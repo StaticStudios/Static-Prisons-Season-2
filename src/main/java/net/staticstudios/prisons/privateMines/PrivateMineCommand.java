@@ -12,6 +12,7 @@ public class PrivateMineCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player player)) return false;
+        if (!PrivateMine.finishedInitTasks) return false;
         PlayerData playerData = new PlayerData(player);
         if (args.length == 0) {
             PrivateMineMenus.open(player, true);

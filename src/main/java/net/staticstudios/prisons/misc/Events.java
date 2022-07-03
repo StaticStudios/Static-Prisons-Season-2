@@ -15,7 +15,7 @@ public class Events implements Listener {
     @EventHandler
     void onChat(AsyncPlayerChatEvent e) {
         new CustomChatMessage(e).sendFormatted();
-        ChatEvents.chatMessageReceived(e);
+//        ChatEvents.chatMessageReceived(e);
     }
     @EventHandler
     void onChangeHeld(PlayerItemHeldEvent e) {

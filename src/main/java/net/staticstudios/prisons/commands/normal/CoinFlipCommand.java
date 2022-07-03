@@ -2,7 +2,7 @@ package net.staticstudios.prisons.commands.normal;
 
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gambling.CoinFlip;
-import net.staticstudios.prisons.gui.GUI;
+import net.staticstudios.prisons.gambling.GamblingMenus;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -16,14 +16,14 @@ public class CoinFlipCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             return false;
         }
-        Player player = (Player) sender;
         if (args.length == 0) {
-            GUI.getGUIPage("cf").open(player);
+            GamblingMenus.coinFlip(player);
             return false;
-        } else if (args.length == 1) {
+        }
+        if (args.length == 1) {
             player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/coinflip <amount> <heads|tails>"));
             return false;
         }

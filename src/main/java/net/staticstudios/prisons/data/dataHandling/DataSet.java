@@ -1,9 +1,7 @@
 package net.staticstudios.prisons.data.dataHandling;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -27,16 +25,14 @@ public class DataSet {
     /**
      * Archive old data in the event that something gets corrupted and a rollback is needed
      */
-    static void changeOldData() {
-        File oldData = new File(StaticPrisons.getInstance().getDataFolder(),"data.yml");
-        if (oldData.exists()) oldData.renameTo(new File(StaticPrisons.getInstance().getDataFolder(), "data/oldServer/" + Instant.now().toEpochMilli() + "-oldData.yml"));
-        //todo use a more storage efficient approach such as filtering old data for the previous day and only saving one file per hour worth of data for that time period, then zip the directory and delete the old files.
-    }
+//    static void changeOldData() {
+//        File oldData = new File(StaticPrisons.getInstance().getDataFolder(),"data.yml");
+//        if (oldData.exists()) oldData.renameTo(new File(StaticPrisons.getInstance().getDataFolder(), "data/oldServer/" + Instant.now().toEpochMilli() + "-oldData.yml"));
+//    }
     /**
      * Save data async, do not use this if data needs to be instantly saved in the event of a server close
      */
     public static void saveData() {
-        changeOldData();
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), DataSet::saveDataSync);
     }
 
@@ -44,7 +40,6 @@ public class DataSet {
      * Immediately save all data
      */
     public static void saveDataSync() {
-        changeOldData();
         FileConfiguration fileData = new YamlConfiguration();
         for (Map.Entry<String, Data> entry : ALL_DATA.entrySet()) {
             try {
@@ -60,7 +55,11 @@ public class DataSet {
         }
         Bukkit.getLogger().log(Level.INFO, "Finished saving all server data");
     }
-    public static void loadData() {
+
+    /**
+     * Load data from file
+     */
+    public static void init() {
         ALL_DATA = new HashMap<>();
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
         for (String key : fileData.getKeys(false)) {

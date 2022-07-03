@@ -20,6 +20,7 @@ import java.util.List;
 
 public class PrivateMineMenus extends GUIUtils {
     public static void open(Player player, boolean fromCommand) {
+        if (!PrivateMine.finishedInitTasks) return;
         PlayerData playerData = new PlayerData(player);
         if (playerData.getPlayerLevel() < 5) {
             if (fromCommand) cannotView(player, null);
@@ -43,9 +44,13 @@ public class PrivateMineMenus extends GUIUtils {
         if (!fromCommand) MainMenus.open(player);
         c.fill(createGrayPlaceHolder());
         c.open(player);
+        c.setOnCloseRun((p, t) -> {
+            if (!fromCommand) MainMenus.open(p);
+        });
     }
 
     public static void cannotView(Player player, GUIRunnable onClose) {
+        if (!PrivateMine.finishedInitTasks) return;
         GUICreator c = new GUICreator(27, "Private Mines");
         c.setItem(11, c.createButton(Material.NETHER_STAR, "&b&lPublic Mines", List.of("View private mines that have", "been opened to the public.", "", "&cYou must be level 5 before you can access this!")));
         c.setItem(13, ench(c.createButtonOfPlayerSkull(player, "&a&lYour Mine", List.of("Manage your private mine.", "", "&cYou must be level 10 before you can access this!"))));
@@ -55,6 +60,7 @@ public class PrivateMineMenus extends GUIUtils {
         c.open(player);
     }
     public static void manageMine(Player player, boolean fromCommand) {
+        if (!PrivateMine.finishedInitTasks) return;
         GUICreator c = new GUICreator(27, "Your Private Mine");
         PlayerData playerData = new PlayerData(player);
         if (!PrivateMine.playerHasPrivateMine(player)) {
@@ -103,6 +109,7 @@ public class PrivateMineMenus extends GUIUtils {
     }
 
     public static void settings(Player player, boolean fromCommand) {
+        if (!PrivateMine.finishedInitTasks) return;
         GUICreator c = new GUICreator(27, "Private Mine Settings");
         PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
 
@@ -140,6 +147,7 @@ public class PrivateMineMenus extends GUIUtils {
 
     public static final int MINES_PER_PAGE = 45;
     public static void publicMines(Player player, int page, boolean fromCommand) {
+        if (!PrivateMine.finishedInitTasks) return;
         int startIndex = page * MINES_PER_PAGE;
         GUICreator c = new GUICreator(54, "Public Private Mines (Page " + (page + 1) + ")");
         List<PrivateMine> mines = new ArrayList<>();
@@ -195,6 +203,7 @@ public class PrivateMineMenus extends GUIUtils {
     }
 
     public static void viewMine(Player player, PrivateMine privateMine, int page, boolean fromCommand) {
+        if (!PrivateMine.finishedInitTasks) return;
         GUICreator c = new GUICreator(27, privateMine.name);
         c.setItem(11, ench(c.createButton(Material.COMPASS, "&a&lWarp to Mine", List.of("Warp to " + privateMine.name), (p, t) -> {
             p.closeInventory();
@@ -241,6 +250,7 @@ public class PrivateMineMenus extends GUIUtils {
         c.open(player);
     }
     public static void settings(Player player, int page, boolean fromCommand) {
+        if (!PrivateMine.finishedInitTasks) return;
         GUICreator c = new GUICreator(54, "Settings");
 
     }

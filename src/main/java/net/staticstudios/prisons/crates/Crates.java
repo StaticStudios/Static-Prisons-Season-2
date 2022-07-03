@@ -24,6 +24,7 @@ public class Crates {
     public static Crate KIT;
 
     public static void init() {
+        Crate.init();
         COMMON = new Crate("common", "Common Crate", "common", new Location(Bukkit.getWorld("world"), -51, 80, -137),
                 new WeightedElements<CrateReward>()
                         .add(new CrateReward(Vouchers.MONEY_POUCH_T1.item), 10)

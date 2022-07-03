@@ -3,12 +3,9 @@ package net.staticstudios.prisons.enchants;
 import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
 import net.staticstudios.prisons.customItems.CustomItems;
 import net.staticstudios.prisons.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.utils.WeightedElements;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigInteger;
@@ -30,7 +27,7 @@ public class KeyFinderEnchant extends BaseEnchant {
                     .add(CustomItems.getStaticCrateKey(2), 4)
                     .add(CustomItems.getStaticCrateKey(2), 1)
                     .getRandom();
-            bb.player.sendMessage(ChatColor.translateAlternateColorCodes('&', DISPLAY_NAME + " &8&l>> &fFound " + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward) + "&f while mining!"));
+            bb.player.sendMessage(ChatColor.translateAlternateColorCodes('&', DISPLAY_NAME + " &8&l>> &fFound " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward) + "&f while mining!"));
             PrisonUtils.Players.addToInventory(bb.player, reward);
         }
     }

@@ -17,6 +17,7 @@ import java.util.List;
 public class EnchantMenus extends GUIUtils {
     public static void selectPickaxe(Player player) {
         GUICreator c = new GUICreator(36, "Select a pickaxe to enchant");
+        c.setMenuID("enchants-selectPickaxe");
         int x = 0;
         for (ItemStack item : player.getInventory().getContents()) {
             if (PrisonUtils.checkIsPrisonPickaxe(item)) {
@@ -231,7 +232,7 @@ public class EnchantMenus extends GUIUtils {
                     enchant.tryToBuyLevels(p, pickaxe, 1000);
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
-                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy MAX (" + Math.min(enchant.MAX_LEVEL - pickaxe.getEnchantLevel(enchant), playerData.getTokens().divide(enchant.PRICE).intValue()) + ") levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy MAX (" + Math.min((long) enchant.MAX_LEVEL - pickaxe.getEnchantLevel(enchant), playerData.getTokens().divide(enchant.PRICE).intValue()) + ") levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
                         "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens"

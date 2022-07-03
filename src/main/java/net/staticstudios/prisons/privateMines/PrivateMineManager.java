@@ -38,7 +38,7 @@ public class PrivateMineManager {
     public static void save() {
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), PrivateMineManager::saveSync);
     }
-    public static void load() {
+    public static void init() {
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
         for (String key : fileData.getKeys(false)) {
             ConfigurationSection section = fileData.getConfigurationSection(key);

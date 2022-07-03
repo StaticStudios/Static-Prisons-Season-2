@@ -15,7 +15,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 
 public final class StaticMines implements Listener {
 
@@ -44,12 +43,15 @@ public final class StaticMines implements Listener {
         if (!instance.config.contains("command_label")) instance.config.set("command_label", DEFAULT_COMMAND_LABEL);
         instance.saveConfig();
         instance.onEnable();
-        Bukkit.getLogger().info("Successfully enabled Static-Mines");
+        StaticMines.log("Successfully enabled Static-Mines");
     }
     public static void disable() {
+        StaticMines.log("Successfully disabled Static-Mines");
         StaticMines.parent = null;
         StaticMines.instance = null;
-        Bukkit.getLogger().info("Successfully disabled Static-Mines");
+    }
+    public static void log(String str) {
+        parent.getLogger().info("[Static-Mines] " + str);
     }
 
     public static JavaPlugin getParent() { return parent; }
@@ -66,7 +68,7 @@ public final class StaticMines implements Listener {
         parent.getServer().getPluginManager().registerEvents(this, StaticMines.parent);
         commandLabel = config.getString("command_label");
         if (parent.getCommand(commandLabel) == null) {
-            getParent().getLogger().warning("There is no command registered for StaticMines... consider registering one in your plugin's main class with the command label: '" + commandLabel + "' (specified in the StaticMines config.yml). Adding this command will allow for more features to be used in-game however it is not required.");
+            StaticMines.log("There is no command registered for StaticMines... consider registering one in your plugin's main class with the command label: '" + commandLabel + "' (specified in the StaticMines config.yml). Adding this command will allow for more features to be used in-game however it is not required.");
         } else {
             parent.getCommand(commandLabel).setExecutor(new StaticMinesCommand());
             parent.getCommand(commandLabel).setTabCompleter(new StaticMinesCommand());
@@ -85,7 +87,8 @@ public final class StaticMines implements Listener {
         try {
             getConfig().save(configFile);
         } catch (IOException ex) {
-            parent.getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
+            StaticMines.log("Could not save config to " + configFile);
+            ex.printStackTrace();
         }
     }
 

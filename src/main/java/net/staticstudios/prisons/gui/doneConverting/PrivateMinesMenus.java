@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.gui.menus;
+package net.staticstudios.prisons.gui.doneConverting;
 
 public class PrivateMinesMenus {
     //pmines menu

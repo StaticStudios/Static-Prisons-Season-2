@@ -1,5 +1,6 @@
 name: Static-Prisons
 version: '${project.version}'
+prefix: Static-Prisons
 description: This plugin allows static prisons to run!
 main: net.staticstudios.prisons.StaticPrisons
 api-version: 1.18

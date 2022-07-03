@@ -15,7 +15,7 @@ public class CrateReward {
     public CrateReward(ItemStack itemReward) {
         this.itemReward = itemReward.clone();
         icon = itemReward.clone();
-        rewardName = PrisonUtils.getPrettyItemName(itemReward);
+        rewardName = PrisonUtils.Items.getPrettyItemName(itemReward);
     }
     public CrateReward(ItemStack icon, Consumer<Player> runnableReward, String rewardName) {
         this.icon = icon.clone();

@@ -70,7 +70,7 @@ public class AuctionManager {
         if (auction.owner().equals(player.getUniqueId())) {
             auctions.remove(auction);
             PrisonUtils.Players.addToInventory(player, auction.item());
-            player.sendMessage(AH_PREFIX + "You reclaimed " + auction.item().getAmount() + "x " + PrisonUtils.getPrettyItemName(auction.item()));
+            player.sendMessage(AH_PREFIX + "You reclaimed " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()));
             return true;
         }
         if (playerData.getMoney().compareTo(auction.price()) < 0) {
@@ -82,8 +82,8 @@ public class AuctionManager {
         playerData.removeMoney(auction.price());
         new PlayerData(auction.owner()).addMoney(auction.price());
         PrisonUtils.Players.addToInventory(player, auction.item());
-        if (Bukkit.getPlayer(auction.owner()) != null) Bukkit.getPlayer(auction.owner()).sendMessage(AH_PREFIX + "" + player.getName() + " bought " + auction.item().getAmount() + "x " + PrisonUtils.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from you for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
-        player.sendMessage(AH_PREFIX + "You bought " + auction.item().getAmount() + "x " + PrisonUtils.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from " + ServerData.PLAYERS.getName(auction.owner()) + " for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
+        if (Bukkit.getPlayer(auction.owner()) != null) Bukkit.getPlayer(auction.owner()).sendMessage(AH_PREFIX + "" + player.getName() + " bought " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from you for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
+        player.sendMessage(AH_PREFIX + "You bought " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from " + ServerData.PLAYERS.getName(auction.owner()) + " for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
         return true;
     }
 
@@ -129,7 +129,7 @@ public class AuctionManager {
             e.printStackTrace();
         }
     }
-    public static void loadAllAuctions() {
+    public static void init() {
         File file = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml");
         if (!file.exists()) {
             file.getParentFile().mkdirs();

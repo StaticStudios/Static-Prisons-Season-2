@@ -23,7 +23,7 @@ public class PrisonPickaxe {
     private static Map<String, PrisonPickaxe> pickaxeUUIDToPrisonPickaxe = new HashMap<>();
     private static List<PrisonPickaxe> updateLoreQueue = new ArrayList<>();
 
-    public static void loadPickaxeData() {
+    public static void init() {
         pickaxeUUIDToPrisonPickaxe = new HashMap<>();
         File dataFolder = new File(StaticPrisons.getInstance().getDataFolder(), "/data");
         dataFolder.mkdirs();
@@ -52,10 +52,6 @@ public class PrisonPickaxe {
 
     public static void savePickaxeDataNow() {
         File dataFolder = new File(StaticPrisons.getInstance().getDataFolder(), "/data");
-        File oldData = new File(dataFolder, "old");
-        oldData.mkdirs();
-        File pickaxeData = new File(dataFolder, "pickaxeData.yml");
-        if (pickaxeData.exists()) pickaxeData.renameTo(new File(oldData, Instant.now().toEpochMilli() + ".yml"));
         FileConfiguration ymlData = new YamlConfiguration();
         for (String key : pickaxeUUIDToPrisonPickaxe.keySet()) {
             ConfigurationSection section = ymlData.createSection(key);
@@ -222,8 +218,23 @@ public class PrisonPickaxe {
         if (this.rawBlocksBroken != rawBlocksBroken) updateLoreQueue.add(this);
         this.rawBlocksBroken = rawBlocksBroken;
     }
+//BASE = 2500
+//ROI = 2.4
+//BASE * lvl + lvl * (ROI * lvl)^ROI
+    static long getLevelRequirement(long level) {
+        if (level <= 0) return 2500;
+        return (long) (2500 * level + level * Math.pow(2.4 * level, 2.4));
+    }
+
+    void calcLevel() {
+        long level = this.level;
+        long xp = getXp();
+        while (xp >= getLevelRequirement(level)) level++;
+        this.level = level;
+    }
+
     public void addXp(long xp) {
-        //todo recalc and apply level
+        if (xp >= getLevelRequirement(level + 1)) calcLevel(); //The pickaxe should level up
         setXp(this.xp + xp);
     }
     public void addBlocksBroken(long blocksBroken) {
@@ -281,7 +292,7 @@ public class PrisonPickaxe {
         return lore;
     }
 
-    private List<String> buildEnchantLore() { //todo order these
+    private List<String> buildEnchantLore() {
         List<String> lore = new ArrayList<>();
         for (BaseEnchant ench : PrisonEnchants.ORDERED_ENCHANTS) {
             int level = getEnchantLevel(ench);

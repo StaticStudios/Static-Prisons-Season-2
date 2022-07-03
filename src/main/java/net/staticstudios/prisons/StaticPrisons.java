@@ -6,10 +6,11 @@ import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.blockBroken.BlockBreakListener;
 import net.staticstudios.prisons.cells.CellManager;
+import net.staticstudios.prisons.chat.events.ChatEvents;
 import net.staticstudios.prisons.commands.normal.*;
-import net.staticstudios.prisons.crates.Crate;
 import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customItems.*;
+import net.staticstudios.prisons.data.backups.DataBackup;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.Prices;
 import net.staticstudios.prisons.enchants.AutoSellEnchant;
@@ -24,7 +25,6 @@ import net.staticstudios.prisons.commands.test.TestCommand;
 import net.staticstudios.prisons.gangs.GangCommand;
 import net.staticstudios.prisons.gui.GUIListener;
 import net.staticstudios.prisons.gui.GUIPage;
-import net.staticstudios.prisons.islands.IslandManager;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.commands.vote_store.VoteStoreListener;
 import net.staticstudios.prisons.mines.MineManager;
@@ -36,7 +36,7 @@ import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.privateMines.PrivateMineCommand;
 import net.staticstudios.prisons.privateMines.PrivateMineManager;
-import net.staticstudios.prisons.rankup.RankUpPrices;
+import net.staticstudios.prisons.rankup.RankUp;
 import net.staticstudios.prisons.utils.Constants;
 import net.luckperms.api.LuckPerms;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -67,6 +67,10 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public static WorldBorderApi worldBorderAPI;
     public static long currentTick = 0;
 
+    public static void log(String message) {
+        plugin.getLogger().info(message);
+    }
+
     void loadWorldBoarderAPI() {
         RegisteredServiceProvider<WorldBorderApi> worldBorderApiRegisteredServiceProvider = Bukkit.getServer().getServicesManager().getRegistration(WorldBorderApi.class);
         worldBorderAPI = worldBorderApiRegisteredServiceProvider.getProvider();
@@ -75,42 +79,51 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         plugin = this;
-        loadWorldBoarderAPI();
-        PrisonUtils.init();
-        MineManager.init();
-        PrivateMine.init();
-        BaseEnchant.init();
-        PrisonEnchants.init();
-        CustomItems.init();
-        Crate.init();
-        Crates.init();
+        safe(StaticPrisons::unloadNetherAndEnd);
+        safe(this::loadWorldBoarderAPI);
+        safe(PrisonUtils::init);
+        safe(MineManager::init);
+        safe(PrivateMine::init);
+        safe(BaseEnchant::init);
+        safe(PrisonEnchants::init);
+        safe(CustomItems::init);
+        safe(Crates::init);
+        safe(CellManager::init);
+        safe(ChatEvents::init);
+        safe(TimedTasks::init);
+        safe(DataSet::init);
+        safe(DataBackup::init);
+        safe(PrisonPickaxe::init);
+        safe(AuctionManager::init);
+        safe(AutoSellEnchant::initTimer);
+        safe(ConsistencyEnchant::init);
+        safe(Kits::init); //todo move to custom items init task
+        safe(TabList::init);
 
 
-        CellManager.init();
 
 
         StaticGUI.enable(this);
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
-        loadConfig();
-        unloadNetherAndEnd();
+        safe(this::loadConfig);
+
         //DataWriter.loadData();
-        DataSet.loadData();
-        CellManager.load();
-        PrivateMineManager.load();
-        AuctionManager.loadAllAuctions();
+//        CellManager.load();
+//        PrivateMineManager.init();
+//        AuctionManager.init();
         //PrisonEnchants.initialize(); //todo delete soon
-        PrisonPickaxe.loadPickaxeData();
+//        PrisonPickaxe.init();
         //AuctionHouseManager.loadAllAuctions();
-        IslandManager.initialize();
+//        IslandManager.initialize();
         //MineManager.initialize();
         Constants.MINES_WORLD = new WorldCreator("mines").createWorld();
-        GUIPage.initializeGUIPages();
-        DiscordLink.initialize();
-        TabList.initialize();
-        Kits.initialize();
-        TimedTasks.initTasks();
-        AutoSellEnchant.initTimer();
-        ConsistencyEnchant.init();
+//        GUIPage.initializeGUIPages();
+//        DiscordLink.initialize();
+//        TabList.init();
+//        Kits.init();
+//        TimedTasks.init();
+//        AutoSellEnchant.initTimer();
+//        ConsistencyEnchant.init();
 
 
         //Register Commands
@@ -295,9 +308,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         //Load prestige mine requirements
         for (int i = 0; i < 15; i++) Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
         //Load rankup prices
-        RankUpPrices.rankPrices = new ArrayList<>();
-        for (int i = 0; i < 26; i++) RankUpPrices.rankPrices.add(BigInteger.valueOf(config.getLong("rankup.prices." + (i + 1))));
-        RankUpPrices.INITIAL_PRESTIGE_PRICE = BigInteger.valueOf(config.getLong("prestiges.price.basePrice"));
+        RankUp.rankPrices = new ArrayList<>();
+        for (int i = 0; i < 26; i++) RankUp.rankPrices.add(BigInteger.valueOf(config.getLong("rankup.prices." + (i + 1))));
+        RankUp.INITIAL_PRESTIGE_PRICE = BigInteger.valueOf(config.getLong("prestiges.price.basePrice"));
 
         //Load Pouches
         MoneyPouchTier1.minValue = new BigInteger(config.getString("pouches.money.1.min"));
@@ -348,6 +361,18 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         MySQLConnection.password = sqlConfig.getString("password");
 
         Bukkit.getLogger().log(Level.INFO, "Finished loading config.yml");
+    }
+
+
+    /**
+     * Safely run a piece of code in a try-catch block. Good for init tasks to prevent other modules from loading.
+     */
+    public static void safe(Runnable r) {
+        try {
+            r.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

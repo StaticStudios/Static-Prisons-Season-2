@@ -4,6 +4,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.data.serverData.ServerData;
+import net.staticstudios.prisons.gui.newGui.MainMenus;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -68,5 +69,9 @@ public class AuctionHouseMenus extends GUIUtils {
         c.setItem(52, createGrayPlaceHolder());
         c.setItem(53, createGrayPlaceHolder());
         c.open(player);
+        c.setOnCloseRun((p, t) -> {
+            if (page == 0) MainMenus.open(p);
+            else openMenu(p, 0);
+        });
     }
 }

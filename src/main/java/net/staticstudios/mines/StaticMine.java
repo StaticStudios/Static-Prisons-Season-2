@@ -30,7 +30,6 @@ import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import java.util.logging.Level;
 
 public class StaticMine {
 
@@ -118,7 +117,7 @@ public class StaticMine {
 
     public StaticMine(String id, Location point1, Location point2) {
         if (!Objects.equals(point1.getWorld(), point2.getWorld())) {
-            Bukkit.getLogger().warning("Tried to create a world with min and max points in different worlds! Skipping it...");
+            StaticMines.log("Tried to create a world with min and max points in different worlds! Skipping it...");
             return;
         }
         this.id = id;
@@ -159,7 +158,7 @@ public class StaticMine {
         editSession.close();
         blocksInMine = (long) (maxPoint.getBlockX() - minPoint.getBlockX()) * (maxPoint.getBlockY() - minPoint.getBlockY()) * (maxPoint.getBlockZ() - minPoint.getBlockZ());
         refillNextAt = Instant.now().getEpochSecond() + secondsBetweenRefills;
-        Bukkit.getLogger().log(Level.INFO, "Refilled mine: " + id);
+        StaticMines.log("Refilled mine: " + id);
         if (async) {
             Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint())));
         } else Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint()));
@@ -209,17 +208,17 @@ public class StaticMine {
             FileConfiguration minesConfig = YamlConfiguration.loadConfiguration(minesConfigFile);
             for (String key : minesConfig.getKeys(false)) loadMine(key, minesConfig.getConfigurationSection(key));
         }, Math.max(0, waitAfterWorldLoads));
-        StaticMines.getParent().getLogger().log(Level.INFO, "Finished loading all mines (mines.yml)");
+        StaticMines.log("Finished loading all mines (mines.yml)");
         StaticMines.getRunAfterInitialLoad().run();
     }
 
     static void loadMine(String mineID, ConfigurationSection mineConfig) {
         if (mineConfig.getString("location.point1.world") == null || mineConfig.getString("location.point2.world") == null) {
-            StaticMines.getParent().getLogger().warning("Tried to load a mine with an invalid location! Skipping it... Mine: " + mineID);
+            StaticMines.log("Tried to load a mine with an invalid location! Skipping it... Mine: " + mineID);
             return;
         }
         if (Bukkit.getWorld(mineConfig.getString("location.point1.world")) == null || Bukkit.getWorld(mineConfig.getString("location.point2.world")) == null) {
-            StaticMines.getParent().getLogger().log(Level.INFO, "Tried to load a mine with an invalid location! Skipping it... Mine: " + mineID);
+            StaticMines.log("Tried to load a mine with an invalid location! Skipping it... Mine: " + mineID);
             return;
         }
 
@@ -236,7 +235,7 @@ public class StaticMine {
         for (String key : mineConfig.getConfigurationSection("blocks").getKeys(false)) {
             String _key = key.toLowerCase();
             if (BlockTypes.get("minecraft:" + _key) == null) {
-                StaticMines.getParent().getLogger().warning("Tried to load a mine with an invalid block! Skipping it... Mine: " + mineID + ", Invalid block: " + key);
+                StaticMines.log("Tried to load a mine with an invalid block! Skipping it... Mine: " + mineID + ", Invalid block: " + key);
                 continue;
             }
             mineBlocks.add(new MineBlock(BlockTypes.get("minecraft:" + _key), mineConfig.getDouble("blocks." + key)));
@@ -277,7 +276,7 @@ public class StaticMine {
         try {
             minesConfig.save(minesConfigFile);
         } catch (IOException e) {
-            StaticMines.getParent().getLogger().warning("Could not save mine data");
+            StaticMines.log("Could not save mine data");
             e.printStackTrace();
         }
     }

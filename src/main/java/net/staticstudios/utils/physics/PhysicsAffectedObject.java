@@ -13,7 +13,4 @@ public class PhysicsAffectedObject {
 
     private boolean hasCollision;
 
-
-
-
 }

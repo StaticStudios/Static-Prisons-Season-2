@@ -60,7 +60,7 @@ public class Crate {
 
 
         String rewardString = "";
-        if (reward.itemReward != null) rewardString = reward.itemReward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward.itemReward);
+        if (reward.itemReward != null) rewardString = reward.itemReward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward.itemReward);
         else rewardString = reward.rewardName;
         double chance = REWARDS.getChance(reward);
         String colorPrefix = "&a";

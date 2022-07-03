@@ -27,7 +27,7 @@ public class Kits {
     public static Kit POTION = new Kit();
     public static Kit WEAPON = new Kit();
 
-    public static void initialize() {
+    public static void init() {
         //Tier 1
         TIER1.name = ChatColor.AQUA + "Kit Tier 1";
         TIER1.whatComesWithTheKit.add(ChatColor.GREEN + " -Iron Helmet: Protection 1 | Unbreaking 1");

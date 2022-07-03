@@ -59,23 +59,16 @@ public final class PrisonUtils { //todo clean this up
         return item;
     }
 
-    public static ItemStack getItemInMainHand(Player player) {
-        return player.getInventory().getItemInMainHand();
-    }
-
     public static int randomInt(int min, int max) {
         return new Random().nextInt((max - min) + 1) + min;
     }
-
     public static float randomFloat(float min, float max) {
         return new Random().nextFloat((max - min) + 1) + min;
     }
-
     public static double randomDouble(double min, double max) {
         return new Random().nextDouble((max - min) + 1) + min;
     }
-
-    public static BigInteger randomBigInt(BigInteger min, BigInteger max) { //github copilot created this and i have no idea if it works
+    public static BigInteger randomBigInt(BigInteger min, BigInteger max) { //github copilot created this and i have no idea if it works - use numbers not string values
         return min.add(new BigInteger(String.valueOf(Math.round(Math.random() * (max.subtract(min).doubleValue())))));
     }
 //    public static BigInteger randomBigInt(BigInteger min, BigInteger max) {
@@ -152,9 +145,7 @@ public final class PrisonUtils { //todo clean this up
                 }
                 scanner.close();
             }
-            for (String line : linesToWrite) {
-                contents.append(line).append("\n");
-            }
+            for (String line : linesToWrite) contents.append(line).append("\n");
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(contents.toString());
             fileWriter.close();
@@ -162,18 +153,6 @@ public final class PrisonUtils { //todo clean this up
             return false;
         }
         return true;
-    }
-
-    public static void writeToAFile(String filePath, String text) {
-        try {
-            File file = new File(filePath);
-            if (!file.exists()) file.createNewFile();
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(text);
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static List<String> getAllLinesInAFile(String filePath) {
@@ -209,120 +188,65 @@ public final class PrisonUtils { //todo clean this up
         return contents.toString();
     }
 
-    public static void copyFileStructure(File source, File target) {
-        try {
-            ArrayList<String> ignore = new ArrayList<>(Arrays.asList("uid.dat", "session.lock"));
-            if (!ignore.contains(source.getName())) {
-                if (source.isDirectory()) {
-                    if (!target.exists())
-                        if (!target.mkdirs())
-                            throw new IOException("Couldn't create world directory!");
-                    String files[] = source.list();
-                    for (String file : files) {
-                        File srcFile = new File(source, file);
-                        File destFile = new File(target, file);
-                        copyFileStructure(srcFile, destFile);
-                    }
-                } else {
-                    InputStream in = new FileInputStream(source);
-                    OutputStream out = new FileOutputStream(target);
-                    byte[] buffer = new byte[1024];
-                    int length;
-                    while ((length = in.read(buffer)) > 0)
-                        out.write(buffer, 0, length);
-                    in.close();
-                    out.close();
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
     public static String addCommasToNumber(BigInteger value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
-
     public static String addCommasToNumber(int value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
-
     public static String addCommasToNumber(long value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
-
     public static String prettyNum(BigInteger num) {
         return prettyNum(num.toString());
     }
-
     public static String prettyNum(long num) {
         return prettyNum(BigInteger.valueOf(num));
     }
-
     public static String prettyNum(int num) {
         return prettyNum(BigInteger.valueOf(num));
     }
 
+
+    private static final String[] abbreviations = {
+            "K",
+            "M",
+            "B",
+            "T",
+            "Qd",
+            "Qn",
+            "Sx",
+            "Sp",
+            "O",
+            "N",
+            "D",
+            "Ud",
+            "Dd",
+            "Td",
+            "Qad",
+            "Qid",
+            "Sxd",
+            "Spd",
+            "Ocd",
+            "Nod",
+            "Vg",
+            "Uvg",
+    };
     public static String prettyNum(String num) {
-        List<String> abbreviations = new ArrayList<>();
-        abbreviations.add("K");
-        abbreviations.add("M");
-        abbreviations.add("B");
-        abbreviations.add("T");
-        abbreviations.add("Qd");
-        abbreviations.add("Qn");
-        abbreviations.add("Sx");
-        abbreviations.add("Sp");
-        abbreviations.add("O");
-        abbreviations.add("N");
-        abbreviations.add("D");
-        abbreviations.add("Ud");
-        abbreviations.add("Dd");
-        abbreviations.add("Td");
-        abbreviations.add("Qad");
-        abbreviations.add("Qid");
-        abbreviations.add("Sxd");
-        abbreviations.add("Spd");
-        abbreviations.add("Ocd");
-        abbreviations.add("Nod");
-        abbreviations.add("Vg");
-        abbreviations.add("Uvg");
         BigInteger number = new BigInteger(num);
         String[] nums = num.split("(?!^)");
         String prettyNum = "";
         String digit = "";
-        if ((number.toString().length() / 3) - 1 > abbreviations.size()) {
-            digit = "BIG";
-        } else {
-            if (((number.toString().length() - 1) / 3) - 1 >= 0) {
-                digit = abbreviations.get(((number.toString().length() - 1) / 3) - 1);
-            }
-        }
+        if ((number.toString().length() / 3) - 1 > abbreviations.length) digit = "BIG";
+        else if (((number.toString().length() - 1) / 3) - 1 >= 0) digit = abbreviations[((number.toString().length() - 1) / 3) - 1];
         if (number.compareTo(BigInteger.valueOf(999)) == 1) {
-            if (num.length() % 3 == 1) {
-                prettyNum += nums[0] + "." + nums[1] + nums[2] + digit;
-            } else if (num.length() % 3 == 2) {
-                prettyNum += nums[0] + nums[1] + "." + nums[2] + digit;
-            } else prettyNum += nums[0] + nums[1] + nums[2] + digit;
+            switch (num.length() % 3) {
+                case 1 -> prettyNum += nums[0] + "." + nums[1] + nums[2] + digit;
+                case 2 -> prettyNum += nums[0] + nums[1] + "." + nums[2] + digit;
+                default -> prettyNum += nums[0] + nums[1] + nums[2] + digit;
+            }
         } else prettyNum = num;
         return prettyNum;
-    }
-
-    public static String getPrettyItemName(ItemStack item) {
-        String name;
-        if (!item.hasItemMeta()) {
-            name = capitalizeEachWord(item.getType().toString().replace("_", " "));
-            name = ChatColor.RESET + "" + ChatColor.WHITE + name;
-        } else {
-            if (!item.getItemMeta().hasDisplayName()) {
-                name = capitalizeEachWord(item.getType().toString().replace("_", " "));
-                name = ChatColor.RESET + "" + ChatColor.WHITE + name;
-            } else {
-                name = item.getItemMeta().getDisplayName();
-            }
-        }
-        return name;
     }
 
     public static String getPrettyMaterialName(Material mat) {
@@ -394,6 +318,22 @@ public final class PrisonUtils { //todo clean this up
             meta.setLore(lore);
             item.setItemMeta(meta);
             return item;
+        }
+
+        public static String getPrettyItemName(ItemStack item) {
+            String name;
+            if (!item.hasItemMeta()) {
+                name = capitalizeEachWord(item.getType().toString().replace("_", " "));
+                name = ChatColor.RESET + "" + ChatColor.WHITE + name;
+            } else {
+                if (!item.getItemMeta().hasDisplayName()) {
+                    name = capitalizeEachWord(item.getType().toString().replace("_", " "));
+                    name = ChatColor.RESET + "" + ChatColor.WHITE + name;
+                } else {
+                    name = item.getItemMeta().getDisplayName();
+                }
+            }
+            return name;
         }
     }
 

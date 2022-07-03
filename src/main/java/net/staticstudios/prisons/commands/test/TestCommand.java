@@ -53,18 +53,4 @@ public class TestCommand implements CommandExecutor {
     }
 
 
-
-    static void test() {
-
-
-        int i = 0;
-        while (i < 10) {
-            i++;
-        }
-
-        for (int x = 0; x < 10; x++) {
-
-        }
-    }
-
 }

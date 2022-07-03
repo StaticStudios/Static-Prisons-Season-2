@@ -24,7 +24,7 @@ import java.time.Instant;
 
 public class TimedTasks {
 
-    public static void initTasks() {
+    public static void init() {
         //Auto saves data
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), DataSet::saveData, 20 * 60 * 5, 20 * 60 * 5);
         //Auto saves private mine data
@@ -87,7 +87,7 @@ public class TimedTasks {
             for (Player p : Bukkit.getOnlinePlayers()) if (!new PlayerData(p).getAreTipsDisabled()) p.sendMessage(tip);
         }, 20 * 60 * 5, 20 * 60 * 10);
         //Chat Events
-        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), ChatEvents::runNewEvent, 20 * 60 * 12, 20 * 60 * 25);
+//        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), ChatEvents::runNewEvent, 20 * 60 * 12, 20 * 60 * 25);
         //Update Pickaxe Lore With Stats
         //Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::dumpStatsToAllPickaxe, 0, 20 * 10);
         //Consistency enchant

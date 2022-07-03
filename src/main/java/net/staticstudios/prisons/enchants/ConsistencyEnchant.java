@@ -23,7 +23,7 @@ public class ConsistencyEnchant extends BaseEnchant {
     static final int MAX_POSSIBLE_MS_BETWEEN_BREAKS = 1000 * 60 * 2;
     static final int levelUpTime = 1000 * 60 * 2;
     static final double MULTI_INCREASE_PER_LEVEL = 0.01;
-    static String PREFIX = ChatColor.YELLOW + "" + ChatColor.BOLD + "Consistency " + ChatColor.DARK_GRAY + ChatColor.BOLD + "> ";
+    static String PREFIX = ChatColor.YELLOW + "" + ChatColor.BOLD + "Consistency " + ChatColor.DARK_GRAY + ChatColor.BOLD + ">> " + ChatColor.RESET;
 
     public static void init() {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {

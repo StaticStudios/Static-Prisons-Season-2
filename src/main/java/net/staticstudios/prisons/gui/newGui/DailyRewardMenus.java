@@ -38,7 +38,7 @@ public class DailyRewardMenus extends GUIUtils {
                 }
                 playerData.setClaimedDailyRewardsRank1At(Instant.now().getEpochSecond());
                 PrisonUtils.Players.addToInventory(p, reward);
-                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward));
+                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward));
                 mainMenu(p);
             })));
         } else c.setItem(2, c.createButton(Material.DIAMOND, "&bClaim Reward &e(Warrior)", List.of("&fYou can claim this reward every", "&f24 hours to get random crate keys!", "",
@@ -57,7 +57,7 @@ public class DailyRewardMenus extends GUIUtils {
                 }
                 playerData.setClaimedDailyRewardsAt(Instant.now().getEpochSecond());
                 PrisonUtils.Players.addToInventory(p, reward);
-                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward));
+                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward));
                 mainMenu(p);
             })));
         } else c.setItem(4, c.createButton(Material.NETHER_STAR, "&bClaim Reward &a(Member)", List.of("&fYou can claim this reward every", "&f24 hours to get random crate keys!", "",
@@ -82,7 +82,7 @@ public class DailyRewardMenus extends GUIUtils {
                 }
                 playerData.setClaimedDailyRewardsRank2At(Instant.now().getEpochSecond());
                 PrisonUtils.Players.addToInventory(p, reward);
-                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward));
+                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward));
                 mainMenu(p);
             })));
         } else c.setItem(6, c.createButton(Material.AMETHYST_SHARD, "&bClaim Reward &d(Static)", List.of("&fYou can claim this reward every", "&f24 hours to get random crate keys!", "",

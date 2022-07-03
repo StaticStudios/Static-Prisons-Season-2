@@ -31,6 +31,7 @@ public class CellManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        load();
     }
 
 

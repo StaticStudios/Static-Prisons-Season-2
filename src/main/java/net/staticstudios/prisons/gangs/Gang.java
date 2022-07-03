@@ -14,14 +14,14 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.*;
 
-public class PrisonGang {//todo: this
+public class Gang {//todo: this
 
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&6&lGangs &8&l>> &r");
 
     public static int MAX_GANG_SIZE = 5;
 
-    static final Map<UUID, PrisonGang> GANGS = new HashMap<>();
-    static final Map<UUID, PrisonGang> PLAYER_GANGS = new HashMap<>();
+    static final Map<UUID, Gang> GANGS = new HashMap<>();
+    static final Map<UUID, Gang> PLAYER_GANGS = new HashMap<>();
 
     private UUID uuid;
 
@@ -80,6 +80,15 @@ public class PrisonGang {//todo: this
     public long getBlocksMined() {
         return blocksMined;
     }
+    public long getSecondsPlayed() {
+        return secondsPlayed;
+    }
+    public BigInteger getMoneyMade() {
+        return moneyMade;
+    }
+    public BigInteger getTokensFound() {
+        return tokensFound;
+    }
 
     //Bank
     private BigInteger bankMoney = BigInteger.ZERO;
@@ -87,20 +96,20 @@ public class PrisonGang {//todo: this
 
     //TODO: gang chest
 
-    private PrisonGang() {}
+    private Gang() {}
 
-    public static PrisonGang getGang(UUID gang) {
+    public static Gang getGang(UUID gang) {
         return GANGS.get(gang);
     }
-    public static PrisonGang getGang(Player player) {
+    public static Gang getGang(Player player) {
         return PLAYER_GANGS.get(player.getUniqueId());
     }
     public static boolean hasGang(Player player) {
         return PLAYER_GANGS.containsKey(player.getUniqueId());
     }
 
-    public static PrisonGang createGang(UUID owner, String name) {
-        PrisonGang gang = new PrisonGang();
+    public static Gang createGang(UUID owner, String name) {
+        Gang gang = new Gang();
         gang.uuid = UUID.randomUUID();
         gang.owner = owner;
         gang.name = name;
@@ -110,12 +119,12 @@ public class PrisonGang {//todo: this
         PLAYER_GANGS.put(owner, gang);
         return gang;
     }
-    public static PrisonGang loadGang(UUID uuid,
-                                      UUID owner, String name, List<UUID> members,
-                                      boolean isPublic, boolean acceptingInvites, boolean friendlyFire, boolean canMembersWithdrawFomBank,
-                                      long rawBlocksMined, long blocksMined, long secondsPlayed, BigInteger moneyMade, BigInteger tokensFound,
-                                      BigInteger bankMoney, BigInteger bankTokens) {
-        PrisonGang gang = new PrisonGang();
+    public static Gang loadGang(UUID uuid,
+                                UUID owner, String name, List<UUID> members,
+                                boolean isPublic, boolean acceptingInvites, boolean friendlyFire, boolean canMembersWithdrawFomBank,
+                                long rawBlocksMined, long blocksMined, long secondsPlayed, BigInteger moneyMade, BigInteger tokensFound,
+                                BigInteger bankMoney, BigInteger bankTokens) {
+        Gang gang = new Gang();
         gang.uuid = uuid;
         gang.owner = owner;
         gang.name = name;
@@ -135,7 +144,7 @@ public class PrisonGang {//todo: this
         for (UUID member : members) PLAYER_GANGS.put(member, gang);
         return gang;
     }
-    public static ConfigurationSection saveGang(PrisonGang gang) {
+    public static ConfigurationSection saveGang(Gang gang) {
         ConfigurationSection section = new YamlConfiguration();
         section.set("uuid", gang.uuid.toString());
         section.set("owner", gang.owner.toString());
@@ -157,14 +166,14 @@ public class PrisonGang {//todo: this
     public static void saveAllSync() {
         try {
             FileConfiguration fileData = new YamlConfiguration();
-            for (PrisonGang gang : GANGS.values()) fileData.set(gang.uuid.toString(), saveGang(gang));
+            for (Gang gang : GANGS.values()) fileData.set(gang.uuid.toString(), saveGang(gang));
             fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public void saveAll() { //todo save on timer and load and save on start/close
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), PrisonGang::saveAllSync);
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), Gang::saveAllSync);
     }
     public static void loadAll() {
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
@@ -196,8 +205,9 @@ public class PrisonGang {//todo: this
 
     public boolean addMember(UUID member) {
         if (members.size() >= MAX_GANG_SIZE) return false;
-        messageAllMembers(ChatColor.translateAlternateColorCodes('&', "&a" + ServerData.PLAYERS.getName(member) + "&f joined your gang!"));
-        if (Bukkit.getPlayer(member) != null) Bukkit.getPlayer(member).sendMessage(ChatColor.translateAlternateColorCodes('&', "You joined &b" + name + "!"));
+        if (members.contains(member)) return false;
+        messageAllMembers(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&a" + ServerData.PLAYERS.getName(member) + "&f joined your gang!"));
+        if (Bukkit.getPlayer(member) != null) Bukkit.getPlayer(member).sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You joined &b" + name + "!"));
         members.add(member);
         PLAYER_GANGS.put(member, this);
         return true;
@@ -205,62 +215,10 @@ public class PrisonGang {//todo: this
     public void removeMember(UUID member) {
         members.remove(member);
         PLAYER_GANGS.remove(member);
-        messageAllMembers(ChatColor.translateAlternateColorCodes('&', "&c" + ServerData.PLAYERS.getName(member) + "&f left your gang!"));
     }
-
-
-    static final Map<UUID, List<Invite>> PLAYER_INVITES = new HashMap<>();
-
-    public static class Invite {
-        private UUID receiver = null;
-        private UUID gangUUID = null;
-        private long expireAt;
-
-        private Invite() {}
-
-        public static void updatePlayerInvites(UUID player) {
-            List<Invite> newInvites = new ArrayList<>();
-            for (Invite invite : PLAYER_INVITES.getOrDefault(player, new ArrayList<>())) {
-                if (invite.isExpired()) newInvites.add(invite);
-            }
-
-            if (newInvites.isEmpty()) PLAYER_INVITES.remove(player);
-            else PLAYER_INVITES.put(player, newInvites);
-        }
-
-
-        public static Invite createInvite(Player sender, Player receiver) {
-            Invite invite = new Invite();
-            invite.receiver = receiver.getUniqueId();
-            invite.gangUUID = getGang(sender).uuid;
-            invite.expireAt = System.currentTimeMillis() + 1000 * 300; //5 minutes
-            List<Invite> invites = PLAYER_INVITES.getOrDefault(receiver.getUniqueId(), new ArrayList<>());
-            invites.add(invite);
-            PLAYER_INVITES.put(receiver.getUniqueId(), invites);
-            return invite;
-        }
-
-        public boolean isExpired() {
-            return System.currentTimeMillis() > expireAt;
-        }
-
-        public void accept() {
-            if (isExpired()) {
-                if (Bukkit.getPlayer(receiver) != null) Bukkit.getPlayer(receiver).sendMessage(ChatColor.translateAlternateColorCodes('&', "&cThis invite is expired!"));
-                return;
-            }
-            PrisonGang gang = PrisonGang.getGang(this.gangUUID);
-            if (gang == null) return;
-            if (gang.addMember(receiver)) return;
-            if (Bukkit.getPlayer(receiver) != null) Bukkit.getPlayer(receiver).sendMessage(ChatColor.translateAlternateColorCodes('&', "&c" + gang.name + "&f is full!"));
-        }
-        public void decline() {
-            expireAt = 0;
-            updatePlayerInvites(receiver);
-        }
+    public boolean isFull() {
+        return members.size() >= MAX_GANG_SIZE;
     }
-
-
 
 
     public void messageAllMembers(String message) {

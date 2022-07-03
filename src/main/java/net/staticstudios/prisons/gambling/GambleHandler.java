@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GambleHandler {
+public class GambleHandler { //todo more gambling thinsg
     public static final int MAX_FLIP_COUNT = 42;
     public static Map<String, TokenFlip> tokenFlips = new HashMap<>();
     public static Map<String, CoinFlip> coinFlips = new HashMap<>();

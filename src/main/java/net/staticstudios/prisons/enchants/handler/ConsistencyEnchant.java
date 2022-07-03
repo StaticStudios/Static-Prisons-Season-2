@@ -1,6 +1,5 @@
 package net.staticstudios.prisons.enchants.handler;
 
-//todo: convert
 
 /*
 public class ConsistencyEnchant {
