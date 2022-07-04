@@ -51,7 +51,7 @@ public class TokenFlip extends Flip {
         Flip.WhoWins winner = new WeightedElements<WhoWins>()
                 .add(WhoWins.OWNER, 49)
                 .add(WhoWins.CHALLENGER, 49)
-                .add(WhoWins.HOUSE, 1)
+                .add(WhoWins.HOUSE, 2)
                 .getRandom();
 
         new PlayerData(owner).removeTokens(amount);
@@ -63,8 +63,14 @@ public class TokenFlip extends Flip {
             c.setMenuID(uuid);
             switch (animationsRun.get() % 3) {
                 default -> c.setItem(13, c.createButton(Material.CLOCK, "&e&lHouse", List.of("House wins", "", "&c2% chance"))); //House
-                case 1 -> c.setItem(13, c.createButton(headsIcon, "&a&lHeads", List.of(owner.getName() + " wins", "", "&c49% chance"))); //House
-                case 2 -> c.setItem(13, c.createButton(tailsIcon, "&9&lTails", List.of(challenger.getName() + " wins", "", "&c49% chance"))); //House
+                case 1 -> {
+                    if (isHeads) c.setItem(13, c.createButton(headsIcon, "&a&lHeads", List.of(owner.getName() + " wins", "", "&c49% chance")));
+                    else c.setItem(13, c.createButton(tailsIcon, "&9&lTails", List.of(owner.getName() + " wins", "", "&c49% chance")));
+                }
+                case 2 -> {
+                    if (!isHeads) c.setItem(13, c.createButton(headsIcon, "&a&lHeads", List.of(challenger.getName() + " wins", "", "&c49% chance")));
+                    else c.setItem(13, c.createButton(tailsIcon, "&9&lTails", List.of(challenger.getName() + " wins", "", "&c49% chance")));
+                }
             }
 
             if (animationsRun.get() > 20) {

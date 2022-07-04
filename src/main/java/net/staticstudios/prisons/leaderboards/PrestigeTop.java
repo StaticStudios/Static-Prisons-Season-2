@@ -43,24 +43,24 @@ public class PrestigeTop {
     }
     static void updateNPC() {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc select " + npc1Name);
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc skin " + ServerData.PLAYERS.getUUID(top100UUIDs.get(0).toString()));
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc skin " + ServerData.PLAYERS.getName(top100UUIDs.get(0)));
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc hologram remove 1");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc hologram add &a&l" + ServerData.PLAYERS.getUUID(top100UUIDs.get(0).toString()) + " (" + PrisonUtils.prettyNum(new PlayerData(top100UUIDs.get(0)).getPrestige()) + ")");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc hologram add &a&l" + ServerData.PLAYERS.getName(top100UUIDs.get(0)) + " (" + PrisonUtils.prettyNum(new PlayerData(top100UUIDs.get(0)).getPrestige()) + ")");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc command remove 1");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc command add stats " + ServerData.PLAYERS.getUUID(top100UUIDs.get(0).toString()) + " -r -l -p");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc command add stats " + ServerData.PLAYERS.getName(top100UUIDs.get(0)) + " -r -l -p");
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc select " + npc2Name);
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc skin " + ServerData.PLAYERS.getUUID(top100UUIDs.get(1).toString()));
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc skin " + ServerData.PLAYERS.getName(top100UUIDs.get(1)));
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc hologram remove 1");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc hologram add &a&l" + ServerData.PLAYERS.getUUID(top100UUIDs.get(1).toString()) + " (" + PrisonUtils.prettyNum(new PlayerData(top100UUIDs.get(1)).getPrestige()) + ")");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc hologram add &a&l" + ServerData.PLAYERS.getName(top100UUIDs.get(1)) + " (" + PrisonUtils.prettyNum(new PlayerData(top100UUIDs.get(1)).getPrestige()) + ")");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc command remove 1");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc command add stats " + ServerData.PLAYERS.getUUID(top100UUIDs.get(1).toString()) + " -r -l -p");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc command add stats " + ServerData.PLAYERS.getName(top100UUIDs.get(1)) + " -r -l -p");
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc select " + npc3Name);
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc skin " + ServerData.PLAYERS.getUUID(top100UUIDs.get(2).toString()));
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc skin " + ServerData.PLAYERS.getName(top100UUIDs.get(2)));
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc hologram remove 1");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc hologram add &a&l" + ServerData.PLAYERS.getUUID(top100UUIDs.get(2).toString()) + " (" + PrisonUtils.prettyNum(new PlayerData(top100UUIDs.get(2)).getPrestige()) + ")");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc hologram add &a&l" + ServerData.PLAYERS.getName(top100UUIDs.get(2)) + " (" + PrisonUtils.prettyNum(new PlayerData(top100UUIDs.get(2)).getPrestige()) + ")");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc command remove 1");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc command add stats " + ServerData.PLAYERS.getUUID(top100UUIDs.get(2).toString()) + " -r -l -p");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc command add stats " + ServerData.PLAYERS.getName(top100UUIDs.get(2)) + " -r -l -p");
     }
 }

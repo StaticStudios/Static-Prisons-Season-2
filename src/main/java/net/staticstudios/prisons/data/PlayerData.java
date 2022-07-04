@@ -6,6 +6,7 @@ import net.staticstudios.prisons.data.dataHandling.DataTypes;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
+import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.islands.SkyBlockIsland;
 import net.staticstudios.prisons.islands.SkyBlockIslands;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -393,6 +394,7 @@ public class PlayerData extends DataSet {
 //        }
         BigInteger soldFor = BigDecimal.valueOf(getBackpackValue()).multiply(multi).toBigInteger();
         new PlayerData(player).addMoney(soldFor);
+        if (Gang.hasGang(player)) Gang.getGang(player).addMoneyMade(soldFor); //Track gang stats
         if (sendChatMessage) {
             chatMessage = chatMessage.replaceAll("%MULTI%", multi + "");
             chatMessage = chatMessage.replaceAll("%TOTAL_BACKPACK_COUNT%", PrisonUtils.prettyNum(getBackpackItemCount()) + "");
@@ -430,6 +432,10 @@ public class PlayerData extends DataSet {
     }
     public PlayerData setPlayerRank(String value) {
         setString("playerRank", value);
+        Player player = Bukkit.getPlayer(getUUID());
+        if (player != null) {
+            PrisonUtils.updateLuckPermsForPlayerRanks(player);
+        }
         return this;
     }
 

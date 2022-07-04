@@ -272,3 +272,5 @@ commands:
     aliases:
       - gangs
       - team
+  pvp:
+    description: a

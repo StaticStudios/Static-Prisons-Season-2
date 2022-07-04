@@ -47,7 +47,30 @@ public class PrisonPickaxe {
     }
 
     public static void savePickaxeData() {
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), PrisonPickaxe::savePickaxeDataNow);
+        Map<String, PrisonPickaxe> temp = new HashMap<>(pickaxeUUIDToPrisonPickaxe);
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
+            File dataFolder = new File(StaticPrisons.getInstance().getDataFolder(), "/data");
+            FileConfiguration ymlData = new YamlConfiguration();
+            for (String key : temp.keySet()) {
+                ConfigurationSection section = ymlData.createSection(key);
+                PrisonPickaxe pickaxe = temp.get(key);
+                for (BaseEnchant enchant : pickaxe.getEnchants()) section.set(enchant.ENCHANT_ID, pickaxe.getEnchantLevel(enchant.ENCHANT_ID));
+                section.set("disabledEnchants", new ArrayList<>(pickaxe.disabledEnchants));
+                section.set("level", pickaxe.level);
+                section.set("xp", pickaxe.xp);
+                section.set("blocksBroken", pickaxe.blocksBroken);
+                section.set("rawBlocksBroken", pickaxe.rawBlocksBroken);
+                section.set("topLore", pickaxe.topLore);
+                section.set("bottomLore", pickaxe.bottomLore);
+            }
+            try {
+                ymlData.save(new File(dataFolder, "pickaxeData.yml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Bukkit.getLogger().log(Level.INFO, "Saved all pickaxe data data/pickaxeData.yml");
+        });
     }
 
     public static void savePickaxeDataNow() {

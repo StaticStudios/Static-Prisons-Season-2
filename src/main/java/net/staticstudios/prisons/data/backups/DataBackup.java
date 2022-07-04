@@ -18,6 +18,7 @@ public class DataBackup {
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml"));
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));
+        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
         Bukkit.getScheduler().runTaskTimerAsynchronously(StaticPrisons.getInstance(), DataBackup::saveShortTermBackUp, 20 * 60 * 30, 20 * 60 * 30); //30 minutes
     }
@@ -51,7 +52,7 @@ public class DataBackup {
 
     private static void saveLongTermBackUp(File longTermBackupFolder, File directory) throws IOException {
         FileUtils.copyDirectory(directory, new File(longTermBackupFolder, directory.getName()));
-        //todo zip
+        //todo compress long term backups
         StaticPrisons.log("[Data-Backup] Saved a long term backup");
     }
     private static void shiftShortTermBackups(File shortTermBackUpFolder, File longTermBackUpFolder) throws IOException {

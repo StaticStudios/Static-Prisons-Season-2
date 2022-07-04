@@ -56,7 +56,21 @@ public class CellManager {
         }
     }
     public static void save() {
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), CellManager::saveSync);
+        Map<UUID, Cell> temp = new HashMap<>(cells);
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
+            FileConfiguration fileData = new YamlConfiguration();
+            for (Map.Entry<UUID, Cell> entry : temp.entrySet()) {
+                ConfigurationSection section = fileData.createSection(entry.getKey().toString());
+                section.set("owner", entry.getValue().cellOwnerUUID.toString());
+                section.set("name", entry.getValue().cellName);
+                section.set("gridPos", entry.getValue().gridPosition);
+            }
+            try {
+                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
     public static void load() {
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));

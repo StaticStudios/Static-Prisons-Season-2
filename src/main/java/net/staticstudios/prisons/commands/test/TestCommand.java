@@ -1,13 +1,20 @@
 package net.staticstudios.prisons.commands.test;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
+import net.kyori.adventure.title.TitlePart;
+import net.md_5.bungee.api.ChatMessageType;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.utils.WeightedElements;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.time.Duration;
 
 public class TestCommand implements CommandExecutor {
     @Override
@@ -49,6 +56,8 @@ public class TestCommand implements CommandExecutor {
 //        }
 //        player.sendMessage("Total time taken: " + (System.currentTimeMillis() - start) + "ms");
         //EventManager.runWordUnscramble();
+//        player.spigot().send(TitlePart.TITLE, "");
+//        player.showTitle(Title.title(Component.text("&a&lHello"), Component.text("&b&lWorld"), Title.Times.of(Duration.ofMillis(500), Duration.ofMillis(2000), Duration.ofMillis(500))));
         return false;
     }
 

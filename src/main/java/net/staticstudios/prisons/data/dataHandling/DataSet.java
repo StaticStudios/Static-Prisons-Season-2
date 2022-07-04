@@ -33,7 +33,23 @@ public class DataSet {
      * Save data async, do not use this if data needs to be instantly saved in the event of a server close
      */
     public static void saveData() {
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), DataSet::saveDataSync);
+        Map<String, Data> temp = new HashMap<>(ALL_DATA);
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
+            FileConfiguration fileData = new YamlConfiguration();
+            for (Map.Entry<String, Data> entry : temp.entrySet()) {
+                try {
+                    fileData.set(entry.getKey(), entry.getValue().toConfigurationSection());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Bukkit.getLogger().log(Level.INFO, "Finished saving all server data");
+        });
     }
 
     /**

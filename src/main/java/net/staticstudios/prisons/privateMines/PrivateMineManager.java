@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -36,7 +37,27 @@ public class PrivateMineManager {
         }
     }
     public static void save() {
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), PrivateMineManager::saveSync);
+        Map<UUID, PrivateMine> temp = new HashMap<>(PrivateMine.PRIVATE_MINES);
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
+            FileConfiguration fileData = new YamlConfiguration();
+            for (Map.Entry<UUID, PrivateMine> entry : temp.entrySet()) {
+                ConfigurationSection section = fileData.createSection(entry.getKey().toString());
+                section.set("gridPosition", entry.getValue().gridPosition);
+                section.set("owner", entry.getValue().owner.toString());
+                section.set("name", entry.getValue().name);
+                section.set("xp", entry.getValue().getXp());
+                section.set("level", entry.getValue().getLevel());
+                section.set("size", entry.getValue().getSize());
+                section.set("visitorTax", entry.getValue().visitorTax);
+                section.set("isPublic", entry.getValue().isPublic);
+                section.set("sellPercentage", entry.getValue().sellPercentage);
+            }
+            try {
+                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
     public static void init() {
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));

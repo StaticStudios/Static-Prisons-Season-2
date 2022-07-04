@@ -30,7 +30,7 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public final class PrisonUtils { //todo clean this up
+public final class PrisonUtils {
     public static void init() {
         Players.init(StaticPrisons.getInstance());
     }

@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -210,7 +211,7 @@ public class EnchantMenus extends GUIUtils {
                 }),
                 c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 10 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE) + " Tokens",
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE.multiply(BigInteger.valueOf(10))) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens"
                 ), (p, _t) -> {
                     enchant.tryToBuyLevels(p, pickaxe, 10);
@@ -218,7 +219,7 @@ public class EnchantMenus extends GUIUtils {
                 }),
                 c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 100 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE) + " Tokens",
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE.multiply(BigInteger.valueOf(100))) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens"
                 ), (p, _t) -> {
                     enchant.tryToBuyLevels(p, pickaxe, 100);
@@ -226,7 +227,7 @@ public class EnchantMenus extends GUIUtils {
                 }),
                 c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 1,000 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE) + " Tokens",
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE.multiply(BigInteger.valueOf(1000))) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens"
                 ), (p, _t) -> {
                     enchant.tryToBuyLevels(p, pickaxe, 1000);
@@ -234,7 +235,7 @@ public class EnchantMenus extends GUIUtils {
                 }),
                 c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy MAX (" + Math.min((long) enchant.MAX_LEVEL - pickaxe.getEnchantLevel(enchant), playerData.getTokens().divide(enchant.PRICE).intValue()) + ") levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE) + " Tokens",
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE.multiply(BigInteger.valueOf(Math.min((long) enchant.MAX_LEVEL - pickaxe.getEnchantLevel(enchant), playerData.getTokens().divide(enchant.PRICE).intValue())))) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens"
                 ), (p, _t) -> {
                     enchant.tryToBuyLevels(p, pickaxe, Math.min(enchant.MAX_LEVEL - pickaxe.getEnchantLevel(enchant), playerData.getTokens().divide(enchant.PRICE).intValue()));

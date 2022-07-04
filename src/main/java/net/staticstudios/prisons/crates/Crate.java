@@ -69,8 +69,8 @@ public class Crate {
         else if (chance <= 25) colorPrefix = "&e";
         else if (chance <= 50) colorPrefix = "&6";
         colorPrefix = ChatColor.translateAlternateColorCodes('&', colorPrefix);
-        player.sendMessage(CRATE_PREFIX + "You've won " + rewardString + "!" + ChatColor.RESET + colorPrefix + " (" + new DecimalFormat("0.0").format(chance) + "% chance)" + ChatColor.RESET + " from a " + DISPLAY_NAME + "!");
         if (chance <= 5) for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(CRATE_PREFIX + player.getName() + " won " + rewardString + "!" + ChatColor.RESET + colorPrefix + " (" + new DecimalFormat("0.0").format(chance) + "% chance)" + ChatColor.RESET + " from a " + DISPLAY_NAME + "!");
+        else player.sendMessage(CRATE_PREFIX + "You've won " + rewardString + "!" + ChatColor.RESET + colorPrefix + " (" + new DecimalFormat("0.0").format(chance) + "% chance)" + ChatColor.RESET + " from a " + DISPLAY_NAME + "!"); //Don't send the player the message if it already gets broadcast
         if (reward.itemReward != null) PrisonUtils.Players.addToInventory(player, new ItemStack(reward.itemReward));
         else reward.runnableReward.accept(player);
 

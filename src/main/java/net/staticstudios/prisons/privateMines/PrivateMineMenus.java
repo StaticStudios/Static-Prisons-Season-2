@@ -67,6 +67,7 @@ public class PrivateMineMenus extends GUIUtils {
             c.setItem(13, ench(c.createButton(Material.GOLDEN_PICKAXE, "&a&lCreate Mine", List.of("Create a new private mine."), (p, t) -> {
                 p.closeInventory();
                 PrivateMine.createPrivateMine(p).thenAccept(pm -> pm.warpTo(p));
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bCreating your private mine..."));
             })));
         } else {
             PrivateMine unloadedPrivateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);

@@ -19,10 +19,14 @@ public class WarpMenus extends GUIUtils {
 
     public static void mainMenu(Player player) {
         GUICreator c = new GUICreator(9, "Warps");
+        c.setItem(0, createGrayPlaceHolder());
+        c.setItem(1, createGrayPlaceHolder());
         c.addItem(ench(c.createButton(Material.COMPASS, "&a&lSpawn", List.of("Warp to spawn"), (p, t) -> Warps.warpToSpawn(p))));
         c.addItem(ench(c.createButton(Material.NETHERITE_PICKAXE, "&e&lMines", List.of("Warp to a mine"), (p, t) -> minesMenuAZ(p))));
+        c.addItem(ench(c.createButton(Material.DIAMOND_SWORD, "&c&lPvP", List.of("Warp to the PvP arena"), (p, t) -> Warps.warpToPvP(p))));
         c.addItem(ench(c.createButton(Material.TRIPWIRE_HOOK, "&b&lCrates", List.of("Warp to crates"), (p, t) -> Warps.warpToCrates(p))));
         c.addItem(ench(c.createButton(Material.DIAMOND, "&6&lLeaderboards", List.of("Warp to leaderboards"), (p, t) -> Warps.warpToLeaderboards(p))));
+        c.fill(createGrayPlaceHolder());
         c.open(player);
         c.setOnCloseRun((p, t) -> MainMenus.open(p));
     }

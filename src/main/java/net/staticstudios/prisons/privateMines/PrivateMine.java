@@ -198,7 +198,7 @@ public class PrivateMine {
             this.xp = xp;
             int l = 0;
             while (xp >= getLevelRequirement(l + 1)) l += 1;
-            if (l > 0) l += 1;
+//            if (l > 0) l += 1;
             setLevel(l, false);
         }
     }

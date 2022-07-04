@@ -30,7 +30,7 @@ public class RankUpMenus extends GUIUtils {
             Material.BEDROCK
     };
 
-    public static void open(Player player, boolean fromCommand) { //todo: prefix & prestige prefix
+    public static void open(Player player, boolean fromCommand) {
         GUICreator c = new GUICreator(27, "Rank Up");
         PlayerData playerData = new PlayerData(player);
 

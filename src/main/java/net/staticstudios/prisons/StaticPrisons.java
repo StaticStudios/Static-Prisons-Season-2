@@ -6,6 +6,7 @@ import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.blockBroken.BlockBreakListener;
 import net.staticstudios.prisons.cells.CellManager;
+import net.staticstudios.prisons.cells.IslandCommand;
 import net.staticstudios.prisons.chat.events.ChatEvents;
 import net.staticstudios.prisons.commands.normal.*;
 import net.staticstudios.prisons.crates.Crates;
@@ -22,9 +23,9 @@ import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.commands.tabCompletion.IslandTabCompletion;
 import net.staticstudios.prisons.commands.test.Test2Command;
 import net.staticstudios.prisons.commands.test.TestCommand;
+import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.gangs.GangCommand;
 import net.staticstudios.prisons.gui.GUIListener;
-import net.staticstudios.prisons.gui.GUIPage;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.commands.vote_store.VoteStoreListener;
 import net.staticstudios.prisons.mines.MineManager;
@@ -36,6 +37,8 @@ import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.privateMines.PrivateMineCommand;
 import net.staticstudios.prisons.privateMines.PrivateMineManager;
+import net.staticstudios.prisons.pvp.PvPCommand;
+import net.staticstudios.prisons.pvp.PvPManager;
 import net.staticstudios.prisons.rankup.RankUp;
 import net.staticstudios.prisons.utils.Constants;
 import net.luckperms.api.LuckPerms;
@@ -89,6 +92,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(CustomItems::init);
         safe(Crates::init);
         safe(CellManager::init);
+        safe(PvPManager::init);
+        safe(Gang::loadAll);
         safe(ChatEvents::init);
         safe(TimedTasks::init);
         safe(DataSet::init);
@@ -99,6 +104,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(ConsistencyEnchant::init);
         safe(Kits::init); //todo move to custom items init task
         safe(TabList::init);
+        safe(DiscordLink::init);
 
 
 
@@ -200,6 +206,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("npcdiag").setExecutor(new NPCDialogCommand());
         getCommand("level").setExecutor(new LevelCommand());
         getCommand("gang").setExecutor(new GangCommand());
+        getCommand("pvp").setExecutor(new PvPCommand());
         //Tab completion
         getCommand("island").setTabCompleter(new IslandTabCompletion());
         //Register Events
@@ -213,15 +220,22 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        StaticMines.disable();
-        DataSet.saveDataSync();
-        CellManager.saveSync();
-        PrivateMineManager.saveSync();
-        AuctionManager.saveAllAuctionsSync();
-        //AuctionHouseManager.saveAllAuctions();
-        //PrisonPickaxe.dumpStatsToAllPickaxe();
-        PrisonPickaxe.savePickaxeDataNow();
-        PrisonPickaxe.dumpLoreToAllPickaxes();
+//        StaticMines.disable();
+//        DataSet.saveDataSync();
+//        CellManager.saveSync();
+//        PrivateMineManager.saveSync();
+//        AuctionManager.saveAllAuctionsSync();
+//        PrisonPickaxe.savePickaxeDataNow();
+//        PrisonPickaxe.dumpLoreToAllPickaxes();
+
+        safe(StaticMines::disable);
+        safe(DataSet::saveDataSync);
+        safe(CellManager::saveSync);
+        safe(PrivateMineManager::saveSync);
+        safe(AuctionManager::saveAllAuctionsSync);
+        safe(PrisonPickaxe::savePickaxeDataNow);
+        safe(PrisonPickaxe::dumpLoreToAllPickaxes);
+        safe(Gang::saveAllSync);
     }
     static void unloadNetherAndEnd() {
         Bukkit.unloadWorld("world_end", false);

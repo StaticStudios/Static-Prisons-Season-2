@@ -8,6 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,13 +19,12 @@ public class Gang {//todo: this
 
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&6&lGangs &8&l>> &r");
 
-    public static int MAX_GANG_SIZE = 5;
+    public static int MAX_GANG_SIZE = 6;
 
     static final Map<UUID, Gang> GANGS = new HashMap<>();
     static final Map<UUID, Gang> PLAYER_GANGS = new HashMap<>();
 
     private UUID uuid;
-
     private UUID owner;
     private String name;
     private List<UUID> members;
@@ -36,6 +36,9 @@ public class Gang {//todo: this
     }
     public List<UUID> getMembers() {
         return members;
+    }
+    public void setOwner(UUID owner) {
+        this.owner = owner;
     }
 
     //Settings
@@ -89,12 +92,32 @@ public class Gang {//todo: this
     public BigInteger getTokensFound() {
         return tokensFound;
     }
+    public void addRawBlocksMined(long rawBlocksMined) {
+        this.rawBlocksMined += rawBlocksMined;
+    }
+    public void addBlocksMined(long blocksMined) {
+        this.blocksMined += blocksMined;
+    }
+    public void addSecondsPlayed(long secondsPlayed) {
+        this.secondsPlayed += secondsPlayed;
+    }
+    public void addMoneyMade(BigInteger moneyMade) {
+        this.moneyMade = this.moneyMade.add(moneyMade);
+    }
+    public void addTokensFound(BigInteger tokensFound) {
+        this.tokensFound = this.tokensFound.add(tokensFound);
+    }
+
 
     //Bank
     private BigInteger bankMoney = BigInteger.ZERO;
     private BigInteger bankTokens = BigInteger.ZERO;
 
-    //TODO: gang chest
+    //Chest
+    private GangChest gangChest;
+    public GangChest getGangChest() {
+        return gangChest;
+    }
 
     private Gang() {}
 
@@ -117,13 +140,14 @@ public class Gang {//todo: this
         gang.members.add(owner);
         GANGS.put(gang.uuid, gang);
         PLAYER_GANGS.put(owner, gang);
+        gang.gangChest = new GangChest(gang.uuid, new ArrayList<>());
         return gang;
     }
     public static Gang loadGang(UUID uuid,
                                 UUID owner, String name, List<UUID> members,
                                 boolean isPublic, boolean acceptingInvites, boolean friendlyFire, boolean canMembersWithdrawFomBank,
                                 long rawBlocksMined, long blocksMined, long secondsPlayed, BigInteger moneyMade, BigInteger tokensFound,
-                                BigInteger bankMoney, BigInteger bankTokens) {
+                                BigInteger bankMoney, BigInteger bankTokens, List<Map<String, Object>> gangChest) {
         Gang gang = new Gang();
         gang.uuid = uuid;
         gang.owner = owner;
@@ -140,6 +164,7 @@ public class Gang {//todo: this
         gang.tokensFound = tokensFound;
         gang.bankMoney = bankMoney;
         gang.bankTokens = bankTokens;
+        gang.gangChest = new GangChest(gang.uuid, gangChest);
         GANGS.put(gang.uuid, gang);
         for (UUID member : members) PLAYER_GANGS.put(member, gang);
         return gang;
@@ -149,7 +174,9 @@ public class Gang {//todo: this
         section.set("uuid", gang.uuid.toString());
         section.set("owner", gang.owner.toString());
         section.set("name", gang.name);
-        section.set("members", gang.members);
+        List<String> membersAsStrings = new ArrayList<>();
+        for (UUID member : gang.members) membersAsStrings.add(member.toString());
+        section.set("members", membersAsStrings);
         section.set("isPublic", gang.isPublic);
         section.set("acceptingInvites", gang.acceptingInvites);
         section.set("friendlyFire", gang.friendlyFire);
@@ -161,6 +188,7 @@ public class Gang {//todo: this
         section.set("tokensFound", gang.tokensFound.toString());
         section.set("bankMoney", gang.bankMoney.toString());
         section.set("bankTokens", gang.bankTokens.toString());
+        section.set("gangChest", gang.gangChest.serializeContents());
         return section;
     }
     public static void saveAllSync() {
@@ -172,8 +200,17 @@ public class Gang {//todo: this
             e.printStackTrace();
         }
     }
-    public void saveAll() { //todo save on timer and load and save on start/close
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), Gang::saveAllSync);
+    public static void saveAll() {
+        Map<UUID, Gang> temp = new HashMap<>(GANGS);
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
+            try {
+                FileConfiguration fileData = new YamlConfiguration();
+                for (Gang gang : temp.values()) fileData.set(gang.uuid.toString(), saveGang(gang));
+                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
     public static void loadAll() {
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
@@ -195,11 +232,18 @@ public class Gang {//todo: this
             section.addDefault("tokensFound", "0");
             section.addDefault("bankMoney", "0");
             section.addDefault("bankTokens", "0");
+            section.addDefault("gangChest", new ArrayList<>());
             BigInteger moneyMade = new BigInteger(section.getString("moneyMade"));
             BigInteger tokensFound = new BigInteger(section.getString("tokensFound"));
             BigInteger bankMoney = new BigInteger(section.getString("bankMoney"));
             BigInteger bankTokens = new BigInteger(section.getString("bankTokens"));
-            loadGang(uuid, owner, name, members, isPublic, acceptingInvites, friendlyFire, canMembersWithdrawFomBank, rawBlocksMined, blocksMined, secondsPlayed, moneyMade, tokensFound, bankMoney, bankTokens);
+            @NotNull List<Map<?, ?>> _gangChest = section.getMapList("gangChest");
+            List<Map<String, Object>> gangChest = new ArrayList<>();
+            for (Map<?, ?> m : _gangChest) {
+                if (m == null || m.isEmpty()) gangChest.add(null);
+                else gangChest.add((Map<String, Object>) m);
+            }
+            loadGang(uuid, owner, name, members, isPublic, acceptingInvites, friendlyFire, canMembersWithdrawFomBank, rawBlocksMined, blocksMined, secondsPlayed, moneyMade, tokensFound, bankMoney, bankTokens, gangChest);
         }
     }
 

@@ -27,7 +27,7 @@ public class ChatTags {
     public static final String RIP_2020 = ChatColor.translateAlternateColorCodes('&', "&8[&cRIP 2020&8] ");
     public static final String I_H8_2021 = ChatColor.translateAlternateColorCodes('&', "&8[&fI H8 2021&8] ");
     public static final String COVID_20 = ChatColor.translateAlternateColorCodes('&', "&8[&bCOVID-20&8] ");
-    public static final String POGGERS = ChatColor.translateAlternateColorCodes('&', "&8[&c&d&lPOGGERS&8] ");
+    public static final String POGGERS = ChatColor.translateAlternateColorCodes('&', "&8[&d&lPOGGERS&8] ");
     public static final String FOUR2069 = ChatColor.translateAlternateColorCodes('&', "&8[&b42069&8] ");
     public static final String FIVEHEAD = ChatColor.translateAlternateColorCodes('&', "&8[&e5HEAD&8] ");
     public static final String AFK = ChatColor.translateAlternateColorCodes('&', "&8[&eAFK&8] ");

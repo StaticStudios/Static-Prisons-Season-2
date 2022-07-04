@@ -113,6 +113,16 @@ public class GangCommand implements CommandExecutor {
                 }
                 GangMenus.openGangSettings(player, true);
             }
+            case "chest" -> {
+                if (gang == null) {
+                    GangMenus.openCreateGang(player, true);
+                    return false;
+                }
+                player.openInventory(gang.getGangChest().getInventory());
+            }
+            case "delete" -> {
+                //todo
+            }
         }
         return false;
     }

@@ -1,5 +1,7 @@
 package net.staticstudios.prisons.customItems;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -9,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.math.BigInteger;
 import java.text.NumberFormat;
+import java.time.Duration;
 import java.util.Locale;
 
 public class MoneyPouch {
@@ -45,6 +48,7 @@ public class MoneyPouch {
                 title.append(rewardValue.charAt(i));
             }
         }
-        player.sendTitle(ChatColor.GRAY + "$" + title, "", fadeIn, 60, 10);
+        player.showTitle(Title.title(Component.text(ChatColor.GRAY + "$" + title), Component.text(""), Title.Times.of(Duration.ofMillis(fadeIn * 50), Duration.ofMillis(2000), Duration.ofMillis(500))));
+//        player.sendTitle(ChatColor.GRAY + "$" + title, "", fadeIn, 60, 10);
     }
 }

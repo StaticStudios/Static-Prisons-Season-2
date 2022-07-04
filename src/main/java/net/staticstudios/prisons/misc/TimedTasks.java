@@ -8,6 +8,7 @@ import net.staticstudios.prisons.UI.PlayerUI;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.chat.events.ChatEvents;
+import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
@@ -37,12 +38,10 @@ public class TimedTasks {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), AuctionManager::updateExpiredAuctions, 60, 20 * 10);
         //Update the bots status
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), DiscordLink::updatePlayerCount, 200, 200);
-        //Manages mine refills
-        //Bukkit.getScheduler().runTaskTimer(StaticPrisons.getPlugin(), MineManager::refillManager, 0, 2);
-
-
         //Save Pickaxe Data
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::savePickaxeData, 20 * 60 * 5, 20 * 60 * 5);
+        //Save Gang Data
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), Gang::saveAll, 20 * 60 * 6, 20 * 60 * 5);
         //Update All Pickaxe Lore
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::dumpLoreToAllPickaxes, 20, 20 * 5); //possibly spread this across multiple ticks so like do 1% of the pickaxes every tick
 
@@ -57,7 +56,11 @@ public class TimedTasks {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), CustomScoreboard::updateAllScoreboards, 0, 2);
         //Time played
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
-            for (Player p : Bukkit.getOnlinePlayers()) new PlayerData(p).addTimePlayed(BigInteger.ONE);
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                new PlayerData(p).addTimePlayed(BigInteger.ONE);
+                Gang gang = Gang.getGang(p); //Gang stats
+                if (gang != null) gang.addSecondsPlayed(1);
+            }
         }, 0, 20);
         //Update tablist for all players
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
@@ -75,17 +78,24 @@ public class TimedTasks {
                 }
             }
         }, 0, 20 * 60 * 30);
-        //Update Expired Auctions
-        //Bukkit.getScheduler().runTaskTimer(Main.getMain(), AuctionHouseManager::expireAllExpiredAuctions, 120, 2);
-        //Give everyone with potion enchants their effect(s)
-        //Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), EnchantEffects::giveEffects, 10, 400);
-        //Update all the leaderboards
-        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), LeaderboardManager::updateAll, 20, 20 * 60 * 30);
         //Tips
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
             String tip = Constants.TIPS[PrisonUtils.randomInt(0, Constants.TIPS.length - 1)];
             for (Player p : Bukkit.getOnlinePlayers()) if (!new PlayerData(p).getAreTipsDisabled()) p.sendMessage(tip);
         }, 20 * 60 * 5, 20 * 60 * 10);
+        //Update all the leaderboards
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), LeaderboardManager::updateAll, 20, 20 * 60 * 30);
+
+
+
+
+        //Manages mine refills
+        //Bukkit.getScheduler().runTaskTimer(StaticPrisons.getPlugin(), MineManager::refillManager, 0, 2);
+        //Update Expired Auctions
+        //Bukkit.getScheduler().runTaskTimer(Main.getMain(), AuctionHouseManager::expireAllExpiredAuctions, 120, 2);
+        //Give everyone with potion enchants their effect(s)
+        //Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), EnchantEffects::giveEffects, 10, 400);
+
         //Chat Events
 //        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), ChatEvents::runNewEvent, 20 * 60 * 12, 20 * 60 * 25);
         //Update Pickaxe Lore With Stats

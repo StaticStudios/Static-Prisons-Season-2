@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class Cell {
+public class Cell { //TODO: currently cells are built on the main thread, consider doing this on a separate thread. If this is done, ensure that a single cell cannot get loaded/built multiple times at once (since it would be running in parallel). Use private mines as a reference
     public final UUID cellUuid;
     public final String cellName;
     public final UUID cellOwnerUUID;

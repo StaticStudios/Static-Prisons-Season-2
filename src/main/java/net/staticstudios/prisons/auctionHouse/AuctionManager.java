@@ -20,7 +20,7 @@ import java.util.*;
 
 public class AuctionManager {
 
-    public static final String AH_PREFIX = ChatColor.translateAlternateColorCodes('&', "&b[Auction House] &r");
+    public static final String AH_PREFIX = ChatColor.translateAlternateColorCodes('&', "&a&lAuction House &8&l>> &r");
     public static final int SEC_TO_LIVE = 2 * 24 * 3600;
     public static final Material[] BLACKLISTED_TYPES = {
             Material.AIR
@@ -111,7 +111,22 @@ public class AuctionManager {
     }
 
     public static void saveAllAuctions() {
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), AuctionManager::saveAllAuctionsSync);
+        List<Auction> temp = new ArrayList<>(auctions);
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
+            File file = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml");
+            FileConfiguration fileData = new YamlConfiguration();
+            for (Auction auction : temp) {
+                fileData.set("auctions." + auction.id().toString() + ".item", ExpiredAuction.toBase64(auction.item()));
+                fileData.set("auctions." + auction.id() + ".owner", auction.owner().toString());
+                fileData.set("auctions." + auction.id() + ".expireAt", auction.expireAt());
+                fileData.set("auctions." + auction.id() + ".price", auction.price());
+            }
+            try {
+                fileData.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public static void saveAllAuctionsSync() {

@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.cells;
 
 import net.staticstudios.prisons.cells.Cell;
 import net.staticstudios.prisons.cells.CellMenus;

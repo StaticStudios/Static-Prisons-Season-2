@@ -6,6 +6,7 @@ import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -61,6 +62,14 @@ public class BlockBreakListener implements Listener {
         playerData.addBlocksMined(BigInteger.valueOf(bb.amountOfBlocksBroken));
         playerData.addRawBlocksMined(BigInteger.ONE);
         pickaxe.addXp((long) (bb.amountOfBlocksBroken * 2 * bb.xpMultiplier));
+
+        //Gang stats
+        Gang gang = Gang.getGang(player);
+        if (gang != null) {
+            gang.addRawBlocksMined(1);
+            gang.addBlocksMined(bb.amountOfBlocksBroken);
+            if (tokensFound > 0) gang.addTokensFound(BigInteger.valueOf(tokensFound));
+        }
 
 
         e.getMine().removeBlocksBrokenInMine(bb.amountOfBlocksBroken - 1);

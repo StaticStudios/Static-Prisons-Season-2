@@ -22,7 +22,7 @@ public class DiscordLink {
     public static final int SECONDS_TO_KEEP_LINK_REQUESTS_ALIVE = 300;
     public static final int LINK_CODE_LENGTH = 7;
 
-    public static void initialize() {
+    public static void init() {
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), MySQLConnection::connect);
         Bukkit.getScheduler().runTaskTimerAsynchronously(StaticPrisons.getInstance(), DiscordLink::callBackExecutor, 100, 20); //Wait 10sec and then run every second
     }
