@@ -1,15 +1,23 @@
 package net.staticstudios.prisons.commands.normal;
 
+import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.chat.MessageHandler;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class ReplyCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReplyCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)) return false;
@@ -33,5 +41,10 @@ public class ReplyCommand implements CommandExecutor {
         MessageHandler.playerToRecentMessaged.put(receiver.getUniqueId(), player.getUniqueId());
         MessageHandler.sendMessage(player, receiver, message.toString());
         return false;
+    }
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> list = new ArrayList<>();
+        return list;
     }
 }

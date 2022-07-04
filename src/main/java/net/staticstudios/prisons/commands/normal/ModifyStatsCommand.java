@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
+import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -8,11 +9,16 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ModifyStatsCommand implements CommandExecutor {
+public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 4) {
@@ -228,5 +234,26 @@ public class ModifyStatsCommand implements CommandExecutor {
             }
         }
         return true;
+    }
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> list = new ArrayList<>();
+        if (args.length == 1) {
+            list.add("pmine");
+            list.add("votes");
+            list.add("timeplayed");
+            list.add("money");
+            list.add("xp");
+            list.add("level");
+            list.add("tokens");
+        } else if (args.length == 2) {
+            list.addAll(StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[1]));
+        } else if (args.length == 3) {
+            list.add("add");
+            list.add("remove");
+            list.add("set");
+            list.add("reset");
+        } else if (args.length == 4) list.add("<amount>");
+        return list;
     }
 }

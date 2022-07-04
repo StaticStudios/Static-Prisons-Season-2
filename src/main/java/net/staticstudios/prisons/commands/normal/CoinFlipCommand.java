@@ -8,11 +8,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CoinFlipCommand implements CommandExecutor {
+public class CoinFlipCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -59,5 +64,15 @@ public class CoinFlipCommand implements CommandExecutor {
         player.sendMessage(ChatColor.AQUA + "You have successfully created a CoinFlip for " + ChatColor.GREEN + "$" + PrisonUtils.prettyNum(amount));
 
         return true;
+    }
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> list = new ArrayList<>();
+        if (args.length == 1) list.add("<amount>");
+        if (args.length == 2) {
+            list.add("heads");
+            list.add("tails");
+        }
+        return list;
     }
 }

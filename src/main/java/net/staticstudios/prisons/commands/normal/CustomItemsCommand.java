@@ -1,17 +1,25 @@
 package net.staticstudios.prisons.commands.normal;
 
+import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.customItems.CustomItems;
 import net.staticstudios.prisons.customItems.Vouchers;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class CustomItemsCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class CustomItemsCommand implements CommandExecutor, TabCompleter {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) { //todo this from map
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
         ItemStack item;
@@ -82,5 +90,51 @@ public class CustomItemsCommand implements CommandExecutor {
         }
         player.getInventory().addItem(item);
         return false;
+    }
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> list = new ArrayList<>();
+        if (args.length == 1) {
+            list.add("common_key");
+            list.add("rare_key");
+            list.add("epic_key");
+            list.add("legendary_key");
+            list.add("static_key");
+            list.add("staticp_key");
+            list.add("vote_key");
+            list.add("kit_key");
+            list.add("pickaxe_key");
+            list.add("money_pouch_1");
+            list.add("money_pouch_2");
+            list.add("money_pouch_3");
+            list.add("token_pouch_1");
+            list.add("token_pouch_2");
+            list.add("token_pouch_3");
+            list.add("multi_pouch_1");
+            list.add("multi_pouch_2");
+            list.add("multi_pouch_3");
+            list.add("pickaxe_1");
+            list.add("pickaxe_2");
+            list.add("pickaxe_3");
+            list.add("pickaxe_4");
+            list.add("pickaxe_5");
+            list.add("pickaxe_6");
+            list.add("pickaxe_7");
+            list.add("pickaxe_8");
+            list.add("pickaxe_9");
+            list.add("pickaxe_10");
+            list.add("pmine_voucher_1");
+            list.add("pmine_voucher_2");
+            list.add("pmine_voucher_3");
+            list.add("pmine_voucher_4");
+            list.add("pmine_voucher_5");
+            list.add("pmine_voucher_6");
+            list.add("pmine_voucher_7");
+            list.add("pmine_voucher_8");
+            list.add("pmine_voucher_9");
+            list.add("pmine_voucher_10");
+            list.add("pmine_voucher_11");
+        }
+        return StaticMineUtils.filterStringList(list, args[0]);
     }
 }

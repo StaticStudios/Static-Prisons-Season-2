@@ -1,6 +1,8 @@
 package net.staticstudios.prisons.commands.normal;
 
+import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.gambling.GamblingMenus;
 import net.staticstudios.prisons.gambling.TokenFlip;
 import net.staticstudios.prisons.gui.GUI;
@@ -9,11 +11,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TokenFlipCommand implements CommandExecutor {
+public class TokenFlipCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -60,5 +67,15 @@ public class TokenFlipCommand implements CommandExecutor {
         player.sendMessage(ChatColor.AQUA + "You have successfully created a TokenFlip for " + ChatColor.GREEN + PrisonUtils.prettyNum(amount) + " Tokens");
 
         return true;
+    }
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> list = new ArrayList<>();
+        if (args.length == 1) list.add("<amount>");
+        if (args.length == 2) {
+            list.add("heads");
+            list.add("tails");
+        }
+        return list;
     }
 }

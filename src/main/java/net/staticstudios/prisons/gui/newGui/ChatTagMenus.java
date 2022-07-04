@@ -43,7 +43,7 @@ public class ChatTagMenus extends GUIUtils {
     public static void activateTag(Player player, int slot) {
         GUICreator c = new GUICreator(36, "Select a tag");
         PlayerData playerData = new PlayerData(player);
-        for (String tag : ChatTags.chatTags.keySet()) {
+        for (String tag : ChatTags.TAGS.keySet()) {
             if (playerData.getChatTags().contains(tag)) {
                 c.addItem(ench(c.createButton(Material.NAME_TAG, ChatTags.getFromID(tag), List.of("Click to activate this tag in slot #" + slot, "&aYou have this tag unlocked!"), (p, t) -> {
                     if (slot == 1) {

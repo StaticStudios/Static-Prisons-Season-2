@@ -2,12 +2,10 @@ package net.staticstudios.prisons.chat;
 
 import net.md_5.bungee.api.ChatColor;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class ChatTags {
-    public static final LinkedHashMap<String, String> chatTags = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, String> TAGS = new LinkedHashMap<>();
     public static final String WEEWOO = ChatColor.translateAlternateColorCodes('&', "&8[&x&0&0&0&0&f&fW&x&3&3&0&0&c&ce&x&6&6&0&0&9&9e&x&9&9&0&0&6&6W&x&c&c&0&0&3&3o&x&f&f&0&0&0&0o&8] ");
     public static final String MR_YUH = ChatColor.translateAlternateColorCodes('&', "&8[&x&f&b&2&4&2&4M&x&c&b&2&d&6&cr&x&9&c&3&7&b&5.&x&6&c&4&0&f&dY&x&5&a&7&d&f&9u&x&4&7&b&b&f&6h&x&3&5&f&8&f&2h&8] ");
     public static final String LGBTQ = ChatColor.translateAlternateColorCodes('&', "&8[&cL&6G&eB&aT&9Q&5+&8] ");
@@ -45,46 +43,46 @@ public class ChatTags {
     public static final String L_RATIO = ChatColor.translateAlternateColorCodes('&', "&8[&fL + ratio&8] ");
     public static final String THICCC = ChatColor.translateAlternateColorCodes('&', "&8[&x&0&0&b&0&f&bT&x&0&0&b&f&e&6h&x&0&0&c&f&d&1i&x&0&0&d&e&b&dc&x&0&0&e&e&a&8c&x&0&0&f&d&9&3c&8] ");
     static {
-        chatTags.put("weewoo", WEEWOO);
-        chatTags.put("mr.yuh", MR_YUH);
-        chatTags.put("no_sleep", NO_SLEEP);
-        chatTags.put("lgbtq", LGBTQ);
-        chatTags.put("24/7", _24_7);
-        chatTags.put("toxic", TOXIC);
-        chatTags.put("youtube", YOUTUBE);
-        chatTags.put("twitch", TWITCH);
-        chatTags.put("streamer", STREAMER);
-        chatTags.put("builder", BUILDER);
-        chatTags.put("dev", DEV);
-        chatTags.put("rich", IM_RICH);
-        chatTags.put("simp", SIMP);
-        chatTags.put("pushin_p", PUSHIN_P);
-        chatTags.put("effort", EFFORT);
-        chatTags.put("kek", KEK);
-        chatTags.put("rip_2020", RIP_2020);
-        chatTags.put("i_h8_2021", I_H8_2021);
-        chatTags.put("covid_20", COVID_20);
-        chatTags.put("poggers", POGGERS);
-        chatTags.put("42069", FOUR2069);
-        chatTags.put("5head", FIVEHEAD);
-        chatTags.put("afk", AFK);
-        chatTags.put("banned", BANNED);
-        chatTags.put("muted", MUTED);
-        chatTags.put("wtf", WTF);
-        chatTags.put("lmao", LMAO);
-        chatTags.put("miner", MINER);
-        chatTags.put("trash", TRASH);
-        chatTags.put("999", NINE99);
-        chatTags.put("1400", ONE400);
-        chatTags.put("ez", EZ);
-        chatTags.put("lag", LAG);
-        chatTags.put("bozo", BOZO);
-        chatTags.put("l+ratio", L_RATIO);
-        chatTags.put("thiccc", THICCC);
+        TAGS.put("weewoo", WEEWOO);
+        TAGS.put("mr.yuh", MR_YUH);
+        TAGS.put("no_sleep", NO_SLEEP);
+        TAGS.put("lgbtq", LGBTQ);
+        TAGS.put("24/7", _24_7);
+        TAGS.put("toxic", TOXIC);
+        TAGS.put("youtube", YOUTUBE);
+        TAGS.put("twitch", TWITCH);
+        TAGS.put("streamer", STREAMER);
+        TAGS.put("builder", BUILDER);
+        TAGS.put("dev", DEV);
+        TAGS.put("rich", IM_RICH);
+        TAGS.put("simp", SIMP);
+        TAGS.put("pushin_p", PUSHIN_P);
+        TAGS.put("effort", EFFORT);
+        TAGS.put("kek", KEK);
+        TAGS.put("rip_2020", RIP_2020);
+        TAGS.put("i_h8_2021", I_H8_2021);
+        TAGS.put("covid_20", COVID_20);
+        TAGS.put("poggers", POGGERS);
+        TAGS.put("42069", FOUR2069);
+        TAGS.put("5head", FIVEHEAD);
+        TAGS.put("afk", AFK);
+        TAGS.put("banned", BANNED);
+        TAGS.put("muted", MUTED);
+        TAGS.put("wtf", WTF);
+        TAGS.put("lmao", LMAO);
+        TAGS.put("miner", MINER);
+        TAGS.put("trash", TRASH);
+        TAGS.put("999", NINE99);
+        TAGS.put("1400", ONE400);
+        TAGS.put("ez", EZ);
+        TAGS.put("lag", LAG);
+        TAGS.put("bozo", BOZO);
+        TAGS.put("l+ratio", L_RATIO);
+        TAGS.put("thiccc", THICCC);
     }
 
     public static String getFromID(String id) {
-        if (chatTags.containsKey(id)) return chatTags.get(id);
+        if (TAGS.containsKey(id)) return TAGS.get(id);
         return "";
     }
 }

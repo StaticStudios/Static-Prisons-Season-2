@@ -1,5 +1,7 @@
 package net.staticstudios.prisons.commands.normal;
 
+import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.external.DiscordLink;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -9,16 +11,21 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class DiscordCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DiscordCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             return false;
         }
-        Player player = (Player) sender;
         if (args.length == 0) {
             TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&9Join our Discord: &fdiscord.gg/static"));
             message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/9S6K9E5"));
@@ -32,5 +39,14 @@ public class DiscordCommand implements CommandExecutor {
         }
 
         return true;
+    }
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> list = new ArrayList<>();
+        if (args.length == 1) {
+            list.add("link");
+            list.add("unlink");
+        }
+        return list;
     }
 }

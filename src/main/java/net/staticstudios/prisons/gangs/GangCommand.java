@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.gangs;
 
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -8,14 +9,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public class GangCommand implements CommandExecutor {
+public class GangCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -264,5 +268,30 @@ public class GangCommand implements CommandExecutor {
             }
         }
         return false;
+    }
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> list = new ArrayList<>();
+        if (args.length == 1) {
+            list.add("create");
+            list.add("info");
+            list.add("join");
+            list.add("leave");
+            list.add("kick");
+            list.add("promote");
+            list.add("demote");
+            list.add("bank");
+            list.add("delete");
+        }
+        if (args.length == 4) {
+            if (args[0].equalsIgnoreCase("bank")) {
+                if (args[1].equalsIgnoreCase("money")) {
+                    list.add("all");
+                } else if (args[1].equalsIgnoreCase("tokens")) {
+                    list.add("all");
+                }
+            }
+        }
+        return list;
     }
 }

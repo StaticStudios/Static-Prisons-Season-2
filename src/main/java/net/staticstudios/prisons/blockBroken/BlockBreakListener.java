@@ -30,6 +30,12 @@ public class BlockBreakListener implements Listener {
         PlayerData playerData = new PlayerData(player);
         PrisonBlockBroken bb = new PrisonBlockBroken(player, playerData, pickaxe, e.getMine(), e.getBlock());
 
+        switch (playerData.getPlayerRank()) { //Factor in rank based token multipliers
+            case "mythic" -> bb.tokenMultiplier += .05d;
+            case "static" -> bb.tokenMultiplier += .10d;
+            case "staticp" -> bb.tokenMultiplier += .20d;
+        }
+
         //Ensure all pickaxes have tokenator
         boolean hasTokenator = false;
         for (BaseEnchant enchant : pickaxe.getEnchants()) {

@@ -1,6 +1,8 @@
 package net.staticstudios.prisons.commands.normal;
 
+import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.gui.newGui.WarpMenus;
 import net.staticstudios.prisons.misc.Warps;
 import net.staticstudios.prisons.utils.Constants;
@@ -8,15 +10,19 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
-public class WarpsCommand implements CommandExecutor {
+public class WarpsCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (!(sender instanceof Player)) return false;
-        Player player = (Player) sender;
+        if (!(sender instanceof Player player)) return false;
         if (args.length == 0) {
             WarpMenus.mainMenu(player);
             return false;
@@ -260,5 +266,58 @@ public class WarpsCommand implements CommandExecutor {
             }
         }
         return false;
+    }
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> list = new ArrayList<>();
+        if (args.length == 1) {
+            list.add("p1");
+            list.add("p2");
+            list.add("p3");
+            list.add("p4");
+            list.add("p5");
+            list.add("p6");
+            list.add("p7");
+            list.add("p8");
+            list.add("p9");
+            list.add("p10");
+            list.add("p11");
+            list.add("p12");
+            list.add("p13");
+            list.add("p14");
+            list.add("p15");
+            list.add("r1");
+            list.add("r2");
+            list.add("r3");
+            list.add("r4");
+            list.add("r5");
+            list.add("a");
+            list.add("b");
+            list.add("c");
+            list.add("d");
+            list.add("e");
+            list.add("f");
+            list.add("g");
+            list.add("h");
+            list.add("i");
+            list.add("j");
+            list.add("k");
+            list.add("l");
+            list.add("m");
+            list.add("n");
+            list.add("o");
+            list.add("p");
+            list.add("q");
+            list.add("r");
+            list.add("s");
+            list.add("t");
+            list.add("u");
+            list.add("v");
+            list.add("w");
+            list.add("x");
+            list.add("y");
+            list.add("z");
+        }
+        return list;
     }
 }
