@@ -60,7 +60,7 @@ public class VoteStoreListener implements CommandExecutor {
                         whatWasPurchased = "Starter Package Tier 2";
                         PrisonUtils.Players.addToInventory(player, CustomItems.getStaticCrateKey(3));
                         if (playerData.getPrivateMineSquareSize() >= 70) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T3.item);
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T3.item);
                         } else {
                             playerData.setPrivateMineSquareSize(70);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -75,7 +75,7 @@ public class VoteStoreListener implements CommandExecutor {
                         PrisonUtils.Players.addToInventory(player, CustomItems.getStaticpCrateKey(1));
                         PrisonUtils.Players.addToInventory(player, CustomItems.getStaticCrateKey(2));
                         if (playerData.getPrivateMineSquareSize() >= 90) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T5.item);
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T5.item);
                         } else {
                             playerData.setPrivateMineSquareSize(90);
                             playerData.setPrivateMineMat(Material.STONE);
@@ -155,116 +155,116 @@ public class VoteStoreListener implements CommandExecutor {
                         whatWasPurchased = "1x Static+ Crate Key";
                         PrisonUtils.Players.addToInventory(player, CustomItems.getStaticpCrateKey(1));
                     }
-                    case "privateMineTier1" -> {
-                        whatWasPurchased = "Private Mine Tier 1";
-                        if (playerData.getPrivateMineSquareSize() >= 50) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T1.item);
-                        } else {
-                            playerData.setPrivateMineSquareSize(50);
-                            playerData.setPrivateMineMat(Material.STONE);
-                            playerData.setHasPrivateMine(true);
-                        }
-                    }
-                    case "privateMineTier2" -> {
-                        whatWasPurchased = "Private Mine Tier 2";
-                        if (playerData.getPrivateMineSquareSize() >= 60) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T2.item);
-                        } else {
-                            playerData.setPrivateMineSquareSize(60);
-                            playerData.setPrivateMineMat(Material.STONE);
-                            playerData.setHasPrivateMine(true);
-                        }
-                    }
-                    case "privateMineTier3" -> {
-                        whatWasPurchased = "Private Mine Tier 3";
-                        if (playerData.getPrivateMineSquareSize() >= 70) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T3.item);
-                        } else {
-                            playerData.setPrivateMineSquareSize(70);
-                            playerData.setPrivateMineMat(Material.STONE);
-                            playerData.setHasPrivateMine(true);
-                        }
-                    }
-                    case "privateMineTier4" -> {
-                        whatWasPurchased = "Private Mine Tier 4";
-                        if (playerData.getPrivateMineSquareSize() >= 80) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T4.item);
-                        } else {
-                            playerData.setPrivateMineSquareSize(80);
-                            playerData.setPrivateMineMat(Material.STONE);
-                            playerData.setHasPrivateMine(true);
-                        }
-                    }
-                    case "privateMineTier5" -> {
-                        whatWasPurchased = "Private Mine Tier 5";
-                        if (playerData.getPrivateMineSquareSize() >= 90) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T5.item);
-                        } else {
-                            playerData.setPrivateMineSquareSize(90);
-                            playerData.setPrivateMineMat(Material.STONE);
-                            playerData.setHasPrivateMine(true);
-                        }
-                    }
-                    case "privateMineTier6" -> {
-                        whatWasPurchased = "Private Mine Tier 6";
-                        if (playerData.getPrivateMineSquareSize() >= 100) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T6.item);
-                        } else {
-                            playerData.setPrivateMineSquareSize(100);
-                            playerData.setPrivateMineMat(Material.STONE);
-                            playerData.setHasPrivateMine(true);
-                        }
-                    }
-                    case "privateMineTier7" -> {
-                        whatWasPurchased = "Private Mine Tier 7";
-                        if (playerData.getPrivateMineSquareSize() >= 110) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T7.item);
-                        } else {
-                            playerData.setPrivateMineSquareSize(110);
-                            playerData.setPrivateMineMat(Material.STONE);
-                            playerData.setHasPrivateMine(true);
-                        }
-                    }
-                    case "privateMineTier8" -> {
-                        whatWasPurchased = "Private Mine Tier 8";
-                        if (playerData.getPrivateMineSquareSize() >= 120) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T8.item);
-                        } else {
-                            playerData.setPrivateMineSquareSize(120);
-                            playerData.setPrivateMineMat(Material.STONE);
-                            playerData.setHasPrivateMine(true);
-                        }
-                    }
-                    case "privateMineTier9" -> {
-                        whatWasPurchased = "Private Mine Tier 9";
-                        if (playerData.getPrivateMineSquareSize() >= 130) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T9.item);
-                        } else {
-                            playerData.setPrivateMineSquareSize(130);
-                            playerData.setPrivateMineMat(Material.STONE);
-                            playerData.setHasPrivateMine(true);
-                        }
-                    }
-                    case "privateMineTier10" -> {
-                        whatWasPurchased = "Private Mine Tier 10";
-                        if (playerData.getPrivateMineSquareSize() >= 140) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T10.item);
-                        } else {
-                            playerData.setPrivateMineSquareSize(140);
-                            playerData.setPrivateMineMat(Material.STONE);
-                            playerData.setHasPrivateMine(true);
-                        }
-                    }
-                    case "privateMineTier11" -> {
-                        whatWasPurchased = "Private Mine Tier 11";
-                        if (playerData.getPrivateMineSquareSize() >= 150) {
-                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T11.item);
-                        } else {
-                            playerData.setPrivateMineSquareSize(150);
-                            playerData.setPrivateMineMat(Material.STONE);
-                            playerData.setHasPrivateMine(true);
-                        }
-                    }
+//                    case "privateMineTier1" -> {
+//                        whatWasPurchased = "Private Mine Tier 1";
+//                        if (playerData.getPrivateMineSquareSize() >= 50) {
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T1.item);
+//                        } else {
+//                            playerData.setPrivateMineSquareSize(50);
+//                            playerData.setPrivateMineMat(Material.STONE);
+//                            playerData.setHasPrivateMine(true);
+//                        }
+//                    }
+//                    case "privateMineTier2" -> {
+//                        whatWasPurchased = "Private Mine Tier 2";
+//                        if (playerData.getPrivateMineSquareSize() >= 60) {
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T2.item);
+//                        } else {
+//                            playerData.setPrivateMineSquareSize(60);
+//                            playerData.setPrivateMineMat(Material.STONE);
+//                            playerData.setHasPrivateMine(true);
+//                        }
+//                    }
+//                    case "privateMineTier3" -> {
+//                        whatWasPurchased = "Private Mine Tier 3";
+//                        if (playerData.getPrivateMineSquareSize() >= 70) {
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T3.item);
+//                        } else {
+//                            playerData.setPrivateMineSquareSize(70);
+//                            playerData.setPrivateMineMat(Material.STONE);
+//                            playerData.setHasPrivateMine(true);
+//                        }
+//                    }
+//                    case "privateMineTier4" -> {
+//                        whatWasPurchased = "Private Mine Tier 4";
+//                        if (playerData.getPrivateMineSquareSize() >= 80) {
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T4.item);
+//                        } else {
+//                            playerData.setPrivateMineSquareSize(80);
+//                            playerData.setPrivateMineMat(Material.STONE);
+//                            playerData.setHasPrivateMine(true);
+//                        }
+//                    }
+//                    case "privateMineTier5" -> {
+//                        whatWasPurchased = "Private Mine Tier 5";
+//                        if (playerData.getPrivateMineSquareSize() >= 90) {
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T5.item);
+//                        } else {
+//                            playerData.setPrivateMineSquareSize(90);
+//                            playerData.setPrivateMineMat(Material.STONE);
+//                            playerData.setHasPrivateMine(true);
+//                        }
+//                    }
+//                    case "privateMineTier6" -> {
+//                        whatWasPurchased = "Private Mine Tier 6";
+//                        if (playerData.getPrivateMineSquareSize() >= 100) {
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T6.item);
+//                        } else {
+//                            playerData.setPrivateMineSquareSize(100);
+//                            playerData.setPrivateMineMat(Material.STONE);
+//                            playerData.setHasPrivateMine(true);
+//                        }
+//                    }
+//                    case "privateMineTier7" -> {
+//                        whatWasPurchased = "Private Mine Tier 7";
+//                        if (playerData.getPrivateMineSquareSize() >= 110) {
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T7.item);
+//                        } else {
+//                            playerData.setPrivateMineSquareSize(110);
+//                            playerData.setPrivateMineMat(Material.STONE);
+//                            playerData.setHasPrivateMine(true);
+//                        }
+//                    }
+//                    case "privateMineTier8" -> {
+//                        whatWasPurchased = "Private Mine Tier 8";
+//                        if (playerData.getPrivateMineSquareSize() >= 120) {
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T8.item);
+//                        } else {
+//                            playerData.setPrivateMineSquareSize(120);
+//                            playerData.setPrivateMineMat(Material.STONE);
+//                            playerData.setHasPrivateMine(true);
+//                        }
+//                    }
+//                    case "privateMineTier9" -> {
+//                        whatWasPurchased = "Private Mine Tier 9";
+//                        if (playerData.getPrivateMineSquareSize() >= 130) {
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T9.item);
+//                        } else {
+//                            playerData.setPrivateMineSquareSize(130);
+//                            playerData.setPrivateMineMat(Material.STONE);
+//                            playerData.setHasPrivateMine(true);
+//                        }
+//                    }
+//                    case "privateMineTier10" -> {
+//                        whatWasPurchased = "Private Mine Tier 10";
+//                        if (playerData.getPrivateMineSquareSize() >= 140) {
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T10.item);
+//                        } else {
+//                            playerData.setPrivateMineSquareSize(140);
+//                            playerData.setPrivateMineMat(Material.STONE);
+//                            playerData.setHasPrivateMine(true);
+//                        }
+//                    }
+//                    case "privateMineTier11" -> {
+//                        whatWasPurchased = "Private Mine Tier 11";
+//                        if (playerData.getPrivateMineSquareSize() >= 150) {
+//                            PrisonUtils.Players.addToInventory(player, Vouchers.PRIVATE_MINE_T11.item);
+//                        } else {
+//                            playerData.setPrivateMineSquareSize(150);
+//                            playerData.setPrivateMineMat(Material.STONE);
+//                            playerData.setHasPrivateMine(true);
+//                        }
+//                    }
                     default -> {
                         if (args[1].startsWith("tag-")) {
                             String tagName = args[1].split("tag-")[1];

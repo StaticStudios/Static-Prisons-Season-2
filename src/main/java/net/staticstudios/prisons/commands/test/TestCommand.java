@@ -7,6 +7,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.staticstudios.prisons.chat.events.ChatEvents;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.privateMines.PrivateMine;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -43,7 +44,7 @@ public class TestCommand implements CommandExecutor {
         //Crates.COMMON.preview(player);
         //Cell.createCell(player);
        PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.setXp(Integer.parseInt(args[0]), true));
-       //for (int i = 0; i < 150; i++) player.sendMessage(PrisonUtils.prettyNum(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
+       for (int i = 0; i < 100; i++) player.sendMessage(PrisonUtils.prettyNum(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
         //SettingsMenus.open(player, true);
 //        Player finalPlayer = player;
 //        TickUtils.init(StaticPrisons.getInstance());
@@ -59,7 +60,7 @@ public class TestCommand implements CommandExecutor {
         //EventManager.runWordUnscramble();
 //        player.spigot().send(TitlePart.TITLE, "");
 //        player.showTitle(Title.title(Component.text("&a&lHello"), Component.text("&b&lWorld"), Title.Times.of(Duration.ofMillis(500), Duration.ofMillis(2000), Duration.ofMillis(500))));
-        ChatEvents.runEvent(ChatEvents.EventType.MATH);
+//        ChatEvents.runEvent(ChatEvents.EventType.MATH);
         return false;
     }
 

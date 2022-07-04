@@ -10,7 +10,7 @@ import java.math.BigInteger;
 
 public class BackpackFinderEnchant extends BaseEnchant {
     public BackpackFinderEnchant() {
-        super("backpackFinder", "&6&lDuffle Bag", 7500, BigInteger.valueOf(500), "&7Chance to find an additional 1% to 4% of", "&7your backpack's max space while mining");
+        super("backpackFinder", "&6&lDuffle Bag", 10000, BigInteger.valueOf(500), "&7Chance to find an additional 1% to 4% of", "&7your backpack's max space while mining");
     }
 
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&6&lDuffle Bag &8&l>> &r");

@@ -153,171 +153,171 @@ public class Vouchers {
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };
-    public static final Voucher PRIVATE_MINE_T1 = new Voucher("privateMine1", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 1 (51x148x51)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
-        @Override
-        void onClaim(Player player) {
-            PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() >= 50) {
-                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
-                return;
-            }
-            playerData.setPrivateMineSquareSize(50);
-            playerData.setPrivateMineMat(Material.STONE);
-            playerData.setHasPrivateMine(true);
-            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        }
-    };
-    public static final Voucher PRIVATE_MINE_T2 = new Voucher("privateMine2", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 2 (61x148x61)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
-        @Override
-        void onClaim(Player player) {
-            PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() >= 60) {
-                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
-                return;
-            }
-            playerData.setPrivateMineSquareSize(60);
-            playerData.setPrivateMineMat(Material.STONE);
-            playerData.setHasPrivateMine(true);
-            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        }
-    };
-    public static final Voucher PRIVATE_MINE_T3 = new Voucher("privateMine3", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 3 (71x148x71)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
-        @Override
-        void onClaim(Player player) {
-            PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() >= 70) {
-                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
-                return;
-            }
-            playerData.setPrivateMineSquareSize(70);
-            playerData.setPrivateMineMat(Material.STONE);
-            playerData.setHasPrivateMine(true);
-            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        }
-    };
-    public static final Voucher PRIVATE_MINE_T4 = new Voucher("privateMine4", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 4 (81x148x81)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
-        @Override
-        void onClaim(Player player) {
-            PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() >= 80) {
-                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
-                return;
-            }
-            playerData.setPrivateMineSquareSize(80);
-            playerData.setPrivateMineMat(Material.STONE);
-            playerData.setHasPrivateMine(true);
-            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        }
-    };
-    public static final Voucher PRIVATE_MINE_T5 = new Voucher("privateMine5", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 5 (91x148x91)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
-        @Override
-        void onClaim(Player player) {
-            PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() >= 90) {
-                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
-                return;
-            }
-            playerData.setPrivateMineSquareSize(90);
-            playerData.setPrivateMineMat(Material.STONE);
-            playerData.setHasPrivateMine(true);
-            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        }
-    };
-    public static final Voucher PRIVATE_MINE_T6 = new Voucher("privateMine6", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 6 (101x148x101)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
-        @Override
-        void onClaim(Player player) {
-            PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() >= 100) {
-                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
-                return;
-            }
-            playerData.setPrivateMineSquareSize(100);
-            playerData.setPrivateMineMat(Material.STONE);
-            playerData.setHasPrivateMine(true);
-            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        }
-    };
-    public static final Voucher PRIVATE_MINE_T7 = new Voucher("privateMine7", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 7 (111x148x111)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
-        @Override
-        void onClaim(Player player) {
-            PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() >= 110) {
-                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
-                return;
-            }
-            playerData.setPrivateMineSquareSize(110);
-            playerData.setPrivateMineMat(Material.STONE);
-            playerData.setHasPrivateMine(true);
-            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        }
-    };
-    public static final Voucher PRIVATE_MINE_T8 = new Voucher("privateMine8", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 8 (121x148x121)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
-        @Override
-        void onClaim(Player player) {
-            PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() >= 120) {
-                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
-                return;
-            }
-            playerData.setPrivateMineSquareSize(120);
-            playerData.setPrivateMineMat(Material.STONE);
-            playerData.setHasPrivateMine(true);
-            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        }
-    };
-    public static final Voucher PRIVATE_MINE_T9 = new Voucher("privateMine9", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 9 (131x148x131)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
-        @Override
-        void onClaim(Player player) {
-            PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() >= 130) {
-                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
-                return;
-            }
-            playerData.setPrivateMineSquareSize(130);
-            playerData.setPrivateMineMat(Material.STONE);
-            playerData.setHasPrivateMine(true);
-            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        }
-    };
-    public static final Voucher PRIVATE_MINE_T10 = new Voucher("privateMine10", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 10 (141x148x141)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
-        @Override
-        void onClaim(Player player) {
-            PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() >= 140) {
-                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
-                return;
-            }
-            playerData.setPrivateMineSquareSize(140);
-            playerData.setPrivateMineMat(Material.STONE);
-            playerData.setHasPrivateMine(true);
-            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        }
-    };
-    public static final Voucher PRIVATE_MINE_T11 = new Voucher("privateMine11", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 11 (151x148x151)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
-        @Override
-        void onClaim(Player player) {
-            PlayerData playerData = new PlayerData(player);
-            if (playerData.getPrivateMineSquareSize() >= 150) {
-                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
-                return;
-            }
-            playerData.setPrivateMineSquareSize(150);
-            playerData.setPrivateMineMat(Material.STONE);
-            playerData.setHasPrivateMine(true);
-            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        }
-    };
+//    public static final Voucher PRIVATE_MINE_T1 = new Voucher("privateMine1", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 1 (51x148x51)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
+//        @Override
+//        void onClaim(Player player) {
+//            PlayerData playerData = new PlayerData(player);
+//            if (playerData.getPrivateMineSquareSize() >= 50) {
+//                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
+//                return;
+//            }
+//            playerData.setPrivateMineSquareSize(50);
+//            playerData.setPrivateMineMat(Material.STONE);
+//            playerData.setHasPrivateMine(true);
+//            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//        }
+//    };
+//    public static final Voucher PRIVATE_MINE_T2 = new Voucher("privateMine2", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 2 (61x148x61)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
+//        @Override
+//        void onClaim(Player player) {
+//            PlayerData playerData = new PlayerData(player);
+//            if (playerData.getPrivateMineSquareSize() >= 60) {
+//                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
+//                return;
+//            }
+//            playerData.setPrivateMineSquareSize(60);
+//            playerData.setPrivateMineMat(Material.STONE);
+//            playerData.setHasPrivateMine(true);
+//            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//        }
+//    };
+//    public static final Voucher PRIVATE_MINE_T3 = new Voucher("privateMine3", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 3 (71x148x71)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
+//        @Override
+//        void onClaim(Player player) {
+//            PlayerData playerData = new PlayerData(player);
+//            if (playerData.getPrivateMineSquareSize() >= 70) {
+//                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
+//                return;
+//            }
+//            playerData.setPrivateMineSquareSize(70);
+//            playerData.setPrivateMineMat(Material.STONE);
+//            playerData.setHasPrivateMine(true);
+//            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//        }
+//    };
+//    public static final Voucher PRIVATE_MINE_T4 = new Voucher("privateMine4", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 4 (81x148x81)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
+//        @Override
+//        void onClaim(Player player) {
+//            PlayerData playerData = new PlayerData(player);
+//            if (playerData.getPrivateMineSquareSize() >= 80) {
+//                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
+//                return;
+//            }
+//            playerData.setPrivateMineSquareSize(80);
+//            playerData.setPrivateMineMat(Material.STONE);
+//            playerData.setHasPrivateMine(true);
+//            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//        }
+//    };
+//    public static final Voucher PRIVATE_MINE_T5 = new Voucher("privateMine5", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 5 (91x148x91)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
+//        @Override
+//        void onClaim(Player player) {
+//            PlayerData playerData = new PlayerData(player);
+//            if (playerData.getPrivateMineSquareSize() >= 90) {
+//                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
+//                return;
+//            }
+//            playerData.setPrivateMineSquareSize(90);
+//            playerData.setPrivateMineMat(Material.STONE);
+//            playerData.setHasPrivateMine(true);
+//            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//        }
+//    };
+//    public static final Voucher PRIVATE_MINE_T6 = new Voucher("privateMine6", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 6 (101x148x101)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
+//        @Override
+//        void onClaim(Player player) {
+//            PlayerData playerData = new PlayerData(player);
+//            if (playerData.getPrivateMineSquareSize() >= 100) {
+//                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
+//                return;
+//            }
+//            playerData.setPrivateMineSquareSize(100);
+//            playerData.setPrivateMineMat(Material.STONE);
+//            playerData.setHasPrivateMine(true);
+//            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//        }
+//    };
+//    public static final Voucher PRIVATE_MINE_T7 = new Voucher("privateMine7", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 7 (111x148x111)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
+//        @Override
+//        void onClaim(Player player) {
+//            PlayerData playerData = new PlayerData(player);
+//            if (playerData.getPrivateMineSquareSize() >= 110) {
+//                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
+//                return;
+//            }
+//            playerData.setPrivateMineSquareSize(110);
+//            playerData.setPrivateMineMat(Material.STONE);
+//            playerData.setHasPrivateMine(true);
+//            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//        }
+//    };
+//    public static final Voucher PRIVATE_MINE_T8 = new Voucher("privateMine8", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 8 (121x148x121)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
+//        @Override
+//        void onClaim(Player player) {
+//            PlayerData playerData = new PlayerData(player);
+//            if (playerData.getPrivateMineSquareSize() >= 120) {
+//                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
+//                return;
+//            }
+//            playerData.setPrivateMineSquareSize(120);
+//            playerData.setPrivateMineMat(Material.STONE);
+//            playerData.setHasPrivateMine(true);
+//            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//        }
+//    };
+//    public static final Voucher PRIVATE_MINE_T9 = new Voucher("privateMine9", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 9 (131x148x131)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
+//        @Override
+//        void onClaim(Player player) {
+//            PlayerData playerData = new PlayerData(player);
+//            if (playerData.getPrivateMineSquareSize() >= 130) {
+//                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
+//                return;
+//            }
+//            playerData.setPrivateMineSquareSize(130);
+//            playerData.setPrivateMineMat(Material.STONE);
+//            playerData.setHasPrivateMine(true);
+//            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//        }
+//    };
+//    public static final Voucher PRIVATE_MINE_T10 = new Voucher("privateMine10", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 10 (141x148x141)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
+//        @Override
+//        void onClaim(Player player) {
+//            PlayerData playerData = new PlayerData(player);
+//            if (playerData.getPrivateMineSquareSize() >= 140) {
+//                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
+//                return;
+//            }
+//            playerData.setPrivateMineSquareSize(140);
+//            playerData.setPrivateMineMat(Material.STONE);
+//            playerData.setHasPrivateMine(true);
+//            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//        }
+//    };
+//    public static final Voucher PRIVATE_MINE_T11 = new Voucher("privateMine11", Material.DEEPSLATE_DIAMOND_ORE,ChatColor.GREEN + "" + ChatColor.BOLD + "Private Mine Tier 11 (151x148x151)", ChatColor.GREEN + "Claim this to unlock a mine all to yourself.", ChatColor.GREEN + "+20% token multiplier when mining in this mine.", ChatColor.GREEN + "You can refill this mine at any time.", ChatColor.GREEN + "You can make the block any block that you have unlocked!") {
+//        @Override
+//        void onClaim(Player player) {
+//            PlayerData playerData = new PlayerData(player);
+//            if (playerData.getPrivateMineSquareSize() >= 150) {
+//                player.sendMessage(ChatColor.RED + "You already have a private mine equivalent to, or bigger than, this!");
+//                return;
+//            }
+//            playerData.setPrivateMineSquareSize(150);
+//            playerData.setPrivateMineMat(Material.STONE);
+//            playerData.setHasPrivateMine(true);
+//            player.sendMessage(ChatColor.AQUA + "You can now go to your private mine! Type \"/privatemine\" to get started!");
+//            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+//        }
+//    };
     public static final Voucher MONEY_POUCH_T1 = new Voucher("pouchMoney1", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Money Pouch Tier 1", ChatColor.GREEN + "Claim this to win a random amount of money!") {
         @Override
         void onClaim(Player player) {
@@ -487,17 +487,17 @@ public class Vouchers {
             case "kitPotions" -> KIT_POTIONS.onClaim(e.getPlayer());
             case "kitWeapons" -> KIT_WEAPONS.onClaim(e.getPlayer());
             case "autoSell" -> AUTO_SELL.onClaim(e.getPlayer());
-            case "privateMine1" -> PRIVATE_MINE_T1.onClaim(e.getPlayer());
-            case "privateMine2" -> PRIVATE_MINE_T2.onClaim(e.getPlayer());
-            case "privateMine3" -> PRIVATE_MINE_T3.onClaim(e.getPlayer());
-            case "privateMine4" -> PRIVATE_MINE_T4.onClaim(e.getPlayer());
-            case "privateMine5" -> PRIVATE_MINE_T5.onClaim(e.getPlayer());
-            case "privateMine6" -> PRIVATE_MINE_T6.onClaim(e.getPlayer());
-            case "privateMine7" -> PRIVATE_MINE_T7.onClaim(e.getPlayer());
-            case "privateMine8" -> PRIVATE_MINE_T8.onClaim(e.getPlayer());
-            case "privateMine9" -> PRIVATE_MINE_T9.onClaim(e.getPlayer());
-            case "privateMine10" -> PRIVATE_MINE_T10.onClaim(e.getPlayer());
-            case "privateMine11" -> PRIVATE_MINE_T11.onClaim(e.getPlayer());
+//            case "privateMine1" -> PRIVATE_MINE_T1.onClaim(e.getPlayer());
+//            case "privateMine2" -> PRIVATE_MINE_T2.onClaim(e.getPlayer());
+//            case "privateMine3" -> PRIVATE_MINE_T3.onClaim(e.getPlayer());
+//            case "privateMine4" -> PRIVATE_MINE_T4.onClaim(e.getPlayer());
+//            case "privateMine5" -> PRIVATE_MINE_T5.onClaim(e.getPlayer());
+//            case "privateMine6" -> PRIVATE_MINE_T6.onClaim(e.getPlayer());
+//            case "privateMine7" -> PRIVATE_MINE_T7.onClaim(e.getPlayer());
+//            case "privateMine8" -> PRIVATE_MINE_T8.onClaim(e.getPlayer());
+//            case "privateMine9" -> PRIVATE_MINE_T9.onClaim(e.getPlayer());
+//            case "privateMine10" -> PRIVATE_MINE_T10.onClaim(e.getPlayer());
+//            case "privateMine11" -> PRIVATE_MINE_T11.onClaim(e.getPlayer());
             case "pouchMoney1" -> MONEY_POUCH_T1.onClaim(e.getPlayer());
             case "pouchMoney2" -> MONEY_POUCH_T2.onClaim(e.getPlayer());
             case "pouchMoney3" -> MONEY_POUCH_T3.onClaim(e.getPlayer());
