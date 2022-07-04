@@ -123,17 +123,6 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
             list.add("pickaxe_8");
             list.add("pickaxe_9");
             list.add("pickaxe_10");
-            list.add("pmine_voucher_1");
-            list.add("pmine_voucher_2");
-            list.add("pmine_voucher_3");
-            list.add("pmine_voucher_4");
-            list.add("pmine_voucher_5");
-            list.add("pmine_voucher_6");
-            list.add("pmine_voucher_7");
-            list.add("pmine_voucher_8");
-            list.add("pmine_voucher_9");
-            list.add("pmine_voucher_10");
-            list.add("pmine_voucher_11");
         }
         return StaticMineUtils.filterStringList(list, args[0]);
     }

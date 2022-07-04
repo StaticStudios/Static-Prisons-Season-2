@@ -133,8 +133,10 @@ public final class PrisonUtils {
     }
 
     public static boolean writeToAFile(String filePath, List<String> linesToWrite, boolean append) {
+        return writeToAFile(new File(filePath), linesToWrite, append);
+    }
+    public static boolean writeToAFile(File file, List<String> linesToWrite, boolean append) { //todo make this better, this is inefficient
         try {
-            File file = new File(filePath);
             file.mkdirs();
             if (!file.exists()) file.createNewFile();
             StringBuilder contents = new StringBuilder();

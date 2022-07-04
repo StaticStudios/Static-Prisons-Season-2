@@ -21,6 +21,7 @@ import java.util.Map;
 public class JackHammerEnchant extends BaseEnchant {
     public JackHammerEnchant() {
         super("jackHammer", "&8&lJack Hammer", 20000, BigInteger.valueOf(250), "&7Chance to destroy a layer of a mine");
+        setPickaxeLevelRequirement(10);
     }
 
     public void onBlockBreak(PrisonBlockBroken bb) {

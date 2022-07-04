@@ -13,6 +13,7 @@ public class ServerData {
     public static final ServerDataPlayers PLAYERS = new ServerDataPlayers();
     public static final ServerDataIslands ISLANDS = new ServerDataIslands();
     public static final ServerDataPrivateMines PRIVATE_MINES = new ServerDataPrivateMines();
+    public static final ServerDataReclaim RECLAIM = new ServerDataReclaim();
 
     public static void playerJoined(Player player) {
         if (!PLAYERS.getAllUUIDs().contains(player.getUniqueId())) {

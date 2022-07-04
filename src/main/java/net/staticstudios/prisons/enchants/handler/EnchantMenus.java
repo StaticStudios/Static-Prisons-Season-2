@@ -7,6 +7,7 @@ import net.staticstudios.prisons.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.utils.PrisonUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -159,6 +160,15 @@ public class EnchantMenus extends GUIUtils {
         desc.add("&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()));
         desc.add("");
         desc.add("&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.MAX_LEVEL));
+        if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel() || enchant.getPlayerLevelRequirement() > playerData.getPlayerLevel()) {
+            desc.add("");
+            if (enchant.getPlayerLevelRequirement() > playerData.getPlayerLevel()) desc.add("&cMinimum Player Level: &f" + enchant.getPlayerLevelRequirement());
+            if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel()) desc.add("&cMinimum Pickaxe Level: &f" + enchant.getPickaxeLevelRequirement());
+            return c.createButton(icon, enchant.DISPLAY_NAME, desc, (p, t) -> {
+                if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel()) p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYour pickaxe is not high enough level to unlock this enchant!"));
+                else p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not a high enough level to unlock this enchant!"));
+            });
+        }
         if (!pickaxe.getIsEnchantEnabled(enchant)) {
             desc.add("");
             desc.add("&c&oThis enchant has been disabled in the pickaxe's settings!");

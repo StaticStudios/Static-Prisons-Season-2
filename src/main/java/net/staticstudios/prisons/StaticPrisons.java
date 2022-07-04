@@ -41,6 +41,7 @@ import net.staticstudios.prisons.privateMines.PrivateMineManager;
 import net.staticstudios.prisons.pvp.PvPCommand;
 import net.staticstudios.prisons.pvp.PvPManager;
 import net.staticstudios.prisons.rankup.RankUp;
+import net.staticstudios.prisons.reclaim.ReclaimCommand;
 import net.staticstudios.prisons.utils.Constants;
 import net.luckperms.api.LuckPerms;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -105,7 +106,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(AuctionManager::init);
         safe(AutoSellEnchant::initTimer);
         safe(ConsistencyEnchant::init);
-        safe(Kits::init); //todo move to custom items init task
+        safe(Kits::init);
         safe(TabList::init);
         safe(DiscordLink::init);
 
@@ -178,7 +179,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("island").setExecutor(new IslandCommand()); getCommand("island").setTabCompleter(new IslandCommand());
         getCommand("dailyrewards").setExecutor(new DailyRewardsCommand()); getCommand("dailyrewards").setTabCompleter(new DailyRewardsCommand());
         getCommand("enchant").setExecutor(new EnchantCommand()); getCommand("enchant").setTabCompleter(new EnchantCommand());
-//        getCommand("reclaim").setExecutor(new ReclaimCommand()); getCommand("reclaim").setTabCompleter(new ReclaimCommand()); //todo redo with new module
+        getCommand("reclaim").setExecutor(new ReclaimCommand()); getCommand("reclaim").setTabCompleter(new ReclaimCommand()); //todo redo with new module
         getCommand("dropitem").setExecutor(new DropItemCommand()); getCommand("dropitem").setTabCompleter(new DropItemCommand());
         getCommand("pay").setExecutor(new PayCommand()); getCommand("pay").setTabCompleter(new PayCommand());
         getCommand("withdraw").setExecutor(new WithdrawCommand()); getCommand("withdraw").setTabCompleter(new WithdrawCommand());

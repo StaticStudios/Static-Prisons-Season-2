@@ -15,6 +15,7 @@ import java.math.BigInteger;
 public class SpecialFinderEnchant extends BaseEnchant {
     public SpecialFinderEnchant() {
         super("specialFinder", "&c&lMetal Detector", 5000, BigInteger.valueOf(400), "&7Find special items while mining");
+        setPickaxeLevelRequirement(25);
     }
 
     public void onBlockBreak(PrisonBlockBroken bb) {

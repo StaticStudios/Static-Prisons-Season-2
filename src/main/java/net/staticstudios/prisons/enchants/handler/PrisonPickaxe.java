@@ -9,6 +9,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -251,13 +254,12 @@ public class PrisonPickaxe {
 
     void calcLevel() {
         long level = this.level;
-        long xp = getXp();
-        while (xp >= getLevelRequirement(level)) level++;
+        while (getXp() >= getLevelRequirement(level)) level++;
         this.level = level;
     }
 
     public void addXp(long xp) {
-        if (xp >= getLevelRequirement(level + 1)) calcLevel(); //The pickaxe should level up
+        if (this.xp >= getLevelRequirement(level)) calcLevel(); //The pickaxe should level up
         setXp(this.xp + xp);
     }
     public void addBlocksBroken(long blocksBroken) {
@@ -309,7 +311,7 @@ public class PrisonPickaxe {
     private List<String> buildStatLore() {
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.GREEN + "Level: " + ChatColor.WHITE + PrisonUtils.addCommasToNumber(level));
-        lore.add(ChatColor.GREEN + "Experience: " + ChatColor.WHITE + PrisonUtils.addCommasToNumber(xp));
+        lore.add(ChatColor.GREEN + "Experience: " + ChatColor.WHITE + PrisonUtils.prettyNum(xp) + " / " + PrisonUtils.prettyNum(getLevelRequirement(level)));
         lore.add(ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + PrisonUtils.addCommasToNumber(rawBlocksBroken));
         lore.add(ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + PrisonUtils.addCommasToNumber(blocksBroken));
         return lore;

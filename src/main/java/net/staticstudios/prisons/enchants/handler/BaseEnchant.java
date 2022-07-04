@@ -37,6 +37,15 @@ public abstract class BaseEnchant implements Listener {
     public final String UNFORMATTED_DISPLAY_NAME;
     public final List<String> DESCRIPTION;
 
+    private int pickaxeLevelRequirement;
+    public int getPickaxeLevelRequirement() {
+        return pickaxeLevelRequirement;
+    }
+    private int playerLevelRequirement;
+    public int getPlayerLevelRequirement() {
+        return playerLevelRequirement;
+    }
+
 
     public BaseEnchant(String id, String name, int maxLevel, BigInteger price, String... desc) {
         ENCHANT_ID = id;
@@ -47,6 +56,15 @@ public abstract class BaseEnchant implements Listener {
         for (int i = 0; i < desc.length; i++) desc[i] = ChatColor.translateAlternateColorCodes('&', desc[i]);
         DESCRIPTION = List.of(desc);
         PrisonEnchants.enchantIDToEnchant.put(ENCHANT_ID, this);
+    }
+
+    public BaseEnchant setPickaxeLevelRequirement(int level) {
+        pickaxeLevelRequirement = level;
+        return this;
+    }
+    public BaseEnchant setPlayerLevelRequirement(int level) {
+        playerLevelRequirement = level;
+        return this;
     }
 
     public boolean tryToBuyLevels(Player player, PrisonPickaxe pickaxe, long levelsToBuy) {

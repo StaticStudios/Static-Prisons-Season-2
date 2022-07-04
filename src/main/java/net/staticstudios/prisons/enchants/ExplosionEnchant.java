@@ -10,6 +10,7 @@ import java.math.BigInteger;
 public class ExplosionEnchant extends BaseEnchant {
     public ExplosionEnchant() {
         super("explosion", "&c&lExplosion", 5000, BigInteger.valueOf(450), "&7Change to explode part of a mine");
+        setPickaxeLevelRequirement(10);
     }
     public void onBlockBreak(PrisonBlockBroken bb) {
         int explosionLevel = bb.pickaxe.getEnchantLevel(ENCHANT_ID);

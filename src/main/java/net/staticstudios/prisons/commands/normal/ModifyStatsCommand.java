@@ -248,6 +248,7 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
             list.add("tokens");
         } else if (args.length == 2) {
             list.addAll(StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[1]));
+            list.add("self");
         } else if (args.length == 3) {
             list.add("add");
             list.add("remove");

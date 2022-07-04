@@ -13,7 +13,6 @@ import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.enchants.handler.EnchantMenus;
-import net.staticstudios.prisons.reclaim.RerunPurchases;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -52,9 +51,6 @@ public class EventListener implements Listener {
 
         //Updates a player's discord name
         DiscordLink.playerJoined(player);
-
-        //Gives anyone who bought something during March their packages back
-        RerunPurchases.playerJoined(player);
     }
     @EventHandler
     void playerQuit(PlayerQuitEvent e) {

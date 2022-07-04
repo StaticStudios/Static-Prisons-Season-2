@@ -13,6 +13,7 @@ import java.math.BigInteger;
 public class KeyFinderEnchant extends BaseEnchant {
     public KeyFinderEnchant() {
         super("keyFinder", "&d&lKey Finder", 5000, BigInteger.valueOf(400), "&7Find crate keys while mining");
+        setPickaxeLevelRequirement(25);
     }
 
     public void onBlockBreak(PrisonBlockBroken bb) {

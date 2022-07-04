@@ -15,6 +15,8 @@ import java.util.*;
 public class AutoSellEnchant extends BaseEnchant {
     public AutoSellEnchant() {
         super("autoSell", "&d&lAuto Sell", 50000, BigInteger.valueOf(75), "&7Decrease the time between the", "&7automatic selling of your backpack", "&7Minimum interval: 60 seconds");
+        setPickaxeLevelRequirement(25);
+        setPlayerLevelRequirement(20);
     }
 
     public static Map<PrisonPickaxe, Integer> autoSellTimeLeft = new HashMap<>();

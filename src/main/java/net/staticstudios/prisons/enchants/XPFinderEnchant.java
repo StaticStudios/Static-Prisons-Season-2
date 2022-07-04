@@ -11,6 +11,7 @@ import java.math.BigInteger;
 public class XPFinderEnchant extends BaseEnchant {
     public XPFinderEnchant() {
         super("xpFinder", "&a&lXP Finder", 1000, BigInteger.valueOf(1000), "&7Increase the chance to find XP whilst mining");
+        setPickaxeLevelRequirement(30);
     }
 
     public void onBlockBreak(PrisonBlockBroken bb) {
