@@ -10,14 +10,10 @@ import java.util.*;
 
 public class GangChest implements InventoryHolder {
 
-    public static Map<UUID, GangChest> GANG_UUID_TO_GANG_CHEST = new HashMap<>();
-
-    private UUID gangUUID;
-    private List<Map<String, Object>> serializedItems;
+    private final List<Map<String, Object>> serializedItems;
     private Inventory chestInventory;
 
-    public GangChest(UUID gangID, List<Map<String, Object>> serializedItems) {
-        this.gangUUID = gangID;
+    public GangChest(List<Map<String, Object>> serializedItems) {
         this.serializedItems = serializedItems;
     }
 
@@ -35,6 +31,7 @@ public class GangChest implements InventoryHolder {
     }
 
     public List<Map<String, Object>> serializeContents() {
+        if (chestInventory == null) return serializedItems;
         List<Map<String, Object>> serializedItems = new ArrayList<>();
         for (ItemStack item : chestInventory.getContents()) {
             if (item == null) serializedItems.add(new HashMap<>());

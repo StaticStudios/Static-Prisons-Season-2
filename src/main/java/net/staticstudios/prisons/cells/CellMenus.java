@@ -14,7 +14,12 @@ public class CellMenus extends GUIUtils {
         GUICreator c = new GUICreator(9, "Your Cell");
 
         if (Cell.getCell(player) == null) c.setItem(4, c.createButton(Material.NETHER_STAR, "&aCreate a cell", List.of("A cell is a personal space where you can", "store personal items and have creative freedom."), (p, t) -> Cell.createCell(p)));
-        else c.setItem(4, ench(c.createButton(Material.COMPASS, "&bWarp to your cell", List.of("A cell is a personal space where you can", "store personal items and have creative freedom."), (p, t) -> Cell.getCell(p).warpTo(p))));
+        else {
+            c.setItem(3, ench(c.createButton(Material.COMPASS, "&bWarp to your cell", List.of("A cell is a personal space where you can", "store personal items and have creative freedom."), (p, t) -> Cell.getCell(p).warpTo(p))));
+
+            c.setItem(5, ench(c.createButton(Material.OAK_PLANKS, "&aBlock Shop", List.of("&7&oBuy blocks to customize your cell!"), (p, t) -> CellBlockShop.openMenu(p, 0, fromCommand))));
+
+        }
 
         c.fill(createGrayPlaceHolder());
 

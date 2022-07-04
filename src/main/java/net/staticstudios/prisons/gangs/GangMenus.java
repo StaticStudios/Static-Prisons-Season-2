@@ -2,6 +2,7 @@ package net.staticstudios.prisons.gangs;
 
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.gui.newGui.MainMenus;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -10,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -58,6 +60,7 @@ public class GangMenus extends GUIUtils {
         }));
         c.setItem(13, createLightGrayPlaceHolder());
         c.setItem(14, c.createButton(Material.MAP, "&a&lGang Bank", List.of("- Deposit money or tokens", "- Withdraw money or tokens"), (p, t) -> {
+            openGangBank(p, fromCommand);
         }));
         c.setItem(15, createLightGrayPlaceHolder());
         c.setItem(16, c.createButton(Material.CHEST, "&6&lGang Chest", List.of("View a shared chest for your gang"), (p, t) -> {
@@ -91,14 +94,6 @@ public class GangMenus extends GUIUtils {
         c.setOnCloseRun((p, t) -> {
             if (!fromCommand) MainMenus.open(p);
         });
-        /*
-        settings -
-        chest //todo
-        members -
-        stats -
-        bank //todo
-        //todo pvp
-         */
     }
     public static void openGangSettings(Player player, boolean fromCommand) {
         if (!Gang.hasGang(player)) {
@@ -266,7 +261,71 @@ public class GangMenus extends GUIUtils {
             openCreateGang(player, fromCommand);
             return;
         }
-
+        Gang gang = Gang.getGang(player);
+        GUICreator c = new GUICreator(27, "Your Gang's Bank");
+        c.setItem(11, ench(c.createButton(Material.PAPER, "&a&lMoney ($" + PrisonUtils.prettyNum(gang.getBankMoney()) + ")", List.of("Deposit or withdraw money from your gang's bank."), (p, t) -> {
+            openGangBankMoney(p, fromCommand);
+        })));
+        c.setItem(15, ench(c.createButton(Material.SUNFLOWER, "&e&lTokens (" + PrisonUtils.prettyNum(gang.getBankTokens()) + " Tokens)", List.of("Deposit or withdraw tokens from your gang's bank."), (p, t) -> {
+            openGangBankTokens(p, fromCommand);
+        })));
+        c.fill(createGrayPlaceHolder());
+        c.open(player);
+        c.setOnCloseRun((p, t) -> openYourGang(p, fromCommand));
+    }
+    public static void openGangBankMoney(Player player, boolean fromCommand) {
+        if (!Gang.hasGang(player)) {
+            openCreateGang(player, fromCommand);
+            return;
+        }
+        Gang gang = Gang.getGang(player);
+        PlayerData playerData = new PlayerData(player);
+        GUICreator c = new GUICreator(27, "Gang Bank | Money");
+        c.setItem(11, ench(c.createButton(Material.LIME_STAINED_GLASS, "&a&lDeposit All ($" + PrisonUtils.prettyNum(playerData.getMoney()) + ")", List.of("Deposit all of your money"), (p, t) -> {
+            gang.addBankMoney(playerData.getMoney());
+            playerData.setMoney(BigInteger.ZERO);
+            openGangBankMoney(p, fromCommand);
+        })));
+        c.setItem(13, ench(c.createButton(Material.MAP, "&b&lYour Gang's Bank", List.of("&bMoney: &f$" + PrisonUtils.prettyNum(gang.getBankMoney()), "&bTokens: &f" + PrisonUtils.prettyNum(gang.getBankTokens())))));
+        c.setItem(15, ench(c.createButton(Material.RED_STAINED_GLASS, "&c&lWithdraw All ($" + PrisonUtils.prettyNum(gang.getBankMoney()) + ")", List.of("Withdraw all your gang bank's money"), (p, t) -> {
+            if (!gang.canMembersWithdrawFomBank() && !gang.getOwner().equals(p.getUniqueId())) {
+                p.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You can't withdraw from the bank as the owner has disabled it for your gang!"));
+                return;
+            }
+            playerData.addMoney(gang.getBankMoney());
+            gang.removeBankMoney(gang.getBankMoney());
+            openGangBankMoney(p, fromCommand);
+        })));
+        c.fill(createGrayPlaceHolder());
+        c.open(player);
+        c.setOnCloseRun((p, t) -> openGangBank(p, fromCommand));
+    }
+    public static void openGangBankTokens(Player player, boolean fromCommand) {
+        if (!Gang.hasGang(player)) {
+            openCreateGang(player, fromCommand);
+            return;
+        }
+        Gang gang = Gang.getGang(player);
+        PlayerData playerData = new PlayerData(player);
+        GUICreator c = new GUICreator(27, "Gang Bank | Tokens");
+        c.setItem(11, ench(c.createButton(Material.LIME_STAINED_GLASS, "&a&lDeposit All (" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens)", List.of("Deposit all of your tokens"), (p, t) -> {
+            gang.addBankTokens(playerData.getTokens());
+            playerData.setTokens(BigInteger.ZERO);
+            openGangBankTokens(p, fromCommand);
+        })));
+        c.setItem(13, ench(c.createButton(Material.MAP, "&b&lYour Gang's Bank", List.of("&bMoney: &f$" + PrisonUtils.prettyNum(gang.getBankMoney()), "&bTokens: &f" + PrisonUtils.prettyNum(gang.getBankTokens())))));
+        c.setItem(15, ench(c.createButton(Material.RED_STAINED_GLASS, "&c&lWithdraw All (" + PrisonUtils.prettyNum(gang.getBankTokens()) + " Tokens)", List.of("Withdraw all your gang bank's tokens"), (p, t) -> {
+            if (!gang.canMembersWithdrawFomBank() && !gang.getOwner().equals(p.getUniqueId())) {
+                p.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You can't withdraw from the bank as the owner has disabled it for your gang!"));
+                return;
+            }
+            playerData.addTokens(gang.getBankTokens());
+            gang.removeBankTokens(gang.getBankTokens());
+            openGangBankTokens(p, fromCommand);
+        })));
+        c.fill(createGrayPlaceHolder());
+        c.open(player);
+        c.setOnCloseRun((p, t) -> openGangBank(p, fromCommand));
     }
 
 

@@ -15,7 +15,7 @@ public class TokenatorEnchant extends BaseEnchant {
     }
 
     public void onBlockBreak(PrisonBlockBroken bb) {
-        int chance = (PrisonUtils.randomInt(1, 350 - bb.pickaxe.getEnchantLevel(ENCHANT_ID) / 25)); //Max level requires 150 blocks on average //todo: ensure that this is balanced
+        int chance = (PrisonUtils.randomInt(1, 350 - bb.pickaxe.getEnchantLevel(ENCHANT_ID) / 25)); //Max level requires 150 blocks on average
         if (chance == 1) bb.totalTokensGained += PrisonUtils.randomInt(200, 800);
     }
 }

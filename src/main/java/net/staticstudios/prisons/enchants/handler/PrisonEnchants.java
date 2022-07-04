@@ -22,6 +22,7 @@ public class PrisonEnchants {
     public static BaseEnchant EGG_SHOOTER;
     public static BaseEnchant AUTO_SELL;
     public static BaseEnchant XP_FINDER;
+    public static BaseEnchant BACKPACK_FINDER;
     public static BaseEnchant HASTE;
     public static BaseEnchant SPEED;
     public static BaseEnchant NIGHT_VISION;
@@ -45,6 +46,7 @@ public class PrisonEnchants {
         EGG_SHOOTER = new EggShooterEnchant();
         AUTO_SELL = new AutoSellEnchant();
         XP_FINDER = new XPFinderEnchant();
+        BACKPACK_FINDER = new BackpackFinderEnchant();
 
         HASTE = new HasteEnchant();
         SPEED = new SpeedEnchant();
@@ -64,6 +66,7 @@ public class PrisonEnchants {
         ORDERED_ENCHANTS.add(EGG_SHOOTER);
         ORDERED_ENCHANTS.add(AUTO_SELL);
         ORDERED_ENCHANTS.add(XP_FINDER);
+        ORDERED_ENCHANTS.add(BACKPACK_FINDER);
         ORDERED_ENCHANTS.add(HASTE);
         ORDERED_ENCHANTS.add(SPEED);
         ORDERED_ENCHANTS.add(NIGHT_VISION);

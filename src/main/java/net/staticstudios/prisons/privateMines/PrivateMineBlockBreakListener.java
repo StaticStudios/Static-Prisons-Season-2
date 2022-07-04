@@ -20,7 +20,7 @@ public class PrivateMineBlockBreakListener implements Listener {
             PrivateMine privateMine = PrivateMine.MINE_ID_TO_PRIVATE_MINE.get(e.getMine().getID());
             privateMine.blockBroken();
             bb.moneyMultiplier *= privateMine.sellPercentage;
-            if (e.getPlayer().getUniqueId().equals(privateMine.owner)) {
+            if (e.getPlayer().getUniqueId().equals(privateMine.owner) || privateMine.getWhitelist().contains(e.getPlayer().getUniqueId())) { //no taxes for the owner or invited players
                 bb.applyMoneyMulti();
                 return;
             }

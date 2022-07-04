@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.*;
 
-public class Gang {//todo: this
+public class Gang {
 
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&6&lGangs &8&l>> &r");
 
@@ -112,6 +112,24 @@ public class Gang {//todo: this
     //Bank
     private BigInteger bankMoney = BigInteger.ZERO;
     private BigInteger bankTokens = BigInteger.ZERO;
+    public BigInteger getBankMoney() {
+        return bankMoney;
+    }
+    public BigInteger getBankTokens() {
+        return bankTokens;
+    }
+    public void addBankMoney(BigInteger bankMoney) {
+        this.bankMoney = this.bankMoney.add(bankMoney);
+    }
+    public void addBankTokens(BigInteger bankTokens) {
+        this.bankTokens = this.bankTokens.add(bankTokens);
+    }
+    public void removeBankMoney(BigInteger bankMoney) {
+        this.bankMoney = this.bankMoney.subtract(bankMoney);
+    }
+    public void removeBankTokens(BigInteger bankTokens) {
+        this.bankTokens = this.bankTokens.subtract(bankTokens);
+    }
 
     //Chest
     private GangChest gangChest;
@@ -140,14 +158,14 @@ public class Gang {//todo: this
         gang.members.add(owner);
         GANGS.put(gang.uuid, gang);
         PLAYER_GANGS.put(owner, gang);
-        gang.gangChest = new GangChest(gang.uuid, new ArrayList<>());
+        gang.gangChest = new GangChest(new ArrayList<>());
         return gang;
     }
     public static Gang loadGang(UUID uuid,
                                 UUID owner, String name, List<UUID> members,
                                 boolean isPublic, boolean acceptingInvites, boolean friendlyFire, boolean canMembersWithdrawFomBank,
                                 long rawBlocksMined, long blocksMined, long secondsPlayed, BigInteger moneyMade, BigInteger tokensFound,
-                                BigInteger bankMoney, BigInteger bankTokens, List<Map<String, Object>> gangChest) {
+                                BigInteger bankMoney, BigInteger bankTokens, List<Map<String, Object>> gangChestContents) {
         Gang gang = new Gang();
         gang.uuid = uuid;
         gang.owner = owner;
@@ -164,7 +182,7 @@ public class Gang {//todo: this
         gang.tokensFound = tokensFound;
         gang.bankMoney = bankMoney;
         gang.bankTokens = bankTokens;
-        gang.gangChest = new GangChest(gang.uuid, gangChest);
+        gang.gangChest = new GangChest(gangChestContents);
         GANGS.put(gang.uuid, gang);
         for (UUID member : members) PLAYER_GANGS.put(member, gang);
         return gang;
@@ -267,5 +285,14 @@ public class Gang {//todo: this
 
     public void messageAllMembers(String message) {
         for (UUID member : members) if (Bukkit.getPlayer(member) != null) Bukkit.getPlayer(member).sendMessage(message);
+    }
+
+    public void delete() {
+        GANGS.remove(uuid);
+        for (UUID member : members) {
+            PLAYER_GANGS.remove(member);
+            if (Bukkit.getPlayer(member) != null) Bukkit.getPlayer(member).sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&cYour gang was deleted"));
+        }
+        members.clear();
     }
 }

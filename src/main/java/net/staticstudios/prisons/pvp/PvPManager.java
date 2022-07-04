@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 public class PvPManager {
-    //todo combat log prevention, pvp hologram
 
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&c&lPvP &8&l>> &r");
 

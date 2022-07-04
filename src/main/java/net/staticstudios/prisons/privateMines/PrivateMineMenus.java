@@ -7,6 +7,7 @@ import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.gui.newGui.MainMenus;
+import net.staticstudios.prisons.misc.Warps;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,9 +15,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PrivateMineMenus extends GUIUtils {
     public static void open(Player player, boolean fromCommand) {
@@ -39,7 +39,7 @@ public class PrivateMineMenus extends GUIUtils {
             }));
         }
         c.setItem(15, c.createButton(Material.ENCHANTED_BOOK, "&d&lInvited Mines", List.of("View mines that you have", "been invited to by other players."), (p, t) -> {
-            //todo
+            myInvites(p, 0, fromCommand);
         }));
         if (!fromCommand) MainMenus.open(player);
         c.fill(createGrayPlaceHolder());
@@ -100,11 +100,86 @@ public class PrivateMineMenus extends GUIUtils {
                 PrivateMine.getPrivateMineFromPlayerWithoutLoading(p).sendInfo(p);
                 p.closeInventory();
             })));
-            c.setItem(15, ench(c.createButton(Material.ENCHANTED_BOOK, "&a&lInvite Someone", List.of("Invite another player to your private mine.", "Players that you have invited will be able to", "use your private mine even when it isn't open to the public."), (p, t) -> {
-                PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(p); //todo
+            c.setItem(15, ench(c.createButton(Material.ENCHANTED_BOOK, "&a&lInvited Players", List.of(
+                    "Invite another player to your private mine.",
+                    "Players that you have invited will be able to",
+                    "use your private mine even when it isn't public.",
+                    "",
+                    "&cInvited players do not pay any taxes."
+            ), (p, t) -> {
+                whitelist(p, fromCommand);
             })));
         }
         c.fill(createGrayPlaceHolder());
+        c.setOnCloseRun((p, t) -> open(p, fromCommand));
+        c.open(player);
+    }
+
+    public static void whitelist(Player player, boolean fromCommand) {
+        if (!PrivateMine.finishedInitTasks) return;
+        GUICreator c = new GUICreator(54, "Invited Players");
+        PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
+        for (UUID member : privateMine.getWhitelist()) {
+            c.addItem(c.createButtonOfPlayerSkull(Bukkit.getOfflinePlayer(member).getPlayer(), ServerData.PLAYERS.getName(member), List.of("This player has been invited to your mine", "", "&c&oClick to revoke their invitation"), (p, t) -> {
+                privateMine.removeFromWhitelist(member);
+                Player target = Bukkit.getPlayer(member);
+                if (!privateMine.isPublic && privateMine.isLoaded && target != null) {
+                    if (privateMine.getAllPlayersInPrivateMine().contains(target)) {
+                        Warps.warpToSpawn(target); //preform a check to see if this player is in this private mine, if so, tp them to spawn and tell them they have been un-invited, otherwise revoke the invite silently
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou have been un-invited from this private mine"));
+                    }
+                }
+                whitelist(p, fromCommand);
+            }));
+        }
+        c.fill(createLightGrayPlaceHolder());
+        c.setOnCloseRun((p, t) -> manageMine(p, fromCommand));
+        c.open(player);
+    }
+
+    public static void myInvites(Player player, int page, boolean fromCommand) {
+        if (!PrivateMine.finishedInitTasks) return;
+        int startIndex = page * MINES_PER_PAGE;
+        GUICreator c = new GUICreator(54, "Your Invites");
+        List<PrivateMine> mines = new ArrayList<>(PrivateMineManager.INVITED_MINES.getOrDefault(player.getUniqueId(), new HashSet<>()));
+        mines = mines.stream().sorted(Comparator.comparingInt(PrivateMine::getLevel)).toList(); //Sort mines by level
+
+        for (int i = 0; i < MINES_PER_PAGE; i++) {
+            if (mines.size() - 1 < startIndex + i) break;
+            PrivateMine privateMine = mines.get(startIndex + i);
+            c.setItem(i, c.createButtonOfPlayerSkull(Bukkit.getOfflinePlayer(privateMine.owner), ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, List.of(
+                    "&cOwner: &f" + ServerData.PLAYERS.getName(privateMine.owner),
+                    "&cLevel: &f" + PrisonUtils.addCommasToNumber(privateMine.getLevel()),
+                    "&cExperience: &f" + PrisonUtils.prettyNum(privateMine.getXp()) + " / " + PrisonUtils.prettyNum(privateMine.getNextLevelRequirement()),
+                    "&cSize: &f" + (privateMine.getSize() + 1) + "x" + (privateMine.getSize() + 1),
+                    "&cTax: &f" + new DecimalFormat("0").format(privateMine.visitorTax * 100) + "%",
+                    "&cSell Percentage: &f" +  new DecimalFormat("0.0").format(privateMine.sellPercentage * 100) + "%",
+                    "",
+                    "&c&lSpecial Attributes: &fnone",
+                    "",
+                    "Click to warp to this mine"
+            ), (p, t) -> {
+                viewMine(p, privateMine, page, fromCommand);
+            }));
+        }
+        c.setItem(45, createGrayPlaceHolder());
+        c.setItem(46, createGrayPlaceHolder());
+        c.setItem(47, createGrayPlaceHolder());
+        if (page > 0) {
+            c.setItem(48, c.createButton(Material.ARROW, "&aPrevious Page", List.of(), (p, t) -> {
+                myInvites(p, page - 1, fromCommand);
+            }));
+        } else c.setItem(48, createGrayPlaceHolder());
+        c.setItem(49, c.createButton(Material.PAPER, "&bCurrent Page: &f" + (page + 1), List.of()));
+        if (AuctionManager.auctions.size() - 1 > (page + 1) * MINES_PER_PAGE) {
+            c.setItem(50, c.createButton(Material.ARROW, "&aNext Page", List.of(), (p, t) -> {
+                myInvites(p, page + 1, fromCommand);
+            }));
+        } else c.setItem(50, createGrayPlaceHolder());
+        c.setItem(51, createGrayPlaceHolder());
+        c.setItem(52, createGrayPlaceHolder());
+        c.setItem(53, createGrayPlaceHolder());
+        c.fill(createLightGrayPlaceHolder());
         c.setOnCloseRun((p, t) -> open(p, fromCommand));
         c.open(player);
     }
@@ -114,10 +189,6 @@ public class PrivateMineMenus extends GUIUtils {
         GUICreator c = new GUICreator(27, "Private Mine Settings");
         PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
 
-        //is public
-        //tax
-
-
         c.setItem(11, c.createButton(Material.RED_TERRACOTTA, "&c&lLower Tax (By 1%)", List.of("&6Current Tax: &f" + new DecimalFormat("0").format(privateMine.visitorTax * 100) + "%", "Lower the tax that others will", "pay when mining in your mine."), (p, t) -> {
             privateMine.visitorTax = Math.max(0, privateMine.visitorTax - 0.01);
             settings(p, fromCommand);
@@ -126,6 +197,10 @@ public class PrivateMineMenus extends GUIUtils {
         if (privateMine.isPublic) {
             c.setItem(13, c.createButton(Material.RED_DYE, "&c&lMake Private", List.of("Making this mine private will not allow", "visitors to warp here and mine."), (p, t) -> {
                 privateMine.isPublic = false;
+                for (Player p1 : privateMine.getAllPlayersInPrivateMine()) {
+                    p1.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cThis private mine was made private"));
+                    Warps.warpToSpawn(p1);
+                }
                 settings(p, fromCommand);
             }));
         } else {
@@ -141,7 +216,7 @@ public class PrivateMineMenus extends GUIUtils {
         }));
 
         c.fill(createGrayPlaceHolder());
-        c.setOnCloseRun((p, t) -> open(p, fromCommand));
+        c.setOnCloseRun((p, t) -> manageMine(p, fromCommand));
         c.open(player);
 
     }
@@ -208,7 +283,7 @@ public class PrivateMineMenus extends GUIUtils {
         GUICreator c = new GUICreator(27, privateMine.name);
         c.setItem(11, ench(c.createButton(Material.COMPASS, "&a&lWarp to Mine", List.of("Warp to " + privateMine.name), (p, t) -> {
             p.closeInventory();
-            if (!privateMine.isPublic) {
+            if (!privateMine.isPublic && !privateMine.getWhitelist().contains(p.getUniqueId())) {
                 p.sendMessage(ChatColor.RED + "This mine is no longer public.");
                 return;
             }

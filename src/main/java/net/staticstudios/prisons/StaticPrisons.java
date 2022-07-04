@@ -2,6 +2,7 @@ package net.staticstudios.prisons;
 
 import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.WorldEdit;
+import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.blockBroken.BlockBreakListener;
@@ -57,6 +58,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 
 public final class StaticPrisons extends JavaPlugin implements Listener {
@@ -256,68 +259,11 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
                 Bukkit.getLogger().warning("There was en error while loading the config! The value for '" + key + "' should be a valid number! Got: '" + config.getString("sellPrices." + key) + "' instead");
             }
         }
-
-        /*
-        //Load enchants
-        PrisonEnchant enchant;
-        enchant = new PrisonEnchant("fortune", config.getInt("enchants.fortune.maxLevel"), new BigInteger(config.getString("enchants.fortune.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.fortune.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.fortune.description");
-        PrisonEnchants.FORTUNE = enchant;
-        enchant = new PrisonEnchant("oreSplitter", config.getInt("enchants.oreSplitter.maxLevel"), new BigInteger(config.getString("enchants.oreSplitter.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.oreSplitter.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.oreSplitter.description");
-        PrisonEnchants.ORE_SPLITTER = enchant;
-        enchant = new PrisonEnchant("tokenator", config.getInt("enchants.tokenator.maxLevel"), new BigInteger(config.getString("enchants.tokenator.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.tokenator.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.tokenator.description");
-        PrisonEnchants.TOKENATOR = enchant;
-        enchant = new PrisonEnchant("keyFinder", config.getInt("enchants.keyFinder.maxLevel"), new BigInteger(config.getString("enchants.keyFinder.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.keyFinder.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.keyFinder.description");
-        PrisonEnchants.KEY_FINDER = enchant;
-        enchant = new PrisonEnchant("metalDetector", config.getInt("enchants.metalDetector.maxLevel"), new BigInteger(config.getString("enchants.metalDetector.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.metalDetector.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.metalDetector.description");
-        PrisonEnchants.METAL_DETECTOR = enchant;
-        enchant = new PrisonEnchant("explosion", config.getInt("enchants.explosion.maxLevel"), new BigInteger(config.getString("enchants.explosion.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.explosion.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.explosion.description");
-        PrisonEnchants.EXPLOSION = enchant;
-        enchant = new PrisonEnchant("jackHammer", config.getInt("enchants.jackHammer.maxLevel"), new BigInteger(config.getString("enchants.jackHammer.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.jackHammer.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.jackHammer.description");
-        PrisonEnchants.JACK_HAMMER = enchant;
-        enchant = new PrisonEnchant("doubleWammy", config.getInt("enchants.doubleWammy.maxLevel"), new BigInteger(config.getString("enchants.doubleWammy.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.doubleWammy.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.doubleWammy.description");
-        PrisonEnchants.DOUBLE_WAMMY = enchant;
-        enchant = new PrisonEnchant("multiDirectional", config.getInt("enchants.multiDirectional.maxLevel"), new BigInteger(config.getString("enchants.multiDirectional.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.multiDirectional.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.multiDirectional.description");
-        PrisonEnchants.MULTI_DIRECTIONAL = enchant;
-        enchant = new PrisonEnchant("merchant", config.getInt("enchants.merchant.maxLevel"), new BigInteger(config.getString("enchants.merchant.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.merchant.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.merchant.description");
-        PrisonEnchants.MERCHANT = enchant;
-        enchant = new PrisonEnchant("consistency", config.getInt("enchants.consistency.maxLevel"), new BigInteger(config.getString("enchants.consistency.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.consistency.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.consistency.description");
-        PrisonEnchants.CONSISTENCY = enchant;
-        enchant = new PrisonEnchant("haste", config.getInt("enchants.haste.maxLevel"), new BigInteger(config.getString("enchants.haste.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.haste.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.haste.description");
-        PrisonEnchants.HASTE = enchant;
-        enchant = new PrisonEnchant("speed", config.getInt("enchants.speed.maxLevel"), new BigInteger(config.getString("enchants.speed.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.speed.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.speed.description");
-        PrisonEnchants.SPEED = enchant;
-        enchant = new PrisonEnchant("nightVision", config.getInt("enchants.nightVision.maxLevel"), new BigInteger(config.getString("enchants.nightVision.price")));
-        enchant.DISPLAY_NAME = config.getString("enchants.nightVision.displayName");
-        enchant.DESCRIPTION = config.getStringList("enchants.nightVision.description");
-        PrisonEnchants.NIGHT_VISION = enchant;
-
-         */
+        //Tips
+        final String prefix = "&b&lTips &8&l>> &r";
+        List<String> tips = new ArrayList<>();
+        for (String tip : config.getStringList("tips")) tips.add(ChatColor.translateAlternateColorCodes('&', prefix + tip));
+        Constants.TIPS = tips.toArray(new String[0]);
 
         //Load prestige mine requirements
         for (int i = 0; i < 15; i++) Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));

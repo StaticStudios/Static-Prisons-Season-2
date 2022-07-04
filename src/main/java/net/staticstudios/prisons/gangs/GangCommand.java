@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.gangs;
 
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -10,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -120,8 +122,145 @@ public class GangCommand implements CommandExecutor {
                 }
                 player.openInventory(gang.getGangChest().getInventory());
             }
+            case "bank" -> {
+                if (gang == null) {
+                    GangMenus.openCreateGang(player, true);
+                    return false;
+                }
+                if (args.length == 1) {
+                    player.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&b&lBalance: &a$" + PrisonUtils.addCommasToNumber(gang.getBankMoney()) + " &8| &e" + PrisonUtils.addCommasToNumber(gang.getBankTokens()) + " Tokens"));
+                    return false;
+                }
+                if (args.length < 4) {
+                    player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                    return false;
+                }
+                switch (args[1].toLowerCase()) {
+                    default -> {
+                        player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                        return false;
+                    }
+                    case "money" -> {
+                        if (args[2].equalsIgnoreCase("deposit")) {
+                            BigInteger amount;
+                            try {
+                                if (args[3].equalsIgnoreCase("all")) amount = gang.getBankMoney();
+                                else amount = new BigInteger(args[3]);
+                            } catch (NumberFormatException e) {
+                                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                                return false;
+                            }
+                            if (amount.compareTo(BigInteger.ZERO) < 1) {
+                                player.sendMessage(ChatColor.RED + "Amount must be greater than 0!");
+                                return false;
+                            }
+                            PlayerData playerData = new PlayerData(player);
+                            if (playerData.getMoney().compareTo(amount) < 0) {
+                                player.sendMessage(ChatColor.RED + "You don't have enough money to do this!");
+                                return false;
+                            }
+                            playerData.removeMoney(amount);
+                            gang.addBankMoney(amount);
+                            player.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You have deposited &a$" + PrisonUtils.addCommasToNumber(amount) + " &finto your gang's bank!"));
+                        } else if (args[2].equalsIgnoreCase("withdraw")) {
+                            if (!gang.canMembersWithdrawFomBank() && !gang.getOwner().equals(player.getUniqueId())) {
+                                player.sendMessage(Gang.PREFIX + ChatColor.RED + "You can't withdraw from the bank as the owner has disabled it for your gang!");
+                                return false;
+                            }
+                            BigInteger amount;
+                            try {
+                                if (args[3].equalsIgnoreCase("all")) amount = gang.getBankMoney();
+                                else amount = new BigInteger(args[3]);
+                            } catch (NumberFormatException e) {
+                                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                                return false;
+                            }
+                            if (amount.compareTo(BigInteger.ZERO) < 1) {
+                                player.sendMessage(ChatColor.RED + "Amount must be greater than 0!");
+                                return false;
+                            }
+                            PlayerData playerData = new PlayerData(player);
+                            if (gang.getBankMoney().compareTo(amount) < 0) {
+                                player.sendMessage(ChatColor.RED + "Your gang doesn't have enough money to do this!");
+                                return false;
+                            }
+                            playerData.addMoney(amount);
+                            gang.removeBankMoney(amount);
+                            player.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You withdrew &a$" + PrisonUtils.addCommasToNumber(amount) + " &ffrom your gang's bank!"));
+                        } else {
+                            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                            return false;
+                        }
+                    }
+                    case "tokens" -> {
+                        if (args[2].equalsIgnoreCase("deposit")) {
+                            BigInteger amount;
+                            try {
+                                if (args[3].equalsIgnoreCase("all")) amount = gang.getBankTokens();
+                                else amount = new BigInteger(args[3]);
+                            } catch (NumberFormatException e) {
+                                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                                return false;
+                            }
+                            if (amount.compareTo(BigInteger.ZERO) < 1) {
+                                player.sendMessage(ChatColor.RED + "Amount must be greater than 0!");
+                                return false;
+                            }
+                            PlayerData playerData = new PlayerData(player);
+                            if (playerData.getTokens().compareTo(amount) < 0) {
+                                player.sendMessage(ChatColor.RED + "You don't have enough tokens to do this!");
+                                return false;
+                            }
+                            playerData.removeTokens(amount);
+                            gang.addBankTokens(amount);
+                            player.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You have deposited &e" + PrisonUtils.addCommasToNumber(amount) + " tokens &finto your gang's bank!"));
+                        } else if (args[2].equalsIgnoreCase("withdraw")) {
+                            if (!gang.canMembersWithdrawFomBank() && !gang.getOwner().equals(player.getUniqueId())) {
+                                player.sendMessage(Gang.PREFIX + ChatColor.RED + "You can't withdraw from the bank as the owner has disabled it for your gang!");
+                                return false;
+                            }
+                            BigInteger amount;
+                            try {
+                                if (args[3].equalsIgnoreCase("all")) amount = gang.getBankTokens();
+                                else amount = new BigInteger(args[3]);
+                            } catch (NumberFormatException e) {
+                                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                                return false;
+                            }
+                            if (amount.compareTo(BigInteger.ZERO) < 1) {
+                                player.sendMessage(ChatColor.RED + "Amount must be greater than 0!");
+                                return false;
+                            }
+                            PlayerData playerData = new PlayerData(player);
+                            if (gang.getBankTokens().compareTo(amount) < 0) {
+                                player.sendMessage(ChatColor.RED + "Your gang doesn't have enough tokens to do this!");
+                                return false;
+                            }
+                            playerData.addTokens(amount);
+                            gang.removeBankTokens(amount);
+                            player.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You withdrew &e" + PrisonUtils.addCommasToNumber(amount) + " tokens &ffrom your gang's bank!"));
+                        } else {
+                            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                            return false;
+                        }
+                    }
+                }
+
+            }
             case "delete" -> {
-                //todo
+                if (gang == null) {
+                    GangMenus.openCreateGang(player, true);
+                    return false;
+                }
+                if (!gang.getOwner().equals(player.getUniqueId())) {
+                    player.sendMessage(Gang.PREFIX + ChatColor.RED + "You can't delete your gang as you are not the owner!");
+                    return false;
+                }
+                if (args.length < 2 || !args[1].equalsIgnoreCase("confirm")) {
+                    player.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&cAre you sure you want to delete your gang? Type &7&o/gang delete confirm &cto continue."));
+                    return false;
+                }
+                gang.delete();
             }
         }
         return false;

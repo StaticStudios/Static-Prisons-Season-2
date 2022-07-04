@@ -188,6 +188,7 @@ public class PrivateMine {
     public int gridPosition;
     public UUID owner;
     public String name;
+    private Set<UUID> whitelist = new HashSet<>();
     private long xp = 0;
     public long getXp() {
         return xp;
@@ -207,6 +208,22 @@ public class PrivateMine {
         if (xp >= getNextLevelRequirement()) {
             setLevel(getLevel() + 1);
         }
+    }
+    public Set<UUID> getWhitelist() {
+        return whitelist;
+    }
+    public void addToWhitelist(UUID player) {
+        whitelist.add(player);
+        Set<PrivateMine> invites = PrivateMineManager.INVITED_MINES.getOrDefault(player, new HashSet<>());
+        invites.add(this);
+        PrivateMineManager.INVITED_MINES.put(player, invites);
+    }
+    public void removeFromWhitelist(UUID player) {
+        whitelist.remove(player);
+        Set<PrivateMine> invites = PrivateMineManager.INVITED_MINES.getOrDefault(player, new HashSet<>());
+        invites.remove(this);
+        if (invites.isEmpty()) PrivateMineManager.INVITED_MINES.remove(player);
+        else PrivateMineManager.INVITED_MINES.put(player, invites);
     }
     private int level;
     public int getLevel() {
@@ -455,10 +472,6 @@ public class PrivateMine {
                 "&cSell Percentage: &f" +  new DecimalFormat("0.0").format(sellPercentage * 100) + "%" + "\n" +
                 "&a" + "\n" +
                 "&c&lSpecial Attributes: &fnone"));
-    }
-
-    void updateMineWorldguardRegion() {
-        //todo if the mine is public allow others to mine here, otherwise only allow owner to mine
     }
     void showWorldBoarder(Player player) {
         WorldBorderApi worldBorderApi = StaticPrisons.worldBorderAPI;

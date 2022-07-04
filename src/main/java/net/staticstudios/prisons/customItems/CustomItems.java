@@ -21,7 +21,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomItems implements Listener { //todo add an internal mapping that maps an ID to an item/runnable to get the item so commands can be used with tab completion
+public class CustomItems implements Listener { //todo add an internal mapping that maps an ID to an item/runnable to get the item so commands can be used with tab completion | aka finish the custom items module
     public static void init() {
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new CustomItems(), StaticPrisons.getInstance());
     }

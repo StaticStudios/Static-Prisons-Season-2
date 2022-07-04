@@ -6,14 +6,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class PrivateMineManager {
+
+    public static Map<UUID, Set<PrivateMine>> INVITED_MINES  = new HashMap<>();
+
     public static final int DISTANCE_BETWEEN_GRID_POSITIONS = 1000;
 
     public static void saveSync() {
@@ -29,6 +31,9 @@ public class PrivateMineManager {
             section.set("visitorTax", entry.getValue().visitorTax);
             section.set("isPublic", entry.getValue().isPublic);
             section.set("sellPercentage", entry.getValue().sellPercentage);
+            List<String> members = new ArrayList<>();
+            for (UUID member : entry.getValue().getWhitelist()) members.add(member.toString());
+            section.set("whitelist", members);
         }
         try {
             fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
@@ -51,6 +56,9 @@ public class PrivateMineManager {
                 section.set("visitorTax", entry.getValue().visitorTax);
                 section.set("isPublic", entry.getValue().isPublic);
                 section.set("sellPercentage", entry.getValue().sellPercentage);
+                List<String> members = new ArrayList<>();
+                for (UUID member : entry.getValue().getWhitelist()) members.add(member.toString());
+                section.set("whitelist", members);
             }
             try {
                 fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
@@ -74,6 +82,11 @@ public class PrivateMineManager {
                     section.getBoolean("isPublic"),
                     section.getDouble("sellPercentage")
             );
+            List<String> members = section.getStringList("whitelist");
+            for (String member : members) {
+                UUID uuid = UUID.fromString(member);
+                mine.addToWhitelist(uuid);
+            }
         }
     }
 

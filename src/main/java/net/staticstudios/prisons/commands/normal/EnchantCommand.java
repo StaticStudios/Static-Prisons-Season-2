@@ -1,7 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.prisons.gui.GUI;
-import net.staticstudios.prisons.gui.newGui.EnchantMenus;
+import net.staticstudios.prisons.enchants.handler.EnchantMenus;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

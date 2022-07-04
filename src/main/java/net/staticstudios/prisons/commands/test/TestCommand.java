@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.TitlePart;
 import net.md_5.bungee.api.ChatMessageType;
+import net.staticstudios.prisons.chat.events.ChatEvents;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.utils.WeightedElements;
@@ -58,6 +59,7 @@ public class TestCommand implements CommandExecutor {
         //EventManager.runWordUnscramble();
 //        player.spigot().send(TitlePart.TITLE, "");
 //        player.showTitle(Title.title(Component.text("&a&lHello"), Component.text("&b&lWorld"), Title.Times.of(Duration.ofMillis(500), Duration.ofMillis(2000), Duration.ofMillis(500))));
+        ChatEvents.runEvent(ChatEvents.EventType.MATH);
         return false;
     }
 

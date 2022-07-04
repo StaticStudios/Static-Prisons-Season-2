@@ -22,6 +22,7 @@ import java.util.UUID;
 public class CellManager {
 
     public static void init() {
+        CellBlockShop.init();
         new WorldCreator("islands").createWorld();
 
         File file = new File("./data/island-template.schem");

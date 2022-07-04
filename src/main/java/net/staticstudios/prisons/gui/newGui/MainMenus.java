@@ -4,6 +4,7 @@ import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.auctionHouse.AuctionHouseMenus;
 import net.staticstudios.prisons.cells.CellMenus;
+import net.staticstudios.prisons.enchants.handler.EnchantMenus;
 import net.staticstudios.prisons.gambling.GamblingMenus;
 import net.staticstudios.prisons.gangs.GangMenus;
 import net.staticstudios.prisons.privateMines.PrivateMineMenus;

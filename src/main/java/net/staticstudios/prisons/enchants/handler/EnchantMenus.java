@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.gui.newGui;
+package net.staticstudios.prisons.enchants.handler;
 
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
@@ -65,7 +65,7 @@ public class EnchantMenus extends GUIUtils {
                 createEnchantButton(playerData, pickaxe, PrisonEnchants.EGG_SHOOTER, c, Material.EGG, true),
                 createEnchantButton(playerData, pickaxe, PrisonEnchants.AUTO_SELL, c, Material.GOLD_NUGGET, true),
                 createEnchantButton(playerData, pickaxe, PrisonEnchants.XP_FINDER, c, Material.EXPERIENCE_BOTTLE, true),
-                createLightBluePlaceHolder(),
+                createEnchantButton(playerData, pickaxe, PrisonEnchants.BACKPACK_FINDER, c, Material.CHEST_MINECART, true),
                 createGrayPlaceHolder(),
                 createEnchantButton(playerData, pickaxe, PrisonEnchants.NIGHT_VISION, c, Material.LAPIS_LAZULI, true),
                 createGrayPlaceHolder(),

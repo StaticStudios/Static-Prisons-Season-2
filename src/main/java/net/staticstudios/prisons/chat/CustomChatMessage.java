@@ -111,15 +111,15 @@ public class CustomChatMessage {
                     componentBuilder.underlined(playerData.getIsChatUnderlined());
 
 
-                    StringBuilder itemHoverText = new StringBuilder(ChatColor.stripColor(PrisonUtils.Items.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand())) + "\n");
+                    StringBuilder itemHoverText = new StringBuilder((e.getPlayer().getInventory().getItemInMainHand().getAmount() > 1 ? ChatColor.AQUA + "[" + e.getPlayer().getInventory().getItemInMainHand().getAmount() + "x] " + ChatColor.WHITE : "" )).append(PrisonUtils.Items.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand())).append("\n");
                     if (e.getPlayer().getInventory().getItemInMainHand().hasItemMeta())
                         if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasLore()) {
                             for (String line : e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getLore()) itemHoverText.append(line).append("\n");
                         }
                     HoverEvent itemHover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(itemHoverText.toString()));
-
-                    char[] itemNameArr = (ChatColor.stripColor(PrisonUtils.Items.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand()) + " ")).toCharArray();
-                    List<List<ChatColor>> itemNameColors = getColorOfEveryCharacter(PrisonUtils.Items.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand()) + " ");
+                    String itemName =(e.getPlayer().getInventory().getItemInMainHand().getAmount() > 1 ? ChatColor.AQUA + "[" + e.getPlayer().getInventory().getItemInMainHand().getAmount() + "x]" + ChatColor.WHITE + " " : "" ) + PrisonUtils.Items.getPrettyItemName(e.getPlayer().getInventory().getItemInMainHand());
+                    char[] itemNameArr = ChatColor.stripColor(itemName + " ").toCharArray();
+                    List<List<ChatColor>> itemNameColors = getColorOfEveryCharacter(itemName + " ");
                     for (int i = 0; i < itemNameArr.length - 1; i++) {
                         componentBuilder.append(itemNameArr[i] + "");
                         componentBuilder.reset();

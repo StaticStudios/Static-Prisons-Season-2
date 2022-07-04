@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.chat.events;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customItems.CustomItems;
@@ -38,7 +39,6 @@ public class ChatEvents {
         WORLD_LIST.addAll(config.getStringList("words"));
         config.addDefault("math", new YamlConfiguration());
         for (String question : config.getConfigurationSection("math").getKeys(false)) MATH_LIST.add(new String[] {question.replace('#', '.'), config.getString("math." + question)});
-        //todo: trivia
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new Listener(), StaticPrisons.getInstance());
 
         //Timer to run the events
@@ -70,7 +70,7 @@ public class ChatEvents {
                 String question = MATH_LIST.get(i)[0];
                 String answer = MATH_LIST.get(i)[1];
 
-                new ChatEvent((player, event) -> { //Todo add hover components tro the question message so people can hover to see the full question without the extra text
+                new ChatEvent((player, event) -> {
                     ItemStack reward = new WeightedElements<ItemStack>()
                             .add(CustomItems.getCommonCrateKey(4), 10)
                             .add(CustomItems.getRareCrateKey(3), 20)
@@ -87,7 +87,7 @@ public class ChatEvents {
                     PrisonUtils.Players.addToInventory(player, reward);
                 }, question, answer);
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + "The first person to solve &b" + question + "&f will receive a reward!"));
+                    p.sendMessage(Component.text(ChatColor.translateAlternateColorCodes('&', PREFIX + "The first person to solve &b" + question + "&f will receive a reward!")).hoverEvent(Component.text(ChatColor.RED + "Question: " + ChatColor.WHITE + question)));
                 }
             }
             case WORD_UNSCRAMBLE -> {

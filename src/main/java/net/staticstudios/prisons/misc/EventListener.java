@@ -12,7 +12,7 @@ import net.staticstudios.prisons.customItems.Vouchers;
 import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.data.serverData.ServerData;
-import net.staticstudios.prisons.gui.newGui.EnchantMenus;
+import net.staticstudios.prisons.enchants.handler.EnchantMenus;
 import net.staticstudios.prisons.reclaim.RerunPurchases;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
