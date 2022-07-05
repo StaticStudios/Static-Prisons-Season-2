@@ -206,7 +206,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
 
     @Override
-    public void onDisable() {
+    public void onDisable() { //hi
         safe(StaticMines::disable);
         safe(DataSet::saveDataSync);
         safe(CellManager::saveSync);
