@@ -6,7 +6,7 @@ import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
-import net.staticstudios.prisons.gui.newGui.MainMenus;
+import net.staticstudios.prisons.gui.MainMenus;
 import net.staticstudios.prisons.misc.Warps;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class PrivateMineMenus extends GUIUtils {
     public static void open(Player player, boolean fromCommand) {

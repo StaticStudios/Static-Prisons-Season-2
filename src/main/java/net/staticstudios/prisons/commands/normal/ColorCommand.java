@@ -1,7 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.prisons.gui.GUI;
-import net.staticstudios.prisons.gui.newGui.SettingsMenus;
+import net.staticstudios.prisons.gui.SettingsMenus;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

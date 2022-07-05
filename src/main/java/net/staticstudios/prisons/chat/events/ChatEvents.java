@@ -78,8 +78,6 @@ public class ChatEvents {
                             .add(CustomItems.getLegendaryCrateKey(1), 10)
                             .add(CustomItems.getStaticCrateKey(1), 10)
                             .getRandom();
-
-                    PrisonUtils.Players.addToInventory(player, reward);
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + player.getName() + " solved &b" + event.question + "!&f Correct answer: &a" + event.correctAnswer + "!&f " +
                                 player.getName() + " won " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward) + "!"));

@@ -1,9 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.mines.StaticMineUtils;
-import net.staticstudios.prisons.data.serverData.ServerData;
-import net.staticstudios.prisons.gui.GUI;
-import net.staticstudios.prisons.gui.newGui.WarpMenus;
+import net.staticstudios.prisons.gui.WarpMenus;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -1,7 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.prisons.gui.GUI;
-import net.staticstudios.prisons.gui.newGui.ChatTagMenus;
+import net.staticstudios.prisons.gui.ChatTagMenus;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

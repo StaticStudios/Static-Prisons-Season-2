@@ -40,6 +40,10 @@ public class TokenFlip extends Flip {
         GambleHandler.tokenFlips.remove(uuid);
     }
     public void runBet(Player challenger) {
+        if (owner == null) {
+            remove();
+            return;
+        }
         this.challenger = challenger;
         remove();
         //Check if owner has enough money

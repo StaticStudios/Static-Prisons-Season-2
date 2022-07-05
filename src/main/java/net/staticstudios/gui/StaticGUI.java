@@ -89,6 +89,7 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
     public void destroy() { allMenus.remove(guiUUID); }
 
     public void open(Player player) {
+        if (player == null) return;
         player.openInventory(inventory);
         if (onOpenRun != null) onOpenRun.run(player, null);
     }

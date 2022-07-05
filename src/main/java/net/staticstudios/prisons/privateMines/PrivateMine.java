@@ -88,7 +88,11 @@ public class PrivateMine {
         Map<String, ProtectedRegion> regions = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(PRIVATE_MINES_WORLD)).getRegions();
         Map<String, ProtectedRegion> globalRegionMap = new HashMap<>();
         globalRegionMap.put("__global__", regions.get("__global__"));
-        WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(PRIVATE_MINES_WORLD)).setRegions(globalRegionMap);
+        try {
+            WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(PRIVATE_MINES_WORLD)).setRegions(globalRegionMap);
+        } catch (Exception e) {
+            StaticPrisons.log("[Private-Mines] Error while cleaning up old region data: " + e.getMessage());
+        }
 
         StaticPrisons.log("[Private-Mines] Loading config data...");
         //Load config data

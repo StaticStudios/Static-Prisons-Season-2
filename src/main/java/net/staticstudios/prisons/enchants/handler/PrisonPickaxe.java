@@ -269,7 +269,7 @@ public class PrisonPickaxe {
         setRawBlocksBroken(this.rawBlocksBroken + rawBlocksBroken);
     }
 
-    public static void dumpLoreToAllPickaxes() {
+    public static void dumpLoreToAllPickaxes() { //todo: spread all of the pickaxes across 100 ticks to prevent spikes
         for (PrisonPickaxe pickaxe : updateLoreQueue) {
             if (pickaxe.item == null) continue;
             ItemMeta meta = pickaxe.item.getItemMeta();

@@ -7,8 +7,6 @@ import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
 import net.staticstudios.prisons.gangs.Gang;
-import net.staticstudios.prisons.islands.SkyBlockIsland;
-import net.staticstudios.prisons.islands.SkyBlockIslands;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -724,10 +722,6 @@ public class PlayerData extends DataSet {
     public PlayerData setIfPlayerHasIsland(boolean value) {
         setBoolean("ifPlayerHasIsland", value);
         return this;
-    }
-    public SkyBlockIsland getPlayerIsland() {
-        if (!SkyBlockIslands.checkIfPlayerHasIsland(uuid.toString())) return null;
-        return SkyBlockIslands.getSkyBlockIsland(getPlayerIslandUUID());
     }
 
     public boolean getIsWatchingMessages() {

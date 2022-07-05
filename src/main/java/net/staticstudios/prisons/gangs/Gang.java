@@ -19,7 +19,7 @@ public class Gang {
 
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&6&lGangs &8&l>> &r");
 
-    public static int MAX_GANG_SIZE = 6;
+    public static int MAX_GANG_SIZE = 5;
 
     static final Map<UUID, Gang> GANGS = new HashMap<>();
     static final Map<UUID, Gang> PLAYER_GANGS = new HashMap<>();

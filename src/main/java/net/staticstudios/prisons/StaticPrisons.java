@@ -26,7 +26,6 @@ import net.staticstudios.prisons.commands.test.Test2Command;
 import net.staticstudios.prisons.commands.test.TestCommand;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.gangs.GangCommand;
-import net.staticstudios.prisons.gui.GUIListener;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.commands.vote_store.VoteStoreListener;
 import net.staticstudios.prisons.mines.MineManager;
@@ -59,7 +58,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -103,6 +101,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(DataSet::init);
         safe(DataBackup::init);
         safe(PrisonPickaxe::init);
+        safe(PrisonPickaxe::dumpLoreToAllPickaxes);
         safe(AuctionManager::init);
         safe(AutoSellEnchant::initTimer);
         safe(ConsistencyEnchant::init);
@@ -116,24 +115,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         StaticGUI.enable(this);
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
         safe(this::loadConfig);
-
-        //DataWriter.loadData();
-//        CellManager.load();
-//        PrivateMineManager.init();
-//        AuctionManager.init();
-        //PrisonEnchants.initialize(); //todo delete soon
-//        PrisonPickaxe.init();
-        //AuctionHouseManager.loadAllAuctions();
-//        IslandManager.initialize();
-        //MineManager.initialize();
         Constants.MINES_WORLD = new WorldCreator("mines").createWorld();
-//        GUIPage.initializeGUIPages();
-//        DiscordLink.initialize();
-//        TabList.init();
-//        Kits.init();
-//        TimedTasks.init();
-//        AutoSellEnchant.initTimer();
-//        ConsistencyEnchant.init();
 
 
         //Register Commands
@@ -217,7 +199,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("island").setTabCompleter(new IslandTabCompletion());
         //Register Events
         getServer().getPluginManager().registerEvents(new EventListener(), plugin);
-        getServer().getPluginManager().registerEvents(new GUIListener(), plugin);
         getServer().getPluginManager().registerEvents(new Events(), plugin);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), plugin);
         getCommand("_").setExecutor(new VoteStoreListener());
@@ -226,14 +207,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-//        StaticMines.disable();
-//        DataSet.saveDataSync();
-//        CellManager.saveSync();
-//        PrivateMineManager.saveSync();
-//        AuctionManager.saveAllAuctionsSync();
-//        PrisonPickaxe.savePickaxeDataNow();
-//        PrisonPickaxe.dumpLoreToAllPickaxes();
-
         safe(StaticMines::disable);
         safe(DataSet::saveDataSync);
         safe(CellManager::saveSync);

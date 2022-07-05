@@ -22,6 +22,15 @@ public class ServerDataReclaim extends DataSet {
         setStringList(playerUUID.toString() + "-packageIDs", packageIDs);
         return this;
     }
+
+    /**
+     * This should only be called once at the start of the season to load the data into the main server data
+     */
+    @Deprecated
+    public ServerDataReclaim addCurrentReclaim(UUID playerUUID, String packageIDs) {
+        getReclaim(playerUUID).add(packageIDs);
+        return this;
+    }
     public ServerDataReclaim addNextReclaim(UUID playerUUID, String packageIDs) {
         List<String> lines = new ArrayList<>();
         lines.add(playerUUID + " | " + packageIDs);
