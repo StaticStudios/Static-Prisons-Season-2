@@ -100,6 +100,7 @@ public class TokenFlip extends Flip {
                 c.open(owner);
             } catch (Exception e) {
                 e.printStackTrace();
+                task.cancel();
             }
             c.fill(GUIUtils.createGrayPlaceHolder());
 

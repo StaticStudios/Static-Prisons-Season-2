@@ -100,6 +100,7 @@ public class CoinFlip extends Flip { //todo clean this and tokenflip up to use a
                 c.open(owner);
             } catch (Exception e) {
                 e.printStackTrace();
+                task.cancel();
             }
             c.fill(GUIUtils.createGrayPlaceHolder());
 
