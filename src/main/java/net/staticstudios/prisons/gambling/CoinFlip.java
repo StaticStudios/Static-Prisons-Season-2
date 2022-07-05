@@ -64,35 +64,43 @@ public class CoinFlip extends Flip { //todo clean this and tokenflip up to use a
         AtomicInteger animationsRun = new AtomicInteger(PrisonUtils.randomInt(1, 3));
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), task -> {
             GUICreator c = new GUICreator(27, owner.getName() + " vs " + challenger.getName());
-            c.setMenuID(uuid);
-            switch (animationsRun.get() % 3) {
-                default -> c.setItem(13, c.createButton(Material.CLOCK, "&e&lHouse", List.of("House wins", "", "&c2% chance"))); //House
-                case 1 -> {
-                    if (isHeads) c.setItem(13, c.createButton(headsIcon, "&a&lHeads", List.of(owner.getName() + " wins", "", "&c49% chance")));
-                    else c.setItem(13, c.createButton(tailsIcon, "&9&lTails", List.of(owner.getName() + " wins", "", "&c49% chance")));
+            try {
+                c.setMenuID(uuid);
+                switch (animationsRun.get() % 3) {
+                    default -> c.setItem(13, c.createButton(Material.CLOCK, "&e&lHouse", List.of("House wins", "", "&c2% chance"))); //House
+                    case 1 -> {
+                        if (isHeads)
+                            c.setItem(13, c.createButton(headsIcon, "&a&lHeads", List.of(owner.getName() + " wins", "", "&c49% chance")));
+                        else
+                            c.setItem(13, c.createButton(tailsIcon, "&9&lTails", List.of(owner.getName() + " wins", "", "&c49% chance")));
+                    }
+                    case 2 -> {
+                        if (!isHeads)
+                            c.setItem(13, c.createButton(headsIcon, "&a&lHeads", List.of(challenger.getName() + " wins", "", "&c49% chance")));
+                        else
+                            c.setItem(13, c.createButton(tailsIcon, "&9&lTails", List.of(challenger.getName() + " wins", "", "&c49% chance")));
+                    }
                 }
-                case 2 -> {
-                    if (!isHeads) c.setItem(13, c.createButton(headsIcon, "&a&lHeads", List.of(challenger.getName() + " wins", "", "&c49% chance")));
-                    else c.setItem(13, c.createButton(tailsIcon, "&9&lTails", List.of(challenger.getName() + " wins", "", "&c49% chance")));
-                }
-            }
 
-            if (animationsRun.get() > 20) {
-                if (winner == WhoWins.OWNER && animationsRun.get() % 3 == 1) {
-                    task.cancel();
-                    win(winner);
+                if (animationsRun.get() > 20) {
+                    if (winner == WhoWins.OWNER && animationsRun.get() % 3 == 1) {
+                        task.cancel();
+                        win(winner);
+                    }
+                    if (winner == WhoWins.CHALLENGER && animationsRun.get() % 3 == 2) {
+                        task.cancel();
+                        win(winner);
+                    }
+                    if (winner == WhoWins.HOUSE && animationsRun.get() % 3 == 0) {
+                        task.cancel();
+                        win(winner);
+                    }
                 }
-                if (winner == WhoWins.CHALLENGER && animationsRun.get() % 3 == 2) {
-                    task.cancel();
-                    win(winner);
-                }
-                if (winner == WhoWins.HOUSE && animationsRun.get() % 3 == 0) {
-                    task.cancel();
-                    win(winner);
-                }
+                c.open(challenger);
+                c.open(owner);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            c.open(challenger);
-            c.open(owner);
             c.fill(GUIUtils.createGrayPlaceHolder());
 
             animationsRun.getAndIncrement();
@@ -100,28 +108,34 @@ public class CoinFlip extends Flip { //todo clean this and tokenflip up to use a
     }
 
     void win(WhoWins winner) {
-        String msg;
-        switch (winner) {
-            default -> { //house
-                msg = ChatColor.translateAlternateColorCodes('&', PREFIX + "&cThe house won a coin flip against " + owner.getName() + " and " + challenger.getName() + " for $" + PrisonUtils.prettyNum(amount) + "! &7&o(2% chance)");
+        String msg = null;
+        try {
+            switch (winner) {
+                default -> { //house
+                    msg = ChatColor.translateAlternateColorCodes('&', PREFIX + "&cThe house won a coin flip against " + owner.getName() + " and " + challenger.getName() + " for $" + PrisonUtils.prettyNum(amount) + "! &7&o(2% chance)");
+                }
+                case OWNER -> { //owner
+                    msg = ChatColor.translateAlternateColorCodes('&', PREFIX + "&b" + owner.getName() + " won a coin flip against " + challenger.getName() + " for $" + PrisonUtils.prettyNum(amount) + "! &7&o(49% chance)");
+                    new PlayerData(owner).addMoney(amount.multiply(BigInteger.TWO));
+                }
+                case CHALLENGER -> { //challenger
+                    msg = ChatColor.translateAlternateColorCodes('&', PREFIX + "&b" + challenger.getName() + " won a coin flip against " + owner.getName() + " for $" + PrisonUtils.prettyNum(amount) + "! &7&o(49% chance)");
+                    new PlayerData(challenger).addMoney(amount.multiply(BigInteger.TWO));
+                }
             }
-            case OWNER -> { //owner
-                msg = ChatColor.translateAlternateColorCodes('&', PREFIX + "&b" + owner.getName() + " won a coin flip against " + challenger.getName() + " for $" + PrisonUtils.prettyNum(amount) + "! &7&o(49% chance)");
-                new PlayerData(owner).addMoney(amount.multiply(BigInteger.TWO));
-            }
-            case CHALLENGER -> { //challenger
-                msg = ChatColor.translateAlternateColorCodes('&', PREFIX + "&b" + challenger.getName() + " won a coin flip against " + owner.getName() + " for $" + PrisonUtils.prettyNum(amount) + "! &7&o(49% chance)");
-                new PlayerData(challenger).addMoney(amount.multiply(BigInteger.TWO));
-            }
+
+            Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
+                if (owner.getOpenInventory().getTopInventory().getHolder() instanceof StaticGUI && ((StaticGUI) owner.getOpenInventory().getTopInventory().getHolder()).getMenuID().equals(uuid)) {
+                    owner.closeInventory();
+                }
+                if (challenger.getOpenInventory().getTopInventory().getHolder() instanceof StaticGUI && ((StaticGUI) challenger.getOpenInventory().getTopInventory().getHolder()).getMenuID().equals(uuid)) {
+                    challenger.closeInventory();
+                }
+            }, 40);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
-            if (owner.getOpenInventory().getTopInventory().getHolder() instanceof StaticGUI && ((StaticGUI) owner.getOpenInventory().getTopInventory().getHolder()).getMenuID().equals(uuid)) {
-                owner.closeInventory();
-            }
-            if (challenger.getOpenInventory().getTopInventory().getHolder() instanceof StaticGUI && ((StaticGUI) challenger.getOpenInventory().getTopInventory().getHolder()).getMenuID().equals(uuid)) {
-                challenger.closeInventory();
-            }
-        }, 40);
+        if (msg == null) return;
         for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(msg);
     }
 
