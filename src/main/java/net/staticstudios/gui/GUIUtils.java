@@ -12,10 +12,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 public class GUIUtils {
     public static NamespacedKey RUNNABLE_UUID_NAMESPACE_KEY;
+    public static NamespacedKey RUNNABLE_TYPE;
     public static NamespacedKey GUI_UUID_NAMESPACE_KEY;
 
     public static void init() {
         RUNNABLE_UUID_NAMESPACE_KEY = new NamespacedKey(StaticGUI.getParent(), "runnableUUID");
+        RUNNABLE_TYPE = new NamespacedKey(StaticGUI.getParent(), "runnableType");
         GUI_UUID_NAMESPACE_KEY = new NamespacedKey(StaticGUI.getParent(), "guiUUID");
     }
 

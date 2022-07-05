@@ -1,19 +1,37 @@
 package net.staticstudios.gui;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
+
+import java.util.function.Consumer;
 
 public class GUIListener implements Listener {
 
     @EventHandler
     void onClick(InventoryClickEvent e) {
         if (e.getClickedInventory() == null) return;
-        if (!(e.getClickedInventory().getHolder() instanceof StaticGUI)) return;
-        e.setCancelled(true);
-        new GUIItem(e.getCurrentItem()).getRunnable().run((Player) e.getWhoClicked(), e.getClick());
+        if (!(e.getClickedInventory().getHolder() instanceof StaticGUI gui)) {
+            if (e.getInventory().getHolder() instanceof StaticGUI) e.setCancelled(e.getClick().isShiftClick());
+            return;
+        }
+        if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+            if (gui.getOnClickEmptySlot() != null) gui.getOnClickEmptySlot().accept(e);
+            else e.setCancelled(true);
+            return;
+        }
+
+
+        Consumer<InventoryClickEvent> listener = new GUIItem(e.getCurrentItem()).getListener();
+        if (listener == null) {
+            e.setCancelled(true);
+            new GUIItem(e.getCurrentItem()).getRunnable().run((Player) e.getWhoClicked(), e.getClick());
+            return;
+        }
+        listener.accept(e);
     }
     @EventHandler
     void onDrag(InventoryDragEvent e) { //Prevent players from being able to lose items that they attempt to put into the GUI's inventory

@@ -3,6 +3,7 @@ package net.staticstudios.prisons.privateMines;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIRunnable;
 import net.staticstudios.gui.GUIUtils;
+import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
@@ -226,10 +227,11 @@ public class PrivateMineMenus extends GUIUtils {
         int startIndex = page * MINES_PER_PAGE;
         GUICreator c = new GUICreator(54, "Public Private Mines (Page " + (page + 1) + ")");
         List<PrivateMine> mines = new ArrayList<>();
-        List<List<PrivateMine>> orderedMines = new ArrayList<>(PrivateMine.PRIVATE_MINES_SORTED_BY_LEVEL.values());
-        for (List<PrivateMine> list : orderedMines) {
-            mines.addAll(list);
+        List<Set<PrivateMine>> orderedMines = new ArrayList<>(PrivateMine.PRIVATE_MINES_SORTED_BY_LEVEL.values());
+        for (Set<PrivateMine> set : orderedMines) {
+            mines.addAll(set);
         }
+        mines = PrisonUtils.removeDuplicatesInArrayList(mines);
         Collections.reverse(mines);
         List<PrivateMine> publicMines = new ArrayList<>();
         for (PrivateMine mine : mines) if (mine.isPublic) publicMines.add(mine);

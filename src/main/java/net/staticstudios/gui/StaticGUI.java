@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -15,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * This class is persistent as any GUI that is created with this (instead of GUICreator) will be kept in memory forever and will not be destroyed
@@ -52,6 +54,7 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
     private StaticGUI openOnClose = null;
     private GUIRunnable onCloseRun = null;
     private GUIRunnable onOpenRun = null;
+    private Consumer<InventoryClickEvent> onClickEmptySlot = null;
 
 
     public StaticGUI getMenuToOpenOnClose() { return openOnClose; }
@@ -60,6 +63,8 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
     public void setOnCloseRun(GUIRunnable r) { onCloseRun = r; }
     public GUIRunnable getOnOpenRun() { return onOpenRun; }
     public void setOnOpenRun(GUIRunnable r) { onOpenRun = r; }
+    public Consumer<InventoryClickEvent> getOnClickEmptySlot() { return onClickEmptySlot; }
+    public void setOnClickEmptySlot(Consumer<InventoryClickEvent> c) { onClickEmptySlot = c; }
 
 
 
@@ -74,6 +79,7 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
         destroyOnClose = destroy;
     }
     public Map<String , GUIRunnable> callbacks = new HashMap<>();
+    public Map<String , Consumer<InventoryClickEvent>> listeners = new HashMap<>();
 
 
     public StaticGUI(int size, String title) {
@@ -127,6 +133,12 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
         callbacks.put(runnableUUID, runnable);
     }
 
+    public void applyAdditionalListener(ItemStack item, Consumer<InventoryClickEvent> listener) {
+        String runnableUUID = UUID.randomUUID().toString();
+        new GUIItem(item).setListener(runnableUUID, guiUUID);
+        listeners.put(runnableUUID, listener);
+    }
+
 
 
 
@@ -149,6 +161,10 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
 
     public ItemStack createButton(ItemStack item, GUIRunnable callback) {
         applyCallbackToItem(item, callback);
+        return item;
+    }
+    public ItemStack createButton(ItemStack item, Consumer<InventoryClickEvent> listener) {
+        applyAdditionalListener(item, listener);
         return item;
     }
     public ItemStack createButton(Material icon, String name, List<String> lore, GUIRunnable callback) {

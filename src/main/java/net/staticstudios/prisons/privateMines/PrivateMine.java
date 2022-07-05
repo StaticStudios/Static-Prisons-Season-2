@@ -54,7 +54,7 @@ public class PrivateMine {
     public static World PRIVATE_MINES_WORLD;
 
     public static Map<UUID, PrivateMine> PRIVATE_MINES = new HashMap<>();
-    public static TreeMap<Integer, List<PrivateMine>> PRIVATE_MINES_SORTED_BY_LEVEL = new TreeMap<>();
+    public static TreeMap<Integer, Set<PrivateMine>> PRIVATE_MINES_SORTED_BY_LEVEL = new TreeMap<>();
     public static Map<UUID, PrivateMine> PLAYER_PRIVATE_MINES = new HashMap<>();
     public static Map<String, PrivateMine> MINE_ID_TO_PRIVATE_MINE = new HashMap<>();
 
@@ -262,7 +262,7 @@ public class PrivateMine {
     private void updateTreeMap() {
         if (PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) PRIVATE_MINES_SORTED_BY_LEVEL.get(level).remove(this);
         if (PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) if (PRIVATE_MINES_SORTED_BY_LEVEL.get(level).isEmpty()) PRIVATE_MINES_SORTED_BY_LEVEL.remove(level);
-        if (!PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) PRIVATE_MINES_SORTED_BY_LEVEL.put(level, new ArrayList<>());
+        if (!PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) PRIVATE_MINES_SORTED_BY_LEVEL.put(level, new HashSet<>());
         PRIVATE_MINES_SORTED_BY_LEVEL.get(level).add(this);
     }
     private static final int BASE_XP_PER_LEVEL = 1000;
