@@ -219,6 +219,13 @@ public class PlayerData extends DataSet {
     public PlayerData removePrestige(BigInteger value) {
         return setPrestige(getPrestige().subtract(value));
     }
+    public BigInteger getClaimedPrestigeRewardsAt() {
+        return getBigInt("prestigeRewardsClaimed");
+    }
+    public PlayerData setClaimedPrestigeRewardsAt(BigInteger value) {
+        setBigInt("prestigeRewardsClaimed", value);
+        return this;
+    }
 
     //Multipliers
     public BigDecimal getMoneyMultiplier() {

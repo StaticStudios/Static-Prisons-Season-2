@@ -60,7 +60,7 @@ public class TestCommand implements CommandExecutor {
 //        ChatEvents.runEvent(ChatEvents.EventType.MATH);
 //
 
-        Trade.test(player);
+//        Trade.test(player); //todo test
 
 
         return false;

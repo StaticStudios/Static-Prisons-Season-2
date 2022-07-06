@@ -55,11 +55,13 @@ public class MainMenus extends GUIUtils {
                 createGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
-                createLightGrayPlaceHolder(),
+                ench(c.createButton(Material.PRISMARINE_CRYSTALS, "&b&lRewards", List.of("&7&oView rewards you've received from playing!"), (p, t) -> {
+                    RewardsMenus.open(player);
+                })),
                 ench(c.createButton(Material.NAME_TAG, "&b&lChat Tags", List.of("&7&oCustomize how you look!"), (p, t) -> {
                     ChatTagMenus.manageTags(player);
                 })),
-                createLightGrayPlaceHolder(),
+                createLightBluePlaceHolder(),
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
                 createGrayPlaceHolder(),

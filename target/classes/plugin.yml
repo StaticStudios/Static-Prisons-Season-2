@@ -274,3 +274,5 @@ commands:
       - team
   pvp:
     description: a
+  rewards:
+    description: a

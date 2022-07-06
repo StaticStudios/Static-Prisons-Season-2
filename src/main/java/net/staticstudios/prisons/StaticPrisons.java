@@ -195,6 +195,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("level").setExecutor(new LevelCommand()); getCommand("level").setTabCompleter(new LevelCommand());
         getCommand("gang").setExecutor(new GangCommand()); getCommand("gang").setTabCompleter(new GangCommand());
         getCommand("pvp").setExecutor(new PvPCommand()); getCommand("pvp").setTabCompleter(new PvPCommand());
+        getCommand("rewards").setExecutor(new RewardsCommand()); getCommand("rewards").setTabCompleter(new RewardsCommand());
         //Tab completion
         getCommand("island").setTabCompleter(new IslandTabCompletion());
         //Register Events

@@ -11,7 +11,7 @@ public class TabList {
     public static final String[][] TEAMS = new String[][] {
             //Rank order char, rank prefix, rank ID
             {"a", ChatColor.translateAlternateColorCodes('&', "&x&6&0&0&0&f&d&lO&x&7&f&0&0&f&d&lw&x&9&d&0&0&f&d&ln&x&b&c&0&0&f&d&le&x&d&a&0&0&f&d&lr "), "owner"},
-            {"b", ChatColor.of("803dfc") + "" + ChatColor.BOLD + "Manager ", "manager"},
+            {"b", ChatColor.of("#803dfc") + "" + ChatColor.BOLD + "Manager ", "manager"},
             {"c", ChatColor.DARK_RED + "" + ChatColor.BOLD + "Sr.Admin ", "sradmin"},
             {"d", ChatColor.RED + "" + ChatColor.BOLD + "Admin ", "admin"},
             {"e", ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Sr.Mod ", "srmod"},

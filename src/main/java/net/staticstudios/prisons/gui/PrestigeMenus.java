@@ -60,10 +60,14 @@ public class PrestigeMenus extends GUIUtils {
                 return;
             }
             if (playerData.getMoney().compareTo(RankUp.getPrestigePrice(playerData.getPrestige(), prestige)) > -1) {
+                BigInteger oldPrestigeRewards = playerData.getClaimedPrestigeRewardsAt().subtract(playerData.getPrestige()).divide(BigInteger.valueOf(250));
                 playerData.removeMoney(RankUp.getPrestigePrice(playerData.getPrestige(), prestige));
                 playerData.addPrestige(BigInteger.valueOf(prestige));
                 playerData.setMineRank(0);
                 p.sendMessage(ChatColor.AQUA + "You have just prestiged!");
+                if (playerData.getClaimedPrestigeRewardsAt().subtract(playerData.getPrestige()).divide(BigInteger.valueOf(250)).compareTo(oldPrestigeRewards) != 0) {
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', "You have received reward(s) for prestiging &b250&r times! Claim them with &7&o/rewards"));
+                }
                 open(player, fromCommand);
                 if (p.getWorld().equals(Constants.MINES_WORLD)) Warps.warpToSpawn(p);
             } else p.sendMessage(ChatColor.RED + "You do not have enough money to prestige!");

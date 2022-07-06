@@ -42,7 +42,7 @@ public class DailyRewardMenus extends GUIUtils {
                 mainMenu(p);
             })));
         } else c.setItem(2, c.createButton(Material.DIAMOND, "&bClaim Reward &e(Warrior)", List.of("&fYou can claim this reward every", "&f24 hours to get random crate keys!", "",
-                "&cClaim this again in: " + PrisonUtils.formatTime((playerData.getClaimedDailyRewardsAt() + SECONDS_BETWEEN_CLAIMS - Instant.now().getEpochSecond()) * 1000), "", "Requires &nWarrior rank&7 or higher")));
+                "&cClaim this again in: " + PrisonUtils.formatTime((playerData.getClaimedDailyRewardsRank1At() + SECONDS_BETWEEN_CLAIMS - Instant.now().getEpochSecond()) * 1000), "", "Requires &nWarrior rank&7 or higher")));
 
         if (playerData.getClaimedDailyRewardsAt() + SECONDS_BETWEEN_CLAIMS <= Instant.now().getEpochSecond()) {
             c.setItem(4, ench(c.createButton(Material.NETHER_STAR, "&bClaim Reward &a(Member)", List.of("&fYou can claim this reward every", "&f24 hours to get random crate keys!"), (p, t) -> {
@@ -86,7 +86,7 @@ public class DailyRewardMenus extends GUIUtils {
                 mainMenu(p);
             })));
         } else c.setItem(6, c.createButton(Material.AMETHYST_SHARD, "&bClaim Reward &d(Static)", List.of("&fYou can claim this reward every", "&f24 hours to get random crate keys!", "",
-                "&cClaim this again in: " + PrisonUtils.formatTime((playerData.getClaimedDailyRewardsAt() + SECONDS_BETWEEN_CLAIMS - Instant.now().getEpochSecond()) * 1000), "", "Requires &nStatic rank&7 or higher")));
+                "&cClaim this again in: " + PrisonUtils.formatTime((playerData.getClaimedDailyRewardsRank2At() + SECONDS_BETWEEN_CLAIMS - Instant.now().getEpochSecond()) * 1000), "", "Requires &nStatic rank&7 or higher")));
         c.fill(createGrayPlaceHolder());
         c.open(player);
         c.setOnCloseRun((p, t) -> MainMenus.open(p));
