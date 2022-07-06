@@ -46,7 +46,7 @@ public class RewardsMenus extends GUIUtils {
                         .add(CustomItems.getPickaxeCrateKey(3), 1)
                         .add(CustomItems.getPickaxeCrateKey(1), 1)
                         .add(CustomItems.getKitCrateKey(2), 1)
-                        .getRandom();
+                        .getRandom(); //
                 PrisonUtils.Players.addToInventory(p, reward);
                 p.sendMessage(PREFIX + "You've been given " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward));
                 r--;
