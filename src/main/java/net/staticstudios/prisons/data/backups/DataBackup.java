@@ -15,7 +15,7 @@ public class DataBackup {
     public static void init() {
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse"));
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "data/pickaxeData.yml"));
-        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
+        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines"));
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml"));
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));

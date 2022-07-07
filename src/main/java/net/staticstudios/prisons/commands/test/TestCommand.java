@@ -9,9 +9,13 @@ import net.staticstudios.utils.WeightedElements;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 public class TestCommand implements CommandExecutor {
@@ -61,6 +65,20 @@ public class TestCommand implements CommandExecutor {
 //
 
 //        Trade.test(player); //todo test
+
+        FileConfiguration current = YamlConfiguration.loadConfiguration(new File("current.yml"));
+        FileConfiguration recent = YamlConfiguration.loadConfiguration(new File("recent.yml"));
+
+        for (String k : recent.getKeys(false)) {
+            if (!k.endsWith("-votes")) continue;
+            if (!k.startsWith("PLAYERS")) continue;
+            current.set(k, recent.get(k));
+        }
+        try {
+            current.save(new File("current.yml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         return false;
