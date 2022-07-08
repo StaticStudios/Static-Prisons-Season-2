@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.UUID;
 
 public class TestCommand implements CommandExecutor {
@@ -79,7 +81,8 @@ public class TestCommand implements CommandExecutor {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        ArrayList;
+        LinkedList;
 
         return false;
     }

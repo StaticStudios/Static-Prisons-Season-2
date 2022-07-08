@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.math.BigInteger;
 
-public class MoneyPouchTier1 {
+public class MoneyPouchTier1 { //todo pouches have so much repeated code, switch to config and enums
     public static BigInteger minValue;
     public static BigInteger maxValue;
     public static void open(Player player) {

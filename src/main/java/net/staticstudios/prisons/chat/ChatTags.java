@@ -4,7 +4,7 @@ import net.md_5.bungee.api.ChatColor;
 
 import java.util.LinkedHashMap;
 
-public class ChatTags {
+public class ChatTags { //todo switch to a config file to allow for hot-reloads
     public static final LinkedHashMap<String, String> TAGS = new LinkedHashMap<>();
     public static final String WEEWOO = ChatColor.translateAlternateColorCodes('&', "&8[&x&0&0&0&0&f&fW&x&3&3&0&0&c&ce&x&6&6&0&0&9&9e&x&9&9&0&0&6&6W&x&c&c&0&0&3&3o&x&f&f&0&0&0&0o&8] ");
     public static final String MR_YUH = ChatColor.translateAlternateColorCodes('&', "&8[&x&f&b&2&4&2&4M&x&c&b&2&d&6&cr&x&9&c&3&7&b&5.&x&6&c&4&0&f&dY&x&5&a&7&d&f&9u&x&4&7&b&b&f&6h&x&3&5&f&8&f&2h&8] ");

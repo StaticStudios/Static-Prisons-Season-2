@@ -57,8 +57,7 @@ public class EventListener implements Listener {
         e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', "&a&lLeft&a -> &f" + e.getPlayer().getName()));
         Player player = e.getPlayer();
         for (ItemStack item : player.getInventory().getContents()) {
-            if (PrisonUtils.checkIsPrisonPickaxe(item))
-            PrisonPickaxe.updateLore(item);
+            if (PrisonUtils.checkIsPrisonPickaxe(item)) PrisonPickaxe.updateLore(item);
         }
 
         //Remove player from the scoreboard map to prevent updating an offline player's scoreboard

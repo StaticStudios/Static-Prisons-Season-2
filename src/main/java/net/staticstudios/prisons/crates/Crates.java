@@ -152,7 +152,7 @@ public class Crates {
         );
 
         STATICP = new Crate("staticp", "Static+ Crate", "staticp", new Location(Bukkit.getWorld("world"), 3, 80, -137),
-                new WeightedElements<CrateReward>()
+                new WeightedElements<CrateReward>() //todo: get rid of the worse items
                         .add(new CrateReward(PrisonUtils.setItemCount(Vouchers.MONEY_POUCH_T1.item, 4)), 2)
                         .add(new CrateReward(PrisonUtils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 3)), 2)
                         .add(new CrateReward(PrisonUtils.setItemCount(Vouchers.MONEY_POUCH_T2.item, 4)), 2.5)

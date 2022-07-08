@@ -52,7 +52,7 @@ public final class PrisonUtils {
     }
 
     public static ItemStack applyLoreToItem(ItemStack item, List<String> lore) {
-        for (int i = 0; i < lore.size(); i++) lore.set(i, ChatColor.translateAlternateColorCodes('&', lore.get(i)));
+        lore.replaceAll(textToTranslate -> ChatColor.translateAlternateColorCodes('&', textToTranslate));
         ItemMeta meta = item.getItemMeta();
         meta.setLore(lore);
         item.setItemMeta(meta);
@@ -85,7 +85,7 @@ public final class PrisonUtils {
         return itemStack;
     }
 
-    public static Location calcMinPoint(Location loc1, Location loc2) {
+    public static Location calcMinLocation(Location loc1, Location loc2) {
         if (!Objects.equals(loc1.getWorld(), loc2.getWorld())) {
             throw new IllegalArgumentException("Points must be in the same world");
         } else {
@@ -96,7 +96,7 @@ public final class PrisonUtils {
         }
     }
 
-    public static Location calcMaxPoint(Location loc1, Location loc2) {
+    public static Location calcMaxLocation(Location loc1, Location loc2) {
         if (!Objects.equals(loc1.getWorld(), loc2.getWorld())) {
             throw new IllegalArgumentException("Points must be in the same world");
         } else {
@@ -203,10 +203,10 @@ public final class PrisonUtils {
         return prettyNum(num.toString());
     }
     public static String prettyNum(long num) {
-        return prettyNum(BigInteger.valueOf(num));
+        return prettyNum(num + "");
     }
     public static String prettyNum(int num) {
-        return prettyNum(BigInteger.valueOf(num));
+        return prettyNum(num + "");
     }
 
 
