@@ -81,8 +81,6 @@ public class TestCommand implements CommandExecutor {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        ArrayList;
-        LinkedList;
 
         return false;
     }
