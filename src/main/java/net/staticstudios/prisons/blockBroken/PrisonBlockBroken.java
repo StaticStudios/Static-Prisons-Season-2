@@ -2,7 +2,7 @@ package net.staticstudios.prisons.blockBroken;
 
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.data.Prices;
-import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.data.PlayerData;
 import org.bukkit.Location;
 import org.bukkit.Material;

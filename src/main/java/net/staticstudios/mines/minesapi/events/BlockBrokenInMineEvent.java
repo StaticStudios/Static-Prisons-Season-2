@@ -27,7 +27,8 @@ public class BlockBrokenInMineEvent extends Event implements Cancellable {
         return cancelled;
     }
     public void setCancelled(boolean cancel) {
-        cancelled = cancel;
+//        cancelled = cancel;
+//        blockBreakEvent.setCancelled(cancelled);
     }
     public HandlerList getHandlers() {
         return handlers;

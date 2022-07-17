@@ -2,9 +2,9 @@ package net.staticstudios.prisons.blockBroken;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
-import net.staticstudios.prisons.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
-import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.privateMines.PrivateMine;
@@ -58,7 +58,6 @@ public class BlockBreakListener implements Listener {
         else e.runOnProcessEvent(bb);
 
         if (tokensFound > 0) {
-            //player.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "+ " + PrisonUtils.addCommasToNumber(tokensFound) + " Tokens" + ChatColor.GRAY + ChatColor.ITALIC + " (Tokenator)");
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', PrisonEnchants.TOKENATOR.DISPLAY_NAME + " &8&l>> &fFound " + PrisonUtils.addCommasToNumber(tokensFound) + " tokens!"));
             playerData.addTokens(BigInteger.valueOf(tokensFound));
         }

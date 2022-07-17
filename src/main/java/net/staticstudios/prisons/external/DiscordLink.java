@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class DiscordLink {
+public class DiscordLink { //todo: this could be cleaned up and the SQL statements could be better
     public static final int SERVER_ID = Integer.parseInt(PrisonUtils.getFileContents("./data/discord/serverID.txt"));
     public static final int SECONDS_TO_KEEP_LINK_REQUESTS_ALIVE = 300;
     public static final int LINK_CODE_LENGTH = 7;
@@ -194,9 +194,9 @@ public class DiscordLink {
                         //who, what...
                         UUID uuid = UUID.fromString(args.get(0));
                         if (Bukkit.getPlayer(uuid) == null) continue;
-                            StringBuilder message = new StringBuilder();
-                            for (int i = 1; i < args.size(); i++) message.append(args.get(i)).append(" ");
-                            Bukkit.getPlayer(uuid).sendMessage(ChatColor.translateAlternateColorCodes('&', message.toString()));
+                        StringBuilder message = new StringBuilder();
+                        for (int i = 1; i < args.size(); i++) message.append(args.get(i)).append(" ");
+                        Bukkit.getPlayer(uuid).sendMessage(ChatColor.translateAlternateColorCodes('&', message.toString()));
                     }
                     case "LINKSUCCESS" -> {
                         StringBuilder accountName = new StringBuilder();
@@ -211,6 +211,7 @@ public class DiscordLink {
                             playerData.setIsNitroBoosting(true);
                             playerData.updateTabListPrefixID();
                         } catch (SQLException e) {
+                            e.printStackTrace();
                         }
                     }
                     case "PLAYERSTARTEDBOOSTING" -> {

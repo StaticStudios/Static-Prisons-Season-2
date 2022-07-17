@@ -326,9 +326,34 @@ public class PrivateMineMenus extends GUIUtils {
         c.fill(createGrayPlaceHolder());
         c.open(player);
     }
-    public static void settings(Player player, int page, boolean fromCommand) {
+    public static void upgrade(Player player, boolean fromCommand) {
         if (!PrivateMine.finishedInitTasks) return;
-        GUICreator c = new GUICreator(54, "Settings");
+        PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
+        GUICreator c = new GUICreator(27, "Upgrade");
+        if (privateMine.availableUpgrades.isEmpty()) {
+            c.setItem(13, c.createButton(Material.NETHER_STAR, "&c&lNo Upgrades Available", List.of("This mine cannot be upgraded")));
+        } else {
+            PrivateMineUpgrade upgrade = privateMine.availableUpgrades.get(0);
+            c.setItem(13, c.createButton(Material.NETHER_STAR, "&d&l" + privateMine.availableUpgrades.size() + " Upgrade(s) Available", List.of(
+                    "&7&oClick to upgrade your private mine!",
+                    "",
+                    "&aCosts: &f$" + PrisonUtils.addCommasToNumber(upgrade.cost)
+            ), (p, t) -> {
+                //check if the player has enough money
+                PlayerData playerData = new PlayerData(p);
+                if (upgrade.cost.compareTo(playerData.getMoney()) > 0) {
+                    p.sendMessage(ChatColor.RED + "You do not have enough money to upgrade your private mine");
+                    return;
+                }
+                playerData.removeMoney(upgrade.cost);
+                p.sendMessage(ChatColor.LIGHT_PURPLE + "You have successfully upgraded your private mine!");
+                privateMine.upgrade();
+                upgrade(p, fromCommand);
+            }));
+        }
+        c.fill(createGrayPlaceHolder());
+        c.setOnCloseRun((p, t) -> manageMine(p, fromCommand));
+        c.open(player);
 
     }
 }

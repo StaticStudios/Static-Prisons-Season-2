@@ -1,9 +1,7 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.mines.StaticMineUtils;
-import net.staticstudios.prisons.data.serverData.ServerData;
-import net.staticstudios.prisons.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

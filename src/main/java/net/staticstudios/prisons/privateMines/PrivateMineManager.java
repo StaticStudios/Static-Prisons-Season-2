@@ -68,6 +68,7 @@ public class PrivateMineManager {
         });
     }
     public static void init() {
+        //todo: delete what is below
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
         for (String key : fileData.getKeys(false)) {
             ConfigurationSection section = fileData.getConfigurationSection(key);

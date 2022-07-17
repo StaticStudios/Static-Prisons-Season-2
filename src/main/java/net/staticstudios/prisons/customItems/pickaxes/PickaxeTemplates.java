@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.customItems.pickaxes;
 
-import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
-import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

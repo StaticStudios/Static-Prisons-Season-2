@@ -6,6 +6,7 @@ import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.trading.Trade;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 public class TestCommand implements CommandExecutor {
     @Override
@@ -45,16 +47,16 @@ public class TestCommand implements CommandExecutor {
 //        player.sendMessage("Total time taken: " + (System.currentTimeMillis() - start) + "ms");
         //Crates.COMMON.preview(player);
         //Cell.createCell(player);
-        PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.setXp(Integer.parseInt(args[0]), true));
-        for (int i = 0; i < 100; i++)
-            player.sendMessage(PrisonUtils.prettyNum(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
+//        PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.setXp(Integer.parseInt(args[0]), true));
+//        for (int i = 0; i < 100; i++)
+//            player.sendMessage(PrisonUtils.prettyNum(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
         //SettingsMenus.open(player, true);
 //        Player finalPlayer = player;
 //        TickUtils.init(StaticPrisons.getInstance());
 //        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
 //            finalPlayer.sendMessage(TickUtils.getMSPT(20) + "ms | " + TickUtils.getTPS() + "tps");
 //        }, 0, 1);
-        PlayerData playerData = new PlayerData(player);
+//        PlayerData playerData = new PlayerData(player);
 //        long start = System.currentTimeMillis();
 //        for (int i = 0; i < 10000; i++) {
 //            playerData.setChatTag1("dev");
@@ -68,19 +70,23 @@ public class TestCommand implements CommandExecutor {
 
 //        Trade.test(player); //todo test
 
-        FileConfiguration current = YamlConfiguration.loadConfiguration(new File("current.yml"));
-        FileConfiguration recent = YamlConfiguration.loadConfiguration(new File("recent.yml"));
+//        FileConfiguration current = YamlConfiguration.loadConfiguration(new File("current.yml"));
+//        FileConfiguration recent = YamlConfiguration.loadConfiguration(new File("recent.yml"));
+//
+//        for (String k : recent.getKeys(false)) {
+//            if (!k.endsWith("-votes")) continue;
+//            if (!k.startsWith("PLAYERS")) continue;
+//            current.set(k, recent.get(k));
+//        }
+//        try {
+//            current.save(new File("current.yml"));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
-        for (String k : recent.getKeys(false)) {
-            if (!k.endsWith("-votes")) continue;
-            if (!k.startsWith("PLAYERS")) continue;
-            current.set(k, recent.get(k));
-        }
-        try {
-            current.save(new File("current.yml"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        Bukkit.getScheduler().getActiveWorkers();
+
+//        System.out.println("test");
 
         return false;
     }

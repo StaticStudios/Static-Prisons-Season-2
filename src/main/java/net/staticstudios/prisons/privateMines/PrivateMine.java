@@ -5,9 +5,6 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
@@ -16,8 +13,6 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.serverData.ServerData;
@@ -27,13 +22,9 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElement;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.*;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -42,175 +33,204 @@ public class PrivateMine {
 
     public static boolean finishedInitTasks = false;
 
-    public static int UNLOCK_AT_PLAYER_LEVEL;
+    public static int UNLOCK_AT_PLAYER_LEVEL; //todo load this config info
     public static int START_SIZE;
-    public static int MAX_SIZE;
     public static double DEFAULT_SELL_PERCENTAGE;
-    public static LinkedHashMap<Integer, Integer> SIZE_BY_LEVEL;
-    public static LinkedHashMap<Integer, WeightedElements<MineBlock>> BLOCKS_BY_LEVEL;
-    public static LinkedHashMap<Integer, Clipboard> SCHEMATICS_BY_LEVEL;
-    public static LinkedHashMap<Integer, Integer[]> WORLD_BOARDER_BY_LEVEL;
-
+//    public static LinkedHashMap<Integer, Integer> SIZE_BY_LEVEL;
+//    public static LinkedHashMap<Integer, WeightedElements<MineBlock>> BLOCKS_BY_LEVEL;
+//    public static LinkedHashMap<Integer, Clipboard> SCHEMATICS_BY_LEVEL;
+//    public static LinkedHashMap<Integer, Integer[]> WORLD_BOARDER_BY_LEVEL;
+//
     public static World PRIVATE_MINES_WORLD;
 
     public static Map<UUID, PrivateMine> PRIVATE_MINES = new HashMap<>();
     public static TreeMap<Integer, Set<PrivateMine>> PRIVATE_MINES_SORTED_BY_LEVEL = new TreeMap<>();
     public static Map<UUID, PrivateMine> PLAYER_PRIVATE_MINES = new HashMap<>();
     public static Map<String, PrivateMine> MINE_ID_TO_PRIVATE_MINE = new HashMap<>();
+//
+//
+//    public static int getSize(int level) {
+//        if (SIZE_BY_LEVEL.containsKey(level)) return SIZE_BY_LEVEL.get(level);
+//        return SIZE_BY_LEVEL.get(SIZE_BY_LEVEL.size() - 1);
+//    }
+//    public static WeightedElements<MineBlock> getBlocks(int level) {
+//        if (BLOCKS_BY_LEVEL.containsKey(level)) return BLOCKS_BY_LEVEL.get(level);
+//        return BLOCKS_BY_LEVEL.get(BLOCKS_BY_LEVEL.size() - 1);
+//    }
+//    public static Clipboard getSchematic(int level) {
+//        if (SCHEMATICS_BY_LEVEL.containsKey(level)) return SCHEMATICS_BY_LEVEL.get(level);
+//        return SCHEMATICS_BY_LEVEL.get(SCHEMATICS_BY_LEVEL.size() - 1);
+//    }
+//    public static Integer[] getWorldBorder(int level) {
+//        if (WORLD_BOARDER_BY_LEVEL.containsKey(level)) return WORLD_BOARDER_BY_LEVEL.get(level);
+//        return WORLD_BOARDER_BY_LEVEL.get(WORLD_BOARDER_BY_LEVEL.size() - 1);
+//    }
+//
+//    public static void init() {
+//        StaticPrisons.log("[Private-Mines] Beginning init tasks...");
+//        long startTime = System.currentTimeMillis();
+//        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PrivateMineBlockBreakListener(), StaticPrisons.getInstance());
+//        StaticPrisons.log("[Private-Mines] Loading the Bukkit world...");
+//        PRIVATE_MINES_WORLD = new WorldCreator("private_mines").createWorld();
+//
+//        StaticPrisons.log("[Private-Mines] Cleaning up old region data...");
+//        //Remove all WorldGuard regions in the world from the previous time the server was loaded | Set the only region to the global region
+//        try {
+//            Map<String, ProtectedRegion> regions = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(PRIVATE_MINES_WORLD)).getRegions();
+//            Map<String, ProtectedRegion> globalRegionMap = new HashMap<>();
+//            globalRegionMap.put("__global__", regions.get("__global__"));
+//            WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(PRIVATE_MINES_WORLD)).setRegions(globalRegionMap);
+//        } catch (Exception e) {
+//            StaticPrisons.log("[Private-Mines] Error while cleaning up old region data: " + e.getMessage());
+//        }
+//
+//        StaticPrisons.log("[Private-Mines] Loading config data...");
+//        //Load config data
+//        File file = new File(StaticPrisons.getInstance().getDataFolder(), "private_mines_config.yml");
+//        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+//        UNLOCK_AT_PLAYER_LEVEL = config.getInt("unlock_at_player_level");
+//        START_SIZE = config.getInt("start_size");
+//        MAX_SIZE = config.getInt("max_size");
+//        DEFAULT_SELL_PERCENTAGE = config.getInt("default_sell_percentage") / 100d;
+//        int maxDefinedLevel = 0;
+//        SIZE_BY_LEVEL = new LinkedHashMap<>();
+//        SIZE_BY_LEVEL.put(0, START_SIZE);
+//        for (String key : config.getConfigurationSection("size_by_level").getKeys(false)) {
+//            int level = Integer.parseInt(key);
+//            SIZE_BY_LEVEL.put(level, config.getInt("size_by_level." + key));
+//            if (level > maxDefinedLevel) maxDefinedLevel = level;
+//        }
+//        int lastDefined = 0;
+//        for (int i = 0; i < maxDefinedLevel; i++) {
+//            if (!SIZE_BY_LEVEL.containsKey(i)) SIZE_BY_LEVEL.put(i, SIZE_BY_LEVEL.get(lastDefined));
+//            else lastDefined = i;
+//        }
+//        maxDefinedLevel = 0;
+//        BLOCKS_BY_LEVEL = new LinkedHashMap<>();
+//        BLOCKS_BY_LEVEL.put(0, new WeightedElements<MineBlock>().add(new MineBlock(Material.STONE), 100));
+//        for (String key : config.getConfigurationSection("blocks_by_level").getKeys(false)) {
+//            int level = Integer.parseInt(key);
+//            WeightedElements<MineBlock> blocks = new WeightedElements<>();
+//            for (String blockKey : config.getConfigurationSection("blocks_by_level." + key).getKeys(false)) {
+//                double weight = config.getDouble("blocks_by_level." + key + "." + blockKey);
+//                Material material = Material.valueOf(blockKey);
+//                blocks.add(new MineBlock(material), weight);
+//            }
+//            BLOCKS_BY_LEVEL.put(level, blocks);
+//            if (level > maxDefinedLevel) maxDefinedLevel = level;
+//        }
+//        lastDefined = 0;
+//        for (int i = 0; i < maxDefinedLevel; i++) {
+//            if (!BLOCKS_BY_LEVEL.containsKey(i)) BLOCKS_BY_LEVEL.put(i, BLOCKS_BY_LEVEL.get(lastDefined));
+//            else lastDefined = i;
+//        }
+//        maxDefinedLevel = 0;
+//        WORLD_BOARDER_BY_LEVEL = new LinkedHashMap<>();
+//        for (String key : config.getConfigurationSection("border_by_level").getKeys(false)) {
+//            int level = Integer.parseInt(key);
+//            WORLD_BOARDER_BY_LEVEL.put(level, new Integer[]{
+//                    config.getInt("border_by_level." + key + ".offset.x"),
+//                    config.getInt("border_by_level." + key + ".offset.z"),
+//                    config.getInt("border_by_level." + key + ".size")
+//            });
+//            if (level > maxDefinedLevel) maxDefinedLevel = level;
+//        }
+//        lastDefined = 0;
+//        for (int i = 0; i < maxDefinedLevel; i++) {
+//            if (!WORLD_BOARDER_BY_LEVEL.containsKey(i)) WORLD_BOARDER_BY_LEVEL.put(i, WORLD_BOARDER_BY_LEVEL.get(lastDefined));
+//            else lastDefined = i;
+//        }
+//        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
+//            int _maxDefinedLevel = 0;
+//            long schemStartTime = System.currentTimeMillis();
+//            int schematicsLoaded = 0;
+//            LinkedHashMap<Integer, Clipboard> tempSchematicsByLevel = new LinkedHashMap<>();
+//            StaticPrisons.log("[Private-Mines] Loading schematics on an async thread...");
+//            for (String key : config.getConfigurationSection("schematics_by_level").getKeys(false)) {
+//                int level = Integer.parseInt(key);
+//                String path = config.getString("schematics_by_level." + key);
+//                File schemFile = new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/schematics/" + path);
+//                ClipboardFormat format = ClipboardFormats.findByFile(schemFile);
+//                try (ClipboardReader reader = format.getReader(new FileInputStream(schemFile))) {
+//                    tempSchematicsByLevel.put(level, reader.read());
+//                    schematicsLoaded++;
+//                    if (level > _maxDefinedLevel) _maxDefinedLevel = level;
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            StaticPrisons.log("[Private-Mines] Finished loading " + schematicsLoaded + " schematics! Took a total of " + (System.currentTimeMillis() - schemStartTime) + "ms");
+//            int final_maxDefinedLevel = _maxDefinedLevel;
+//            Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
+//                StaticPrisons.log("[Private-Mines] Finishing init tasks on the main thread...");
+//                SCHEMATICS_BY_LEVEL = new LinkedHashMap<>(tempSchematicsByLevel);
+//                int _lastDefined = 0;
+//                for (int i = 0; i < final_maxDefinedLevel; i++) {
+//                    if (!SCHEMATICS_BY_LEVEL.containsKey(i)) SCHEMATICS_BY_LEVEL.put(i, SCHEMATICS_BY_LEVEL.get(_lastDefined));
+//                    else _lastDefined = i;
+//                }
+//                StaticPrisons.log("[Private-Mines] Successfully finished initialization! Took a total of " + (System.currentTimeMillis() - startTime) + "ms");
+//                PrivateMineManager.init();
+//                finishedInitTasks = true;
+//            });
+//        });
+//    }
 
-
-    public static int getSize(int level) {
-        if (SIZE_BY_LEVEL.containsKey(level)) return SIZE_BY_LEVEL.get(level);
-        return SIZE_BY_LEVEL.get(SIZE_BY_LEVEL.size() - 1);
-    }
-    public static WeightedElements<MineBlock> getBlocks(int level) {
-        if (BLOCKS_BY_LEVEL.containsKey(level)) return BLOCKS_BY_LEVEL.get(level);
-        return BLOCKS_BY_LEVEL.get(BLOCKS_BY_LEVEL.size() - 1);
-    }
-    public static Clipboard getSchematic(int level) {
-        if (SCHEMATICS_BY_LEVEL.containsKey(level)) return SCHEMATICS_BY_LEVEL.get(level);
-        return SCHEMATICS_BY_LEVEL.get(SCHEMATICS_BY_LEVEL.size() - 1);
-    }
-    public static Integer[] getWorldBorder(int level) {
-        if (WORLD_BOARDER_BY_LEVEL.containsKey(level)) return WORLD_BOARDER_BY_LEVEL.get(level);
-        return WORLD_BOARDER_BY_LEVEL.get(WORLD_BOARDER_BY_LEVEL.size() - 1);
-    }
-
-    public static void init() {
-        StaticPrisons.log("[Private-Mines] Beginning init tasks...");
-        long startTime = System.currentTimeMillis();
-        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PrivateMineBlockBreakListener(), StaticPrisons.getInstance());
-        StaticPrisons.log("[Private-Mines] Loading the Bukkit world...");
-        PRIVATE_MINES_WORLD = new WorldCreator("private_mines").createWorld();
-
-        StaticPrisons.log("[Private-Mines] Cleaning up old region data...");
-        //Remove all WorldGuard regions in the world from the previous time the server was loaded | Set the only region to the global region
-        Map<String, ProtectedRegion> regions = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(PRIVATE_MINES_WORLD)).getRegions();
-        Map<String, ProtectedRegion> globalRegionMap = new HashMap<>();
-        globalRegionMap.put("__global__", regions.get("__global__"));
-        try {
-            WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(PRIVATE_MINES_WORLD)).setRegions(globalRegionMap);
-        } catch (Exception e) {
-            StaticPrisons.log("[Private-Mines] Error while cleaning up old region data: " + e.getMessage());
-        }
-
-        StaticPrisons.log("[Private-Mines] Loading config data...");
-        //Load config data
-        File file = new File(StaticPrisons.getInstance().getDataFolder(), "private_mines_config.yml");
-        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-        UNLOCK_AT_PLAYER_LEVEL = config.getInt("unlock_at_player_level");
-        START_SIZE = config.getInt("start_size");
-        MAX_SIZE = config.getInt("max_size");
-        DEFAULT_SELL_PERCENTAGE = config.getInt("default_sell_percentage") / 100d;
-        int maxDefinedLevel = 0;
-        SIZE_BY_LEVEL = new LinkedHashMap<>();
-        SIZE_BY_LEVEL.put(0, START_SIZE);
-        for (String key : config.getConfigurationSection("size_by_level").getKeys(false)) {
-            int level = Integer.parseInt(key);
-            SIZE_BY_LEVEL.put(level, config.getInt("size_by_level." + key));
-            if (level > maxDefinedLevel) maxDefinedLevel = level;
-        }
-        int lastDefined = 0;
-        for (int i = 0; i < maxDefinedLevel; i++) {
-            if (!SIZE_BY_LEVEL.containsKey(i)) SIZE_BY_LEVEL.put(i, SIZE_BY_LEVEL.get(lastDefined));
-            else lastDefined = i;
-        }
-        maxDefinedLevel = 0;
-        BLOCKS_BY_LEVEL = new LinkedHashMap<>();
-        BLOCKS_BY_LEVEL.put(0, new WeightedElements<MineBlock>().add(new MineBlock(Material.STONE), 100));
-        for (String key : config.getConfigurationSection("blocks_by_level").getKeys(false)) {
-            int level = Integer.parseInt(key);
-            WeightedElements<MineBlock> blocks = new WeightedElements<>();
-            for (String blockKey : config.getConfigurationSection("blocks_by_level." + key).getKeys(false)) {
-                double weight = config.getDouble("blocks_by_level." + key + "." + blockKey);
-                Material material = Material.valueOf(blockKey);
-                blocks.add(new MineBlock(material), weight);
-            }
-            BLOCKS_BY_LEVEL.put(level, blocks);
-            if (level > maxDefinedLevel) maxDefinedLevel = level;
-        }
-        lastDefined = 0;
-        for (int i = 0; i < maxDefinedLevel; i++) {
-            if (!BLOCKS_BY_LEVEL.containsKey(i)) BLOCKS_BY_LEVEL.put(i, BLOCKS_BY_LEVEL.get(lastDefined));
-            else lastDefined = i;
-        }
-        maxDefinedLevel = 0;
-        WORLD_BOARDER_BY_LEVEL = new LinkedHashMap<>();
-        for (String key : config.getConfigurationSection("border_by_level").getKeys(false)) {
-            int level = Integer.parseInt(key);
-            WORLD_BOARDER_BY_LEVEL.put(level, new Integer[]{
-                    config.getInt("border_by_level." + key + ".offset.x"),
-                    config.getInt("border_by_level." + key + ".offset.z"),
-                    config.getInt("border_by_level." + key + ".size")
-            });
-            if (level > maxDefinedLevel) maxDefinedLevel = level;
-        }
-        lastDefined = 0;
-        for (int i = 0; i < maxDefinedLevel; i++) {
-            if (!WORLD_BOARDER_BY_LEVEL.containsKey(i)) WORLD_BOARDER_BY_LEVEL.put(i, WORLD_BOARDER_BY_LEVEL.get(lastDefined));
-            else lastDefined = i;
-        }
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
-            int _maxDefinedLevel = 0;
-            long schemStartTime = System.currentTimeMillis();
-            int schematicsLoaded = 0;
-            LinkedHashMap<Integer, Clipboard> tempSchematicsByLevel = new LinkedHashMap<>();
-            StaticPrisons.log("[Private-Mines] Loading schematics on an async thread...");
-            for (String key : config.getConfigurationSection("schematics_by_level").getKeys(false)) {
-                int level = Integer.parseInt(key);
-                String path = config.getString("schematics_by_level." + key);
-                File schemFile = new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/schematics/" + path);
-                ClipboardFormat format = ClipboardFormats.findByFile(schemFile);
-                try (ClipboardReader reader = format.getReader(new FileInputStream(schemFile))) {
-                    tempSchematicsByLevel.put(level, reader.read());
-                    schematicsLoaded++;
-                    if (level > _maxDefinedLevel) _maxDefinedLevel = level;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            StaticPrisons.log("[Private-Mines] Finished loading " + schematicsLoaded + " schematics! Took a total of " + (System.currentTimeMillis() - schemStartTime) + "ms");
-            int final_maxDefinedLevel = _maxDefinedLevel;
-            Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
-                StaticPrisons.log("[Private-Mines] Finishing init tasks on the main thread...");
-                SCHEMATICS_BY_LEVEL = new LinkedHashMap<>(tempSchematicsByLevel);
-                int _lastDefined = 0;
-                for (int i = 0; i < final_maxDefinedLevel; i++) {
-                    if (!SCHEMATICS_BY_LEVEL.containsKey(i)) SCHEMATICS_BY_LEVEL.put(i, SCHEMATICS_BY_LEVEL.get(_lastDefined));
-                    else _lastDefined = i;
-                }
-                StaticPrisons.log("[Private-Mines] Successfully finished initialization! Took a total of " + (System.currentTimeMillis() - startTime) + "ms");
-                PrivateMineManager.init();
-                finishedInitTasks = true;
-            });
-        });
-    }
-
+    /**
+     * If the private mine is still being created. The operation is done async so check this before doing anything.
+     */
     boolean isLoading = false;
 
     public UUID privateMineId;
     public int gridPosition;
     public UUID owner;
     public String name;
-    private Set<UUID> whitelist = new HashSet<>();
+    private final Set<UUID> whitelist = new HashSet<>();
     private long xp = 0;
-    public long getXp() {
-        return xp;
+    private int level;
+    private int lastUpgradePurchaseLevel = 0; //todo: add to save and load
+    private List<PrivateMineStats> availableUpgrades = new ArrayList<>();
+
+
+    public long getXp() { return xp; }
+    public void setXp(long xp) {
+        this.xp = xp;
+        if (xp >= getNextLevelRequirement()) {
+            setLevel(getLevel() + 1);
+        }
     }
-    public void setXp(long xp, boolean normalUpdate) {
+    public void setXpAndCalcLevel(long xp, boolean normalUpdate) {
         if (normalUpdate) setXp(xp);
         else {
             this.xp = xp;
             int l = 0;
             while (xp >= getLevelRequirement(l + 1)) l += 1;
-//            if (l > 0) l += 1;
             setLevel(l, false);
+            updateAvailableUpgrades();
         }
     }
-    public void setXp(long xp) {
-        this.xp = xp;
-        if (xp >= getNextLevelRequirement()) {
-            setLevel(getLevel() + 1);
+
+
+    public int getLevel() {
+        return level;
+    }
+    public void setLevel(int level, boolean updateStats) {
+        if (updateStats) setLevel(level);
+        else this.level = level;
+    }
+    public void setLevel(int level) {
+        int oldLevel = this.level;
+        this.level = level;
+        if (oldLevel != level) {
+            List<PrivateMineUpgrade> oldUpgrades = new ArrayList<>(availableUpgrades);
+            updateAvailableUpgrades();
+            if (!oldUpgrades.equals(availableUpgrades)) {
+                if (Bukkit.getPlayer(owner) != null) Bukkit.getPlayer(owner).sendMessage(ChatColor.LIGHT_PURPLE + "Your private mine has an upgrade available!");
+                for (Player p : getAllPlayersInPrivateMine()) {
+                    p.sendMessage(ChatColor.GREEN + "This private mine has an upgrade available!");
+                }
+            }
+            updateTreeMap();
         }
     }
     public Set<UUID> getWhitelist() {
@@ -229,36 +249,55 @@ public class PrivateMine {
         if (invites.isEmpty()) PrivateMineManager.INVITED_MINES.remove(player);
         else PrivateMineManager.INVITED_MINES.put(player, invites);
     }
-    private int level;
-    public int getLevel() {
-        return level;
+
+    void updateAvailableUpgrades() {
+        availableUpgrades.clear();
+        int lastSize = getSize(lastUpgradePurchaseLevel);
+        Clipboard lastSchematic = getSchematic(lastUpgradePurchaseLevel);
+        WeightedElements<MineBlock> lastBlocks = getBlocks(lastUpgradePurchaseLevel);
+        for (int i = lastUpgradePurchaseLevel; i <= level; i++) {
+            int size = getSize(i);
+            Clipboard schematic = getSchematic(i);
+            WeightedElements<MineBlock> blocks = getBlocks(i);
+            if (size != lastSize || !schematic.equals(lastSchematic) || !blocks.equals(lastBlocks)) {
+                PrivateMineUpgrade upgrade = new PrivateMineUpgrade(i);
+                upgrade.cost = BigInteger.ONE; //todo: add to config
+                upgrade.isBlocksUpgrade = !blocks.equals(lastBlocks);
+                upgrade.isSizeUpgrade = size != lastSize;
+                upgrade.isSchemUpgrade = !schematic.equals(lastSchematic);
+                System.out.println("is block upgrade: " + upgrade.isBlocksUpgrade); //debug
+                System.out.println("is size upgrade: " + upgrade.isSizeUpgrade);
+                System.out.println("is schem upgrade: " + upgrade.isSchemUpgrade);
+
+                availableUpgrades.add(upgrade);
+                lastSize = size;
+                lastSchematic = schematic;
+                lastBlocks = blocks;
+            }
+        }
     }
-    public void setLevel(int level, boolean updateStats) {
-        if (updateStats) setLevel(level);
-        else this.level = level;
-    }
-    public void setLevel(int level) {
-        int oldLevel = this.level;
-        this.level = level;
-        if (oldLevel != level) { //check if this level needs to have stats changed like schem, mine size, blocks, ect. if so do it
-            if (!getSchematic(level).equals(getSchematic(oldLevel))) {
-                updateBuild().thenRun(() -> {
-                    updateMine().thenRun(() -> {
-                        for (Player p : getAllPlayersInPrivateMine()) {
-                            p.sendMessage(ChatColor.GREEN + "This private mine has leveled up!");
-                            warpTo(p);
-                        }
-                    });
-                });
-            } else if (getSize(level) != getSize(oldLevel) || !getBlocks(level).equals(getBlocks(oldLevel))) updateMine().thenRun(() -> {
+    public void upgrade() {
+        PrivateMineUpgrade upgrade = availableUpgrades.get(0);
+        if (!getSchematic(upgrade.level).equals(getSchematic(lastUpgradePurchaseLevel))) {
+            updateBuild().thenRun(() -> {
+                updateMine().thenRun(() -> {
                     for (Player p : getAllPlayersInPrivateMine()) {
-                        p.sendMessage(ChatColor.GREEN + "This private mine has leveled up!");
+                        p.sendMessage(ChatColor.GREEN + "This private mine has been upgraded!");
                         warpTo(p);
                     }
                 });
-            updateTreeMap();
-        }
+            });
+        } else if (getSize(upgrade.level) != getSize(lastUpgradePurchaseLevel) || !getBlocks(upgrade.level).equals(getBlocks(lastUpgradePurchaseLevel)))
+            updateMine().thenRun(() -> {
+                for (Player p : getAllPlayersInPrivateMine()) {
+                    p.sendMessage(ChatColor.GREEN + "This private mine has been upgraded!");
+                    warpTo(p);
+                }
+            });
+        lastUpgradePurchaseLevel = upgrade.level;
+        updateAvailableUpgrades();
     }
+
     private void updateTreeMap() {
         if (PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) PRIVATE_MINES_SORTED_BY_LEVEL.get(level).remove(this);
         if (PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) if (PRIVATE_MINES_SORTED_BY_LEVEL.get(level).isEmpty()) PRIVATE_MINES_SORTED_BY_LEVEL.remove(level);
@@ -276,7 +315,7 @@ public class PrivateMine {
     }
 
     public int getSize() {
-        return getSize(getLevel());
+        return getSize(lastUpgradePurchaseLevel);
     }
     //public int size;
     public double visitorTax;
@@ -352,7 +391,7 @@ public class PrivateMine {
         this.owner = owner;
         this.name = name;
         //this.size = size;
-        setXp(xp, false);
+        setXpAndCalcLevel(xp, false);
         //setLevel(level, false); -- calculated from xp
         this.visitorTax = visitorTax;
         this.isPublic = isPublic;
@@ -400,13 +439,13 @@ public class PrivateMine {
     }
     CompletableFuture<StaticMine> registerMine() {
         CompletableFuture<StaticMine> future = new CompletableFuture<>();
-        int distanceFromCenter = getSize(level) / 2;
+        int distanceFromCenter = getSize(lastUpgradePurchaseLevel) / 2;
         int[] center = PrivateMineManager.getPosition(gridPosition);
         StaticMine mine = new StaticMine("private_mine-" + privateMineId, new Location(PRIVATE_MINES_WORLD, center[0] - distanceFromCenter, 1, center[1] - distanceFromCenter), new Location(PRIVATE_MINES_WORLD, center[0] + distanceFromCenter, 99, center[1] + distanceFromCenter));
         mine.setShouldSaveToFile(false);
         mine.shouldRefillOnTimer = false;
         List<StaticMine.MineBlock> mineBlocks = new ArrayList<>();
-        for (WeightedElement<MineBlock> block : getBlocks(level).getElements())
+        for (WeightedElement<MineBlock> block : getBlocks(lastUpgradePurchaseLevel).getElements())
             mineBlocks.add(new StaticMine.MineBlock(BukkitAdapter.asBlockType(block.getElement().blockType), block.getWeight()));
         mine.setMineBlocks(mineBlocks.toArray(new StaticMine.MineBlock[0]));
         this.mine = mine;
@@ -450,7 +489,7 @@ public class PrivateMine {
         int[] position = PrivateMineManager.getPosition(gridPosition);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
             try (EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(PRIVATE_MINES_WORLD))) {
-                Operation operation = new ClipboardHolder(getSchematic(level))
+                Operation operation = new ClipboardHolder(getSchematic(lastUpgradePurchaseLevel))
                         .createPaste(editSession)
                         .to(BlockVector3.at(position[0], 100, position[1]))
                         .build();

@@ -180,6 +180,11 @@ public class WeightedElements<T> {
     }
 
 
+    public boolean equals(WeightedElements<T> we) {
+        return we.elements.equals(this.elements);
+    }
+
+
 
 //    public static String example() {
 //        //Creates a new WeightedElements object, adds 4 weighted elements to it, and gets a random element from it.

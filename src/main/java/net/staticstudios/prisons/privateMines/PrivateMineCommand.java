@@ -77,6 +77,7 @@ public class PrivateMineCommand implements CommandExecutor, TabCompleter {
                 player.sendMessage("You Invited " + ChatColor.AQUA + args[1] + ChatColor.WHITE + " to your private mine!");
                 if (Bukkit.getPlayer(uuid) != null) Bukkit.getPlayer(uuid).sendMessage(ChatColor.AQUA + player.getName() + ChatColor.WHITE + " invited you to their private mine!");
             }
+            case "upgrade" -> PrivateMineMenus.upgrade(player, true);
         }
         return false;
     }

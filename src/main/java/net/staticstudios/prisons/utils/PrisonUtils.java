@@ -2,8 +2,8 @@ package net.staticstudios.prisons.utils;
 
 import com.destroystokyo.paper.event.server.ServerTickStartEvent;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.enchants.handler.PrisonEnchants;
-import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.data.PlayerData;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
@@ -357,8 +357,9 @@ public final class PrisonUtils {
             }, 20, 4); //The interact event gets called once every 4 ticks
         }
 
+        //Right-click listener start
         public static final Map<Player, RightClick> playerHoldingClicks = new HashMap<>();
-        private static record RightClick(boolean isRightClicking, long heldFor, long lastUpdatedAt) {}
+        private record RightClick(boolean isRightClicking, long heldFor, long lastUpdatedAt) {}
         @EventHandler
         void onInteract(PlayerInteractEvent e) {
             if (!e.getAction().isRightClick()) return;
@@ -378,6 +379,7 @@ public final class PrisonUtils {
             if (!playerHoldingClicks.containsKey(player)) return false;
             return playerHoldingClicks.get(player).heldFor() > HOLDING_THRESHOLD;
         }
+        //Right-click listener end
 
         public static ItemStack getSkull(OfflinePlayer player) {
             ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD);

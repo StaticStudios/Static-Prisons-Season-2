@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.prisons.enchants.handler.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
