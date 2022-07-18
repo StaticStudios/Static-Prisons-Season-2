@@ -308,5 +308,5 @@ public class PrivateMineMenus extends GUIUtils {
         c.fill(createGrayPlaceHolder());
         c.setOnCloseRun((p, t) -> manageMine(p, fromCommand));
         c.open(player);
-    } //todo use the prefix
+    }
 }

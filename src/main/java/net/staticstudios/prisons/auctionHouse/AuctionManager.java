@@ -44,7 +44,9 @@ public class AuctionManager {
 
     public static boolean createAuction(Player player, ItemStack item, BigInteger price) {
         int playerAuctions = 0;
-        for (Auction auction : auctions) if (auction.owner().equals(player.getUniqueId())) playerAuctions++;
+        for (Auction auction : auctions) {
+            if (auction.owner().equals(player.getUniqueId())) playerAuctions++;
+        }
         for (Material blacklisted : BLACKLISTED_TYPES) {
             if (item.getType().equals(blacklisted)) {
                 player.sendMessage(AH_PREFIX + ChatColor.RED + "You cannot auction this item");
@@ -82,7 +84,10 @@ public class AuctionManager {
         playerData.removeMoney(auction.price());
         new PlayerData(auction.owner()).addMoney(auction.price());
         PrisonUtils.Players.addToInventory(player, auction.item());
-        if (Bukkit.getPlayer(auction.owner()) != null) Bukkit.getPlayer(auction.owner()).sendMessage(AH_PREFIX + "" + player.getName() + " bought " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from you for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
+        if (Bukkit.getPlayer(auction.owner()) != null) {
+            Bukkit.getPlayer(auction.owner()).sendMessage(AH_PREFIX +
+                    player.getName() + " bought " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from you for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
+        }
         player.sendMessage(AH_PREFIX + "You bought " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from " + ServerData.PLAYERS.getName(auction.owner()) + " for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
         return true;
     }

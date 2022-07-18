@@ -84,6 +84,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         plugin = this;
+
         safe(StaticPrisons::unloadNetherAndEnd);
         safe(this::loadWorldBoarderAPI);
         safe(PrisonUtils::init);
@@ -146,7 +147,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("exemptfromleaderboards").setExecutor(new ExemptFromLeaderboardsCommand()); getCommand("exemptfromleaderboards").setTabCompleter(new ExemptFromLeaderboardsCommand());
         getCommand("givevote").setExecutor(new GiveVoteCommand()); getCommand("givevote").setTabCompleter(new GiveVoteCommand());
         getCommand("watchmessages").setExecutor(new MessageSpyCommand()); getCommand("watchmessages").setTabCompleter(new MessageSpyCommand());
-        //getCommand("debug").setExecutor(new DebugCommand());
         getCommand("reload-config").setExecutor(new ReloadConfigCommand()); getCommand("reload-config").setTabCompleter(new ReloadConfigCommand());
         //--Normal Commands
         getCommand("rules").setExecutor(new RulesCommand()); getCommand("rules").setTabCompleter(new RulesCommand());
