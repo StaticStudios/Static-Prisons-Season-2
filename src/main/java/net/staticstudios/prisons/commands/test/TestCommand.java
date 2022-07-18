@@ -3,6 +3,7 @@ package net.staticstudios.prisons.commands.test;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.trading.Trade;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -91,8 +92,19 @@ public class TestCommand implements CommandExecutor {
 //        Bukkit.getScheduler().getActiveWorkers();
 
 //        System.out.println("test");
+//        for (int i = 0; i < 1000; i++) {
+//            PrisonPickaxe p = PrisonPickaxe.fromItem(PrisonUtils.createNewPickaxe());
+//            p.setXp(1);
+//            p.setBlocksBroken(1);
+//            PrisonUtils.Players.addToInventory(player, p.item);
+//        }
         return false;
         //I added a thing!
+
+
+
+
+
     }
 
 

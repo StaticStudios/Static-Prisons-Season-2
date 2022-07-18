@@ -22,7 +22,13 @@ import java.util.logging.Level;
 
 public class PrisonPickaxe {
     private static Map<String, PrisonPickaxe> pickaxeUUIDToPrisonPickaxe = new HashMap<>();
-    private static List<PrisonPickaxe> updateLoreQueue = new ArrayList<>();
+    private static final List<PrisonPickaxe> pickaxesToUpdateLore = new LinkedList<>();
+    private static void addPickaxeToUpdateLore(PrisonPickaxe pickaxe) {
+        if (pickaxe.item == null) return;
+        if (!pickaxesToUpdateLore.contains(pickaxe)) {
+            pickaxesToUpdateLore.add(pickaxe);
+        }
+    }
 
     public static void init() {
         pickaxeUUIDToPrisonPickaxe = new HashMap<>();
@@ -43,6 +49,7 @@ public class PrisonPickaxe {
                 switch (_key) { case "level", "xp", "blocksBroken", "rawBlocksBroken", "topLore", "bottomLore" -> { continue; }}
                 pickaxe.setEnchantsLevel(_key, section.getInt(_key));
             }
+            pickaxesToUpdateLore.remove(pickaxe);
         }
 
     }
@@ -195,11 +202,11 @@ public class PrisonPickaxe {
 
 
     public void setEnchantsLevel(BaseEnchant enchant, int level) {
-        updateLoreQueue.add(this);
+        addPickaxeToUpdateLore(this);
         enchantLevels.put(enchant.ENCHANT_ID, level);
     }
     public void setEnchantsLevel(String enchant, int level) {
-        updateLoreQueue.add(this);
+        addPickaxeToUpdateLore(this);
         enchantLevels.put(enchant, level);
     }
 
@@ -227,19 +234,19 @@ public class PrisonPickaxe {
         return rawBlocksBroken;
     }
     public void setLevel(long level) {
-        if (this.level != level) updateLoreQueue.add(this);
+        if (this.level != level) addPickaxeToUpdateLore(this);
         this.level = level;
     }
     public void setXp(long xp) {
-        if (this.xp != xp) updateLoreQueue.add(this);
+        if (this.xp != xp) addPickaxeToUpdateLore(this);
         this.xp = xp;
     }
     public void setBlocksBroken(long blocksBroken) {
-        if (this.blocksBroken != blocksBroken) updateLoreQueue.add(this);
+        if (this.blocksBroken != blocksBroken) addPickaxeToUpdateLore(this);
         this.blocksBroken = blocksBroken;
     }
     public void setRawBlocksBroken(long rawBlocksBroken) {
-        if (this.rawBlocksBroken != rawBlocksBroken) updateLoreQueue.add(this);
+        if (this.rawBlocksBroken != rawBlocksBroken) addPickaxeToUpdateLore(this);
         this.rawBlocksBroken = rawBlocksBroken;
     }
     //BASE = 2500
@@ -267,14 +274,55 @@ public class PrisonPickaxe {
         setRawBlocksBroken(this.rawBlocksBroken + rawBlocksBroken);
     }
 
-    public static void dumpLoreToAllPickaxes() { //todo: spread all of the pickaxes across 100 ticks to prevent spikes
-        for (PrisonPickaxe pickaxe : updateLoreQueue) {
+
+    /**
+     * Updates all pickaxe lore instantly, clears the queue. This method should be called when the server shuts down.
+     */
+    public static void dumpLoreToAllPickaxesNow() {
+        for (PrisonPickaxe pickaxe : pickaxesToUpdateLore) {
             if (pickaxe.item == null) continue;
             ItemMeta meta = pickaxe.item.getItemMeta();
             meta.setLore(pickaxe.buildLore());
             pickaxe.item.setItemMeta(meta);
         }
-        updateLoreQueue.clear();
+        pickaxesToUpdateLore.clear();
+
+        currentDumpQueueTick = 0;
+    }
+
+    static final int DUMP_INTERVAL = 100; //The amount of ticks that this operation is spread across. It might take DUMP_INTERVAL * 2 ticks before a pickaxe's lore is updated.
+    static ArrayList<PrisonPickaxe>[] pickaxeDumpQueue = new ArrayList[DUMP_INTERVAL]; //The array of lists of pickaxes that need to be updated. Each list in the array represents the pickaxes that should be done in that index's tick.
+    static int currentDumpQueueTick = 0; //Number 1 - 100 representing the current tick.
+
+    public static void dumpLoreToAllPickaxes() { //This method should be called every tick
+        if (currentDumpQueueTick == 0) { //Build the queue for the next 100 ticks
+            pickaxeDumpQueue = new ArrayList[DUMP_INTERVAL];
+            int i = 0; //Represents the index in the pickaxesToUpdateLore list
+            int iteration = 0; //Represents the amount of times the loop has run.
+            while (i < pickaxesToUpdateLore.size()) {
+                int amountToDumpThisTick = (int) Math.ceil(((double) pickaxesToUpdateLore.size() - i) / (DUMP_INTERVAL - iteration));
+                ArrayList<PrisonPickaxe> pickaxes = new ArrayList<>();
+                for (int x = i; x < i + amountToDumpThisTick; x++) {
+                    pickaxes.add(pickaxesToUpdateLore.get(x));
+                    System.out.println(x);
+                }
+                pickaxeDumpQueue[iteration] = pickaxes;
+                i += amountToDumpThisTick;
+                iteration++;
+            }
+        }
+
+        if (pickaxeDumpQueue[currentDumpQueueTick] != null) {
+            for (PrisonPickaxe pickaxe : pickaxeDumpQueue[currentDumpQueueTick]) {
+                if (pickaxe.item == null) continue;
+                ItemMeta meta = pickaxe.item.getItemMeta();
+                meta.setLore(pickaxe.buildLore());
+                System.out.println(pickaxe.buildLore());
+                pickaxe.item.setItemMeta(meta);
+            }
+            pickaxesToUpdateLore.removeAll(pickaxeDumpQueue[currentDumpQueueTick]);
+        }
+        currentDumpQueueTick = (currentDumpQueueTick + 1) % DUMP_INTERVAL;
     }
 
     public static void updateLore(ItemStack item) {
@@ -282,7 +330,7 @@ public class PrisonPickaxe {
         ItemMeta meta = item.getItemMeta();
         meta.setLore(pickaxe.buildLore());
         item.setItemMeta(meta);
-        updateLoreQueue.remove(pickaxe);
+        pickaxesToUpdateLore.remove(pickaxe);
     }
 
     public PrisonPickaxe tryToUpdateLore() {
@@ -333,5 +381,18 @@ public class PrisonPickaxe {
     public PrisonPickaxe delete() {
         pickaxeUUIDToPrisonPickaxe.remove(pickaxeUUID);
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PrisonPickaxe that = (PrisonPickaxe) o;
+        return Objects.equals(pickaxeUUID, that.pickaxeUUID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pickaxeUUID);
     }
 }

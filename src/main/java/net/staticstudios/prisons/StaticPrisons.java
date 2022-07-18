@@ -210,7 +210,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(PrivateMineManager::saveSync);
         safe(AuctionManager::saveAllAuctionsSync);
         safe(PrisonPickaxe::savePickaxeDataNow);
-        safe(PrisonPickaxe::dumpLoreToAllPickaxes);
+        safe(PrisonPickaxe::dumpLoreToAllPickaxesNow);
         safe(Gang::saveAllSync);
     }
     static void unloadNetherAndEnd() {
