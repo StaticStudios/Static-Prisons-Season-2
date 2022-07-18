@@ -307,8 +307,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public static void safe(Runnable r) {
         try {
             r.run();
-        } catch (Exception | Error e) {
-            e.printStackTrace();
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     }
 
