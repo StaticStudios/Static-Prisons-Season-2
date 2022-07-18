@@ -102,7 +102,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(DataSet::init);
         safe(DataBackup::init);
         safe(PrisonPickaxe::init);
-        safe(PrisonPickaxe::dumpLoreToAllPickaxes);
         safe(AuctionManager::init);
         safe(AutoSellEnchant::initTimer);
         safe(ConsistencyEnchant::init);

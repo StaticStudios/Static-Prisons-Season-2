@@ -304,7 +304,6 @@ public class PrisonPickaxe {
                 ArrayList<PrisonPickaxe> pickaxes = new ArrayList<>();
                 for (int x = i; x < i + amountToDumpThisTick; x++) {
                     pickaxes.add(pickaxesToUpdateLore.get(x));
-                    System.out.println(x);
                 }
                 pickaxeDumpQueue[iteration] = pickaxes;
                 i += amountToDumpThisTick;
@@ -315,10 +314,8 @@ public class PrisonPickaxe {
         if (pickaxeDumpQueue[currentDumpQueueTick] != null) {
             for (PrisonPickaxe pickaxe : pickaxeDumpQueue[currentDumpQueueTick]) {
                 if (pickaxe.item == null) continue;
-                ItemMeta meta = pickaxe.item.getItemMeta();
-                meta.setLore(pickaxe.buildLore());
-                System.out.println(pickaxe.buildLore());
-                pickaxe.item.setItemMeta(meta);
+                if (!pickaxesToUpdateLore.contains(pickaxe)) continue; //The lore was updated elsewhere
+                pickaxe.item.editMeta(meta -> meta.setLore(pickaxe.buildLore()));
             }
             pickaxesToUpdateLore.removeAll(pickaxeDumpQueue[currentDumpQueueTick]);
         }
@@ -327,9 +324,7 @@ public class PrisonPickaxe {
 
     public static void updateLore(ItemStack item) {
         PrisonPickaxe pickaxe = fromItem(item);
-        ItemMeta meta = item.getItemMeta();
-        meta.setLore(pickaxe.buildLore());
-        item.setItemMeta(meta);
+        item.editMeta(meta -> meta.setLore(pickaxe.buildLore()));
         pickaxesToUpdateLore.remove(pickaxe);
     }
 
