@@ -3,7 +3,6 @@ package net.staticstudios.prisons.privateMines;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIRunnable;
 import net.staticstudios.gui.GUIUtils;
-import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
@@ -86,17 +85,7 @@ public class PrivateMineMenus extends GUIUtils {
             c.setItem(13, ench(c.createButton(Material.REDSTONE_TORCH, "&c&lSettings", List.of("- Make public/private", "- Raise/lower tax"), (p, t) -> {
                 settings(p, fromCommand);
             })));
-            c.setItem(14, ench(c.createButton(Material.WRITABLE_BOOK, "&e&lInfo", List.of(
-                    "&cOwner: &f" + ServerData.PLAYERS.getName(unloadedPrivateMine.owner),
-                    "&cLevel: &f" + PrisonUtils.addCommasToNumber(unloadedPrivateMine.getLevel()),
-                    "&cExperience: &f" + PrisonUtils.prettyNum(unloadedPrivateMine.getXp()) + " / " + PrisonUtils.prettyNum(unloadedPrivateMine.getNextLevelRequirement()),
-                    "&cSize: &f" + (unloadedPrivateMine.getSize() + 1) + "x" + (unloadedPrivateMine.getSize() + 1),
-                    "&cTax: &f" + new DecimalFormat("0").format(unloadedPrivateMine.visitorTax * 100) + "%",
-                    "&cSell Percentage: &f" +  new DecimalFormat("0.0").format(unloadedPrivateMine.sellPercentage * 100) + "%",
-                    "",
-                    "&c&lSpecial Attributes: &fnone",
-                    ""
-            ), (p, t) -> {
+            c.setItem(14, ench(c.createButton(Material.WRITABLE_BOOK, ChatColor.YELLOW + "" + ChatColor.BOLD + unloadedPrivateMine.name, unloadedPrivateMine.buildInfoAsList(), (p, t) -> {
                 PrivateMine.getPrivateMineFromPlayerWithoutLoading(p).sendInfo(p);
                 p.closeInventory();
             })));
@@ -147,18 +136,7 @@ public class PrivateMineMenus extends GUIUtils {
         for (int i = 0; i < MINES_PER_PAGE; i++) {
             if (mines.size() - 1 < startIndex + i) break;
             PrivateMine privateMine = mines.get(startIndex + i);
-            c.setItem(i, c.createButtonOfPlayerSkull(Bukkit.getOfflinePlayer(privateMine.owner), ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, List.of(
-                    "&cOwner: &f" + ServerData.PLAYERS.getName(privateMine.owner),
-                    "&cLevel: &f" + PrisonUtils.addCommasToNumber(privateMine.getLevel()),
-                    "&cExperience: &f" + PrisonUtils.prettyNum(privateMine.getXp()) + " / " + PrisonUtils.prettyNum(privateMine.getNextLevelRequirement()),
-                    "&cSize: &f" + (privateMine.getSize() + 1) + "x" + (privateMine.getSize() + 1),
-                    "&cTax: &f" + new DecimalFormat("0").format(privateMine.visitorTax * 100) + "%",
-                    "&cSell Percentage: &f" +  new DecimalFormat("0.0").format(privateMine.sellPercentage * 100) + "%",
-                    "",
-                    "&c&lSpecial Attributes: &fnone",
-                    "",
-                    "Click to warp to this mine"
-            ), (p, t) -> {
+            c.setItem(i, c.createButtonOfPlayerSkull(Bukkit.getOfflinePlayer(privateMine.owner), ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, privateMine.buildInfoAsList(), (p, t) -> {
                 viewMine(p, privateMine, page, fromCommand);
             }));
         }
@@ -241,19 +219,10 @@ public class PrivateMineMenus extends GUIUtils {
             if (publicMines.size() - 1 < startIndex + i) break;
             PrivateMine privateMine = publicMines.get(startIndex + i);
 
-
-            c.setItem(i, c.createButtonOfPlayerSkull(Bukkit.getOfflinePlayer(privateMine.owner), ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, List.of(
-                    "&cOwner: &f" + ServerData.PLAYERS.getName(privateMine.owner),
-                    "&cLevel: &f" + PrisonUtils.addCommasToNumber(privateMine.getLevel()),
-                    "&cExperience: &f" + PrisonUtils.prettyNum(privateMine.getXp()) + " / " + PrisonUtils.prettyNum(privateMine.getNextLevelRequirement()),
-                    "&cSize: &f" + (privateMine.getSize() + 1) + "x" + (privateMine.getSize() + 1),
-                    "&cTax: &f" + new DecimalFormat("0").format(privateMine.visitorTax * 100) + "%",
-                    "&cSell Percentage: &f" +  new DecimalFormat("0.0").format(privateMine.sellPercentage * 100) + "%",
-                    "",
-                    "&c&lSpecial Attributes: &fnone",
-                    "",
-                    "Click to warp to this mine"
-            ), (p, t) -> {
+            List<String> lore = new ArrayList<>(privateMine.buildInfoAsList());
+            lore.add("");
+            lore.add("Click to warp to this mine");
+            c.setItem(i, c.createButtonOfPlayerSkull(Bukkit.getOfflinePlayer(privateMine.owner), ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, lore, (p, t) -> {
                 viewMine(p, privateMine, page, fromCommand);
             }));
         }
@@ -293,16 +262,7 @@ public class PrivateMineMenus extends GUIUtils {
                 PrivateMine.getPrivateMine(privateMine.privateMineId).thenAccept(pm -> pm.warpTo(p));
             } else privateMine.warpTo(p);
         })));
-        c.setItem(13, c.createButtonOfPlayerSkull(Bukkit.getOfflinePlayer(privateMine.owner), ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, List.of(
-                "&cOwner: &f" + ServerData.PLAYERS.getName(privateMine.owner),
-                "&cLevel: &f" + PrisonUtils.addCommasToNumber(privateMine.getLevel()),
-                "&cExperience: &f" + PrisonUtils.prettyNum(privateMine.getXp()) + " / " + PrisonUtils.prettyNum(privateMine.getNextLevelRequirement()),
-                "&cSize: &f" + (privateMine.getSize() + 1) + "x" + (privateMine.getSize() + 1),
-                "&cTax: &f" + new DecimalFormat("0").format(privateMine.visitorTax * 100) + "%",
-                "&cSell Percentage: &f" +  new DecimalFormat("0.0").format(privateMine.sellPercentage * 100) + "%",
-                "",
-                "&c&lSpecial Attributes: &fnone"
-        ), (p, t) -> privateMine.sendInfo(p)));
+        c.setItem(13, c.createButtonOfPlayerSkull(Bukkit.getOfflinePlayer(privateMine.owner), ChatColor.YELLOW + "" + ChatColor.BOLD + privateMine.name, privateMine.buildInfoAsList(), (p, t) -> privateMine.sendInfo(p)));
 
         c.setItem(15, c.createButton(Material.ENCHANTED_BOOK, "&a&lWhat Are Public Private-Mines?", List.of(
                 "Private mines can be created by",
@@ -330,23 +290,17 @@ public class PrivateMineMenus extends GUIUtils {
         if (!PrivateMine.finishedInitTasks) return;
         PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
         GUICreator c = new GUICreator(27, "Upgrade");
-        if (privateMine.availableUpgrades.isEmpty()) {
-            c.setItem(13, c.createButton(Material.NETHER_STAR, "&c&lNo Upgrades Available", List.of("This mine cannot be upgraded")));
+        if (privateMine.getAvailableUpgrades().isEmpty()) {
+            c.setItem(13, c.createButton(Material.NETHER_STAR, "&c&lNo Upgrades Available", List.of("This mine cannot be upgraded"), (p, t) -> {
+                PrivateMine.sendMessage(p, "&cYour private mine does not have any upgrades available.");
+            }));
         } else {
-            PrivateMineUpgrade upgrade = privateMine.availableUpgrades.get(0);
-            c.setItem(13, c.createButton(Material.NETHER_STAR, "&d&l" + privateMine.availableUpgrades.size() + " Upgrade(s) Available", List.of(
+            PrivateMineStats upgrade = PrivateMineConfigManager.STATS_PER_LEVEL[privateMine.getAvailableUpgrades().get(0)];
+            c.setItem(13, c.createButton(Material.NETHER_STAR, "&d&l" + privateMine.getAvailableUpgrades().size() + " Upgrade(s) Available", List.of(
                     "&7&oClick to upgrade your private mine!",
                     "",
-                    "&aCosts: &f$" + PrisonUtils.addCommasToNumber(upgrade.cost)
+                    "&aCosts: &f$" + PrisonUtils.addCommasToNumber(upgrade.getUpgradeCost())
             ), (p, t) -> {
-                //check if the player has enough money
-                PlayerData playerData = new PlayerData(p);
-                if (upgrade.cost.compareTo(playerData.getMoney()) > 0) {
-                    p.sendMessage(ChatColor.RED + "You do not have enough money to upgrade your private mine");
-                    return;
-                }
-                playerData.removeMoney(upgrade.cost);
-                p.sendMessage(ChatColor.LIGHT_PURPLE + "You have successfully upgraded your private mine!");
                 privateMine.upgrade();
                 upgrade(p, fromCommand);
             }));
@@ -354,6 +308,5 @@ public class PrivateMineMenus extends GUIUtils {
         c.fill(createGrayPlaceHolder());
         c.setOnCloseRun((p, t) -> manageMine(p, fromCommand));
         c.open(player);
-
-    }
+    } //todo use the prefix
 }

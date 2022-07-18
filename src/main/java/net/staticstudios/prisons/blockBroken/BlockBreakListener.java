@@ -24,6 +24,7 @@ public class BlockBreakListener implements Listener {
         e.getBlockBreakEvent().setDropItems(false);
         e.getBlockBreakEvent().setExpToDrop(0);
         Player player = e.getPlayer();
+        if (!PrisonUtils.checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) return;
         PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
         if (pickaxe == null) return;
 

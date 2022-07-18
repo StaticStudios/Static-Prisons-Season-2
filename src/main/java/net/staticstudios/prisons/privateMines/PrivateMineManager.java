@@ -3,10 +3,10 @@ package net.staticstudios.prisons.privateMines;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import org.bukkit.Bukkit;
+import org.bukkit.WorldCreator;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class PrivateMineManager {
             section.set("name", entry.getValue().name);
             section.set("xp", entry.getValue().getXp());
             section.set("level", entry.getValue().getLevel());
-            section.set("size", entry.getValue().getSize());
+            section.set("size", entry.getValue().getMineSize());
             section.set("visitorTax", entry.getValue().visitorTax);
             section.set("isPublic", entry.getValue().isPublic);
             section.set("sellPercentage", entry.getValue().sellPercentage);
@@ -52,7 +52,7 @@ public class PrivateMineManager {
                 section.set("name", entry.getValue().name);
                 section.set("xp", entry.getValue().getXp());
                 section.set("level", entry.getValue().getLevel());
-                section.set("size", entry.getValue().getSize());
+                section.set("size", entry.getValue().getMineSize());
                 section.set("visitorTax", entry.getValue().visitorTax);
                 section.set("isPublic", entry.getValue().isPublic);
                 section.set("sellPercentage", entry.getValue().sellPercentage);
@@ -67,28 +67,31 @@ public class PrivateMineManager {
             }
         });
     }
-    public static void init() {
-        //todo: delete what is below
-        FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
-        for (String key : fileData.getKeys(false)) {
-            ConfigurationSection section = fileData.getConfigurationSection(key);
-            PrivateMine mine = new PrivateMine(
-                    UUID.fromString(key),
-                    section.getInt("gridPosition"),
-                    UUID.fromString(section.getString("owner")),
-                    section.getString("name"),
-                    section.getLong("xp"),
-                    section.getInt("size"),
-                    section.getDouble("visitorTax"),
-                    section.getBoolean("isPublic"),
-                    section.getDouble("sellPercentage")
-            );
-            List<String> members = section.getStringList("whitelist");
-            for (String member : members) {
-                UUID uuid = UUID.fromString(member);
-                mine.addToWhitelist(uuid);
+    public static void init() { //todo: clean up into the one file
+        PrivateMine.PRIVATE_MINES_WORLD = new WorldCreator("private_mines").createWorld();
+        PrivateMineConfigManager.init().thenRun(() -> {
+            FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
+            for (String key : fileData.getKeys(false)) {
+                ConfigurationSection section = fileData.getConfigurationSection(key);
+                PrivateMine mine = new PrivateMine(
+                        UUID.fromString(key),
+                        section.getInt("gridPosition"),
+                        UUID.fromString(section.getString("owner")),
+                        section.getString("name"),
+                        section.getLong("xp"),
+                        section.getDouble("visitorTax"),
+                        section.getBoolean("isPublic"),
+                        section.getDouble("sellPercentage")
+                );
+                List<String> members = section.getStringList("whitelist");
+                for (String member : members) {
+                    UUID uuid = UUID.fromString(member);
+                    mine.addToWhitelist(uuid);
+                }
             }
-        }
+            StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PrivateMineBlockBreakListener(), StaticPrisons.getInstance());
+            PrivateMine.finishedInitTasks = true;
+        });
     }
 
     /**

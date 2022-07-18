@@ -136,22 +136,39 @@ public class StaticMine {
         WorldGuard.getInstance().getPlatform().getRegionContainer().get(weWorld).addRegion(wgRegion);
         ALL_MINES.put(this.id, this);
         SORTED_MINE_IDS.add(this.id);
-        Bukkit.getPluginManager().callEvent(new MineCreatedEvent(this));
+        if (!Bukkit.isPrimaryThread()) {
+            Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> {
+                Bukkit.getPluginManager().callEvent(new MineCreatedEvent(this));
+            });
+        } else Bukkit.getPluginManager().callEvent(new MineCreatedEvent(this));
     }
 
+    /**
+     * Refill the mine with blocks
+     * The completable future will be completed on the main thread, call refill(false) if it is safe to complete on a different thread (will always be completed on the main thread if the mine should refill sync). This is useful if you do not want to wait until the next tick to run an operation.
+     */
     public CompletableFuture<StaticMine> refill() {
+        return refill(true);
+    }
+    /**
+     * Refill the mine with blocks
+     * @param completeFutureOnMainThread - if true, the completeable future will be completed on the main thread, otherwise, it might be completed on a different thread (depends on if the mine refills sync or not). This is useful if you do not want to wait until the next tick to run an operation.
+     */
+    public CompletableFuture<StaticMine> refill(boolean completeFutureOnMainThread) {
         CompletableFuture<StaticMine> future = new CompletableFuture<>();
         blocksInMine = (long) (maxPoint.getBlockX() - minPoint.getBlockX()) * (maxPoint.getBlockY() - minPoint.getBlockY()) * (maxPoint.getBlockZ() - minPoint.getBlockZ());
         refillNextAt = Instant.now().getEpochSecond() + secondsBetweenRefills;
         if (!shouldRefillSync) {
-            Bukkit.getScheduler().runTaskAsynchronously(StaticMines.getParent(), () -> {
-                refillMine(true).thenRun(() -> future.complete(this));
-            });
-        } else refillMine(false).thenRun(() -> future.complete(this));
+            Bukkit.getScheduler().runTaskAsynchronously(StaticMines.getParent(), () -> refillMine(true, completeFutureOnMainThread).thenRun(() -> future.complete(this)));
+        } else refillMine(false, completeFutureOnMainThread).thenRun(() -> future.complete(this));
         return future;
     }
 
-    CompletableFuture<StaticMine> refillMine(boolean async) {
+    /**
+     * This method is responsible for filling the mine with blocks
+     * @param completeFutureOnMainThread - if true, the completeable future will be completed on the main thread, otherwise, it might be completed on a different thread (depends on if the mine refills sync or not). This is useful if you do not want to wait until the next tick to run an operation.
+     */
+    CompletableFuture<StaticMine> refillMine(boolean async, boolean completeFutureOnMainThread) {
         CompletableFuture<StaticMine> future = new CompletableFuture<>();
         EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld);
         editSession.setBlocks(region, getBlockPattern());
@@ -162,10 +179,15 @@ public class StaticMine {
         if (async) {
             Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint())));
         } else Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint()));
-        Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> {
-            runOnRefill.accept(this);
+        if (completeFutureOnMainThread && !Bukkit.isPrimaryThread()) {
+            Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> {
+                runOnRefill.accept(this);
+                future.complete(this);
+            });
+        } else {
             future.complete(this);
-        });
+            Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> runOnRefill.accept(this));
+        }
         return future;
     }
 

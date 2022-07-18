@@ -88,7 +88,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(this::loadWorldBoarderAPI);
         safe(PrisonUtils::init);
         safe(MineManager::init);
-        safe(PrivateMine::init);
+        safe(PrivateMineManager::init);
         safe(BaseEnchant::init);
         safe(PrisonEnchants::init);
         safe(CustomItems::init);
@@ -307,7 +307,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public static void safe(Runnable r) {
         try {
             r.run();
-        } catch (Exception e) {
+        } catch (Exception | Error e) {
             e.printStackTrace();
         }
     }

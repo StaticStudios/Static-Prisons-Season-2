@@ -24,7 +24,7 @@ public class Test2Command implements CommandExecutor {
 //            privateMine.warpTo(player);
 //        });
         PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
-        privateMine.setXp(Integer.parseInt(strings[0]));
+        privateMine.setXpAndCalcLevel(Integer.parseInt(strings[0]));
 //        ChatEvents.runEvent(ChatEvents.EventType.MATH);
 //        RankUpMenus.open(player, true);
 //        GamblingMenus.openMain(player);
