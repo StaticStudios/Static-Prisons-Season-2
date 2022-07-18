@@ -181,6 +181,10 @@ public class GangMenus extends GUIUtils {
         for (UUID member : gang.getMembers()) {
             if (member.equals(owner)) continue;
             c.setItem(i, c.createButtonOfPlayerSkull(Bukkit.getOfflinePlayer(member), "&8[&9Member&8] &b" + ServerData.PLAYERS.getName(member), lore, (p, t) -> {
+                if (!gang.getOwner().equals(p.getUniqueId())) {
+                    p.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&cOnly the gang owner can do this action!"));
+                    return;
+                }
                 openGangManageMember(member, p, fromCommand);
             }));
             i++;
