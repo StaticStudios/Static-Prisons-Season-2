@@ -35,10 +35,6 @@ public class PrivateMine {
     public static boolean finishedInitTasks = false;
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&d&lPrivate Mines &8&l>> &r");
 
-
-//    public static int UNLOCK_AT_PLAYER_LEVEL; //todo load this config info
-//    public static int START_SIZE;
-    public static double DEFAULT_SELL_PERCENTAGE;
     public static World PRIVATE_MINES_WORLD;
     public static final int REFILL_DELAY = 1000 * 30; //The delay in MS between the time that a player is allowed to refill their mine and the time that the mine is refilled
 
@@ -97,9 +93,9 @@ public class PrivateMine {
 
     public long getXp() { return xp; }
     public void setXp(long xp) { this.xp = xp; }
-    public void setXpAndCalcLevel(long xp) {
+    public boolean setXpAndCalcLevel(long xp) {
         setXp(xp);
-        recalculateLevel();
+        return recalculateLevel();
     }
     public int getLevel() { return level; }
     public long getNextLevelRequirement() {
@@ -183,6 +179,7 @@ public class PrivateMine {
     public WeightedElements<MineBlock> getMineBlocks() {
         return mineBlocks;
     }
+    public int getLastUpgradePurchaseLevel() { return lastUpgradePurchaseLevel; }
 
     /**
      * Update the physical properties of the private mine. This will include the schematic and the mine.
@@ -376,30 +373,27 @@ public class PrivateMine {
                 0,
                 PrivateMineConfigManager.DEFAULT_TAX,
                 false,
-                PrivateMineConfigManager.DEFAULT_SELL_PERCENTAGE
+                PrivateMineConfigManager.DEFAULT_SELL_PERCENTAGE,
+                0
         );
-//        privateMine.privateMineId = ;
-//        privateMine.gridPosition = ;
-//        privateMine.owner = ;
-//        privateMine.name = ;
-//        privateMine.level = 0;
-//        //privateMine.size = START_SIZE;
-//        privateMine.visitorTax = 0.05;
-//        privateMine.isPublic = true;
-//        privateMine.sellPercentage = DEFAULT_SELL_PERCENTAGE;
-//        privateMine.updateBuild().thenAccept(PrivateMine::registerMine).thenRun(() -> future.complete(privateMine));
         return loadPrivateMine(privateMine.privateMineId);
     }
-    public PrivateMine(@NotNull UUID privateMineId, int gridPosition, UUID owner, String name, long xp, double visitorTax, boolean isPublic, double sellPercentage) {
+    public PrivateMine(@NotNull UUID privateMineId, int gridPosition, UUID owner, String name, long xp, double visitorTax, boolean isPublic, double sellPercentage, int lastUpgradePurchaseLevel) {
         this.privateMineId = privateMineId;
         this.gridPosition = gridPosition;
         this.owner = owner;
         this.name = name;
-        setXpAndCalcLevel(xp);
+        this.lastUpgradePurchaseLevel = lastUpgradePurchaseLevel;
         this.visitorTax = visitorTax;
         this.isPublic = isPublic;
         this.sellPercentage = sellPercentage;
-        updateAvailableUpgrades();
+        if (!setXpAndCalcLevel(xp)) { //Uses some other properties so call this last
+            updateAvailableUpgrades();
+        }
+        schematic = PrivateMineConfigManager.STATS_PER_LEVEL[lastUpgradePurchaseLevel].getSchematic();
+        mineBlocks = PrivateMineConfigManager.STATS_PER_LEVEL[lastUpgradePurchaseLevel].getBlocks();
+        mineSize = PrivateMineConfigManager.STATS_PER_LEVEL[lastUpgradePurchaseLevel].getSize();
+
         PRIVATE_MINES.put(privateMineId, this);
         PLAYER_PRIVATE_MINES.put(owner, this);
         updateTreeMap();

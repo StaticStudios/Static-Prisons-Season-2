@@ -31,6 +31,7 @@ public class PrivateMineManager {
             section.set("visitorTax", entry.getValue().visitorTax);
             section.set("isPublic", entry.getValue().isPublic);
             section.set("sellPercentage", entry.getValue().sellPercentage);
+            section.set("lastUpgradePurchaseLevel", entry.getValue().getLastUpgradePurchaseLevel());
             List<String> members = new ArrayList<>();
             for (UUID member : entry.getValue().getWhitelist()) members.add(member.toString());
             section.set("whitelist", members);
@@ -56,6 +57,7 @@ public class PrivateMineManager {
                 section.set("visitorTax", entry.getValue().visitorTax);
                 section.set("isPublic", entry.getValue().isPublic);
                 section.set("sellPercentage", entry.getValue().sellPercentage);
+                section.set("lastUpgradePurchaseLevel", entry.getValue().getLastUpgradePurchaseLevel());
                 List<String> members = new ArrayList<>();
                 for (UUID member : entry.getValue().getWhitelist()) members.add(member.toString());
                 section.set("whitelist", members);
@@ -67,7 +69,7 @@ public class PrivateMineManager {
             }
         });
     }
-    public static void init() { //todo: clean up into the one file
+    public static void init() {
         PrivateMine.PRIVATE_MINES_WORLD = new WorldCreator("private_mines").createWorld();
         PrivateMineConfigManager.init().thenRun(() -> {
             FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
@@ -81,7 +83,8 @@ public class PrivateMineManager {
                         section.getLong("xp"),
                         section.getDouble("visitorTax"),
                         section.getBoolean("isPublic"),
-                        section.getDouble("sellPercentage")
+                        section.getDouble("sellPercentage"),
+                        section.getInt("lastUpgradePurchaseLevel")
                 );
                 List<String> members = section.getStringList("whitelist");
                 for (String member : members) {

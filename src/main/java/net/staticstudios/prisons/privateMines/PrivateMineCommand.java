@@ -29,30 +29,33 @@ public class PrivateMineCommand implements CommandExecutor, TabCompleter {
             PrivateMineMenus.open(player, true);
             return false;
         }
+        PrivateMine unloadedPrivateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
         switch (args[0].toLowerCase()) {
             default -> PrivateMineMenus.open(player, true);
             case "refill" -> {
                 if (!PrivateMine.playerHasPrivateMine(player)) {
-                    player.sendMessage("You don't have a private mine!");
+                    PrivateMine.sendMessage(player, "&cYou don't have a private mine!");
                     return false;
                 }
-                if (!PrivateMine.getPrivateMineFromPlayerWithoutLoading(player).isLoaded) {
-                    player.sendMessage(ChatColor.AQUA + "Loading your private mine...");
+                if (!unloadedPrivateMine.isLoaded) {
+                    unloadedPrivateMine.messageOwner("&bLoading your private mine...");
                     PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.warpTo(player));
                 } else PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.manualRefill(player));
             }
-            case "info", "about" -> PrivateMine.getPrivateMineFromPlayerWithoutLoading(player).sendInfo(player);
+            case "info", "about" -> unloadedPrivateMine.sendInfo(player);
             case "go", "warp" -> {
                 if (!PrivateMine.playerHasPrivateMine(player)) {
-                    player.sendMessage("You don't have a private mine!");
+                    PrivateMine.sendMessage(player, "&cYou don't have a private mine!");
                     return false;
                 }
-                if (!PrivateMine.getPrivateMineFromPlayerWithoutLoading(player).isLoaded) player.sendMessage(ChatColor.AQUA + "Loading your private mine...");
+                if (!unloadedPrivateMine.isLoaded) {
+                    unloadedPrivateMine.messageOwner("&bLoading your private mine...");
+                }
                 PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.warpTo(player));
             }
             case "invite", "inv" -> {
                 if (!PrivateMine.playerHasPrivateMine(player)) {
-                    player.sendMessage("You don't have a private mine!");
+                    PrivateMine.sendMessage(player, "&cYou don't have a private mine!");
                     return false;
                 }
                 if (args.length == 1) {
@@ -61,21 +64,20 @@ public class PrivateMineCommand implements CommandExecutor, TabCompleter {
                 }
                 UUID uuid = ServerData.PLAYERS.getUUIDIgnoreCase(args[1]);
                 if (uuid == null) {
-                    player.sendMessage(ChatColor.RED + "Player not found!");
+                    PrivateMine.sendMessage(player, "&cPlayer not found!");
                     return false;
                 }
                 if (uuid.equals(player.getUniqueId())) {
-                    player.sendMessage(ChatColor.RED + "You can't invite yourself!");
+                    PrivateMine.sendMessage(player, "&cYou can't invite yourself!");
                     return false;
                 }
-                PrivateMine pmine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
-                if (pmine.getWhitelist().contains(uuid)) {
-                    player.sendMessage(ChatColor.RED + "That player is already invited to your private mine!");
+                if (unloadedPrivateMine.getWhitelist().contains(uuid)) {
+                    PrivateMine.sendMessage(player, "&cThat player is already invited to your private mine!");
                     return false;
                 }
-                pmine.addToWhitelist(uuid);
+                unloadedPrivateMine.addToWhitelist(uuid);
                 player.sendMessage("You Invited " + ChatColor.AQUA + args[1] + ChatColor.WHITE + " to your private mine!");
-                if (Bukkit.getPlayer(uuid) != null) Bukkit.getPlayer(uuid).sendMessage(ChatColor.AQUA + player.getName() + ChatColor.WHITE + " invited you to their private mine!");
+                if (Bukkit.getPlayer(uuid) != null) PrivateMine.sendMessage(Bukkit.getPlayer(uuid), ChatColor.AQUA + player.getName() + ChatColor.WHITE + " invited you to their private mine!");
             }
             case "upgrade" -> PrivateMineMenus.upgrade(player, true);
         }

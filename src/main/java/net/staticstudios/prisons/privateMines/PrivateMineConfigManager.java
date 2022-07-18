@@ -25,9 +25,8 @@ public class PrivateMineConfigManager {
     static Map<String, Clipboard> schematics = new HashMap<>();
     static PrivateMineStats[] STATS_PER_LEVEL;
     static PrivateMineStats DEFAULT = new PrivateMineStats();
-    public static int UNLOCK_AT_PLAYER_LEVEL; //todo load this config info and make sure that this works
-    public static double DEFAULT_SELL_PERCENTAGE; //todo
-    public static double DEFAULT_TAX; //todo config ^
+    public static double DEFAULT_SELL_PERCENTAGE;
+    public static double DEFAULT_TAX;
 
     public static PrivateMineStats getStats(int level) {
         if (STATS_PER_LEVEL.length <= level) return STATS_PER_LEVEL[STATS_PER_LEVEL.length - 1];
@@ -48,6 +47,8 @@ public class PrivateMineConfigManager {
     }
     private static void loadConfigOptions() {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines_config.yml"));
+        DEFAULT_SELL_PERCENTAGE = config.getDouble("default_sell_percentage");
+        DEFAULT_TAX = config.getDouble("default_tax");
         ConfigurationSection stats = config.getConfigurationSection("stats");
         //Find the highest level
         int highestLevel = 0;
