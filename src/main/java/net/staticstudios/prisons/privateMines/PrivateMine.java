@@ -411,7 +411,7 @@ public class PrivateMine {
             //Delete old builds since the private mine is being loaded for the first time
             int[] position = PrivateMineManager.getPosition(privateMine.gridPosition);
             EditSession es = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(PRIVATE_MINES_WORLD));
-            Region region = new CuboidRegion(BukkitAdapter.adapt(PRIVATE_MINES_WORLD), BlockVector3.at(position[0] + 250, 0, position[1] + 250), BlockVector3.at(position[0] - 250, 255, position[1] - 250));
+            Region region = new CuboidRegion(BukkitAdapter.adapt(PRIVATE_MINES_WORLD), BlockVector3.at(position[0] + 275, 0, position[1] + 250), BlockVector3.at(position[0] - 250, 255, position[1] - 250));
             es.setBlocks(region, BlockTypes.AIR);
             es.close();
             privateMine.updateBuild(false).thenRun(() -> privateMine.registerMine(true).thenRun(() -> {
