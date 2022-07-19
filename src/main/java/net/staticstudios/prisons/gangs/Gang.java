@@ -2,6 +2,7 @@ package net.staticstudios.prisons.gangs;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -142,6 +143,9 @@ public class Gang {
     public static Gang getGang(UUID gang) {
         return GANGS.get(gang);
     }
+    public static Gang getGangFromPlayerUUID(UUID playerUUID) {
+        return PLAYER_GANGS.get(playerUUID);
+    }
     public static Gang getGang(Player player) {
         return PLAYER_GANGS.get(player.getUniqueId());
     }
@@ -230,7 +234,7 @@ public class Gang {
             }
         });
     }
-    public static void loadAll() {
+    public static void init() {
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
         for (String key : fileData.getKeys(false)) {
             ConfigurationSection section = fileData.getConfigurationSection(key);
@@ -263,6 +267,19 @@ public class Gang {
             }
             loadGang(uuid, owner, name, members, isPublic, acceptingInvites, friendlyFire, canMembersWithdrawFomBank, rawBlocksMined, blocksMined, secondsPlayed, moneyMade, tokensFound, bankMoney, bankTokens, gangChest);
         }
+
+        BlockBreak.addListener(blockBreak -> {
+            blockBreak.addAfterProcess(bb -> {
+                Gang gang = Gang.getGang(bb.getPlayerData().getUUID());
+                if (gang != null) {
+                    gang.addRawBlocksMined(1);
+                    gang.addBlocksMined((long) (bb.getStats().getBlocksBroken() * bb.getStats().getBlocksBrokenMultiplier()));
+                    if (bb.getStats().getTokensEarned() > 0) {
+                        gang.addTokensFound(BigInteger.valueOf(bb.getStats().getTokensEarned()));
+                    }
+                }
+            });
+        });
     }
 
     public boolean addMember(UUID member) {

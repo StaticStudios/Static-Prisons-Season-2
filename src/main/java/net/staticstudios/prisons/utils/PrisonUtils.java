@@ -359,6 +359,21 @@ public final class PrisonUtils {
 
         //Right-click listener start
         public static final Map<Player, RightClick> playerHoldingClicks = new HashMap<>();
+
+        public static void backpackFullCheck(boolean wasFullBefore, Player player, PlayerData playerData) {
+            if (playerData.getBackpackIsFull()) {
+                if (canAutoSell(playerData) && playerData.getIsAutoSellEnabled()) {
+                    playerData.sellBackpack(player, true, ChatColor.translateAlternateColorCodes('&', "&a&lAuto Sell &8&l>> &f(x%MULTI%) Sold &b%TOTAL_BACKPACK_COUNT% &fblocks for: &a$%TOTAL_SELL_PRICE%"));
+                } else if (!wasFullBefore) {
+                    if (playerData.getIsAutoSellEnabled() && !canAutoSell(playerData)) playerData.setIsAutoSellEnabled(false);
+                    if (player != null) {
+                        player.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Your Backpack", ChatColor.RED + "" + ChatColor.BOLD + "Is Full! (" + prettyNum(playerData.getBackpackSize()) + "/" + prettyNum(playerData.getBackpackSize()) + ")", 5, 40, 5);
+                        player.sendMessage(ChatColor.RED + "Your backpack is full!");
+                    }
+                }
+            }
+        }
+
         private record RightClick(boolean isRightClicking, long heldFor, long lastUpdatedAt) {}
         @EventHandler
         void onInteract(PlayerInteractEvent e) {

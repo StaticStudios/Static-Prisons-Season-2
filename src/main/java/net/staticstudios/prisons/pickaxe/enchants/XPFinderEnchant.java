@@ -1,8 +1,6 @@
 package net.staticstudios.prisons.pickaxe.enchants;
 
-import net.md_5.bungee.api.ChatColor;
-import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
-import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.utils.PrisonUtils;
 
@@ -14,13 +12,11 @@ public class XPFinderEnchant extends BaseEnchant {
         setPickaxeLevelRequirement(30);
     }
 
-    public void onBlockBreak(PrisonBlockBroken bb) {
-        if (PrisonUtils.randomInt(1, 250) != 1) return;
-        int enchLevel = bb.pickaxe.getEnchantLevel(this);
-        int xpFound = Math.max(1, PrisonUtils.randomInt(enchLevel / 10, 100));
-        new PlayerData(bb.player).addPlayerXP(xpFound);
-//        bb.player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "+ " + PrisonUtils.addCommasToNumber(xpFound) + " Experience" + ChatColor.GRAY + ChatColor.ITALIC + " (XP Finder)");
-        bb.player.sendMessage(ChatColor.translateAlternateColorCodes('&', DISPLAY_NAME + " &8&l>> &fFound " + PrisonUtils.addCommasToNumber(xpFound) + " experience!"));
+    public void onBlockBreak(BlockBreak blockBreak) {
+        if (PrisonUtils.randomInt(1, 250) != 1) return; //Chance to activate enchant
+        int xpFound = Math.max(1, PrisonUtils.randomInt(blockBreak.getPickaxe().getEnchantLevel(this) / 10, 100));
+        blockBreak.getPlayerData().addPlayerXP(xpFound);
+        blockBreak.messagePlayer(DISPLAY_NAME + " &8&l>> &fFound " + PrisonUtils.addCommasToNumber(xpFound) + " experience!");
 
     }
 }

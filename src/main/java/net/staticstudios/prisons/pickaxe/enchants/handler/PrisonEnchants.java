@@ -1,5 +1,7 @@
 package net.staticstudios.prisons.pickaxe.enchants.handler;
 
+import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.enchants.*;
 
 import java.util.ArrayList;
@@ -70,6 +72,25 @@ public class PrisonEnchants {
         ORDERED_ENCHANTS.add(HASTE);
         ORDERED_ENCHANTS.add(SPEED);
         ORDERED_ENCHANTS.add(NIGHT_VISION);
+
+
+
+        BlockBreak.addListener(blockBreak -> {
+            PrisonPickaxe pickaxe = blockBreak.getPickaxe();
+            if (pickaxe == null) return;
+            boolean hasTokenator = false;
+            for (BaseEnchant enchant : pickaxe.getEnchants()) {
+                if (pickaxe.getIsEnchantEnabled(enchant)) {
+                    enchant.onBlockBreak(blockBreak);
+                }
+                if (enchant.equals(TOKENATOR)) {
+                    hasTokenator = true;
+                }
+            }
+            if (!hasTokenator) {
+                pickaxe.setEnchantsLevel(TOKENATOR, 1);
+            }
+        });
 
     }
 }

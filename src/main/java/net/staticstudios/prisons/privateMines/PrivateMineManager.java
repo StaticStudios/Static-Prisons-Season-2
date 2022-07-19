@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.privateMines;
 
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
@@ -92,7 +93,15 @@ public class PrivateMineManager {
                     mine.addToWhitelist(uuid);
                 }
             }
-            StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PrivateMineBlockBreakListener(), StaticPrisons.getInstance());
+//            StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PrivateMineBlockBreakListener(), StaticPrisons.getInstance());
+
+            BlockBreak.addListener(blockBreak -> {
+                if (!blockBreak.getMine().getID().startsWith("private_mine")) return;
+                PrivateMine privateMine = PrivateMine.MINE_ID_TO_PRIVATE_MINE.get(blockBreak.getMine().getID());
+                privateMine.blockBroken(blockBreak);
+
+            });
+
             PrivateMine.finishedInitTasks = true;
         });
     }

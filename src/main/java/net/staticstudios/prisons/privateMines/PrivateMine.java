@@ -1,6 +1,5 @@
 package net.staticstudios.prisons.privateMines;
 
-import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -15,6 +14,7 @@ import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.mines.MineBlock;
@@ -27,6 +27,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -275,7 +276,7 @@ public class PrivateMine {
 
         List<StaticMine.MineBlock> mineBlocks = new ArrayList<>(); //Adapt the weighted elements to MineBlocks that the mine can use
         for (WeightedElement<MineBlock> block : this.mineBlocks.getElements()) {
-            mineBlocks.add(new StaticMine.MineBlock(BukkitAdapter.asBlockType(block.getElement().blockType), block.getWeight()));
+            mineBlocks.add(new StaticMine.MineBlock(BukkitAdapter.asBlockType(block.getElement().material()), block.getWeight()));
         }
         mine.setMineBlocks(mineBlocks.toArray(new StaticMine.MineBlock[0]));
 
@@ -424,8 +425,16 @@ public class PrivateMine {
     }
 
     public static final int XP_PER_BLOCK_BROKEN = 1;
-    public void blockBroken() {
+    public void blockBroken(BlockBreak blockBreak) {
         setXpAndCalcLevel(getXp() + XP_PER_BLOCK_BROKEN);
+        blockBreak.getStats().setMoneyMultiplier(blockBreak.getStats().getMoneyMultiplier() * sellPercentage);
+        if (!(blockBreak.getPlayerData().getUUID().equals(owner) || getWhitelist().contains(blockBreak.getPlayerData().getUUID()))) { //Don't tax owner or whitelisted players
+
+            blockBreak.addAfterProcess(bb -> { //Add tax to the owner
+                new PlayerData(owner).addMoney(BigInteger.valueOf((long) (bb.getStats().getMoneyEarned() * visitorTax)));
+                bb.getStats().setMoneyMultiplier(bb.getStats().getMoneyMultiplier() * (1 - visitorTax));
+            });
+        }
     }
 
 

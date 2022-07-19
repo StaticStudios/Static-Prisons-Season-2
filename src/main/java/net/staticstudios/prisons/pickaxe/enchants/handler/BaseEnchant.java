@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.pickaxe.enchants.handler;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
+import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
@@ -94,7 +94,7 @@ public abstract class BaseEnchant implements Listener {
     }
 
 
-    public void onBlockBreak(PrisonBlockBroken bb) {}
+    public void onBlockBreak(BlockBreak blockBreak) {}
     public void onPickaxeHeld(Player player, PrisonPickaxe pickaxe) {}
     public void onPickaxeUnHeld(Player player, PrisonPickaxe pickaxe) {}
     public void whileRightClicking(Player player, PrisonPickaxe pickaxe) {}

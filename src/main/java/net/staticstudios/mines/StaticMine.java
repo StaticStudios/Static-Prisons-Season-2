@@ -80,6 +80,18 @@ public class StaticMine {
         }
     }
 
+    public static StaticMine fromLocation(Location location) {
+        for (StaticMine m : ALL_MINES.values()) {
+            if (!m.getWorld().equals(location.getWorld())) continue;
+            if (m.getMinPoint().getX() <= location.getBlockX() && m.getMaxPoint().getX() >= location.getBlockX() &&
+                    m.getMinPoint().getY() <= location.getBlockY() && m.getMaxPoint().getY() >= location.getBlockY() &&
+                    m.getMinPoint().getZ() <= location.getBlockZ() && m.getMaxPoint().getZ() >= location.getBlockZ()) {
+                return m;
+            }
+        }
+        return null;
+    }
+
     public String getID() { return id; }
     public org.bukkit.World getWorld() { return world; }
     public World getWEWorld() { return weWorld; }

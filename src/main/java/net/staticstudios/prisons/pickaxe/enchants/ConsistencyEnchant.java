@@ -2,7 +2,7 @@ package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
+import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -48,24 +48,34 @@ public class ConsistencyEnchant extends BaseEnchant {
     static Map<Player, Long> lastTimeBroken = new HashMap<>();
     static Map<Player, Long> msMining = new HashMap<>();
 
-    @Override
-    public void onBlockBreak(PrisonBlockBroken bb) {
-        if (!msMining.containsKey(bb.player)) msMining.put(bb.player, 0L);
-        if (!lastTimeBroken.containsKey(bb.player)) lastTimeBroken.put(bb.player, System.currentTimeMillis());
-        long totalTimeMining = msMining.get(bb.player) + (System.currentTimeMillis() - lastTimeBroken.get(bb.player));
-        lastTimeBroken.put(bb.player, System.currentTimeMillis());
-        msMining.put(bb.player, totalTimeMining);
-        ConsistentData data = tokenMultiplier.getOrDefault(bb.player, new ConsistentData(1, 0));
-        if (totalTimeMining / data.tier >= levelUpTime) {
-            if (data.tier > bb.pickaxe.getEnchantLevel(ENCHANT_ID) * 5) return;
-            data = new ConsistentData(data.tier + 1, data.currentMulti + MULTI_INCREASE_PER_LEVEL);
-            tokenMultiplier.put(bb.player, data);
-            bb.player.sendMessage(PREFIX + ChatColor.WHITE +
-                    ChatColor.GOLD + "+1.00% Token Multiplier" + ChatColor.WHITE + " due to your consistent mining activity! Current Multiplier:" + ChatColor.GREEN + " +" +
-                    new DecimalFormat("0.00").format(data.currentMulti * 100) + "%! " + ChatColor.GRAY + ChatColor.ITALIC + "Consistent time mining: " + PrisonUtils.formatTime(totalTimeMining));
-            if (data.tier - 1 == bb.pickaxe.getEnchantLevel(ENCHANT_ID) * 5) bb.player.sendMessage(PREFIX + ChatColor.AQUA + "Your Token multiplier has maxed out! Upgrading the consistency enchant will increase your max multiplier!");
+    public void onBlockBreak(BlockBreak blockBreak) {
+        if (blockBreak.getPlayer() == null) return;
+        if (!msMining.containsKey(blockBreak.getPlayer())) { //If the player has not been mining with consistency, start their timer
+            msMining.put(blockBreak.getPlayer(), 0L);
         }
-        bb.tokenMultiplier += data.currentMulti;
+        if (!lastTimeBroken.containsKey(blockBreak.getPlayer())) { //If the player has not been mining with consistency, start their timer
+            lastTimeBroken.put(blockBreak.getPlayer(), System.currentTimeMillis());
+        }
+        long totalTimeMining = msMining.get(blockBreak.getPlayer()) + (System.currentTimeMillis() - lastTimeBroken.get(blockBreak.getPlayer()));
+
+        lastTimeBroken.put(blockBreak.getPlayer(), System.currentTimeMillis()); //Update the last time the player broke a block (now)
+        msMining.put(blockBreak.getPlayer(), totalTimeMining); //Update the total time the player has been mining
+
+        ConsistentData data = tokenMultiplier.getOrDefault(blockBreak.getPlayer(), new ConsistentData(1, 0));
+        if (totalTimeMining / data.tier >= levelUpTime) { //Check if the player has been mining enough to increase their multiplier
+            if (data.tier > blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID) * 5) return; //They can't have a multiplier higher than their enchant level * 5
+
+            data = new ConsistentData(data.tier + 1, data.currentMulti + MULTI_INCREASE_PER_LEVEL);
+            tokenMultiplier.put(blockBreak.getPlayer(), data);
+
+            blockBreak.messagePlayer(PREFIX +
+                    "&6+1.00% Token Multiplier &fdue to your consistent mining activity! Current Multiplier: &a +" +
+                    new DecimalFormat("0.00").format(data.currentMulti * 100) + "%! &7&oConsistent time mining: " + PrisonUtils.formatTime(totalTimeMining));
+            if (data.tier - 1 == blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID) * 5) {
+                blockBreak.messagePlayer(PREFIX + "&bYour Token multiplier has maxed out! Upgrading the consistency enchant will increase your max multiplier!");
+            }
+        }
+        blockBreak.getStats().setTokenMultiplier(blockBreak.getStats().getTokenMultiplier() + data.currentMulti);
     }
 
     static class ConsistentData {

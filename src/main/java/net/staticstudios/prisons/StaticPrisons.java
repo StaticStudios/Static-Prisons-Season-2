@@ -5,7 +5,7 @@ import com.sk89q.worldedit.WorldEdit;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
-import net.staticstudios.prisons.blockBroken.BlockBreakListener;
+import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.cells.IslandCommand;
 import net.staticstudios.prisons.chat.events.ChatEvents;
@@ -14,7 +14,8 @@ import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customItems.*;
 import net.staticstudios.prisons.data.backups.DataBackup;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
-import net.staticstudios.prisons.data.Prices;
+import net.staticstudios.prisons.events.EventManager;
+import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.enchants.AutoSellEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.ConsistencyEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
@@ -38,6 +39,7 @@ import net.staticstudios.prisons.privateMines.PrivateMineManager;
 import net.staticstudios.prisons.pvp.PvPCommand;
 import net.staticstudios.prisons.pvp.PvPManager;
 import net.staticstudios.prisons.levelup.LevelUp;
+import net.staticstudios.prisons.ranks.PlayerRanks;
 import net.staticstudios.prisons.reclaim.ReclaimCommand;
 import net.staticstudios.prisons.utils.Constants;
 import net.luckperms.api.LuckPerms;
@@ -53,7 +55,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +95,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(Crates::init);
         safe(CellManager::init);
         safe(PvPManager::init);
-        safe(Gang::loadAll);
+        safe(Gang::init);
         safe(ChatEvents::init);
         safe(TimedTasks::init);
         safe(DataSet::init);
@@ -106,6 +107,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(Kits::init);
         safe(TabList::init);
         safe(DiscordLink::init);
+        safe(EventManager::init);
+        safe(PlayerRanks::init);
+        safe(BlockBreak::init);
 
 
 
@@ -194,7 +198,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         //Register Events
         getServer().getPluginManager().registerEvents(new EventListener(), plugin);
         getServer().getPluginManager().registerEvents(new Events(), plugin);
-        getServer().getPluginManager().registerEvents(new BlockBreakListener(), plugin);
+//        getServer().getPluginManager().registerEvents(new BlockBreakListener(), plugin);
         getCommand("_").setExecutor(new VoteStoreListener());
     }
 
@@ -222,7 +226,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         //Load block sell prices
         for (String key : config.getConfigurationSection("sellPrices").getKeys(false)) {
             try {
-                Prices.BLOCK_SELL_PRICES.put(Material.valueOf(key), BigDecimal.valueOf(config.getInt("sellPrices." + key)));
+                new MineBlock(Material.valueOf(key), config.getLong("sellPrices." + key));
             } catch (IllegalArgumentException e) {
                 Bukkit.getLogger().warning("There was an error while loading the config! Unknown material '" + key + "'");
             } catch (NullPointerException e) {

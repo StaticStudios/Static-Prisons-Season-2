@@ -130,7 +130,7 @@ public class PrivateMineConfigManager {
     private static WeightedElements<MineBlock> getMineBlocks(ConfigurationSection blocks) {
         WeightedElements<MineBlock> mineBlocks = new WeightedElements<>();
         for (String k : blocks.getKeys(false)) {
-            mineBlocks.add(new MineBlock(Material.valueOf(k)), blocks.getDouble(k));
+            mineBlocks.add(MineBlock.fromMaterial(Material.valueOf(k)), blocks.getDouble(k));
         }
         return mineBlocks;
     }

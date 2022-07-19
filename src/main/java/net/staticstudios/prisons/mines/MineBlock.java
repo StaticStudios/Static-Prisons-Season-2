@@ -2,26 +2,24 @@ package net.staticstudios.prisons.mines;
 
 import org.bukkit.Material;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MineBlock {
+public record MineBlock(Material material, long value) {
 
-    //private static final Map<Material, BigInteger> SELL_VALUES = new HashMap<>();
+    private static final Map<Material, MineBlock> mineBlocks = new HashMap<>();
 
-    public Material blockType;
-    public double multiplier = 1d;
-
-    public MineBlock(Material blockType) {
-        this.blockType = blockType;
+    static {
+        new MineBlock(Material.AIR, 0);
     }
 
-//    public BigInteger getSellValue() {
-//        return SELL_VALUES.get(blockType);
-//    }
-//
-//    public static void defineNewBlock(Material blockType, long sellValue) {
-//        SELL_VALUES.put(blockType, BigInteger.valueOf(sellValue));
-//    }
+    public MineBlock(Material material, long value) {
+        this.material = material;
+        this.value = value;
+        mineBlocks.put(material, this);
+    }
+
+    public static MineBlock fromMaterial(Material material) {
+        return mineBlocks.get(material);
+    }
 }

@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.pickaxe.enchants;
 
-import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
+import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -17,13 +17,19 @@ public class BackpackFinderEnchant extends BaseEnchant {
 
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&6&lDuffle Bag &8&l>> &r");
 
-    public void onBlockBreak(PrisonBlockBroken bb) {
-        if (PrisonUtils.randomInt(1, 25000) != 1) return;
-        int percent = PrisonUtils.randomInt(1, 4);
-        if (percent > bb.pickaxe.getEnchantLevel(ENCHANT_ID) / (MAX_LEVEL / 4)) percent = Math.max(1, bb.pickaxe.getEnchantLevel(ENCHANT_ID) / (MAX_LEVEL / 4));
-        PlayerData playerData = new PlayerData(bb.player);
+    public void onBlockBreak(BlockBreak blockBreak) {
+        if (PrisonUtils.randomInt(1, 25000) != 1) return; //Chance to activate enchant
+
+
+        int percentOfBackpackToFind = PrisonUtils.randomInt(1, 4);
+        if (percentOfBackpackToFind > blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID) / (MAX_LEVEL / 4)) { //Make sure that the enchant level is high enough to find this much of the backpack, if not, find less
+            percentOfBackpackToFind = Math.max(1, blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID) / (MAX_LEVEL / 4));
+        }
+
+        PlayerData playerData = blockBreak.getPlayerData();
         long oldSize = playerData.getBackpackSize();
-        playerData.setBackpackSize(oldSize + oldSize * percent / 100);
-        bb.player.sendMessage(PREFIX + ChatColor.translateAlternateColorCodes('&', "You've found &b" + percent + "% &fof your backpack's max size while mining! &a" + PrisonUtils.addCommasToNumber(oldSize) + " -> " + PrisonUtils.addCommasToNumber(playerData.getBackpackSize())));
+        playerData.setBackpackSize(oldSize + oldSize * percentOfBackpackToFind / 100);
+
+        blockBreak.messagePlayer(PREFIX +"You've found &b" + percentOfBackpackToFind + "% &fof your backpack's max size while mining! &a" + PrisonUtils.addCommasToNumber(oldSize) + " -> " + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()));
     }
 }

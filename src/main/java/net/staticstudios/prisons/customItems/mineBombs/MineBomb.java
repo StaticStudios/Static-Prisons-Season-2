@@ -31,7 +31,7 @@ public class MineBomb {
     private double radius;
     private boolean canExplode = true;
     private EditSession editSession;
-    private Map<Material, BigInteger> blocksChanges = new HashMap<>();
+    private Map<Material, Long> blocksChanges = new HashMap<>();
     public long blocksChanged = 0;
     private StaticMine mine;
 
@@ -44,10 +44,10 @@ public class MineBomb {
         this.world = origin.getWorld();
         this.radius = radius;
     }
-    public Map<Material, BigInteger> explode(StaticMine mine) {
+    public Map<Material, Long> explode(StaticMine mine) {
         return explode(mine, (int) (radius / 2 * 25) + 75);
     }
-    public Map<Material, BigInteger> explode(StaticMine mine, int particles) {
+    public Map<Material, Long> explode(StaticMine mine, int particles) {
         if (!canExplode) return new HashMap<>();
         this.mine = mine;
         editSession = StaticPrisons.worldEdit.newEditSessionBuilder().world(BukkitAdapter.adapt(world)).build();
@@ -161,8 +161,10 @@ public class MineBomb {
             Material mat = BukkitAdapter.adapt(blockType);
             if (mat == null) return;
             if (mat.equals(Material.AIR)) return;
-            if (!blocksChanges.containsKey(mat)) blocksChanges.put(mat, BigInteger.ZERO);
-            blocksChanges.put(mat, blocksChanges.get(mat).add(BigInteger.ONE));
+            if (!blocksChanges.containsKey(mat)) {
+                blocksChanges.put(mat, 0L);
+            }
+            blocksChanges.put(mat, blocksChanges.get(mat) + 1);
         }
     }
 }

@@ -7,7 +7,8 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import net.staticstudios.mines.StaticMine;
-import net.staticstudios.prisons.blockBroken.PrisonBlockBroken;
+import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -24,19 +25,24 @@ public class JackHammerEnchant extends BaseEnchant {
         setPickaxeLevelRequirement(10);
     }
 
-    public void onBlockBreak(PrisonBlockBroken bb) {
-        if (PrisonUtils.randomInt(1, 75) != 1) return;
-        int jackHammerLevel = bb.pickaxe.getEnchantLevel(ENCHANT_ID);
-        int doubleWammyLevel = bb.pickaxe.getEnchantLevel(PrisonEnchants.DOUBLE_JACK_HAMMER);
-        if (PrisonUtils.randomInt(1, MAX_LEVEL + MAX_LEVEL / 10) <= jackHammerLevel + MAX_LEVEL / 10) {
-            int howDeepToGo = 1;
-            if (doubleWammyLevel > 0 && bb.pickaxe.getIsEnchantEnabled(PrisonEnchants.DOUBLE_JACK_HAMMER)) {
-                if (PrisonUtils.randomInt(1, PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) <= doubleWammyLevel + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) howDeepToGo += 1;
-            }
-            BreakLayer bl = new BreakLayer(bb.mine);
-            bb.legacySellValues.putAll(bl.destroyLayer(bb.blockLocation.getBlockY(), howDeepToGo));
-            bb.amountOfBlocksBroken += bl.totalBlocksBroken;
+    public void onBlockBreak(BlockBreak blockBreak) {
+        if (PrisonUtils.randomInt(1, 75) != 1) return; //Chance to activate enchant
+        int jackHammerLevel = blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID);
+        int doubleWammyLevel = blockBreak.getPickaxe().getEnchantLevel(PrisonEnchants.DOUBLE_JACK_HAMMER);
+        if (PrisonUtils.randomInt(1, MAX_LEVEL + MAX_LEVEL / 10) > jackHammerLevel + MAX_LEVEL / 10)
+            return; //Chance to activate enchant
+
+        int howDeepToGo = 1;
+        if (doubleWammyLevel > 0 && blockBreak.getPickaxe().getIsEnchantEnabled(PrisonEnchants.DOUBLE_JACK_HAMMER)) {
+            if (PrisonUtils.randomInt(1, PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) <= doubleWammyLevel + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) //Chance to activate double wammy
+                howDeepToGo += 1;
         }
+
+        BreakLayer bl = new BreakLayer(blockBreak.getMine());
+        for (Map.Entry<Material, Long> entry : bl.destroyLayer(blockBreak.getBlockLocation().getBlockY(), howDeepToGo).entrySet()) {
+            blockBreak.getStats().getMinedBlocks().put(MineBlock.fromMaterial(entry.getKey()), blockBreak.getStats().getMinedBlocks().getOrDefault(MineBlock.fromMaterial(entry.getKey()), 0L) + entry.getValue());
+        }
+        blockBreak.getStats().setBlocksBroken(blockBreak.getStats().getBlocksBroken() + bl.totalBlocksBroken);
     }
 
     static class BreakLayer {
@@ -46,8 +52,8 @@ public class JackHammerEnchant extends BaseEnchant {
             this.mine = mine;
         }
 
-        public Map<Material, BigInteger> destroyLayer(int yLevel, int howDeepToGo) {
-            Map<Material, BigInteger> blocksBroken = new HashMap<>();
+        public Map<Material, Long> destroyLayer(int yLevel, int howDeepToGo) {
+            Map<Material, Long> blocksBroken = new HashMap<>();
             for (int y = Math.max(1, yLevel - howDeepToGo + 1); y <= yLevel; y++) {
                 for (int x = mine.getMinVector().getBlockX(); x <= mine.getMaxVector().getBlockX(); x++) {
                     for (int z = mine.getMinVector().getBlockZ(); z <= mine.getMaxVector().getBlockZ(); z++) {
@@ -55,8 +61,8 @@ public class JackHammerEnchant extends BaseEnchant {
                         if (mat.equals(Material.AIR)) continue;
                         totalBlocksBroken += 1;
                         if (!blocksBroken.containsKey(mat)) {
-                            blocksBroken.put(mat, BigInteger.ONE);
-                        } else blocksBroken.put(mat, blocksBroken.get(mat).add(BigInteger.ONE));
+                            blocksBroken.put(mat, 1L);
+                        } else blocksBroken.put(mat, blocksBroken.get(mat) + 1);
                     }
                 }
             }

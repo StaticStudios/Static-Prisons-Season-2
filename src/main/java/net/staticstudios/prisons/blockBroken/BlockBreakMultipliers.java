@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.blockBroken.newStuff;
+package net.staticstudios.prisons.blockBroken;
 
 public class BlockBreakMultipliers {
     private double money = 0d;
