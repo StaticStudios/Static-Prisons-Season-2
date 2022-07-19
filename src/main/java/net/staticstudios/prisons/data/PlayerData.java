@@ -325,6 +325,7 @@ public class PlayerData extends DataSet {
         long itemCount = getBackpackItemCount();
         long size = getBackpackSize();
         long value = 0;
+        whatToAdd.remove(null); //fix null errors
         for (Map.Entry<MineBlock, Long> entry : whatToAdd.entrySet()) {
             if (itemCount >= size) break; //The backpack is full
             long blockValue = entry.getKey().value();

@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.misc;
+package net.staticstudios.prisons.utils;
 
 import com.destroystokyo.paper.event.server.ServerTickStartEvent;
 import net.staticstudios.gui.StaticGUI;
@@ -13,7 +13,6 @@ import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.pickaxe.gui.EnchantMenus;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;

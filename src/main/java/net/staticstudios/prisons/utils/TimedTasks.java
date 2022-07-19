@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.misc;
+package net.staticstudios.prisons.utils;
 
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.cells.CellManager;

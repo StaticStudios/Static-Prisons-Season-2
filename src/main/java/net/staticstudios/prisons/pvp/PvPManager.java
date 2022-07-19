@@ -4,7 +4,7 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customItems.Vouchers;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gangs.Gang;
-import net.staticstudios.prisons.misc.Warps;
+import net.staticstudios.prisons.utils.Warps;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;

@@ -69,7 +69,7 @@ public class ConsistencyEnchant extends BaseEnchant {
             tokenMultiplier.put(blockBreak.getPlayer(), data);
 
             blockBreak.messagePlayer(PREFIX +
-                    "&6+1.00% Token Multiplier &fdue to your consistent mining activity! Current Multiplier: &a +" +
+                    "&6+1.00% Token Multiplier &fdue to your consistent mining activity! Current Multiplier:&a +" +
                     new DecimalFormat("0.00").format(data.currentMulti * 100) + "%! &7&oConsistent time mining: " + PrisonUtils.formatTime(totalTimeMining));
             if (data.tier - 1 == blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID) * 5) {
                 blockBreak.messagePlayer(PREFIX + "&bYour Token multiplier has maxed out! Upgrading the consistency enchant will increase your max multiplier!");

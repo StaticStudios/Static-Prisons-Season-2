@@ -5,7 +5,7 @@ import net.staticstudios.gui.GUIRunnable;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gui.MainMenus;
-import net.staticstudios.prisons.misc.Warps;
+import net.staticstudios.prisons.utils.Warps;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;

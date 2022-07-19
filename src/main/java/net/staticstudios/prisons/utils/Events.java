@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.misc;
+package net.staticstudios.prisons.utils;
 
 import net.staticstudios.prisons.chat.CustomChatMessage;
 import net.staticstudios.prisons.utils.PrisonUtils;

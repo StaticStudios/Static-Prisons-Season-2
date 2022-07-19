@@ -1,11 +1,9 @@
 package net.staticstudios.prisons.mines;
 
-import net.staticstudios.mines.StaticMine;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.mines.minesapi.events.MineCreatedEvent;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.misc.EventListener;
-import net.staticstudios.prisons.misc.Warps;
+import net.staticstudios.prisons.utils.Warps;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

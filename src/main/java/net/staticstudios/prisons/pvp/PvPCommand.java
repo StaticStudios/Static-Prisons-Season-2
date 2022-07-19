@@ -1,8 +1,6 @@
 package net.staticstudios.prisons.pvp;
 
-import net.staticstudios.mines.StaticMineUtils;
-import net.staticstudios.prisons.data.serverData.ServerData;
-import net.staticstudios.prisons.misc.Warps;
+import net.staticstudios.prisons.utils.Warps;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

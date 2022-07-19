@@ -7,7 +7,7 @@ import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.gui.MainMenus;
-import net.staticstudios.prisons.misc.Warps;
+import net.staticstudios.prisons.utils.Warps;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
