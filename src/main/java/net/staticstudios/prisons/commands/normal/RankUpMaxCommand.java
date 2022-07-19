@@ -1,9 +1,7 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.data.serverData.ServerData;
-import net.staticstudios.prisons.rankup.RankUp;
+import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -26,12 +24,12 @@ public class RankUpMaxCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(ChatColor.RED + "You cannot rank up any more as you are already max rank! You can prestige with \"/prestige\"");
             return false;
         }
-        if (playerData.getMoney().compareTo(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) < 0) {
-            player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + PrisonUtils.addCommasToNumber(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)));
+        if (playerData.getMoney().compareTo(LevelUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) < 0) {
+            player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + PrisonUtils.addCommasToNumber(LevelUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)));
             return false;
         }
-        while (playerData.getMineRank() < 25 && playerData.getMoney().compareTo(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) > -1) {
-            playerData.removeMoney(RankUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1));
+        while (playerData.getMineRank() < 25 && playerData.getMoney().compareTo(LevelUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) > -1) {
+            playerData.removeMoney(LevelUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1));
             player.sendMessage(ChatColor.GREEN + "You have just ranked up! " + ChatColor.AQUA + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank()) + " -> " + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank() + 1));
             playerData.addMineRank(1);
         }

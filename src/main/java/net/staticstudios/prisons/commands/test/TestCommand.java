@@ -98,8 +98,11 @@ public class TestCommand implements CommandExecutor {
 //            p.setBlocksBroken(1);
 //            PrisonUtils.Players.addToInventory(player, p.item);
 //        }
-        return false;
         //I added a thing!
+        for (int i = Integer.parseInt(args[0]) - 50; i < Integer.parseInt(args[0]); i++) {
+            player.sendMessage(PrisonUtils.addCommasToNumber(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
+        }
+        return false;
 
 
 

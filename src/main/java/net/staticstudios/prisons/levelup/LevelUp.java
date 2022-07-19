@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.rankup;
+package net.staticstudios.prisons.levelup;
 
 import net.staticstudios.prisons.data.PlayerData;
 
@@ -6,7 +6,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RankUp {
+public class LevelUp {
     public static List<BigInteger> rankPrices = new ArrayList<>();
     public static BigInteger INITIAL_PRESTIGE_PRICE;
 
@@ -23,6 +23,9 @@ public class RankUp {
     public static BigInteger getPrestigePrice(BigInteger currentPrestige, int prestigesToBuy) {
         BigInteger price = INITIAL_PRESTIGE_PRICE;
         price = price.multiply(BigInteger.valueOf(prestigesToBuy));
+        if (prestigesToBuy >= 5000) {
+            price = price.add(price.multiply(BigInteger.valueOf(prestigesToBuy / 1000)).divide(BigInteger.valueOf(100)));
+        }
         return price;
     }
 }

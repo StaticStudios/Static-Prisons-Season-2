@@ -21,7 +21,6 @@ import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.external.DiscordLink;
-import net.staticstudios.prisons.commands.tabCompletion.IslandTabCompletion;
 import net.staticstudios.prisons.commands.test.Test2Command;
 import net.staticstudios.prisons.commands.test.TestCommand;
 import net.staticstudios.prisons.gangs.Gang;
@@ -34,12 +33,11 @@ import net.staticstudios.prisons.misc.Events;
 import net.staticstudios.prisons.misc.TimedTasks;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
 import net.staticstudios.prisons.auctionHouse.AuctionManager;
-import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.privateMines.PrivateMineCommand;
 import net.staticstudios.prisons.privateMines.PrivateMineManager;
 import net.staticstudios.prisons.pvp.PvPCommand;
 import net.staticstudios.prisons.pvp.PvPManager;
-import net.staticstudios.prisons.rankup.RankUp;
+import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.reclaim.ReclaimCommand;
 import net.staticstudios.prisons.utils.Constants;
 import net.luckperms.api.LuckPerms;
@@ -240,9 +238,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         //Load prestige mine requirements
         for (int i = 0; i < 15; i++) Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
         //Load rankup prices
-        RankUp.rankPrices = new ArrayList<>();
-        for (int i = 0; i < 26; i++) RankUp.rankPrices.add(BigInteger.valueOf(config.getLong("rankup.prices." + (i + 1))));
-        RankUp.INITIAL_PRESTIGE_PRICE = BigInteger.valueOf(config.getLong("prestiges.price.basePrice"));
+        LevelUp.rankPrices = new ArrayList<>();
+        for (int i = 0; i < 26; i++) LevelUp.rankPrices.add(BigInteger.valueOf(config.getLong("rankup.prices." + (i + 1))));
+        LevelUp.INITIAL_PRESTIGE_PRICE = BigInteger.valueOf(config.getLong("prestiges.price.basePrice"));
 
         //Load Pouches
         MoneyPouchTier1.minValue = new BigInteger(config.getString("pouches.money.1.min"));

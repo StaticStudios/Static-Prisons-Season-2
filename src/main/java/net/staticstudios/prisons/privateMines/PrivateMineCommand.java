@@ -42,7 +42,13 @@ public class PrivateMineCommand implements CommandExecutor, TabCompleter {
                     PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.warpTo(player));
                 } else PrivateMine.getPrivateMineFromPlayer(player).thenAccept(pm -> pm.manualRefill(player));
             }
-            case "info", "about" -> unloadedPrivateMine.sendInfo(player);
+            case "info", "about" -> {
+                if (unloadedPrivateMine == null) {
+                    PrivateMine.sendMessage(player, "&cYou don't have a private mine!");
+                    return false;
+                }
+                unloadedPrivateMine.sendInfo(player);
+            }
             case "go", "warp" -> {
                 if (!PrivateMine.playerHasPrivateMine(player)) {
                     PrivateMine.sendMessage(player, "&cYou don't have a private mine!");
