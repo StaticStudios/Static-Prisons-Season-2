@@ -106,7 +106,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(ConsistencyEnchant::init);
         safe(Kits::init);
         safe(TabList::init);
-        safe(DiscordLink::init);
         safe(EventManager::init);
         safe(PlayerRanks::init);
         safe(BlockBreak::init);
@@ -222,6 +221,11 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public void loadConfig() {
         reloadConfig();
         FileConfiguration config = getConfig();
+
+        if (config.getBoolean("discordLink", true)) {
+            safe(DiscordLink::init);
+        }
+
 
         //Load block sell prices
         for (String key : config.getConfigurationSection("sellPrices").getKeys(false)) {
