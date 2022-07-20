@@ -16,13 +16,20 @@ import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 4) {
-            sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats <stat> <who> <modify> <value>"));
+            if (!(args.length == 3 && "reset".equals(args[2]))) {
+                sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats <stat> <who> <modify> <value>"));
+                return false;
+            }
+
+            args = Arrays.copyOf(args, 4);
+            args[3] = "1";
         }
         if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[1].toLowerCase()) && !args[1].equalsIgnoreCase("self")) {
             sender.sendMessage(ChatColor.RED + "Could not find the player specified!");
@@ -240,6 +247,11 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
         List<String> list = new ArrayList<>();
         if (args.length == 1) {
             list.add("pmine");
+            list.add("minerank");
+            list.add("prestige");
+            list.add("backpack");
+            list.add("blocksmined");
+            list.add("rawblocks");
             list.add("votes");
             list.add("timeplayed");
             list.add("money");
