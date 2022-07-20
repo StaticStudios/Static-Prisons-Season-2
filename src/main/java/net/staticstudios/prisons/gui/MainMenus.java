@@ -7,9 +7,9 @@ import net.staticstudios.prisons.cells.CellMenus;
 import net.staticstudios.prisons.levelup.PrestigeMenus;
 import net.staticstudios.prisons.levelup.RankUpMenus;
 import net.staticstudios.prisons.mines.WarpMenus;
-import net.staticstudios.prisons.pickaxe.gui.EnchantMenus;
 import net.staticstudios.prisons.gambling.GamblingMenus;
 import net.staticstudios.prisons.gangs.GangMenus;
+import net.staticstudios.prisons.pickaxe.PickaxeMenus;
 import net.staticstudios.prisons.privateMines.PrivateMineMenus;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -35,8 +35,8 @@ public class MainMenus extends GUIUtils {
                 ench(c.createButton(Material.COMPASS, "&a&lWarps", List.of("&7&oGo somewhere!"), (p, t) -> {
                     WarpMenus.mainMenu(player);
                 })),
-                ench(c.createButton(Material.DIAMOND_PICKAXE, "&b&lEnchants", List.of("&7&oUpgrade your pickaxe!"), (p, t) -> {
-                    EnchantMenus.selectPickaxe(player);
+                ench(c.createButton(Material.DIAMOND_PICKAXE, "&b&lPickaxes", List.of("&7&oManage your pickaxe!"), (p, t) -> {
+                    PickaxeMenus.selectPickaxe(player);
                 })),
                 ench(c.createButton(Material.CLOCK, "&a&lAuction House", List.of("&7&oBuy items sold by other players!", "&7&oType \"/auc had <price>\" to sell an item!"), (p, t) -> {
                     AuctionHouseMenus.openMenu(player, 0);

@@ -35,14 +35,14 @@ public class TestCommand implements CommandExecutor {
             player = (Player) commandSender;
         }
         //AuctionHouseMenus.openMenu(player, 0);
-        player.sendMessage(
-                new WeightedElements<String>()
-                        .add("10%", 10)
-                        .add("20%", 20)
-                        .add("20% again", 20)
-                        .add("50%", 50)
-                        .getRandom()
-        );
+//        player.sendMessage(
+//                new WeightedElements<String>()
+//                        .add("10%", 10)
+//                        .add("20%", 20)
+//                        .add("20% again", 20)
+//                        .add("50%", 50)
+//                        .getRandom()
+//        );
 //        long start = System.currentTimeMillis();
 //        for (int x = 0; x < 100; x++) {
 //            for (int i = 0; i < 10000; i++) {
@@ -99,9 +99,9 @@ public class TestCommand implements CommandExecutor {
 //            PrisonUtils.Players.addToInventory(player, p.item);
 //        }
         //I added a thing!
-        for (int i = Integer.parseInt(args[0]) - 50; i < Integer.parseInt(args[0]); i++) {
-            player.sendMessage(PrisonUtils.addCommasToNumber(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
-        }
+//        for (int i = Integer.parseInt(args[0]) - 50; i < Integer.parseInt(args[0]); i++) {
+//            player.sendMessage(PrisonUtils.addCommasToNumber(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
+//        }
         return false;
 
 

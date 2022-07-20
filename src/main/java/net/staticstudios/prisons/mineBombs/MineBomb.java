@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.customItems.mineBombs;
+package net.staticstudios.prisons.mineBombs;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
@@ -17,8 +17,9 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 
-import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class MineBomb {
@@ -29,7 +30,11 @@ public class MineBomb {
     private int originZ;
     private World world;
     private double radius;
-    private boolean canExplode = true;
+    private boolean canExplode;
+
+    private List<BlockVector3> positions = new LinkedList<>();
+
+
     private EditSession editSession;
     private Map<Material, Long> blocksChanges = new HashMap<>();
     public long blocksChanged = 0;
@@ -44,15 +49,36 @@ public class MineBomb {
         this.world = origin.getWorld();
         this.radius = radius;
     }
+
+
+    public MineBomb computePositions() {
+        makeSphere(radius, true);
+        return this;
+    }
+
+
+
     public Map<Material, Long> explode(StaticMine mine) {
         return explode(mine, (int) (radius / 2 * 25) + 75);
     }
     public Map<Material, Long> explode(StaticMine mine, int particles) {
         if (!canExplode) return new HashMap<>();
+        computePositions();
+        return explodeAtComputedPositions(mine, particles);
+    }
+    public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, BlockVector3 newOrigin) {
+        this.originX = newOrigin.getBlockX();
+        this.originY = newOrigin.getBlockY();
+        this.originZ = newOrigin.getBlockZ();
+        return explode(mine, (int) (radius / 2 * 25) + 75);
+    }
+    public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, int particles) {
         this.mine = mine;
         editSession = StaticPrisons.worldEdit.newEditSessionBuilder().world(BukkitAdapter.adapt(world)).build();
         editSession.setMask(new RegionMask(mine.getRegion()));
-        makeSphere(BlockVector3.at(originX, originY, originZ), pattern, radius, true);
+        for (BlockVector3 pos : positions) {
+            setBlock(pos.getBlockX() + originX, pos.getBlockY() + originY, pos.getBlockZ() + originZ, pattern);
+        }
         editSession.close();
         world.spawnParticle(Particle.EXPLOSION_LARGE, location, particles, radius, radius, radius);
         blocksChanges.remove(null);
@@ -61,7 +87,7 @@ public class MineBomb {
 
 
     //Custom implementation -- used so changes can be tracked
-    private void makeSphere(BlockVector3 pos, Pattern block, double radius, boolean filled) throws MaxChangedBlocksException {
+    private void makeSphere(double radius, boolean filled) throws MaxChangedBlocksException {
         double radiusX = radius;
         double radiusY = radius;
         double radiusZ = radius;
@@ -73,9 +99,9 @@ public class MineBomb {
         final double invRadiusY = 1 / radiusY;
         final double invRadiusZ = 1 / radiusZ;
 
-        int px = pos.getBlockX();
-        int py = pos.getBlockY();
-        int pz = pos.getBlockZ();
+        int px = 0;
+        int py = 0;
+        int pz = 0;
 
         final int ceilRadiusX = (int) Math.ceil(radiusX);
         final int ceilRadiusY = (int) Math.ceil(radiusY);
@@ -126,27 +152,34 @@ public class MineBomb {
                     //FAWE start
                     yy = py + y;
                     if (yy <= 255) {
-                        setBlock(px + x, py + y, pz + z, block);
+                        positions.add(BlockVector3.at(px + x, py + y, pz + z));
+//                        setBlock(px + x, py + y, pz + z, block);
                         if (x != 0) {
-                            setBlock(px - x, py + y, pz + z, block);
+                            positions.add(BlockVector3.at(px - x, py + y, pz + z));
+//                            setBlock(px - x, py + y, pz + z, block);
                         }
                         if (z != 0) {
-                            setBlock(px + x, py + y, pz - z, block);
+//                            setBlock(px + x, py + y, pz - z, block);
+                            positions.add(BlockVector3.at(px + x, py + y, pz - z));
                             if (x != 0) {
-                                setBlock(px - x, py + y, pz - z, block);
+                                positions.add(BlockVector3.at(px - x, py + y, pz - z));
+//                                setBlock(px - x, py + y, pz - z, block);
                             }
                         }
                     }
-                    if (y != 0 && (yy = py - y) >= 0) {
-                        setBlock(px + x, yy, pz + z, block);
+                    yy = py - y;
+                    positions.add(BlockVector3.at(px + x, yy, pz + z));
+//                        setBlock(px + x, yy, pz + z, block);
+                    if (x != 0) {
+                        positions.add(BlockVector3.at(px - x, yy, pz + z));
+//                            setBlock(px - x, yy, pz + z, block);
+                    }
+                    if (z != 0) {
+                        positions.add(BlockVector3.at(px + x, yy, pz - z));
+//                            setBlock(px + x, yy, pz - z, block);
                         if (x != 0) {
-                            setBlock(px - x, yy, pz + z, block);
-                        }
-                        if (z != 0) {
-                            setBlock(px + x, yy, pz - z, block);
-                            if (x != 0) {
-                                setBlock(px - x, yy, pz - z, block);
-                            }
+                            positions.add(BlockVector3.at(px - x, yy, pz - z));
+//                                setBlock(px - x, yy, pz - z, block);
                         }
                     }
                 }

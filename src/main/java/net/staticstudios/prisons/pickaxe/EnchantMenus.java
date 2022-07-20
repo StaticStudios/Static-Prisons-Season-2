@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.pickaxe.gui;
+package net.staticstudios.prisons.pickaxe;
 
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
@@ -17,22 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnchantMenus extends GUIUtils {
+
     public static void selectPickaxe(Player player) {
         GUICreator c = new GUICreator(36, "Select a pickaxe to enchant");
-        c.setMenuID("enchants-selectPickaxe");
-        int x = 0;
         for (ItemStack item : player.getInventory().getContents()) {
             if (PrisonUtils.checkIsPrisonPickaxe(item)) {
-                c.addItem(c.createButton(item, (p, t) -> mainMenu(p, PrisonPickaxe.fromItem(item))));
-                x++;
+                c.addItem(c.createButton(item, (p, t) -> {
+                    mainMenu(p, PrisonPickaxe.fromItem(item));
+                }));
             }
         }
-        for (int i = x; i < 36; i++) c.setItem(i, createGrayPlaceHolder());
+        c.fill(createGrayPlaceHolder());
         c.open(player);
     }
+
     public static void mainMenu(Player player, PrisonPickaxe pickaxe) {
         PlayerData playerData = new PlayerData(player);
-        GUICreator c = new GUICreator(54, "Enchants");
+        GUICreator c = new GUICreator(54, "Pickaxe Enchants");
         c.setItems(
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
@@ -93,11 +94,10 @@ public class EnchantMenus extends GUIUtils {
                 createLightGrayPlaceHolder()
         );
         c.open(player);
-        //c.setOnCloseRun((p, t) -> MainMenus.open(p));
+        c.setOnCloseRun((p, t) -> PickaxeMenus.open(p, pickaxe));
     }
 
     public static void openSettings(Player player, PrisonPickaxe pickaxe) {
-        PlayerData playerData = new PlayerData(player);
         GUICreator c = new GUICreator(45, "Enchant Settings");
         c.setItems(
                 createGrayPlaceHolder(),

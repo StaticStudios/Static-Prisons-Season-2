@@ -1,6 +1,5 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.pickaxe;
 
-import net.staticstudios.prisons.pickaxe.gui.EnchantMenus;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

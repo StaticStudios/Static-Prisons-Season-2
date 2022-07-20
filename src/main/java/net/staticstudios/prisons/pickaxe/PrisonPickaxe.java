@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.pickaxe;
 
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.utils.Constants;
@@ -11,6 +12,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -51,6 +56,7 @@ public class PrisonPickaxe {
             }
             pickaxesToUpdateLore.remove(pickaxe);
         }
+        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new Listener(), StaticPrisons.getInstance());
 
     }
 
@@ -389,5 +395,24 @@ public class PrisonPickaxe {
     @Override
     public int hashCode() {
         return Objects.hash(pickaxeUUID);
+    }
+
+
+    static class Listener implements org.bukkit.event.Listener {
+        @EventHandler
+        void onInteract(PlayerInteractEvent e) {
+            Player player = e.getPlayer();
+            if (Objects.equals(e.getHand(), EquipmentSlot.OFF_HAND)) return;
+            //Check if the player is holding a pickaxe and is trying to open the enchants menu
+            if (e.getAction().isRightClick()) {
+                if (player.isSneaking()) {
+                    if (PrisonUtils.checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) {
+                        if (new PlayerData(player).getIsMobile()) return;
+                        PickaxeMenus.open(player, PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()));
+                        e.setCancelled(true);
+                    }
+                }
+            }
+        }
     }
 }

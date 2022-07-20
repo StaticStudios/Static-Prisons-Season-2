@@ -1,8 +1,5 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.pickaxe;
 
-import net.staticstudios.mines.StaticMineUtils;
-import net.staticstudios.prisons.data.serverData.ServerData;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,11 +11,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetNewPickaxeCommand implements CommandExecutor, TabCompleter {
+public class PickaxeCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player player)) return false;
-        player.getInventory().addItem(PrisonUtils.createNewPickaxe());
+        PickaxeMenus.mainMenu(player);
         return false;
     }
     @Override

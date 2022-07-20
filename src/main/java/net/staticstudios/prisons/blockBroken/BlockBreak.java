@@ -173,8 +173,7 @@ public class BlockBreak {
         if (!isCancelled) {
             if (!isSimulated && blockLocation != null) {
                 if (blockBreakEvent != null) {
-                    blockBreakEvent.setDropItems(false);
-                    blockBreakEvent.setExpToDrop(0);
+                    blockBreakEvent.setCancelled(true);
                 }
                 MineBlock mb = MineBlock.fromMaterial(blockLocation.getBlock().getType());
                 if (mb != null && !mb.material().equals(Material.AIR)) {

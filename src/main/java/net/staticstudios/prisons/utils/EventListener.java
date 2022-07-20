@@ -12,7 +12,7 @@ import net.staticstudios.prisons.customItems.Vouchers;
 import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.data.serverData.ServerData;
-import net.staticstudios.prisons.pickaxe.gui.EnchantMenus;
+import net.staticstudios.prisons.pickaxe.EnchantMenus;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -112,17 +112,6 @@ public class EventListener implements Listener {
             //Check if it is also a block place event
             if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                 if (player.getInventory().getItemInMainHand().getType().isBlock() && !e.getClickedBlock().getType().isInteractable()) return;
-            }
-        }
-        //Check if the player is holding a pickaxe and is trying to open the enchants menu
-        if (e.getAction().isRightClick()) {
-            if (player.isSneaking()) {
-                if (PrisonUtils.checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) {
-                    if (new PlayerData(player).getIsMobile()) return;
-                    EnchantMenus.mainMenu(player, PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()));
-                    e.setCancelled(true);
-                    return;
-                }
             }
         }
     }

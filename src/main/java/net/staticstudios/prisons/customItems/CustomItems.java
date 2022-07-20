@@ -2,14 +2,12 @@ package net.staticstudios.prisons.customItems;
 
 import net.staticstudios.prisons.StaticPrisons;
 import net.md_5.bungee.api.ChatColor;
-import net.staticstudios.prisons.customItems.mineBombs.MineBombItem;
+import net.staticstudios.prisons.mineBombs.MineBombItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;

@@ -7,7 +7,7 @@ import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.customItems.mineBombs.MineBomb;
+import net.staticstudios.prisons.mineBombs.MineBomb;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -22,7 +22,6 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
