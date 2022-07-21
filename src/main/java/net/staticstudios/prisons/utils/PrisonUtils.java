@@ -2,7 +2,7 @@ package net.staticstudios.prisons.utils;
 
 import com.destroystokyo.paper.event.server.ServerTickStartEvent;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.data.PlayerData;
 import net.luckperms.api.model.user.User;
@@ -288,9 +288,9 @@ public final class PrisonUtils {
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addEnchant(Enchantment.DIG_SPEED, 100, true);
         item.setItemMeta(meta);
-        pickaxe.setEnchantsLevel(PrisonEnchants.FORTUNE, 10);
-        pickaxe.setEnchantsLevel(PrisonEnchants.DOUBLE_FORTUNE, 5);
-        pickaxe.setEnchantsLevel(PrisonEnchants.TOKENATOR, 1);
+        pickaxe.setEnchantsLevel(PickaxeEnchants.FORTUNE, 10);
+        pickaxe.setEnchantsLevel(PickaxeEnchants.DOUBLE_FORTUNE, 5);
+        pickaxe.setEnchantsLevel(PickaxeEnchants.TOKENATOR, 1);
         PrisonPickaxe.updateLore(item);
         return item;
     }

@@ -43,7 +43,7 @@ public class PickaxeMenus extends GUIUtils {
         c.setItem(10, ench(c.createButton(Material.FIRE_CHARGE, "&a&lPickaxe Abilities", List.of(
                 "&oUnlock, upgrade, and activate abilities for your pickaxe!"
         ), (p, t) -> {
-            //todo abilities
+            AbilityMenus.mainMenu(p, pickaxe);
         })));
 
         c.setItem(13, ench(c.createButton(Material.ENCHANTED_BOOK, "&d&lPickaxe Enchants", List.of(

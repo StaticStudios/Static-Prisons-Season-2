@@ -2,8 +2,10 @@ package net.staticstudios.prisons.pickaxe;
 
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
+import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -13,7 +15,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -124,6 +125,8 @@ public class PrisonPickaxe {
     private final String pickaxeUUID;
     public ItemStack item = null;
     private Map<String, Integer> enchantLevels = new HashMap<>();
+    private Map<String, Integer> abilityLevels = new HashMap<>(); //todo config
+    private Map<String, Long> lastActivatedAbilitiesAt = new HashMap<>(); //todo config
     private Set<String> disabledEnchants = new HashSet<>();
     private List<String> topLore = new ArrayList<>();
     public PrisonPickaxe setTopLore(List<String> topLore) {
@@ -156,15 +159,21 @@ public class PrisonPickaxe {
 
     public List<BaseEnchant> getEnchants() {
         List<BaseEnchant> enchants = new ArrayList<>();
-        for(String enchantID : enchantLevels.keySet()) if (getEnchantLevel(enchantID) > 0) enchants.add(PrisonEnchants.enchantIDToEnchant.get(enchantID));
+        for(String enchantID : enchantLevels.keySet()) {
+            if (getEnchantLevel(enchantID) > 0) {
+                enchants.add(PickaxeEnchants.enchantIDToEnchant.get(enchantID));
+            }
+        }
         return enchants;
     }
 
     public int getEnchantLevel(BaseEnchant enchant) {
-        return (getEnchantLevel(enchant.ENCHANT_ID));
+        return getEnchantLevel(enchant.ENCHANT_ID);
     }
     public int getEnchantLevel(String enchantID) {
-        if (enchantLevels.containsKey(enchantID)) return enchantLevels.get(enchantID);
+        if (enchantLevels.containsKey(enchantID)) {
+            return enchantLevels.get(enchantID);
+        }
         return 0;
     }
 
@@ -176,6 +185,8 @@ public class PrisonPickaxe {
         if (enabled) {
             disabledEnchants.remove(enchantID);
         } else disabledEnchants.add(enchantID);
+
+        //activate or deactivate enchants that have been enabled or disabled if the player is holding the pickaxe
 
         if (player.getInventory().getItemInMainHand().equals(item)) {
             if (enabled) {
@@ -225,6 +236,59 @@ public class PrisonPickaxe {
 
     public void removeEnchantLevel(BaseEnchant enchant, int level) {
         setEnchantsLevel(enchant, Math.max(0, getEnchantLevel(enchant) - level));
+    }
+
+
+    public List<BaseAbility> getAbilities() {
+        List<BaseAbility> abilities = new ArrayList<>();
+        for(String abilityID : abilityLevels.keySet()) {
+            if (getAbilityLevel(abilityID) > 0) {
+                abilities.add(PickaxeAbilities.abilityIDToAbility.get(abilityID));
+            }
+        }
+        return abilities;
+    }
+    public int getAbilityLevel(BaseAbility ability) {
+        return getAbilityLevel(ability.ABILITY_ID);
+    }
+    public int getAbilityLevel(String abilityID) {
+        if (abilityLevels.containsKey(abilityID)) {
+            return abilityLevels.get(abilityID);
+        }
+        return 0;
+    }
+
+    public void setAbilityLevel(BaseAbility ability, int level) {
+        addPickaxeToUpdateLore(this);
+        abilityLevels.put(ability.ABILITY_ID, level);
+    }
+    public void setAbilityLevel(String abilityID, int level) {
+        addPickaxeToUpdateLore(this);
+        abilityLevels.put(abilityID, level);
+    }
+
+    public void addAbilityLevel(BaseAbility ability, int level) {
+        setAbilityLevel(ability, getAbilityLevel(ability) + level);
+    }
+    public void addAbilityLevel(String abilityID, int level) {
+        setAbilityLevel(abilityID, getAbilityLevel(abilityID) + level);
+    }
+
+    public void removeAbilityLevel(BaseAbility ability, int level) {
+        setAbilityLevel(ability, Math.max(0, getAbilityLevel(ability) - level));
+    }
+
+    public long getLastActivatedAbilityAt(BaseAbility ability) {
+        return getLastActivatedAbilityAt(ability.ABILITY_ID);
+    }
+    public long getLastActivatedAbilityAt(String abilityID) {
+        return lastActivatedAbilitiesAt.getOrDefault(abilityID, 0L);
+    }
+    public void setLastActivatedAbilityAt(BaseAbility ability, long time) {
+        setLastActivatedAbilityAt(ability.ABILITY_ID, time);
+    }
+    public void setLastActivatedAbilityAt(String abilityID, long time) {
+        lastActivatedAbilitiesAt.put(abilityID, time);
     }
 
     public long getLevel() {
@@ -347,6 +411,7 @@ public class PrisonPickaxe {
         lore.addAll(buildStatLore());
         lore.add(LORE_DIVIDER);
         lore.addAll(buildEnchantLore());
+        lore.addAll(buildAbilityLore());
         if (bottomLore != null && !bottomLore.isEmpty()) {
             lore.add(LORE_DIVIDER);
             lore.addAll(bottomLore);
@@ -366,9 +431,22 @@ public class PrisonPickaxe {
 
     private List<String> buildEnchantLore() {
         List<String> lore = new ArrayList<>();
-        for (BaseEnchant ench : PrisonEnchants.ORDERED_ENCHANTS) {
+        for (BaseEnchant ench : PickaxeEnchants.ORDERED_ENCHANTS) {
             int level = getEnchantLevel(ench);
-            if (level > 0) lore.add(ChatColor.AQUA + ench.UNFORMATTED_DISPLAY_NAME + ": " + PrisonUtils.addCommasToNumber(level));
+            if (level > 0) {
+                lore.add(ChatColor.AQUA + ench.UNFORMATTED_DISPLAY_NAME + ": " + PrisonUtils.addCommasToNumber(level));
+            }
+        }
+        return lore;
+    }
+
+    private List<String> buildAbilityLore() {
+        List<String> lore = new ArrayList<>();
+        for (BaseAbility ability : PickaxeAbilities.ORDERED_ABILITIES) {
+            int level = getAbilityLevel(ability);
+            if (level > 0) {
+                lore.add(ChatColor.RED + ability.UNFORMATTED_DISPLAY_NAME + ": " + PrisonUtils.addCommasToNumber(level));
+            }
         }
         return lore;
     }

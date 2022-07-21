@@ -5,7 +5,7 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.mineBombs.MineBomb;
 import net.staticstudios.prisons.privateMines.PrivateMine;
@@ -49,15 +49,15 @@ public class EggShooterEnchant extends BaseEnchant {
         PrisonPickaxe pickaxe = eggShooterPickaxe.pickaxe;
         StaticMine mine = StaticMine.fromLocation(e.getHitBlock().getLocation());
         if (mine == null) return;
-        MineBomb bomb = new MineBomb(e.getHitBlock().getLocation(), (double) pickaxe.getEnchantLevel(PrisonEnchants.EGG_SHOOTER) / (PrisonEnchants.EGG_SHOOTER.MAX_LEVEL / 5) + 1);
+        MineBomb bomb = new MineBomb(e.getHitBlock().getLocation(), (double) pickaxe.getEnchantLevel(PickaxeEnchants.EGG_SHOOTER) / (PickaxeEnchants.EGG_SHOOTER.MAX_LEVEL / 5) + 1);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
             Map<Material, Long> blocksBroken = bomb.explode(mine, 10);
             Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
                 mine.removeBlocksBrokenInMine(bomb.blocksChanged);
                 pickaxe.addBlocksBroken(bomb.blocksChanged);
                 pickaxe.addXp(bomb.blocksChanged * 2);
-                int fortune = pickaxe.getEnchantLevel(PrisonEnchants.FORTUNE);
-                if (PrisonUtils.randomInt(0, PrisonEnchants.DOUBLE_FORTUNE.MAX_LEVEL) < pickaxe.getEnchantLevel(PrisonEnchants.DOUBLE_FORTUNE)) fortune *= 2;
+                int fortune = pickaxe.getEnchantLevel(PickaxeEnchants.FORTUNE);
+                if (PrisonUtils.randomInt(0, PickaxeEnchants.DOUBLE_FORTUNE.MAX_LEVEL) < pickaxe.getEnchantLevel(PickaxeEnchants.DOUBLE_FORTUNE)) fortune *= 2;
                 PlayerData playerData = new PlayerData(player);
                 boolean backpackWasFull = playerData.getBackpackIsFull();
                 if (!backpackWasFull) {

@@ -5,7 +5,7 @@ import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.dataHandling.DataTypes;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.mines.MineBlock;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -353,8 +353,8 @@ public class PlayerData extends DataSet {
             ItemStack item = player.getInventory().getItemInMainHand();
             if (PrisonUtils.checkIsPrisonPickaxe(item)) {
                 PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(item);
-                if (pickaxe.getIsEnchantEnabled(PrisonEnchants.MERCHANT)) {
-                    multi = multi.add(BigDecimal.valueOf(pickaxe.getEnchantLevel(PrisonEnchants.MERCHANT) / 1250d));
+                if (pickaxe.getIsEnchantEnabled(PickaxeEnchants.MERCHANT)) {
+                    multi = multi.add(BigDecimal.valueOf(pickaxe.getEnchantLevel(PickaxeEnchants.MERCHANT) / 1250d));
                 }
             }
         }
@@ -769,5 +769,17 @@ public class PlayerData extends DataSet {
     public PlayerData setUIThemeID(String value) {
         setString("UIThemeID", value);
         return this;
+    }
+
+
+    public PlayerData setLastUsedPickaxeAbility(long value) {
+        setLong("lastUsedPickaxeAbility", value);
+        return this;
+    }
+    public long getLastUsedPickaxeAbility() {
+        return getLong("lastUsedPickaxeAbility");
+    }
+    public boolean canUsePickaxeAbility() {
+        return getLastUsedPickaxeAbility() + (1000 * 60 * 60) < System.currentTimeMillis();
     }
 }

@@ -30,9 +30,17 @@ public class MineBomb {
     private int originZ;
     private World world;
     private double radius;
-    private boolean canExplode;
+    private boolean useParticles = true;
 
-    private List<BlockVector3> positions = new LinkedList<>();
+    public boolean isUseParticles() {
+        return useParticles;
+    }
+
+    public void setUseParticles(boolean useParticles) {
+        this.useParticles = useParticles;
+    }
+
+    public List<BlockVector3> positions = new LinkedList<>();
 
 
     private EditSession editSession;
@@ -42,16 +50,19 @@ public class MineBomb {
 
     public MineBomb(Location origin, double radius) {
         this.location = origin;
-        canExplode = location.getWorld().equals(Constants.MINES_WORLD) || location.getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD);
         this.originX = origin.getBlockX();
         this.originY = origin.getBlockY();
         this.originZ = origin.getBlockZ();
         this.world = origin.getWorld();
         this.radius = radius;
     }
+    public MineBomb(double radius) {
+        this.radius = radius;
+    }
 
 
     public MineBomb computePositions() {
+        positions.clear();
         makeSphere(radius, true);
         return this;
     }
@@ -62,17 +73,21 @@ public class MineBomb {
         return explode(mine, (int) (radius / 2 * 25) + 75);
     }
     public Map<Material, Long> explode(StaticMine mine, int particles) {
-        if (!canExplode) return new HashMap<>();
         computePositions();
         return explodeAtComputedPositions(mine, particles);
     }
-    public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, BlockVector3 newOrigin) {
+    public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, Location newOrigin) {
+        location = newOrigin;
+        this.world = newOrigin.getWorld();
         this.originX = newOrigin.getBlockX();
         this.originY = newOrigin.getBlockY();
         this.originZ = newOrigin.getBlockZ();
-        return explode(mine, (int) (radius / 2 * 25) + 75);
+        return explodeAtComputedPositions(mine, (int) (radius / 2 * 25) + 75);
     }
     public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, int particles) {
+        if (positions.isEmpty()) computePositions();
+        blocksChanged = 0;
+        blocksChanges.clear();
         this.mine = mine;
         editSession = StaticPrisons.worldEdit.newEditSessionBuilder().world(BukkitAdapter.adapt(world)).build();
         editSession.setMask(new RegionMask(mine.getRegion()));
@@ -80,7 +95,9 @@ public class MineBomb {
             setBlock(pos.getBlockX() + originX, pos.getBlockY() + originY, pos.getBlockZ() + originZ, pattern);
         }
         editSession.close();
-        world.spawnParticle(Particle.EXPLOSION_LARGE, location, particles, radius, radius, radius);
+        if (useParticles){
+            world.spawnParticle(Particle.EXPLOSION_LARGE, location, particles, radius, radius, radius);
+        }
         blocksChanges.remove(null);
         return blocksChanges;
     }
@@ -189,15 +206,11 @@ public class MineBomb {
     //If the block gets changed, it tracks the changes
     private void setBlock(int x, int y, int z, Pattern pattern) {
         BlockType blockType = editSession.getBlockType(x, y, z);
-        if (editSession.setBlock(x, y, z, pattern) && mine.getRegion().contains(x, y, z)) {
-            blocksChanged++;
+        if (blockType == BlockTypes.AIR) return;
+        if (mine.getRegion().contains(x, y, z) && editSession.setBlock(x, y, z, pattern)) {
             Material mat = BukkitAdapter.adapt(blockType);
-            if (mat == null) return;
-            if (mat.equals(Material.AIR)) return;
-            if (!blocksChanges.containsKey(mat)) {
-                blocksChanges.put(mat, 0L);
-            }
-            blocksChanges.put(mat, blocksChanges.get(mat) + 1);
+            blocksChanges.put(mat, blocksChanges.getOrDefault(mat, 0L) + 1);
+            blocksChanged++;
         }
     }
 }

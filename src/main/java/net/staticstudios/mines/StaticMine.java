@@ -58,8 +58,9 @@ public class StaticMine {
     private boolean shouldSaveToFile = false;
     private MineBlock[] mineBlocks = new MineBlock[] {new MineBlock(BlockTypes.STONE, 100) };
 
-    private long blocksInMine;
-    private long blocksInFullMine;
+    public boolean isRefilling = false;
+    public long blocksInMine;
+    public long blocksInFullMine;
     private double refillAtPercentLeft = 50d; //TODO: can configure in config
     private Consumer<StaticMine> runOnRefill = mine -> {};
 
@@ -84,7 +85,6 @@ public class StaticMine {
         for (StaticMine m : ALL_MINES.values()) {
             if (!m.getWorld().equals(location.getWorld())) continue;
             if (m.getMinPoint().getX() <= location.getBlockX() && m.getMaxPoint().getX() >= location.getBlockX() &&
-                    m.getMinPoint().getY() <= location.getBlockY() && m.getMaxPoint().getY() >= location.getBlockY() &&
                     m.getMinPoint().getZ() <= location.getBlockZ() && m.getMaxPoint().getZ() >= location.getBlockZ()) {
                 return m;
             }
@@ -137,7 +137,9 @@ public class StaticMine {
         Location maxPoint = StaticMine.getMaxPoint(point1, point2);
         this.minPoint = BlockVector3.at(minPoint.getBlockX(), minPoint.getBlockY(), minPoint.getBlockZ());
         this.maxPoint = BlockVector3.at(maxPoint.getBlockX(), maxPoint.getBlockY(), maxPoint.getBlockZ());
-        blocksInFullMine = (long) (maxPoint.getBlockX() - minPoint.getBlockX()) * (maxPoint.getBlockY() - minPoint.getBlockY()) * (maxPoint.getBlockZ() - minPoint.getBlockZ());
+        blocksInFullMine = (long) (maxPoint.getBlockX() - minPoint.getBlockX() + 1) *
+                (maxPoint.getBlockY() - minPoint.getBlockY() + 1) *
+                (maxPoint.getBlockZ() - minPoint.getBlockZ() + 1);
         blocksInMine = 0;
         world = minPoint.getWorld();
         weWorld = BukkitAdapter.adapt(world);
@@ -168,7 +170,6 @@ public class StaticMine {
      */
     public CompletableFuture<StaticMine> refill(boolean completeFutureOnMainThread) {
         CompletableFuture<StaticMine> future = new CompletableFuture<>();
-        blocksInMine = (long) (maxPoint.getBlockX() - minPoint.getBlockX()) * (maxPoint.getBlockY() - minPoint.getBlockY()) * (maxPoint.getBlockZ() - minPoint.getBlockZ());
         refillNextAt = Instant.now().getEpochSecond() + secondsBetweenRefills;
         if (!shouldRefillSync) {
             Bukkit.getScheduler().runTaskAsynchronously(StaticMines.getParent(), () -> refillMine(true, completeFutureOnMainThread).thenRun(() -> future.complete(this)));
@@ -181,11 +182,12 @@ public class StaticMine {
      * @param completeFutureOnMainThread - if true, the completeable future will be completed on the main thread, otherwise, it might be completed on a different thread (depends on if the mine refills sync or not). This is useful if you do not want to wait until the next tick to run an operation.
      */
     CompletableFuture<StaticMine> refillMine(boolean async, boolean completeFutureOnMainThread) {
+        if (isRefilling) return CompletableFuture.completedFuture(this);
         CompletableFuture<StaticMine> future = new CompletableFuture<>();
+        isRefilling = true;
         EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld);
         editSession.setBlocks(region, getBlockPattern());
         editSession.close();
-        blocksInMine = (long) (maxPoint.getBlockX() - minPoint.getBlockX()) * (maxPoint.getBlockY() - minPoint.getBlockY()) * (maxPoint.getBlockZ() - minPoint.getBlockZ());
         refillNextAt = Instant.now().getEpochSecond() + secondsBetweenRefills;
         StaticMines.log("Refilled mine: " + id);
         if (async) {
@@ -195,9 +197,13 @@ public class StaticMine {
             Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> {
                 runOnRefill.accept(this);
                 future.complete(this);
+                isRefilling = false;
+                blocksInMine = blocksInFullMine;
             });
         } else {
             future.complete(this);
+            isRefilling = false;
+            blocksInMine = blocksInFullMine;
             Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> runOnRefill.accept(this));
         }
         return future;
