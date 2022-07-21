@@ -11,8 +11,6 @@ import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.privateMines.PrivateMine;
-import net.staticstudios.prisons.utils.Constants;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -23,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class MineBomb {
+public class MultiBombMineBomb {
     static final Pattern pattern = BlockTypes.AIR;
     private Location location;
     private int originX;
@@ -31,7 +29,6 @@ public class MineBomb {
     private int originZ;
     private World world;
     private double radius;
-    private RelightMode relightMode;
     private boolean useParticles = true;
 
     public boolean isUseParticles() {
@@ -42,14 +39,6 @@ public class MineBomb {
         this.useParticles = useParticles;
     }
 
-    public RelightMode getRelightMode() {
-        return relightMode;
-    }
-
-    public void setRelightMode(RelightMode relightMode) {
-        this.relightMode = relightMode;
-    }
-
     public List<BlockVector3> positions = new LinkedList<>();
 
 
@@ -58,7 +47,7 @@ public class MineBomb {
     public long blocksChanged = 0;
     private StaticMine mine;
 
-    public MineBomb(Location origin, double radius) {
+    public MultiBombMineBomb(Location origin, double radius) {
         this.location = origin;
         this.originX = origin.getBlockX();
         this.originY = origin.getBlockY();
@@ -66,53 +55,53 @@ public class MineBomb {
         this.world = origin.getWorld();
         this.radius = radius;
     }
-    public MineBomb(double radius) {
+    public MultiBombMineBomb(double radius) {
         this.radius = radius;
     }
 
 
-    public MineBomb computePositions() {
+    public MultiBombMineBomb computePositions() {
         positions.clear();
         makeSphere(radius, true);
         return this;
     }
 
 
-
-    public Map<Material, Long> explode(StaticMine mine) {
-        return explode(mine, (int) (radius / 2 * 25) + 75);
-    }
-    public Map<Material, Long> explode(StaticMine mine, int particles) {
-        computePositions();
-        return explodeAtComputedPositions(mine, particles);
-    }
-    public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, Location newOrigin) {
-        location = newOrigin;
-        this.world = newOrigin.getWorld();
-        this.originX = newOrigin.getBlockX();
-        this.originY = newOrigin.getBlockY();
-        this.originZ = newOrigin.getBlockZ();
-        return explodeAtComputedPositions(mine, (int) (radius / 2 * 25) + 75);
-    }
-    public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, int particles) {
+    public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, List<Location> newOrigins) {
         if (positions.isEmpty()) computePositions();
-        blocksChanged = 0;
         blocksChanges.clear();
-        this.mine = mine;
+        blocksChanged = 0;
+        if (newOrigins.isEmpty()) {
+            return blocksChanges;
+        }
+        this.world = newOrigins.get(0).getWorld();
         editSession = StaticPrisons.worldEdit.newEditSessionBuilder()
                 .world(BukkitAdapter.adapt(world))
-                .relightMode(relightMode)
                 .build();
         editSession.setMask(new RegionMask(mine.getRegion()));
+        this.mine = mine;
+
+
+        for (Location newOrigin : newOrigins) {
+            location = newOrigin;
+            this.world = newOrigin.getWorld();
+            this.originX = newOrigin.getBlockX();
+            this.originY = newOrigin.getBlockY();
+            this.originZ = newOrigin.getBlockZ();
+            explodeAtComputedPositions(mine, (int) (radius / 2 * 25) + 75);
+        }
+
+        editSession.close();
+        blocksChanges.remove(null);
+        return blocksChanges;
+    }
+    void explodeAtComputedPositions(StaticMine mine, int particles) {
         for (BlockVector3 pos : positions) {
             setBlock(pos.getBlockX() + originX, pos.getBlockY() + originY, pos.getBlockZ() + originZ, pattern);
         }
-        editSession.close();
         if (useParticles) {
             world.spawnParticle(Particle.EXPLOSION_LARGE, location, particles, radius, radius, radius);
         }
-        blocksChanges.remove(null);
-        return blocksChanges;
     }
 
 

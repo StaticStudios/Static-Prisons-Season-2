@@ -1,10 +1,12 @@
 package net.staticstudios.prisons.pickaxe.abilities;
 
+import com.fastasyncworldedit.core.extent.processor.lighting.RelightMode;
 import com.sk89q.worldedit.math.BlockVector3;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mineBombs.MineBomb;
+import net.staticstudios.prisons.mineBombs.MultiBombMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -13,11 +15,13 @@ import org.bukkit.Material;
 
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class LightningStrikeAbility extends BaseAbility {
 
-    private static MineBomb lightningStrikeBomb = new MineBomb(6);
+    private static MultiBombMineBomb lightningStrikeBomb = new MultiBombMineBomb(6);
 
     public LightningStrikeAbility() {
         super("lightningStrike", "&b&lLightning Strike", 11, BigInteger.ZERO, 1000 * 60 * 90,
@@ -38,15 +42,17 @@ public class LightningStrikeAbility extends BaseAbility {
         StaticMine mine = blockBreak.getMine();
         Location loc = blockBreak.getBlockLocation().clone();
         loc.setY(mine.getMaxVector().getBlockY());
+        List<Location> locs = new LinkedList<>();
         for (int y = mine.getMaxVector().getBlockY(); y > mine.getMinVector().getBlockY(); y -= STEP) {
             loc.add(0, -STEP, 0);
-            Map<Material, Long> blocksBroken = lightningStrikeBomb.explodeAtComputedPositions(mine, loc.clone().add(PrisonUtils.randomDouble(-2, 2), -1, PrisonUtils.randomDouble(-2, 2)));
-            for (Map.Entry<Material, Long> entry: blocksBroken.entrySet()) {
-                MineBlock mb = MineBlock.fromMaterial(entry.getKey());
-                blockBreak.getStats().getMinedBlocks().put(mb, blockBreak.getStats().getMinedBlocks().getOrDefault(mb, 0L) + entry.getValue());
-            }
-            blockBreak.getStats().setBlocksBroken(blockBreak.getStats().getBlocksBroken() + lightningStrikeBomb.blocksChanged);
+            locs.add(loc.clone().add(PrisonUtils.randomDouble(-2, 2), -1, PrisonUtils.randomDouble(-2, 2)));
         }
+        Map<Material, Long> blocksBroken = lightningStrikeBomb.explodeAtComputedPositions(mine, locs);
+        for (Map.Entry<Material, Long> entry: blocksBroken.entrySet()) {
+            MineBlock mb = MineBlock.fromMaterial(entry.getKey());
+            blockBreak.getStats().getMinedBlocks().put(mb, blockBreak.getStats().getMinedBlocks().getOrDefault(mb, 0L) + entry.getValue());
+        }
+        blockBreak.getStats().setBlocksBroken(blockBreak.getStats().getBlocksBroken() + lightningStrikeBomb.blocksChanged);
         loc.getWorld().strikeLightningEffect(loc);
     }
 

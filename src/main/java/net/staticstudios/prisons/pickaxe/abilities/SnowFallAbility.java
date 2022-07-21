@@ -1,16 +1,19 @@
 package net.staticstudios.prisons.pickaxe.abilities;
 
+import com.fastasyncworldedit.core.extent.processor.lighting.RelightMode;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mineBombs.MineBomb;
+import net.staticstudios.prisons.mineBombs.MultiBombMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.pickaxe.enchants.EggShooterEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.utils.PrisonUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,11 +29,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class SnowFallAbility extends BaseAbility {
 
-    private static final MineBomb snowFallMineBomb = new MineBomb(5);
+    private static final MultiBombMineBomb snowFallMineBomb = new MultiBombMineBomb(5);
 
     private static boolean listenerRegistered = false;
 
@@ -79,20 +84,37 @@ public class SnowFallAbility extends BaseAbility {
             this.mine = mine;
         }
 
-        public static void onHit(ProjectileHitEvent e, SnowFallPickaxe snowFallPickaxe) {
-            PlayerData playerData = new PlayerData(snowFallPickaxe.player);
-            Map<Material, Long> blocksBroken = snowFallMineBomb.explodeAtComputedPositions(snowFallPickaxe.mine, e.getEntity().getLocation());
-            boolean backpackWasFull = playerData.getBackpackIsFull();
-            if (!backpackWasFull) {
-                Map<MineBlock, Long> map = new HashMap<>();
-                for (Map.Entry<Material, Long> entry : blocksBroken.entrySet()) {
-                    map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * snowFallPickaxe.pickaxe.getEnchantLevel(PickaxeEnchants.FORTUNE));
-                }
-                playerData.addAllToBackpack(map);
-            }
-            PrisonUtils.Players.backpackFullCheck(backpackWasFull, snowFallPickaxe.player, playerData);
-            snowFallPickaxe.mine.removeBlocksBrokenInMine(snowFallMineBomb.blocksChanged);
+        boolean started = false;
+        List<Location> locs = new LinkedList<>();
+        void hit(ProjectileHitEvent e) {
+            locs.add(e.getEntity().getLocation());
             e.getEntity().remove();
+
+
+            if (!started) {
+                Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
+                    started = false;
+                    PlayerData playerData = new PlayerData(player);
+                    Map<Material, Long> blocksBroken = snowFallMineBomb.explodeAtComputedPositions(mine, locs);
+                    boolean backpackWasFull = playerData.getBackpackIsFull();
+                    if (!backpackWasFull) {
+                        Map<MineBlock, Long> map = new HashMap<>();
+                        for (Map.Entry<Material, Long> entry : blocksBroken.entrySet()) {
+                            map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * pickaxe.getEnchantLevel(PickaxeEnchants.FORTUNE));
+                        }
+                        playerData.addAllToBackpack(map);
+                    }
+                    PrisonUtils.Players.backpackFullCheck(backpackWasFull, player, playerData);
+                    mine.removeBlocksBrokenInMine(snowFallMineBomb.blocksChanged);
+                    locs.clear();
+                }, 4);
+                started = true;
+            }
+
+        }
+
+        public static void onHit(ProjectileHitEvent e, SnowFallPickaxe snowFallPickaxe) {
+
         }
 
         @Override
@@ -112,7 +134,7 @@ public class SnowFallAbility extends BaseAbility {
         @EventHandler
         void onProjectileHit(ProjectileHitEvent e) {
             if (e.getEntity().getShooter() instanceof SnowFallPickaxe) {
-                SnowFallPickaxe.onHit(e, (SnowFallPickaxe) e.getEntity().getShooter());
+                ((SnowFallPickaxe) e.getEntity().getShooter()).hit(e);
             }
         }
     }
