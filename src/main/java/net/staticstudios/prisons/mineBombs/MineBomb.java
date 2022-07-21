@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.mineBombs;
 
+import com.fastasyncworldedit.core.extent.processor.lighting.RelightMode;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -31,6 +32,8 @@ public class MineBomb {
     private World world;
     private double radius;
     private boolean useParticles = true;
+
+    private boolean usedBefore = false;
 
     public boolean isUseParticles() {
         return useParticles;
@@ -89,7 +92,16 @@ public class MineBomb {
         blocksChanged = 0;
         blocksChanges.clear();
         this.mine = mine;
-        editSession = StaticPrisons.worldEdit.newEditSessionBuilder().world(BukkitAdapter.adapt(world)).build();
+        if (!usedBefore) { //If a mine bomb is being used a lot, it will compute lightning and slow down the server
+            editSession = StaticPrisons.worldEdit.newEditSessionBuilder()
+                    .world(BukkitAdapter.adapt(world))
+                    .build();
+        } else {
+            editSession = StaticPrisons.worldEdit.newEditSessionBuilder()
+                    .world(BukkitAdapter.adapt(world))
+                    .relightMode(RelightMode.NONE)
+                    .build();
+        }
         editSession.setMask(new RegionMask(mine.getRegion()));
         for (BlockVector3 pos : positions) {
             setBlock(pos.getBlockX() + originX, pos.getBlockY() + originY, pos.getBlockZ() + originZ, pattern);
@@ -99,6 +111,7 @@ public class MineBomb {
             world.spawnParticle(Particle.EXPLOSION_LARGE, location, particles, radius, radius, radius);
         }
         blocksChanges.remove(null);
+        usedBefore = true;
         return blocksChanges;
     }
 

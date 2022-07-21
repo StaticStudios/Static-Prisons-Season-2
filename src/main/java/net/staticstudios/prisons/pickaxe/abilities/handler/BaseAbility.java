@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.pickaxe.abilities.handler;
 
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
@@ -19,8 +20,8 @@ public abstract class BaseAbility { //todo: save abilities on the pickaxe
     public static void tickActivateAbilities() {
         Set<AbilityHolder> finished = new HashSet<>();
         for (AbilityHolder abilityHolder : activeAbilities) {
-            abilityHolder.ability.onTick(abilityHolder.player, abilityHolder.pickaxe);
             abilityHolder.timesTicked++;
+            abilityHolder.ability.onTick(abilityHolder.timesTicked, abilityHolder.player, abilityHolder.pickaxe, abilityHolder.mine);
             int ticksLeft = abilityHolder.timesToTick - abilityHolder.timesTicked;
             if (ticksLeft % 20 == 0 && ticksLeft / 20 <= 3 && ticksLeft != 0) {
                 abilityHolder.player.sendMessage(ChatColor.translateAlternateColorCodes('&', abilityHolder.ability.DISPLAY_NAME + " &8&l>> &rEnding in " + (ticksLeft / 20) + "..."));
@@ -48,6 +49,7 @@ public abstract class BaseAbility { //todo: save abilities on the pickaxe
     public final String UNFORMATTED_DISPLAY_NAME;
     public final List<String> DESCRIPTION;
     public final long COOL_DOWN;
+    public boolean requiresMineOnActivate = false;
 
 
 
@@ -82,32 +84,39 @@ public abstract class BaseAbility { //todo: save abilities on the pickaxe
         return this;
     }
 
+    public BigInteger getPrice(long level) {
+        return PRICE.multiply(BigInteger.valueOf(level + 1));
+    }
+
     public boolean tryToBuyLevels(Player player, PrisonPickaxe pickaxe, long levelsToBuy) {
         PlayerData playerData = new PlayerData(player);
         if (levelsToBuy <= 0) {
-            player.sendMessage(org.bukkit.ChatColor.RED + "You do not have enough tokens to buy this!");
+            player.sendMessage(ChatColor.RED + "You do not have enough shards to buy this!");
             return false;
         }
-        levelsToBuy = Math.min(MAX_LEVEL, pickaxe.getEnchantLevel(ABILITY_ID) + levelsToBuy) - pickaxe.getEnchantLevel(ABILITY_ID);
-        if (levelsToBuy <= 0) {
-            player.sendMessage(org.bukkit.ChatColor.RED + "This enchant is already at its max level!");
+        if (pickaxe.getAbilityLevel(this) >= MAX_LEVEL) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cThis ability has reached its max level!"));
             return false;
         }
-        if (playerData.getTokens().compareTo(PRICE.multiply(BigInteger.valueOf(levelsToBuy))) > -1) {
-            playerData.removeTokens(PRICE.multiply(BigInteger.valueOf(levelsToBuy)));
-            int oldLevel = pickaxe.getEnchantLevel(ABILITY_ID);
-            pickaxe.addEnchantLevel(ABILITY_ID, (int) levelsToBuy);
-            int newLevel = pickaxe.getEnchantLevel(ABILITY_ID);
-            pickaxe.tryToUpdateLore();
-            if (pickaxe.getIsEnchantEnabled(ABILITY_ID)) onUpgrade(player, pickaxe, oldLevel, newLevel);
-            player.sendMessage(org.bukkit.ChatColor.AQUA + "You successfully upgraded your pickaxe!");
+        if (pickaxe.getLevel() < getPickaxeLevelRequirement()) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYour pickaxe is not high enough level to upgrade this ability!"));
+            return false;
+        }
+        if (playerData.getPlayerLevel() <  getPlayerLevelRequirement()) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not a high enough level to upgrade this ability!"));
+            return false;
+        }
+        if (playerData.getShards().compareTo(getPrice(pickaxe.getAbilityLevel(this))) > -1) {
+            playerData.removeShards(getPrice(pickaxe.getAbilityLevel(this)));
+            pickaxe.setAbilityLevel(this, pickaxe.getAbilityLevel(this) + 1);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bYou upgraded " + UNFORMATTED_DISPLAY_NAME + "!"));
             return true;
         }
-        player.sendMessage(org.bukkit.ChatColor.RED + "You do not have enough tokens to buy this!");
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou do not have enough shards to upgrade this ability!"));
         return false;
     }
 
-    public void beginActivation(Player player, PrisonPickaxe pickaxe) {
+    public void beginActivation(Player player, PrisonPickaxe pickaxe, StaticMine mine) {
         pickaxe.setLastActivatedAbilityAt(this, System.currentTimeMillis());
         final int[] countdown = {5};
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), task -> {
@@ -115,7 +124,7 @@ public abstract class BaseAbility { //todo: save abilities on the pickaxe
             countdown[0]--;
             if (countdown[0] <= 0) {
                 int level = pickaxe.getAbilityLevel(ABILITY_ID);
-                AbilityHolder abilityHolder = new AbilityHolder(this, level, player,  pickaxe, getTimesToTick(level));
+                AbilityHolder abilityHolder = new AbilityHolder(this, level, player,  pickaxe, mine, getTimesToTick(level));
                 activeAbilities.add(abilityHolder);
                 Set<AbilityHolder> _playerAbilities = pickaxeAbilities.getOrDefault(pickaxe, new HashSet<>());
                 _playerAbilities.add(abilityHolder);
@@ -131,7 +140,7 @@ public abstract class BaseAbility { //todo: save abilities on the pickaxe
     public void onBlockBreak(BlockBreak blockBreak) {}
     public void onActivate(Player player, PrisonPickaxe pickaxe) {}
     public void onDeactivate(Player player, PrisonPickaxe pickaxe) {}
-    public void onTick(Player player, PrisonPickaxe pickaxe) {}
+    public void onTick(int timesTicked, Player player, PrisonPickaxe pickaxe, StaticMine mine) {}
     public void onUpgrade(Player player, PrisonPickaxe pickaxe, int oldLevel, int newLevel) {}
 
     public static class AbilityHolder {
@@ -139,15 +148,17 @@ public abstract class BaseAbility { //todo: save abilities on the pickaxe
         private final int level;
         private final Player player;
         private final PrisonPickaxe pickaxe;
+        private final StaticMine mine;
         private final int timesToTick;
 
         private int timesTicked;
 
-        public AbilityHolder(BaseAbility ability, int level, Player player, PrisonPickaxe pickaxe, int timesToTick) {
+        public AbilityHolder(BaseAbility ability, int level, Player player, PrisonPickaxe pickaxe, StaticMine mine, int timesToTick) {
             this.ability = ability;
             this.level = level;
             this.player = player;
             this.pickaxe = pickaxe;
+            this.mine = mine;
             this.timesToTick = timesToTick;
             timesTicked = 0;
         }

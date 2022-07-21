@@ -15,7 +15,7 @@ public class PickaxeMenus extends GUIUtils {
     public static void mainMenu(Player player) {
         GUICreator c = new GUICreator(27, "Pickaxes");
 
-        c.setItem(11, ench(c.createButton(Material.NETHER_STAR, "&d&lUpgrade Your Pickaxe!", List.of(
+        c.setItem(11, ench(c.createButton(Material.PRISMARINE_CRYSTALS, "&d&lUpgrade Your Pickaxe!", List.of(
                 "- Upgrade enchants",
                 "- Manage abilities"
         ), (p, t) -> {
@@ -40,7 +40,7 @@ public class PickaxeMenus extends GUIUtils {
     public static void open(Player player, PrisonPickaxe pickaxe) {
         GUICreator c = new GUICreator(27, "Manage Your Pickaxe");
 
-        c.setItem(10, ench(c.createButton(Material.FIRE_CHARGE, "&a&lPickaxe Abilities", List.of(
+        c.setItem(10, ench(c.createButton(Material.NETHER_STAR, "&a&lPickaxe Abilities", List.of(
                 "&oUnlock, upgrade, and activate abilities for your pickaxe!"
         ), (p, t) -> {
             AbilityMenus.mainMenu(p, pickaxe);

@@ -1,9 +1,7 @@
 package net.staticstudios.prisons.pickaxe.abilities;
 
-import com.sk89q.worldedit.math.BlockVector3;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
-import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mineBombs.MineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
@@ -12,22 +10,19 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 
 import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.Map;
 
-public class LightningStrikeAbility extends BaseAbility {
+public class BlackHoleAbility extends BaseAbility {
 
     private static MineBomb lightningStrikeBomb = new MineBomb(6);
 
-    public LightningStrikeAbility() {
+    public BlackHoleAbility() {
         super("lightningStrike", "&b&lLightning Strike", 11, BigInteger.ZERO, 1000 * 60 * 90,
-                "&oWhen breaking a block, you will have a 5% chance to",
-                "&ocreate a lighting strike that will break all the blocks",
-                "&oaround you going all the way down to the bottom of the mine!",
+                "&7&oWhen breaking a block, you will have a 5% chance to",
+                "create a lighting strike that will break all the blocks",
+                "around you going all the way down to the bottom of the mine!",
                 "",
-                "&aEach upgrade will increase the duration by 5 seconds",
-                "",
-                "Cooldown: &c" + PrisonUtils.formatTime(1000 * 60 * 90));
+                "Cool down: &b" + PrisonUtils.formatTime(1000 * 60 * 90));
         lightningStrikeBomb.computePositions();
         lightningStrikeBomb.setUseParticles(false);
     }
