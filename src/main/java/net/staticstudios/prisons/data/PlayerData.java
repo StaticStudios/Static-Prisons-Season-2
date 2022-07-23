@@ -780,6 +780,6 @@ public class PlayerData extends DataSet {
         return getLong("lastUsedPickaxeAbility");
     }
     public boolean canUsePickaxeAbility() {
-        return getLastUsedPickaxeAbility() + (1000 * 60 * 60) < System.currentTimeMillis();
+        return getLastUsedPickaxeAbility() + (1000 * 60 * 15) < System.currentTimeMillis();
     }
 }

@@ -15,6 +15,7 @@ import net.staticstudios.prisons.customItems.*;
 import net.staticstudios.prisons.data.backups.DataBackup;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.events.EventManager;
+import net.staticstudios.prisons.fishing.FishingManager;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.EnchantCommand;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
@@ -113,6 +114,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(EventManager::init);
         safe(PlayerRanks::init);
         safe(BlockBreak::init);
+        safe(FishingManager::init);
 
 
 

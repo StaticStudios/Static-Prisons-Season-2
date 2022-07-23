@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class ConsistencyEnchant extends BaseEnchant {
     public ConsistencyEnchant() {
-        super("consistency", "&e&lConsistency", 10, BigInteger.valueOf(1000000), "&7+1% token multi every 2 mins of consistent mining", "&7Increases your max multi by 5% for every level", "&7Multiplier expires after 2 minutes of not mining");
+        super("consistency", "&e&lConsistency", 15, BigInteger.valueOf(1000000), "&7+1% token multi every 2 mins of consistent mining", "&7Increases your max multi by 3% for every level", "&7Multiplier expires after 2 minutes of not mining");
         setPickaxeLevelRequirement(60);
         setPlayerLevelRequirement(25);
     }
@@ -63,7 +63,7 @@ public class ConsistencyEnchant extends BaseEnchant {
 
         ConsistentData data = tokenMultiplier.getOrDefault(blockBreak.getPlayer(), new ConsistentData(1, 0));
         if (totalTimeMining / data.tier >= levelUpTime) { //Check if the player has been mining enough to increase their multiplier
-            if (data.tier > blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID) * 5) return; //They can't have a multiplier higher than their enchant level * 5
+            if (data.tier > blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID) * 3) return; //They can't have a multiplier higher than their enchant level * 5
 
             data = new ConsistentData(data.tier + 1, data.currentMulti + MULTI_INCREASE_PER_LEVEL);
             tokenMultiplier.put(blockBreak.getPlayer(), data);
@@ -71,7 +71,7 @@ public class ConsistencyEnchant extends BaseEnchant {
             blockBreak.messagePlayer(PREFIX +
                     "&6+1.00% Token Multiplier &fdue to your consistent mining activity! Current Multiplier:&a +" +
                     new DecimalFormat("0.00").format(data.currentMulti * 100) + "%! &7&oConsistent time mining: " + PrisonUtils.formatTime(totalTimeMining));
-            if (data.tier - 1 == blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID) * 5) {
+            if (data.tier - 1 == blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID) * 3) {
                 blockBreak.messagePlayer(PREFIX + "&bYour Token multiplier has maxed out! Upgrading the consistency enchant will increase your max multiplier!");
             }
         }

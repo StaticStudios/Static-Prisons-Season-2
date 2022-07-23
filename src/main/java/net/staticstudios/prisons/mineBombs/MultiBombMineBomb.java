@@ -61,8 +61,7 @@ public class MultiBombMineBomb {
 
 
     public MultiBombMineBomb computePositions() {
-        positions.clear();
-        makeSphere(radius, true);
+        positions = MineBomb.makeSphere(radius);
         return this;
     }
 
@@ -88,14 +87,14 @@ public class MultiBombMineBomb {
             this.originX = newOrigin.getBlockX();
             this.originY = newOrigin.getBlockY();
             this.originZ = newOrigin.getBlockZ();
-            explodeAtComputedPositions(mine, (int) (radius / 2 * 25) + 75);
+            explodeAtComputedPositions((int) (radius / 2 * 25) + 75);
         }
 
         editSession.close();
         blocksChanges.remove(null);
         return blocksChanges;
     }
-    void explodeAtComputedPositions(StaticMine mine, int particles) {
+    void explodeAtComputedPositions(int particles) {
         for (BlockVector3 pos : positions) {
             setBlock(pos.getBlockX() + originX, pos.getBlockY() + originY, pos.getBlockZ() + originZ, pattern);
         }
@@ -105,106 +104,6 @@ public class MultiBombMineBomb {
     }
 
 
-    //Custom implementation -- used so changes can be tracked
-    private void makeSphere(double radius, boolean filled) throws MaxChangedBlocksException {
-        double radiusX = radius;
-        double radiusY = radius;
-        double radiusZ = radius;
-        radiusX += 0.5;
-        radiusY += 0.5;
-        radiusZ += 0.5;
-
-        final double invRadiusX = 1 / radiusX;
-        final double invRadiusY = 1 / radiusY;
-        final double invRadiusZ = 1 / radiusZ;
-
-        int px = 0;
-        int py = 0;
-        int pz = 0;
-
-        final int ceilRadiusX = (int) Math.ceil(radiusX);
-        final int ceilRadiusY = (int) Math.ceil(radiusY);
-        final int ceilRadiusZ = (int) Math.ceil(radiusZ);
-
-        //FAWE start
-        int yy;
-        //FAWE end
-
-        double nextXn = 0;
-        forX:
-
-        for (int x = 0; x <= ceilRadiusX; ++x) {
-            final double xn = nextXn;
-            double dx = xn * xn;
-            nextXn = (x + 1) * invRadiusX;
-            double nextZn = 0;
-            forZ:
-            for (int z = 0; z <= ceilRadiusZ; ++z) {
-                final double zn = nextZn;
-                double dz = zn * zn;
-                double dxz = dx + dz;
-                nextZn = (z + 1) * invRadiusZ;
-                double nextYn = 0;
-
-                forY:
-                for (int y = 0; y <= ceilRadiusY; ++y) {
-                    final double yn = nextYn;
-                    double dy = yn * yn;
-                    double dxyz = dxz + dy;
-                    nextYn = (y + 1) * invRadiusY;
-
-                    if (dxyz > 1) {
-                        if (y == 0) {
-                            if (z == 0) {
-                                break forX;
-                            }
-                            break forZ;
-                        }
-                        break forY;
-                    }
-
-                    if (!filled) {
-                        if (nextXn * nextXn + dy + dz <= 1 && nextYn * nextYn + dx + dz <= 1 && nextZn * nextZn + dx + dy <= 1) {
-                            continue;
-                        }
-                    }
-                    //FAWE start
-                    yy = py + y;
-                    if (yy <= 255) {
-                        positions.add(BlockVector3.at(px + x, py + y, pz + z));
-//                        setBlock(px + x, py + y, pz + z, block);
-                        if (x != 0) {
-                            positions.add(BlockVector3.at(px - x, py + y, pz + z));
-//                            setBlock(px - x, py + y, pz + z, block);
-                        }
-                        if (z != 0) {
-//                            setBlock(px + x, py + y, pz - z, block);
-                            positions.add(BlockVector3.at(px + x, py + y, pz - z));
-                            if (x != 0) {
-                                positions.add(BlockVector3.at(px - x, py + y, pz - z));
-//                                setBlock(px - x, py + y, pz - z, block);
-                            }
-                        }
-                    }
-                    yy = py - y;
-                    positions.add(BlockVector3.at(px + x, yy, pz + z));
-//                        setBlock(px + x, yy, pz + z, block);
-                    if (x != 0) {
-                        positions.add(BlockVector3.at(px - x, yy, pz + z));
-//                            setBlock(px - x, yy, pz + z, block);
-                    }
-                    if (z != 0) {
-                        positions.add(BlockVector3.at(px + x, yy, pz - z));
-//                            setBlock(px + x, yy, pz - z, block);
-                        if (x != 0) {
-                            positions.add(BlockVector3.at(px - x, yy, pz - z));
-//                                setBlock(px - x, yy, pz - z, block);
-                        }
-                    }
-                }
-            }
-        }
-    }
     //If the block gets changed, it tracks the changes
     private void setBlock(int x, int y, int z, Pattern pattern) {
         BlockType blockType = editSession.getBlockType(x, y, z);

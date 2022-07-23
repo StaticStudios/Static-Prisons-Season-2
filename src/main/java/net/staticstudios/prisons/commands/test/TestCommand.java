@@ -121,7 +121,16 @@ public class TestCommand implements CommandExecutor {
 //            }, i * 3);
 //        }
 
-        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.LIGHTNING_STRIKE, 1);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.LIGHTNING_STRIKE, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.SNOW_FALL, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.METEOR_STRIKE, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.BEAM_OF_LIGHT, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.BLACK_HOLE, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.LIGHTNING_STRIKE, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.SNOW_FALL, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.METEOR_STRIKE, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.BEAM_OF_LIGHT, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.BLACK_HOLE, 0);
 //        PickaxeAbilities.LIGHTNING_STRIKE.beginActivation(player, PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()));
         new PlayerData(player).setLastUsedPickaxeAbility(0);
         return false;

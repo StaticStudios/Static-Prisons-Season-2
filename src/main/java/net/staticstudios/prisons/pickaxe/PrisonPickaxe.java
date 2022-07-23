@@ -39,7 +39,6 @@ public class PrisonPickaxe {
     public static void init() {
         pickaxeUUIDToPrisonPickaxe = new HashMap<>();
         File dataFolder = new File(StaticPrisons.getInstance().getDataFolder(), "/data");
-        dataFolder.mkdirs();
         File pickaxeData = new File(dataFolder, "pickaxeData.yml");
         if (!pickaxeData.exists()) return;
         FileConfiguration ymlData = YamlConfiguration.loadConfiguration(pickaxeData);
@@ -52,7 +51,23 @@ public class PrisonPickaxe {
             pickaxe.blocksBroken = section.getLong("blocksBroken");
             pickaxe.rawBlocksBroken = section.getLong("rawBlocksBroken");
             for (String _key : section.getKeys(false)) {
-                switch (_key) { case "level", "xp", "blocksBroken", "rawBlocksBroken", "topLore", "bottomLore" -> { continue; }}
+                switch (_key) {
+                    case "level", "xp", "blocksBroken", "rawBlocksBroken", "topLore", "bottomLore" -> { continue; }
+                    case "abilities" -> {
+                        for (String abilityKey : section.getConfigurationSection("abilities").getKeys(false)) {
+                            int level = section.getInt("abilities." + abilityKey);
+                            pickaxe.setAbilityLevel(abilityKey, level);
+                        }
+                        continue;
+                    }
+                    case "abilityCooldowns" -> {
+                        for (String abilityKey : section.getConfigurationSection("abilityCooldowns").getKeys(false)) {
+                            long cooldown = section.getLong("abilityCooldowns." + abilityKey);
+                            pickaxe.setLastActivatedAbilityAt(abilityKey, cooldown);
+                        }
+                        continue;
+                    }
+                }
                 pickaxe.setEnchantsLevel(_key, section.getInt(_key));
             }
             pickaxesToUpdateLore.remove(pickaxe);
@@ -64,37 +79,31 @@ public class PrisonPickaxe {
     public static void savePickaxeData() {
         Map<String, PrisonPickaxe> temp = new HashMap<>(pickaxeUUIDToPrisonPickaxe);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
-            File dataFolder = new File(StaticPrisons.getInstance().getDataFolder(), "/data");
-            FileConfiguration ymlData = new YamlConfiguration();
-            for (String key : temp.keySet()) {
-                ConfigurationSection section = ymlData.createSection(key);
-                PrisonPickaxe pickaxe = temp.get(key);
-                for (BaseEnchant enchant : pickaxe.getEnchants()) section.set(enchant.ENCHANT_ID, pickaxe.getEnchantLevel(enchant.ENCHANT_ID));
-                section.set("disabledEnchants", new ArrayList<>(pickaxe.disabledEnchants));
-                section.set("level", pickaxe.level);
-                section.set("xp", pickaxe.xp);
-                section.set("blocksBroken", pickaxe.blocksBroken);
-                section.set("rawBlocksBroken", pickaxe.rawBlocksBroken);
-                section.set("topLore", pickaxe.topLore);
-                section.set("bottomLore", pickaxe.bottomLore);
-            }
-            try {
-                ymlData.save(new File(dataFolder, "pickaxeData.yml"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Bukkit.getLogger().log(Level.INFO, "Saved all pickaxe data data/pickaxeData.yml");
+            savePickaxeData(temp);
         });
     }
 
     public static void savePickaxeDataNow() {
+        savePickaxeData(pickaxeUUIDToPrisonPickaxe);
+    }
+
+    private static void savePickaxeData(Map<String, PrisonPickaxe> pickaxeUUIDToPrisonPickaxe) {
         File dataFolder = new File(StaticPrisons.getInstance().getDataFolder(), "/data");
         FileConfiguration ymlData = new YamlConfiguration();
         for (String key : pickaxeUUIDToPrisonPickaxe.keySet()) {
             ConfigurationSection section = ymlData.createSection(key);
             PrisonPickaxe pickaxe = pickaxeUUIDToPrisonPickaxe.get(key);
-            for (BaseEnchant enchant : pickaxe.getEnchants()) section.set(enchant.ENCHANT_ID, pickaxe.getEnchantLevel(enchant.ENCHANT_ID));
+            for (BaseEnchant enchant : pickaxe.getEnchants()) {
+                section.set(enchant.ENCHANT_ID, pickaxe.getEnchantLevel(enchant.ENCHANT_ID));
+            }
+            ConfigurationSection abilities = section.createSection("abilities");
+            for (BaseAbility ability : pickaxe.getAbilities()) {
+                abilities.set(ability.ABILITY_ID, pickaxe.getAbilityLevel(ability.ABILITY_ID));
+            }
+            ConfigurationSection abilityCooldowns = section.createSection("abilityCooldowns");
+            for (BaseAbility ability : pickaxe.getAbilities()) {
+                abilityCooldowns.set(ability.ABILITY_ID, pickaxe.getLastActivatedAbilityAt(ability.ABILITY_ID));
+            }
             section.set("disabledEnchants", new ArrayList<>(pickaxe.disabledEnchants));
             section.set("level", pickaxe.level);
             section.set("xp", pickaxe.xp);
@@ -125,8 +134,8 @@ public class PrisonPickaxe {
     private final String pickaxeUUID;
     public ItemStack item = null;
     private Map<String, Integer> enchantLevels = new HashMap<>();
-    private Map<String, Integer> abilityLevels = new HashMap<>(); //todo config
-    private Map<String, Long> lastActivatedAbilitiesAt = new HashMap<>(); //todo config
+    private Map<String, Integer> abilityLevels = new HashMap<>();
+    private Map<String, Long> lastActivatedAbilitiesAt = new HashMap<>();
     private Set<String> disabledEnchants = new HashSet<>();
     private List<String> topLore = new ArrayList<>();
     public PrisonPickaxe setTopLore(List<String> topLore) {

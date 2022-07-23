@@ -12,7 +12,7 @@ import org.bukkit.Material;
 import java.math.BigInteger;
 import java.util.Map;
 
-public class MeteorStrikeAbility extends BaseAbility {
+public class MeteorStrikeAbility extends BaseAbility { //todo
 
     private static MineBomb lightningStrikeBomb = new MineBomb(6);
 

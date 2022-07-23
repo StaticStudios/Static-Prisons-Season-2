@@ -72,8 +72,7 @@ public class MineBomb {
 
 
     public MineBomb computePositions() {
-        positions.clear();
-        makeSphere(radius, true);
+        positions = makeSphere(radius);
         return this;
     }
 
@@ -117,7 +116,8 @@ public class MineBomb {
 
 
     //Custom implementation -- used so changes can be tracked
-    private void makeSphere(double radius, boolean filled) throws MaxChangedBlocksException {
+    public static LinkedList<BlockVector3> makeSphere(double radius) throws MaxChangedBlocksException {
+        LinkedList<BlockVector3> locations = new LinkedList<>();
         double radiusX = radius;
         double radiusY = radius;
         double radiusZ = radius;
@@ -174,47 +174,35 @@ public class MineBomb {
                         break forY;
                     }
 
-                    if (!filled) {
-                        if (nextXn * nextXn + dy + dz <= 1 && nextYn * nextYn + dx + dz <= 1 && nextZn * nextZn + dx + dy <= 1) {
-                            continue;
-                        }
-                    }
                     //FAWE start
                     yy = py + y;
                     if (yy <= 255) {
-                        positions.add(BlockVector3.at(px + x, py + y, pz + z));
-//                        setBlock(px + x, py + y, pz + z, block);
+                        locations.add(BlockVector3.at(px + x, py + y, pz + z));
                         if (x != 0) {
-                            positions.add(BlockVector3.at(px - x, py + y, pz + z));
-//                            setBlock(px - x, py + y, pz + z, block);
+                            locations.add(BlockVector3.at(px - x, py + y, pz + z));
                         }
                         if (z != 0) {
-//                            setBlock(px + x, py + y, pz - z, block);
-                            positions.add(BlockVector3.at(px + x, py + y, pz - z));
+                            locations.add(BlockVector3.at(px + x, py + y, pz - z));
                             if (x != 0) {
-                                positions.add(BlockVector3.at(px - x, py + y, pz - z));
-//                                setBlock(px - x, py + y, pz - z, block);
+                                locations.add(BlockVector3.at(px - x, py + y, pz - z));
                             }
                         }
                     }
                     yy = py - y;
-                    positions.add(BlockVector3.at(px + x, yy, pz + z));
-//                        setBlock(px + x, yy, pz + z, block);
+                    locations.add(BlockVector3.at(px + x, yy, pz + z));
                     if (x != 0) {
-                        positions.add(BlockVector3.at(px - x, yy, pz + z));
-//                            setBlock(px - x, yy, pz + z, block);
+                        locations.add(BlockVector3.at(px - x, yy, pz + z));
                     }
                     if (z != 0) {
-                        positions.add(BlockVector3.at(px + x, yy, pz - z));
-//                            setBlock(px + x, yy, pz - z, block);
+                        locations.add(BlockVector3.at(px + x, yy, pz - z));
                         if (x != 0) {
-                            positions.add(BlockVector3.at(px - x, yy, pz - z));
-//                                setBlock(px - x, yy, pz - z, block);
+                            locations.add(BlockVector3.at(px - x, yy, pz - z));
                         }
                     }
                 }
             }
         }
+        return locations;
     }
     //If the block gets changed, it tracks the changes
     private void setBlock(int x, int y, int z, Pattern pattern) {

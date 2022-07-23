@@ -1,16 +1,12 @@
 package net.staticstudios.prisons.pickaxe.abilities;
 
-import com.fastasyncworldedit.core.extent.processor.lighting.RelightMode;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.mineBombs.MineBomb;
 import net.staticstudios.prisons.mineBombs.MultiBombMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
-import net.staticstudios.prisons.pickaxe.enchants.EggShooterEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -20,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
@@ -40,12 +35,12 @@ public class SnowFallAbility extends BaseAbility {
     private static boolean listenerRegistered = false;
 
     public SnowFallAbility() {
-        super("snowFall", "&f&lSnow Fall", 10, BigInteger.ZERO, 1000 * 60 * 120,
+        super("snowFall", "&f&lSnow Fall", 10, BigInteger.ZERO, 1000 * 60 * 240,
                 "&oCarpet bomb a mine with explosive snowballs!",
                 "",
                 "&aEach upgrade will increase the amount of snowballs dropped!",
                 "",
-                "Cooldown: &c" + PrisonUtils.formatTime(1000 * 60 * 120));
+                "Cooldown: &c" + PrisonUtils.formatTime(1000 * 60 * 240));
         requiresMineOnActivate = true;
         snowFallMineBomb.computePositions();
         if (!listenerRegistered) {
@@ -129,7 +124,6 @@ public class SnowFallAbility extends BaseAbility {
     }
 
     public static class Listener implements org.bukkit.event.Listener {
-        //todo
 
         @EventHandler
         void onProjectileHit(ProjectileHitEvent e) {
