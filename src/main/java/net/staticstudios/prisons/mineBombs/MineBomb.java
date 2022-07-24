@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.mineBombs;
 
+import com.fastasyncworldedit.core.extent.processor.lighting.RelightMode;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -30,9 +31,26 @@ public class MineBomb {
     private int originZ;
     private World world;
     private double radius;
-    private boolean canExplode;
+    private RelightMode relightMode;
+    private boolean useParticles = true;
 
-    private List<BlockVector3> positions = new LinkedList<>();
+    public boolean isUseParticles() {
+        return useParticles;
+    }
+
+    public void setUseParticles(boolean useParticles) {
+        this.useParticles = useParticles;
+    }
+
+    public RelightMode getRelightMode() {
+        return relightMode;
+    }
+
+    public void setRelightMode(RelightMode relightMode) {
+        this.relightMode = relightMode;
+    }
+
+    public List<BlockVector3> positions = new LinkedList<>();
 
 
     private EditSession editSession;
@@ -42,17 +60,19 @@ public class MineBomb {
 
     public MineBomb(Location origin, double radius) {
         this.location = origin;
-        canExplode = location.getWorld().equals(Constants.MINES_WORLD) || location.getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD);
         this.originX = origin.getBlockX();
         this.originY = origin.getBlockY();
         this.originZ = origin.getBlockZ();
         this.world = origin.getWorld();
         this.radius = radius;
     }
+    public MineBomb(double radius) {
+        this.radius = radius;
+    }
 
 
     public MineBomb computePositions() {
-        makeSphere(radius, true);
+        positions = makeSphere(radius);
         return this;
     }
 
@@ -62,32 +82,42 @@ public class MineBomb {
         return explode(mine, (int) (radius / 2 * 25) + 75);
     }
     public Map<Material, Long> explode(StaticMine mine, int particles) {
-        if (!canExplode) return new HashMap<>();
         computePositions();
         return explodeAtComputedPositions(mine, particles);
     }
-    public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, BlockVector3 newOrigin) {
+    public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, Location newOrigin) {
+        location = newOrigin;
+        this.world = newOrigin.getWorld();
         this.originX = newOrigin.getBlockX();
         this.originY = newOrigin.getBlockY();
         this.originZ = newOrigin.getBlockZ();
-        return explode(mine, (int) (radius / 2 * 25) + 75);
+        return explodeAtComputedPositions(mine, (int) (radius / 2 * 25) + 75);
     }
     public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, int particles) {
+        if (positions.isEmpty()) computePositions();
+        blocksChanged = 0;
+        blocksChanges.clear();
         this.mine = mine;
-        editSession = StaticPrisons.worldEdit.newEditSessionBuilder().world(BukkitAdapter.adapt(world)).build();
+        editSession = StaticPrisons.worldEdit.newEditSessionBuilder()
+                .world(BukkitAdapter.adapt(world))
+                .relightMode(relightMode)
+                .build();
         editSession.setMask(new RegionMask(mine.getRegion()));
         for (BlockVector3 pos : positions) {
             setBlock(pos.getBlockX() + originX, pos.getBlockY() + originY, pos.getBlockZ() + originZ, pattern);
         }
         editSession.close();
-        world.spawnParticle(Particle.EXPLOSION_LARGE, location, particles, radius, radius, radius);
+        if (useParticles) {
+            world.spawnParticle(Particle.EXPLOSION_LARGE, location, particles, radius, radius, radius);
+        }
         blocksChanges.remove(null);
         return blocksChanges;
     }
 
 
     //Custom implementation -- used so changes can be tracked
-    private void makeSphere(double radius, boolean filled) throws MaxChangedBlocksException {
+    public static LinkedList<BlockVector3> makeSphere(double radius) throws MaxChangedBlocksException {
+        LinkedList<BlockVector3> locations = new LinkedList<>();
         double radiusX = radius;
         double radiusY = radius;
         double radiusZ = radius;
@@ -144,60 +174,44 @@ public class MineBomb {
                         break forY;
                     }
 
-                    if (!filled) {
-                        if (nextXn * nextXn + dy + dz <= 1 && nextYn * nextYn + dx + dz <= 1 && nextZn * nextZn + dx + dy <= 1) {
-                            continue;
-                        }
-                    }
                     //FAWE start
                     yy = py + y;
                     if (yy <= 255) {
-                        positions.add(BlockVector3.at(px + x, py + y, pz + z));
-//                        setBlock(px + x, py + y, pz + z, block);
+                        locations.add(BlockVector3.at(px + x, py + y, pz + z));
                         if (x != 0) {
-                            positions.add(BlockVector3.at(px - x, py + y, pz + z));
-//                            setBlock(px - x, py + y, pz + z, block);
+                            locations.add(BlockVector3.at(px - x, py + y, pz + z));
                         }
                         if (z != 0) {
-//                            setBlock(px + x, py + y, pz - z, block);
-                            positions.add(BlockVector3.at(px + x, py + y, pz - z));
+                            locations.add(BlockVector3.at(px + x, py + y, pz - z));
                             if (x != 0) {
-                                positions.add(BlockVector3.at(px - x, py + y, pz - z));
-//                                setBlock(px - x, py + y, pz - z, block);
+                                locations.add(BlockVector3.at(px - x, py + y, pz - z));
                             }
                         }
                     }
                     yy = py - y;
-                    positions.add(BlockVector3.at(px + x, yy, pz + z));
-//                        setBlock(px + x, yy, pz + z, block);
+                    locations.add(BlockVector3.at(px + x, yy, pz + z));
                     if (x != 0) {
-                        positions.add(BlockVector3.at(px - x, yy, pz + z));
-//                            setBlock(px - x, yy, pz + z, block);
+                        locations.add(BlockVector3.at(px - x, yy, pz + z));
                     }
                     if (z != 0) {
-                        positions.add(BlockVector3.at(px + x, yy, pz - z));
-//                            setBlock(px + x, yy, pz - z, block);
+                        locations.add(BlockVector3.at(px + x, yy, pz - z));
                         if (x != 0) {
-                            positions.add(BlockVector3.at(px - x, yy, pz - z));
-//                                setBlock(px - x, yy, pz - z, block);
+                            locations.add(BlockVector3.at(px - x, yy, pz - z));
                         }
                     }
                 }
             }
         }
+        return locations;
     }
     //If the block gets changed, it tracks the changes
     private void setBlock(int x, int y, int z, Pattern pattern) {
         BlockType blockType = editSession.getBlockType(x, y, z);
-        if (editSession.setBlock(x, y, z, pattern) && mine.getRegion().contains(x, y, z)) {
-            blocksChanged++;
+        if (blockType == BlockTypes.AIR) return;
+        if (mine.getRegion().contains(x, y, z) && editSession.setBlock(x, y, z, pattern)) {
             Material mat = BukkitAdapter.adapt(blockType);
-            if (mat == null) return;
-            if (mat.equals(Material.AIR)) return;
-            if (!blocksChanges.containsKey(mat)) {
-                blocksChanges.put(mat, 0L);
-            }
-            blocksChanges.put(mat, blocksChanges.get(mat) + 1);
+            blocksChanges.put(mat, blocksChanges.getOrDefault(mat, 0L) + 1);
+            blocksChanged++;
         }
     }
 }

@@ -10,7 +10,7 @@ import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,13 +28,13 @@ public class JackHammerEnchant extends BaseEnchant {
     public void onBlockBreak(BlockBreak blockBreak) {
         if (PrisonUtils.randomInt(1, 75) != 1) return; //Chance to activate enchant
         int jackHammerLevel = blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID);
-        int doubleWammyLevel = blockBreak.getPickaxe().getEnchantLevel(PrisonEnchants.DOUBLE_JACK_HAMMER);
+        int doubleWammyLevel = blockBreak.getPickaxe().getEnchantLevel(PickaxeEnchants.DOUBLE_JACK_HAMMER);
         if (PrisonUtils.randomInt(1, MAX_LEVEL + MAX_LEVEL / 10) > jackHammerLevel + MAX_LEVEL / 10)
             return; //Chance to activate enchant
 
         int howDeepToGo = 1;
-        if (doubleWammyLevel > 0 && blockBreak.getPickaxe().getIsEnchantEnabled(PrisonEnchants.DOUBLE_JACK_HAMMER)) {
-            if (PrisonUtils.randomInt(1, PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) <= doubleWammyLevel + PrisonEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) //Chance to activate double wammy
+        if (doubleWammyLevel > 0 && blockBreak.getPickaxe().getIsEnchantEnabled(PickaxeEnchants.DOUBLE_JACK_HAMMER)) {
+            if (PrisonUtils.randomInt(1, PickaxeEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL + PickaxeEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) <= doubleWammyLevel + PickaxeEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) //Chance to activate double wammy
                 howDeepToGo += 1;
         }
 

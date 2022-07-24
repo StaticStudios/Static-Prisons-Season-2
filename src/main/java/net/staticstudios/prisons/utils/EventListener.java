@@ -177,6 +177,8 @@ public class EventListener implements Listener {
 
     @EventHandler
     void onProjectileHit(ProjectileHitEvent e) {
-        if (e.getEntity().getShooter() instanceof EggShooterEnchant.EggShooterPickaxe) EggShooterEnchant.eggHit(e, (EggShooterEnchant.EggShooterPickaxe) e.getEntity().getShooter());
+        if (e.getEntity().getShooter() instanceof EggShooterEnchant.EggShooterPickaxe) {
+            EggShooterEnchant.eggHit(e, (EggShooterEnchant.EggShooterPickaxe) e.getEntity().getShooter());
+        }
     }
 }

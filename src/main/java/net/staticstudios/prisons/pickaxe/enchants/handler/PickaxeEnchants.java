@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PrisonEnchants {
+public class PickaxeEnchants {
     public static BaseEnchant FORTUNE;
     public static BaseEnchant DOUBLE_FORTUNE;
     public static BaseEnchant TOKENATOR;

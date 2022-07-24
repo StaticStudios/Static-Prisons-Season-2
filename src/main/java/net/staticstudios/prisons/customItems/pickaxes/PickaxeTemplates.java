@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.customItems.pickaxes;
 
-import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,8 +16,8 @@ public class PickaxeTemplates {
     public static final PickaxeTemplates TIER_1 = new PickaxeTemplates(
             1,
             new EnchantHolder[]{
-                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 25),
-                    new EnchantHolder(PrisonEnchants.TOKENATOR.ENCHANT_ID, 1)
+                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 25),
+                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 1)
             },
             null,
             null,
@@ -27,8 +27,8 @@ public class PickaxeTemplates {
     public static final PickaxeTemplates TIER_2 = new PickaxeTemplates(
             2,
             new EnchantHolder[]{
-                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 50),
-                    new EnchantHolder(PrisonEnchants.TOKENATOR.ENCHANT_ID, 20)
+                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 50),
+                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 20)
             },
             null,
             null,
@@ -38,9 +38,9 @@ public class PickaxeTemplates {
     public static final PickaxeTemplates TIER_3 = new PickaxeTemplates(
             3,
             new EnchantHolder[]{
-                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 100),
-                    new EnchantHolder(PrisonEnchants.TOKENATOR.ENCHANT_ID, 50),
-                    new EnchantHolder(PrisonEnchants.JACK_HAMMER.ENCHANT_ID, 15)
+                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 100),
+                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 50),
+                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 15)
             },
             null,
             null,
@@ -50,9 +50,9 @@ public class PickaxeTemplates {
     public static final PickaxeTemplates TIER_4 = new PickaxeTemplates(
             4,
             new EnchantHolder[]{
-                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 250),
-                    new EnchantHolder(PrisonEnchants.TOKENATOR.ENCHANT_ID, 75),
-                    new EnchantHolder(PrisonEnchants.JACK_HAMMER.ENCHANT_ID, 75)
+                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 250),
+                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 75),
+                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 75)
 
             },
             null,
@@ -63,10 +63,10 @@ public class PickaxeTemplates {
     public static final PickaxeTemplates TIER_5 = new PickaxeTemplates(
             5,
             new EnchantHolder[]{
-                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 350),
-                    new EnchantHolder(PrisonEnchants.TOKENATOR.ENCHANT_ID, 100),
-                    new EnchantHolder(PrisonEnchants.JACK_HAMMER.ENCHANT_ID, 150),
-                    new EnchantHolder(PrisonEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 75)
+                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 350),
+                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 100),
+                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 150),
+                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 75)
             },
             null,
             null,
@@ -76,10 +76,10 @@ public class PickaxeTemplates {
     public static final PickaxeTemplates TIER_6 = new PickaxeTemplates(
             6,
             new EnchantHolder[]{
-                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 500),
-                    new EnchantHolder(PrisonEnchants.TOKENATOR.ENCHANT_ID, 150),
-                    new EnchantHolder(PrisonEnchants.JACK_HAMMER.ENCHANT_ID, 250),
-                    new EnchantHolder(PrisonEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 150),
+                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 500),
+                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 150),
+                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 250),
+                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 150),
             },
             null,
             null,
@@ -89,11 +89,11 @@ public class PickaxeTemplates {
     public static final PickaxeTemplates TIER_7 = new PickaxeTemplates(
             7,
             new EnchantHolder[]{
-                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 750),
-                    new EnchantHolder(PrisonEnchants.TOKENATOR.ENCHANT_ID, 250),
-                    new EnchantHolder(PrisonEnchants.JACK_HAMMER.ENCHANT_ID, 250),
-                    new EnchantHolder(PrisonEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 250),
-                    new EnchantHolder(PrisonEnchants.KEY_FINDER.ENCHANT_ID, 100),
+                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 750),
+                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 250),
+                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 250),
+                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 250),
+                    new EnchantHolder(PickaxeEnchants.KEY_FINDER.ENCHANT_ID, 100),
             },
             null,
             null,
@@ -103,12 +103,12 @@ public class PickaxeTemplates {
     public static final PickaxeTemplates TIER_8 = new PickaxeTemplates(
             8,
             new EnchantHolder[]{
-                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 1000),
-                    new EnchantHolder(PrisonEnchants.DOUBLE_FORTUNE.ENCHANT_ID, 75),
-                    new EnchantHolder(PrisonEnchants.TOKENATOR.ENCHANT_ID, 400),
-                    new EnchantHolder(PrisonEnchants.JACK_HAMMER.ENCHANT_ID, 400),
-                    new EnchantHolder(PrisonEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 400),
-                    new EnchantHolder(PrisonEnchants.KEY_FINDER.ENCHANT_ID, 250),
+                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 1000),
+                    new EnchantHolder(PickaxeEnchants.DOUBLE_FORTUNE.ENCHANT_ID, 75),
+                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 400),
+                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 400),
+                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 400),
+                    new EnchantHolder(PickaxeEnchants.KEY_FINDER.ENCHANT_ID, 250),
             },
             null,
             null,
@@ -118,13 +118,13 @@ public class PickaxeTemplates {
     public static final PickaxeTemplates TIER_9 = new PickaxeTemplates(
             9,
             new EnchantHolder[]{
-                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 1500),
-                    new EnchantHolder(PrisonEnchants.DOUBLE_FORTUNE.ENCHANT_ID, 250),
-                    new EnchantHolder(PrisonEnchants.TOKENATOR.ENCHANT_ID, 500),
-                    new EnchantHolder(PrisonEnchants.JACK_HAMMER.ENCHANT_ID, 1000),
-                    new EnchantHolder(PrisonEnchants.DOUBLE_JACK_HAMMER.ENCHANT_ID, 25),
-                    new EnchantHolder(PrisonEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 1000),
-                    new EnchantHolder(PrisonEnchants.KEY_FINDER.ENCHANT_ID, 500),
+                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 1500),
+                    new EnchantHolder(PickaxeEnchants.DOUBLE_FORTUNE.ENCHANT_ID, 250),
+                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 500),
+                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 1000),
+                    new EnchantHolder(PickaxeEnchants.DOUBLE_JACK_HAMMER.ENCHANT_ID, 25),
+                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 1000),
+                    new EnchantHolder(PickaxeEnchants.KEY_FINDER.ENCHANT_ID, 500),
             },
             null,
             null,
@@ -134,14 +134,14 @@ public class PickaxeTemplates {
     public static final PickaxeTemplates TIER_10 = new PickaxeTemplates(
             10,
             new EnchantHolder[]{
-                    new EnchantHolder(PrisonEnchants.FORTUNE.ENCHANT_ID, 4000),
-                    new EnchantHolder(PrisonEnchants.DOUBLE_FORTUNE.ENCHANT_ID, 500),
-                    new EnchantHolder(PrisonEnchants.TOKENATOR.ENCHANT_ID, 1000),
-                    new EnchantHolder(PrisonEnchants.JACK_HAMMER.ENCHANT_ID, 2500),
-                    new EnchantHolder(PrisonEnchants.DOUBLE_JACK_HAMMER.ENCHANT_ID, 100),
-                    new EnchantHolder(PrisonEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 2500),
-                    new EnchantHolder(PrisonEnchants.KEY_FINDER.ENCHANT_ID, 1000),
-                    new EnchantHolder(PrisonEnchants.CONSISTENCY.ENCHANT_ID, 1),
+                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 4000),
+                    new EnchantHolder(PickaxeEnchants.DOUBLE_FORTUNE.ENCHANT_ID, 500),
+                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 1000),
+                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 2500),
+                    new EnchantHolder(PickaxeEnchants.DOUBLE_JACK_HAMMER.ENCHANT_ID, 100),
+                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 2500),
+                    new EnchantHolder(PickaxeEnchants.KEY_FINDER.ENCHANT_ID, 1000),
+                    new EnchantHolder(PickaxeEnchants.CONSISTENCY.ENCHANT_ID, 1),
             },
             null,
             null,

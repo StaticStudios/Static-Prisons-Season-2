@@ -1,14 +1,19 @@
 package net.staticstudios.prisons.commands.test;
 
+import com.sk89q.worldedit.math.BlockVector3;
+import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
+import net.staticstudios.prisons.mineBombs.MineBomb;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.trading.Trade;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -102,13 +107,37 @@ public class TestCommand implements CommandExecutor {
 //        for (int i = Integer.parseInt(args[0]) - 50; i < Integer.parseInt(args[0]); i++) {
 //            player.sendMessage(PrisonUtils.addCommasToNumber(PrivateMine.getLevelRequirement(i)) + " | Level: " + i);
 //        }
+
+//        Location location = player.getLocation();
+//        if (mineBomb.positions.isEmpty()) mineBomb.computePositions();
+//        for (int i = 1; i < 30; i++) {
+//            int finalI = i;
+//            Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> {
+//                StaticMine mine = StaticMine.fromLocation(location);
+//                mineBomb.explodeAtComputedPositions(mine, location.add(0, -finalI, 0));
+//                mine.removeBlocksBrokenInMine(mineBomb.blocksChanged);
+//                System.out.println(mine.blocksInMine + " blocks in mine | " + mine.blocksInFullMine + " blocks when full | " + mineBomb.blocksChanged + " blocks broken");
+//                System.out.println(mineBomb.positions.size());
+//            }, i * 3);
+//        }
+
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.LIGHTNING_STRIKE, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.SNOW_FALL, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.METEOR_STRIKE, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.BEAM_OF_LIGHT, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.BLACK_HOLE, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.LIGHTNING_STRIKE, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.SNOW_FALL, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.METEOR_STRIKE, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.BEAM_OF_LIGHT, 0);
+        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.BLACK_HOLE, 0);
+//        PickaxeAbilities.LIGHTNING_STRIKE.beginActivation(player, PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()));
+        new PlayerData(player).setLastUsedPickaxeAbility(0);
         return false;
 
 
-
-
-
     }
+    static MineBomb mineBomb = new MineBomb(15);
 
 
 }

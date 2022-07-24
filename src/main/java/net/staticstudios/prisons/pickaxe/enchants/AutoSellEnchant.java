@@ -4,7 +4,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -36,14 +36,14 @@ public class AutoSellEnchant extends BaseEnchant {
     public static void initTimer() {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
             for (PrisonPickaxe pickaxe : activePickaxes.keySet()) {
-                if (!pickaxe.getIsEnchantEnabled(PrisonEnchants.AUTO_SELL)) { //The enchantment was just disabled
+                if (!pickaxe.getIsEnchantEnabled(PickaxeEnchants.AUTO_SELL)) { //The enchantment was just disabled
                     activePickaxes.remove(pickaxe);
                     autoSellTimeLeft.remove(pickaxe);
                     continue;
                 }
                 autoSellTimeLeft.put(pickaxe, autoSellTimeLeft.get(pickaxe) - 3);
                 if (autoSellTimeLeft.get(pickaxe) <= 0) {
-                    autoSellTimeLeft.put(pickaxe, getSecBetweenInterval(pickaxe.getEnchantLevel(PrisonEnchants.AUTO_SELL.ENCHANT_ID)));
+                    autoSellTimeLeft.put(pickaxe, getSecBetweenInterval(pickaxe.getEnchantLevel(PickaxeEnchants.AUTO_SELL.ENCHANT_ID)));
                     onSell(pickaxe, activePickaxes.get(pickaxe));
                 }
             }

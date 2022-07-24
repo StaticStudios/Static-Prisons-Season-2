@@ -56,7 +56,7 @@ public abstract class BaseEnchant implements Listener {
         PRICE = price;
         for (int i = 0; i < desc.length; i++) desc[i] = ChatColor.translateAlternateColorCodes('&', desc[i]);
         DESCRIPTION = List.of(desc);
-        PrisonEnchants.enchantIDToEnchant.put(ENCHANT_ID, this);
+        PickaxeEnchants.enchantIDToEnchant.put(ENCHANT_ID, this);
     }
 
     public BaseEnchant setPickaxeLevelRequirement(int level) {

@@ -35,6 +35,9 @@ import net.staticstudios.prisons.pickaxe.enchants.AutoSellEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.ConsistencyEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.utils.EventListener;
+import net.staticstudios.prisons.utils.Events;
+import net.staticstudios.prisons.utils.TimedTasks;
 import net.staticstudios.prisons.privateMines.PrivateMineCommand;
 import net.staticstudios.prisons.privateMines.PrivateMineManager;
 import net.staticstudios.prisons.pvp.PvPCommand;
@@ -145,7 +148,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("givevote").setExecutor(new GiveVoteCommand());
         getCommand("watchmessages").setExecutor(new MessageSpyCommand());
         getCommand("reload-config").setExecutor(new ReloadConfigCommand());
-        ;
         //--Normal Commands
         getCommand("rules").setExecutor(new RulesCommand());
         getCommand("multiplier").setExecutor(new MultiplierCommand());
@@ -242,17 +244,14 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         //Tips
         final String prefix = "&b&lTips &8&l>> &r";
         List<String> tips = new ArrayList<>();
-        for (String tip : config.getStringList("tips"))
-            tips.add(ChatColor.translateAlternateColorCodes('&', prefix + tip));
+        for (String tip : config.getStringList("tips")) tips.add(ChatColor.translateAlternateColorCodes('&', prefix + tip));
         Constants.TIPS = tips.toArray(new String[0]);
 
         //Load prestige mine requirements
-        for (int i = 0; i < 15; i++)
-            Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
+        for (int i = 0; i < 15; i++) Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
         //Load rankup prices
         LevelUp.rankPrices = new ArrayList<>();
-        for (int i = 0; i < 26; i++)
-            LevelUp.rankPrices.add(BigInteger.valueOf(config.getLong("rankup.prices." + (i + 1))));
+        for (int i = 0; i < 26; i++) LevelUp.rankPrices.add(BigInteger.valueOf(config.getLong("rankup.prices." + (i + 1))));
         LevelUp.INITIAL_PRESTIGE_PRICE = BigInteger.valueOf(config.getLong("prestiges.price.basePrice"));
 
         //Load Pouches
@@ -280,6 +279,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         MultiPouchTier3.maxAmount = config.getInt("pouches.multi.3.amount.max");
         MultiPouchTier3.minTime = config.getInt("pouches.multi.3.time.min");
         MultiPouchTier3.maxTime = config.getInt("pouches.multi.3.time.max");
+
 
 
         //SQL config
@@ -316,6 +316,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
             t.printStackTrace();
         }
     }
+
 
 
 }
