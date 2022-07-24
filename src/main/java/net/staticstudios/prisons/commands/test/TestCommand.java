@@ -5,6 +5,7 @@ import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
+import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.mineBombs.MineBomb;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -131,6 +133,29 @@ public class TestCommand implements CommandExecutor {
         PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.METEOR_STRIKE, 0);
         PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.BEAM_OF_LIGHT, 0);
         PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.BLACK_HOLE, 0);
+
+//        int prestigesToBuy = 10;
+//        BigInteger price = BigInteger.valueOf(5000000000L); //10B
+//        BigInteger currentPrestige = BigInteger.valueOf(10);
+//        BigInteger totalRankupPrice = BigInteger.valueOf(0);
+//        for (int i = 0 + 1; i <= 25; i++) {
+//            totalRankupPrice = totalRankupPrice.add(LevelUp.getBaseRankUpPriceForRank(i));
+//        }
+//        System.out.println(totalRankupPrice);
+//            //The player should pay the price of the rank-ups for all the prestiges (besides the first) they are buying
+//            for (int i = 0; i < prestigesToBuy; i++) {
+//                BigInteger p = BigInteger.ZERO;
+//                for (int r = 1; r <= 25; r++) {
+//                    p = p.add(LevelUp.getBaseRankUpPriceForRank(r));
+//                }
+//                p = p.add(
+//                        p.multiply(currentPrestige).divide(BigInteger.valueOf(3))
+//                );
+//                p = p.add(price.multiply(BigInteger.valueOf(prestigesToBuy)));
+//                currentPrestige = currentPrestige.add(BigInteger.valueOf(1));
+//                System.out.println(p);
+//            }
+
 //        PickaxeAbilities.LIGHTNING_STRIKE.beginActivation(player, PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()));
         new PlayerData(player).setLastUsedPickaxeAbility(0);
         return false;

@@ -67,17 +67,18 @@ public class PrestigeMenus extends GUIUtils {
         return ench(c.createButton(icon, "&d&lPrestige " + PrisonUtils.addCommasToNumber(prestige) + " Time" + (prestige > 1 ? "s" : ""), List.of(
                 "",
                 "&bCosts:",
-                "&b&l│ &b$" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(new PlayerData(player).getPrestige(), prestige)),
-                "&b&l│ &b$" + PrisonUtils.addCommasToNumber(LevelUp.getPrestigePrice(new PlayerData(player).getPrestige(), prestige))
+                "&b&l│ &b$" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(new PlayerData(player).getPrestige().longValue(), prestige)),
+                "&b&l│ &b$" + PrisonUtils.addCommasToNumber(LevelUp.getPrestigePrice(new PlayerData(player).getPrestige().longValue(), prestige))
         ), (p, t) -> {
             PlayerData playerData = new PlayerData(p);
             if (playerData.getMineRank() < 25) {
                 p.sendMessage(ChatColor.RED + "You must be mine rank " + ChatColor.BOLD + "Z " + ChatColor.RED + "in order to prestige!");
                 return;
             }
-            if (playerData.getMoney().compareTo(LevelUp.getPrestigePrice(playerData.getPrestige(), prestige)) > -1) {
+            BigInteger price = BigInteger.valueOf(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), prestige));
+            if (playerData.getMoney().compareTo(price) > -1) {
                 BigInteger oldPrestigeRewards = playerData.getClaimedPrestigeRewardsAt().subtract(playerData.getPrestige()).divide(BigInteger.valueOf(250));
-                playerData.removeMoney(LevelUp.getPrestigePrice(playerData.getPrestige(), prestige));
+                playerData.removeMoney(price);
                 playerData.addPrestige(BigInteger.valueOf(prestige));
                 playerData.setMineRank(0);
                 p.sendMessage(ChatColor.AQUA + "You have just prestiged!");

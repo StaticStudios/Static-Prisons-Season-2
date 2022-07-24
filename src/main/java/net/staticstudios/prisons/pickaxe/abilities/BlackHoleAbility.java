@@ -19,14 +19,14 @@ import java.util.List;
 public class BlackHoleAbility extends BaseAbility {
 
     public BlackHoleAbility() {
-        super("blackHole", "&5&lBlack Hole", 20, BigInteger.ZERO, 1000 * 60 * 60 * 6,
-                "&oAs you move throught the mine, all of the blocks around",
-                "&oyou will be sucked into your pickaxe. Your pickaxe's enchants",
+        super("blackHole", "&5&lBlack Hole", 20, BigInteger.valueOf(15), (long) (1000 * 60 * 60 * 5.5),
+                "&oAs you move throught the mine, all of the blocks around you",
+                "&owill be sucked into your pickaxe. Your pickaxe's enchants",
                 "&owill work as if you broke each block individually!",
                 "",
                 "&aEach upgrade will increase the duration by 1 second!",
                 "",
-                "Cooldown: &c" + PrisonUtils.formatTime(1000 * 60 * 60 * 6));
+                "Cooldown: &c" + PrisonUtils.formatTime((long) (1000 * 60 * 60 * 5.5)));
         requiresMineOnActivate = true;
     }
 

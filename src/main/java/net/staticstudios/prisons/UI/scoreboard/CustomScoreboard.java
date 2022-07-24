@@ -10,6 +10,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.math.BigInteger;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -104,13 +105,14 @@ public class CustomScoreboard { //todo make a custom thing instead of fastboard
 
         board.updateTitle(boardTitle);
         String cost = PrisonUtils.prettyNum(LevelUp.calculatePriceToRankUpTo(playerData, Math.min(25, playerData.getMineRank() + 1)));
-        if (playerData.getMineRank() == 25) cost = PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige(), 1));
+        if (playerData.getMineRank() == 25) cost = PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1));
+
 
         board.updateLines(
                 ChatColor.RED + "",
                 colorDark + "" + ChatColor.BOLD + "Mine Rank",
                 colorLight + "│ " + colorBase + "Current Rank: " + colorLight + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank()),
-                colorLight + "│ " + colorBase + "RankUp Cost: " + colorLight + "$" + cost,
+                colorLight + "│ " + colorBase + (playerData.getMineRank() == 25 ? "Prestige: " : "Rank Up: ") + colorLight + "$" + cost,
                 ChatColor.BLUE + "",
                 colorDark + "" + ChatColor.BOLD + player.getName() ,
                 colorLight + "│ " + colorBase + "Rank: " + colorLight + playerData.getSidebarRank(),

@@ -19,14 +19,14 @@ public class LightningStrikeAbility extends BaseAbility {
     private static MultiBombMineBomb lightningStrikeBomb = new MultiBombMineBomb(6);
 
     public LightningStrikeAbility() {
-        super("lightningStrike", "&b&lLightning Strike", 11, BigInteger.ZERO, 1000 * 60 * 90,
+        super("lightningStrike", "&b&lLightning Strike", 11, BigInteger.valueOf(9), 1000 * 60 * 150,
                 "&oWhen breaking a block, you will have a 5% chance to",
                 "&ocreate a lighting strike that will break all the blocks",
                 "&oaround you going all the way down to the bottom of the mine!",
                 "",
                 "&aEach upgrade will increase the duration by 5 seconds",
                 "",
-                "Cooldown: &c" + PrisonUtils.formatTime(1000 * 60 * 90));
+                "Cooldown: &c" + PrisonUtils.formatTime(1000 * 60 * 150));
         lightningStrikeBomb.computePositions();
         lightningStrikeBomb.setUseParticles(false);
     }

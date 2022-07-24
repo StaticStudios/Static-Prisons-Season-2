@@ -3,10 +3,12 @@ package net.staticstudios.prisons.fishing;
 import net.staticstudios.prisons.pvp.PvPManager;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,5 +32,11 @@ public class FishingListener implements Listener {
         if (e.getCaught() == null) return;
         FISHING_REWARDS.getRandom().accept(e);
         e.setExpToDrop(0);
+    }
+
+    @EventHandler
+    void onCraft(CraftItemEvent e) {
+        if (e.getCurrentItem() == null) return;
+        if (e.getCurrentItem().getType().equals(Material.FISHING_ROD)) e.setCancelled(true);
     }
 }

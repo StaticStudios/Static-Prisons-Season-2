@@ -7,24 +7,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LevelUp {
-    public static List<BigInteger> rankPrices = new ArrayList<>();
-    public static BigInteger INITIAL_PRESTIGE_PRICE;
+    public static long[] rankPrices = new long[26];
+    public static long INITIAL_PRESTIGE_PRICE;
 
     public static BigInteger calculatePriceToRankUpTo(PlayerData playerData, int rankToGoTo) {
-        BigInteger price = new BigInteger("0");
-        for (int i = playerData.getMineRank() + 1; i <= rankToGoTo; i++) price = price.add(getBaseRankUpPriceForRank(i).multiply(playerData.getPrestige().divide(BigInteger.valueOf(10)).add(BigInteger.ONE)));
-        return price;
+        long price = 0;
+        for (int i = playerData.getMineRank() + 1; i <= rankToGoTo; i++) {
+            price += getBaseRankUpPriceForRank(i);
+        }
+        BigInteger biPrice = BigInteger.valueOf(price);
+        return biPrice.multiply(playerData.getPrestige()).divide(BigInteger.valueOf(3)).add(biPrice);
     }
 
-    public static BigInteger getBaseRankUpPriceForRank(int rank) {
-        return rankPrices.get(rank);
+    public static long getBaseRankUpPriceForRank(int rank) {
+        return rankPrices[rank];
     }
 
-    public static BigInteger getPrestigePrice(BigInteger currentPrestige, int prestigesToBuy) {
-        BigInteger price = INITIAL_PRESTIGE_PRICE;
-        price = price.multiply(BigInteger.valueOf(prestigesToBuy));
-        if (prestigesToBuy >= 5000) {
-            price = price.add(price.multiply(BigInteger.valueOf(prestigesToBuy / 1000)).divide(BigInteger.valueOf(100)));
+    public static long getPrestigePrice(long currentPrestige, int prestigesToBuy) {
+        long price = INITIAL_PRESTIGE_PRICE * prestigesToBuy;
+        for (int r = 1; r < prestigesToBuy - 1; r++) {
+            long rankUpPrice = 0;
+            for (int i = 1; i <= 25; i++) {
+                rankUpPrice += getBaseRankUpPriceForRank(i);
+            }
+            price += rankUpPrice * currentPrestige / 3 + rankUpPrice;
         }
         return price;
     }

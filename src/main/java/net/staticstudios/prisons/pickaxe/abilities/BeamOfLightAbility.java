@@ -14,39 +14,21 @@ import java.util.Map;
 
 public class BeamOfLightAbility extends BaseAbility { //todo
 
-    private static MineBomb lightningStrikeBomb = new MineBomb(6);
-
     public BeamOfLightAbility() {
-        super("lightningStrike", "&b&lLightning Strike", 11, BigInteger.ZERO, 1000 * 60 * 90,
-                "&7&oWhen breaking a block, you will have a 5% chance to",
-                "create a lighting strike that will break all the blocks",
-                "around you going all the way down to the bottom of the mine!",
+        super("beamOfLight", "&d&lBeam O' Light", 10, BigInteger.valueOf(12), 1000 * 60 * 60 * 4,
+                "&oSend a pulse of light through the mine every",
+                "&osecond destroying every block in its path!",
+                "&oIt will grow in size with each pulse.",
                 "",
-                "Cool down: &b" + PrisonUtils.formatTime(1000 * 60 * 90));
-        lightningStrikeBomb.computePositions();
-        lightningStrikeBomb.setUseParticles(false);
+                "&aEach upgrade will increase the amount of pulses!",
+                "",
+                "Cool down: &c" + PrisonUtils.formatTime(1000 * 60 * 60 * 4));
     }
 
-    static int STEP = 2;
-    public void onBlockBreak(BlockBreak blockBreak) {
-        if (PrisonUtils.randomInt(1, 20) != 1) return; //5% chance to activate
-        StaticMine mine = blockBreak.getMine();
-        Location loc = blockBreak.getBlockLocation().clone();
-        loc.setY(mine.getMaxVector().getBlockY());
-        for (int y = mine.getMaxVector().getBlockY(); y > mine.getMinVector().getBlockY(); y -= STEP) {
-            loc.add(0, -STEP, 0);
-            Map<Material, Long> blocksBroken = lightningStrikeBomb.explodeAtComputedPositions(mine, loc.clone().add(PrisonUtils.randomDouble(-2, 2), -1, PrisonUtils.randomDouble(-2, 2)));
-            for (Map.Entry<Material, Long> entry: blocksBroken.entrySet()) {
-                MineBlock mb = MineBlock.fromMaterial(entry.getKey());
-                blockBreak.getStats().getMinedBlocks().put(mb, blockBreak.getStats().getMinedBlocks().getOrDefault(mb, 0L) + entry.getValue());
-            }
-            blockBreak.getStats().setBlocksBroken(blockBreak.getStats().getBlocksBroken() + lightningStrikeBomb.blocksChanged);
-        }
-        loc.getWorld().strikeLightningEffect(loc);
-    }
+    //todo: functionality
 
     @Override
     public int getTimesToTick(int level) {
-        return 5 * 20 + (level * 20 * 5); //Default 10 seconds + 5 seconds per level
+        return 4 * 20 + (level * 20 * 2); //Default 4 seconds + 2 seconds per level
     }
 }

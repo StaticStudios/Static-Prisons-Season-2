@@ -35,7 +35,7 @@ public class SnowFallAbility extends BaseAbility {
     private static boolean listenerRegistered = false;
 
     public SnowFallAbility() {
-        super("snowFall", "&f&lSnow Fall", 10, BigInteger.ZERO, 1000 * 60 * 240,
+        super("snowFall", "&f&lSnow Fall", 10, BigInteger.valueOf(13), 1000 * 60 * 240,
                 "&oCarpet bomb a mine with explosive snowballs!",
                 "",
                 "&aEach upgrade will increase the amount of snowballs dropped!",

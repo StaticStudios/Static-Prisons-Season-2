@@ -252,9 +252,10 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         //Load prestige mine requirements
         for (int i = 0; i < 15; i++) Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
         //Load rankup prices
-        LevelUp.rankPrices = new ArrayList<>();
-        for (int i = 0; i < 26; i++) LevelUp.rankPrices.add(BigInteger.valueOf(config.getLong("rankup.prices." + (i + 1))));
-        LevelUp.INITIAL_PRESTIGE_PRICE = BigInteger.valueOf(config.getLong("prestiges.price.basePrice"));
+        for (int i = 0; i < 26; i++) {
+            LevelUp.rankPrices[i] = config.getLong("rankup.prices." + (i + 1));
+        }
+        LevelUp.INITIAL_PRESTIGE_PRICE = config.getLong("prestiges.price.basePrice");
 
         //Load Pouches
         MoneyPouchTier1.minValue = new BigInteger(config.getString("pouches.money.1.min"));
