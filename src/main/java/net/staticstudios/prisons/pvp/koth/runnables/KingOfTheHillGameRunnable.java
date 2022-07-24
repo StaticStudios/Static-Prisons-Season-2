@@ -37,7 +37,7 @@ public class KingOfTheHillGameRunnable implements Runnable {
         if (timeInSeconds % 120 == 0 || timeInSeconds <= 10) {
             Bukkit.broadcast(Prefix.PVP
                     .append(Component.text("King of the Hill event is ending in "))
-                    .append(Component.text( timeInSeconds >= 60 ? timeInSeconds / 60 : timeInSeconds)
+                    .append(Component.text(timeInSeconds >= 60 ? timeInSeconds / 60 : timeInSeconds)
                             .append(Component.text(timeInSeconds >= 60 ? " minutes" : " seconds")).color(ComponentUtil.GOLD))
                     .append(Component.text(".")));
         }
@@ -60,11 +60,12 @@ public class KingOfTheHillGameRunnable implements Runnable {
         } else {
             Bukkit.broadcast(Prefix.PVP
                     .append(Component.text(possibleWinner.get().getName()).color(ComponentUtil.GOLD))
-                    .append(Component.text(" is the King of the Hill!")) );
+                    .append(Component.text(" is the King of the Hill!")));
+
+            KingOfTheHillManager.onWin(possibleWinner.get());
         }
         KingOfTheHillManager.stopEvent();
 
         Bukkit.broadcast(Prefix.PVP.append(Component.text("King of the Hill event has ended!")));
-
     }
 }

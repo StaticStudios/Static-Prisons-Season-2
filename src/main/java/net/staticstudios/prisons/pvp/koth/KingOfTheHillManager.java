@@ -103,4 +103,8 @@ public class KingOfTheHillManager {
     public static Location getKothBlock() {
         return kothBlock;
     }
+
+    public static void onWin(Player player) {
+        //todo
+    }
 }
