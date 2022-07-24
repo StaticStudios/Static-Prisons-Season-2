@@ -149,6 +149,10 @@ public class DiscordLink { //todo: this could be cleaned up and the SQL statemen
         sendBotRequest("PLAYERCOUNT " + Bukkit.getOnlinePlayers().size());
     }
     public static void sendBotRequest(String request) {
+        if (!StaticPrisons.getInstance().getConfig().getBoolean("discordLink", true)) {
+            return;
+        }
+
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
             String query = "INSERT INTO `botRequests` (`id`, `request`, `fromServer`) VALUES (NULL, '" + request + "', '" + SERVER_ID + "')";
             if (MySQLConnection.getConnection() == null) {

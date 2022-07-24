@@ -2,52 +2,52 @@ package net.staticstudios.prisons;
 
 import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.WorldEdit;
+import net.luckperms.api.LuckPerms;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
+import net.staticstudios.prisons.UI.tablist.TabList;
+import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.cells.IslandCommand;
 import net.staticstudios.prisons.chat.events.ChatEvents;
 import net.staticstudios.prisons.commands.normal.*;
+import net.staticstudios.prisons.commands.test.Test2Command;
+import net.staticstudios.prisons.commands.test.TestCommand;
+import net.staticstudios.prisons.commands.vote_store.VoteStoreListener;
 import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customItems.*;
 import net.staticstudios.prisons.data.backups.DataBackup;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
+import net.staticstudios.prisons.data.sql.MySQLConnection;
 import net.staticstudios.prisons.events.EventManager;
+import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.fishing.FishingManager;
+import net.staticstudios.prisons.gangs.Gang;
+import net.staticstudios.prisons.gangs.GangCommand;
+import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.mines.MineBlock;
+import net.staticstudios.prisons.mines.MineManager;
 import net.staticstudios.prisons.pickaxe.EnchantCommand;
+import net.staticstudios.prisons.pickaxe.PickaxeCommand;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
 import net.staticstudios.prisons.pickaxe.enchants.AutoSellEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.ConsistencyEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.external.DiscordLink;
-import net.staticstudios.prisons.commands.test.Test2Command;
-import net.staticstudios.prisons.commands.test.TestCommand;
-import net.staticstudios.prisons.gangs.Gang;
-import net.staticstudios.prisons.gangs.GangCommand;
-import net.staticstudios.prisons.UI.tablist.TabList;
-import net.staticstudios.prisons.commands.vote_store.VoteStoreListener;
-import net.staticstudios.prisons.mines.MineManager;
-import net.staticstudios.prisons.pickaxe.PickaxeCommand;
 import net.staticstudios.prisons.utils.EventListener;
 import net.staticstudios.prisons.utils.Events;
 import net.staticstudios.prisons.utils.TimedTasks;
-import net.staticstudios.prisons.data.sql.MySQLConnection;
-import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.privateMines.PrivateMineCommand;
 import net.staticstudios.prisons.privateMines.PrivateMineManager;
 import net.staticstudios.prisons.pvp.PvPCommand;
 import net.staticstudios.prisons.pvp.PvPManager;
-import net.staticstudios.prisons.levelup.LevelUp;
+import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.ranks.PlayerRanks;
 import net.staticstudios.prisons.reclaim.ReclaimCommand;
-import net.staticstudios.prisons.utils.Constants;
-import net.luckperms.api.LuckPerms;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
@@ -69,6 +69,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public static StaticPrisons getInstance() {
         return plugin;
     }
+
     private static StaticPrisons plugin;
     public static LuckPerms luckPerms;
     public static final WorldEdit worldEdit = WorldEdit.getInstance();
@@ -115,8 +116,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(PlayerRanks::init);
         safe(BlockBreak::init);
         safe(FishingManager::init);
-
-
+        safe(KingOfTheHillManager::init);
 
 
         StaticGUI.enable(this);
@@ -151,7 +151,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("exemptfromleaderboards").setExecutor(new ExemptFromLeaderboardsCommand());
         getCommand("givevote").setExecutor(new GiveVoteCommand());
         getCommand("watchmessages").setExecutor(new MessageSpyCommand());
-        getCommand("reload-config").setExecutor(new ReloadConfigCommand()); ;
+        getCommand("reload-config").setExecutor(new ReloadConfigCommand());
         //--Normal Commands
         getCommand("rules").setExecutor(new RulesCommand());
         getCommand("multiplier").setExecutor(new MultiplierCommand());
@@ -219,6 +219,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(PrisonPickaxe::dumpLoreToAllPickaxesNow);
         safe(Gang::saveAllSync);
     }
+
     static void unloadNetherAndEnd() {
         Bukkit.unloadWorld("world_end", false);
         Bukkit.unloadWorld("world_nether", false);

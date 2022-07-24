@@ -16,13 +16,20 @@ import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 4) {
-            sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats <stat> <who> <modify> <value>"));
+            if (!(args.length == 3 && "reset".equals(args[2]))) {
+                sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats <stat> <who> <modify> <value>"));
+                return false;
+            }
+
+            args = Arrays.copyOf(args, 4);
+            args[3] = "1";
         }
         if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[1].toLowerCase()) && !args[1].equalsIgnoreCase("self")) {
             sender.sendMessage(ChatColor.RED + "Could not find the player specified!");
@@ -232,6 +239,25 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
                 }
             }
+            case "shards" -> {
+                BigInteger amount;
+
+                try {
+                    amount = new BigInteger(args[3]);
+
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats shards <who> <add|remove|set|reset> <amount>"));
+                    return false;
+                }
+
+                switch (args[2]) {
+                    case "add" -> playerData.addShards(amount);
+                    case "remove" -> playerData.removeShards(amount);
+                    case "set" -> playerData.setShards(amount);
+                    case "reset" -> playerData.setShards(BigInteger.ZERO);
+                    default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
+                }
+            }
         }
         return true;
     }
@@ -240,12 +266,18 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
         List<String> list = new ArrayList<>();
         if (args.length == 1) {
             list.add("pmine");
+            list.add("minerank");
+            list.add("prestige");
+            list.add("backpack");
+            list.add("blocksmined");
+            list.add("rawblocks");
             list.add("votes");
             list.add("timeplayed");
             list.add("money");
             list.add("xp");
             list.add("level");
             list.add("tokens");
+            list.add("shards");
         } else if (args.length == 2) {
             list.addAll(StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[1]));
             list.add("self");

@@ -276,3 +276,9 @@ commands:
     description: a
   rewards:
     description: a
+  kingofthehill:
+    description: a
+    permission: static.kingofthehill.manage
+  pvpevent:
+    description: a
+    permission: static.pvpevent.manage
