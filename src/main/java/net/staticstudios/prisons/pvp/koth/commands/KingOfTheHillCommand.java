@@ -24,22 +24,18 @@ public class KingOfTheHillCommand implements TabExecutor {
         }
 
         if (args.length < 1) {
-            player.sendMessage("Usage: /koth <add|remove>");
+            player.sendMessage("Usage: /koth <set|remove>");
             return true;
         }
-        if ("add".equalsIgnoreCase(args[0])) {
+
+        if ("set".equalsIgnoreCase(args[0])) {
             if (!PVP_WORLD.equals(player.getWorld())) {
                 sender.sendMessage(Prefix.PVP.append(Component.text("You must be in the PVP world to use this command!")));
                 return false;
             }
 
-            if (KingOfTheHillManager.isKothBlock(player.getLocation(), 10)) {
-                player.sendMessage(Prefix.PVP.append(Component.text("There is already a King of the Hill area here!")));
-                return false;
-            }
-
-            KingOfTheHillManager.addKothBlock(player.getLocation());
-            player.sendMessage(Prefix.PVP.append(Component.text("Successfully added a new King of the Hill area!")));
+            KingOfTheHillManager.setKothBlock(player.getLocation());
+            player.sendMessage(Prefix.PVP.append(Component.text("Successfully set the King of the Hill area!")));
         }
 
         if ("remove".equalsIgnoreCase(args[0])) {
@@ -48,18 +44,18 @@ public class KingOfTheHillCommand implements TabExecutor {
                 return false;
             }
 
-            if (!KingOfTheHillManager.isKothBlock(player.getLocation(), 5)) {
+            if (!KingOfTheHillManager.isKothArea(player.getLocation(), 5)) {
                 player.sendMessage(Prefix.PVP.append(Component.text("There is no King of the Hill area here!")));
                 return false;
             }
 
-            KingOfTheHillManager.removeKothBlock(player.getLocation());
+            KingOfTheHillManager.removeKothBlock();
         }
         return true;
     }
 
     @Override
     public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        return args.length == 1 ? List.of("add", "remove") : Collections.emptyList();
+        return args.length == 1 ? List.of("set", "remove") : Collections.emptyList();
     }
 }

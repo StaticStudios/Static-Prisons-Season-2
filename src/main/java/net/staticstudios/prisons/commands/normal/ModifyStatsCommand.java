@@ -239,6 +239,25 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
                 }
             }
+            case "shards" -> {
+                BigInteger amount;
+
+                try {
+                    amount = new BigInteger(args[3]);
+
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats shards <who> <add|remove|set|reset> <amount>"));
+                    return false;
+                }
+
+                switch (args[2]) {
+                    case "add" -> playerData.addShards(amount);
+                    case "remove" -> playerData.removeShards(amount);
+                    case "set" -> playerData.setShards(amount);
+                    case "reset" -> playerData.setShards(BigInteger.ZERO);
+                    default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
+                }
+            }
         }
         return true;
     }
@@ -258,6 +277,7 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
             list.add("xp");
             list.add("level");
             list.add("tokens");
+            list.add("shards");
         } else if (args.length == 2) {
             list.addAll(StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[1]));
             list.add("self");

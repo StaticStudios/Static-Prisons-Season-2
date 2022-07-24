@@ -23,6 +23,7 @@ import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
 import net.staticstudios.prisons.events.EventManager;
 import net.staticstudios.prisons.external.DiscordLink;
+import net.staticstudios.prisons.fishing.FishingManager;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.gangs.GangCommand;
 import net.staticstudios.prisons.levelup.LevelUp;
@@ -31,10 +32,11 @@ import net.staticstudios.prisons.mines.MineManager;
 import net.staticstudios.prisons.pickaxe.EnchantCommand;
 import net.staticstudios.prisons.pickaxe.PickaxeCommand;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
 import net.staticstudios.prisons.pickaxe.enchants.AutoSellEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.ConsistencyEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PrisonEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.utils.EventListener;
 import net.staticstudios.prisons.utils.Events;
 import net.staticstudios.prisons.utils.TimedTasks;
@@ -93,7 +95,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(MineManager::init);
         safe(PrivateMineManager::init);
         safe(BaseEnchant::init);
-        safe(PrisonEnchants::init);
+        safe(PickaxeEnchants::init);
+        safe(PickaxeAbilities::init);
         safe(CustomItems::init);
         safe(Crates::init);
         safe(CellManager::init);
@@ -112,6 +115,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(EventManager::init);
         safe(PlayerRanks::init);
         safe(BlockBreak::init);
+        safe(FishingManager::init);
         safe(KingOfTheHillManager::init);
 
 
@@ -214,7 +218,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(PrisonPickaxe::savePickaxeDataNow);
         safe(PrisonPickaxe::dumpLoreToAllPickaxesNow);
         safe(Gang::saveAllSync);
-        safe(KingOfTheHillManager::save);
     }
 
     static void unloadNetherAndEnd() {

@@ -1,18 +1,20 @@
 package net.staticstudios.prisons.pvp.koth.runnables;
 
+import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
+import net.staticstudios.prisons.utils.ComponentUtil;
+import net.staticstudios.utils.Prefix;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static net.staticstudios.prisons.pvp.PvPManager.PVP_WORLD;
 
 public class KingOfTheHillGameRunnable implements Runnable {
-    int timeInSeconds;
-
-    int taskId;
+    private int timeInSeconds;
 
     public KingOfTheHillGameRunnable(int timeInSeconds) {
         this.timeInSeconds = timeInSeconds;
@@ -21,20 +23,48 @@ public class KingOfTheHillGameRunnable implements Runnable {
     @Override
     public void run() {
 
-        if (timeInSeconds != 0) {
-            List<Player> playersInArea = PVP_WORLD.getPlayers().stream()
-                    .filter(player -> KingOfTheHillManager.getKothBlockNearLocation(player.getLocation(), 5.0).isPresent())
-                    .toList();
+        if (!KingOfTheHillManager.isEventRunning()) return;
+
+        if (timeInSeconds <= 0) {
+            evaluateWinner();
+            return;
         }
 
-        if (timeInSeconds > 0) {
-            timeInSeconds--;
-            taskId = Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), this, 20).getTaskId();
+        PVP_WORLD.getPlayers().stream()
+                .filter(player -> KingOfTheHillManager.isKothArea(player.getLocation(), 5.0))
+                .forEach(KingOfTheHillManager::incrementPlayerInKothArea);
+
+        if (timeInSeconds % 120 == 0 || timeInSeconds <= 10) {
+            Bukkit.broadcast(Prefix.PVP
+                    .append(Component.text("King of the Hill event is ending in "))
+                    .append(Component.text( timeInSeconds >= 60 ? timeInSeconds / 60 : timeInSeconds)
+                            .append(Component.text(timeInSeconds >= 60 ? " minutes" : " seconds")).color(ComponentUtil.GOLD))
+                    .append(Component.text(".")));
+        }
+
+        timeInSeconds--;
+
+        Bukkit.getScheduler().runTaskLaterAsynchronously(StaticPrisons.getInstance(), this, 20);
+    }
+
+    public void evaluateWinner() {
+
+        Optional<Player> possibleWinner = KingOfTheHillManager.getTimeInKothAreaPerPlayer().entrySet().stream()
+                .sorted((o1, o2) -> Integer.compare(o2.getValue(), o1.getValue()))
+                .map(Map.Entry::getKey)
+                .filter(Player::isOnline)
+                .findFirst();
+
+        if (possibleWinner.isEmpty()) {
+            Bukkit.broadcast(Prefix.PVP.append(Component.text("No one has been selected as the winner of the King of the Hill event!")));
         } else {
-            Bukkit.getScheduler().cancelTask(taskId);
+            Bukkit.broadcast(Prefix.PVP
+                    .append(Component.text(possibleWinner.get().getName()).color(ComponentUtil.GOLD))
+                    .append(Component.text(" is the King of the Hill!")) );
         }
+        KingOfTheHillManager.stopEvent();
 
+        Bukkit.broadcast(Prefix.PVP.append(Component.text("King of the Hill event has ended!")));
 
-        System.out.println("aaaa");
     }
 }
