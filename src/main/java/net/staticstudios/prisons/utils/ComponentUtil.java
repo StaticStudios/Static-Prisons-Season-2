@@ -28,4 +28,6 @@ public class ComponentUtil {
     public static final TextColor CRIMSON = TextColor.color(150, 15, 41);
     public static final TextColor DARK_ORANGE = TextColor.color(214, 141, 2);
     public static final TextColor COAL = TextColor.color(35, 25, 21);
+    public static final TextColor SILVER = TextColor.color(192, 192, 192);
+    public static final TextColor BRONZE = TextColor.color(205, 127, 50);
 }

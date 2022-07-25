@@ -1,22 +1,28 @@
 package net.staticstudios.prisons.pvp.koth;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.pvp.koth.commands.KingOfTheHillCommand;
 import net.staticstudios.prisons.pvp.koth.runnables.KingOfTheHillGameRunnable;
 import net.staticstudios.prisons.utils.ComponentUtil;
+import net.staticstudios.prisons.utils.TimeUtils;
 import net.staticstudios.utils.Prefix;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.units.qual.C;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class KingOfTheHillManager {
 
@@ -92,6 +98,10 @@ public class KingOfTheHillManager {
     public static void incrementPlayerInKothArea(Player player) {
         timeInKothAreaPerPlayer.putIfAbsent(player, 0);
         timeInKothAreaPerPlayer.put(player, timeInKothAreaPerPlayer.get(player) + 1);
+
+        if (timeInKothAreaPerPlayer.get(player) % 15 == 0) {
+            timeReport(player);
+        }
     }
 
     public static Map<Player, Integer> getTimeInKothAreaPerPlayer() {
@@ -110,5 +120,62 @@ public class KingOfTheHillManager {
 
     public static void onWin(Player player) {
         //todo
+    }
+
+    private static void timeReport(Player player) {
+
+        List<Player> names = timeInKothAreaPerPlayer.entrySet().stream()
+                .sorted((o1, o2) -> Integer.compare(o2.getValue(), o1.getValue()))
+                .map(Map.Entry::getKey)
+                .toList();
+
+        Component message = Prefix.KOTH;
+
+        message = message.append(Component.text("Event Report:\n"))
+                .append(Component.text("Time Left: "))
+                .append(TimeUtils.formatTime(getTimeLeft()))
+                .append(Component.text("\n#1 ").color(NamedTextColor.GOLD)
+                        .append(names.get(0).name()).append(Component.text(": "))
+                        .append(TimeUtils.formatTime(timeInKothAreaPerPlayer.get(names.get(0))))
+                        .append(checkIfNameIsPlayer(names.get(0), player)));
+
+        if (names.size() > 1) {
+            message = message.append(Component.text("\n#2 ").color(ComponentUtil.SILVER)
+                    .append(names.get(1).name()).append(Component.text(": "))
+                    .append(TimeUtils.formatTime(timeInKothAreaPerPlayer.get(names.get(1))))
+                    .append(checkIfNameIsPlayer(names.get(1), player)));
+        } else {
+            message = message.append(Component.text("\n#2 ").color(ComponentUtil.SILVER)
+                    .append(Component.text("--")));
+        }
+
+        if (names.size() > 2) {
+            message = message.append(Component.text("\n#3 ").color(ComponentUtil.BRONZE)
+                    .append(names.get(2).name()).append(Component.text(": "))
+                    .append(TimeUtils.formatTime(timeInKothAreaPerPlayer.get(names.get(2))))
+                    .append(checkIfNameIsPlayer(names.get(2), player)));
+        } else {
+            message = message.append(Component.text("\n#3 ").color(ComponentUtil.BRONZE)
+                    .append(Component.text("--")));
+        }
+
+        message = message.append(Component.text("\nYour time: "))
+                .append(TimeUtils.formatTime(timeInKothAreaPerPlayer.get(player)))
+                .append(Component.text(" - #"))
+                .append(Component.text(names.indexOf(player) + 1));
+
+        player.sendMessage(message);
+    }
+
+    private static Component checkIfNameIsPlayer(Player toCheck, Player player) {
+            return toCheck.equals(player) ? Component.text(" - YOU") : Component.empty();
+    }
+
+    public static int getTimeLeft() {
+        if (isEventRunning()) {
+            return eventRunnable.getTimeLeft();
+        } else {
+            return 0;
+        }
     }
 }

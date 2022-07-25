@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.pvp.koth.runnables;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
@@ -35,7 +36,7 @@ public class KingOfTheHillGameRunnable implements Runnable {
                 .forEach(KingOfTheHillManager::incrementPlayerInKothArea);
 
         if (timeInSeconds % 120 == 0 || timeInSeconds <= 10) {
-            Bukkit.broadcast(Prefix.PVP
+            Bukkit.broadcast(Prefix.KOTH
                     .append(Component.text("King of the Hill event is ending in "))
                     .append(Component.text(timeInSeconds >= 60 ? timeInSeconds / 60 : timeInSeconds)
                             .append(Component.text(timeInSeconds >= 60 ? " minutes" : " seconds")).color(ComponentUtil.GOLD))
@@ -56,9 +57,9 @@ public class KingOfTheHillGameRunnable implements Runnable {
                 .findFirst();
 
         if (possibleWinner.isEmpty()) {
-            Bukkit.broadcast(Prefix.PVP.append(Component.text("No one has been selected as the winner of the King of the Hill event!")));
+            Bukkit.broadcast(Prefix.KOTH.append(Component.text("No one has been selected as the winner of the King of the Hill event!")));
         } else {
-            Bukkit.broadcast(Prefix.PVP
+            Bukkit.broadcast(Prefix.KOTH
                     .append(Component.text(possibleWinner.get().getName()).color(ComponentUtil.GOLD))
                     .append(Component.text(" is the King of the Hill!")));
 
@@ -66,6 +67,10 @@ public class KingOfTheHillGameRunnable implements Runnable {
         }
         KingOfTheHillManager.stopEvent();
 
-        Bukkit.broadcast(Prefix.PVP.append(Component.text("King of the Hill event has ended!")));
+        Bukkit.broadcast(Prefix.KOTH.append(Component.text("King of the Hill event has ended!")));
+    }
+
+    public int getTimeLeft() {
+        return timeInSeconds;
     }
 }

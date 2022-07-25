@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.pvp;
+package net.staticstudios.prisons.pvp.commands;
 
 import net.staticstudios.prisons.utils.Warps;
 import org.bukkit.command.Command;
