@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.data;
 
 
+import net.kyori.adventure.text.format.TextColor;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.dataHandling.DataTypes;
 import net.staticstudios.prisons.data.serverData.ServerData;
@@ -8,6 +9,7 @@ import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.gangs.Gang;
+import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -720,9 +722,19 @@ public class PlayerData extends DataSet {
     public ChatColor getPrimaryUITheme() {
         return getPrimaryUITheme(getUIThemeID());
     }
+
+    public TextColor getPrimaryUIThemeAsTextColor() {
+        return getPrimaryUIThemeAsTextColor(getUIThemeID());
+    }
+
     public ChatColor getSecondaryUITheme() {
         return getSecondaryUITheme(getUIThemeID());
     }
+
+    public TextColor getSecondaryUIThemeAsTextColor() {
+        return getSecondaryUIThemeAsTextColor(getUIThemeID());
+    }
+
     public static ChatColor getPrimaryUITheme(String theme) {
         switch (theme) {
             default -> { //b
@@ -742,6 +754,27 @@ public class PlayerData extends DataSet {
             }
         }
     }
+
+    public static TextColor getPrimaryUIThemeAsTextColor(String theme) {
+        switch (theme) {
+            default -> { //b
+                return TextColor.fromHexString("#3dc2ff");
+            }
+            case "5" -> {
+                return TextColor.fromHexString("#b638ff");
+            }
+            case "2" -> {
+                return TextColor.fromHexString("#00ba31");
+            }
+            case "4" -> {
+                return ComponentUtil.DARK_RED;
+            }
+            case "6" -> {
+                return TextColor.fromHexString("#ffcc00");
+            }
+        }
+    }
+
     public static ChatColor getSecondaryUITheme(String theme) {
         switch (theme) {
             default -> { //b
@@ -761,6 +794,27 @@ public class PlayerData extends DataSet {
             }
         }
     }
+
+    public static TextColor getSecondaryUIThemeAsTextColor(String theme) {
+        switch (theme) {
+            default -> { //b
+                return ComponentUtil.AQUA;
+            }
+            case "5" -> {
+                return ComponentUtil.LIGHT_PURPLE;
+            }
+            case "2" -> {
+                return ComponentUtil.GREEN;
+            }
+            case "4" -> {
+                return ComponentUtil.RED;
+            }
+            case "6" -> {
+                return ComponentUtil.GOLD;
+            }
+        }
+    }
+
     public String getUIThemeID() {
         String str = getString("UIThemeID");
         if (str.isEmpty()) str = "b";

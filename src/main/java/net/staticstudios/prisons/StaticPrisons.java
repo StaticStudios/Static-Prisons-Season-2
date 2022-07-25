@@ -42,7 +42,7 @@ import net.staticstudios.prisons.utils.Events;
 import net.staticstudios.prisons.utils.TimedTasks;
 import net.staticstudios.prisons.privateMines.PrivateMineCommand;
 import net.staticstudios.prisons.privateMines.PrivateMineManager;
-import net.staticstudios.prisons.pvp.PvPCommand;
+import net.staticstudios.prisons.pvp.commands.PvPCommand;
 import net.staticstudios.prisons.pvp.PvPManager;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.ranks.PlayerRanks;

@@ -32,8 +32,6 @@ public class PvPManager {
     public static World PVP_WORLD;
     public static Map<Player, Long> playerWarpOutIn = new HashMap<>();
 
-    private static final KingOfTheHillManager kothManager = new KingOfTheHillManager();
-
     public static void init() {
         PVP_WORLD = new WorldCreator("pvp").createWorld(); //Ensure the world exists
         Bukkit.getPluginManager().registerEvents(new Listener(), StaticPrisons.getInstance());

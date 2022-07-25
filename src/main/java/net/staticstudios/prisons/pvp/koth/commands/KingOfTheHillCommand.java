@@ -30,17 +30,17 @@ public class KingOfTheHillCommand implements TabExecutor {
 
         if ("set".equalsIgnoreCase(args[0])) {
             if (!PVP_WORLD.equals(player.getWorld())) {
-                sender.sendMessage(Prefix.PVP.append(Component.text("You must be in the PVP world to use this command!")));
+                sender.sendMessage(Prefix.KOTH.append(Component.text("You must be in the PVP world to use this command!")));
                 return false;
             }
 
             KingOfTheHillManager.setKothBlock(player.getLocation());
-            player.sendMessage(Prefix.PVP.append(Component.text("Successfully set the King of the Hill area!")));
+            player.sendMessage(Prefix.KOTH.append(Component.text("Successfully set the King of the Hill area!")));
         }
 
         if ("remove".equalsIgnoreCase(args[0])) {
             if (!PVP_WORLD.equals(player.getWorld())) {
-                sender.sendMessage(Prefix.PVP.append(Component.text("You must be in the PVP world to use this command!")));
+                sender.sendMessage(Prefix.KOTH.append(Component.text("You must be in the PVP world to use this command!")));
                 return false;
             }
 
