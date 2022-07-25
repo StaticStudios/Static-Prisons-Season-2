@@ -26,8 +26,6 @@ public class FishingListener implements Listener {
             player.sendMessage(FishingManager.PREFIX + ChatColor.RED + "You can only fish in the PvP arena!");
             return;
         }
-        e.getHook().setMinWaitTime(1);
-        e.getHook().setMaxWaitTime(3);
         if (e.getState() != PlayerFishEvent.State.CAUGHT_FISH) return;
         if (e.getCaught() == null) return;
         FISHING_REWARDS.getRandom().accept(e);

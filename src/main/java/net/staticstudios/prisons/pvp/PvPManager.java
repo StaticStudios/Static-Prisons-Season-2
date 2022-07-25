@@ -38,7 +38,7 @@ public class PvPManager {
         PVP_WORLD = new WorldCreator("pvp").createWorld(); //Ensure the world exists
         Bukkit.getPluginManager().registerEvents(new Listener(), StaticPrisons.getInstance());
 
-        kothManager.init();
+        KingOfTheHillManager.init();
 
         StaticPrisons.getInstance().getCommand("pvpevent").setExecutor(new PvPEventCommand());
 
@@ -138,7 +138,6 @@ public class PvPManager {
             if (!player.getWorld().equals(PVP_WORLD)) return;
             if (player.getGameMode().equals(GameMode.CREATIVE) || player.getGameMode().equals(GameMode.SPECTATOR))
                 return;
-            if (player.hasPermission("static.staff.*")) return;
 
             if (!(e.getMessage().split(" ")[0].equalsIgnoreCase("/spawn") || e.getMessage().split(" ")[0].equalsIgnoreCase("/s"))) {
                 player.sendMessage(PREFIX + ChatColor.RED + "You cannot use that here! The only command you can use is " + ChatColor.GRAY + ChatColor.ITALIC + "/spawn");

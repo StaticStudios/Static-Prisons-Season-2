@@ -1,8 +1,12 @@
 package net.staticstudios.prisons.pvp.koth;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.pvp.koth.commands.KingOfTheHillCommand;
 import net.staticstudios.prisons.pvp.koth.runnables.KingOfTheHillGameRunnable;
+import net.staticstudios.prisons.utils.ComponentUtil;
+import net.staticstudios.utils.Prefix;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -74,7 +78,7 @@ public class KingOfTheHillManager {
     public static void startEvent() {
         eventRunning = true;
         eventRunnable = new KingOfTheHillGameRunnable(60 * config.getInt("kothTime"));
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), eventRunnable);
+        Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), eventRunnable);
     }
 
     public static void stopEvent() {
