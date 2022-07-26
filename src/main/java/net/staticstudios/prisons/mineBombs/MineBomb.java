@@ -18,10 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MineBomb {
     static final Pattern pattern = BlockTypes.AIR;
@@ -50,7 +47,7 @@ public class MineBomb {
         this.relightMode = relightMode;
     }
 
-    public List<BlockVector3> positions = new LinkedList<>();
+    public Set<BlockVector3> positions = new HashSet<>();
 
 
     private EditSession editSession;
@@ -116,8 +113,8 @@ public class MineBomb {
 
 
     //Custom implementation -- used so changes can be tracked
-    public static LinkedList<BlockVector3> makeSphere(double radius) throws MaxChangedBlocksException {
-        LinkedList<BlockVector3> locations = new LinkedList<>();
+    public static HashSet<BlockVector3> makeSphere(double radius) throws MaxChangedBlocksException {
+        HashSet<BlockVector3> locations = new HashSet<>();
         double radiusX = radius;
         double radiusY = radius;
         double radiusZ = radius;

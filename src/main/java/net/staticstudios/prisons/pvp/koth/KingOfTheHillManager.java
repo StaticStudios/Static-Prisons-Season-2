@@ -84,7 +84,7 @@ public class KingOfTheHillManager {
     public static void startEvent() {
         eventRunning = true;
         eventRunnable = new KingOfTheHillGameRunnable(60 * config.getInt("kothTime"));
-        Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), eventRunnable);
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), eventRunnable);
     }
 
     public static void stopEvent() {

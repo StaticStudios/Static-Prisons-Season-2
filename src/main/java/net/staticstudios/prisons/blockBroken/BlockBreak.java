@@ -170,6 +170,8 @@ public class BlockBreak {
         for (Consumer<BlockBreak> consumer : runAfterProcess) {
             consumer.accept(this);
         }
+        stats.setBlocksBroken(stats.getBlocksBroken() + 1);
+        stats.setRawBlockBroken(stats.getRawBlockBroken() + 1);
         if (!isCancelled) {
             if (!isSimulated && blockLocation != null) {
                 if (blockBreakEvent != null) {
