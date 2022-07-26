@@ -36,11 +36,11 @@ public class AbilityMenus extends GUIUtils {
     public static void mainMenu(Player player, PrisonPickaxe pickaxe) {
         PlayerData playerData = new PlayerData(player);
         GUICreator c = new GUICreator(27, "Pickaxe Abilities"); //todo: pricing
-        c.setItem(11, createAbilityButton(playerData, pickaxe, PickaxeAbilities.LIGHTNING_STRIKE, c, Material.TRIDENT, true));
-        c.setItem(12, createAbilityButton(playerData, pickaxe, PickaxeAbilities.SNOW_FALL, c, Material.SNOWBALL, true));
-        c.setItem(13, createAbilityButton(playerData, pickaxe, PickaxeAbilities.BEAM_OF_LIGHT, c, Material.AMETHYST_SHARD, true));
-        c.setItem(14, createAbilityButton(playerData, pickaxe, PickaxeAbilities.METEOR_STRIKE, c, Material.FIRE_CHARGE, true));
-        c.setItem(15, createAbilityButton(playerData, pickaxe, PickaxeAbilities.BLACK_HOLE, c, Material.FIREWORK_STAR, true));
+        c.setItem(12, createAbilityButton(playerData, pickaxe, PickaxeAbilities.LIGHTNING_STRIKE, c, Material.TRIDENT, true));
+        c.setItem(13, createAbilityButton(playerData, pickaxe, PickaxeAbilities.SNOW_FALL, c, Material.SNOWBALL, true));
+//        c.setItem(13, createAbilityButton(playerData, pickaxe, PickaxeAbilities.BEAM_OF_LIGHT, c, Material.AMETHYST_SHARD, true));
+//        c.setItem(14, createAbilityButton(playerData, pickaxe, PickaxeAbilities.METEOR_STRIKE, c, Material.FIRE_CHARGE, true));
+        c.setItem(14, createAbilityButton(playerData, pickaxe, PickaxeAbilities.BLACK_HOLE, c, Material.FIREWORK_STAR, true));
         c.fill(createGrayPlaceHolder());
         c.open(player);
         c.setOnCloseRun((p, t) -> PickaxeMenus.open(p, pickaxe));

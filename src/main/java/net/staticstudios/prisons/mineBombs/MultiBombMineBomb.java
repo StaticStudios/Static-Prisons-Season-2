@@ -16,10 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MultiBombMineBomb {
     static final Pattern pattern = BlockTypes.AIR;
@@ -39,7 +36,7 @@ public class MultiBombMineBomb {
         this.useParticles = useParticles;
     }
 
-    public List<BlockVector3> positions = new LinkedList<>();
+    public Set<BlockVector3> positions = new HashSet<>();
 
 
     private EditSession editSession;

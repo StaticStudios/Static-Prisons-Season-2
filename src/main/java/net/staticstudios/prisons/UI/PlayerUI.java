@@ -51,6 +51,8 @@ public class PlayerUI {
             return;
         }
 
+
+        //Default backpack actionbar
         player.sendActionBar(LegacyComponentSerializer.legacyAmpersand()
                 .deserialize(playerData.getSecondaryUITheme() + "Your Backpack: "
                         + PrisonUtils.addCommasToNumber(playerData.getBackpackItemCount())

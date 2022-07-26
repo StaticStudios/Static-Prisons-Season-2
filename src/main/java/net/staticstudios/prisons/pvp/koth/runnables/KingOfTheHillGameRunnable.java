@@ -63,7 +63,9 @@ public class KingOfTheHillGameRunnable implements Runnable {
                     .append(Component.text(possibleWinner.get().getName()).color(ComponentUtil.GOLD))
                     .append(Component.text(" is the King of the Hill!")));
 
-            KingOfTheHillManager.onWin(possibleWinner.get());
+            Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
+                KingOfTheHillManager.onWin(possibleWinner.get());
+            });
         }
         KingOfTheHillManager.stopEvent();
 
