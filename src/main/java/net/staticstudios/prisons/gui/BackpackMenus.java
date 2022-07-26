@@ -14,7 +14,7 @@ import java.util.List;
 public class BackpackMenus extends GUIUtils {
 
     private static final int SLOT_COST = 1;
-    private static final int SLOTS_PER_COST = 1000;
+    private static final int SLOTS_PER_COST = 10;
     public static void upgradeBag(Player player) {
         GUICreator c = new GUICreator(9, "Upgrade Your Backpack");
         PlayerData playerData = new PlayerData(player);
@@ -51,9 +51,12 @@ public class BackpackMenus extends GUIUtils {
                         "&bCosts: &f" + PrisonUtils.prettyNum((long) (SLOT_COST * Math.pow(10, 7))) + " Tokens", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
                     buySlots(p, BigInteger.valueOf((long) (SLOTS_PER_COST * Math.pow(10, 7))));
                 }), 8),
-                PrisonUtils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + PrisonUtils.addCommasToNumber(((long) (SLOTS_PER_COST * Math.pow(10, 8)))) + " Slots", List.of("","&bCurrent Size: &f" + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
-                        "&bCosts: &f" + PrisonUtils.prettyNum((long) (SLOT_COST * Math.pow(10, 8))) + " Tokens", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
-                    buySlots(p, BigInteger.valueOf((long) (SLOTS_PER_COST * Math.pow(10, 8))));
+
+
+                PrisonUtils.setItemCount(c.createButton(Material.CHEST, "&a&lAdd " + PrisonUtils.addCommasToNumber(playerData.getTokens().divide(BigInteger.valueOf(SLOT_COST)).multiply(BigInteger.valueOf(SLOTS_PER_COST))) + " Slots (MAX)",
+                        List.of("","&bCurrent Size: &f" + PrisonUtils.addCommasToNumber(playerData.getBackpackSize()) + " Slots",
+                        "&bCosts: &f" + PrisonUtils.addCommasToNumber(playerData.getTokens().divide(BigInteger.valueOf(SLOT_COST)).multiply(BigInteger.valueOf(SLOT_COST))) + " Tokens", "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())), (p, t) -> {
+                    buySlots(p, playerData.getTokens().divide(BigInteger.valueOf(SLOT_COST)).multiply(BigInteger.valueOf(SLOTS_PER_COST)));
                 }), 64)
         );
         c.open(player);
@@ -67,7 +70,7 @@ public class BackpackMenus extends GUIUtils {
             playerData.removeTokens(price);
             playerData.setBackpackSize(playerData.getBackpackSize() + slotsToBuy.longValue());
             player.sendMessage(ChatColor.AQUA + "You've successfully upgraded your backpack!");
-            upgradeBag(player);
         } else player.sendMessage(ChatColor.RED + "You do not have enough tokens to prestige!");
+        upgradeBag(player);
     }
 }

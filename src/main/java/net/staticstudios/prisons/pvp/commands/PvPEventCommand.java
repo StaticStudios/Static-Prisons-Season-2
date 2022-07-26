@@ -3,7 +3,7 @@ package net.staticstudios.prisons.pvp.commands;
 import net.kyori.adventure.text.Component;
 import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
-import net.staticstudios.utils.Prefix;
+import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

@@ -2,7 +2,7 @@ package net.staticstudios.prisons.pvp.koth.commands;
 
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
-import net.staticstudios.utils.Prefix;
+import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;

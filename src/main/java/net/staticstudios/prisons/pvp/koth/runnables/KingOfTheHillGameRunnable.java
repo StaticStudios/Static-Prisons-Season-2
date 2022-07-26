@@ -1,11 +1,10 @@
 package net.staticstudios.prisons.pvp.koth.runnables;
 
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.utils.ComponentUtil;
-import net.staticstudios.utils.Prefix;
+import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

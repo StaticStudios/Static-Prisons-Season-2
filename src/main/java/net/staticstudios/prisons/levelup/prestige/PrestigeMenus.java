@@ -1,12 +1,13 @@
-package net.staticstudios.prisons.levelup;
+package net.staticstudios.prisons.levelup.prestige;
 
+import net.kyori.adventure.text.Component;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gui.MainMenus;
-import net.staticstudios.prisons.utils.Warps;
-import net.staticstudios.prisons.utils.Constants;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.levelup.LevelUp;
+import net.staticstudios.prisons.utils.*;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,9 +18,70 @@ import java.util.List;
 
 public class PrestigeMenus extends GUIUtils {
 
-    public static void open(Player player, boolean fromCommand) {
-        GUICreator c = new GUICreator(45, "Prestige | Requires Mine Rank: " + ChatColor.BOLD + "Z");
+    public static void newOpen(Player player, boolean fromCommand) {
         PlayerData playerData = new PlayerData(player);
+        GUICreator c = new GUICreator(27, "Prestige | Requires Mine Rank: " + ChatColor.BOLD + "Z");
+
+        c.setItem(10, ench(c.createButton(Material.EMERALD, "&a&lPrestige " + PrisonUtils.addCommasToNumber(playerData.getPrestige()), List.of(
+                "Prestiging again will cost you $" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1)) + " and",
+                "100,000 Tokens. Each prestige also requires",
+                "a certain amount of raw blocks mined. Your next",
+                "prestige will require you to have " + PrisonUtils.addCommasToNumber(BigInteger.valueOf(100000).multiply(playerData.getPrestige().add(BigInteger.ONE))),
+                "raw blocks mined."
+        ))));
+
+        c.setItem(13, c.createButton(Material.NETHER_STAR, "&b&lLet's do it!", List.of(
+                "&oReady to prestige? Click here!",
+                "",
+                "&d&l│ &dCosts: &f$" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1)),
+                "&d&l│ &dCosts: &f100,000 Tokens"
+        ), (p, t) -> {
+            if (playerData.getMineRank() < 25) {
+                p.sendMessage(Prefix.PRESTIGE.append(Component.text("You must be rank Z to prestige!").color(ComponentUtil.RED)));
+                return;
+            }
+            if (playerData.getMoney().compareTo(BigInteger.valueOf(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1))) < 0) {
+                p.sendMessage(Prefix.PRESTIGE.append(Component.text("You don't have enough money to prestige!").color(ComponentUtil.RED)));
+                return;
+            }
+            if (playerData.getTokens().compareTo(BigInteger.valueOf(100000)) < 0) {
+                p.sendMessage(Prefix.PRESTIGE.append(Component.text("You don't have enough tokens to prestige!").color(ComponentUtil.RED)));
+                return;
+            }
+            //Players need to have 100K * prestige to go to raw blocks mined to prestige
+            if (playerData.getRawBlocksMined().compareTo(BigInteger.valueOf(100000 * (playerData.getPrestige().longValue() + 1))) < 0) {
+                p.sendMessage(Prefix.PRESTIGE.append(Component.text("You don't have enough raw blocks mined to prestige! You need " + PrisonUtils.addCommasToNumber(100000 * (playerData.getPrestige().longValue() + 1)) + " raw blocks mined!").color(ComponentUtil.RED)));
+                return;
+            }
+            playerData.removeMoney(BigInteger.valueOf(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1)));
+            playerData.removeTokens(BigInteger.valueOf(100000));
+            playerData.setMineRank(0);
+            playerData.addPrestige(BigInteger.ONE);
+            Bukkit.broadcast(Prefix.PRESTIGE.append(Component.text(player.getName()).color(ComponentUtil.AQUA)).append(Component.text(" has prestiged " + PrisonUtils.addCommasToNumber(playerData.getPrestige()) + " time(s)!")));
+            if (p.getWorld().equals(Constants.MINES_WORLD)) Warps.warpToSpawn(p);
+            else open(p, fromCommand);
+        }));
+        c.setItem(16, ench(c.createButton(Material.ANVIL, "&d&lWhat happens when I prestige?", List.of(
+                "You must be mine rank Z to prestige.",
+                "Each time you prestige, rank up costs will",
+                "increase by &a&l+25%. &7Prestiging will give you",
+                "access to new mines and will unlock new features.",
+                "After you prestige, you will go back to rank A.",
+                "",
+                "&bReady to do it?"
+        ))));
+
+        c.fill(createGrayPlaceHolder());
+        c.open(player);
+        c.setOnCloseRun((p, t) -> {
+            if (!fromCommand) MainMenus.open(p);
+        });
+    }
+
+    public static void open(Player player, boolean fromCommand) {
+        newOpen(player, fromCommand);
+        if (true) return;
+        GUICreator c = new GUICreator(45, "Prestige | Requires Mine Rank: " + ChatColor.BOLD + "Z");
         c.setItems(
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),

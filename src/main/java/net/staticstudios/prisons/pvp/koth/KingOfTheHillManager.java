@@ -1,20 +1,17 @@
 package net.staticstudios.prisons.pvp.koth;
 
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.pvp.koth.commands.KingOfTheHillCommand;
 import net.staticstudios.prisons.pvp.koth.runnables.KingOfTheHillGameRunnable;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.TimeUtils;
-import net.staticstudios.utils.Prefix;
+import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.C;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +19,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class KingOfTheHillManager {
 

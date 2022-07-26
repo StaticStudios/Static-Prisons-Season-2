@@ -16,7 +16,7 @@ public class LevelUp {
             price += getBaseRankUpPriceForRank(i);
         }
         BigInteger biPrice = BigInteger.valueOf(price);
-        return biPrice.multiply(playerData.getPrestige()).divide(BigInteger.valueOf(3)).add(biPrice);
+        return biPrice.multiply(playerData.getPrestige()).divide(BigInteger.valueOf(4)).add(biPrice); //+25% per prestige
     }
 
     public static long getBaseRankUpPriceForRank(int rank) {
@@ -24,14 +24,14 @@ public class LevelUp {
     }
 
     public static long getPrestigePrice(long currentPrestige, int prestigesToBuy) {
-        long price = INITIAL_PRESTIGE_PRICE * prestigesToBuy;
-        for (int r = 1; r < prestigesToBuy - 1; r++) {
-            long rankUpPrice = 0;
-            for (int i = 1; i <= 25; i++) {
-                rankUpPrice += getBaseRankUpPriceForRank(i);
-            }
-            price += rankUpPrice * currentPrestige / 3 + rankUpPrice;
-        }
+        long price = INITIAL_PRESTIGE_PRICE * (currentPrestige + prestigesToBuy);
+//        for (int r = 1; r < prestigesToBuy - 1; r++) {
+//            long rankUpPrice = 0;
+//            for (int i = 1; i <= 25; i++) {
+//                rankUpPrice += getBaseRankUpPriceForRank(i);
+//            }
+//            price += rankUpPrice * currentPrestige / 3 + rankUpPrice;
+//        }
         return price;
     }
 }

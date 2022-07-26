@@ -4,7 +4,7 @@ import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.auctionHouse.AuctionHouseMenus;
 import net.staticstudios.prisons.cells.CellMenus;
-import net.staticstudios.prisons.levelup.PrestigeMenus;
+import net.staticstudios.prisons.levelup.prestige.PrestigeMenus;
 import net.staticstudios.prisons.levelup.RankUpMenus;
 import net.staticstudios.prisons.mines.WarpMenus;
 import net.staticstudios.prisons.gambling.GamblingMenus;
