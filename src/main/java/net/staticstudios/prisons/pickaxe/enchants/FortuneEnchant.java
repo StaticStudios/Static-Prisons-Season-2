@@ -7,7 +7,7 @@ import java.math.BigInteger;
 
 public class FortuneEnchant extends BaseEnchant {
     public FortuneEnchant() {
-        super("fortune", "&b&lFortune", 25000, BigInteger.valueOf(200), "&7Increase your blocks from mining");
+        super("fortune", "&b&lFortune", 2500, BigInteger.valueOf(1000), "&7Increase your blocks from mining");
     }
 
     public void onBlockBreak(BlockBreak blockBreak) {

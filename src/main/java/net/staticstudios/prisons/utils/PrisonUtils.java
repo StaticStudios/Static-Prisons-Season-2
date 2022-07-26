@@ -288,9 +288,10 @@ public final class PrisonUtils {
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         meta.addEnchant(Enchantment.DIG_SPEED, 100, true);
         item.setItemMeta(meta);
-        pickaxe.setEnchantsLevel(PickaxeEnchants.FORTUNE, 10);
+        pickaxe.setEnchantsLevel(PickaxeEnchants.FORTUNE, 5);
         pickaxe.setEnchantsLevel(PickaxeEnchants.DOUBLE_FORTUNE, 5);
         pickaxe.setEnchantsLevel(PickaxeEnchants.TOKENATOR, 1);
+        pickaxe.setEnchantsLevel(PickaxeEnchants.JACK_HAMMER, 1);
         PrisonPickaxe.updateLore(item);
         return item;
     }

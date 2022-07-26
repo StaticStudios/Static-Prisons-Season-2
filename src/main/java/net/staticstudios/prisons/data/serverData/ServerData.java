@@ -22,7 +22,7 @@ public class ServerData {
             Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + PrisonUtils.addCommasToNumber(PLAYERS.getAllUUIDs().size() + 1) + ")");
             PrisonUtils.Players.addToInventory(player, PrisonUtils.createNewPickaxe());
             PlayerData playerData = new PlayerData(player);
-            playerData.setBackpackSize(25000);
+            playerData.setBackpackSize(2500);
             playerData.setPlayerRank("member");
             playerData.setStaffRank("member");
         }

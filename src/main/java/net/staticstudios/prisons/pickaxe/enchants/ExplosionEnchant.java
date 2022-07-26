@@ -14,12 +14,15 @@ public class ExplosionEnchant extends BaseEnchant {
     public ExplosionEnchant() {
         super("explosion", "&c&lExplosion", 5000, BigInteger.valueOf(450), "&7Change to explode part of a mine");
         setPickaxeLevelRequirement(10);
+
+        setUseChances(true);
+        setDefaultPercentChance(1d / 5000 * 100); //1 out of 5,000
+        setPercentChancePerLevel((1d / 3000 * 100 - getDefaultPercentChance()) / MAX_LEVEL); //it will activate 1 out of 3,000 times at max level
     }
     public void onBlockBreak(BlockBreak blockBreak) {
         if (blockBreak.getBlockLocation() == null) return;
-        int explosionLevel = blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID);
-        if (PrisonUtils.randomInt(1, 4500 - (int) (explosionLevel / 3.75)) != 1) return; //Chance to activate enchant
-        int radius = 5 + explosionLevel / 750;
+        if (!activate(blockBreak.getPickaxe())) return;
+        int radius = 5 + blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID) / 750;
         radius += PrisonUtils.randomDouble(0, 0.4) * radius;
         MineBomb bomb = new MineBomb(blockBreak.getBlockLocation(), radius);
         for (Map.Entry<Material, Long> entry : bomb.explode(blockBreak.getMine()).entrySet()) {

@@ -15,23 +15,22 @@ public class SpecialFinderEnchant extends BaseEnchant {
     public SpecialFinderEnchant() {
         super("specialFinder", "&c&lMetal Detector", 5000, BigInteger.valueOf(400), "&7Find special items while mining");
         setPickaxeLevelRequirement(25);
+
+        setUseChances(true);
+        setDefaultPercentChance(1d / 10000 * 100); //1 out of 10,000
+        setPercentChancePerLevel((1d / 1750 * 100 - getDefaultPercentChance()) / MAX_LEVEL); //it will activate 1 out of 3,000 times at max level
     }
 
     public void onBlockBreak(BlockBreak blockBreak) {
         if (blockBreak.getPlayer() == null) return;
-        if (PrisonUtils.randomInt(0, 1750) != 1) return; //Chance to activate enchant
-        int metalDetectorEnchant = blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID);
-        if (PrisonUtils.randomInt(1, MAX_LEVEL + MAX_LEVEL / 10) <= metalDetectorEnchant + MAX_LEVEL / 10) {
-            ItemStack reward = new WeightedElements<ItemStack>()
-                    .add(Vouchers.getMultiplierNote(BigDecimal.valueOf(PrisonUtils.randomInt(12, 75)).divide(BigDecimal.valueOf(100)), PrisonUtils.randomInt(20, 120)), 50)
-                    .add(CustomItems.getMineBombTier1(), 25)
-                    .add(CustomItems.getMineBombTier2(), 15)
-                    .add(CustomItems.getMineBombTier3(), 5)
-                    .add(CustomItems.getMineBombTier4(), 5)
-                    .getRandom();
-            //bb.player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "[Metal Detector] " + ChatColor.AQUA + "You found " + reward.getAmount() + "x " + PrisonUtils.getPrettyItemName(reward) + ChatColor.AQUA + " while mining!");
-            blockBreak.messagePlayer(DISPLAY_NAME + " &8&l>> &fFound " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward) + "&f while mining!");
-            PrisonUtils.Players.addToInventory(blockBreak.getPlayer(), reward);
-        }
+        ItemStack reward = new WeightedElements<ItemStack>()
+                .add(Vouchers.getMultiplierNote(BigDecimal.valueOf(PrisonUtils.randomInt(12, 75)).divide(BigDecimal.valueOf(100)), PrisonUtils.randomInt(20, 120)), 50)
+                .add(CustomItems.getMineBombTier1(), 25)
+                .add(CustomItems.getMineBombTier2(), 15)
+                .add(CustomItems.getMineBombTier3(), 5)
+                .add(CustomItems.getMineBombTier4(), 5)
+                .getRandom();
+        blockBreak.messagePlayer(DISPLAY_NAME + " &8&l>> &fFound " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward) + "&f while mining!");
+        PrisonUtils.Players.addToInventory(blockBreak.getPlayer(), reward);
     }
 }

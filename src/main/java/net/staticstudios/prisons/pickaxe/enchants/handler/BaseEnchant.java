@@ -68,6 +68,59 @@ public abstract class BaseEnchant implements Listener {
         return this;
     }
 
+    boolean useChances = false;
+    double defaultChance = 0d;
+    double chancePerLevel = 0d;
+    public BaseEnchant setUseChances(boolean use) {
+        useChances = use;
+        return this;
+    }
+    public BaseEnchant setDefaultPercentChance(double chance) {
+        defaultChance = chance;
+        return this;
+    }
+    public BaseEnchant setPercentChancePerLevel(double chance) {
+        chancePerLevel = chance;
+        return this;
+    }
+    public boolean getUseChances() {
+        return useChances;
+    }
+    public double getDefaultPercentChance() {
+        return defaultChance;
+    }
+    public double getPercentChancePerLevel() {
+        return chancePerLevel;
+    }
+
+    public double getPercentChance(PrisonPickaxe pickaxe) {
+        return getPercentChance(pickaxe.getEnchantLevel(ENCHANT_ID));
+    }
+
+    public double getPercentChance(int level) {
+        if (!useChances) return 100;
+        return defaultChance + level * chancePerLevel;
+    }
+
+    public boolean activate(PrisonPickaxe pickaxe) {
+        if (!pickaxe.getIsEnchantEnabled(this)) return false;
+        return activate(pickaxe.getEnchantLevel(ENCHANT_ID));
+    }
+
+    public boolean activate(int level) {
+        if (!useChances) return true;
+        return PrisonUtils.randomDouble(0d, 100d) <= getPercentChance(level);
+    }
+
+
+
+
+
+
+
+
+
+
     public boolean tryToBuyLevels(Player player, PrisonPickaxe pickaxe, long levelsToBuy) {
         PlayerData playerData = new PlayerData(player);
         if (levelsToBuy <= 0) {

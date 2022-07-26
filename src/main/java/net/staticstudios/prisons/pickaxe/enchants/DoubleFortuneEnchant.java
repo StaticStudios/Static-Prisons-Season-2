@@ -10,10 +10,13 @@ public class DoubleFortuneEnchant extends BaseEnchant {
     public DoubleFortuneEnchant() {
         super("doubleFortune", "&d&lOre Splitter", 1000, BigInteger.valueOf(5000), "&7Chance to get 2x blocks from fortune");
         setPickaxeLevelRequirement(25);
+
+        setUseChances(true);
+        setDefaultPercentChance(0);
+        setPercentChancePerLevel(1d / MAX_LEVEL * 100);
     }
     public void onBlockBreak(BlockBreak blockBreak) {
-        if (PrisonUtils.randomInt(0, MAX_LEVEL) < blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID)) {
-            blockBreak.getStats().setBlocksBrokenMultiplier(blockBreak.getStats().getBlocksBrokenMultiplier() * 2);
-        }
+        if (!activate(blockBreak.getPickaxe())) return;
+        blockBreak.getStats().setBlocksBrokenMultiplier(blockBreak.getStats().getBlocksBrokenMultiplier() * 2);
     }
 }

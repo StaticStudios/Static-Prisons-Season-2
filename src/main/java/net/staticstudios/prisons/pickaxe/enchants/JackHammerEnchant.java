@@ -11,7 +11,6 @@ import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -23,21 +22,19 @@ public class JackHammerEnchant extends BaseEnchant {
     public JackHammerEnchant() {
         super("jackHammer", "&8&lJack Hammer", 20000, BigInteger.valueOf(250), "&7Chance to destroy a layer of a mine");
         setPickaxeLevelRequirement(10);
+
+
+        setUseChances(true);
+        setDefaultPercentChance(1d / 2000 * 100); //1 out of 2,000
+        setPercentChancePerLevel((1d / 150 * 100 - getDefaultPercentChance()) / MAX_LEVEL); //it will activate 1 out of 150 times at max level
     }
 
     public void onBlockBreak(BlockBreak blockBreak) {
-        if (PrisonUtils.randomInt(1, 75) != 1) return; //Chance to activate enchant
-        int jackHammerLevel = blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID);
-        int doubleWammyLevel = blockBreak.getPickaxe().getEnchantLevel(PickaxeEnchants.DOUBLE_JACK_HAMMER);
-        if (PrisonUtils.randomInt(1, MAX_LEVEL + MAX_LEVEL / 10) > jackHammerLevel + MAX_LEVEL / 10)
-            return; //Chance to activate enchant
-
+        if (!activate(blockBreak.getPickaxe())) return;
         int howDeepToGo = 1;
-        if (doubleWammyLevel > 0 && blockBreak.getPickaxe().getIsEnchantEnabled(PickaxeEnchants.DOUBLE_JACK_HAMMER)) {
-            if (PrisonUtils.randomInt(1, PickaxeEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL + PickaxeEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) <= doubleWammyLevel + PickaxeEnchants.DOUBLE_JACK_HAMMER.MAX_LEVEL / 10) //Chance to activate double wammy
-                howDeepToGo += 1;
+        if (PickaxeEnchants.DOUBLE_JACK_HAMMER.activate(blockBreak.getPickaxe())) {
+            howDeepToGo = 2;
         }
-
         BreakLayer bl = new BreakLayer(blockBreak.getMine());
         for (Map.Entry<Material, Long> entry : bl.destroyLayer(blockBreak.getBlockLocation().getBlockY(), howDeepToGo).entrySet()) {
             blockBreak.getStats().getMinedBlocks().put(MineBlock.fromMaterial(entry.getKey()), blockBreak.getStats().getMinedBlocks().getOrDefault(MineBlock.fromMaterial(entry.getKey()), 0L) + entry.getValue());

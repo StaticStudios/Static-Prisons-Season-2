@@ -13,12 +13,15 @@ public class BackpackFinderEnchant extends BaseEnchant {
         super("backpackFinder", "&6&lDuffle Bag", 10000, BigInteger.valueOf(500), "&7Chance to find an additional 1% to 4% of", "&7your backpack's max space while mining");
         setPickaxeLevelRequirement(30);
         setPlayerLevelRequirement(15);
+
+        setUseChances(true);
+        setDefaultPercentChance(1d / MAX_LEVEL * 100);
     }
 
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&6&lDuffle Bag &8&l>> &r");
 
     public void onBlockBreak(BlockBreak blockBreak) {
-        if (PrisonUtils.randomInt(1, 25000) != 1) return; //Chance to activate enchant
+        if (!activate(blockBreak.getPickaxe())) return;
 
 
         int percentOfBackpackToFind = PrisonUtils.randomInt(1, 4);
