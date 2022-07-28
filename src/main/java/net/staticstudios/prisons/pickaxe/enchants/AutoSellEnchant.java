@@ -2,14 +2,17 @@ package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class AutoSellEnchant extends BaseEnchant {
@@ -24,8 +27,9 @@ public class AutoSellEnchant extends BaseEnchant {
 
     static void onSell(PrisonPickaxe pickaxe, Player player) {
         PlayerData playerData = new PlayerData(player);
-        if (playerData.getBackpackItemCount() == 0) return;
-        playerData.sellBackpack(player, true, ChatColor.translateAlternateColorCodes('&', "&d&lAuto Sell &7&o(Enchant) &8&l>> &f(x%MULTI%) Sold &b%TOTAL_BACKPACK_COUNT% &fblocks for: &a$%TOTAL_SELL_PRICE%"));
+        PrisonBackpacks.sell(player, (p, r) -> {
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&lAuto Sell &7&o(Enchant) &8&l>> &f(x" + r.multiplier().setScale(2, RoundingMode.FLOOR) + ") Sold &b" + PrisonUtils.prettyNum(r.blocksSold()) + " &fblocks for: &a$" + PrisonUtils.prettyNum(r.soldFor())));
+        });
     }
     static final int MAX_INTERVAL = 600;
     static final int STEP = 93;

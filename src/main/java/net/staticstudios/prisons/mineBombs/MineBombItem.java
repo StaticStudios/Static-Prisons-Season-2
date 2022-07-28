@@ -3,6 +3,7 @@ package net.staticstudios.prisons.mineBombs;
 import com.sk89q.worldedit.math.BlockVector3;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.privateMines.PrivateMine;
@@ -20,8 +21,8 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MineBombItem {
-    private static final long VIRTUAL_FORTUNE = 10000;
+public class MineBombItem { //todo: clean this file up, precompute minebombs
+    private static final long VIRTUAL_FORTUNE = 1000;
     public static void blockPlaced(PlayerInteractEvent e) {
         if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
         if (!e.getPlayer().getLocation().getWorld().equals(Constants.MINES_WORLD) && !e.getPlayer().getLocation().getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD)) return;
@@ -60,15 +61,17 @@ public class MineBombItem {
             Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
                 finalMine.removeBlocksBrokenInMine(bomb.blocksChanged);
                 e.getItem().setAmount(e.getItem().getAmount() - 1);
-                boolean backpackWasFull = playerData.getBackpackIsFull();
-                if (!backpackWasFull) {
-                    Map<MineBlock, Long> map = new HashMap<>();
-                    for (Map.Entry<Material, Long> entry: blocksBroken.entrySet()) {
-                        map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * VIRTUAL_FORTUNE);
-                    }
-                    playerData.addAllToBackpack(map);
+                Map<MineBlock, Long> map = new HashMap<>();
+                for (Map.Entry<Material, Long> entry: blocksBroken.entrySet()) {
+                    map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * VIRTUAL_FORTUNE);
                 }
-                PrisonUtils.Players.backpackFullCheck(backpackWasFull, e.getPlayer(), playerData);
+                PrisonBackpacks.addToBackpacks(e.getPlayer(), map);
+//                boolean backpackWasFull = playerData.getBackpackIsFull();
+//                if (!backpackWasFull) {
+//
+//                    playerData.addAllToBackpack(map);
+//                }
+//                PrisonUtils.Players.backpackFullCheck(backpackWasFull, e.getPlayer(), playerData);
             });
         });
     }
@@ -109,15 +112,20 @@ public class MineBombItem {
             Bukkit.getScheduler().runTask(StaticPrisons.getInstance(), () -> {
                 finalMine.removeBlocksBrokenInMine(bomb.blocksChanged);
                 e.getItemDrop().remove();
-                boolean backpackWasFull = playerData.getBackpackIsFull();
-                if (!backpackWasFull) {
-                    Map<MineBlock, Long> map = new HashMap<>();
-                    for (Map.Entry<Material, Long> entry: blocksBroken.entrySet()) {
-                        map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * VIRTUAL_FORTUNE);
-                    }
-                    playerData.addAllToBackpack(map);
+                Map<MineBlock, Long> map = new HashMap<>();
+                for (Map.Entry<Material, Long> entry: blocksBroken.entrySet()) {
+                    map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * VIRTUAL_FORTUNE);
                 }
-                PrisonUtils.Players.backpackFullCheck(backpackWasFull, e.getPlayer(), playerData);
+                PrisonBackpacks.addToBackpacks(e.getPlayer(), map);
+//                boolean backpackWasFull = playerData.getBackpackIsFull();
+//                if (!backpackWasFull) {
+//                    Map<MineBlock, Long> map = new HashMap<>();
+//                    for (Map.Entry<Material, Long> entry: blocksBroken.entrySet()) {
+//                        map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * VIRTUAL_FORTUNE);
+//                    }
+//                    playerData.addAllToBackpack(map);
+//                }
+//                PrisonUtils.Players.backpackFullCheck(backpackWasFull, e.getPlayer(), playerData);
             });
         }, 20 * 5);
     }

@@ -54,7 +54,6 @@ public class PickaxeMenus extends GUIUtils {
 
         c.fill(createGrayPlaceHolder());
         c.open(player);
-//        c.setOnCloseRun((p, t) -> MainMenus.open(p));
     }
 
     public static void selectPickaxe(Player player) {
@@ -62,7 +61,6 @@ public class PickaxeMenus extends GUIUtils {
         for (ItemStack item : player.getInventory().getContents()) {
             if (PrisonUtils.checkIsPrisonPickaxe(item)) {
                 c.addItem(c.createButton(item, (p, t) -> {
-//                    EnchantMenus.mainMenu(p, PrisonPickaxe.fromItem(item))
                     open(p, PrisonPickaxe.fromItem(item));
                 }));
             }

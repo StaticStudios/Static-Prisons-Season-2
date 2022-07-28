@@ -18,6 +18,7 @@ public class GUIListener implements Listener {
             if (e.getInventory().getHolder() instanceof StaticGUI) e.setCancelled(e.getClick().isShiftClick());
             return;
         }
+
         if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
             if (gui.getOnClickEmptySlot() != null) gui.getOnClickEmptySlot().accept(e);
             else e.setCancelled(true);

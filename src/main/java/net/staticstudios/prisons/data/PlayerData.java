@@ -293,88 +293,88 @@ public class PlayerData extends DataSet {
 //    }
 
 
-    public PlayerData setBackpackValue(long value) {
-        setLong("backpackValue", value);
-        return this;
-    }
-    public PlayerData addBackpackValue(long value) {
-        return setBackpackValue(getBackpackValue() + value);
-    }
-    public long getBackpackValue() {
-        return getLong("backpackValue");
-    }
-    public PlayerData setBackpackItemCount(long value) {
-        setLong("backpackItemCount", value);
-        return this;
-    }
-    public long getBackpackItemCount() {
-        return getLong("backpackItemCount");
-    }
-    public PlayerData setBackpackSize(long value) {
-        setLong("backpackSize", value);
-        return this;
-    }
-    public long getBackpackSize() {
-        return getLong("backpackSize");
-    }
-    public boolean getBackpackIsFull() {
-        return getBackpackSize() <= getBackpackItemCount();
-    }
-
-
-    public void addAllToBackpack(Map<MineBlock, Long> whatToAdd) {
-        if (getBackpackIsFull()) return;
-        long itemCount = getBackpackItemCount();
-        long size = getBackpackSize();
-        long value = 0;
-        whatToAdd.remove(null); //fix null errors
-        for (Map.Entry<MineBlock, Long> entry : whatToAdd.entrySet()) {
-            if (itemCount >= size) break; //The backpack is full
-            long blockValue = entry.getKey().value();
-            long amount = entry.getValue();
-            if (size >= itemCount + amount) { //The backpack can add the whole entry
-                value += blockValue * amount;
-                itemCount += amount;
-            } else { //The backpack is not currently full but will be full after adding this entry, figure out how much can fit in the backpack and add only that amount
-                amount = size - itemCount;
-                value += blockValue * amount;
-                itemCount = size;
-                break; //The backpack is now full
-            }
-        }
-        addBackpackValue(value);
-        setBackpackItemCount(itemCount);
-    }
-    public void sellBackpack(Player player, boolean sendChatMessage) {
-        sellBackpack(player, sendChatMessage, "(x%MULTI%) Sold " + ChatColor.AQUA + "%TOTAL_BACKPACK_COUNT% " + ChatColor.WHITE + "blocks for: " + ChatColor.GREEN + "$%TOTAL_SELL_PRICE%");
-    }
-    public void sellBackpack(Player player, boolean sendChatMessage, String chatMessage) {
-        BigDecimal multi = getMoneyMultiplier();
-        if (player != null) {
-            //Factor in the merchant enchant
-            ItemStack item = player.getInventory().getItemInMainHand();
-            if (PrisonUtils.checkIsPrisonPickaxe(item)) {
-                PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(item);
-                if (pickaxe.getIsEnchantEnabled(PickaxeEnchants.MERCHANT)) {
-                    multi = multi.add(BigDecimal.valueOf(pickaxe.getEnchantLevel(PickaxeEnchants.MERCHANT) / 1250d));
-                }
-            }
-        }
-        BigInteger soldFor = BigDecimal.valueOf(getBackpackValue()).multiply(multi).toBigInteger();
-        addMoney(soldFor);
-        if (Gang.getGangFromPlayerUUID(getUUID()) != null) {
-            Gang.getGangFromPlayerUUID(getUUID()).addMoneyMade(soldFor); //Track gang stats
-        }
-        if (sendChatMessage && player != null) {
-            chatMessage = chatMessage.replaceAll("%MULTI%", multi + "");
-            chatMessage = chatMessage.replaceAll("%TOTAL_BACKPACK_COUNT%", PrisonUtils.prettyNum(getBackpackItemCount()) + "");
-            chatMessage = chatMessage.replaceAll("%TOTAL_SELL_PRICE%", PrisonUtils.addCommasToNumber(soldFor) + "");
-            player.sendMessage(chatMessage);
-        }
-        setBackpackItemCount(0);
-        setBackpackValue(0);
-    }
-
+//    public PlayerData setBackpackValue(long value) {
+//        setLong("backpackValue", value);
+//        return this;
+//    }
+//    public PlayerData addBackpackValue(long value) {
+//        return setBackpackValue(getBackpackValue() + value);
+//    }
+//    public long getBackpackValue() {
+//        return getLong("backpackValue");
+//    }
+//    public PlayerData setBackpackItemCount(long value) {
+//        setLong("backpackItemCount", value);
+//        return this;
+//    }
+//    public long getBackpackItemCount() {
+//        return getLong("backpackItemCount");
+//    }
+//    public PlayerData setBackpackSize(long value) {
+//        setLong("backpackSize", value);
+//        return this;
+//    }
+//    public long getBackpackSize() {
+//        return getLong("backpackSize");
+//    }
+//    public boolean getBackpackIsFull() {
+//        return getBackpackSize() <= getBackpackItemCount();
+//    }
+//
+//
+//    public void addAllToBackpack(Map<MineBlock, Long> whatToAdd) {
+//        if (getBackpackIsFull()) return;
+//        long itemCount = getBackpackItemCount();
+//        long size = getBackpackSize();
+//        long value = 0;
+//        whatToAdd.remove(null); //fix null errors
+//        for (Map.Entry<MineBlock, Long> entry : whatToAdd.entrySet()) {
+//            if (itemCount >= size) break; //The backpack is full
+//            long blockValue = entry.getKey().value();
+//            long amount = entry.getValue();
+//            if (size >= itemCount + amount) { //The backpack can add the whole entry
+//                value += blockValue * amount;
+//                itemCount += amount;
+//            } else { //The backpack is not currently full but will be full after adding this entry, figure out how much can fit in the backpack and add only that amount
+//                amount = size - itemCount;
+//                value += blockValue * amount;
+//                itemCount = size;
+//                break; //The backpack is now full
+//            }
+//        }
+//        addBackpackValue(value);
+//        setBackpackItemCount(itemCount);
+//    }
+//    public void sellBackpack(Player player, boolean sendChatMessage) {
+//        sellBackpack(player, sendChatMessage, "(x%MULTI%) Sold " + ChatColor.AQUA + "%TOTAL_BACKPACK_COUNT% " + ChatColor.WHITE + "blocks for: " + ChatColor.GREEN + "$%TOTAL_SELL_PRICE%");
+//    }
+//    public void sellBackpack(Player player, boolean sendChatMessage, String chatMessage) {
+//        BigDecimal multi = getMoneyMultiplier();
+//        if (player != null) {
+//            //Factor in the merchant enchant
+//            ItemStack item = player.getInventory().getItemInMainHand();
+//            if (PrisonUtils.checkIsPrisonPickaxe(item)) {
+//                PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(item);
+//                if (pickaxe.getIsEnchantEnabled(PickaxeEnchants.MERCHANT)) {
+//                    multi = multi.add(BigDecimal.valueOf(pickaxe.getEnchantLevel(PickaxeEnchants.MERCHANT) / 1250d));
+//                }
+//            }
+//        }
+//        BigInteger soldFor = BigDecimal.valueOf(getBackpackValue()).multiply(multi).toBigInteger();
+//        addMoney(soldFor);
+//        if (Gang.getGangFromPlayerUUID(getUUID()) != null) {
+//            Gang.getGangFromPlayerUUID(getUUID()).addMoneyMade(soldFor); //Track gang stats
+//        }
+//        if (sendChatMessage && player != null) {
+//            chatMessage = chatMessage.replaceAll("%MULTI%", multi + "");
+//            chatMessage = chatMessage.replaceAll("%TOTAL_BACKPACK_COUNT%", PrisonUtils.prettyNum(getBackpackItemCount()) + "");
+//            chatMessage = chatMessage.replaceAll("%TOTAL_SELL_PRICE%", PrisonUtils.addCommasToNumber(soldFor) + "");
+//            player.sendMessage(chatMessage);
+//        }
+//        setBackpackItemCount(0);
+//        setBackpackValue(0);
+//    }
+//
 
 
 
@@ -492,7 +492,11 @@ public class PlayerData extends DataSet {
     }
     //Settings
     public boolean getIsAutoSellEnabled() {
-        return getBoolean("autoSell");
+        boolean value = getBoolean("autoSell");
+        if (value && !PrisonUtils.Players.canAutoSell(this)) {
+            setIsAutoSellEnabled(false);
+        }
+        return value;
     }
     public PlayerData setIsAutoSellEnabled(boolean value) {
         setBoolean("autoSell", value);

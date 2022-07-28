@@ -13,8 +13,6 @@ import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.privateMines.PrivateMineManager;
-import net.staticstudios.prisons.utils.Constants;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -48,7 +46,7 @@ public class TimedTasks {
         //Show all players their backpacks
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                PlayerUI.updateActionbar(p);
+                PlayerUI.sendActionbar(p);
                 }
         }, 0, 1);
         //Scoreboard

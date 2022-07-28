@@ -1,8 +1,11 @@
 package net.staticstudios.prisons.commands.test;
 
 import com.sk89q.worldedit.math.BlockVector3;
+import dev.dbassett.skullcreator.SkullCreator;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.backpacks.PrisonBackpack;
+import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.levelup.LevelUp;
@@ -15,18 +18,24 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.LinkedList;
 import java.util.UUID;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -123,16 +132,16 @@ public class TestCommand implements CommandExecutor {
 //            }, i * 3);
 //        }
 
-        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.LIGHTNING_STRIKE, 0);
-        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.SNOW_FALL, 0);
-        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.METEOR_STRIKE, 0);
-        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.BEAM_OF_LIGHT, 0);
-        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.BLACK_HOLE, 0);
-        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.LIGHTNING_STRIKE, 0);
-        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.SNOW_FALL, 0);
-        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.METEOR_STRIKE, 0);
-        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.BEAM_OF_LIGHT, 0);
-        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.BLACK_HOLE, 0);
+//        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.LIGHTNING_STRIKE, 0);
+//        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.SNOW_FALL, 0);
+//        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.METEOR_STRIKE, 0);
+//        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.BEAM_OF_LIGHT, 0);
+//        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setAbilityLevel(PickaxeAbilities.BLACK_HOLE, 0);
+//        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.LIGHTNING_STRIKE, 0);
+//        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.SNOW_FALL, 0);
+//        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.METEOR_STRIKE, 0);
+//        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.BEAM_OF_LIGHT, 0);
+//        PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()).setLastActivatedAbilityAt(PickaxeAbilities.BLACK_HOLE, 0);
 
 //        int prestigesToBuy = 10;
 //        BigInteger price = BigInteger.valueOf(5000000000L); //10B
@@ -157,12 +166,16 @@ public class TestCommand implements CommandExecutor {
 //            }
 
 //        PickaxeAbilities.LIGHTNING_STRIKE.beginActivation(player, PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()));
-        new PlayerData(player).setLastUsedPickaxeAbility(0);
+//        new PlayerData(player).setLastUsedPickaxeAbility(0);
+        PrisonBackpack backpack = PrisonBackpacks.createBackpack(1);
+        player.getInventory().addItem(backpack.getItem());
+
+
         return false;
 
 
     }
-    static MineBomb mineBomb = new MineBomb(15);
+
 
 
 }

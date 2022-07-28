@@ -8,6 +8,8 @@ import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.auctionHouse.AuctionManager;
+import net.staticstudios.prisons.backpacks.BackpackCommand;
+import net.staticstudios.prisons.backpacks.PrisonBackpack;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.cells.IslandCommand;
@@ -117,7 +119,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(BlockBreak::init);
         safe(FishingManager::init);
         safe(KingOfTheHillManager::init);
-
+        safe(PrisonBackpack::init);
 
         StaticGUI.enable(this);
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
@@ -218,6 +220,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(PrisonPickaxe::savePickaxeDataNow);
         safe(PrisonPickaxe::dumpLoreToAllPickaxesNow);
         safe(Gang::saveAllSync);
+        safe(PrisonBackpack::saveBackpacksNow);
     }
 
     static void unloadNetherAndEnd() {

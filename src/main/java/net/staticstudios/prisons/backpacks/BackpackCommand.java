@@ -1,6 +1,5 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.backpacks;
 
-import net.staticstudios.prisons.gui.BackpackMenus;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,7 +15,7 @@ public class BackpackCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player player)) return false;
-        BackpackMenus.upgradeBag(player);
+        BackpackMenus.mainMenu(player);
         return false;
     }
     @Override

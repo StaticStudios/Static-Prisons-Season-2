@@ -3,6 +3,7 @@ package net.staticstudios.prisons.gui;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.auctionHouse.AuctionHouseMenus;
+import net.staticstudios.prisons.backpacks.BackpackMenus;
 import net.staticstudios.prisons.cells.CellMenus;
 import net.staticstudios.prisons.levelup.prestige.PrestigeMenus;
 import net.staticstudios.prisons.levelup.RankUpMenus;
@@ -79,7 +80,7 @@ public class MainMenus extends GUIUtils {
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
                 c.createButton(Material.ENDER_CHEST, "&e&lBackpack", List.of("&7&oUpgrade your backpack!"), (p, t) -> {
-                    BackpackMenus.upgradeBag(player);
+                    BackpackMenus.mainMenu(player);
                 }),
                 createGrayPlaceHolder(),
 

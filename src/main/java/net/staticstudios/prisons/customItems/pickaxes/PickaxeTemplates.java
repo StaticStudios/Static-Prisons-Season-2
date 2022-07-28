@@ -171,8 +171,8 @@ public class PickaxeTemplates {
         PrisonPickaxe pickaxe = new PrisonPickaxe(item);
         pickaxe.setTopLore(TOP_LORE);
         pickaxe.setBottomLore(BOTTOM_LORE);
+        pickaxe.setName(DISPLAY_NAME);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(DISPLAY_NAME);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         meta.setUnbreakable(true);

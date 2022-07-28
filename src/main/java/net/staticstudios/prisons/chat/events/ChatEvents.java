@@ -113,7 +113,6 @@ public class ChatEvents {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + player.getName() + " correctly unscrambled &b" + event.question + "!&f Correct answer: &a" + event.correctAnswer + "!&f " +
                         player.getName() + " won " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward) + "!"));
                     }
-                    PrisonUtils.Players.addToInventory(player, reward);
                 }, question.toString(), answer);
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + "The first person to correctly unscramble &b" + question + "&f will receive a reward!"));

@@ -1,11 +1,15 @@
 package net.staticstudios.prisons.pickaxe;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
+import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -50,9 +54,14 @@ public class PrisonPickaxe {
             pickaxe.xp = section.getLong("xp");
             pickaxe.blocksBroken = section.getLong("blocksBroken");
             pickaxe.rawBlocksBroken = section.getLong("rawBlocksBroken");
+            String name = section.getString("name");
+            if (name != null) {
+                pickaxe.name = name;
+            }
+            pickaxe.nameAsComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(pickaxe.name);
             for (String _key : section.getKeys(false)) {
                 switch (_key) {
-                    case "level", "xp", "blocksBroken", "rawBlocksBroken", "topLore", "bottomLore" -> { continue; }
+                    case "level", "xp", "blocksBroken", "rawBlocksBroken", "topLore", "bottomLore", "name" -> { continue; }
                     case "abilities" -> {
                         for (String abilityKey : section.getConfigurationSection("abilities").getKeys(false)) {
                             int level = section.getInt("abilities." + abilityKey);
@@ -111,6 +120,7 @@ public class PrisonPickaxe {
             section.set("rawBlocksBroken", pickaxe.rawBlocksBroken);
             section.set("topLore", pickaxe.topLore);
             section.set("bottomLore", pickaxe.bottomLore);
+            section.set("name", pickaxe.name);
         }
         try {
             ymlData.save(new File(dataFolder, "pickaxeData.yml"));
@@ -138,19 +148,33 @@ public class PrisonPickaxe {
     private Map<String, Long> lastActivatedAbilitiesAt = new HashMap<>();
     private Set<String> disabledEnchants = new HashSet<>();
     private List<String> topLore = new ArrayList<>();
+    private List<Component> topLoreAsComponent = new ArrayList<>();
     public PrisonPickaxe setTopLore(List<String> topLore) {
         this.topLore = topLore;
+        if (topLore == null) return this;
+        this.topLoreAsComponent = new ArrayList<>();
+        for (String line : topLore) {
+            this.topLoreAsComponent.add(LegacyComponentSerializer.legacyAmpersand().deserialize(line));
+        }
         return this;
     }
     private List<String> bottomLore = new ArrayList<>();
+    private List<Component> bottomLoreAsComponent = new ArrayList<>();
     public PrisonPickaxe setBottomLore(List<String> bottomLore) {
         this.bottomLore = bottomLore;
+        if (topLore == null) return this;
+        this.bottomLoreAsComponent = new ArrayList<>();
+        for (String line : bottomLore) {
+            this.bottomLoreAsComponent.add(LegacyComponentSerializer.legacyAmpersand().deserialize(line));
+        }
         return this;
     }
     private long level = 0;
     private long xp = 0;
     private long blocksBroken = 0;
     private long rawBlocksBroken = 0;
+    private String name = "&b&lPrison Pickaxe";
+    private Component nameAsComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(name);
 
     public PrisonPickaxe(String uuid) {
         pickaxeUUID = uuid;
@@ -354,6 +378,11 @@ public class PrisonPickaxe {
     }
 
 
+    public void setName(String name) {
+        this.name = name;
+        nameAsComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(name);
+    }
+
     /**
      * Updates all pickaxe lore instantly, clears the queue. This method should be called when the server shuts down.
      */
@@ -361,7 +390,10 @@ public class PrisonPickaxe {
         for (PrisonPickaxe pickaxe : pickaxesToUpdateLore) {
             if (pickaxe.item == null) continue;
             ItemMeta meta = pickaxe.item.getItemMeta();
-            meta.setLore(pickaxe.buildLore());
+            meta.lore(pickaxe.buildLore());
+            meta.displayName(
+                    Component.empty().append(pickaxe.nameAsComponent).append(Component.text(" [" + PrisonUtils.addCommasToNumber(pickaxe.rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false)
+            );
             pickaxe.item.setItemMeta(meta);
         }
         pickaxesToUpdateLore.clear();
@@ -369,7 +401,7 @@ public class PrisonPickaxe {
         currentDumpQueueTick = 0;
     }
 
-    static final int DUMP_INTERVAL = 100; //The amount of ticks that this operation is spread across. It might take DUMP_INTERVAL * 2 ticks before a pickaxe's lore is updated.
+    static final int DUMP_INTERVAL = 20; //The amount of ticks that this operation is spread across. It might take DUMP_INTERVAL * 2 ticks before a pickaxe's lore is updated.
     static ArrayList<PrisonPickaxe>[] pickaxeDumpQueue = new ArrayList[DUMP_INTERVAL]; //The array of lists of pickaxes that need to be updated. Each list in the array represents the pickaxes that should be done in that index's tick.
     static int currentDumpQueueTick = 0; //Number 1 - 100 representing the current tick.
 
@@ -394,7 +426,12 @@ public class PrisonPickaxe {
             for (PrisonPickaxe pickaxe : pickaxeDumpQueue[currentDumpQueueTick]) {
                 if (pickaxe.item == null) continue;
                 if (!pickaxesToUpdateLore.contains(pickaxe)) continue; //The lore was updated elsewhere
-                pickaxe.item.editMeta(meta -> meta.setLore(pickaxe.buildLore()));
+                ItemMeta meta = pickaxe.item.getItemMeta();
+                meta.lore(pickaxe.buildLore());
+                meta.displayName(
+                        Component.empty().append(pickaxe.nameAsComponent).append(Component.text(" [" + PrisonUtils.addCommasToNumber(pickaxe.rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false)
+                );
+                pickaxe.item.setItemMeta(meta);
             }
             pickaxesToUpdateLore.removeAll(pickaxeDumpQueue[currentDumpQueueTick]);
         }
@@ -403,7 +440,12 @@ public class PrisonPickaxe {
 
     public static void updateLore(ItemStack item) {
         PrisonPickaxe pickaxe = fromItem(item);
-        item.editMeta(meta -> meta.setLore(pickaxe.buildLore()));
+        ItemMeta meta = item.getItemMeta();
+        meta.lore(pickaxe.buildLore());
+        meta.displayName(
+                Component.empty().append(pickaxe.nameAsComponent).append(Component.text(" [" + PrisonUtils.addCommasToNumber(pickaxe.rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false)
+        );
+        item.setItemMeta(meta);
         pickaxesToUpdateLore.remove(pickaxe);
     }
 
@@ -413,48 +455,48 @@ public class PrisonPickaxe {
         return this;
     }
 
-    final String LORE_DIVIDER = ChatColor.translateAlternateColorCodes('&', "&7---------------");
-    public List<String> buildLore() {
-        List<String> lore = new ArrayList<>();
-        if (topLore != null) lore.addAll(topLore);
+    final Component LORE_DIVIDER = Component.text("---------------").color(ComponentUtil.LIGHT_GRAY);
+    public List<Component> buildLore() {
+        List<Component> lore = new ArrayList<>();
+        if (topLore != null) lore.addAll(topLoreAsComponent);
         lore.addAll(buildStatLore());
         lore.add(LORE_DIVIDER);
         lore.addAll(buildEnchantLore());
         lore.addAll(buildAbilityLore());
         if (bottomLore != null && !bottomLore.isEmpty()) {
             lore.add(LORE_DIVIDER);
-            lore.addAll(bottomLore);
+            lore.addAll(bottomLoreAsComponent);
         }
-        lore.replaceAll(textToTranslate -> ChatColor.translateAlternateColorCodes('&', textToTranslate));
+        lore.replaceAll(line -> line.decoration(TextDecoration.ITALIC, false));
         return lore;
     }
 
-    private List<String> buildStatLore() {
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GREEN + "Level: " + ChatColor.WHITE + PrisonUtils.addCommasToNumber(level));
-        lore.add(ChatColor.GREEN + "Experience: " + ChatColor.WHITE + PrisonUtils.prettyNum(xp) + " / " + PrisonUtils.prettyNum(getLevelRequirement(level)));
-        lore.add(ChatColor.GREEN + "Blocks Mined: " + ChatColor.WHITE + PrisonUtils.addCommasToNumber(rawBlocksBroken));
-        lore.add(ChatColor.GREEN + "Blocks Broken: " + ChatColor.WHITE + PrisonUtils.addCommasToNumber(blocksBroken));
+    private List<Component> buildStatLore() {
+        List<Component> lore = new ArrayList<>();
+        lore.add(Component.empty().append(Component.text("Level: ").color(ComponentUtil.GREEN)).append(Component.text(PrisonUtils.addCommasToNumber(level)).color(ComponentUtil.WHITE)));
+        lore.add(Component.empty().append(Component.text("Experience: ").color(ComponentUtil.GREEN)).append(Component.text(PrisonUtils.prettyNum(xp) + " / " + PrisonUtils.prettyNum(getLevelRequirement(level))).color(ComponentUtil.WHITE)));
+        lore.add(Component.empty().append(Component.text("Blocks Mined: ").color(ComponentUtil.GREEN)).append(Component.text(PrisonUtils.addCommasToNumber(rawBlocksBroken)).color(ComponentUtil.WHITE)));
+        lore.add(Component.empty().append(Component.text("Blocks Broken: ").color(ComponentUtil.GREEN)).append(Component.text(PrisonUtils.addCommasToNumber(blocksBroken)).color(ComponentUtil.WHITE)));
         return lore;
     }
 
-    private List<String> buildEnchantLore() {
-        List<String> lore = new ArrayList<>();
+    private List<Component> buildEnchantLore() {
+        List<Component> lore = new ArrayList<>();
         for (BaseEnchant ench : PickaxeEnchants.ORDERED_ENCHANTS) {
             int level = getEnchantLevel(ench);
             if (level > 0) {
-                lore.add(ChatColor.AQUA + ench.UNFORMATTED_DISPLAY_NAME + ": " + PrisonUtils.addCommasToNumber(level));
+                lore.add(Component.empty().append(Component.text(ench.UNFORMATTED_DISPLAY_NAME + ": " + PrisonUtils.addCommasToNumber(level)).color(ComponentUtil.AQUA)));
             }
         }
         return lore;
     }
 
-    private List<String> buildAbilityLore() {
-        List<String> lore = new ArrayList<>();
+    private List<Component> buildAbilityLore() {
+        List<Component> lore = new ArrayList<>();
         for (BaseAbility ability : PickaxeAbilities.ORDERED_ABILITIES) {
             int level = getAbilityLevel(ability);
             if (level > 0) {
-                lore.add(ChatColor.RED + ability.UNFORMATTED_DISPLAY_NAME + ": " + PrisonUtils.addCommasToNumber(level));
+                lore.add(Component.empty().append(Component.text(ability.UNFORMATTED_DISPLAY_NAME + ": " + PrisonUtils.addCommasToNumber(level)).color(ComponentUtil.RED)));
             }
         }
         return lore;

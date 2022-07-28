@@ -2,6 +2,7 @@ package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
@@ -39,7 +40,7 @@ public class EggShooterEnchant extends BaseEnchant {
         egg.setVelocity(player.getLocation().getDirection().multiply(1));
     }
 
-    public static void eggHit(ProjectileHitEvent e, EggShooterPickaxe eggShooterPickaxe) {
+    public static void eggHit(ProjectileHitEvent e, EggShooterPickaxe eggShooterPickaxe) { //todo: this code is so messy, add a map of precalculated vectors to speed up the process
         Player player = eggShooterPickaxe.player;
         if (e.getHitEntity() != null) if (e.getHitEntity().equals(player)) {
             e.setCancelled(true);
@@ -58,16 +59,18 @@ public class EggShooterEnchant extends BaseEnchant {
                 pickaxe.addXp(bomb.blocksChanged * 2);
                 int fortune = pickaxe.getEnchantLevel(PickaxeEnchants.FORTUNE);
                 if (PrisonUtils.randomInt(0, PickaxeEnchants.DOUBLE_FORTUNE.MAX_LEVEL) < pickaxe.getEnchantLevel(PickaxeEnchants.DOUBLE_FORTUNE)) fortune *= 2;
-                PlayerData playerData = new PlayerData(player);
-                boolean backpackWasFull = playerData.getBackpackIsFull();
-                if (!backpackWasFull) {
-                    Map<MineBlock, Long> map = new HashMap<>();
-                    for (Map.Entry<Material, Long> entry: blocksBroken.entrySet()) {
-                        map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * fortune);
-                    }
-                    playerData.addAllToBackpack(map);
+//                PlayerData playerData = new PlayerData(player);
+                Map<MineBlock, Long> map = new HashMap<>();
+                for (Map.Entry<Material, Long> entry: blocksBroken.entrySet()) {
+                    map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * fortune);
                 }
-                PrisonUtils.Players.backpackFullCheck(backpackWasFull, player, playerData);
+                PrisonBackpacks.addToBackpacks(player, map);
+//                boolean backpackWasFull = playerData.getBackpackIsFull();
+//                if (!backpackWasFull) {
+//
+//                    playerData.addAllToBackpack(map);
+//                }
+//                PrisonUtils.Players.backpackFullCheck(backpackWasFull, player, playerData);
             });
         });
     }

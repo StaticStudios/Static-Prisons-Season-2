@@ -24,9 +24,9 @@ public class PrestigeMenus extends GUIUtils {
 
         c.setItem(10, ench(c.createButton(Material.EMERALD, "&a&lPrestige " + PrisonUtils.addCommasToNumber(playerData.getPrestige()), List.of(
                 "Prestiging again will cost you $" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1)) + " and",
-                "100,000 Tokens. Each prestige also requires",
+                "50,000 Tokens. Each prestige also requires",
                 "a certain amount of raw blocks mined. Your next",
-                "prestige will require you to have " + PrisonUtils.addCommasToNumber(BigInteger.valueOf(100000).multiply(playerData.getPrestige().add(BigInteger.ONE))),
+                "prestige will require you to have " + PrisonUtils.addCommasToNumber(BigInteger.valueOf(25000).multiply(playerData.getPrestige().add(BigInteger.ONE))),
                 "raw blocks mined."
         ))));
 
@@ -34,7 +34,7 @@ public class PrestigeMenus extends GUIUtils {
                 "&oReady to prestige? Click here!",
                 "",
                 "&d&l│ &dCosts: &f$" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1)),
-                "&d&l│ &dCosts: &f100,000 Tokens"
+                "&d&l│ &dCosts: &f50,000 Tokens"
         ), (p, t) -> {
             if (playerData.getMineRank() < 25) {
                 p.sendMessage(Prefix.PRESTIGE.append(Component.text("You must be rank Z to prestige!").color(ComponentUtil.RED)));
@@ -44,17 +44,17 @@ public class PrestigeMenus extends GUIUtils {
                 p.sendMessage(Prefix.PRESTIGE.append(Component.text("You don't have enough money to prestige!").color(ComponentUtil.RED)));
                 return;
             }
-            if (playerData.getTokens().compareTo(BigInteger.valueOf(100000)) < 0) {
+            if (playerData.getTokens().compareTo(BigInteger.valueOf(50000)) < 0) {
                 p.sendMessage(Prefix.PRESTIGE.append(Component.text("You don't have enough tokens to prestige!").color(ComponentUtil.RED)));
                 return;
             }
-            //Players need to have 100K * prestige to go to raw blocks mined to prestige
-            if (playerData.getRawBlocksMined().compareTo(BigInteger.valueOf(100000 * (playerData.getPrestige().longValue() + 1))) < 0) {
-                p.sendMessage(Prefix.PRESTIGE.append(Component.text("You don't have enough raw blocks mined to prestige! You need " + PrisonUtils.addCommasToNumber(100000 * (playerData.getPrestige().longValue() + 1)) + " raw blocks mined!").color(ComponentUtil.RED)));
+            //Players need to have 25K * prestige to go to raw blocks mined to prestige
+            if (playerData.getRawBlocksMined().compareTo(BigInteger.valueOf(25000 * (playerData.getPrestige().longValue() + 1))) < 0) {
+                p.sendMessage(Prefix.PRESTIGE.append(Component.text("You don't have enough raw blocks mined to prestige! You need " + PrisonUtils.addCommasToNumber(25000 * (playerData.getPrestige().longValue() + 1)) + " raw blocks mined!").color(ComponentUtil.RED)));
                 return;
             }
             playerData.removeMoney(BigInteger.valueOf(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1)));
-            playerData.removeTokens(BigInteger.valueOf(100000));
+            playerData.removeTokens(BigInteger.valueOf(50000));
             playerData.setMineRank(0);
             playerData.addPrestige(BigInteger.ONE);
             Bukkit.broadcast(Prefix.PRESTIGE.append(Component.text(player.getName()).color(ComponentUtil.AQUA)).append(Component.text(" has prestiged " + PrisonUtils.addCommasToNumber(playerData.getPrestige()) + " time(s)!")));

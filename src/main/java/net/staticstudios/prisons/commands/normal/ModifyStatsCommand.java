@@ -77,22 +77,22 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats prestige <who> <add|remove|set|reset> <amount>"));
                 }
             }
-            case "backpack" -> {
-                long amount;
-                try {
-                    amount = Long.parseLong(args[3]);
-                } catch (NumberFormatException e) {
-                    sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
-                    return false;
-                }
-                switch (args[2].toLowerCase()) {
-                    case "add" -> playerData.setBackpackSize(playerData.getBackpackSize() + amount);
-                    case "remove" -> playerData.setBackpackSize(playerData.getBackpackSize() - amount);
-                    case "set" -> playerData.setBackpackSize(amount);
-                    case "reset" -> playerData.setBackpackSize(0);
-                    default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
-                }
-            }
+//            case "backpack" -> {
+//                long amount;
+//                try {
+//                    amount = Long.parseLong(args[3]);
+//                } catch (NumberFormatException e) {
+//                    sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
+//                    return false;
+//                }
+//                switch (args[2].toLowerCase()) {
+//                    case "add" -> playerData.setBackpackSize(playerData.getBackpackSize() + amount);
+//                    case "remove" -> playerData.setBackpackSize(playerData.getBackpackSize() - amount);
+//                    case "set" -> playerData.setBackpackSize(amount);
+//                    case "reset" -> playerData.setBackpackSize(0);
+//                    default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
+//                }
+//            }
             case "blocksmined" -> {
                 BigInteger amount;
                 try {

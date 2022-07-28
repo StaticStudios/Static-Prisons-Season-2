@@ -117,6 +117,10 @@
             <id>jeff-media-public</id>
             <url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
         </repository>
+        <repository>
+            <id>skullcreator-repo</id>
+            <url>https://github.com/deanveloper/SkullCreator/raw/mvn-repo/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -216,6 +220,13 @@
             <artifactId>worldborderapi</artifactId>
             <version>1.182.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.dbassett</groupId>
+            <artifactId>skullcreator</artifactId>
+            <version>3.0.1</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

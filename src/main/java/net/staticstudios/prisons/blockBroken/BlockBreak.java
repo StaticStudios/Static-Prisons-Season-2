@@ -3,6 +3,7 @@ package net.staticstudios.prisons.blockBroken;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
@@ -194,9 +195,12 @@ public class BlockBreak {
             //Apply the blocksBrokenMultiplier
             stats.getMinedBlocks().replaceAll((k, v) -> (long) (v * stats.getBlocksBrokenMultiplier()));
 
-            boolean backpackWasFull = playerData.getBackpackIsFull();
-            playerData.addAllToBackpack(stats.getMinedBlocks());
-            PrisonUtils.Players.backpackFullCheck(backpackWasFull, player, playerData);
+//            boolean backpackWasFull = playerData.getBackpackIsFull();
+            if (player != null) {
+                PrisonBackpacks.addToBackpacks(player, stats.getMinedBlocks());
+            }
+//            playerData.addAllToBackpack(stats.getMinedBlocks());
+//            PrisonUtils.Players.backpackFullCheck(backpackWasFull, player, playerData);
 
             if (pickaxe != null) {
                 pickaxe.addXp((long) (2 * stats.getBlocksBroken() * stats.getXpMultiplier()));

@@ -2,6 +2,7 @@ package net.staticstudios.prisons.pickaxe.abilities;
 
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mineBombs.MultiBombMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
@@ -91,15 +92,20 @@ public class SnowFallAbility extends BaseAbility {
                     started = false;
                     PlayerData playerData = new PlayerData(player);
                     Map<Material, Long> blocksBroken = snowFallMineBomb.explodeAtComputedPositions(mine, locs);
-                    boolean backpackWasFull = playerData.getBackpackIsFull();
-                    if (!backpackWasFull) {
-                        Map<MineBlock, Long> map = new HashMap<>();
-                        for (Map.Entry<Material, Long> entry : blocksBroken.entrySet()) {
-                            map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * pickaxe.getEnchantLevel(PickaxeEnchants.FORTUNE));
-                        }
-                        playerData.addAllToBackpack(map);
+                    Map<MineBlock, Long> map = new HashMap<>();
+                    for (Map.Entry<Material, Long> entry : blocksBroken.entrySet()) {
+                        map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * pickaxe.getEnchantLevel(PickaxeEnchants.FORTUNE));
                     }
-                    PrisonUtils.Players.backpackFullCheck(backpackWasFull, player, playerData);
+                    PrisonBackpacks.addToBackpacks(player, map);
+//                    boolean backpackWasFull = playerData.getBackpackIsFull();
+//                    if (!backpackWasFull) {
+//                        Map<MineBlock, Long> map = new HashMap<>();
+//                        for (Map.Entry<Material, Long> entry : blocksBroken.entrySet()) {
+//                            map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * pickaxe.getEnchantLevel(PickaxeEnchants.FORTUNE));
+//                        }
+//                        playerData.addAllToBackpack(map);
+//                    }
+//                    PrisonUtils.Players.backpackFullCheck(backpackWasFull, player, playerData);
                     mine.removeBlocksBrokenInMine(snowFallMineBomb.blocksChanged);
                     locs.clear();
                 }, 4);
