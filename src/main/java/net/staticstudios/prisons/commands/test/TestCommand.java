@@ -202,6 +202,9 @@ public class TestCommand implements CommandExecutor {
 //        }
 //        player.sendMessage("Apply meta to item: " + (System.currentTimeMillis() - start));
 
+        String texture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjAzZjVhOWJjNzE5Y2QxMTI3YmUwOTU0YzczY2Q1NzE0ZWNkNDc4ZGFkODgwZWYyYjk5NzljNDgxMDk3ZTZiZSJ9fX0=";
+        player.getInventory().addItem(SkullCreator.itemFromBase64(texture));
+
 
         return false;
 

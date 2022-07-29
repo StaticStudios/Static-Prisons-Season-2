@@ -3,7 +3,6 @@ package net.staticstudios.prisons.pickaxe.enchants;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.PrisonBackpacks;
-import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
@@ -48,7 +47,7 @@ public class EggShooterEnchant extends BaseEnchant {
         }
         if (e.getHitBlock() == null) return;
         PrisonPickaxe pickaxe = eggShooterPickaxe.pickaxe;
-        StaticMine mine = StaticMine.fromLocation(e.getHitBlock().getLocation());
+        StaticMine mine = StaticMine.fromLocationXZ(e.getHitBlock().getLocation());
         if (mine == null) return;
         MineBomb bomb = new MineBomb(e.getHitBlock().getLocation(), (double) pickaxe.getEnchantLevel(PickaxeEnchants.EGG_SHOOTER) / (PickaxeEnchants.EGG_SHOOTER.MAX_LEVEL / 5) + 1);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {

@@ -11,7 +11,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -111,8 +110,10 @@ public final class StaticMines implements Listener {
 
     @EventHandler
     void onBlockBreak(BlockBreakEvent e) {
-        StaticMine mine = StaticMine.fromLocation(e.getBlock().getLocation());
+        Location loc = e.getBlock().getLocation();
+        StaticMine mine = StaticMine.fromLocationXZ(loc); //gets the mine from the x and z axis of the block
         if (mine == null) return; //Not a StaticMine
+        if (!mine.getRegion().contains(BlockVector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()))) return; //Not in the mine's region
         Bukkit.getPluginManager().callEvent(new BlockBrokenInMineEvent(e, mine.getID()));
     }
     @EventHandler(priority = EventPriority.LOWEST)

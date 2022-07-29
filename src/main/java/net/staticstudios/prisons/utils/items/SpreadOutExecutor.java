@@ -26,12 +26,13 @@ public class SpreadOutExecutor {
      */
     private static final HashSet<SpreadOutExecution> computeLater = new HashSet<>();
 
-    static final int DUMP_INTERVAL = 20; //The amount of ticks that this operation is spread across. It might take DUMP_INTERVAL * 2 ticks before an item's lore is updated.
+    static final int DUMP_INTERVAL = 50; //The amount of ticks that this operation is spread across. It might take DUMP_INTERVAL * 2 ticks before an item's lore is updated.
     static HashSet<SpreadOutExecution>[] queue; //The array of lists of items that need to be updated. Each list in the array represents the items that should be done in that index's tick.
     static int currentIteration = 0; //Number 1 - DUMP_INTERVAL representing the current iteration through the que.
 
     public static void worker() { //This method should be called every tick
         if (currentIteration == 0) {
+            if (computeLater.isEmpty()) return;
             buildQue();
         }
         long minFinishTime = System.nanoTime() + (long) (MIN_MS * 1000000); //The min time that the current iteration should take
@@ -39,6 +40,7 @@ public class SpreadOutExecutor {
             if (!completeNextIteration()) break; //If the que is empty, break out of the loop
         } while (System.nanoTime() < minFinishTime); //Keep looping if the current iteration didn't take enough time and there is still stuff to do
     }
+
 
     /**
      * Do everything that has been queued up now.

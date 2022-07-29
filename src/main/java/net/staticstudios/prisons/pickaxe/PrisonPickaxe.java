@@ -130,7 +130,10 @@ public class PrisonPickaxe implements SpreadOutExecution {
     }
 
     public static PrisonPickaxe fromItem(ItemStack item) {
-        PrisonPickaxe pickaxe = PrisonPickaxe.fromID(item.getItemMeta().getPersistentDataContainer().get(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING));
+        if (item == null) return null;
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return null;
+        PrisonPickaxe pickaxe = PrisonPickaxe.fromID(meta.getPersistentDataContainer().get(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING));
         if (pickaxe != null) pickaxe.item = item;
         return pickaxe;
     }

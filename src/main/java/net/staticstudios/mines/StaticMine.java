@@ -76,7 +76,7 @@ public class StaticMine {
         }
     }
 
-    public static StaticMine fromLocation(Location location) {
+    public static StaticMine fromLocationXZ(Location location) {
         for (StaticMine m : ALL_MINES.values()) {
             if (!m.getWorld().equals(location.getWorld())) continue;
             if (m.getMinPoint().getX() <= location.getBlockX() && m.getMaxPoint().getX() >= location.getBlockX() &&

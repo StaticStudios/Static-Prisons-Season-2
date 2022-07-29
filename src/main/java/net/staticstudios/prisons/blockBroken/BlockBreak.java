@@ -9,7 +9,6 @@ import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.utils.Constants;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -78,7 +77,7 @@ public class BlockBreak {
         this.player = e.getPlayer();
         this.playerData = new PlayerData(player);
         this.pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
-        this.mine = StaticMine.fromLocation(e.getBlock().getLocation());
+        this.mine = StaticMine.fromLocationXZ(e.getBlock().getLocation());
         this.blockLocation = e.getBlock().getLocation();
         this.isSimulated = false;
     }
@@ -95,13 +94,13 @@ public class BlockBreak {
         this.playerData = new PlayerData(player);
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
-        this.mine = StaticMine.fromLocation(blockLocation);
+        this.mine = StaticMine.fromLocationXZ(blockLocation);
     }
     public BlockBreak(@NotNull PlayerData playerData, PrisonPickaxe pickaxe, Block block) {
         this.playerData = playerData;
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
-        this.mine = StaticMine.fromLocation(blockLocation);
+        this.mine = StaticMine.fromLocationXZ(blockLocation);
     }
     public BlockBreak(@NotNull PlayerData playerData, PrisonPickaxe pickaxe, StaticMine mine, Block block) {
         this.playerData = playerData;
@@ -123,7 +122,7 @@ public class BlockBreak {
     }
     public BlockBreak setBlockLocation(Location blockLocation) {
         this.blockLocation = blockLocation;
-        this.mine = StaticMine.fromLocation(blockLocation);
+        this.mine = StaticMine.fromLocationXZ(blockLocation);
         return this;
     }
     public BlockBreak setIsSimulated(boolean isSimulated) {
