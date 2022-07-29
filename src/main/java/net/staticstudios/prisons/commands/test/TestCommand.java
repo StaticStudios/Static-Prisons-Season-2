@@ -2,6 +2,7 @@ package net.staticstudios.prisons.commands.test;
 
 import com.sk89q.worldedit.math.BlockVector3;
 import dev.dbassett.skullcreator.SkullCreator;
+import net.kyori.adventure.text.Component;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.PrisonBackpack;
@@ -9,6 +10,7 @@ import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.levelup.LevelUp;
+import net.staticstudios.prisons.lootboxes.TokenLootBox;
 import net.staticstudios.prisons.mineBombs.MineBomb;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
@@ -27,6 +29,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,10 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.LinkedList;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Supplier;
 
@@ -167,8 +167,40 @@ public class TestCommand implements CommandExecutor {
 
 //        PickaxeAbilities.LIGHTNING_STRIKE.beginActivation(player, PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()));
 //        new PlayerData(player).setLastUsedPickaxeAbility(0);
-        PrisonBackpack backpack = PrisonBackpacks.createBackpack(1);
-        player.getInventory().addItem(backpack.getItem());
+//        PrisonBackpack backpack = PrisonBackpacks.createBackpack(1);
+
+
+//        player.getInventory().addItem(new TokenLootBox(1).getItem());
+//        player.getInventory().addItem(new TokenLootBox(2).getItem());
+//        player.getInventory().addItem(new TokenLootBox(3).getItem());
+//        player.getInventory().addItem(new TokenLootBox(4).getItem());
+//        player.getInventory().addItem(new TokenLootBox(5).getItem());
+//        player.getInventory().addItem(new TokenLootBox(6).getItem());
+//        player.getInventory().addItem(new TokenLootBox(7).getItem());
+
+
+//        List<Component> exampleLore = List.of(
+//                Component.text("hi"),
+//                Component.text("hi"),
+//                Component.text("hi")
+//        );
+//        ItemStack item = new ItemStack(Material.BLAZE_POWDER);
+//        ItemMeta meta = item.getItemMeta();
+//        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
+//            for (int i = 0; i < 10000; i++) {
+//                meta.lore(exampleLore);
+//            }
+//        });
+//
+//        long start = System.currentTimeMillis();
+//
+//        player.sendMessage("Apply to meta: " + (System.currentTimeMillis() - start));
+//
+//        start = System.currentTimeMillis();
+//        for (int i = 0; i < 10000; i++) {
+//           item.setItemMeta(meta);
+//        }
+//        player.sendMessage("Apply meta to item: " + (System.currentTimeMillis() - start));
 
 
         return false;

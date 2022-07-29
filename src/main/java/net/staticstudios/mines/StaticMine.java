@@ -33,11 +33,6 @@ import java.util.function.Consumer;
 
 public class StaticMine {
 
-    /**
-     * create mines from a command
-     * refill timer as well
-     */
-
     private static boolean hasRemovedOldWGRegions = false;
 
     private static Map<String, StaticMine> ALL_MINES = new HashMap<>();
@@ -190,6 +185,12 @@ public class StaticMine {
         editSession.close();
         refillNextAt = Instant.now().getEpochSecond() + secondsBetweenRefills;
         StaticMines.log("Refilled mine: " + id);
+
+
+
+
+
+
         if (async) {
             Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint())));
         } else Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint()));
@@ -336,7 +337,7 @@ public class StaticMine {
         return new Location(loc1.getWorld(), maxX, maxY, maxZ);
     }
 
-    public static record MineBlock(BlockType blockType, double chance) {
+    public record MineBlock(BlockType blockType, double chance) {
 
         public BlockType getBlockType() {
             return blockType;

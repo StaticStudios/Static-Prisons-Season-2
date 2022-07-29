@@ -20,8 +20,17 @@ public class DataBackup {
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
+        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "backpacks.yml"));
+        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "lootboxes.yml"));
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "nextReclaim.txt"));
         Bukkit.getScheduler().runTaskTimerAsynchronously(StaticPrisons.getInstance(), DataBackup::saveShortTermBackUp, 20 * 60 * 30, 20 * 60 * 30); //30 minutes
+    }
+
+    /**
+     * Takes a data backup sync
+     */
+    public static void takeBackup() {
+        saveShortTermBackUp();
     }
 
 

@@ -64,6 +64,9 @@ public final class PrisonUtils {
     public static int randomInt(int min, int max) {
         return new Random().nextInt((max - min) + 1) + min;
     }
+    public static long randomLong(long min, long max) {
+        return new Random().nextLong((max - min) + 1) + min;
+    }
     public static float randomFloat(float min, float max) {
         return new Random().nextFloat((max - min) + 1) + min;
     }

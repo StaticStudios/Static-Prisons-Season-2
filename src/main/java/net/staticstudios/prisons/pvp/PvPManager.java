@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.pvp;
 
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.backpacks.PrisonBackpack;
 import net.staticstudios.prisons.customItems.Vouchers;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gangs.Gang;
@@ -20,10 +21,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PvPManager {
 
@@ -60,12 +58,18 @@ public class PvPManager {
             //A money voucher should be created for 15% of a players total money
             Player player = e.getEntity();
             if (!player.getWorld().equals(PVP_WORLD)) return;
-            List<ItemStack> pickaxes = new ArrayList<>();
+            List<ItemStack> pickaxes = new LinkedList<>();
             for (ItemStack item : e.getDrops()) {
                 if (PrisonUtils.checkIsPrisonPickaxe(item)) pickaxes.add(item);
             }
             e.getDrops().removeAll(pickaxes);
             e.getItemsToKeep().addAll(pickaxes);
+            List<ItemStack> backpacks = new LinkedList<>();
+            for (ItemStack item : e.getDrops()) {
+                if (PrisonBackpack.fromItem(item) != null) backpacks.add(item);
+            }
+            e.getDrops().removeAll(backpacks);
+            e.getItemsToKeep().addAll(backpacks);
 
             PlayerData playerData = new PlayerData(player);
             BigInteger moneyToDrop = playerData.getMoney().divide(BigInteger.valueOf(15));
@@ -99,12 +103,9 @@ public class PvPManager {
             Gang attackerGang = Gang.getGang(attacker);
             Gang gotHitGang = Gang.getGang(gotHit);
             if (attackerGang != null && attackerGang.equals(gotHitGang) && !attackerGang.isFriendlyFire()) {
-                e.setCancelled(true); //Player is in the same gang and friendly fire is enabled
+                e.setCancelled(true); //Player is in the same gang and friendly fire is not enabled
                 return;
             }
-
-            //pvp event gets cancelled somewhere idk
-            e.setCancelled(false);
         }
 
         @EventHandler

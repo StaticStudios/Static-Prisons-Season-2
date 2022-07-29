@@ -111,16 +111,9 @@ public final class StaticMines implements Listener {
 
     @EventHandler
     void onBlockBreak(BlockBreakEvent e) {
-        Location blockLoc = e.getBlock().getLocation();
-        for (StaticMine mine : StaticMine.getAllMines()) { //todo: optimize this in some way, maybe use a hashmap of locations to mines to the closest 500?
-            if (!blockLoc.getWorld().equals(mine.getWorld())) continue;
-            BlockVector3 min = mine.getMinVector();
-            BlockVector3 max = mine.getMaxVector();
-            if (blockLoc.getX() < min.getX() || blockLoc.getY() < min.getY() || blockLoc.getZ() < min.getZ()) continue;
-            if (blockLoc.getX() > max.getX() || blockLoc.getY() > max.getY() || blockLoc.getZ() > max.getZ()) continue;
-            Bukkit.getPluginManager().callEvent(new BlockBrokenInMineEvent(e, mine.getID()));
-            return;
-        }
+        StaticMine mine = StaticMine.fromLocation(e.getBlock().getLocation());
+        if (mine == null) return; //Not a StaticMine
+        Bukkit.getPluginManager().callEvent(new BlockBrokenInMineEvent(e, mine.getID()));
     }
     @EventHandler(priority = EventPriority.LOWEST)
     void onBlockBroken(BlockBrokenInMineEvent e) {

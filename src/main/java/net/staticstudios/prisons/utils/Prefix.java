@@ -17,4 +17,8 @@ public class Prefix {
     public static final Component PRESTIGE = Component.empty()
             .append(Component.text("Prestige").color(ComponentUtil.LIGHT_PURPLE).decoration(TextDecoration.BOLD, true))
             .append(Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true));
+
+    public static final Component LOOT_BOX = Component.empty()
+            .append(Component.text("Loot Box").color(ComponentUtil.AQUA).decoration(TextDecoration.BOLD, true))
+            .append(Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true));
 }

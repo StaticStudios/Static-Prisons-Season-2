@@ -39,8 +39,6 @@ public class TimedTasks {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::savePickaxeData, 20 * 60 * 5, 20 * 60 * 5);
         //Save Gang Data
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), Gang::saveAll, 20 * 60 * 6, 20 * 60 * 5);
-        //Update All Pickaxe Lore
-        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::dumpLoreToAllPickaxes, 20, 1);
 
 
         //Show all players their backpacks

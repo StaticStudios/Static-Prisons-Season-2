@@ -8,6 +8,7 @@ import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.items.SpreadOutExecution;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,7 +23,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-public class PrisonBackpack {
+public class PrisonBackpack implements SpreadOutExecution {
 
     public static final Map<String, PrisonBackpack> ALL_BACKPACKS = new HashMap<>();
 
@@ -30,7 +31,7 @@ public class PrisonBackpack {
         loadBackpacks();
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
             PrisonBackpack.saveBackpacks();
-        }, 20 * 72, 20 * 60); //Save them async every 5min
+        }, 20 * 60 * 5 + 20 * 17, 20 * 60); //Save them async every 5min
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new BackpackListener(), StaticPrisons.getInstance());
     }
 
@@ -110,8 +111,7 @@ public class PrisonBackpack {
         this.item = item;
         this.tier = tier;
         item.editMeta(meta -> meta.getPersistentDataContainer().set(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING, uuid));
-        updateItemLore();
-        updateItemName();
+        updateItem();
         ALL_BACKPACKS.put(uuid, this);
     }
 
@@ -133,8 +133,7 @@ public class PrisonBackpack {
     }
     public void setSize(long size) {
         this.size = size;
-        updateItemName();
-        updateItemLore();
+        updateItem();
     }
     public void addSize(long size) {
         setSize(this.size + size);
@@ -148,7 +147,7 @@ public class PrisonBackpack {
     }
     public void setItemCount(long itemCount) {
         this.itemCount = itemCount;
-        updateItemName();
+        updateItem();
     }
     public void addItemCount(long itemCount) {
         setItemCount(this.itemCount + itemCount);
@@ -162,7 +161,7 @@ public class PrisonBackpack {
     }
     public void setValue(long value) {
         this.value = value;
-        updateItemLore();
+        updateItem();
     }
     public void addValue(long value) {
         setValue(this.value + value);
@@ -174,8 +173,7 @@ public class PrisonBackpack {
     public void resetCount() {
         itemCount = 0;
         value = 0;
-        updateItemName();
-        updateItemLore();
+        updateItem();
     }
 
     /**
@@ -204,8 +202,7 @@ public class PrisonBackpack {
                 leftOver.put(entry.getKey(), entry.getValue() - amount); //The entry was partially added, so add the left over to the leftOver map
             }
         }
-        updateItemName();
-        updateItemLore();
+        updateItem();
         return leftOver;
     }
 
@@ -246,6 +243,17 @@ public class PrisonBackpack {
                 return BackpackConstants.tier10Name;
             }
         }
+    }
+
+
+    public void updateItem() {
+        queueExecution();
+    }
+
+    @Override
+    public void runSpreadOutExecution() {
+        updateItemName();
+        updateItemLore();
     }
 
     public void updateItemName() {

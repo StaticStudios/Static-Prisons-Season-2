@@ -29,6 +29,8 @@ import net.staticstudios.prisons.fishing.FishingManager;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.gangs.GangCommand;
 import net.staticstudios.prisons.levelup.LevelUp;
+import net.staticstudios.prisons.lootboxes.LootBox;
+import net.staticstudios.prisons.lootboxes.TokenLootBox;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.mines.MineManager;
 import net.staticstudios.prisons.pickaxe.EnchantCommand;
@@ -50,6 +52,7 @@ import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.ranks.PlayerRanks;
 import net.staticstudios.prisons.reclaim.ReclaimCommand;
 import net.staticstudios.prisons.utils.*;
+import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
@@ -122,9 +125,16 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(PrisonBackpack::init);
 
         StaticGUI.enable(this);
-        luckPerms = getServer().getServicesManager().load(LuckPerms.class);
+
+
         safe(this::loadConfig);
+        safe(LootBox::init);
+
+
+
+
         Constants.MINES_WORLD = new WorldCreator("mines").createWorld();
+        luckPerms = getServer().getServicesManager().load(LuckPerms.class);
 
 
         //Register Commands
@@ -218,9 +228,13 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(PrivateMineManager::saveSync);
         safe(AuctionManager::saveAllAuctionsSync);
         safe(PrisonPickaxe::savePickaxeDataNow);
-        safe(PrisonPickaxe::dumpLoreToAllPickaxesNow);
+        safe(SpreadOutExecutor::flushQue);
         safe(Gang::saveAllSync);
         safe(PrisonBackpack::saveBackpacksNow);
+        safe(LootBox::saveAllNow);
+
+        //Take a data backup
+        safe(DataBackup::takeBackup);
     }
 
     static void unloadNetherAndEnd() {
@@ -287,6 +301,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         MultiPouchTier3.minTime = config.getInt("pouches.multi.3.time.min");
         MultiPouchTier3.maxTime = config.getInt("pouches.multi.3.time.max");
 
+        //Load loot boxes
+        TokenLootBox.loadTiers(config.getConfigurationSection("lootboxes.token"));
 
 
         //SQL config

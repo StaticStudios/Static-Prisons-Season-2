@@ -12,8 +12,9 @@ import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.items.SpreadOutExecution;
+import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -30,14 +31,11 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 
-public class PrisonPickaxe {
+public class PrisonPickaxe implements SpreadOutExecution {
     private static Map<String, PrisonPickaxe> pickaxeUUIDToPrisonPickaxe = new HashMap<>();
-    private static final List<PrisonPickaxe> pickaxesToUpdateLore = new LinkedList<>();
     private static void addPickaxeToUpdateLore(PrisonPickaxe pickaxe) {
         if (pickaxe.item == null) return;
-        if (!pickaxesToUpdateLore.contains(pickaxe)) {
-            pickaxesToUpdateLore.add(pickaxe);
-        }
+        pickaxe.queueExecution();
     }
 
     public static void init() {
@@ -79,7 +77,7 @@ public class PrisonPickaxe {
                 }
                 pickaxe.setEnchantsLevel(_key, section.getInt(_key));
             }
-            pickaxesToUpdateLore.remove(pickaxe);
+            SpreadOutExecutor.remove(pickaxe);
         }
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new Listener(), StaticPrisons.getInstance());
 
@@ -147,28 +145,7 @@ public class PrisonPickaxe {
     private Map<String, Integer> abilityLevels = new HashMap<>();
     private Map<String, Long> lastActivatedAbilitiesAt = new HashMap<>();
     private Set<String> disabledEnchants = new HashSet<>();
-    private List<String> topLore = new ArrayList<>();
-    private List<Component> topLoreAsComponent = new ArrayList<>();
-    public PrisonPickaxe setTopLore(List<String> topLore) {
-        this.topLore = topLore;
-        if (topLore == null) return this;
-        this.topLoreAsComponent = new ArrayList<>();
-        for (String line : topLore) {
-            this.topLoreAsComponent.add(LegacyComponentSerializer.legacyAmpersand().deserialize(line));
-        }
-        return this;
-    }
-    private List<String> bottomLore = new ArrayList<>();
-    private List<Component> bottomLoreAsComponent = new ArrayList<>();
-    public PrisonPickaxe setBottomLore(List<String> bottomLore) {
-        this.bottomLore = bottomLore;
-        if (topLore == null) return this;
-        this.bottomLoreAsComponent = new ArrayList<>();
-        for (String line : bottomLore) {
-            this.bottomLoreAsComponent.add(LegacyComponentSerializer.legacyAmpersand().deserialize(line));
-        }
-        return this;
-    }
+
     private long level = 0;
     private long xp = 0;
     private long blocksBroken = 0;
@@ -249,8 +226,6 @@ public class PrisonPickaxe {
         return !disabledEnchants.contains(enchantID);
     }
 
-
-
     public void setEnchantsLevel(BaseEnchant enchant, int level) {
         addPickaxeToUpdateLore(this);
         enchantLevels.put(enchant.ENCHANT_ID, level);
@@ -270,6 +245,8 @@ public class PrisonPickaxe {
     public void removeEnchantLevel(BaseEnchant enchant, int level) {
         setEnchantsLevel(enchant, Math.max(0, getEnchantLevel(enchant) - level));
     }
+
+
 
 
     public List<BaseAbility> getAbilities() {
@@ -383,60 +360,76 @@ public class PrisonPickaxe {
         nameAsComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(name);
     }
 
-    /**
-     * Updates all pickaxe lore instantly, clears the queue. This method should be called when the server shuts down.
-     */
-    public static void dumpLoreToAllPickaxesNow() {
-        for (PrisonPickaxe pickaxe : pickaxesToUpdateLore) {
-            if (pickaxe.item == null) continue;
-            ItemMeta meta = pickaxe.item.getItemMeta();
-            meta.lore(pickaxe.buildLore());
-            meta.displayName(
-                    Component.empty().append(pickaxe.nameAsComponent).append(Component.text(" [" + PrisonUtils.addCommasToNumber(pickaxe.rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false)
-            );
-            pickaxe.item.setItemMeta(meta);
-        }
-        pickaxesToUpdateLore.clear();
 
-        currentDumpQueueTick = 0;
+
+    private List<String> topLore = new ArrayList<>();
+    private List<Component> topLoreAsComponent = new ArrayList<>();
+    public PrisonPickaxe setTopLore(List<String> topLore) {
+        this.topLore = topLore;
+        if (topLore == null) return this;
+        this.topLoreAsComponent = new ArrayList<>();
+        for (String line : topLore) {
+            this.topLoreAsComponent.add(LegacyComponentSerializer.legacyAmpersand().deserialize(line));
+        }
+        return this;
+    }
+    private List<String> bottomLore = new ArrayList<>();
+    private List<Component> bottomLoreAsComponent = new ArrayList<>();
+    public PrisonPickaxe setBottomLore(List<String> bottomLore) {
+        this.bottomLore = bottomLore;
+        if (topLore == null) return this;
+        this.bottomLoreAsComponent = new ArrayList<>();
+        for (String line : bottomLore) {
+            this.bottomLoreAsComponent.add(LegacyComponentSerializer.legacyAmpersand().deserialize(line));
+        }
+        return this;
     }
 
-    static final int DUMP_INTERVAL = 20; //The amount of ticks that this operation is spread across. It might take DUMP_INTERVAL * 2 ticks before a pickaxe's lore is updated.
-    static ArrayList<PrisonPickaxe>[] pickaxeDumpQueue = new ArrayList[DUMP_INTERVAL]; //The array of lists of pickaxes that need to be updated. Each list in the array represents the pickaxes that should be done in that index's tick.
-    static int currentDumpQueueTick = 0; //Number 1 - 100 representing the current tick.
-
-    public static void dumpLoreToAllPickaxes() { //This method should be called every tick
-        if (currentDumpQueueTick == 0) { //Build the queue for the next 100 ticks
-            pickaxeDumpQueue = new ArrayList[DUMP_INTERVAL];
-            int i = 0; //Represents the index in the pickaxesToUpdateLore list
-            int iteration = 0; //Represents the amount of times the loop has run.
-            while (i < pickaxesToUpdateLore.size()) {
-                int amountToDumpThisTick = (int) Math.ceil(((double) pickaxesToUpdateLore.size() - i) / (DUMP_INTERVAL - iteration));
-                ArrayList<PrisonPickaxe> pickaxes = new ArrayList<>();
-                for (int x = i; x < i + amountToDumpThisTick; x++) {
-                    pickaxes.add(pickaxesToUpdateLore.get(x));
-                }
-                pickaxeDumpQueue[iteration] = pickaxes;
-                i += amountToDumpThisTick;
-                iteration++;
-            }
-        }
-
-        if (pickaxeDumpQueue[currentDumpQueueTick] != null) {
-            for (PrisonPickaxe pickaxe : pickaxeDumpQueue[currentDumpQueueTick]) {
-                if (pickaxe.item == null) continue;
-                if (!pickaxesToUpdateLore.contains(pickaxe)) continue; //The lore was updated elsewhere
-                ItemMeta meta = pickaxe.item.getItemMeta();
-                meta.lore(pickaxe.buildLore());
-                meta.displayName(
-                        Component.empty().append(pickaxe.nameAsComponent).append(Component.text(" [" + PrisonUtils.addCommasToNumber(pickaxe.rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false)
-                );
-                pickaxe.item.setItemMeta(meta);
-            }
-            pickaxesToUpdateLore.removeAll(pickaxeDumpQueue[currentDumpQueueTick]);
-        }
-        currentDumpQueueTick = (currentDumpQueueTick + 1) % DUMP_INTERVAL;
+    @Override
+    public void runSpreadOutExecution() {
+        if (item == null) return;
+        ItemMeta meta = item.getItemMeta();
+        meta.lore(buildLore());
+        meta.displayName(
+                Component.empty().append(nameAsComponent).append(
+                        Component.text(" [" + PrisonUtils.addCommasToNumber(rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY))
+                        .decoration(TextDecoration.ITALIC, false)
+        );
+        item.setItemMeta(meta);
     }
+
+
+//    static final int DUMP_INTERVAL = 20; //The amount of ticks that this operation is spread across. It might take DUMP_INTERVAL * 2 ticks before a pickaxe's lore is updated.
+//    static ArrayList<PrisonPickaxe>[] pickaxeDumpQueue = new ArrayList[DUMP_INTERVAL]; //The array of lists of pickaxes that need to be updated. Each list in the array represents the pickaxes that should be done in that index's tick.
+//    static int currentDumpQueueTick = 0; //Number 1 - 100 representing the current tick.
+//
+//    public static void dumpLoreToAllPickaxes() { //This method should be called every tick
+//        if (currentDumpQueueTick == 0) { //Build the queue for the next 100 ticks
+//            pickaxeDumpQueue = new ArrayList[DUMP_INTERVAL];
+//            int i = 0; //Represents the index in the pickaxesToUpdateLore list
+//            int iteration = 0; //Represents the amount of times the loop has run.
+//            while (i < pickaxesToUpdateLore.size()) {
+//                int amountToDumpThisTick = (int) Math.ceil(((double) pickaxesToUpdateLore.size() - i) / (DUMP_INTERVAL - iteration));
+//                ArrayList<PrisonPickaxe> pickaxes = new ArrayList<>();
+//                for (int x = i; x < i + amountToDumpThisTick; x++) {
+//                    pickaxes.add(pickaxesToUpdateLore.get(x));
+//                }
+//                pickaxeDumpQueue[iteration] = pickaxes;
+//                i += amountToDumpThisTick;
+//                iteration++;
+//            }
+//        }
+//
+//        if (pickaxeDumpQueue[currentDumpQueueTick] != null) {
+//            for (PrisonPickaxe pickaxe : pickaxeDumpQueue[currentDumpQueueTick]) {
+//
+//                if (!pickaxesToUpdateLore.contains(pickaxe)) continue; //The lore was updated elsewhere
+//
+//            }
+//            pickaxesToUpdateLore.removeAll(pickaxeDumpQueue[currentDumpQueueTick]);
+//        }
+//        currentDumpQueueTick = (currentDumpQueueTick + 1) % DUMP_INTERVAL;
+//    }
 
     public static void updateLore(ItemStack item) {
         PrisonPickaxe pickaxe = fromItem(item);
@@ -446,7 +439,7 @@ public class PrisonPickaxe {
                 Component.empty().append(pickaxe.nameAsComponent).append(Component.text(" [" + PrisonUtils.addCommasToNumber(pickaxe.rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false)
         );
         item.setItemMeta(meta);
-        pickaxesToUpdateLore.remove(pickaxe);
+        SpreadOutExecutor.remove(pickaxe);
     }
 
     public PrisonPickaxe tryToUpdateLore() {

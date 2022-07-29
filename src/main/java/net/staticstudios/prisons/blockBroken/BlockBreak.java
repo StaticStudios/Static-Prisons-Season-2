@@ -55,7 +55,7 @@ public class BlockBreak {
     private boolean isSimulated = false; //If true, there is no "real" block to "break"
     private BlockBreakEvent blockBreakEvent;
 
-    private List<Consumer<BlockBreak>> runAfterProcess = new LinkedList<>();
+    private final List<Consumer<BlockBreak>> runAfterProcess = new LinkedList<>();
 
     public BlockBreak addAfterProcess(Consumer<BlockBreak> consumer) {
         runAfterProcess.add(consumer);
@@ -168,11 +168,7 @@ public class BlockBreak {
             listener.accept(this);
         }
 
-        for (Consumer<BlockBreak> consumer : runAfterProcess) {
-            consumer.accept(this);
-        }
-        stats.setBlocksBroken(stats.getBlocksBroken() + 1);
-        stats.setRawBlockBroken(stats.getRawBlockBroken() + 1);
+
         if (!isCancelled) {
             if (!isSimulated && blockLocation != null) {
                 if (blockBreakEvent != null) {
@@ -183,6 +179,11 @@ public class BlockBreak {
                     stats.getMinedBlocks().put(mb, stats.getMinedBlocks().getOrDefault(mb, 0L) + 1);
                 }
                 blockLocation.getBlock().setType(Material.AIR, false);
+            }
+            stats.setBlocksBroken(stats.getBlocksBroken() + 1);
+            stats.setRawBlockBroken(stats.getRawBlockBroken() + 1);
+            for (Consumer<BlockBreak> consumer : runAfterProcess) {
+                consumer.accept(this);
             }
 
             //Add stats to playerData and pickaxe
