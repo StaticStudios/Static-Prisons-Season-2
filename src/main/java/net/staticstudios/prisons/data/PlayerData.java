@@ -72,6 +72,21 @@ public class PlayerData extends DataSet {
     public PlayerData removeTokens(BigInteger value) {
         return setTokens(getTokens().subtract(value));
     }
+    //Prestige Tokens
+    public long getPrestigeTokens() {
+        return getLong("prestigeTokens");
+    }
+    public PlayerData setPrestigeTokens(long value) {
+        setLong("prestigeTokens", value);
+        return this;
+    }
+    public PlayerData addPrestigeTokens(long value) {
+        return setPrestigeTokens(getPrestigeTokens() + value);
+    }
+    public PlayerData removePrestigeTokens(long value) {
+        return setPrestigeTokens(getPrestigeTokens() - value);
+    }
+
     //Shards
     public BigInteger getShards() {
         return getBigInt("shards");

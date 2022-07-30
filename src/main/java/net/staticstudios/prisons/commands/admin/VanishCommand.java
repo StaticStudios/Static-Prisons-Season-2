@@ -27,8 +27,8 @@ public class VanishCommand implements TabExecutor {
         if (AdminManager.removeFromHiddenPlayers(player)) {
 
             Bukkit.broadcast(Component.text("Joined").color(ComponentUtil.GREEN).decorate(TextDecoration.BOLD)
-                    .append(Component.text(" -> ").decoration(TextDecoration.BOLD, false))
-                    .append(player.name().color(ComponentUtil.WHITE).decoration(TextDecoration.BOLD, false)));
+                    .append(Component.text(" -> ")).decoration(TextDecoration.BOLD, false)
+                    .append(player.name().color(ComponentUtil.WHITE)));
 
             StaticPrisons.getInstance().getLogger().warning(player.getName() + " exited vanish mode");
 
@@ -40,8 +40,8 @@ public class VanishCommand implements TabExecutor {
         } else {
 
             Bukkit.broadcast(Component.text("Left").color(ComponentUtil.RED).decorate(TextDecoration.BOLD)
-                    .append(Component.text(" -> ").decoration(TextDecoration.BOLD, false))
-                    .append(player.name().color(ComponentUtil.WHITE).decoration(TextDecoration.BOLD, false)));
+                    .append(Component.text(" -> ")).decoration(TextDecoration.BOLD, false)
+                    .append(player.name().color(ComponentUtil.WHITE)));
 
             StaticPrisons.getInstance().getLogger().warning(player.getName() + " entered vanish mode");
 

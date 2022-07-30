@@ -57,6 +57,7 @@ public class PrestigeMenus extends GUIUtils {
             playerData.removeTokens(BigInteger.valueOf(50000));
             playerData.setMineRank(0);
             playerData.addPrestige(BigInteger.ONE);
+            playerData.addPrestigeTokens(1);
             Bukkit.broadcast(Prefix.PRESTIGE.append(Component.text(player.getName()).color(ComponentUtil.AQUA)).append(Component.text(" has prestiged " + PrisonUtils.addCommasToNumber(playerData.getPrestige()) + " time(s)!")));
             if (p.getWorld().equals(Constants.MINES_WORLD)) Warps.warpToSpawn(p);
             else open(p, fromCommand);

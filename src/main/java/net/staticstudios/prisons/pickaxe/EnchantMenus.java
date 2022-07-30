@@ -80,7 +80,7 @@ public class EnchantMenus extends GUIUtils {
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
 
-                createLightGrayPlaceHolder(),
+                c.createButton(Material.SUNFLOWER, "&e&lYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()), List.of()),
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
@@ -90,7 +90,7 @@ public class EnchantMenus extends GUIUtils {
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
-                createLightGrayPlaceHolder()
+                c.createButton(Material.SUNFLOWER, "&d&lYour Prestige Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()), List.of())
         );
         c.open(player);
         c.setOnCloseRun((p, t) -> PickaxeMenus.open(p, pickaxe));
@@ -278,8 +278,17 @@ public class EnchantMenus extends GUIUtils {
                     "&eCurrent Tier: &f" + pickaxe.getEnchantTier(enchant),
                     "&eNext Tier: &f" + (pickaxe.getEnchantTier(enchant) + 1),
                     "&eUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.getTier(pickaxe.getEnchantTier(enchant) + 1).prestigeTokensRequired()) + " Prestige Token(s)",
-                    "&eYour Prestige Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Prestige Token(s)"
-            )));
+                    "&eYour Prestige Tokens: &f" + PrisonUtils.prettyNum(playerData.getPrestigeTokens()) + " Prestige Token(s)"
+            ), (p, t) -> {
+                if (playerData.getPrestigeTokens() >= enchant.getTier(pickaxe.getEnchantTier(enchant) + 1).prestigeTokensRequired()) {
+                    playerData.removePrestigeTokens(enchant.getTier(pickaxe.getEnchantTier(enchant) + 1).prestigeTokensRequired());
+                    pickaxe.setEnchantTier(enchant, pickaxe.getEnchantTier(enchant) + 1);
+                    p.sendMessage(org.bukkit.ChatColor.AQUA + "You successfully upgraded your pickaxe!");
+                    buildMenuContent(c, p, enchant, pickaxe);
+                } else {
+                    p.sendMessage(ChatColor.RED + "You do not have enough Prestige Tokens to upgrade this!");
+                }
+            }));
         }
 
     }

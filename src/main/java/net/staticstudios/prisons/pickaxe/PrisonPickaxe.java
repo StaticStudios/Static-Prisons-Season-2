@@ -239,6 +239,13 @@ public class PrisonPickaxe implements SpreadOutExecution {
         return 0;
     }
 
+    public void setEnchantTier(BaseEnchant enchant, int tier) {
+        setEnchantTier(enchant.ENCHANT_ID, tier);
+    }
+    public void setEnchantTier(String enchantID, int tier) {
+        enchantTiers.put(enchantID, tier);
+    }
+
 
     public void setIsEnchantEnabled(Player player, BaseEnchant enchant, boolean enabled) {
         setIsEnchantEnabled(player, enchant.ENCHANT_ID, enabled);
