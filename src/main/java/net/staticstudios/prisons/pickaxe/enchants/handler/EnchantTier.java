@@ -1,4 +1,4 @@
 package net.staticstudios.prisons.pickaxe.enchants.handler;
 
-public record EnchantTier(long maxLevel, long prestigeTokensRequired) {
+public record EnchantTier(int maxLevel, long prestigeTokensRequired) {
 }

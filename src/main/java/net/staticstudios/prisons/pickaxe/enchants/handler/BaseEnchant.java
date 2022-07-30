@@ -40,10 +40,17 @@ public abstract class BaseEnchant implements Listener {
 
     private EnchantTier[] tiers;
     public EnchantTier getTier(int tier) {
-        return tiers[tier - 1];
+        if (tiers == null) return null;
+        return tiers[tier];
     }
     public void setTiers(EnchantTier... tiers) {
         this.tiers = tiers;
+    }
+    public int getMaxLevel(int tier) {
+        if (tiers == null) return MAX_LEVEL;
+        EnchantTier _tier = getTier(tier);
+        if (_tier == null) return MAX_LEVEL;
+        return _tier.maxLevel();
     }
 
     private int pickaxeLevelRequirement;
@@ -135,7 +142,7 @@ public abstract class BaseEnchant implements Listener {
             player.sendMessage(org.bukkit.ChatColor.RED + "You do not have enough tokens to buy this!");
             return false;
         }
-        levelsToBuy = Math.min(MAX_LEVEL, pickaxe.getEnchantLevel(ENCHANT_ID) + levelsToBuy) - pickaxe.getEnchantLevel(ENCHANT_ID);
+        levelsToBuy = Math.min(getMaxLevel(pickaxe.getEnchantTier(this)), pickaxe.getEnchantLevel(ENCHANT_ID) + levelsToBuy) - pickaxe.getEnchantLevel(ENCHANT_ID);
         if (levelsToBuy <= 0) {
             player.sendMessage(org.bukkit.ChatColor.RED + "This enchant is already at its max level!");
             return false;

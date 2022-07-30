@@ -22,7 +22,7 @@ public class MoneyOutpost extends Outpost {
     }
 
     @Override
-    public void giveBoost(Gang gang) {
+    public void giveBoost(Gang gang) { //todo: change this to give a multiplier/ hook into this from PlayerData
         gang.getMembers().forEach(uuid -> {
             PlayerData data = new PlayerData(uuid);
 
