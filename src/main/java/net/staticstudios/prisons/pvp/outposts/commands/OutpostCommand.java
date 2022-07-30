@@ -137,7 +137,7 @@ public class OutpostCommand implements TabExecutor {
 
         if (args.length == 2) {
             if ("create".equalsIgnoreCase(args[0])) {
-                return List.of("<name (optional)>");
+                return List.of("<name>");
             } else if ("delete".equalsIgnoreCase(args[0])) {
                 return StaticMineUtils.filterStringList(OutpostManager.getOutpostNames(), args[1]);
             }
