@@ -37,7 +37,7 @@ public class OutpostCommand implements TabExecutor {
             case "create" -> {
 
                 if (args.length < 4) {
-                    player.sendMessage(Prefix.OUTPOST.append(Component.text("Usage: /outpost create (name) <region> <type>")));
+                    player.sendMessage(Prefix.OUTPOST.append(Component.text("Usage: /outpost create <name> <region> <type>")));
                     return true;
                 }
 
@@ -121,7 +121,7 @@ public class OutpostCommand implements TabExecutor {
     }
 
     private Component help() {
-        return Prefix.OUTPOST.append(Component.text("Usage: /outpost create (name) <region> <type>"));
+        return Prefix.OUTPOST.append(Component.text("Usage: /outpost create <name> <region> <type>"));
     }
 
     @Override
@@ -137,7 +137,7 @@ public class OutpostCommand implements TabExecutor {
 
         if (args.length == 2) {
             if ("create".equalsIgnoreCase(args[0])) {
-                return List.of("<name (optional)>");
+                return List.of("<name>");
             } else if ("delete".equalsIgnoreCase(args[0])) {
                 return StaticMineUtils.filterStringList(OutpostManager.getOutpostNames(), args[1]);
             }
