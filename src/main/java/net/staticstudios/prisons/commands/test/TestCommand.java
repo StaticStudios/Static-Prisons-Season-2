@@ -10,6 +10,7 @@ import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.levelup.LevelUp;
+import net.staticstudios.prisons.lootboxes.MoneyLootBox;
 import net.staticstudios.prisons.lootboxes.TokenLootBox;
 import net.staticstudios.prisons.mineBombs.MineBomb;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
@@ -201,10 +202,28 @@ public class TestCommand implements CommandExecutor {
 //           item.setItemMeta(meta);
 //        }
 //        player.sendMessage("Apply meta to item: " + (System.currentTimeMillis() - start));
+//
+//        String texture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQzMTZhNjQwOTlkODk2ZjY2OWQwZjA4ODUyMDIxN2E4M2RlY2Q0YTNiNjdlNTdhZjg5YjMzZDIwYzMyMWYzNCJ9fX0=";
+//        player.getInventory().addItem(SkullCreator.itemFromBase64(texture));
 
-        String texture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjAzZjVhOWJjNzE5Y2QxMTI3YmUwOTU0YzczY2Q1NzE0ZWNkNDc4ZGFkODgwZWYyYjk5NzljNDgxMDk3ZTZiZSJ9fX0=";
-        player.getInventory().addItem(SkullCreator.itemFromBase64(texture));
+        player.getInventory().addItem(new MoneyLootBox(1).getItem());
+        player.getInventory().addItem(new MoneyLootBox(2).getItem());
+        player.getInventory().addItem(new MoneyLootBox(3).getItem());
+        player.getInventory().addItem(new MoneyLootBox(4).getItem());
+        player.getInventory().addItem(new MoneyLootBox(5).getItem());
 
+
+
+        player.getInventory().addItem(new TokenLootBox(1).getItem());
+        player.getInventory().addItem(new TokenLootBox(2).getItem());
+        player.getInventory().addItem(new TokenLootBox(3).getItem());
+        player.getInventory().addItem(new TokenLootBox(4).getItem());
+        player.getInventory().addItem(new TokenLootBox(5).getItem());
+        player.getInventory().addItem(new TokenLootBox(6).getItem());
+        player.getInventory().addItem(new TokenLootBox(7).getItem());
+        player.getInventory().addItem(new TokenLootBox(8).getItem());
+        player.getInventory().addItem(new TokenLootBox(9).getItem());
+        player.getInventory().addItem(new TokenLootBox(10).getItem());
 
         return false;
 

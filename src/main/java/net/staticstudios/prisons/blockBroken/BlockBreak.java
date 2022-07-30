@@ -199,8 +199,6 @@ public class BlockBreak {
             if (player != null) {
                 PrisonBackpacks.addToBackpacks(player, stats.getMinedBlocks());
             }
-//            playerData.addAllToBackpack(stats.getMinedBlocks());
-//            PrisonUtils.Players.backpackFullCheck(backpackWasFull, player, playerData);
 
             if (pickaxe != null) {
                 pickaxe.addXp((long) (2 * stats.getBlocksBroken() * stats.getXpMultiplier()));
@@ -210,10 +208,9 @@ public class BlockBreak {
 
             mine.removeBlocksBrokenInMine(stats.getBlocksBroken());
         }
-
-
         return isCancelled;
     }
+
 
     static class Listener implements org.bukkit.event.Listener {
 

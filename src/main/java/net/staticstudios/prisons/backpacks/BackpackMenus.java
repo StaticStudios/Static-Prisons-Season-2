@@ -8,6 +8,7 @@ import net.staticstudios.prisons.pickaxe.AbilityMenus;
 import net.staticstudios.prisons.pickaxe.EnchantMenus;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.utils.PrisonUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -144,6 +145,7 @@ public class BackpackMenus extends GUIUtils {
 
             PrisonBackpack newBackpack = PrisonBackpacks.createBackpack(backpack1.getTier() + 1);
             newBackpack.setSize(PrisonBackpacks.getMaxSize(backpack1.getTier()));
+            newBackpack.updateItemNow();
             PrisonUtils.Players.addToInventory(p, newBackpack.getItem());
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou combined your backpacks!"));
         })));

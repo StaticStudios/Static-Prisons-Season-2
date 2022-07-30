@@ -1,7 +1,5 @@
-package net.staticstudios.prisons.lootboxes;
+package net.staticstudios.prisons.lootboxes.handler;
 
-import net.staticstudios.prisons.backpacks.BackpackMenus;
-import net.staticstudios.prisons.backpacks.PrisonBackpack;
 import org.bukkit.Particle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -1,6 +1,5 @@
 package net.staticstudios.prisons.backpacks;
 
-import dev.dbassett.skullcreator.SkullCreator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
@@ -10,6 +9,7 @@ import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.items.SpreadOutExecution;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -24,6 +24,8 @@ import java.math.RoundingMode;
 import java.util.*;
 
 public class PrisonBackpack implements SpreadOutExecution {
+
+    public static final NamespacedKey BACKPACK_KEY = new NamespacedKey(StaticPrisons.getInstance(), "backpackUUID");
 
     public static final Map<String, PrisonBackpack> ALL_BACKPACKS = new HashMap<>();
 
@@ -80,7 +82,7 @@ public class PrisonBackpack implements SpreadOutExecution {
         if (item == null) return null;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return null;
-        PrisonBackpack backpack = fromUUID(meta.getPersistentDataContainer().get(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING));
+        PrisonBackpack backpack = fromUUID(meta.getPersistentDataContainer().get(BACKPACK_KEY, PersistentDataType.STRING));
         if (backpack == null) return null;
         backpack.item = item;
         return backpack;
@@ -110,8 +112,8 @@ public class PrisonBackpack implements SpreadOutExecution {
         uuid = UUID.randomUUID().toString();
         this.item = item;
         this.tier = tier;
-        item.editMeta(meta -> meta.getPersistentDataContainer().set(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING, uuid));
-        updateItem();
+        item.editMeta(meta -> meta.getPersistentDataContainer().set(BACKPACK_KEY, PersistentDataType.STRING, uuid));
+        updateItemNow();
         ALL_BACKPACKS.put(uuid, this);
     }
 
@@ -211,49 +213,31 @@ public class PrisonBackpack implements SpreadOutExecution {
 
 
     public static Component getName(int tier) {
-        switch (tier) {
-            default -> {
-                return BackpackConstants.tier1Name;
-            }
-            case 2 -> {
-                return BackpackConstants.tier2Name;
-            }
-            case 3 -> {
-                return BackpackConstants.tier3Name;
-            }
-            case 4 -> {
-                return BackpackConstants.tier4Name;
-            }
-            case 5 -> {
-                return BackpackConstants.tier5Name;
-            }
-            case 6 -> {
-                return BackpackConstants.tier6Name;
-            }
-            case 7 -> {
-                return BackpackConstants.tier7Name;
-            }
-            case 8 -> {
-                return BackpackConstants.tier8Name;
-            }
-            case 9 -> {
-                return BackpackConstants.tier9Name;
-            }
-            case 10 -> {
-                return BackpackConstants.tier10Name;
-            }
-        }
+        return switch (tier) {
+            default -> BackpackConstants.tier1Name;
+            case 2 ->BackpackConstants.tier2Name;
+            case 3 -> BackpackConstants.tier3Name;
+            case 4 -> BackpackConstants.tier5Name;
+            case 6 -> BackpackConstants.tier6Name;
+            case 7 -> BackpackConstants.tier7Name;
+            case 8 -> BackpackConstants.tier8Name;
+            case 9 -> BackpackConstants.tier9Name;
+            case 10 -> BackpackConstants.tier10Name;
+        };
     }
 
 
     public void updateItem() {
         queueExecution();
     }
+    public void updateItemNow() {
+        updateItemName();
+        updateItemLore();
+    }
 
     @Override
     public void runSpreadOutExecution() {
-        updateItemName();
-        updateItemLore();
+        updateItemNow();
     }
 
     public void updateItemName() {

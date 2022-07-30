@@ -1,19 +1,23 @@
-package net.staticstudios.prisons.lootboxes;
+package net.staticstudios.prisons.lootboxes.handler;
 
 import dev.dbassett.skullcreator.SkullCreator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.lootboxes.MoneyLootBox;
+import net.staticstudios.prisons.lootboxes.TokenLootBox;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.Prefix;
 import net.staticstudios.prisons.utils.items.SpreadOutExecution;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -24,6 +28,8 @@ import java.io.IOException;
 import java.util.*;
 
 public abstract class LootBox implements SpreadOutExecution {
+
+    public static final NamespacedKey LOOTBOX_KEY = new NamespacedKey(StaticPrisons.getInstance(), "lootboxUUID");
 
     public static void init() {
         //Load them from a file
@@ -81,7 +87,7 @@ public abstract class LootBox implements SpreadOutExecution {
         if (item == null) return null;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return null;
-        LootBox lootBox = fromUUID(meta.getPersistentDataContainer().get(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING));
+        LootBox lootBox = fromUUID(meta.getPersistentDataContainer().get(LOOTBOX_KEY, PersistentDataType.STRING));
         if (lootBox == null) return null;
         lootBox.item = item;
         return lootBox;
@@ -97,13 +103,13 @@ public abstract class LootBox implements SpreadOutExecution {
     Component componentName = null;
     LootBoxType type;
 
-    LootBox(String name, LootBoxType type, boolean createItem) {
+    public LootBox(String name, LootBoxType type, boolean createItem) {
         this.uuid = UUID.randomUUID().toString();
         this.name = name;
         this.type = type;
         if (createItem) {
             item = SkullCreator.itemFromBase64(type.base64Texture);
-            item.editMeta(meta -> meta.getPersistentDataContainer().set(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING, uuid));
+            item.editMeta(meta -> meta.getPersistentDataContainer().set(LOOTBOX_KEY, PersistentDataType.STRING, uuid));
         }
         lootBoxes.put(uuid, this);
     }
@@ -112,20 +118,19 @@ public abstract class LootBox implements SpreadOutExecution {
         return item;
     }
 
-    Component getName() {
+    public Component getName() {
         if (componentName != null) return componentName;
         componentName = Component.empty().append(LegacyComponentSerializer.legacyAmpersand().deserialize(name));
         return componentName;
     }
 
-    abstract void onBlockBreak(BlockBreak blockBreak);
+    public abstract void onBlockBreak(BlockBreak blockBreak);
+    public abstract Component getDisplayName();
+    public abstract List<Component> getLore();
+    public abstract boolean checkCondition();
+    public abstract void onClaim(Player player);
 
-    abstract Component getDisplayName();
-    abstract List<Component> getLore();
-    abstract boolean checkCondition();
-    abstract void onClaim(Player player);
-
-    abstract ConfigurationSection toConfigurationSection();
+    public abstract ConfigurationSection toConfigurationSection();
 
     public boolean tryToClaim(Player player) {
         if (checkCondition()) {
@@ -141,13 +146,16 @@ public abstract class LootBox implements SpreadOutExecution {
     public void updateItem() {
         queueExecution();
     }
-    @Override
-    public void runSpreadOutExecution() {
+    public void updateItemNow() {
         if (item == null) return;
         ItemMeta meta = item.getItemMeta();
         meta.displayName(getDisplayName());
         meta.lore(getLore());
         item.setItemMeta(meta);
+    }
+    @Override
+    public void runSpreadOutExecution() {
+        updateItemNow();
     }
 
     public ConfigurationSection save() {
@@ -158,7 +166,7 @@ public abstract class LootBox implements SpreadOutExecution {
         return section;
     }
 
-    LootBox load(ConfigurationSection section) {
+    public LootBox load(ConfigurationSection section) {
         this.name = section.getString("name");
         this.type = LootBoxType.valueOf(section.getString("type"));
         String newUUID = section.getString("uuid");
@@ -173,6 +181,7 @@ public abstract class LootBox implements SpreadOutExecution {
     public static LootBox loadFromConfigurationSection(ConfigurationSection section) {
         return switch (LootBoxType.valueOf(Objects.requireNonNull(section.getString("type")))) {
             case TOKEN -> TokenLootBox.fromConfigurationSection(section);
+            case MONEY -> MoneyLootBox.fromConfigurationSection(section);
             default -> null;
         };
     }

@@ -15,6 +15,7 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.items.SpreadOutExecution;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -32,6 +33,9 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class PrisonPickaxe implements SpreadOutExecution {
+
+    public static final NamespacedKey PICKAXE_KEY = new NamespacedKey(StaticPrisons.getInstance(), "pickaxeUUID");
+
     private static Map<String, PrisonPickaxe> pickaxeUUIDToPrisonPickaxe = new HashMap<>();
     private static void addPickaxeToUpdateLore(PrisonPickaxe pickaxe) {
         if (pickaxe.item == null) return;
@@ -133,7 +137,7 @@ public class PrisonPickaxe implements SpreadOutExecution {
         if (item == null) return null;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return null;
-        PrisonPickaxe pickaxe = PrisonPickaxe.fromID(meta.getPersistentDataContainer().get(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING));
+        PrisonPickaxe pickaxe = PrisonPickaxe.fromID(meta.getPersistentDataContainer().get(PICKAXE_KEY, PersistentDataType.STRING));
         if (pickaxe != null) pickaxe.item = item;
         return pickaxe;
     }
@@ -165,7 +169,7 @@ public class PrisonPickaxe implements SpreadOutExecution {
         String uuid = UUID.randomUUID().toString();
         pickaxeUUID = uuid;
         ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING, uuid);
+        meta.getPersistentDataContainer().set(PICKAXE_KEY, PersistentDataType.STRING, uuid);
         item.setItemMeta(meta);
         pickaxeUUIDToPrisonPickaxe.put(uuid, this);
     }

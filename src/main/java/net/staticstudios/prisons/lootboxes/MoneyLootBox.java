@@ -21,11 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TokenLootBox extends LootBox {
+public class MoneyLootBox extends LootBox {
 
-    record TokenLootBoxOutline(int tier, long requires, long minReward, long maxReward) {}
+    record MoneyLootBoxOutline(int tier, long requires, long minReward, long maxReward) {}
 
-    static Map<Integer, TokenLootBoxOutline> TIERS = new HashMap<>();
+    static Map<Integer, MoneyLootBoxOutline> TIERS = new HashMap<>();
 
     public static void loadTiers(ConfigurationSection section) {
         TIERS.clear();
@@ -34,18 +34,18 @@ public class TokenLootBox extends LootBox {
             long requires = section.getLong(key + ".requires");
             long minReward = section.getLong(key + ".reward.min");
             long maxReward = section.getLong(key + ".reward.max");
-            TIERS.put(tier, new TokenLootBoxOutline(tier, requires, minReward, maxReward));
+            TIERS.put(tier, new MoneyLootBoxOutline(tier, requires, minReward, maxReward));
         }
     }
 
-    public static TokenLootBoxOutline getTier(int tier) {
+    public static MoneyLootBoxOutline getTier(int tier) {
         return TIERS.get(tier);
     }
 
-    static String displayName = "&6&lToken Loot Box";
+    static String displayName = "&a&lMoney Loot Box";
 
-    public TokenLootBox(int tier) {
-        super(displayName, LootBoxType.TOKEN, true);
+    public MoneyLootBox(int tier) {
+        super(displayName, LootBoxType.MONEY, true);
         this.blocksRequired = getTier(tier).requires;
         this.tier = tier;
         updateItemNow();
@@ -54,8 +54,8 @@ public class TokenLootBox extends LootBox {
     /**
      * Constructor that gets called when loading a loot box from a configuration section
      */
-    public TokenLootBox(long blocksRequired, int tier) {
-        super(displayName, LootBoxType.TOKEN, false);
+    public MoneyLootBox(long blocksRequired, int tier) {
+        super(displayName, LootBoxType.MONEY, false);
         this.blocksRequired = blocksRequired;
         this.tier = tier;
     }
@@ -94,12 +94,12 @@ public class TokenLootBox extends LootBox {
         return List.of(
                 Component.empty(),
                 LORE_PREFIX.append(Component.text("Open this loot box to receive a random").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
-                LORE_PREFIX.append(Component.text("amount of tokens! This loot box's challenge").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
+                LORE_PREFIX.append(Component.text("amount of money! This loot box's challenge").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
                 LORE_PREFIX.append(Component.text("requires you to mine " + PrisonUtils.addCommasToNumber(blocksRequired) + " blocks").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
                 LORE_PREFIX.append(Component.text("You are currently ").color(ComponentUtil.LIGHT_GRAY)).append(Component.text(BigDecimal.valueOf((double) blocksMined / blocksRequired * 100).setScale(2, RoundingMode.FLOOR) + "%").color(ComponentUtil.GREEN).decorate(TextDecoration.BOLD)).append(Component.text(" done with this!").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
                 LORE_PREFIX.decoration(TextDecoration.ITALIC, false),
-                LORE_PREFIX.append(Component.text("Tier: ").color(ComponentUtil.GOLD)).append(Component.text(tier + "").color(ComponentUtil.WHITE)).decoration(TextDecoration.ITALIC, false),
-                LORE_PREFIX.append(Component.text("Reward: ").color(ComponentUtil.GOLD)).append(Component.text(PrisonUtils.addCommasToNumber(getTier(tier).minReward) + " - " + PrisonUtils.addCommasToNumber(getTier(tier).maxReward) + " Tokens").color(ComponentUtil.WHITE)).decoration(TextDecoration.ITALIC, false)
+                LORE_PREFIX.append(Component.text("Tier: ").color(ComponentUtil.GREEN)).append(Component.text(tier + "").color(ComponentUtil.WHITE)).decoration(TextDecoration.ITALIC, false),
+                LORE_PREFIX.append(Component.text("Reward: ").color(ComponentUtil.GREEN)).append(Component.text("$" + PrisonUtils.addCommasToNumber(getTier(tier).minReward) + " - $" + PrisonUtils.addCommasToNumber(getTier(tier).maxReward)).color(ComponentUtil.WHITE)).decoration(TextDecoration.ITALIC, false)
         );
     }
 
@@ -110,9 +110,9 @@ public class TokenLootBox extends LootBox {
 
     @Override
     public void onClaim(Player player) {
-        BigInteger tokensToAdd = BigInteger.valueOf(PrisonUtils.randomLong(getTier(tier).minReward, getTier(tier).maxReward));
-        new PlayerData(player).addTokens(tokensToAdd);
-        player.sendMessage(Prefix.LOOT_BOX.append(Component.text("You've been given " + PrisonUtils.addCommasToNumber(tokensToAdd) + " tokens!")));
+        BigInteger moneyToAdd = BigInteger.valueOf(PrisonUtils.randomLong(getTier(tier).minReward, getTier(tier).maxReward));
+        new PlayerData(player).addMoney(moneyToAdd);
+        player.sendMessage(Prefix.LOOT_BOX.append(Component.text("You've been given $" + PrisonUtils.addCommasToNumber(moneyToAdd) + "!")));
     }
 
     @Override
@@ -124,8 +124,8 @@ public class TokenLootBox extends LootBox {
         return section;
     }
 
-    public static TokenLootBox fromConfigurationSection(ConfigurationSection section) {
-        TokenLootBox lootBox = new TokenLootBox(section.getLong("blocksRequired"), section.getInt("tier"));
+    public static MoneyLootBox fromConfigurationSection(ConfigurationSection section) {
+        MoneyLootBox lootBox = new MoneyLootBox(section.getLong("blocksRequired"), section.getInt("tier"));
         lootBox.blocksMined = section.getLong("blocksMined");
         lootBox.load(section);
         return lootBox;

@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.commands.test;
 
+import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.data.backups.DataBackup;
 import net.staticstudios.prisons.gambling.GamblingMenus;
 import net.staticstudios.prisons.privateMines.PrivateMine;
@@ -23,12 +24,13 @@ public class Test2Command implements CommandExecutor {
 //            privateMine.registerMine();
 //            privateMine.warpTo(player);
 //        });
-        PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
-        privateMine.setXpAndCalcLevel(Integer.parseInt(strings[0]));
+//        PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
+//        privateMine.setXpAndCalcLevel(Integer.parseInt(strings[0]));
 //        ChatEvents.runEvent(ChatEvents.EventType.MATH);
 //        RankUpMenus.open(player, true);
 //        GamblingMenus.openMain(player);
 //        DataBackup.init();
+
         return false;
     }
 }

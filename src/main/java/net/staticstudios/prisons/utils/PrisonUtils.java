@@ -274,7 +274,7 @@ public final class PrisonUtils {
         if (item == null) return false;
         if (!item.getType().equals(Material.DIAMOND_PICKAXE)) return false;
         if (!item.hasItemMeta()) return false;
-        return item.getItemMeta().getPersistentDataContainer().has(Constants.UUID_NAMESPACEKEY, PersistentDataType.STRING);
+        return item.getItemMeta().getPersistentDataContainer().has(PrisonPickaxe.PICKAXE_KEY, PersistentDataType.STRING);
     }
 
     public static char getMineRankLetterFromMineRank(int mineRank) {

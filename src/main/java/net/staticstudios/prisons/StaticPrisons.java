@@ -29,7 +29,8 @@ import net.staticstudios.prisons.fishing.FishingManager;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.gangs.GangCommand;
 import net.staticstudios.prisons.levelup.LevelUp;
-import net.staticstudios.prisons.lootboxes.LootBox;
+import net.staticstudios.prisons.lootboxes.MoneyLootBox;
+import net.staticstudios.prisons.lootboxes.handler.LootBox;
 import net.staticstudios.prisons.lootboxes.TokenLootBox;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.mines.MineManager;
@@ -53,6 +54,7 @@ import net.staticstudios.prisons.ranks.PlayerRanks;
 import net.staticstudios.prisons.reclaim.ReclaimCommand;
 import net.staticstudios.prisons.utils.*;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
+import net.staticstudios.utils.TickUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
@@ -303,6 +305,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
         //Load loot boxes
         TokenLootBox.loadTiers(config.getConfigurationSection("lootboxes.token"));
+        MoneyLootBox.loadTiers(config.getConfigurationSection("lootboxes.money"));
 
 
         //SQL config
