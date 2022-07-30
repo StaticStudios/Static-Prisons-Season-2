@@ -4,8 +4,8 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Kit {
     public String name = "";

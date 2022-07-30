@@ -7,8 +7,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-
 
 /**
  * @author Sam (GitHub: <a href="https://github.com/Sammster10">Sam's GitHub</a>)

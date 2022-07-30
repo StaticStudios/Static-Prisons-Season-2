@@ -6,7 +6,9 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class BlocksMinedTop {
     static final String npc1Name = "leaderboardsBlocksMined1";

@@ -1,12 +1,12 @@
 package net.staticstudios.prisons.chat;
 
-import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.UI.tablist.TabList;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import net.staticstudios.prisons.UI.tablist.TabList;
+import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

@@ -1,7 +1,6 @@
 package net.staticstudios.prisons.gangs;
 
 import net.md_5.bungee.api.ChatColor;
-import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -30,7 +29,6 @@ public class GangCommand implements CommandExecutor, TabCompleter {
         }
         Gang gang = Gang.getGang(player);
         switch (args[0].toLowerCase()) {
-            default -> GangMenus.open(player, true); //"create" will do the same thing
             case "leave" -> {
                 if (gang == null) {
                     GangMenus.openCreateGang(player, true);
@@ -51,7 +49,7 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                     player.sendMessage(Gang.PREFIX + ChatColor.RED + "Only the gang owner can do this action!");
                     return false;
                 }
-                if (args.length == 1 ) {
+                if (args.length == 1) {
                     player.sendMessage(Gang.PREFIX + ChatColor.RED + "Usage: /gang kick <player>");
                     return false;
                 }
@@ -266,9 +264,11 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                 }
                 gang.delete();
             }
+            default -> GangMenus.open(player, true); //"create" will do the same thing
         }
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

@@ -1,8 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.BroadcastMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

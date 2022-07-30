@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.chat.ChatTags;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;

@@ -6,8 +6,8 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.pvp.koth.commands.KingOfTheHillCommand;
 import net.staticstudios.prisons.pvp.koth.runnables.KingOfTheHillGameRunnable;
 import net.staticstudios.prisons.utils.ComponentUtil;
-import net.staticstudios.prisons.utils.TimeUtils;
 import net.staticstudios.prisons.utils.Prefix;
+import net.staticstudios.prisons.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -168,10 +168,6 @@ public class KingOfTheHillManager {
     }
 
     public static int getTimeLeft() {
-        if (isEventRunning()) {
-            return eventRunnable.getTimeLeft();
-        } else {
-            return 0;
-        }
+        return isEventRunning() ? eventRunnable.getTimeLeft() : 0;
     }
 }

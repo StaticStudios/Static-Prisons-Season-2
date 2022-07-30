@@ -1,17 +1,17 @@
 package net.staticstudios.prisons.utils;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.cells.CellManager;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.UI.PlayerUI;
-import net.staticstudios.prisons.data.dataHandling.DataSet;
-import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.gangs.Gang;
-import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
 import net.staticstudios.prisons.auctionHouse.AuctionManager;
+import net.staticstudios.prisons.cells.CellManager;
+import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.data.dataHandling.DataSet;
+import net.staticstudios.prisons.external.DiscordLink;
+import net.staticstudios.prisons.gangs.Gang;
+import net.staticstudios.prisons.leaderboards.LeaderboardManager;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.privateMines.PrivateMineManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

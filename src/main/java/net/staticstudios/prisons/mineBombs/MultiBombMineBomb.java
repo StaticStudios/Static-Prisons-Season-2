@@ -1,8 +1,6 @@
 package net.staticstudios.prisons.mineBombs;
 
-import com.fastasyncworldedit.core.extent.processor.lighting.RelightMode;
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.function.mask.RegionMask;
 import com.sk89q.worldedit.function.pattern.Pattern;

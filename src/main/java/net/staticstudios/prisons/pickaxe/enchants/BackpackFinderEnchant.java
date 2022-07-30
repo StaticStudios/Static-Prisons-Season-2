@@ -1,9 +1,7 @@
 package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.staticstudios.prisons.blockBroken.BlockBreak;
-import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 
 import java.math.BigInteger;

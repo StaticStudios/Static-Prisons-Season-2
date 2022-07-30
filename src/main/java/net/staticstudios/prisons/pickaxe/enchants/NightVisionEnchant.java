@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.pickaxe.enchants;
 
-import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 

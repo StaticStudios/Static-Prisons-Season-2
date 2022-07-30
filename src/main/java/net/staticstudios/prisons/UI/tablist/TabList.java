@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.UI.tablist;
 
-import net.staticstudios.prisons.data.PlayerData;
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.prisons.data.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;

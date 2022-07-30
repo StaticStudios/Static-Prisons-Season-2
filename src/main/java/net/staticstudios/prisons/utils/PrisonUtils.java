@@ -1,16 +1,17 @@
 package net.staticstudios.prisons.utils;
 
 import com.destroystokyo.paper.event.server.ServerTickStartEvent;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.data.PlayerData;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
-import org.bukkit.*;
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +25,9 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.*;

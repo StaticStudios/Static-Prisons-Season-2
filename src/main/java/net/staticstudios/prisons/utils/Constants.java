@@ -1,8 +1,6 @@
 package net.staticstudios.prisons.utils;
 
-import net.staticstudios.prisons.StaticPrisons;
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 
 public class Constants {

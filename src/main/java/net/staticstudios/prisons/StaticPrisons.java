@@ -14,6 +14,7 @@ import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.cells.IslandCommand;
 import net.staticstudios.prisons.chat.events.ChatEvents;
+import net.staticstudios.prisons.commands.admin.AdminManager;
 import net.staticstudios.prisons.commands.normal.*;
 import net.staticstudios.prisons.commands.test.Test2Command;
 import net.staticstudios.prisons.commands.test.TestCommand;
@@ -30,8 +31,8 @@ import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.gangs.GangCommand;
 import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.lootboxes.MoneyLootBox;
-import net.staticstudios.prisons.lootboxes.handler.LootBox;
 import net.staticstudios.prisons.lootboxes.TokenLootBox;
+import net.staticstudios.prisons.lootboxes.handler.LootBox;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.mines.MineManager;
 import net.staticstudios.prisons.pickaxe.EnchantCommand;
@@ -42,19 +43,16 @@ import net.staticstudios.prisons.pickaxe.enchants.AutoSellEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.ConsistencyEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
-import net.staticstudios.prisons.utils.EventListener;
-import net.staticstudios.prisons.utils.Events;
-import net.staticstudios.prisons.utils.TimedTasks;
 import net.staticstudios.prisons.privateMines.PrivateMineCommand;
 import net.staticstudios.prisons.privateMines.PrivateMineManager;
-import net.staticstudios.prisons.pvp.commands.PvPCommand;
 import net.staticstudios.prisons.pvp.PvPManager;
+import net.staticstudios.prisons.pvp.commands.PvPCommand;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
+import net.staticstudios.prisons.pvp.outposts.OutpostManager;
 import net.staticstudios.prisons.ranks.PlayerRanks;
 import net.staticstudios.prisons.reclaim.ReclaimCommand;
 import net.staticstudios.prisons.utils.*;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
-import net.staticstudios.utils.TickUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
@@ -107,8 +105,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(CustomItems::init);
         safe(Crates::init);
         safe(CellManager::init);
-        safe(PvPManager::init);
         safe(Gang::init);
+        safe(PvPManager::init);
         safe(ChatEvents::init);
         safe(TimedTasks::init);
         safe(DataSet::init);
@@ -125,6 +123,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(FishingManager::init);
         safe(KingOfTheHillManager::init);
         safe(PrisonBackpack::init);
+        safe(AdminManager::init);
 
         StaticGUI.enable(this);
 
@@ -234,6 +233,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(Gang::saveAllSync);
         safe(PrisonBackpack::saveBackpacksNow);
         safe(LootBox::saveAllNow);
+        safe(AdminManager::save);
+        safe(OutpostManager::save);
 
         //Take a data backup
         safe(DataBackup::takeBackup);

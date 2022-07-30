@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.customItems;
 
-import net.staticstudios.prisons.StaticPrisons;
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.mineBombs.MineBombItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

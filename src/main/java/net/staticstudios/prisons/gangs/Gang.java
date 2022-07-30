@@ -24,11 +24,17 @@ public class Gang {
 
     static final Map<UUID, Gang> GANGS = new HashMap<>();
     static final Map<UUID, Gang> PLAYER_GANGS = new HashMap<>();
+    private static boolean loaded = false;
 
     private UUID uuid;
     private UUID owner;
     private String name;
     private List<UUID> members;
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
     public UUID getOwner() {
         return owner;
     }
@@ -109,6 +115,9 @@ public class Gang {
         this.tokensFound = this.tokensFound.add(tokensFound);
     }
 
+    public static boolean isLoaded() {
+        return loaded;
+    }
 
     //Bank
     private BigInteger bankMoney = BigInteger.ZERO;
@@ -280,6 +289,8 @@ public class Gang {
                 }
             });
         });
+
+        loaded = true;
     }
 
     public boolean addMember(UUID member) {

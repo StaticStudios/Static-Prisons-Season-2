@@ -1,16 +1,15 @@
 package net.staticstudios.prisons.UI.scoreboard;
 
+import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.prisons.UI.scoreboard.fastBoard.FastBoard;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
-import net.staticstudios.prisons.UI.scoreboard.fastBoard.FastBoard;
 import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.util.Hashtable;
 import java.util.Map;
 

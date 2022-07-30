@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.pvp;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.PrisonBackpack;
 import net.staticstudios.prisons.customItems.Vouchers;
@@ -7,6 +8,7 @@ import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.pvp.commands.PvPEventCommand;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
+import net.staticstudios.prisons.pvp.outposts.OutpostManager;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.Warps;
 import org.bukkit.*;
@@ -21,20 +23,28 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class PvPManager {
 
     public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&c&lPvP &8&l>> &r");
 
     public static World PVP_WORLD;
+    public static com.sk89q.worldedit.world.World WE_PVP_WORLD;
+
     public static Map<Player, Long> playerWarpOutIn = new HashMap<>();
 
     public static void init() {
         PVP_WORLD = new WorldCreator("pvp").createWorld(); //Ensure the world exists
+        WE_PVP_WORLD = BukkitAdapter.adapt(PVP_WORLD);
+
         Bukkit.getPluginManager().registerEvents(new Listener(), StaticPrisons.getInstance());
 
         KingOfTheHillManager.init();
+        OutpostManager.init();
 
         StaticPrisons.getInstance().getCommand("pvpevent").setExecutor(new PvPEventCommand());
 

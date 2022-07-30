@@ -1,14 +1,13 @@
 package net.staticstudios.prisons.backpacks;
 
-import dev.dbassett.skullcreator.SkullCreator;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mines.MineBlock;
+import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.apache.logging.log4j.util.BiConsumer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -19,7 +18,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class PrisonBackpacks {
 
@@ -55,7 +53,8 @@ public class PrisonBackpacks {
                     ItemStack item = itemStack.clone();
                     item.setAmount(amountToAddThisTime);
                     changedInventory = true;
-                    if (!inventory.addItem(item).isEmpty()) break; //The player's inventory is full. The player might be able to add items with a different material tho, so we'll try again with the next material.
+                    if (!inventory.addItem(item).isEmpty())
+                        break; //The player's inventory is full. The player might be able to add items with a different material tho, so we'll try again with the next material.
                     amountToAdd -= amountToAddThisTime;
                 }
                 if (amountToAdd == 0) {
@@ -77,7 +76,8 @@ public class PrisonBackpacks {
 
     /**
      * Tell the player their backpack is full
-     * @return  true if auto sold
+     *
+     * @return true if auto sold
      */
     public static boolean backpacksAreFull(Player player, boolean wasFullBefore) {
         PlayerData playerData = new PlayerData(player);
@@ -88,7 +88,8 @@ public class PrisonBackpacks {
             return true;
         }
         if (wasFullBefore) return false;
-        if (LAST_FULL_MESSAGE.getOrDefault(player, 0L) > System.currentTimeMillis() - 2000) return false; //Don't spam the player with messages
+        if (LAST_FULL_MESSAGE.getOrDefault(player, 0L) > System.currentTimeMillis() - 2000)
+            return false; //Don't spam the player with messages
         long totalItems = 0;
         for (PrisonBackpack backpack : getPlayerBackpacks(player)) {
             totalItems += backpack.getItemCount();
@@ -159,7 +160,7 @@ public class PrisonBackpacks {
             case 9 -> texture = BackpackConstants.tier9Skin;
             case 10 -> texture = BackpackConstants.tier10Skin;
         }
-        return new PrisonBackpack(SkullCreator.itemFromBase64(texture), tier);
+        return new PrisonBackpack(ItemUtils.createCustomSkull(texture), tier);
     }
 
     public static long getMaxSize(int tier) {

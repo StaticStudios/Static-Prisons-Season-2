@@ -3,7 +3,8 @@ package net.staticstudios.prisons.utils.items;
 import net.staticstudios.prisons.StaticPrisons;
 import org.bukkit.Bukkit;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class SpreadOutExecutor {
 

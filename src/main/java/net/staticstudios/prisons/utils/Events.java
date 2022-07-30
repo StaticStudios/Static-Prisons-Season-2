@@ -1,11 +1,11 @@
 package net.staticstudios.prisons.utils;
 
 import net.staticstudios.prisons.chat.CustomChatMessage;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 
 public class Events implements Listener {
     @EventHandler

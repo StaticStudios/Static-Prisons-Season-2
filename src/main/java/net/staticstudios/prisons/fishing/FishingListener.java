@@ -4,13 +4,11 @@ import net.staticstudios.prisons.pvp.PvPManager;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerFishEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Consumer;
 

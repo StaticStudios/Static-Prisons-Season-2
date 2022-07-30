@@ -282,3 +282,9 @@ commands:
   pvpevent:
     description: a
     permission: static.pvpevent.manage
+  outpost:
+    description: a
+    permission: static.outpost.manage
+  vanish:
+    description: a
+    permission: static.vanish

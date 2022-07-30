@@ -222,12 +222,5 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>dev.dbassett</groupId>
-            <artifactId>skullcreator</artifactId>
-            <version>3.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-
     </dependencies>
 </project>

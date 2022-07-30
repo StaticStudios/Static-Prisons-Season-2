@@ -3,7 +3,6 @@ package net.staticstudios.prisons.commands.normal;
 import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.customItems.CustomItems;
 import net.staticstudios.prisons.customItems.Vouchers;
-import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

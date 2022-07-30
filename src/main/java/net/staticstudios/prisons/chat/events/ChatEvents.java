@@ -17,7 +17,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 public class ChatEvents {

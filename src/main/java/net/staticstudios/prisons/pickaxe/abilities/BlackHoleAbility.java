@@ -1,9 +1,7 @@
 package net.staticstudios.prisons.pickaxe.abilities;
 
-import com.sk89q.worldedit.math.BlockVector3;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
-import net.staticstudios.prisons.mineBombs.MineBomb;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.utils.PrisonUtils;

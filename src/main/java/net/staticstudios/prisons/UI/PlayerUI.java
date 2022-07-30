@@ -1,5 +1,7 @@
 package net.staticstudios.prisons.UI;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
@@ -7,6 +9,8 @@ import net.staticstudios.prisons.backpacks.PrisonBackpack;
 import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
+import net.staticstudios.prisons.pvp.outposts.OutpostManager;
+import net.staticstudios.prisons.pvp.outposts.domain.Outpost;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.TimeUtils;
 import org.bukkit.entity.Player;
@@ -26,7 +30,6 @@ public class PlayerUI {
     public static void sendActionbar(Player player) {
         PlayerData playerData = new PlayerData(player);
 
-        //Your time: 1m 5s | #1 Sammster10: 2, 13s | Time left: 6m 2s
         if (KingOfTheHillManager.isEventRunning() && PVP_WORLD.equals(player.getWorld())) {
 
             Component message = Component.empty();
@@ -46,13 +49,44 @@ public class PlayerUI {
                         .append(Component.text(" | "));
             }
 
-                message = message.append(Component.text("Time left: "))
-                        .append(TimeUtils.formatTime(KingOfTheHillManager.getTimeLeft()));
+            message = message.append(Component.text("Time left: "))
+                    .append(TimeUtils.formatTime(KingOfTheHillManager.getTimeLeft()));
 
             player.sendActionBar(message.color(playerData.getSecondaryUIThemeAsTextColor()));
             return;
+
         }
 
+        ApplicableRegionSet regions = OutpostManager.getRegionManager().getApplicableRegions(BukkitAdapter.adapt(player).getLocation().toBlockPoint());
+
+        Optional<Outpost> potentialOutpost = regions.getRegions().stream()
+                .filter(region -> OutpostManager.getOutpostRegionNames().contains(region.getId()))
+                .map(region -> OutpostManager.getOutpostByRegion(region.getId()))
+                .findFirst();
+
+        if (potentialOutpost.isPresent()) {
+            Outpost outpost = potentialOutpost.get();
+
+            Component actionBar = Component.empty();
+
+            actionBar = actionBar.append(Component.text("Outpost: "))
+                    .append(Component.text(outpost.getName()))
+                    .append(Component.text(" | "));
+
+            actionBar = outpost.getCurrentGang() == null ? actionBar.append(Component.text("not owned by a gang")) : actionBar.append(Component.text(outpost.getCurrentGang().getName()));
+
+            actionBar = actionBar.append(Component.text(" | "));
+
+            if (outpost.isContested()) {
+                actionBar = actionBar.append(Component.text("Contested"));
+
+            } else {
+                actionBar = actionBar.append(Component.text(outpost.getCapturePercentage())).append(Component.text("% captured"));
+            }
+
+            player.sendActionBar(actionBar.color(playerData.getSecondaryUIThemeAsTextColor()));
+            return;
+        }
 
         if (StaticPrisons.currentTick % 20 == 0) {
             updateActionbar(player);

@@ -1,7 +1,6 @@
 package net.staticstudios.mines.minesapi.events;
 
 import net.staticstudios.mines.StaticMine;
-import org.bukkit.Location;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

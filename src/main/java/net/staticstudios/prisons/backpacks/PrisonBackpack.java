@@ -5,7 +5,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.utils.ComponentUtil;
-import net.staticstudios.prisons.utils.Constants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.items.SpreadOutExecution;
 import org.bukkit.Bukkit;
@@ -21,7 +20,10 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class PrisonBackpack implements SpreadOutExecution {
 

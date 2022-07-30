@@ -3,8 +3,6 @@ package net.staticstudios.prisons.levelup;
 import net.staticstudios.prisons.data.PlayerData;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LevelUp {
     public static long[] rankPrices = new long[26];

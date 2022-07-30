@@ -1,9 +1,5 @@
 package net.staticstudios.prisons.cells;
 
-import net.staticstudios.mines.StaticMineUtils;
-import net.staticstudios.prisons.cells.Cell;
-import net.staticstudios.prisons.cells.CellMenus;
-import net.staticstudios.prisons.data.serverData.ServerData;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

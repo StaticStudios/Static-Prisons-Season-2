@@ -1,6 +1,5 @@
 package net.staticstudios.prisons.lootboxes.handler;
 
-import dev.dbassett.skullcreator.SkullCreator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
@@ -8,7 +7,7 @@ import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.lootboxes.MoneyLootBox;
 import net.staticstudios.prisons.lootboxes.TokenLootBox;
 import net.staticstudios.prisons.utils.ComponentUtil;
-import net.staticstudios.prisons.utils.Constants;
+import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.Prefix;
 import net.staticstudios.prisons.utils.items.SpreadOutExecution;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
@@ -17,7 +16,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -108,7 +106,7 @@ public abstract class LootBox implements SpreadOutExecution {
         this.name = name;
         this.type = type;
         if (createItem) {
-            item = SkullCreator.itemFromBase64(type.base64Texture);
+            item = ItemUtils.createCustomSkull(type.base64Texture);
             item.editMeta(meta -> meta.getPersistentDataContainer().set(LOOTBOX_KEY, PersistentDataType.STRING, uuid));
         }
         lootBoxes.put(uuid, this);

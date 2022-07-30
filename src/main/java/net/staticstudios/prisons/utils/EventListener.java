@@ -1,19 +1,20 @@
 package net.staticstudios.prisons.utils;
 
 import com.destroystokyo.paper.event.server.ServerTickStartEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.pickaxe.enchants.EggShooterEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.external.DiscordLink;
-import net.staticstudios.prisons.customItems.Vouchers;
 import net.staticstudios.prisons.UI.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.UI.tablist.TabList;
+import net.staticstudios.prisons.commands.admin.AdminManager;
+import net.staticstudios.prisons.customItems.Vouchers;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
-import net.staticstudios.prisons.pickaxe.EnchantMenus;
-import org.bukkit.ChatColor;
+import net.staticstudios.prisons.external.DiscordLink;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.enchants.EggShooterEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -36,9 +37,19 @@ public class EventListener implements Listener {
         StaticPrisons.currentTick += 1;
     }
     @EventHandler
-    void playerJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
-        e.setJoinMessage(ChatColor.translateAlternateColorCodes('&', "&a&lJoined&a -> &f" + player.getName()));
+    void playerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+
+        player.setInvisible(false);
+
+        if (AdminManager.checkIfPlayerInVanishAtJoin(event.getPlayer())) {
+            event.joinMessage(Component.empty());
+        } else {
+            event.joinMessage(Component.text("Joined", ComponentUtil.GREEN).decorate(TextDecoration.BOLD)
+                    .append(Component.text(" -> ")).decoration(TextDecoration.BOLD, false)
+                    .append(player.name().color(ComponentUtil.WHITE)));
+        }
+
         Warps.warpToSpawn(player);
         //Update the player name to UUID mappings
         ServerData.playerJoined(player);
@@ -53,8 +64,17 @@ public class EventListener implements Listener {
     }
     @EventHandler
     void playerQuit(PlayerQuitEvent e) {
-        e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', "&a&lLeft&a -> &f" + e.getPlayer().getName()));
         Player player = e.getPlayer();
+
+        if (AdminManager.containedInHiddenPlayers(player)) {
+            e.quitMessage(Component.empty());
+        } else {
+//            e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', "&a&lLeft&a -> &f" + e.getPlayer().getName()));
+            e.quitMessage(Component.text("Left").color(ComponentUtil.RED).decorate(TextDecoration.BOLD)
+                    .append(Component.text(" -> ")).decoration(TextDecoration.BOLD, false)
+                    .append(player.name().color(ComponentUtil.WHITE)));
+        }
+
         for (ItemStack item : player.getInventory().getContents()) {
             if (PrisonUtils.checkIsPrisonPickaxe(item)) PrisonPickaxe.updateLore(item);
         }

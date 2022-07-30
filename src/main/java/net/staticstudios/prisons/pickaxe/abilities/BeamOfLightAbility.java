@@ -1,16 +1,9 @@
 package net.staticstudios.prisons.pickaxe.abilities;
 
-import net.staticstudios.mines.StaticMine;
-import net.staticstudios.prisons.blockBroken.BlockBreak;
-import net.staticstudios.prisons.mineBombs.MineBomb;
-import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
 
 import java.math.BigInteger;
-import java.util.Map;
 
 public class BeamOfLightAbility extends BaseAbility { //todo
 
