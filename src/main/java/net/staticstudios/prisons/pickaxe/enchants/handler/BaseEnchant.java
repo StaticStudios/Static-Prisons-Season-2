@@ -38,6 +38,14 @@ public abstract class BaseEnchant implements Listener {
     public final String UNFORMATTED_DISPLAY_NAME;
     public final List<String> DESCRIPTION;
 
+    private EnchantTier[] tiers;
+    public EnchantTier getTier(int tier) {
+        return tiers[tier - 1];
+    }
+    public void setTiers(EnchantTier... tiers) {
+        this.tiers = tiers;
+    }
+
     private int pickaxeLevelRequirement;
     public int getPickaxeLevelRequirement() {
         return pickaxeLevelRequirement;

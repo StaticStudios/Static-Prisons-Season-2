@@ -53,10 +53,10 @@ public class EnchantMenus extends GUIUtils {
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.HASTE, c, Material.GOLDEN_PICKAXE, false),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.EXPLOSION, c, Material.TNT, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.JACK_HAMMER, c, Material.ANVIL, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.DOUBLE_JACK_HAMMER, c, Material.HOPPER, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.MULTI_DIRECTIONAL, c, Material.COMPARATOR, false),
+                createEnchantButton(playerData, pickaxe, PickaxeEnchants.EXPLOSION, c, Material.TNT, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.MERCHANT, c, Material.MAP, false),
                 createGrayPlaceHolder(),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.SPEED, c, Material.FEATHER, false),
@@ -122,13 +122,13 @@ public class EnchantMenus extends GUIUtils {
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.JACK_HAMMER, c, Material.ANVIL, true),
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.DOUBLE_JACK_HAMMER, c, Material.HOPPER, true),
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.MULTI_DIRECTIONAL, c, Material.COMPARATOR, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.MERCHANT, c, Material.MAP, true),
+                createEnchantSettingsButton(pickaxe, PickaxeEnchants.EGG_SHOOTER, c, Material.EGG, true),
                 createGrayPlaceHolder(),
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.SPEED, c, Material.FEATHER, true),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.CONSISTENCY, c, Material.EMERALD, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.EGG_SHOOTER, c, Material.EGG, true),
+                createEnchantSettingsButton(pickaxe, PickaxeEnchants.MERCHANT, c, Material.MAP, true),
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.AUTO_SELL, c, Material.GOLD_NUGGET, true),
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.XP_FINDER, c, Material.EXPERIENCE_BOTTLE, true),
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.BACKPACK_FINDER, c, Material.CHEST_MINECART, true),
@@ -159,20 +159,22 @@ public class EnchantMenus extends GUIUtils {
         desc.add("&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()));
         desc.add("");
         desc.add("&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.MAX_LEVEL));
-        if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel() || enchant.getPlayerLevelRequirement() > playerData.getPlayerLevel()) {
+        boolean locked = enchant.getPickaxeLevelRequirement() > pickaxe.getLevel() || enchant.getPlayerLevelRequirement() > playerData.getPlayerLevel();
+        if (locked) {
             desc.add("");
             if (enchant.getPlayerLevelRequirement() > playerData.getPlayerLevel()) desc.add("&cMinimum Player Level: &f" + enchant.getPlayerLevelRequirement());
             if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel()) desc.add("&cMinimum Pickaxe Level: &f" + enchant.getPickaxeLevelRequirement());
-            return c.createButton(icon, enchant.DISPLAY_NAME, desc, (p, t) -> {
+            return c.createButton(icon, "&c&l[Locked] " + enchant.DISPLAY_NAME, desc, (p, t) -> {
                 if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel()) p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYour pickaxe is not high enough level to unlock this enchant!"));
                 else p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not a high enough level to unlock this enchant!"));
             });
         }
+        String name = enchant.DISPLAY_NAME;
         if (!pickaxe.getIsEnchantEnabled(enchant)) {
             desc.add("");
-            desc.add("&c&oThis enchant has been disabled in the pickaxe's settings!");
+            name = "&c&l[Disabled] " + name;
         }
-        return c.createButton(icon, enchant.DISPLAY_NAME, desc, (p, t) -> {
+        return c.createButton(icon, name, desc, (p, t) -> {
             GUICreator _c = new GUICreator(9, enchant.DISPLAY_NAME);
             _c.setOnCloseRun((_p, _t) -> mainMenu(p, pickaxe));
             buildMenuContent(_c, p, enchant, pickaxe);

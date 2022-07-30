@@ -11,8 +11,7 @@ import java.math.BigInteger;
 public class BackpackFinderEnchant extends BaseEnchant { //todo: repurpose this enchant
     public BackpackFinderEnchant() {
         super("backpackFinder", "&6&lDuffle Bag", 10000, BigInteger.valueOf(500), "&7Chance to find an additional 1% to 4% of", "&7your backpack's max space while mining");
-        setPickaxeLevelRequirement(30);
-        setPlayerLevelRequirement(15);
+        setPickaxeLevelRequirement(25);
 
         setUseChances(true);
         setDefaultPercentChance(1d / MAX_LEVEL * 100);

@@ -21,7 +21,7 @@ import java.util.Map;
 public class MultiDirectionalEnchant extends BaseEnchant {
     public MultiDirectionalEnchant() {
         super("multiDirectional", "&a&lMulti-Directional", 15000, BigInteger.valueOf(500), "&7Chance to destroy a &l+&7 shape in a mine");
-        setPickaxeLevelRequirement(5);
+        setPickaxeLevelRequirement(31);
     }
 
     public void onBlockBreak(BlockBreak blockBreak) {

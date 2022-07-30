@@ -37,54 +37,76 @@ public class PrisonPickaxe implements SpreadOutExecution {
     public static final NamespacedKey PICKAXE_KEY = new NamespacedKey(StaticPrisons.getInstance(), "pickaxeUUID");
 
     private static Map<String, PrisonPickaxe> pickaxeUUIDToPrisonPickaxe = new HashMap<>();
+
+
     private static void addPickaxeToUpdateLore(PrisonPickaxe pickaxe) {
         if (pickaxe.item == null) return;
         pickaxe.queueExecution();
     }
 
     public static void init() {
-        pickaxeUUIDToPrisonPickaxe = new HashMap<>();
-        File dataFolder = new File(StaticPrisons.getInstance().getDataFolder(), "/data");
-        File pickaxeData = new File(dataFolder, "pickaxeData.yml");
-        if (!pickaxeData.exists()) return;
+        loadPickaxeData();
+        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new Listener(), StaticPrisons.getInstance());
+
+    }
+
+    public static void loadPickaxeData() {
+        pickaxeUUIDToPrisonPickaxe.clear();
+        File pickaxeData = new File(StaticPrisons.getInstance().getDataFolder(), "data/pickaxeData.yml");
         FileConfiguration ymlData = YamlConfiguration.loadConfiguration(pickaxeData);
+
+
         for (String key : ymlData.getKeys(false)) {
-            ConfigurationSection section = ymlData.getConfigurationSection(key);
+            ConfigurationSection pickaxeSection = ymlData.getConfigurationSection(key);
+            ConfigurationSection statsSection = pickaxeSection.getConfigurationSection("stats");
+            ConfigurationSection enchantsSection = pickaxeSection.getConfigurationSection("enchants");
+            ConfigurationSection abilitiesSection = pickaxeSection.getConfigurationSection("attributes");
+
+
             PrisonPickaxe pickaxe = new PrisonPickaxe(key);
-            pickaxe.disabledEnchants = new HashSet<>(section.getStringList("disabledEnchants"));
-            pickaxe.level = section.getLong("level");
-            pickaxe.xp = section.getLong("xp");
-            pickaxe.blocksBroken = section.getLong("blocksBroken");
-            pickaxe.rawBlocksBroken = section.getLong("rawBlocksBroken");
-            String name = section.getString("name");
+
+            //Stats
+            pickaxe.xp = statsSection.getInt("xp");
+            pickaxe.level = statsSection.getInt("level");
+            pickaxe.blocksBroken = statsSection.getInt("blocksBroken");
+            pickaxe.rawBlocksBroken = statsSection.getInt("rawBlocksBroken");
+            pickaxe.topLore = statsSection.getStringList("topLore");
+            pickaxe.bottomLore = statsSection.getStringList("bottomLore");
+            String name = statsSection.getString("name");
             if (name != null) {
                 pickaxe.name = name;
             }
             pickaxe.nameAsComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(pickaxe.name);
-            for (String _key : section.getKeys(false)) {
-                switch (_key) {
-                    case "level", "xp", "blocksBroken", "rawBlocksBroken", "topLore", "bottomLore", "name" -> { continue; }
-                    case "abilities" -> {
-                        for (String abilityKey : section.getConfigurationSection("abilities").getKeys(false)) {
-                            int level = section.getInt("abilities." + abilityKey);
-                            pickaxe.setAbilityLevel(abilityKey, level);
-                        }
-                        continue;
-                    }
-                    case "abilityCooldowns" -> {
-                        for (String abilityKey : section.getConfigurationSection("abilityCooldowns").getKeys(false)) {
-                            long cooldown = section.getLong("abilityCooldowns." + abilityKey);
-                            pickaxe.setLastActivatedAbilityAt(abilityKey, cooldown);
-                        }
-                        continue;
-                    }
+
+            //Enchants
+            for (String enchantKey : enchantsSection.getKeys(false)) {
+                ConfigurationSection enchantSection = enchantsSection.getConfigurationSection(enchantKey);
+                if (enchantSection == null) continue;
+                int lvl = enchantSection.getInt("lvl");
+                int tier = enchantSection.getInt("tier");
+                boolean enabled = enchantSection.getBoolean("enabled");
+                if (!enabled) {
+                    pickaxe.disabledEnchants.add(enchantKey);
                 }
-                pickaxe.setEnchantsLevel(_key, section.getInt(_key));
+
+                pickaxe.enchantLevels.put(enchantKey, lvl);
+                pickaxe.enchantTiers.put(enchantKey, tier);
             }
+
+            //Abilities
+            for (String abilitiesKey : abilitiesSection.getKeys(false)) {
+                ConfigurationSection attributeSection = abilitiesSection.getConfigurationSection(abilitiesKey);
+                if (attributeSection == null) continue;
+                int lvl = attributeSection.getInt("lvl");
+                long lastUsed = attributeSection.getLong("lastUsed");
+
+                pickaxe.abilityLevels.put(abilitiesKey, lvl);
+                pickaxe.lastActivatedAbilitiesAt.put(abilitiesKey, lastUsed);
+            }
+
+            //Don't update the lore
             SpreadOutExecutor.remove(pickaxe);
         }
-        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new Listener(), StaticPrisons.getInstance());
-
     }
 
     public static void savePickaxeData() {
@@ -98,34 +120,47 @@ public class PrisonPickaxe implements SpreadOutExecution {
         savePickaxeData(pickaxeUUIDToPrisonPickaxe);
     }
 
+
     private static void savePickaxeData(Map<String, PrisonPickaxe> pickaxeUUIDToPrisonPickaxe) {
         File dataFolder = new File(StaticPrisons.getInstance().getDataFolder(), "/data");
-        FileConfiguration ymlData = new YamlConfiguration();
+        FileConfiguration allData = new YamlConfiguration();
+
         for (String key : pickaxeUUIDToPrisonPickaxe.keySet()) {
-            ConfigurationSection section = ymlData.createSection(key);
+            ConfigurationSection pickaxeSection = allData.createSection(key);
+            ConfigurationSection statsSection = pickaxeSection.createSection("stats");
+            ConfigurationSection enchantsSection = pickaxeSection.createSection("enchants");
+            ConfigurationSection abilitiesSection = pickaxeSection.createSection("attributes");
+
+
             PrisonPickaxe pickaxe = pickaxeUUIDToPrisonPickaxe.get(key);
-            for (BaseEnchant enchant : pickaxe.getEnchants()) {
-                section.set(enchant.ENCHANT_ID, pickaxe.getEnchantLevel(enchant.ENCHANT_ID));
+
+            //Stats
+            statsSection.set("xp", pickaxe.xp);
+            statsSection.set("level", pickaxe.level);
+            statsSection.set("blocksBroken", pickaxe.blocksBroken);
+            statsSection.set("rawBlocksBroken", pickaxe.rawBlocksBroken);
+            statsSection.set("topLore", pickaxe.topLore);
+            statsSection.set("bottomLore", pickaxe.bottomLore);
+            statsSection.set("name", pickaxe.name);
+
+            //Enchants
+            for (String enchantKey : pickaxe.enchantLevels.keySet()) {
+                ConfigurationSection enchantSection = enchantsSection.createSection(enchantKey);
+                enchantSection.set("lvl", pickaxe.enchantLevels.get(enchantKey));
+                enchantSection.set("tier", pickaxe.enchantTiers.get(enchantKey));
+                enchantSection.set("enabled", !pickaxe.disabledEnchants.contains(enchantKey));
             }
-            ConfigurationSection abilities = section.createSection("abilities");
-            for (BaseAbility ability : pickaxe.getAbilities()) {
-                abilities.set(ability.ABILITY_ID, pickaxe.getAbilityLevel(ability.ABILITY_ID));
+
+            //Abilities
+            for (String abilityKey : pickaxe.abilityLevels.keySet()) {
+                ConfigurationSection abilitySection = abilitiesSection.createSection(abilityKey);
+                abilitySection.set("lvl", pickaxe.abilityLevels.get(abilityKey));
+                abilitySection.set("lastUsed", pickaxe.lastActivatedAbilitiesAt.get(abilityKey));
             }
-            ConfigurationSection abilityCooldowns = section.createSection("abilityCooldowns");
-            for (BaseAbility ability : pickaxe.getAbilities()) {
-                abilityCooldowns.set(ability.ABILITY_ID, pickaxe.getLastActivatedAbilityAt(ability.ABILITY_ID));
-            }
-            section.set("disabledEnchants", new ArrayList<>(pickaxe.disabledEnchants));
-            section.set("level", pickaxe.level);
-            section.set("xp", pickaxe.xp);
-            section.set("blocksBroken", pickaxe.blocksBroken);
-            section.set("rawBlocksBroken", pickaxe.rawBlocksBroken);
-            section.set("topLore", pickaxe.topLore);
-            section.set("bottomLore", pickaxe.bottomLore);
-            section.set("name", pickaxe.name);
+
         }
         try {
-            ymlData.save(new File(dataFolder, "pickaxeData.yml"));
+            allData.save(new File(dataFolder, "pickaxeData.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -149,6 +184,7 @@ public class PrisonPickaxe implements SpreadOutExecution {
     private final String pickaxeUUID;
     public ItemStack item = null;
     private Map<String, Integer> enchantLevels = new HashMap<>();
+    private Map<String, Integer> enchantTiers = new HashMap<>();
     private Map<String, Integer> abilityLevels = new HashMap<>();
     private Map<String, Long> lastActivatedAbilitiesAt = new HashMap<>();
     private Set<String> disabledEnchants = new HashSet<>();
@@ -190,6 +226,16 @@ public class PrisonPickaxe implements SpreadOutExecution {
     public int getEnchantLevel(String enchantID) {
         if (enchantLevels.containsKey(enchantID)) {
             return enchantLevels.get(enchantID);
+        }
+        return 0;
+    }
+
+    public int getEnchantTier(BaseEnchant enchant) {
+        return getEnchantTier(enchant.ENCHANT_ID);
+    }
+    public int getEnchantTier(String enchantID) {
+        if (enchantTiers.containsKey(enchantID)) {
+            return enchantTiers.get(enchantID);
         }
         return 0;
     }
@@ -339,7 +385,7 @@ public class PrisonPickaxe implements SpreadOutExecution {
     //BASE = 2500
     //ROI = 2.4
     //BASE * lvl + lvl * (ROI * lvl)^ROI
-    static long getLevelRequirement(long level) {
+    public static long getLevelRequirement(long level) {
         if (level <= 0) return 2500;
         return (long) (2500 * level + level * Math.pow(2.4 * level, 2.4));
     }

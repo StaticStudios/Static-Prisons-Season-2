@@ -13,7 +13,7 @@ import java.util.Map;
 public class ExplosionEnchant extends BaseEnchant {
     public ExplosionEnchant() {
         super("explosion", "&c&lExplosion", 5000, BigInteger.valueOf(450), "&7Change to explode part of a mine");
-        setPickaxeLevelRequirement(10);
+        setPickaxeLevelRequirement(31);
 
         setUseChances(true);
         setDefaultPercentChance(1d / 5000 * 100); //1 out of 5,000

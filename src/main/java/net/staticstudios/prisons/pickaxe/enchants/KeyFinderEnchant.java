@@ -12,7 +12,7 @@ import java.math.BigInteger;
 public class KeyFinderEnchant extends BaseEnchant {
     public KeyFinderEnchant() {
         super("keyFinder", "&d&lKey Finder", 5000, BigInteger.valueOf(400), "&7Find crate keys while mining");
-        setPickaxeLevelRequirement(25);
+        setPickaxeLevelRequirement(31);
 
         setUseChances(true);
         setDefaultPercentChance(1d / 10000 * 100); //1 out of 10,000

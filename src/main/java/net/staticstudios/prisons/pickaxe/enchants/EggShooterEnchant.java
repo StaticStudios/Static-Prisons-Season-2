@@ -30,7 +30,6 @@ public class EggShooterEnchant extends BaseEnchant {
     public EggShooterEnchant() {
         super("eggShooter", "&6&lEgg Shooter", 1000, BigInteger.valueOf(500), "&7Shoot explosive eggs while right-clicking");
         setPickaxeLevelRequirement(50);
-        setPlayerLevelRequirement(10);
     }
     public void whileRightClicking(Player player, PrisonPickaxe pickaxe) {
         if (!player.getWorld().equals(Constants.MINES_WORLD) && !player.getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD)) return;

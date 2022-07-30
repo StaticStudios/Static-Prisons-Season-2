@@ -206,29 +206,43 @@ public class TestCommand implements CommandExecutor {
 //        String texture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQzMTZhNjQwOTlkODk2ZjY2OWQwZjA4ODUyMDIxN2E4M2RlY2Q0YTNiNjdlNTdhZjg5YjMzZDIwYzMyMWYzNCJ9fX0=";
 //        player.getInventory().addItem(SkullCreator.itemFromBase64(texture));
 
-        player.getInventory().addItem(new MoneyLootBox(1).getItem());
-        player.getInventory().addItem(new MoneyLootBox(2).getItem());
-        player.getInventory().addItem(new MoneyLootBox(3).getItem());
-        player.getInventory().addItem(new MoneyLootBox(4).getItem());
-        player.getInventory().addItem(new MoneyLootBox(5).getItem());
+//        player.getInventory().addItem(new MoneyLootBox(1).getItem());
+//        player.getInventory().addItem(new MoneyLootBox(2).getItem());
+//        player.getInventory().addItem(new MoneyLootBox(3).getItem());
+//        player.getInventory().addItem(new MoneyLootBox(4).getItem());
+//        player.getInventory().addItem(new MoneyLootBox(5).getItem());
+//
+//
+//
+//        player.getInventory().addItem(new TokenLootBox(1).getItem());
+//        player.getInventory().addItem(new TokenLootBox(2).getItem());
+//        player.getInventory().addItem(new TokenLootBox(3).getItem());
+//        player.getInventory().addItem(new TokenLootBox(4).getItem());
+//        player.getInventory().addItem(new TokenLootBox(5).getItem());
+//        player.getInventory().addItem(new TokenLootBox(6).getItem());
+//        player.getInventory().addItem(new TokenLootBox(7).getItem());
+//        player.getInventory().addItem(new TokenLootBox(8).getItem());
+//        player.getInventory().addItem(new TokenLootBox(9).getItem());
+//        player.getInventory().addItem(new TokenLootBox(10).getItem());
 
 
-
-        player.getInventory().addItem(new TokenLootBox(1).getItem());
-        player.getInventory().addItem(new TokenLootBox(2).getItem());
-        player.getInventory().addItem(new TokenLootBox(3).getItem());
-        player.getInventory().addItem(new TokenLootBox(4).getItem());
-        player.getInventory().addItem(new TokenLootBox(5).getItem());
-        player.getInventory().addItem(new TokenLootBox(6).getItem());
-        player.getInventory().addItem(new TokenLootBox(7).getItem());
-        player.getInventory().addItem(new TokenLootBox(8).getItem());
-        player.getInventory().addItem(new TokenLootBox(9).getItem());
-        player.getInventory().addItem(new TokenLootBox(10).getItem());
-
+        System.out.println(calc(1_000_000) + " 500K");
+        System.out.println(calc(500_000) + " 250K");
+        System.out.println(calc(2_000_000) + " 1M");
+        System.out.println(calc(5_000_000) + " 2.5M");
+        System.out.println(calc(10_000_000) + " 5M");
+        System.out.println(calc(15_000_000) + " 7.5M");
         return false;
 
 
     }
+
+    static long calc(long xp) {
+        long level = 0;
+        while (xp >= PrisonPickaxe.getLevelRequirement(level)) level++;
+        return level;
+}
+
 
 
 

@@ -7,7 +7,6 @@ import java.math.BigInteger;
 public class MerchantEnchant extends BaseEnchant {
     public MerchantEnchant() {
         super("merchant", "&a&lMerchant", 5000, BigInteger.valueOf(500), "&7Permanent +400% sell multiplier at max level");
-        setPickaxeLevelRequirement(30);
-        setPlayerLevelRequirement(5);
+        setPickaxeLevelRequirement(25);
     }
 }

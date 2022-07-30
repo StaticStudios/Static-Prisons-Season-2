@@ -201,7 +201,7 @@ public class BlockBreak {
             }
 
             if (pickaxe != null) {
-                pickaxe.addXp((long) (2 * stats.getBlocksBroken() * stats.getXpMultiplier()));
+                pickaxe.addXp((long) (2 * stats.getRawBlockBroken() * stats.getXpMultiplier()));
                 pickaxe.addBlocksBroken(stats.getBlocksBroken());
                 pickaxe.addRawBlocksBroken(stats.getRawBlockBroken());
             }

@@ -9,7 +9,6 @@ import java.math.BigInteger;
 public class DoubleFortuneEnchant extends BaseEnchant {
     public DoubleFortuneEnchant() {
         super("doubleFortune", "&d&lOre Splitter", 1000, BigInteger.valueOf(5000), "&7Chance to get 2x blocks from fortune");
-        setPickaxeLevelRequirement(25);
 
         setUseChances(true);
         setDefaultPercentChance(0);

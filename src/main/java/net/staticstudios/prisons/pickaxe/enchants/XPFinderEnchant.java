@@ -9,7 +9,7 @@ import java.math.BigInteger;
 public class XPFinderEnchant extends BaseEnchant {
     public XPFinderEnchant() {
         super("xpFinder", "&a&lXP Finder", 1000, BigInteger.valueOf(1000), "&7Increase the chance to find XP whilst mining");
-        setPickaxeLevelRequirement(30);
+        setPickaxeLevelRequirement(999);
 
         setUseChances(true);
         setDefaultPercentChance(1d / 250 * 100); //1 out of 250

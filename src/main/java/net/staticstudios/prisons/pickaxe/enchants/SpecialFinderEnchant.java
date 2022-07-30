@@ -14,7 +14,7 @@ import java.math.BigInteger;
 public class SpecialFinderEnchant extends BaseEnchant {
     public SpecialFinderEnchant() {
         super("specialFinder", "&c&lMetal Detector", 5000, BigInteger.valueOf(400), "&7Find special items while mining");
-        setPickaxeLevelRequirement(25);
+        setPickaxeLevelRequirement(38);
 
         setUseChances(true);
         setDefaultPercentChance(1d / 10000 * 100); //1 out of 10,000
