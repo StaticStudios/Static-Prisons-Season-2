@@ -7,6 +7,7 @@ import net.staticstudios.prisons.mineBombs.MineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.privateMines.PrivateMine;
 import net.staticstudios.prisons.utils.Constants;
@@ -30,6 +31,21 @@ public class EggShooterEnchant extends BaseEnchant {
     public EggShooterEnchant() {
         super("eggShooter", "&6&lEgg Shooter", 1000, BigInteger.valueOf(500), "&7Shoot explosive eggs while right-clicking");
         setPickaxeLevelRequirement(50);
+
+        setTiers(
+                new EnchantTier(50, 0),
+                new EnchantTier(100, 1),
+                new EnchantTier(150, 2),
+                new EnchantTier(200, 3),
+                new EnchantTier(300, 4),
+                new EnchantTier(400, 5),
+                new EnchantTier(500, 6),
+                new EnchantTier(600, 7),
+                new EnchantTier(700, 8),
+                new EnchantTier(800, 9),
+                new EnchantTier(900, 10),
+                new EnchantTier(1000, 11)
+        );
     }
     public void whileRightClicking(Player player, PrisonPickaxe pickaxe) {
         if (!player.getWorld().equals(Constants.MINES_WORLD) && !player.getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD)) return;

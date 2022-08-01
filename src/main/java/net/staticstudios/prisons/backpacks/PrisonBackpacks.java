@@ -37,6 +37,7 @@ public class PrisonBackpacks {
     }
 
     public static void addToBackpacks(Player player, Map<MineBlock, Long> whatToAdd) {
+        whatToAdd.remove(null);
         final Map<MineBlock, Long> initialThingsToAdd = new HashMap<>(whatToAdd);
         for (PrisonBackpack backpack : getPlayerBackpacks(player)) {
             whatToAdd = backpack.addToBackpack(whatToAdd);

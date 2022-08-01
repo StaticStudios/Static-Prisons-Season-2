@@ -48,22 +48,22 @@ public class EnchantMenus extends GUIUtils {
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.DOUBLE_FORTUNE, c, Material.AMETHYST_SHARD, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.TOKENATOR, c, Material.SUNFLOWER, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.KEY_FINDER, c, Material.TRIPWIRE_HOOK, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.METAL_DETECTOR, c, Material.RAW_GOLD, false),
+                createEnchantButton(playerData, pickaxe, PickaxeEnchants.METAL_DETECTOR, c, Material.FLINT_AND_STEEL, false),
                 createGrayPlaceHolder(),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.HASTE, c, Material.GOLDEN_PICKAXE, false),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
+                createEnchantButton(playerData, pickaxe, PickaxeEnchants.EXPLOSION, c, Material.TNT, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.JACK_HAMMER, c, Material.ANVIL, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.DOUBLE_JACK_HAMMER, c, Material.HOPPER, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.MULTI_DIRECTIONAL, c, Material.COMPARATOR, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.EXPLOSION, c, Material.TNT, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.MERCHANT, c, Material.MAP, false),
+                createEnchantButton(playerData, pickaxe, PickaxeEnchants.EGG_SHOOTER, c, Material.EGG, false),
                 createGrayPlaceHolder(),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.SPEED, c, Material.FEATHER, false),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.CONSISTENCY, c, Material.EMERALD, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.EGG_SHOOTER, c, Material.EGG, false),
+                createEnchantButton(playerData, pickaxe, PickaxeEnchants.MERCHANT, c, Material.MAP, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.AUTO_SELL, c, Material.GOLD_NUGGET, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.XP_FINDER, c, Material.EXPERIENCE_BOTTLE, false),
                 createEnchantButton(playerData, pickaxe, PickaxeEnchants.BACKPACK_FINDER, c, Material.CHEST_MINECART, false),
@@ -90,7 +90,7 @@ public class EnchantMenus extends GUIUtils {
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
-                c.createButton(Material.SUNFLOWER, "&d&lYour Prestige Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()), List.of())
+                c.createButton(Material.AMETHYST_CLUSTER, "&d&lYour Prestige Tokens: &f" + PrisonUtils.prettyNum(playerData.getPrestigeTokens()), List.of())
         );
         c.open(player);
         c.setOnCloseRun((p, t) -> PickaxeMenus.open(p, pickaxe));
@@ -113,7 +113,7 @@ public class EnchantMenus extends GUIUtils {
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.DOUBLE_FORTUNE, c, Material.AMETHYST_SHARD, true),
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.TOKENATOR, c, Material.SUNFLOWER, true),
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.KEY_FINDER, c, Material.TRIPWIRE_HOOK, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.METAL_DETECTOR, c, Material.RAW_GOLD, true),
+                createEnchantSettingsButton(pickaxe, PickaxeEnchants.METAL_DETECTOR, c, Material.FLINT_AND_STEEL, true),
                 createGrayPlaceHolder(),
                 createEnchantSettingsButton(pickaxe, PickaxeEnchants.HASTE, c, Material.GOLDEN_PICKAXE, true),
                 createGrayPlaceHolder(),
@@ -277,8 +277,8 @@ public class EnchantMenus extends GUIUtils {
                     "",
                     "&eCurrent Tier: &f" + pickaxe.getEnchantTier(enchant),
                     "&eNext Tier: &f" + (pickaxe.getEnchantTier(enchant) + 1),
-                    "&eUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.getTier(pickaxe.getEnchantTier(enchant) + 1).prestigeTokensRequired()) + " Prestige Token(s)",
-                    "&eYour Prestige Tokens: &f" + PrisonUtils.prettyNum(playerData.getPrestigeTokens()) + " Prestige Token(s)"
+                    "&eUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.getTier(pickaxe.getEnchantTier(enchant) + 1).prestigeTokensRequired()) + " Prestige Tokens",
+                    "&eYour Prestige Tokens: &f" + PrisonUtils.prettyNum(playerData.getPrestigeTokens())
             ), (p, t) -> {
                 if (playerData.getPrestigeTokens() >= enchant.getTier(pickaxe.getEnchantTier(enchant) + 1).prestigeTokensRequired()) {
                     playerData.removePrestigeTokens(enchant.getTier(pickaxe.getEnchantTier(enchant) + 1).prestigeTokensRequired());

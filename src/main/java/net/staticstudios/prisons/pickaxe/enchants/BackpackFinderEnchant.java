@@ -11,6 +11,7 @@ public class BackpackFinderEnchant extends BaseEnchant { //todo: repurpose this 
         super("backpackFinder", "&6&lDuffle Bag", 10000, BigInteger.valueOf(500), "&7Chance to find an additional 1% to 4% of", "&7your backpack's max space while mining");
         setPickaxeLevelRequirement(25);
 
+        setPickaxeLevelRequirement(999); //TODO: TEMP
         setUseChances(true);
         setDefaultPercentChance(1d / MAX_LEVEL * 100);
     }
