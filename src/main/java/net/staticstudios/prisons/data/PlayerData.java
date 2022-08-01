@@ -1,7 +1,9 @@
 package net.staticstudios.prisons.data;
 
 
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.data.dataHandling.DataSet;
 import net.staticstudios.prisons.data.dataHandling.DataTypes;
@@ -17,6 +19,7 @@ import java.math.BigInteger;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class PlayerData extends DataSet {
@@ -496,12 +499,14 @@ public class PlayerData extends DataSet {
         setString("chatTag2", value);
         return this;
     }
-    public String getChatTag1() {
+    public String getChatTag1(){
         return getString("chatTag1");
     }
     public String getChatTag2() {
         return getString("chatTag2");
     }
+
+
     //Settings
     public boolean getIsAutoSellEnabled() {
         boolean value = getBoolean("autoSell");
@@ -582,14 +587,23 @@ public class PlayerData extends DataSet {
         setBoolean("chatUnderlined", value);
         return this;
     }
-    public ChatColor getChatColor() {
+    public TextColor getChatColor() {
         String str = getString("chatColor");
-        if (str.isEmpty()) return ChatColor.WHITE;
-        if (str.length() < 6) return ChatColor.getByChar(str.toCharArray()[0]);
-        return ChatColor.of(str);
+        if (str.isEmpty()) return NamedTextColor.WHITE;
+        if (str.length() < 6) return NamedTextColor.WHITE;
+        return TextColor.fromHexString(str);
     }
-    public PlayerData setChatColor(ChatColor value) {
-        setString("chatColor", value.toString().replace("§", "").replace('x', '#'));
+
+    public Map<TextDecoration, TextDecoration.State> getChatDecorations() {
+        return Map.ofEntries(
+                Map.entry(TextDecoration.BOLD, getIsChatBold() ? TextDecoration.State.TRUE : TextDecoration.State.FALSE),
+                Map.entry(TextDecoration.ITALIC, getIsChatItalic() ? TextDecoration.State.TRUE : TextDecoration.State.FALSE),
+                Map.entry(TextDecoration.UNDERLINED, getIsChatUnderlined() ? TextDecoration.State.TRUE : TextDecoration.State.FALSE)
+        );
+    }
+
+    public PlayerData setChatColor(TextColor value) {
+        setString("chatColor", value.asHexString());
         return this;
     }
     public boolean getIsChatColorEnabled() {

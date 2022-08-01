@@ -1,15 +1,15 @@
 package net.staticstudios.prisons.utils;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 import net.staticstudios.prisons.chat.CustomChatMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
 public class Events implements Listener {
     @EventHandler
-    void onChat(AsyncPlayerChatEvent e) {
+    void onChat(AsyncChatEvent e) {
         new CustomChatMessage(e).sendFormatted();
 //        ChatEvents.chatMessageReceived(e);
     }

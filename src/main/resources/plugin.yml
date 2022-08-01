@@ -288,3 +288,8 @@ commands:
   vanish:
     description: a
     permission: static.vanish
+  advancednickname:
+    description: a
+    permission: static.staff.*
+    aliases:
+      - adminnick

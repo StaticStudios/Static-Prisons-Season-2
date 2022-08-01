@@ -1,10 +1,13 @@
 package net.staticstudios.prisons.commands.test;
 
+import net.staticstudios.prisons.reclaim.PackageHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
 
 public class Test2Command implements CommandExecutor {
     @Override
@@ -27,6 +30,7 @@ public class Test2Command implements CommandExecutor {
 //        GamblingMenus.openMain(player);
 //        DataBackup.init();
 
+        PackageHandler.claimPackage(UUID.fromString("35afaa60-6792-455d-b30c-ed89fba9d157"), "staticpPackage", strings);
         return false;
     }
 }

@@ -1,5 +1,9 @@
 package net.staticstudios.prisons.gui;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
@@ -8,7 +12,9 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SettingsMenus extends GUIUtils {
 
@@ -75,46 +81,42 @@ public class SettingsMenus extends GUIUtils {
         GUICreator c = new GUICreator(9, "Chat Settings");
         PlayerData playerData = new PlayerData(player);
 
-        String currentChat = "This is what your chat currently looks like";
-        if (playerData.getIsChatItalic()) currentChat = ChatColor.ITALIC + currentChat;
-        if (playerData.getIsChatBold()) currentChat = ChatColor.BOLD + currentChat;
-        if (playerData.getIsChatUnderlined()) currentChat = ChatColor.UNDERLINE + currentChat;
-        currentChat = playerData.getChatColor() + currentChat;
+        Component currentChat = getCurrentChat(playerData);
 
 
-        String boldToggle = "&cClick to toggle off";
-        if (!playerData.getIsChatBold()) boldToggle = "&aClick to toggle on";
-        String italicToggle = "&cClick to toggle off";
-        if (!playerData.getIsChatItalic()) italicToggle = "&aClick to toggle on";
-        String underlineToggle = "&cClick to toggle off";
-        if (!playerData.getIsChatUnderlined()) underlineToggle = "&aClick to toggle on";
+        Component boldToggle = Component.text( "Click to toggle off").color(NamedTextColor.RED);
+        if (!playerData.getIsChatBold()) boldToggle = Component.text("Click to toggle on").color(NamedTextColor.GREEN);
+        Component italicToggle = Component.text( "Click to toggle off").color(NamedTextColor.RED);
+        if (!playerData.getIsChatItalic()) italicToggle = Component.text("Click to toggle on").color(NamedTextColor.GREEN);
+        Component underlineToggle = Component.text( "Click to toggle off").color(NamedTextColor.RED);
+        if (!playerData.getIsChatUnderlined()) underlineToggle = Component.text("Click to toggle on").color(NamedTextColor.GREEN);
 
-        c.setItem(1, c.createButton(Material.ORANGE_DYE, "&6Color", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+        c.setItem(1, c.createButton(Material.ORANGE_DYE, Component.text("Color").color(NamedTextColor.GOLD), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
             if (!playerData.getPlayerRanks().contains("warrior")) {
-                p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                 return;
             }
             openChatColorSettings(p, fromCommand);
         }));
-        c.setItem(3, c.createButton(Material.GLOW_INK_SAC, "&3&lBold", List.of("&oMake your chat bold!", boldToggle, "", currentChat), (p, t) -> {
+        c.setItem(3, c.createButton(Material.GLOW_INK_SAC, Component.text("Bold").color(NamedTextColor.DARK_AQUA).decorate(TextDecoration.BOLD), List.of(Component.text("Make your chat bold!").decorate(TextDecoration.ITALIC), boldToggle, Component.empty(), currentChat), (p, t) -> {
             if (!playerData.getPlayerRanks().contains("mythic")) {
-                p.sendMessage(ChatColor.RED + "This action requires Mythic rank!");
+                p.sendMessage(Component.text("This action requires Mythic rank!").color(NamedTextColor.RED));
                 return;
             }
             playerData.setIsChatBold(!playerData.getIsChatBold());
             openChatSettings(p, fromCommand);
         }));
-        c.setItem(5, c.createButton(Material.SPECTRAL_ARROW, "&e&oItalic", List.of("&oMake your chat italic!", italicToggle, "", currentChat), (p, t) -> {
+        c.setItem(5, c.createButton(Material.SPECTRAL_ARROW, Component.text("Italic").color(NamedTextColor.YELLOW).decoration(TextDecoration.ITALIC, true), List.of(Component.text("Make your chat italic!").decorate(TextDecoration.ITALIC), italicToggle, Component.empty(), currentChat), (p, t) -> {
             if (!playerData.getPlayerRanks().contains("mythic")) {
-                p.sendMessage(ChatColor.RED + "This action requires Mythic rank!");
+                p.sendMessage(Component.text("This action requires Mythic rank!").color(NamedTextColor.RED));
                 return;
             }
             playerData.setIsChatItalic(!playerData.getIsChatItalic());
             openChatSettings(p, fromCommand);
         }));
-        c.setItem(7, c.createButton(Material.IRON_TRAPDOOR, "&f&nUnderline", List.of("&oMake your chat underlined!", underlineToggle, "", currentChat), (p, t) -> {
+        c.setItem(7, c.createButton(Material.IRON_TRAPDOOR, Component.text("Underline").decorate(TextDecoration.UNDERLINED), List.of(Component.text("Make your chat underlined!").decorate(TextDecoration.ITALIC), underlineToggle, Component.empty(), currentChat), (p, t) -> {
             if (!playerData.getPlayerRanks().contains("mythic")) {
-                p.sendMessage(ChatColor.RED + "This action requires Mythic rank!");
+                p.sendMessage(Component.text("This action requires Mythic rank!").color(NamedTextColor.RED));
                 return;
             }
             playerData.setIsChatUnderlined(!playerData.getIsChatUnderlined());
@@ -123,213 +125,215 @@ public class SettingsMenus extends GUIUtils {
 
         c.fill(createGrayPlaceHolder());
         c.open(player);
-        c.setOnCloseRun((p, t) -> {
-            open(p, fromCommand);
-        });
+        c.setOnCloseRun((p, t) -> open(p, fromCommand));
     }
-    static final ChatColor[] CUSTOM_COLORS = new ChatColor[]{
-            ChatColor.of("#8945ff"), //Twitch Purple
-            ChatColor.of("#d452ff"), //Pink
-            ChatColor.of("#ff8c00"), //Orange
-            ChatColor.of("#61b8ff"), //Baby blue
-            ChatColor.of("#00bd5a"), //Light-Forest Green
-            ChatColor.of("#0ffc03"), //Lime Green
-            ChatColor.of("#ff0000"), //Red
+    static final TextColor[] CUSTOM_COLORS = new TextColor[]{
+            TextColor.fromHexString("#8945ff"), //Twitch Purple
+            TextColor.fromHexString("#d452ff"), //Pink
+            TextColor.fromHexString("#ff8c00"), //Orange
+            TextColor.fromHexString("#61b8ff"), //Baby blue
+            TextColor.fromHexString("#00bd5a"), //Light-Forest Green
+            TextColor.fromHexString("#0ffc03"), //Lime Green
+            TextColor.fromHexString("#ff0000"), //Red
     };
+
     public static void openChatColorSettings(Player player, boolean fromCommand) {
         GUICreator c = new GUICreator(27, "Chat Color");
         PlayerData playerData = new PlayerData(player);
 
-        String chatFormat = "";
-        if (playerData.getIsChatItalic()) chatFormat = ChatColor.ITALIC + chatFormat;
-        if (playerData.getIsChatBold()) chatFormat = ChatColor.BOLD + chatFormat;
-        if (playerData.getIsChatUnderlined()) chatFormat = ChatColor.UNDERLINE + chatFormat;
-        String currentChat = playerData.getChatColor() + chatFormat + "This is what your chat currently looks like";
+        Component chatFormat = Component.empty();
+
+        Map<TextDecoration, TextDecoration.State> decorationStates = new HashMap<>();
+        decorationStates.put(TextDecoration.BOLD, playerData.getIsChatBold() ? TextDecoration.State.TRUE : TextDecoration.State.FALSE);
+        decorationStates.put(TextDecoration.ITALIC, playerData.getIsChatItalic() ? TextDecoration.State.TRUE : TextDecoration.State.FALSE);
+        decorationStates.put(TextDecoration.UNDERLINED, playerData.getIsChatUnderlined() ? TextDecoration.State.TRUE : TextDecoration.State.FALSE);
+
+        Component currentChat = Component.text("This is what your chat currently looks like").color(playerData.getChatColor()).decorations(decorationStates);
 
         c.setItems(
-                c.createButton(Material.WHITE_DYE, ChatColor.WHITE + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                c.createButton(Material.WHITE_DYE, Component.text("Make your chat look like this").color(NamedTextColor.WHITE).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
-                    playerData.setChatColor(ChatColor.WHITE);
+                    playerData.setChatColor(NamedTextColor.WHITE);
                     openChatSettings(p, fromCommand);
                 }),
-                c.createButton(Material.LIGHT_GRAY_DYE, ChatColor.GRAY + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                c.createButton(Material.LIGHT_GRAY_DYE, Component.text("Make your chat look like this").color(NamedTextColor.GRAY).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
-                    playerData.setChatColor(ChatColor.GRAY);
+                    playerData.setChatColor(NamedTextColor.GRAY);
                     openChatSettings(p, fromCommand);
                 }),
-                c.createButton(Material.GRAY_DYE, ChatColor.DARK_GRAY + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                c.createButton(Material.GRAY_DYE, Component.text("Make your chat look like this").color(NamedTextColor.DARK_GRAY).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
-                    playerData.setChatColor(ChatColor.DARK_GRAY);
+                    playerData.setChatColor(NamedTextColor.DARK_GRAY);
                     openChatSettings(p, fromCommand);
                 }),
 
-                c.createButton(Material.BLACK_DYE, ChatColor.BLACK + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                c.createButton(Material.BLACK_DYE, Component.text("Make your chat look like this").color(NamedTextColor.BLACK).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
-                    playerData.setChatColor(ChatColor.BLACK);
+                    playerData.setChatColor(NamedTextColor.BLACK);
                     openChatSettings(p, fromCommand);
                 }),
-                c.createButton(Material.YELLOW_DYE, ChatColor.YELLOW + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                c.createButton(Material.YELLOW_DYE, Component.text("Make your chat look like this").color(NamedTextColor.YELLOW).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
-                    playerData.setChatColor(ChatColor.YELLOW);
+                    playerData.setChatColor(NamedTextColor.YELLOW);
                     openChatSettings(p, fromCommand);
                 }),
-                c.createButton(Material.ORANGE_DYE, ChatColor.GOLD + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                c.createButton(Material.ORANGE_DYE, Component.text("Make your chat look like this").color(NamedTextColor.GOLD).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
-                    playerData.setChatColor(ChatColor.GOLD);
+                    playerData.setChatColor(NamedTextColor.GOLD);
                     openChatSettings(p, fromCommand);
                 }),
-                c.createButton(Material.RED_DYE, ChatColor.RED + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                c.createButton(Material.RED_DYE, Component.text("Make your chat look like this").color(NamedTextColor.RED).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
-                    playerData.setChatColor(ChatColor.RED);
+                    playerData.setChatColor(NamedTextColor.RED);
                     openChatSettings(p, fromCommand);
                 }),
-                c.createButton(Material.REDSTONE, ChatColor.DARK_RED + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                c.createButton(Material.REDSTONE, Component.text("Make your chat look like this").color(NamedTextColor.DARK_RED).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
-                    playerData.setChatColor(ChatColor.DARK_RED);
+                    playerData.setChatColor(NamedTextColor.DARK_RED);
                     openChatSettings(p, fromCommand);
                 }),
-                c.createButton(Material.LIGHT_BLUE_DYE, ChatColor.AQUA + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                c.createButton(Material.LIGHT_BLUE_DYE, Component.text("Make your chat look like this").color(NamedTextColor.AQUA).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
-                    playerData.setChatColor(ChatColor.AQUA);
-                    openChatSettings(p, fromCommand);
-                }),
-                createBlackPlaceHolder(),
-                c.createButton(Material.CYAN_DYE, ChatColor.DARK_AQUA + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
-                    if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
-                        return;
-                    }
-                    playerData.setChatColor(ChatColor.DARK_AQUA);
-                    openChatSettings(p, fromCommand);
-                }),
-                c.createButton(Material.BLUE_DYE, ChatColor.BLUE + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
-                    if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
-                        return;
-                    }
-                    playerData.setChatColor(ChatColor.BLUE);
-                    openChatSettings(p, fromCommand);
-                }),
-                c.createButton(Material.LAPIS_LAZULI, ChatColor.DARK_BLUE + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
-                    if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
-                        return;
-                    }
-                    playerData.setChatColor(ChatColor.DARK_BLUE);
-                    openChatSettings(p, fromCommand);
-                }),
-                c.createButton(Material.LIME_DYE, ChatColor.GREEN + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
-                    if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
-                        return;
-                    }
-                    playerData.setChatColor(ChatColor.GREEN);
-                    openChatSettings(p, fromCommand);
-                }),
-                c.createButton(Material.GREEN_DYE, ChatColor.DARK_GREEN + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
-                    if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
-                        return;
-                    }
-                    playerData.setChatColor(ChatColor.DARK_GREEN);
-                    openChatSettings(p, fromCommand);
-                }),
-                c.createButton(Material.PINK_DYE, ChatColor.LIGHT_PURPLE + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
-                    if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
-                        return;
-                    }
-                    playerData.setChatColor(ChatColor.LIGHT_PURPLE);
-                    openChatSettings(p, fromCommand);
-                }),
-                c.createButton(Material.PURPLE_DYE, ChatColor.DARK_PURPLE + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
-                    if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
-                        return;
-                    }
-                    playerData.setChatColor(ChatColor.DARK_PURPLE);
+                    playerData.setChatColor(NamedTextColor.AQUA);
                     openChatSettings(p, fromCommand);
                 }),
                 createBlackPlaceHolder(),
-                createBlackPlaceHolder(),
-                ench(c.createButton(Material.PAPER, CUSTOM_COLORS[0] + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                c.createButton(Material.CYAN_DYE, Component.text("Make your chat look like this").color(NamedTextColor.DARK_AQUA).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
+                        return;
+                    }
+                    playerData.setChatColor(NamedTextColor.DARK_AQUA);
+                    openChatSettings(p, fromCommand);
+                }),
+                c.createButton(Material.BLUE_DYE, Component.text("Make your chat look like this").color(NamedTextColor.BLUE).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
+                    if (!playerData.getPlayerRanks().contains("warrior")) {
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
+                        return;
+                    }
+                    playerData.setChatColor(NamedTextColor.BLUE);
+                    openChatSettings(p, fromCommand);
+                }),
+                c.createButton(Material.LAPIS_LAZULI, Component.text("Make your chat look like this").color(NamedTextColor.DARK_BLUE).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
+                    if (!playerData.getPlayerRanks().contains("warrior")) {
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
+                        return;
+                    }
+                    playerData.setChatColor(NamedTextColor.DARK_BLUE);
+                    openChatSettings(p, fromCommand);
+                }),
+                c.createButton(Material.LIME_DYE, Component.text("Make your chat look like this").color(NamedTextColor.GREEN).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
+                    if (!playerData.getPlayerRanks().contains("warrior")) {
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
+                        return;
+                    }
+                    playerData.setChatColor(NamedTextColor.GREEN);
+                    openChatSettings(p, fromCommand);
+                }),
+                c.createButton(Material.GREEN_DYE, Component.text("Make your chat look like this").color(NamedTextColor.DARK_GREEN).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
+                    if (!playerData.getPlayerRanks().contains("warrior")) {
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
+                        return;
+                    }
+                    playerData.setChatColor(NamedTextColor.DARK_GREEN);
+                    openChatSettings(p, fromCommand);
+                }),
+                c.createButton(Material.PINK_DYE, Component.text("Make your chat look like this").color(NamedTextColor.LIGHT_PURPLE).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
+                    if (!playerData.getPlayerRanks().contains("warrior")) {
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
+                        return;
+                    }
+                    playerData.setChatColor(NamedTextColor.LIGHT_PURPLE);
+                    openChatSettings(p, fromCommand);
+                }),
+                c.createButton(Material.PURPLE_DYE, Component.text("Make your chat look like this").color(NamedTextColor.DARK_PURPLE).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
+                    if (!playerData.getPlayerRanks().contains("warrior")) {
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
+                        return;
+                    }
+                    playerData.setChatColor(NamedTextColor.DARK_PURPLE);
+                    openChatSettings(p, fromCommand);
+                }),
+                createBlackPlaceHolder(),
+                createBlackPlaceHolder(),
+                ench(c.createButton(Material.PAPER, Component.text("Make your chat look like this").color(CUSTOM_COLORS[0]).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
+                    if (!playerData.getPlayerRanks().contains("warrior")) {
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
                     playerData.setChatColor(CUSTOM_COLORS[0]);
                     openChatSettings(p, fromCommand);
                 })),
-                ench(c.createButton(Material.PAPER, CUSTOM_COLORS[1] + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                ench(c.createButton(Material.PAPER, Component.text("Make your chat look like this").color(CUSTOM_COLORS[1]).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
                     playerData.setChatColor(CUSTOM_COLORS[1]);
                     openChatSettings(p, fromCommand);
                 })),
-                ench(c.createButton(Material.PAPER, CUSTOM_COLORS[2] + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                ench(c.createButton(Material.PAPER, Component.text("Make your chat look like this").color(CUSTOM_COLORS[2]).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
                     playerData.setChatColor(CUSTOM_COLORS[2]);
                     openChatSettings(p, fromCommand);
                 })),
-                ench(c.createButton(Material.PAPER, CUSTOM_COLORS[3] + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                ench(c.createButton(Material.PAPER, Component.text("Make your chat look like this").color(CUSTOM_COLORS[3]).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
                     playerData.setChatColor(CUSTOM_COLORS[3]);
                     openChatSettings(p, fromCommand);
                 })),
-                ench(c.createButton(Material.PAPER, CUSTOM_COLORS[4] + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                ench(c.createButton(Material.PAPER, Component.text("Make your chat look like this").color(CUSTOM_COLORS[4]).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
                     playerData.setChatColor(CUSTOM_COLORS[4]);
                     openChatSettings(p, fromCommand);
                 })),
-                ench(c.createButton(Material.PAPER, CUSTOM_COLORS[5] + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                ench(c.createButton(Material.PAPER, Component.text("Make your chat look like this").color(CUSTOM_COLORS[5]).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
                     playerData.setChatColor(CUSTOM_COLORS[5]);
                     openChatSettings(p, fromCommand);
                 })),
-                ench(c.createButton(Material.PAPER, CUSTOM_COLORS[6] + chatFormat + "Make your chat look like this", List.of("&oChange your chat color!", "", currentChat), (p, t) -> {
+                ench(c.createButton(Material.PAPER, Component.text("Make your chat look like this").color(CUSTOM_COLORS[6]).append(chatFormat), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) {
-                        p.sendMessage(ChatColor.RED + "This action requires Warrior rank!");
+                        p.sendMessage(Component.text("This action requires Warrior rank!").color(NamedTextColor.RED));
                         return;
                     }
                     playerData.setChatColor(CUSTOM_COLORS[6]);
@@ -382,5 +386,15 @@ public class SettingsMenus extends GUIUtils {
         c.fill(createGrayPlaceHolder());
         c.open(player);
         c.setOnCloseRun((p, t) -> open(p, fromCommand));
+    }
+
+    private static Component getCurrentChat(PlayerData playerData) {
+        Component currentChat = Component.text("This is what your chat currently looks like").decoration(TextDecoration.ITALIC, false);
+        if (playerData.getIsChatItalic()) currentChat = currentChat.decorate(TextDecoration.ITALIC);
+        if (playerData.getIsChatBold()) currentChat = currentChat.decorate(TextDecoration.BOLD);
+        if (playerData.getIsChatUnderlined()) currentChat = currentChat.decorate(TextDecoration.UNDERLINED);
+        currentChat = currentChat.color(playerData.getChatColor());
+
+        return currentChat;
     }
 }

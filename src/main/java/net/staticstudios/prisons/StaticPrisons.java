@@ -7,14 +7,18 @@ import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.UI.tablist.TabList;
+import net.staticstudios.prisons.UI.tablist.TeamPrefix;
 import net.staticstudios.prisons.auctionHouse.AuctionManager;
 import net.staticstudios.prisons.backpacks.BackpackCommand;
 import net.staticstudios.prisons.backpacks.PrisonBackpack;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.cells.IslandCommand;
+import net.staticstudios.prisons.chat.ChatTags;
+import net.staticstudios.prisons.chat.NickColors;
 import net.staticstudios.prisons.chat.events.ChatEvents;
 import net.staticstudios.prisons.commands.admin.AdminManager;
+import net.staticstudios.prisons.commands.admin.AdvancedNicknameCommand;
 import net.staticstudios.prisons.commands.normal.*;
 import net.staticstudios.prisons.commands.test.Test2Command;
 import net.staticstudios.prisons.commands.test.TestCommand;
@@ -124,6 +128,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(KingOfTheHillManager::init);
         safe(PrisonBackpack::init);
         safe(AdminManager::init);
+        safe(ChatTags::init);
+        safe(TeamPrefix::init);
+        safe(NickColors::init);
 
         StaticGUI.enable(this);
 
@@ -213,6 +220,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("gang").setExecutor(new GangCommand());
         getCommand("pvp").setExecutor(new PvPCommand());
         getCommand("rewards").setExecutor(new RewardsCommand());
+        getCommand("advancednickname").setExecutor(new AdvancedNicknameCommand());
         //Register Events
         getServer().getPluginManager().registerEvents(new EventListener(), plugin);
         getServer().getPluginManager().registerEvents(new Events(), plugin);

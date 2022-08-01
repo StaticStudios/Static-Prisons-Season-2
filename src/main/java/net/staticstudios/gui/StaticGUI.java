@@ -1,5 +1,8 @@
 package net.staticstudios.gui;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -139,11 +142,7 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
         listeners.put(runnableUUID, listener);
     }
 
-
-
-
-
-
+    @Deprecated
     public ItemStack createButton(Material icon, String name, List<String> lore) {
         if (lore != null) lore = new ArrayList<>(lore); //Some lists are immutable
         ItemStack itemStack = new ItemStack(icon);
@@ -159,6 +158,22 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
         return itemStack;
     }
 
+    public ItemStack createButton(Material icon, Component name, List<Component> lore) {
+        if (lore != null) lore = new ArrayList<>(lore); //Some lists are immutable
+        ItemStack itemStack = new ItemStack(icon);
+        ItemMeta meta = itemStack.getItemMeta();
+
+        meta.displayName(name.decoration(TextDecoration.ITALIC, PlainTextComponentSerializer.plainText().serialize(name).toLowerCase().contains("italic")));
+
+        if (lore != null) {
+            meta.lore(lore);
+        }
+
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemStack.setItemMeta(meta);
+        return itemStack;
+    }
+
     public ItemStack createButton(ItemStack item, GUIRunnable callback) {
         applyCallbackToItem(item, callback);
         return item;
@@ -167,7 +182,16 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
         applyAdditionalListener(item, listener);
         return item;
     }
+
+    @Deprecated
     public ItemStack createButton(Material icon, String name, List<String> lore, GUIRunnable callback) {
+        if (lore != null) lore = new ArrayList<>(lore); //Some lists are immutable
+        ItemStack itemStack = createButton(icon, name, lore);
+        applyCallbackToItem(itemStack, callback);
+        return itemStack;
+    }
+
+    public ItemStack createButton(Material icon, Component name, List<Component> lore, GUIRunnable callback) {
         if (lore != null) lore = new ArrayList<>(lore); //Some lists are immutable
         ItemStack itemStack = createButton(icon, name, lore);
         applyCallbackToItem(itemStack, callback);

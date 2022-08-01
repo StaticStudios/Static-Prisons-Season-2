@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
+import net.kyori.adventure.text.Component;
 import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.chat.ChatTags;
 import net.staticstudios.prisons.data.PlayerData;
@@ -27,7 +28,7 @@ public class RemovePlayerChatTagCommand implements CommandExecutor, TabCompleter
             sender.sendMessage(ChatColor.RED + "Player not found!");
             return false;
         }
-        if (ChatTags.getFromID(args[1]).equals("")) {
+        if (ChatTags.getFromID(args[1]).equals(Component.empty())) {
             sender.sendMessage(ChatColor.RED + "A chat tag with that ID does not exist!");
             return false;
         }
@@ -39,7 +40,7 @@ public class RemovePlayerChatTagCommand implements CommandExecutor, TabCompleter
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
         if (args.length == 1) list.addAll(StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[0]));
-        if (args.length == 2) list.addAll(StaticMineUtils.filterStringList(ChatTags.TAGS.keySet(), args[1]));
+        if (args.length == 2) list.addAll(StaticMineUtils.filterStringList(ChatTags.getAllKeys(), args[1]));
         return list;
     }
 }

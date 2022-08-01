@@ -1,6 +1,9 @@
 package net.staticstudios.prisons.reclaim;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import net.staticstudios.prisons.chat.ChatTags;
 import net.staticstudios.prisons.customItems.CustomItems;
@@ -25,77 +28,87 @@ public class PackageHandler {
 
             //Ranks
             case "warriorPackage" -> {
-                handle(playerUUID, packageID, "&b&lWarrior Rank", p -> {}, true);
+                handle(playerUUID, packageID, Component.text("Warrior Rank").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD), p -> {
+                }, true);
                 if (!playerData.getPlayerRanks().contains("warrior")) playerData.setPlayerRank("warrior");
             }
             case "masterPackage" -> {
-                handle(playerUUID, packageID, "&e&lMaster Rank", p -> {}, true);
+                handle(playerUUID, packageID, Component.text("Master Rank").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD), p -> {
+                }, true);
                 if (!playerData.getPlayerRanks().contains("master")) playerData.setPlayerRank("master");
             }
             case "mythicPackage" -> {
-                handle(playerUUID, packageID, "&c&lMythic Rank", p -> {}, true);
+                handle(playerUUID, packageID, Component.text("Mythic Rank").color(NamedTextColor.RED).decorate(TextDecoration.BOLD), p -> {
+                }, true);
                 if (!playerData.getPlayerRanks().contains("mythic")) playerData.setPlayerRank("mythic");
             }
             case "staticPackage" -> {
-                handle(playerUUID, packageID, "&4&lStatic Rank", p -> {}, true);
+                handle(playerUUID, packageID, Component.text("Static Rank").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD), p -> {
+                }, true);
                 if (!playerData.getPlayerRanks().contains("static")) playerData.setPlayerRank("static");
             }
             case "staticpPackage" -> {
-                handle(playerUUID, packageID, "&d&lStatic+ Rank", p -> {}, true);
+                System.out.println("staticpPackage");
+                handle(playerUUID, packageID, Component.text("Static+ Rank").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD), p -> {
+                }, true);
                 if (!playerData.getPlayerRanks().contains("staticp")) playerData.setPlayerRank("staticp");
             }
 
             //Rank upgrades
             case "warriorToMaster" -> {
-                handle(playerUUID, packageID, "&e&lMaster Rank", p -> {}, true);
+                handle(playerUUID, packageID, Component.text("Master Rank").color(NamedTextColor.YELLOW).decorate(TextDecoration.BOLD), p -> {
+                }, true);
                 if (playerData.getPlayerRank().equals("warrior")) playerData.setPlayerRank("master");
             }
             case "masterToMythic" -> {
-                handle(playerUUID, packageID, "&c&lMythic Rank", p -> {}, true);
+                handle(playerUUID, packageID, Component.text("Mythic Rank").color(NamedTextColor.RED).decorate(TextDecoration.BOLD), p -> {
+                }, true);
                 if (playerData.getPlayerRank().equals("master")) playerData.setPlayerRank("mythic");
             }
             case "mythicToStatic" -> {
-                handle(playerUUID, packageID, "&4&lStatic Rank", p -> {}, true);
+                handle(playerUUID, packageID, Component.text("Static Rank").color(NamedTextColor.DARK_RED).decorate(TextDecoration.BOLD), p -> {
+                }, true);
                 if (playerData.getPlayerRank().equals("mythic")) playerData.setPlayerRank("static");
             }
             case "staticToStaticp" -> {
-                handle(playerUUID, packageID, "&d&lStatic+ Rank", p -> {}, true);
+                handle(playerUUID, packageID, Component.text("Static+ Rank").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD), p -> {
+                }, true);
                 if (playerData.getPlayerRank().equals("static")) playerData.setPlayerRank("staticp");
             }
 
 
             //Crate Keys
             case "legendaryKey" -> {
-                handle(playerUUID, packageID, "&6&lLegendary Crate Key", p -> {
+                handle(playerUUID, packageID, Component.text("Legendary Crate Key").color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD), p -> {
                     PrisonUtils.Players.addToInventory(p, CustomItems.getLegendaryCrateKey(1));
                 }, false);
             }
             case "staticKey" -> {
-                handle(playerUUID, packageID, "&a&lStatic Crate Key", p -> {
+                handle(playerUUID, packageID, Component.text("Static Crate Key").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD), p -> {
                     PrisonUtils.Players.addToInventory(p, CustomItems.getStaticCrateKey(1));
                 }, false);
             }
             case "staticpKey" -> {
-                handle(playerUUID, packageID, "&d&lStatic+ Crate Key", p -> {
+                handle(playerUUID, packageID, Component.text("Static+ Crate Key").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD), p -> {
                     PrisonUtils.Players.addToInventory(p, CustomItems.getStaticpCrateKey(1));
                 }, false);
             }
 
             //Starter packs
             case "starterPackageT1" -> {
-                handle(playerUUID, packageID, "&a&lStarter Package: Tier 1", p -> {
+                handle(playerUUID, packageID, Component.text("Starter Package: Tier 1").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD), p -> {
                     PrisonUtils.Players.addToInventory(p, CustomItems.getStaticCrateKey(2));
                 }, true);
                 if (!playerData.getPlayerRanks().contains("warrior")) playerData.setPlayerRank("warrior");
             }
             case "starterPackageT2" -> {
-                handle(playerUUID, packageID, "&a&lStarter Package: Tier 2", p -> {
+                handle(playerUUID, packageID, Component.text("Starter Package: Tier 2").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD), p -> {
                     PrisonUtils.Players.addToInventory(p, CustomItems.getStaticCrateKey(3));
                 }, true);
                 if (!playerData.getPlayerRanks().contains("master")) playerData.setPlayerRank("master");
             }
             case "starterPackageT3" -> {
-                handle(playerUUID, packageID, "&a&lStarter Package: Tier 3", p -> {
+                handle(playerUUID, packageID, Component.text("Starter Package: Tier 3").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD), p -> {
                     PrisonUtils.Players.addToInventory(p, CustomItems.getStaticCrateKey(2));
                     PrisonUtils.Players.addToInventory(p, CustomItems.getStaticpCrateKey(1));
                 }, true);
@@ -104,26 +117,27 @@ public class PackageHandler {
             default -> {
                 if (packageID.startsWith("tag-")) {
                     String tagName = packageID.split("tag-")[1];
-                    String tagDisplay = ChatTags.getFromID(tagName);
-                    handle(playerUUID, packageID, "&a&lChat Tag: &r" + tagDisplay, p -> {}, true);
+                    Component tagDisplay = ChatTags.getFromID(tagName);
+                    handle(playerUUID, packageID, Component.empty()
+                                    .append(Component.text("Chat Tag: ").color(NamedTextColor.GREEN).decoration(TextDecoration.BOLD, true)).decoration(TextDecoration.BOLD, false)
+                                    .append(tagDisplay),
+                            p -> {
+                            }, true);
                     playerData.addChatTag(tagName);
                 }
             }
         }
     }
 
-    private static void handle(UUID playerUUID, String packageID, String prettyPackageName, Consumer<Player> runIfPlayerIsOnline, boolean reclaim) {
-
-        prettyPackageName = ChatColor.translateAlternateColorCodes('&', prettyPackageName);
+    private static void handle(UUID playerUUID, String packageID, Component prettyPackageName, Consumer<Player> runIfPlayerIsOnline, boolean reclaim) {
 
         String playerName = ServerData.PLAYERS.getName(playerUUID);
         String title = ChatColor.AQUA + "" + ChatColor.BOLD + playerName;
-        String subtitle = prettyPackageName;
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            p.showTitle(Title.title(Component.text(title), Component.text(subtitle), Title.Times.of(Duration.ofMillis(500), Duration.ofMillis(4000), Duration.ofMillis(500))));
-            p.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + playerName + ChatColor.WHITE + " purchased " + prettyPackageName);
-        }
+        Audience audience = Audience.audience(Bukkit.getOnlinePlayers());
+
+        audience.showTitle(Title.title(Component.text(title), prettyPackageName, Title.Times.of(Duration.ofMillis(500), Duration.ofMillis(4000), Duration.ofMillis(500))));
+        audience.sendMessage(Component.text(playerName).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD).append(Component.text("purchased ").color(NamedTextColor.WHITE).decoration(TextDecoration.BOLD, false)).append(prettyPackageName));
 
         if (Bukkit.getPlayer(playerUUID) != null) runIfPlayerIsOnline.accept(Bukkit.getPlayer(playerUUID));
 

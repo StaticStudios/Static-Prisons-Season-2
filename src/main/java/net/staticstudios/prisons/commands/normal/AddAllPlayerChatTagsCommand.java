@@ -27,7 +27,7 @@ public class AddAllPlayerChatTagsCommand implements CommandExecutor, TabComplete
             return false;
         }
         PlayerData playerData = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args[0]));
-        for (String key : ChatTags.TAGS.keySet()) {
+        for (String key : ChatTags.getAllKeys()) {
             playerData.addChatTag(key);
         }
         return false;

@@ -1,6 +1,9 @@
 package net.staticstudios.prisons.commands.normal;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.prisons.UI.tablist.TeamPrefix;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -12,7 +15,7 @@ import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
@@ -29,14 +32,19 @@ public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
         PlayerData playerData = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args[0]));
         playerData.setStaffRank(args[1]);
         playerData.updateTabListPrefixID();
+
+        sender.sendMessage(Component.text("Set staff rank of ")
+                .append(Component.text(args[0]))
+                .append(Component.text(" to ")).color(NamedTextColor.GREEN)
+                .append(TeamPrefix.getFromID(args[1])));
+
         return false;
     }
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        List<String> list = new ArrayList<>();
         List<String> ranks = List.of("member", "helper", "moderator", "admin", "sradmin", "manager", "owner");
-        if (args.length == 1) list.addAll(StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[0]));
-        if (args.length == 2) list.addAll(StaticMineUtils.filterStringList(ranks, args[1]));
-        return list;
+        if (args.length == 1) return StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[0]);
+        if (args.length == 2) return StaticMineUtils.filterStringList(ranks, args[1]);
+        return Collections.emptyList();
     }
 }
