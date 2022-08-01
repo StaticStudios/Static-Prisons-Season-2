@@ -239,6 +239,23 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
                 }
             }
+            //prestige tokens
+            case "prestigetokens" -> {
+                long amount;
+                try {
+                    amount = Long.parseLong(args[3]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats prestigetokens <who> <add|remove|set|reset> <amount>"));
+                    return false;
+                }
+                switch (args[2].toLowerCase()) {
+                    case "add" -> playerData.addPrestigeTokens(amount);
+                    case "remove" -> playerData.removePrestigeTokens(amount);
+                    case "set" -> playerData.setPrestigeTokens(amount);
+                    case "reset" -> playerData.setPrestigeTokens(0);
+                    default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats prestigetokens <who> <add|remove|set|reset> <amount>"));
+                }
+            }
             case "shards" -> {
                 BigInteger amount;
 
@@ -277,6 +294,7 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
             list.add("xp");
             list.add("level");
             list.add("tokens");
+            list.add("prestigetokens");
             list.add("shards");
         } else if (args.length == 2) {
             list.addAll(StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[1]));
@@ -287,6 +305,6 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
             list.add("set");
             list.add("reset");
         } else if (args.length == 4) list.add("<amount>");
-        return list;
+        return StaticMineUtils.filterStringList(list, args[args.length - 1]);
     }
 }

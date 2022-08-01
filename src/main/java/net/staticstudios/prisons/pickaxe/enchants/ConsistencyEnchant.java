@@ -4,6 +4,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,6 +18,24 @@ public class ConsistencyEnchant extends BaseEnchant {
     public ConsistencyEnchant() {
         super("consistency", "&e&lConsistency", 15, BigInteger.valueOf(1000000), "&7+1% token multi every 2 mins of consistent mining", "&7Increases your max multi by 3% for every level", "&7Multiplier expires after 2 minutes of not mining");
         setPickaxeLevelRequirement(62);
+
+        setTiers(
+                new EnchantTier(1, 0),
+                new EnchantTier(2, 5),
+                new EnchantTier(3, 10),
+                new EnchantTier(4, 15),
+                new EnchantTier(5, 20),
+                new EnchantTier(6, 25),
+                new EnchantTier(7, 30),
+                new EnchantTier(8, 35),
+                new EnchantTier(9, 40),
+                new EnchantTier(10, 50),
+                new EnchantTier(11, 60),
+                new EnchantTier(12, 75),
+                new EnchantTier(13, 100),
+                new EnchantTier(14, 125),
+                new EnchantTier(15, 150)
+        );
     }
 
 

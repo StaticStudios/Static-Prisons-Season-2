@@ -3,6 +3,7 @@ package net.staticstudios.prisons.pickaxe.enchants;
 import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.customItems.CustomItems;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.inventory.ItemStack;
@@ -14,9 +15,22 @@ public class KeyFinderEnchant extends BaseEnchant {
         super("keyFinder", "&d&lKey Finder", 5000, BigInteger.valueOf(400), "&7Find crate keys while mining");
         setPickaxeLevelRequirement(31);
 
+        setTiers(
+                new EnchantTier(500, 0),
+                new EnchantTier(1000, 1),
+                new EnchantTier(1500, 2),
+                new EnchantTier(2000, 3),
+                new EnchantTier(2500, 4),
+                new EnchantTier(3000, 5),
+                new EnchantTier(3500, 6),
+                new EnchantTier(4000, 7),
+                new EnchantTier(4500, 8),
+                new EnchantTier(5000, 9)
+        );
+
         setUseChances(true);
         setDefaultPercentChance(1d / 10000 * 100); //1 out of 10,000
-        setPercentChancePerLevel((1d / 3000 * 100 - getDefaultPercentChance()) / MAX_LEVEL); //it will activate 1 out of 3,000 times at max level
+        setPercentChancePerLevel((1d / 5000 * 100 - getDefaultPercentChance()) / MAX_LEVEL); //it will activate 1 out of 5,000 times at max level
     }
 
     public void onBlockBreak(BlockBreak blockBreak) {

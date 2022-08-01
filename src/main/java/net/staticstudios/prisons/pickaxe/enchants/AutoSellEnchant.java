@@ -6,6 +6,7 @@ import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -19,7 +20,20 @@ import java.util.Map;
 public class AutoSellEnchant extends BaseEnchant {
     public AutoSellEnchant() {
         super("autoSell", "&d&lAuto Sell", 50000, BigInteger.valueOf(75), "&7Decrease the time between the", "&7automatic selling of your backpack", "&7Minimum interval: 60 seconds");
-        setPickaxeLevelRequirement(0);
+        setPickaxeLevelRequirement(25);
+
+        setTiers(
+                new EnchantTier(1000, 0),
+                new EnchantTier(2000, 1),
+                new EnchantTier(3000, 2),
+                new EnchantTier(4000, 3),
+                new EnchantTier(5000, 4),
+                new EnchantTier(10000, 5),
+                new EnchantTier(20000, 10),
+                new EnchantTier(30000, 15),
+                new EnchantTier(40000, 20),
+                new EnchantTier(50000, 25)
+        );
     }
 
     public static Map<PrisonPickaxe, Integer> autoSellTimeLeft = new HashMap<>();

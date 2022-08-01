@@ -1,6 +1,9 @@
 package net.staticstudios.prisons.commands.test;
 
+import net.staticstudios.prisons.lootboxes.handler.LootBoxType;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.utils.ItemUtils;
+import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -191,12 +194,16 @@ public class TestCommand implements CommandExecutor {
 //        player.getInventory().addItem(new TokenLootBox(10).getItem());
 
 
-        System.out.println(calc(1_000_000) + " 500K");
-        System.out.println(calc(500_000) + " 250K");
-        System.out.println(calc(2_000_000) + " 1M");
-        System.out.println(calc(5_000_000) + " 2.5M");
-        System.out.println(calc(10_000_000) + " 5M");
-        System.out.println(calc(15_000_000) + " 7.5M");
+//        System.out.println(calc(1_000_000) + " 500K");
+//        System.out.println(calc(500_000) + " 250K");
+//        System.out.println(calc(2_000_000) + " 1M");
+//        System.out.println(calc(5_000_000) + " 2.5M");
+//        System.out.println(calc(10_000_000) + " 5M");
+//        System.out.println(calc(15_000_000) + " 7.5M");
+
+
+        player.getInventory().addItem(ItemUtils.createCustomSkull(LootBoxType.PICKAXE.base64Texture));
+        player.getInventory().addItem(ItemUtils.createCustomSkull(LootBoxType.MINE_BOMB.base64Texture));
         return false;
 
 

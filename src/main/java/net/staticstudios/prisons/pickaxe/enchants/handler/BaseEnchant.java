@@ -41,6 +41,7 @@ public abstract class BaseEnchant implements Listener {
     private EnchantTier[] tiers;
     public EnchantTier getTier(int tier) {
         if (tiers == null) return null;
+        if (tier < 0 || tier >= tiers.length) return null;
         return tiers[tier];
     }
     public void setTiers(EnchantTier... tiers) {

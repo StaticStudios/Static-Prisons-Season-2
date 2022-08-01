@@ -10,7 +10,7 @@ public enum LootBoxType {
 
 
 
-    String base64Texture;
+    public String base64Texture;
 
     LootBoxType(String skullBase64texture) {
         this.base64Texture = skullBase64texture;
