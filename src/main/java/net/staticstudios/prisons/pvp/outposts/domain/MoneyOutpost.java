@@ -5,7 +5,6 @@ import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.pvp.outposts.OutpostTypes;
 
-import java.math.BigInteger;
 import java.util.UUID;
 
 public class MoneyOutpost extends Outpost {
@@ -26,7 +25,7 @@ public class MoneyOutpost extends Outpost {
         gang.getMembers().forEach(uuid -> {
             PlayerData data = new PlayerData(uuid);
 
-            data.addMoney(BigInteger.valueOf(100));
+            data.addMoney(100);
         });
     }
 }

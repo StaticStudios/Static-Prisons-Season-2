@@ -5,6 +5,7 @@ import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.auctionHouse.AuctionHouseMenus;
 import net.staticstudios.prisons.backpacks.BackpackMenus;
 import net.staticstudios.prisons.cells.CellMenus;
+import net.staticstudios.prisons.chat.ChatTagMenus;
 import net.staticstudios.prisons.gambling.GamblingMenus;
 import net.staticstudios.prisons.gangs.GangMenus;
 import net.staticstudios.prisons.levelup.RankUpMenus;

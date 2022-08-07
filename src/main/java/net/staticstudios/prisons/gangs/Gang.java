@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.*;
 
 public class Gang {
@@ -82,8 +81,8 @@ public class Gang {
     private long rawBlocksMined = 0;
     private long blocksMined = 0;
     private long secondsPlayed = 0;
-    private BigInteger moneyMade = BigInteger.ZERO;
-    private BigInteger tokensFound = BigInteger.ZERO;
+    private long moneyMade = 0;
+    private long tokensFound = 0;
     public long getRawBlocksMined() {
         return rawBlocksMined;
     }
@@ -93,10 +92,10 @@ public class Gang {
     public long getSecondsPlayed() {
         return secondsPlayed;
     }
-    public BigInteger getMoneyMade() {
+    public long getMoneyMade() {
         return moneyMade;
     }
-    public BigInteger getTokensFound() {
+    public long getTokensFound() {
         return tokensFound;
     }
     public void addRawBlocksMined(long rawBlocksMined) {
@@ -108,11 +107,11 @@ public class Gang {
     public void addSecondsPlayed(long secondsPlayed) {
         this.secondsPlayed += secondsPlayed;
     }
-    public void addMoneyMade(BigInteger moneyMade) {
-        this.moneyMade = this.moneyMade.add(moneyMade);
+    public void addMoneyMade(long moneyMade) {
+        this.moneyMade = this.moneyMade + moneyMade;
     }
-    public void addTokensFound(BigInteger tokensFound) {
-        this.tokensFound = this.tokensFound.add(tokensFound);
+    public void addTokensFound(long tokensFound) {
+        this.tokensFound = this.tokensFound + tokensFound;
     }
 
     public static boolean isLoaded() {
@@ -120,25 +119,25 @@ public class Gang {
     }
 
     //Bank
-    private BigInteger bankMoney = BigInteger.ZERO;
-    private BigInteger bankTokens = BigInteger.ZERO;
-    public BigInteger getBankMoney() {
+    private long bankMoney = 0;
+    private long bankTokens = 0;
+    public long getBankMoney() {
         return bankMoney;
     }
-    public BigInteger getBankTokens() {
+    public long getBankTokens() {
         return bankTokens;
     }
-    public void addBankMoney(BigInteger bankMoney) {
-        this.bankMoney = this.bankMoney.add(bankMoney);
+    public void addBankMoney(long bankMoney) {
+        this.bankMoney = this.bankMoney + bankMoney;
     }
-    public void addBankTokens(BigInteger bankTokens) {
-        this.bankTokens = this.bankTokens.add(bankTokens);
+    public void addBankTokens(long bankTokens) {
+        this.bankTokens = this.bankTokens + bankTokens;
     }
-    public void removeBankMoney(BigInteger bankMoney) {
-        this.bankMoney = this.bankMoney.subtract(bankMoney);
+    public void removeBankMoney(long bankMoney) {
+        this.bankMoney = this.bankMoney - bankMoney;
     }
-    public void removeBankTokens(BigInteger bankTokens) {
-        this.bankTokens = this.bankTokens.subtract(bankTokens);
+    public void removeBankTokens(long bankTokens) {
+        this.bankTokens = this.bankTokens - bankTokens;
     }
 
     //Chest
@@ -177,8 +176,8 @@ public class Gang {
     public static Gang loadGang(UUID uuid,
                                 UUID owner, String name, List<UUID> members,
                                 boolean isPublic, boolean acceptingInvites, boolean friendlyFire, boolean canMembersWithdrawFomBank,
-                                long rawBlocksMined, long blocksMined, long secondsPlayed, BigInteger moneyMade, BigInteger tokensFound,
-                                BigInteger bankMoney, BigInteger bankTokens, List<Map<String, Object>> gangChestContents) {
+                                long rawBlocksMined, long blocksMined, long secondsPlayed, long moneyMade, long tokensFound,
+                                long bankMoney, long bankTokens, List<Map<String, Object>> gangChestContents) {
         Gang gang = new Gang();
         gang.uuid = uuid;
         gang.owner = owner;
@@ -215,10 +214,10 @@ public class Gang {
         section.set("rawBlocksMined", gang.rawBlocksMined);
         section.set("blocksMined", gang.blocksMined);
         section.set("secondsPlayed", gang.secondsPlayed);
-        section.set("moneyMade", gang.moneyMade.toString());
-        section.set("tokensFound", gang.tokensFound.toString());
-        section.set("bankMoney", gang.bankMoney.toString());
-        section.set("bankTokens", gang.bankTokens.toString());
+        section.set("moneyMade", gang.moneyMade);
+        section.set("tokensFound", gang.tokensFound);
+        section.set("bankMoney", gang.bankMoney);
+        section.set("bankTokens", gang.bankTokens);
         section.set("gangChest", gang.gangChest.serializeContents());
         return section;
     }
@@ -264,11 +263,11 @@ public class Gang {
             section.addDefault("bankMoney", "0");
             section.addDefault("bankTokens", "0");
             section.addDefault("gangChest", new ArrayList<>());
-            BigInteger moneyMade = new BigInteger(section.getString("moneyMade"));
-            BigInteger tokensFound = new BigInteger(section.getString("tokensFound"));
-            BigInteger bankMoney = new BigInteger(section.getString("bankMoney"));
-            BigInteger bankTokens = new BigInteger(section.getString("bankTokens"));
-            @NotNull List<Map<?, ?>> _gangChest = section.getMapList("gangChest");
+            long moneyMade = section.getLong("moneyMade");
+            long tokensFound = section.getLong("tokensFound");
+            long bankMoney = section.getLong("bankMoney");
+            long bankTokens = section.getLong("bankTokens");
+            List<Map<?, ?>> _gangChest = section.getMapList("gangChest");
             List<Map<String, Object>> gangChest = new ArrayList<>();
             for (Map<?, ?> m : _gangChest) {
                 if (m == null || m.isEmpty()) gangChest.add(null);
@@ -284,7 +283,7 @@ public class Gang {
                     gang.addRawBlocksMined(1);
                     gang.addBlocksMined((long) (bb.getStats().getBlocksBroken() * bb.getStats().getBlocksBrokenMultiplier()));
                     if (bb.getStats().getTokensEarned() > 0) {
-                        gang.addTokensFound(BigInteger.valueOf(bb.getStats().getTokensEarned()));
+                        gang.addTokensFound(bb.getStats().getTokensEarned());
                     }
                 }
             });

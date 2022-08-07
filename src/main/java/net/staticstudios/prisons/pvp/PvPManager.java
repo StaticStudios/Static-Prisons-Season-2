@@ -6,6 +6,7 @@ import net.staticstudios.prisons.backpacks.PrisonBackpack;
 import net.staticstudios.prisons.customItems.Vouchers;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gangs.Gang;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pvp.commands.PvPEventCommand;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.pvp.outposts.OutpostManager;
@@ -22,7 +23,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -70,7 +70,7 @@ public class PvPManager {
             if (!player.getWorld().equals(PVP_WORLD)) return;
             List<ItemStack> pickaxes = new LinkedList<>();
             for (ItemStack item : e.getDrops()) {
-                if (PrisonUtils.checkIsPrisonPickaxe(item)) pickaxes.add(item);
+                if (PrisonPickaxe.checkIsPrisonPickaxe(item)) pickaxes.add(item);
             }
             e.getDrops().removeAll(pickaxes);
             e.getItemsToKeep().addAll(pickaxes);
@@ -82,8 +82,8 @@ public class PvPManager {
             e.getItemsToKeep().addAll(backpacks);
 
             PlayerData playerData = new PlayerData(player);
-            BigInteger moneyToDrop = playerData.getMoney().divide(BigInteger.valueOf(15));
-            if (moneyToDrop.compareTo(BigInteger.ZERO) > 0) {
+            long moneyToDrop = playerData.getMoney() / 15;
+            if (moneyToDrop > 0) {
                 playerData.removeMoney(moneyToDrop);
                 player.sendMessage(PREFIX + ChatColor.RED + "You lost $" + PrisonUtils.prettyNum(moneyToDrop) + " because you died");
                 e.getDrops().add(Vouchers.getMoneyNote(player.getName() + ChatColor.RED + " (From Death)", moneyToDrop));

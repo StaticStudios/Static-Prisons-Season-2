@@ -2,7 +2,6 @@ package net.staticstudios.prisons.commands.normal;
 
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -27,7 +26,7 @@ public class DropItemCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(ChatColor.RED + "You cannot drop this item!");
             return false;
         }
-        if (PrisonUtils.checkIsPrisonPickaxe(item)) {
+        if (PrisonPickaxe.checkIsPrisonPickaxe(item)) {
             PrisonPickaxe.updateLore(item);
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(item);
             for (BaseEnchant enchant : pickaxe.getEnchants()) enchant.onPickaxeUnHeld(player, pickaxe);

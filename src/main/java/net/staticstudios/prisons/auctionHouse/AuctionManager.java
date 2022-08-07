@@ -14,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public class AuctionManager {
     }
 
 
-    public static boolean createAuction(Player player, ItemStack item, BigInteger price) {
+    public static boolean createAuction(Player player, ItemStack item, long price) {
         int playerAuctions = 0;
         for (Auction auction : auctions) {
             if (auction.owner().equals(player.getUniqueId())) playerAuctions++;
@@ -77,7 +76,7 @@ public class AuctionManager {
             player.sendMessage(AH_PREFIX + "You reclaimed " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()));
             return true;
         }
-        if (playerData.getMoney().compareTo(auction.price()) < 0) {
+        if (playerData.getMoney() < auction.price()) {
             player.sendMessage(ChatColor.RED + "You do not have enough money to buy this! Costs: $" + PrisonUtils.addCommasToNumber(auction.price()));
             return false;
         }
@@ -153,15 +152,6 @@ public class AuctionManager {
     }
     public static void init() {
         File file = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml");
-        if (!file.exists()) {
-            file.getParentFile().mkdirs();
-            try {
-                file.createNewFile();
-                return;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(file);
         auctions.clear();
         if (fileData.getConfigurationSection("auctions") == null) return;
@@ -171,7 +161,7 @@ public class AuctionManager {
                     ExpiredAuction.fromBase64(fileData.getString("auctions." + key + ".item")),
                     UUID.fromString(fileData.getString("auctions." + key + ".owner")),
                     fileData.getLong("auctions." + key + ".expireAt"),
-                    BigInteger.valueOf(fileData.getLong("auctions." + key + ".price"))
+                    fileData.getLong("auctions." + key + ".price")
             ));
         }
     }

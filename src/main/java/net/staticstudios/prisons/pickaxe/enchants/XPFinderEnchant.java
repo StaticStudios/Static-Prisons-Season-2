@@ -4,11 +4,9 @@ import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.utils.PrisonUtils;
 
-import java.math.BigInteger;
-
 public class XPFinderEnchant extends BaseEnchant {
     public XPFinderEnchant() {
-        super("xpFinder", "&a&lXP Finder", 1000, BigInteger.valueOf(1000), "&7Increase the chance to find XP whilst mining");
+        super("xpFinder", "&a&lXP Finder", 1000, 1000, "&7Increase the chance to find XP whilst mining");
         setPickaxeLevelRequirement(999);
 
         setUseChances(true);

@@ -8,7 +8,6 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public class RewardsMenus extends GUIUtils {
@@ -18,8 +17,8 @@ public class RewardsMenus extends GUIUtils {
     public static void open(Player player) {
         GUICreator c = new GUICreator(27, "Your Rewards");
         PlayerData playerData = new PlayerData(player);
-        BigInteger difference = playerData.getPrestige().subtract(playerData.getClaimedPrestigeRewardsAt());
-        BigInteger rewards = difference.divide(BigInteger.valueOf(250));
+        long difference = playerData.getPrestige() - playerData.getClaimedPrestigeRewardsAt();
+        long rewards = difference / 250;
         c.setItem(13, ench(c.createButton(Material.AMETHYST_CLUSTER, "&d&lPrestige Rewards", List.of("You have " + PrisonUtils.addCommasToNumber(rewards) + " reward(s) to claim!", "You get a new one every 250 prestiges!", "", "&b&oClick to claim"), (p, t) -> {
 //            if (rewards.compareTo(BigInteger.ZERO) == 0) {
 //                p.sendMessage(PREFIX + ChatColor.RED + "You have no rewards to claim!");

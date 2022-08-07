@@ -9,15 +9,13 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
-
-import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 
 public class BlackHoleAbility extends BaseAbility {
 
     public BlackHoleAbility() {
-        super("blackHole", "&5&lBlack Hole", 20, BigInteger.valueOf(15), (long) (1000 * 60 * 60 * 5.5),
+        super("blackHole", "&5&lBlack Hole", 20, 15, (long) (1000 * 60 * 60 * 5.5),
                 "&oAs you move throught the mine, all of the blocks around you",
                 "&owill be sucked into your pickaxe. Your pickaxe's enchants",
                 "&owill work as if you broke each block individually!",

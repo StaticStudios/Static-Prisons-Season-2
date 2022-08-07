@@ -15,13 +15,12 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MultiDirectionalEnchant extends BaseEnchant {
     public MultiDirectionalEnchant() {
-        super("multiDirectional", "&a&lMulti-Directional", 15000, BigInteger.valueOf(500), "&7Chance to destroy a &l+&7 shape in a mine");
+        super("multiDirectional", "&a&lMulti-Directional", 15000, 500, "&7Chance to destroy a &l+&7 shape in a mine");
         setPickaxeLevelRequirement(31);
 
         setTiers(

@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,14 +20,14 @@ import java.util.Map;
 
 public class CellBlockShop {
 
-    static Map<Material, BigInteger> BLOCK_PRICES = new LinkedHashMap<>();
+    static Map<Material, Long> BLOCK_PRICES = new LinkedHashMap<>();
     static List<Material> ORDERED_BLOCKS = new ArrayList<>();
 
     protected static void init() {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "cell-block-shop-config.yml"));
         for (String block : config.getConfigurationSection("blocks").getKeys(false)) {
             try {
-                BLOCK_PRICES.put(Material.valueOf(block), new BigInteger(config.getString("blocks." + block)));
+                BLOCK_PRICES.put(Material.valueOf(block), config.getLong("blocks." + block));
                 ORDERED_BLOCKS.add(Material.valueOf(block));
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
@@ -45,7 +44,7 @@ public class CellBlockShop {
         for (int i = 0; i < BLOCKS_PER_PAGE; i++) {
             if (BLOCK_PRICES.size() - 1 < startIndex + i) break;
             Material mat = ORDERED_BLOCKS.get(startIndex + i);
-            BigInteger price = BLOCK_PRICES.get(mat);
+            long price = BLOCK_PRICES.get(mat);
             String itemName = PrisonUtils.Items.getPrettyItemName(new ItemStack(mat));
 
 
@@ -54,7 +53,7 @@ public class CellBlockShop {
                     "&6Price: &f" + PrisonUtils.prettyNum(price) + " Tokens"
             ), (p, t) -> {
                 PlayerData playerData = new PlayerData(p);
-                if (playerData.getTokens().compareTo(price) < 0) {
+                if (playerData.getTokens() < price) {
                     p.sendMessage(ChatColor.RED + "You don't have enough tokens to buy this!");
                     return;
                 }

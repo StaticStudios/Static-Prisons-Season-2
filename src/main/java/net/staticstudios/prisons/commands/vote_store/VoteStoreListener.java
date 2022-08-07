@@ -12,7 +12,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -25,7 +24,7 @@ public class VoteStoreListener implements CommandExecutor {
             case "vote" -> {
                 UUID uuid = ServerData.PLAYERS.getUUIDIgnoreCase(args[1]);
                 PlayerData playerData = new PlayerData(uuid);
-                playerData.addVotes(BigInteger.ONE);
+                playerData.addVotes(1);
                 playerData.setLastVotedAt(Instant.now().toEpochMilli());
                 Player player = Bukkit.getPlayer(uuid);
                 PrisonUtils.Players.addToInventory(player, CustomItems.getVoteCrateKey(1));

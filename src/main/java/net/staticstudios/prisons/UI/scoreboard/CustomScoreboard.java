@@ -104,7 +104,7 @@ public class CustomScoreboard { //todo make a custom thing instead of fastboard
 
         board.updateTitle(boardTitle);
         String cost = PrisonUtils.prettyNum(LevelUp.calculatePriceToRankUpTo(playerData, Math.min(25, playerData.getMineRank() + 1)));
-        if (playerData.getMineRank() == 25) cost = PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1));
+        if (playerData.getMineRank() == 25) cost = PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige(), 1));
 
 
         board.updateLines(

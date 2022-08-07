@@ -5,11 +5,9 @@ import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
-import java.math.BigInteger;
-
 public class HasteEnchant extends BaseEnchant {
     public HasteEnchant() {
-        super("haste", "&e&lHaste", 1000000, BigInteger.valueOf(1000), "&7Gives the vanilla haste effect");
+        super("haste", "&e&lHaste", 1_000_000, 1000, "&7Gives the vanilla haste effect");
     }
 
 

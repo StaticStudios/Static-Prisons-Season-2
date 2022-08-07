@@ -8,12 +8,11 @@ import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 
-import java.math.BigInteger;
 import java.util.Map;
 
 public class ExplosionEnchant extends BaseEnchant {
     public ExplosionEnchant() {
-        super("explosion", "&c&lExplosion", 5000, BigInteger.valueOf(450), "&7Change to explode part of a mine");
+        super("explosion", "&c&lExplosion", 5000, 450, "&7Change to explode part of a mine");
         setPickaxeLevelRequirement(31);
 
         setTiers(

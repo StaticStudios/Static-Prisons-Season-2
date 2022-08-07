@@ -10,7 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class AuctionHouseMenus extends GUIUtils {
             List<String> lore = item.getItemMeta().getLore();
             if (lore == null) lore = new ArrayList<>();
             lore.add("&f---------------");
-            lore.add("&aExpires in: &f" + PrisonUtils.formatTime((auction.expireAt() - Instant.now().getEpochSecond()) * 1000));
+            lore.add("&aExpires in: &f" + PrisonUtils.formatTime((auction.expireAt() - System.currentTimeMillis()) * 1000));
 
             lore.add("&aSold by: &f" + ServerData.PLAYERS.getName(auction.owner()));
             lore.add("&aPrice: &f$" + PrisonUtils.prettyNum(auction.price()));

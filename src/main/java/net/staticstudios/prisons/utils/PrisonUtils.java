@@ -6,23 +6,18 @@ import net.luckperms.api.node.Node;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -79,13 +74,6 @@ public final class PrisonUtils {
     public static BigInteger randomBigInt(BigInteger min, BigInteger max) { //github copilot created this and i have no idea if it works - use numbers not string values
         return min.add(new BigInteger(String.valueOf(Math.round(Math.random() * (max.subtract(min).doubleValue())))));
     }
-//    public static BigInteger randomBigInt(BigInteger min, BigInteger max) {
-//        BigInteger bigInteger = max.subtract(min);
-//        BigInteger res = new BigInteger(max.bitLength(), new Random());
-//        if (res.compareTo(min) < 0) res = res.add(min);
-//        if (res.compareTo(bigInteger) >= 0) res = res.mod(bigInteger).add(min);
-//        return res;
-//    }
 
     public static ItemStack setItemCount(ItemStack itemStack, int amount) {
         itemStack = new ItemStack(itemStack);
@@ -273,34 +261,9 @@ public final class PrisonUtils {
                 .collect(Collectors.joining(" "));
     }
 
-    public static boolean checkIsPrisonPickaxe(ItemStack item) {
-        if (item == null) return false;
-        if (!item.getType().equals(Material.DIAMOND_PICKAXE)) return false;
-        if (!item.hasItemMeta()) return false;
-        return item.getItemMeta().getPersistentDataContainer().has(PrisonPickaxe.PICKAXE_KEY, PersistentDataType.STRING);
-    }
-
     public static char getMineRankLetterFromMineRank(int mineRank) {
         if (mineRank > Constants.A_THROUGH_Z.length) return 'Z';
         return Constants.A_THROUGH_Z[mineRank];
-    }
-
-    public static ItemStack createNewPickaxe() {
-        ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
-        PrisonPickaxe pickaxe = new PrisonPickaxe(item);
-        ItemMeta meta = item.getItemMeta();
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        meta.setUnbreakable(true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addEnchant(Enchantment.DIG_SPEED, 100, true);
-        item.setItemMeta(meta);
-        pickaxe.setEnchantsLevel(PickaxeEnchants.FORTUNE, 5);
-        pickaxe.setEnchantsLevel(PickaxeEnchants.DOUBLE_FORTUNE, 5);
-        pickaxe.setEnchantsLevel(PickaxeEnchants.TOKENATOR, 1);
-        pickaxe.setEnchantsLevel(PickaxeEnchants.JACK_HAMMER, 1);
-        PrisonPickaxe.updateLore(item);
-        return item;
     }
 
     public static <T> ArrayList<T> removeDuplicatesInArrayList(List<T> list) {

@@ -8,18 +8,16 @@ import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
-
-import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class LightningStrikeAbility extends BaseAbility {
 
-    private static MultiBombMineBomb lightningStrikeBomb = new MultiBombMineBomb(6);
+    private static final MultiBombMineBomb lightningStrikeBomb = new MultiBombMineBomb(6);
 
     public LightningStrikeAbility() {
-        super("lightningStrike", "&b&lLightning Strike", 11, BigInteger.valueOf(9), 1000 * 60 * 150,
+        super("lightningStrike", "&b&lLightning Strike", 11, 9, 1000 * 60 * 150,
                 "&oWhen breaking a block, you will have a 5% chance to",
                 "&ocreate a lighting strike that will break all the blocks",
                 "&oaround you going all the way down to the bottom of the mine!",

@@ -9,12 +9,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 
 public class MultiPouch {
     public int timeBetweenFrames = 4;
-    public BigDecimal multiplierAmount;
+    public double multiplierAmount;
     public int multiplierTime;
     String formattedRewardValue;
 

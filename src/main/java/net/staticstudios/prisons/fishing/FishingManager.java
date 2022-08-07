@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigInteger;
 import java.util.function.Consumer;
 
 public class FishingManager {
@@ -63,7 +62,7 @@ public class FishingManager {
                     item.setPickupDelay(9999);
                     item.setWillAge(true);
                     item.setTicksLived(20 * 60 * 5 - 20); //Despawn in 1 second
-                    new PlayerData(player).addShards(BigInteger.ONE);
+                    new PlayerData(player).addShards(1);
                 }, 5)
                 .add(e -> {
                     Player player = e.getPlayer();
@@ -75,7 +74,7 @@ public class FishingManager {
                     item.setPickupDelay(9999);
                     item.setWillAge(true);
                     item.setTicksLived(20 * 60 * 5 - 20); //Despawn in 1 second
-                    new PlayerData(player).addShards(BigInteger.TWO);
+                    new PlayerData(player).addShards(2);
                 }, 4)
                 .add(e -> {
                     Player player = e.getPlayer();
@@ -87,7 +86,7 @@ public class FishingManager {
                     item.setPickupDelay(9999);
                     item.setWillAge(true);
                     item.setTicksLived(20 * 60 * 5 - 20); //Despawn in 1 second
-                    new PlayerData(player).addShards(BigInteger.valueOf(3));
+                    new PlayerData(player).addShards(3);
                 }, 1);
 
     }

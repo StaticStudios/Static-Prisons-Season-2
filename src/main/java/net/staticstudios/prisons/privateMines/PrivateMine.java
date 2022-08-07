@@ -30,7 +30,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -158,7 +157,7 @@ public class PrivateMine {
         PrivateMineStats nextStats = PrivateMineConfigManager.getStats(nextAvailableUpgradeLevel);
         //Check if the player has enough money to purchase the upgrade
         PlayerData playerData = new PlayerData(owner);
-        if (playerData.getMoney().compareTo(nextStats.getUpgradeCost()) < 0) {
+        if (playerData.getMoney() < nextStats.getUpgradeCost()) {
             messageOwner("You do not have enough money for this!");
             return false;
         }
@@ -434,7 +433,7 @@ public class PrivateMine {
         if (!(blockBreak.getPlayerData().getUUID().equals(owner) || getWhitelist().contains(blockBreak.getPlayerData().getUUID()))) { //Don't tax owner or whitelisted players
 
             blockBreak.addAfterProcess(bb -> { //Add tax to the owner
-                new PlayerData(owner).addMoney(BigInteger.valueOf((long) (bb.getStats().getMoneyEarned() * visitorTax)));
+                new PlayerData(owner).addMoney((long) (bb.getStats().getMoneyEarned() * visitorTax));
                 bb.getStats().setMoneyMultiplier(bb.getStats().getMoneyMultiplier() * (1 - visitorTax));
             });
         }

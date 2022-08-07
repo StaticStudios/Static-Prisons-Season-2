@@ -9,7 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public class RankUpMenus extends GUIUtils {
@@ -43,8 +42,8 @@ public class RankUpMenus extends GUIUtils {
                 int finalI = i;
                 c.addItem(c.createButton(Material.RED_STAINED_GLASS, "&c&lMine " + PrisonUtils.getMineRankLetterFromMineRank(i) + " &c| Locked", List.of("", "&a&lCosts:",
                         "&a&l│ &a$" + PrisonUtils.prettyNum(LevelUp.calculatePriceToRankUpTo(playerData, i)), "&a&l│ &a$" + PrisonUtils.addCommasToNumber(LevelUp.calculatePriceToRankUpTo(playerData, i)), "", "&cClick to unlock!"), (p, t) -> {
-                    BigInteger rankUpCost = LevelUp.calculatePriceToRankUpTo(playerData, finalI);
-                    if (playerData.getMoney().compareTo(rankUpCost) > -1) {
+                    long rankUpCost = LevelUp.calculatePriceToRankUpTo(playerData, finalI);
+                    if (playerData.getMoney() >= rankUpCost) {
                         playerData.removeMoney(rankUpCost);
                         playerData.setMineRank(finalI);
                         p.sendMessage(ChatColor.AQUA + "You ranked up to Mine " + PrisonUtils.getMineRankLetterFromMineRank(finalI) + "!");
@@ -55,7 +54,7 @@ public class RankUpMenus extends GUIUtils {
         }
         int maxRank = 0;
         for (int i = 25; i > 0; i--) {
-            if (playerData.getMoney().compareTo(LevelUp.calculatePriceToRankUpTo(playerData, i)) > -1) {
+            if (playerData.getMoney() >= LevelUp.calculatePriceToRankUpTo(playerData, i)) {
                 maxRank = i;
                 break;
             }
@@ -69,8 +68,8 @@ public class RankUpMenus extends GUIUtils {
                 p.sendMessage(ChatColor.RED + "You do not have enough money to rank up!");
                 return;
             }
-            BigInteger rankUpCost = LevelUp.calculatePriceToRankUpTo(playerData, finalMaxRank);
-            if (playerData.getMoney().compareTo(rankUpCost) > -1) {
+            long rankUpCost = LevelUp.calculatePriceToRankUpTo(playerData, finalMaxRank);
+            if (playerData.getMoney() >= rankUpCost) {
                 playerData.removeMoney(rankUpCost);
                 playerData.setMineRank(finalMaxRank);
                 p.sendMessage(ChatColor.AQUA + "You ranked up to Mine " + PrisonUtils.getMineRankLetterFromMineRank(finalMaxRank) + "!");

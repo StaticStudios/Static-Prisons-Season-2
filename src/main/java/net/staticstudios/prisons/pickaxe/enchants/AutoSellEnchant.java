@@ -12,14 +12,13 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AutoSellEnchant extends BaseEnchant {
     public AutoSellEnchant() {
-        super("autoSell", "&d&lAuto Sell", 50000, BigInteger.valueOf(75), "&7Decrease the time between the", "&7automatic selling of your backpack", "&7Minimum interval: 60 seconds");
+        super("autoSell", "&d&lAuto Sell", 50000, 75, "&7Decrease the time between the", "&7automatic selling of your backpack", "&7Minimum interval: 60 seconds");
         setPickaxeLevelRequirement(25);
 
         setTiers(

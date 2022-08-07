@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +29,16 @@ public class AuctionHouseCommand implements CommandExecutor, TabCompleter {
                 return false;
             }
             try {
-                BigInteger price = new BigInteger(args[1]);
-                if (AuctionManager.createAuction(player, player.getInventory().getItemInMainHand(), price)) player.getInventory().getItemInMainHand().setAmount(0);
+                long price = Long.parseLong(args[1]);
+                if (AuctionManager.createAuction(player, player.getInventory().getItemInMainHand(), price)) {
+                    player.getInventory().getItemInMainHand().setAmount(0);
+                }
             } catch (NumberFormatException e) {
                 player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/ah hand <price>"));
             }
-        } else AuctionHouseMenus.openMenu(player, 0);
+        } else {
+            AuctionHouseMenus.openMenu(player, 0);
+        }
         return false;
     }
     @Override

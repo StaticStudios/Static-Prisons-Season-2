@@ -9,7 +9,6 @@ import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.util.*;
 
 public abstract class BaseAbility { //todo: save abilities on the pickaxe
@@ -43,7 +42,7 @@ public abstract class BaseAbility { //todo: save abilities on the pickaxe
     }
 
     public final int MAX_LEVEL;
-    public final BigInteger PRICE;
+    public final long PRICE;
     public final String ABILITY_ID;
     public final String DISPLAY_NAME;
     public final String UNFORMATTED_DISPLAY_NAME;
@@ -63,7 +62,7 @@ public abstract class BaseAbility { //todo: save abilities on the pickaxe
     }
 
 
-    public BaseAbility(String id, String name, int maxLevel, BigInteger price, long coolDownMS, String... desc) {
+    public BaseAbility(String id, String name, int maxLevel, long price, long coolDownMS, String... desc) {
         ABILITY_ID = id;
         DISPLAY_NAME = ChatColor.translateAlternateColorCodes('&', name);
         UNFORMATTED_DISPLAY_NAME= ChatColor.stripColor(DISPLAY_NAME);
@@ -84,8 +83,8 @@ public abstract class BaseAbility { //todo: save abilities on the pickaxe
         return this;
     }
 
-    public BigInteger getPrice(long level) {
-        return PRICE.multiply(BigInteger.valueOf(level + 1));
+    public long getPrice(long level) {
+        return PRICE * (level + 1);
     }
 
     public boolean tryToBuyLevels(Player player, PrisonPickaxe pickaxe, long levelsToBuy) {
@@ -106,7 +105,7 @@ public abstract class BaseAbility { //todo: save abilities on the pickaxe
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not a high enough level to upgrade this ability!"));
             return false;
         }
-        if (playerData.getShards().compareTo(getPrice(pickaxe.getAbilityLevel(this))) > -1) {
+        if (playerData.getShards() >= getPrice(pickaxe.getAbilityLevel(this))) {
             playerData.removeShards(getPrice(pickaxe.getAbilityLevel(this)));
             pickaxe.setAbilityLevel(this, pickaxe.getAbilityLevel(this) + 1);
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bYou upgraded " + UNFORMATTED_DISPLAY_NAME + "!"));

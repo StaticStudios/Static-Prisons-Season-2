@@ -43,7 +43,7 @@ public class Data {
     private long _long = 0;
     private double _double = 0;
     private String _string = "";
-    private BigInteger bigInt = BigInteger.ZERO;
+//    private BigInteger bigInt = BigInteger.ZERO;
 
 
     public List<String> getStringList() {
@@ -124,12 +124,12 @@ public class Data {
         } else if (!valueType.equals("string")) throw new IllegalStateException("Trying to get a string from a " + valueType + " data object");
         return _string;
     }
-    public BigInteger getBigInt() {
-        if (valueType.isEmpty()) {
-            valueType = "bigInt";
-        } else if (!valueType.equals("bigInt")) throw new IllegalStateException("Trying to get a big int from a " + valueType + " data object");
-        return bigInt;
-    }
+//    public BigInteger getBigInt() {
+//        if (valueType.isEmpty()) {
+//            valueType = "bigInt";
+//        } else if (!valueType.equals("bigInt")) throw new IllegalStateException("Trying to get a big int from a " + valueType + " data object");
+//        return bigInt;
+//    }
 
     public void setStringList(List<String> stringList) {
         this.stringList = stringList;
@@ -192,10 +192,10 @@ public class Data {
         this._string = _string;
         valueType = "string";
     }
-    public void setBigInt(BigInteger bigInt) {
-        this.bigInt = bigInt;
-        valueType = "bigInt";
-    }
+//    public void setBigInt(BigInteger bigInt) {
+//        this.bigInt = bigInt;
+//        valueType = "bigInt";
+//    }
 
 
     public ConfigurationSection toConfigurationSection() {
@@ -243,7 +243,7 @@ public class Data {
             case "long" -> section.set("value", _long);
             case "double" -> section.set("value", _double);
             case "string" -> section.set("value", _string);
-            case "bigInt" -> section.set("value", bigInt.toString());
+//            case "bigInt" -> section.set("value", bigInt.toString());
         }
         section.set("valueType", valueType);
         return section;
@@ -330,7 +330,7 @@ public class Data {
                 case "long" -> data.setLong(section.getLong("value"));
                 case "double" -> data.setDouble(section.getDouble("value"));
                 case "string" -> data.setString(section.getString("value"));
-                case "bigInt" -> data.setBigInt(new BigInteger(section.getString("value")));
+//                case "bigInt" -> data.setBigInt(new BigInteger(section.getString("value")));
             }
             data.valueType = section.getString("valueType");
         } catch (IllegalAccessException | InvocationTargetException e) {

@@ -5,7 +5,6 @@ import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.pvp.outposts.OutpostTypes;
 
-import java.math.BigInteger;
 import java.util.UUID;
 
 public class TokenOutpost extends Outpost {
@@ -26,7 +25,7 @@ public class TokenOutpost extends Outpost {
         gang.getMembers().forEach(uuid -> {
             PlayerData data = new PlayerData(uuid);
 
-            data.addTokens(BigInteger.valueOf(100));
+            data.addTokens(100);
         });
     }
 }

@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public abstract class BaseEnchant implements Listener {
@@ -20,8 +19,8 @@ public abstract class BaseEnchant implements Listener {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (PrisonUtils.Players.isHoldingRightClick(player)) {
                     ItemStack item = player.getInventory().getItemInMainHand();
-                    if (!PrisonUtils.checkIsPrisonPickaxe(item)) continue;
                     PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(item);
+                    if (pickaxe == null) continue;
                     for (BaseEnchant enchant : pickaxe.getEnchants()) {
                         if (!pickaxe.getIsEnchantEnabled(enchant)) continue;
                         enchant.whileRightClicking(player, pickaxe);
@@ -32,7 +31,7 @@ public abstract class BaseEnchant implements Listener {
     }
 
     public final int MAX_LEVEL;
-    public final BigInteger PRICE;
+    public final long PRICE;
     public final String ENCHANT_ID;
     public final String DISPLAY_NAME;
     public final String UNFORMATTED_DISPLAY_NAME;
@@ -64,7 +63,7 @@ public abstract class BaseEnchant implements Listener {
     }
 
 
-    public BaseEnchant(String id, String name, int maxLevel, BigInteger price, String... desc) {
+    public BaseEnchant(String id, String name, int maxLevel, long price, String... desc) {
         ENCHANT_ID = id;
         DISPLAY_NAME = ChatColor.translateAlternateColorCodes('&', name);
         UNFORMATTED_DISPLAY_NAME= ChatColor.stripColor(DISPLAY_NAME);
@@ -148,8 +147,8 @@ public abstract class BaseEnchant implements Listener {
             player.sendMessage(org.bukkit.ChatColor.RED + "This enchant is already at its max level!");
             return false;
         }
-        if (playerData.getTokens().compareTo(PRICE.multiply(BigInteger.valueOf(levelsToBuy))) > -1) {
-            playerData.removeTokens(PRICE.multiply(BigInteger.valueOf(levelsToBuy)));
+        if (playerData.getTokens() >= PRICE * levelsToBuy) {
+            playerData.removeTokens(PRICE * levelsToBuy);
             int oldLevel = pickaxe.getEnchantLevel(ENCHANT_ID);
             pickaxe.addEnchantLevel(ENCHANT_ID, (int) levelsToBuy);
             int newLevel = pickaxe.getEnchantLevel(ENCHANT_ID);

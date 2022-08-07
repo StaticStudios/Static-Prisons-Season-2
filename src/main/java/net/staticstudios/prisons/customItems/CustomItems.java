@@ -2,10 +2,15 @@ package net.staticstudios.prisons.customItems;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.customItems.minebombs.MineBombTier1;
+import net.staticstudios.prisons.customItems.minebombs.MineBombTier2;
+import net.staticstudios.prisons.customItems.minebombs.MineBombTier3;
+import net.staticstudios.prisons.customItems.minebombs.MineBombTier4;
 import net.staticstudios.prisons.mineBombs.MineBombItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -17,23 +22,50 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class CustomItems implements Listener { //todo add an internal mapping that maps an ID to an item/runnable to get the item so commands can be used with tab completion | aka finish the custom items module
+public class CustomItems implements Listener { //todo: add an internal mapping that maps an ID to an item/runnable to get the item so commands can be used with tab completion | aka finish the custom items module
     public static void init() {
-        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new CustomItems(), StaticPrisons.getInstance());
+        new MineBombTier1();
+        new MineBombTier2();
+        new MineBombTier3();
+        new MineBombTier4();
+
+        //TODO: keys, pickaxes, etc.
+
+
+        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new CustomItems(), StaticPrisons.getInstance()); //todo: loop through all custom items and run a listener for each one
+    }
+
+    public static final Map<String, ICustomItem> ITEMS = new HashMap<>();
+
+    public static ItemStack getItem(String id, Player player) {
+        ICustomItem item = ITEMS.get(id);
+        if (item == null) {
+            return null;
+        }
+        return item.getItem(player);
     }
 
 
-    @EventHandler
-    void onDrop(PlayerDropItemEvent e) {
-        MineBombItem.itemDropped(e);
-    }
+//    @EventHandler
+//    void onDrop(PlayerDropItemEvent e) {
+//        MineBombItem.itemDropped(e);
+//    }
     @EventHandler //do this to "fight" worldguard
-    void onRightClick(PlayerInteractEvent e) {
-        if (e.getHand() == null) return;
-        if (e.getHand().equals(EquipmentSlot.OFF_HAND)) return;
-        MineBombItem.blockPlaced(e);
+    void onClick(PlayerInteractEvent e) {
+//        if (e.getHand() == null) return;
+//        if (e.getHand().equals(EquipmentSlot.OFF_HAND)) return;
+//        MineBombItem.blockPlaced(e);
+
+        for (ICustomItem item : ITEMS.values()) {
+            if (item.onInteract(e)) {
+                e.setCancelled(true);
+                return;
+            }
+        }
     }
     private static ItemStack createCrateKey(String type, String name) {
         ItemStack item = new ItemStack(Material.TRIPWIRE_HOOK);
@@ -96,64 +128,64 @@ public class CustomItems implements Listener { //todo add an internal mapping th
         return item;
     }
 
-    public static ItemStack getMineBombTier1() {
-        ItemStack item = new ItemStack(Material.TNT);
-        ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER, 1);
-        meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "Small Mine Bomb");
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
-        meta.setLore(lore);
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addEnchant(Enchantment.LURE, 1, true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        return item;
-    }
-    public static ItemStack getMineBombTier2() {
-        ItemStack item = new ItemStack(Material.TNT);
-        ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER, 2);
-        meta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Medium Mine Bomb");
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
-        meta.setLore(lore);
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addEnchant(Enchantment.LURE, 1, true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        return item;
-    }
-    public static ItemStack getMineBombTier3() {
-        ItemStack item = new ItemStack(Material.TNT);
-        ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER, 3);
-        meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Large Mine Bomb");
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
-        meta.setLore(lore);
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addEnchant(Enchantment.LURE, 1, true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        return item;
-    }
-    public static ItemStack getMineBombTier4() {
-        ItemStack item = new ItemStack(Material.TNT);
-        ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER, 4);
-        meta.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.BOLD + "HUGE Mine Bomb");
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
-        meta.setLore(lore);
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addEnchant(Enchantment.LURE, 1, true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        return item;
-    }
+//    public static ItemStack getMineBombTier1() {
+//        ItemStack item = new ItemStack(Material.TNT);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER, 1);
+//        meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.BOLD + "Small Mine Bomb");
+//        List<String> lore = new ArrayList<>();
+//        lore.add("");
+//        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
+//        meta.setLore(lore);
+//        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+//        meta.addEnchant(Enchantment.LURE, 1, true);
+//        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//    public static ItemStack getMineBombTier2() {
+//        ItemStack item = new ItemStack(Material.TNT);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER, 2);
+//        meta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Medium Mine Bomb");
+//        List<String> lore = new ArrayList<>();
+//        lore.add("");
+//        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
+//        meta.setLore(lore);
+//        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+//        meta.addEnchant(Enchantment.LURE, 1, true);
+//        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//    public static ItemStack getMineBombTier3() {
+//        ItemStack item = new ItemStack(Material.TNT);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER, 3);
+//        meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Large Mine Bomb");
+//        List<String> lore = new ArrayList<>();
+//        lore.add("");
+//        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
+//        meta.setLore(lore);
+//        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+//        meta.addEnchant(Enchantment.LURE, 1, true);
+//        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+//        item.setItemMeta(meta);
+//        return item;
+//    }
+//    public static ItemStack getMineBombTier4() {
+//        ItemStack item = new ItemStack(Material.TNT);
+//        ItemMeta meta = item.getItemMeta();
+//        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "mineBomb"), PersistentDataType.INTEGER, 4);
+//        meta.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.BOLD + "HUGE Mine Bomb");
+//        List<String> lore = new ArrayList<>();
+//        lore.add("");
+//        lore.add(ChatColor.GRAY + "" + ChatColor.ITALIC + "Drop me in a mine and I'll explode!");
+//        meta.setLore(lore);
+//        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+//        meta.addEnchant(Enchantment.LURE, 1, true);
+//        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+//        item.setItemMeta(meta);
+//        return item;
+//    }
 }

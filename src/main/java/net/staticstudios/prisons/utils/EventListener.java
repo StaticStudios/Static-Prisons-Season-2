@@ -76,7 +76,7 @@ public class EventListener implements Listener {
         }
 
         for (ItemStack item : player.getInventory().getContents()) {
-            if (PrisonUtils.checkIsPrisonPickaxe(item)) PrisonPickaxe.updateLore(item);
+            if (PrisonPickaxe.checkIsPrisonPickaxe(item)) PrisonPickaxe.updateLore(item);
         }
 
         //Remove player from the scoreboard map to prevent updating an offline player's scoreboard
@@ -140,14 +140,14 @@ public class EventListener implements Listener {
     void onChangeItemHeld(PlayerItemHeldEvent e) {
         Player player = e.getPlayer();
         ItemStack[] contents = player.getInventory().getContents();
-        if (PrisonUtils.checkIsPrisonPickaxe(contents[e.getPreviousSlot()])) {
+        if (PrisonPickaxe.checkIsPrisonPickaxe(contents[e.getPreviousSlot()])) {
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(contents[e.getPreviousSlot()]);
             for (BaseEnchant enchant : pickaxe.getEnchants()) {
                 if (!pickaxe.getIsEnchantEnabled(enchant)) continue;
                 enchant.onPickaxeUnHeld(player, pickaxe);
             }
         }
-        if (PrisonUtils.checkIsPrisonPickaxe(contents[e.getNewSlot()])) {
+        if (PrisonPickaxe.checkIsPrisonPickaxe(contents[e.getNewSlot()])) {
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(contents[e.getNewSlot()]);
             for (BaseEnchant enchant : pickaxe.getEnchants()) {
                 if (!pickaxe.getIsEnchantEnabled(enchant)) continue;
@@ -161,7 +161,7 @@ public class EventListener implements Listener {
         Player player = e.getPlayer();
         if (player.getInventory().firstEmpty() == -1) return;
         if (player.getInventory().firstEmpty() == player.getInventory().getHeldItemSlot()) {
-            if (!PrisonUtils.checkIsPrisonPickaxe(e.getItem().getItemStack())) return;
+            if (!PrisonPickaxe.checkIsPrisonPickaxe(e.getItem().getItemStack())) return;
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getItem().getItemStack());
             for (BaseEnchant enchant : pickaxe.getEnchants()) {
                 if (!pickaxe.getIsEnchantEnabled(enchant)) continue;
@@ -173,7 +173,7 @@ public class EventListener implements Listener {
     @EventHandler
     void onClick(InventoryClickEvent e) {
         if (!(e.getWhoClicked() instanceof Player player)) return;
-        if (PrisonUtils.checkIsPrisonPickaxe(e.getCurrentItem())) {
+        if (PrisonPickaxe.checkIsPrisonPickaxe(e.getCurrentItem())) {
             if (e.getClickedInventory() != null && e.getClickedInventory().getHolder() instanceof StaticGUI) return;
             PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getCurrentItem());
             if (!player.getInventory().getItemInMainHand().equals(e.getCurrentItem())) return;
@@ -183,7 +183,7 @@ public class EventListener implements Listener {
             }
             return;
         }
-        if (PrisonUtils.checkIsPrisonPickaxe(e.getCursor())) {
+        if (PrisonPickaxe.checkIsPrisonPickaxe(e.getCursor())) {
             if (e.getClickedInventory() != null && e.getClickedInventory().getHolder() instanceof StaticGUI) return;
             if (e.getClick().equals(ClickType.DOUBLE_CLICK)) return;
             if (player.getInventory().getHeldItemSlot() != e.getSlot()) return;

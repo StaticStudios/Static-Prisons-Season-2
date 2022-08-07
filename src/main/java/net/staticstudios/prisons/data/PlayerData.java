@@ -14,9 +14,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,32 +45,32 @@ public class PlayerData extends DataSet {
 
 
     //Money
-    public BigInteger getMoney() {
-        return getBigInt("money");
+    public long getMoney() {
+        return getLong("money");
     }
-    public PlayerData setMoney(BigInteger value) {
-        setBigInt("money", value);
+    public PlayerData setMoney(long value) {
+        setLong("money", value);
         return this;
     }
-    public PlayerData addMoney(BigInteger value) {
-        return setMoney(getMoney().add(value));
+    public PlayerData addMoney(long value) {
+        return setMoney(getMoney() + value);
     }
-    public PlayerData removeMoney(BigInteger value) {
-        return setMoney(getMoney().subtract(value));
+    public PlayerData removeMoney(long value) {
+        return setMoney(getMoney() - value);
     }
     //Tokens
-    public BigInteger getTokens() {
-        return getBigInt("tokens");
+    public long getTokens() {
+        return getLong("tokens");
     }
-    public PlayerData setTokens(BigInteger value) {
-        setBigInt("tokens", value);
+    public PlayerData setTokens(long value) {
+        setLong("tokens", value);
         return this;
     }
-    public PlayerData addTokens(BigInteger value) {
-        return setTokens(getTokens().add(value));
+    public PlayerData addTokens(long value) {
+        return setTokens(getTokens() + value);
     }
-    public PlayerData removeTokens(BigInteger value) {
-        return setTokens(getTokens().subtract(value));
+    public PlayerData removeTokens(long value) {
+        return setTokens(getTokens() - value);
     }
     //Prestige Tokens
     public long getPrestigeTokens() {
@@ -91,18 +88,18 @@ public class PlayerData extends DataSet {
     }
 
     //Shards
-    public BigInteger getShards() {
-        return getBigInt("shards");
+    public long getShards() {
+        return getLong("shards");
     }
-    public PlayerData setShards(BigInteger value) {
-        setBigInt("shards", value);
+    public PlayerData setShards(long value) {
+        setLong("shards", value);
         return this;
     }
-    public PlayerData addShards(BigInteger value) {
-        return setShards(getShards().add(value));
+    public PlayerData addShards(long value) {
+        return setShards(getShards() + value);
     }
-    public PlayerData removeShards(BigInteger value) {
-        return setShards(getShards().subtract(value));
+    public PlayerData removeShards(long value) {
+        return setShards(getShards() - value);
     }
     //Player XP
     public long getPlayerXP() {
@@ -168,46 +165,46 @@ public class PlayerData extends DataSet {
     }
 
     //Time played
-    public BigInteger getTimePlayed() {
-        return getBigInt("timePlayed");
+    public long getTimePlayed() {
+        return getLong("timePlayed");
     }
-    public PlayerData setTimePlayed(BigInteger value) {
-        setBigInt("timePlayed", value);
+    public PlayerData setTimePlayed(long value) {
+        setLong("timePlayed", value);
         return this;
     }
-    public PlayerData addTimePlayed(BigInteger value) {
-        return setTimePlayed(getTimePlayed().add(value));
+    public PlayerData addTimePlayed(long value) {
+        return setTimePlayed(getTimePlayed() + value);
     }
-    public PlayerData removeTimePlayed(BigInteger value) {
-        return setTimePlayed(getTimePlayed().subtract(value));
+    public PlayerData removeTimePlayed(long value) {
+        return setTimePlayed(getTimePlayed() - value);
     }
     //Raw Blocks Mined
-    public BigInteger getRawBlocksMined() {
-        return getBigInt("rawBlocksMined");
+    public long getRawBlocksMined() {
+        return getLong("rawBlocksMined");
     }
-    public PlayerData setRawBlocksMined(BigInteger value) {
-        setBigInt("rawBlocksMined", value);
+    public PlayerData setRawBlocksMined(long value) {
+        setLong("rawBlocksMined", value);
         return this;
     }
-    public PlayerData addRawBlocksMined(BigInteger value) {
-        return setRawBlocksMined(getRawBlocksMined().add(value));
+    public PlayerData addRawBlocksMined(long value) {
+        return setRawBlocksMined(getRawBlocksMined() + value);
     }
-    public PlayerData removeRawBlocksMined(BigInteger value) {
-        return setRawBlocksMined(getRawBlocksMined().subtract(value));
+    public PlayerData removeRawBlocksMined(long value) {
+        return setRawBlocksMined(getRawBlocksMined() - value);
     }
     //Blocks Mined
-    public BigInteger getBlocksMined() {
-        return getBigInt("blocksMined");
+    public long getBlocksMined() {
+        return getLong("blocksMined");
     }
-    public PlayerData setBlocksMined(BigInteger value) {
-        setBigInt("blocksMined", value);
+    public PlayerData setBlocksMined(long value) {
+        setLong("blocksMined", value);
         return this;
     }
-    public PlayerData addBlocksMined(BigInteger value) {
-        return setBlocksMined(getBlocksMined().add(value));
+    public PlayerData addBlocksMined(long value) {
+        return setBlocksMined(getBlocksMined() + value);
     }
-    public PlayerData removeBlocksMined(BigInteger value) {
-        return setBlocksMined(getBlocksMined().subtract(value));
+    public PlayerData removeBlocksMined(long value) {
+        return setBlocksMined(getBlocksMined() - value);
     }
     //Mine Rank
     public int getMineRank() {
@@ -224,53 +221,55 @@ public class PlayerData extends DataSet {
         return setMineRank(getMineRank() - value);
     }
     //Blocks Mined
-    public BigInteger getPrestige() {
-        return getBigInt("prestige");
+    public long getPrestige() {
+        return getLong("prestige");
     }
-    public PlayerData setPrestige(BigInteger value) {
-        setBigInt("prestige", value);
+    public PlayerData setPrestige(long value) {
+        setLong("prestige", value);
         return this;
     }
-    public PlayerData addPrestige(BigInteger value) {
-        return setPrestige(getPrestige().add(value));
+    public PlayerData addPrestige(long value) {
+        return setPrestige(getPrestige() + value);
     }
-    public PlayerData removePrestige(BigInteger value) {
-        return setPrestige(getPrestige().subtract(value));
+    public PlayerData removePrestige(long value) {
+        return setPrestige(getPrestige() - value);
     }
-    public BigInteger getClaimedPrestigeRewardsAt() {
-        return getBigInt("prestigeRewardsClaimed");
+    public long getClaimedPrestigeRewardsAt() {
+        return getLong("prestigeRewardsClaimed");
     }
-    public PlayerData setClaimedPrestigeRewardsAt(BigInteger value) {
-        setBigInt("prestigeRewardsClaimed", value);
+    public PlayerData setClaimedPrestigeRewardsAt(long value) {
+        setLong("prestigeRewardsClaimed", value);
         return this;
     }
 
     //Multipliers
-    public BigDecimal getMoneyMultiplier() {
-        BigDecimal multi = BigDecimal.ONE;
+    public double getMoneyMultiplier() {
+        double multi = 1;
         //Factor in ranks
         switch (getPlayerRank()) {
-            case "warrior" -> multi = multi.add(new BigDecimal("0.5"));
-            case "master" -> multi = multi.add(new BigDecimal("0.8"));
-            case "mythic" -> multi = multi.add(BigDecimal.ONE);
-            case "static" -> multi = multi.add(new BigDecimal("1.6"));
-            case "staticp" -> multi = multi.add(new BigDecimal("2.5"));
+            case "warrior" -> multi += 0.05d; //+5%
+            case "master" -> multi += 0.10d; //+10%
+            case "mythic" -> multi += 0.15d; //+15%
+            case "static" -> multi += 0.20d; //+20%
+            case "staticp" -> multi += 0.25d; //+25%
         }
-        return multi.add(getTempMoneyMultiplier());
+        return multi + getTempMoneyMultiplier();
     }
-    public BigDecimal getTempMoneyMultiplier() {
+    public double getTempMoneyMultiplier() {
         List<String> multipliers = getTempMoneyMultiplierList();
-        BigDecimal multiplier = BigDecimal.ZERO;
-        for (String multi : multipliers) multiplier = multiplier.add(new BigDecimal(multi.split("\\|")[0]));
+        double multiplier = 0d;
+        for (String multi : multipliers) {
+            multiplier += Double.parseDouble(multi.split(",")[0]);
+        }
         return multiplier;
     }
     public PlayerData setTempMoneyMultiplierList(List<String> value) {
         setStringList("tempMoneyMultipliers", value);
         return this;
     }
-    public BigDecimal addTempMoneyMultiplier(BigDecimal amount, long lengthInMS) {
+    public double addTempMoneyMultiplier(double amount, long lengthInMS) {
         List<String> multipliers = getTempMoneyMultiplierList();
-        multipliers.add(amount.toString() + "|" + (Instant.now().toEpochMilli() + lengthInMS));
+        multipliers.add(amount + "," + (System.currentTimeMillis() + lengthInMS));
         setTempMoneyMultiplierList(multipliers);
         return getTempMoneyMultiplier();
     }
@@ -280,116 +279,23 @@ public class PlayerData extends DataSet {
         List<String> multipliersToRemove = new ArrayList<>();
         for (String multi : multipliers) {
             //amount|time
-            if (Long.parseLong(multi.split("\\|")[1]) < Instant.now().toEpochMilli()) {
+            if (Long.parseLong(multi.split(",")[1]) < System.currentTimeMillis()) {
                 multipliersToRemove.add(multi);
             }
         }
         multipliers.removeAll(multipliersToRemove);
-        if (!multipliers.equals(initialMultipliers)) setStringList("tempMoneyMultipliers", multipliers);
+        if (!multipliers.equals(initialMultipliers)) {
+            setStringList("tempMoneyMultipliers", multipliers);
+        }
         return multipliers;
     }
 
-    /**
-     * This does nothing for the time being
-     */
-    public BigDecimal getTokenMultiplier() {
-        BigDecimal multi = BigDecimal.ZERO;
-        //Factor in the consistency enchant
-        return multi;
-    }
-    //Backpack
-//    public PlayerData setBackpackContents(Map<BigDecimal, BigInteger> value) {
-//        Map<String, String> map = new HashMap<>();
-//        for (Map.Entry<BigDecimal, BigInteger> entry : value.entrySet()) {
-//            map.put(entry.getKey().toString(), entry.getValue().toString());
-//        }
-//        setMap("backpackContents", map);
-//        return this;
-//    }
 
-
-//    public PlayerData setBackpackValue(long value) {
-//        setLong("backpackValue", value);
-//        return this;
+//    public double getTokenMultiplier() {
+//        BigDecimal multi = BigDecimal.ZERO;
+//        //Factor in the consistency enchant
+//        return multi;
 //    }
-//    public PlayerData addBackpackValue(long value) {
-//        return setBackpackValue(getBackpackValue() + value);
-//    }
-//    public long getBackpackValue() {
-//        return getLong("backpackValue");
-//    }
-//    public PlayerData setBackpackItemCount(long value) {
-//        setLong("backpackItemCount", value);
-//        return this;
-//    }
-//    public long getBackpackItemCount() {
-//        return getLong("backpackItemCount");
-//    }
-//    public PlayerData setBackpackSize(long value) {
-//        setLong("backpackSize", value);
-//        return this;
-//    }
-//    public long getBackpackSize() {
-//        return getLong("backpackSize");
-//    }
-//    public boolean getBackpackIsFull() {
-//        return getBackpackSize() <= getBackpackItemCount();
-//    }
-//
-//
-//    public void addAllToBackpack(Map<MineBlock, Long> whatToAdd) {
-//        if (getBackpackIsFull()) return;
-//        long itemCount = getBackpackItemCount();
-//        long size = getBackpackSize();
-//        long value = 0;
-//        whatToAdd.remove(null); //fix null errors
-//        for (Map.Entry<MineBlock, Long> entry : whatToAdd.entrySet()) {
-//            if (itemCount >= size) break; //The backpack is full
-//            long blockValue = entry.getKey().value();
-//            long amount = entry.getValue();
-//            if (size >= itemCount + amount) { //The backpack can add the whole entry
-//                value += blockValue * amount;
-//                itemCount += amount;
-//            } else { //The backpack is not currently full but will be full after adding this entry, figure out how much can fit in the backpack and add only that amount
-//                amount = size - itemCount;
-//                value += blockValue * amount;
-//                itemCount = size;
-//                break; //The backpack is now full
-//            }
-//        }
-//        addBackpackValue(value);
-//        setBackpackItemCount(itemCount);
-//    }
-//    public void sellBackpack(Player player, boolean sendChatMessage) {
-//        sellBackpack(player, sendChatMessage, "(x%MULTI%) Sold " + ChatColor.AQUA + "%TOTAL_BACKPACK_COUNT% " + ChatColor.WHITE + "blocks for: " + ChatColor.GREEN + "$%TOTAL_SELL_PRICE%");
-//    }
-//    public void sellBackpack(Player player, boolean sendChatMessage, String chatMessage) {
-//        BigDecimal multi = getMoneyMultiplier();
-//        if (player != null) {
-//            //Factor in the merchant enchant
-//            ItemStack item = player.getInventory().getItemInMainHand();
-//            if (PrisonUtils.checkIsPrisonPickaxe(item)) {
-//                PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(item);
-//                if (pickaxe.getIsEnchantEnabled(PickaxeEnchants.MERCHANT)) {
-//                    multi = multi.add(BigDecimal.valueOf(pickaxe.getEnchantLevel(PickaxeEnchants.MERCHANT) / 1250d));
-//                }
-//            }
-//        }
-//        BigInteger soldFor = BigDecimal.valueOf(getBackpackValue()).multiply(multi).toBigInteger();
-//        addMoney(soldFor);
-//        if (Gang.getGangFromPlayerUUID(getUUID()) != null) {
-//            Gang.getGangFromPlayerUUID(getUUID()).addMoneyMade(soldFor); //Track gang stats
-//        }
-//        if (sendChatMessage && player != null) {
-//            chatMessage = chatMessage.replaceAll("%MULTI%", multi + "");
-//            chatMessage = chatMessage.replaceAll("%TOTAL_BACKPACK_COUNT%", PrisonUtils.prettyNum(getBackpackItemCount()) + "");
-//            chatMessage = chatMessage.replaceAll("%TOTAL_SELL_PRICE%", PrisonUtils.addCommasToNumber(soldFor) + "");
-//            player.sendMessage(chatMessage);
-//        }
-//        setBackpackItemCount(0);
-//        setBackpackValue(0);
-//    }
-//
 
 
 
@@ -658,18 +564,18 @@ public class PlayerData extends DataSet {
         return this;
     }
     //Votes
-    public BigInteger getVotes() {
-        return getBigInt("votes");
+    public long getVotes() {
+        return getLong("votes");
     }
-    public PlayerData setVotes(BigInteger value) {
-        setBigInt("votes", value);
+    public PlayerData setVotes(long value) {
+        setLong("votes", value);
         return this;
     }
-    public PlayerData addVotes(BigInteger value) {
-        return setVotes(getVotes().add(value));
+    public PlayerData addVotes(long value) {
+        return setVotes(getVotes() + value);
     }
-    public PlayerData removeVotes(BigInteger value) {
-        return setVotes(getVotes().subtract(value));
+    public PlayerData removeVotes(long value) {
+        return setVotes(getVotes() - value);
     }
     public long getLastVotedAt() {
         return getLong("lastVotedAt");

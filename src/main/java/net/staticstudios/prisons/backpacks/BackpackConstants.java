@@ -37,16 +37,16 @@ public class BackpackConstants {
     public static final String tier10Skin = "ewogICJ0aW1lc3RhbXAiIDogMTYwNDczNTM1MTc1MiwKICAicHJvZmlsZUlkIiA6ICI0ZWQ4MjMzNzFhMmU0YmI3YTVlYWJmY2ZmZGE4NDk1NyIsCiAgInByb2ZpbGVOYW1lIiA6ICJGaXJlYnlyZDg4IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzQ2MDc2MDA0NzNkNmEwN2RiNzZkMGQyMjM0NDY1YzNkZTRlM2Y5OTNmODE0NDQ1YWQ2MTlmNWYxYjNkZmRkZGUiCiAgICB9CiAgfQp9";
 
 
-    public static final long tier1MaxSize = 5000L;      //5K
-    public static final long tier2MaxSize = 25000L;     //25K
-    public static final long tier3MaxSize = 50000L;     //50K
-    public static final long tier4MaxSize = 100000L;    //100K
-    public static final long tier5MaxSize = 1000000L;   //1M
-    public static final long tier6MaxSize = 10000000L;  //10M
-    public static final long tier7MaxSize = 50000000L;  //50M
-    public static final long tier8MaxSize = 100000000L; //100M
-    public static final long tier9MaxSize = 250000000L; //250M
-    public static final long tier10MaxSize = 500000000L;//500M
+    public static final long tier1MaxSize = 5000L;          //5K
+    public static final long tier2MaxSize = 25000L;         //25K
+    public static final long tier3MaxSize = 50000L;         //50K
+    public static final long tier4MaxSize = 100000L;        //100K
+    public static final long tier5MaxSize = 1000000L;       //1M
+    public static final long tier6MaxSize = 10000000L;      //10M
+    public static final long tier7MaxSize = 50000000L;      //50M
+    public static final long tier8MaxSize = 100000000L;     //100M
+    public static final long tier9MaxSize = 250000000L;     //250M
+    public static final long tier10MaxSize = 500000000L;    //500M
 
 
     public static final Component tier1Name = Component.text("Prison Backpack").color(ComponentUtil.LIGHT_PURPLE).decorate(TextDecoration.BOLD);

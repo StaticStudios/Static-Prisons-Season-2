@@ -2,8 +2,7 @@ package net.staticstudios.prisons.commands.test;
 
 import net.staticstudios.prisons.lootboxes.handler.LootBoxType;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.utils.ItemUtils;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.privateMines.PrivateMine;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -202,8 +201,10 @@ public class TestCommand implements CommandExecutor {
 //        System.out.println(calc(15_000_000) + " 7.5M");
 
 
-        player.getInventory().addItem(ItemUtils.createCustomSkull(LootBoxType.PICKAXE.base64Texture));
-        player.getInventory().addItem(ItemUtils.createCustomSkull(LootBoxType.MINE_BOMB.base64Texture));
+//        player.getInventory().addItem(ItemUtils.createCustomSkull(LootBoxType.PICKAXE.base64Texture));
+//        player.getInventory().addItem(ItemUtils.createCustomSkull(LootBoxType.MINE_BOMB.base64Texture));
+        PrivateMine mine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
+        mine.setXpAndCalcLevel(Long.parseLong(args[0]));
         return false;
 
 

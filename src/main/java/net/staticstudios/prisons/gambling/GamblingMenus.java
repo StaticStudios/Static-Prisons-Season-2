@@ -78,7 +78,7 @@ public class GamblingMenus extends GUIUtils {
                     coinFlip(p);
                     return;
                 }
-                if (cf.amount.compareTo(new PlayerData(p.getUniqueId()).getMoney()) > 0) {
+                if (cf.amount > new PlayerData(p.getUniqueId()).getMoney()) {
                     p.sendMessage(ChatColor.RED + "You do not have enough money to make this bet!");
                     return;
                 }
@@ -128,7 +128,7 @@ public class GamblingMenus extends GUIUtils {
                     tokenFlip(p);
                     return;
                 }
-                if (tf.amount.compareTo(new PlayerData(p.getUniqueId()).getTokens()) > 0) {
+                if (tf.amount > new PlayerData(p.getUniqueId()).getTokens()) {
                     p.sendMessage(ChatColor.RED + "You do not have enough tokens to make this bet!");
                     return;
                 }

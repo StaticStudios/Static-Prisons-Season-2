@@ -9,14 +9,13 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ConsistencyEnchant extends BaseEnchant {
     public ConsistencyEnchant() {
-        super("consistency", "&e&lConsistency", 15, BigInteger.valueOf(1000000), "&7+1% token multi every 2 mins of consistent mining", "&7Increases your max multi by 3% for every level", "&7Multiplier expires after 2 minutes of not mining");
+        super("consistency", "&e&lConsistency", 15, 1_000_000, "&7+1% token multi every 2 mins of consistent mining", "&7Increases your max multi by 3% for every level", "&7Multiplier expires after 2 minutes of not mining");
         setPickaxeLevelRequirement(62);
 
         setTiers(

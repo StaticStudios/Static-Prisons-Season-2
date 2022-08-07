@@ -14,8 +14,6 @@ import java.util.Set;
 
 public class ChatTags {
 
-    private static YamlConfiguration config;
-
     private static final Map<String, Component> chatTags = new LinkedHashMap<>();
 
     public static void init() {
@@ -23,7 +21,7 @@ public class ChatTags {
     }
 
     private static void loadConfig() {
-        config = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder() + "/chatTags.yml"));
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder() + "/chatTags.yml"));
 
         if (!config.contains("chatTags")) {
             config.createSection("chatTags");
@@ -34,7 +32,7 @@ public class ChatTags {
         ConfigurationSection root = config.getConfigurationSection("chatTags");
 
         for (String tag : Objects.requireNonNull(root).getKeys(false)) {
-                chatTags.put(tag, miniMessage.deserialize(root.getString(tag)));
+            chatTags.put(tag, miniMessage.deserialize(root.getString(tag)));
         }
     }
 

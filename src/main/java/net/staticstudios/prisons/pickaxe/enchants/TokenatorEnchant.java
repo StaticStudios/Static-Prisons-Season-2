@@ -5,11 +5,9 @@ import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 import net.staticstudios.prisons.utils.PrisonUtils;
 
-import java.math.BigInteger;
-
 public class TokenatorEnchant extends BaseEnchant {
     public TokenatorEnchant() {
-        super("tokenator", "&6&lTokenator", 5000, BigInteger.valueOf(1250), "&7Increases the chance to find tokens while mining");
+        super("tokenator", "&6&lTokenator", 5000, 1250, "&7Increases the chance to find tokens while mining");
 
         setTiers(
                 new EnchantTier(100, 0),

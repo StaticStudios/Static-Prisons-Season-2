@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -46,6 +45,7 @@ public class PrisonBackpacks {
         boolean changedInventory = false;
         if (!whatToAdd.isEmpty()) { //All the player's backpacks filled up, add the remaining items to the player's inventory
             PlayerInventory inventory = player.getInventory();
+            List<MineBlock> whatToRemove = new LinkedList<>();
             for (Map.Entry<MineBlock, Long> entry : whatToAdd.entrySet()) {
                 ItemStack itemStack = new ItemStack(entry.getKey().material());
                 long amountToAdd = entry.getValue();
@@ -59,8 +59,11 @@ public class PrisonBackpacks {
                     amountToAdd -= amountToAddThisTime;
                 }
                 if (amountToAdd == 0) {
-                    whatToAdd.remove(entry.getKey());
+                    whatToRemove.add(entry.getKey());
                 }
+            }
+            for (MineBlock block : whatToRemove) {
+                whatToAdd.remove(block);
             }
         }
         if (!initialThingsToAdd.equals(whatToAdd)) {
@@ -138,8 +141,8 @@ public class PrisonBackpacks {
             item.setAmount(0);
         }
 
-        double multiplier = playerData.getMoneyMultiplier().doubleValue();
-        playerData.addMoney(BigInteger.valueOf((long) (soldFor * multiplier)));
+        double multiplier = playerData.getMoneyMultiplier();
+        playerData.addMoney((long) (soldFor * multiplier));
 
         if (blocksSold > 0) {
             runIfWasNotEmpty.accept(player, new SellReceipt(BigDecimal.valueOf(multiplier), blocksSold, soldFor));

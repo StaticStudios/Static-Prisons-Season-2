@@ -14,8 +14,6 @@ import java.util.Set;
 
 public class NickColors {
 
-    private static YamlConfiguration config;
-
     private static final Map<String, TextColor> nickColors = new HashMap<>();
 
     public static void init() {
@@ -23,7 +21,7 @@ public class NickColors {
     }
 
     private static void loadConfig() {
-        config = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder() + "/nickColors.yml"));
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder() + "/nickColors.yml"));
 
         if (!config.contains("nickColors")) {
             config.createSection("nickColors");

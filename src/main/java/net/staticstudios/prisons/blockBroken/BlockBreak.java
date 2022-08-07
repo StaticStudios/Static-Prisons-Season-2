@@ -1,5 +1,10 @@
 package net.staticstudios.prisons.blockBroken;
 
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.world.block.BlockTypes;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.StaticPrisons;
@@ -19,7 +24,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -186,11 +190,11 @@ public class BlockBreak {
             }
 
             //Add stats to playerData and pickaxe
-            playerData.addMoney(BigInteger.valueOf((long) (stats.getMoneyEarned() * stats.getMoneyMultiplier())));
-            playerData.addTokens(BigInteger.valueOf((long) (stats.getTokensEarned() * stats.getTokenMultiplier())));
+            playerData.addMoney((long) (stats.getMoneyEarned() * stats.getMoneyMultiplier()));
+            playerData.addTokens((long) (stats.getTokensEarned() * stats.getTokenMultiplier()));
             playerData.addPlayerXP((long) (stats.getXpEarned() * stats.getXpMultiplier()));
-            playerData.addRawBlocksMined(BigInteger.valueOf(stats.getRawBlockBroken()));
-            playerData.addBlocksMined(BigInteger.valueOf(stats.getBlocksBroken()));
+            playerData.addRawBlocksMined(stats.getRawBlockBroken());
+            playerData.addBlocksMined(stats.getBlocksBroken());
 
             //Apply the blocksBrokenMultiplier
             stats.getMinedBlocks().replaceAll((k, v) -> (long) (v * stats.getBlocksBrokenMultiplier()));

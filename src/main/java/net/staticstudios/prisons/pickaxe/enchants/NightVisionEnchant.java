@@ -5,11 +5,9 @@ import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
-import java.math.BigInteger;
-
 public class NightVisionEnchant extends BaseEnchant {
     public NightVisionEnchant() {
-        super("nightVision", "&9&lNight Vision", 1, BigInteger.valueOf(10000), "&7Gives the vanilla night vision effect");
+        super("nightVision", "&9&lNight Vision", 1, 10_000, "&7Gives the vanilla night vision effect");
     }
 
     public void onUpgrade(Player player, PrisonPickaxe pickaxe, int oldLevel, int newLevel) {

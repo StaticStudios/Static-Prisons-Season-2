@@ -137,7 +137,7 @@ public class PackageHandler {
         Audience audience = Audience.audience(Bukkit.getOnlinePlayers());
 
         audience.showTitle(Title.title(Component.text(title), prettyPackageName, Title.Times.of(Duration.ofMillis(500), Duration.ofMillis(4000), Duration.ofMillis(500))));
-        audience.sendMessage(Component.text(playerName).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD).append(Component.text("purchased ").color(NamedTextColor.WHITE).decoration(TextDecoration.BOLD, false)).append(prettyPackageName));
+        audience.sendMessage(Component.text(playerName).color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD).append(Component.text(" purchased ").color(NamedTextColor.WHITE).decoration(TextDecoration.BOLD, false)).append(prettyPackageName));
 
         if (Bukkit.getPlayer(playerUUID) != null) runIfPlayerIsOnline.accept(Bukkit.getPlayer(playerUUID));
 

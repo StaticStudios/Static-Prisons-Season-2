@@ -267,13 +267,13 @@ public class DataSet {
         return getDataNotNull(key).getStringUuidMap();
     }
 
-    public void setBigInt(String key, BigInteger value) {
-        Data data = new Data(key);
-        data.setBigInt(value);
-        setData(key, data);
-    }
-    @NotNull
-    public BigInteger getBigInt(String key) {
-        return getDataNotNull(key).getBigInt();
-    }
+//    public void setBigInt(String key, BigInteger value) {
+//        Data data = new Data(key);
+//        data.setBigInt(value);
+//        setData(key, data);
+//    }
+//    @NotNull
+//    public BigInteger getBigInt(String key) {
+//        return getDataNotNull(key).getBigInt();
+//    }
 }

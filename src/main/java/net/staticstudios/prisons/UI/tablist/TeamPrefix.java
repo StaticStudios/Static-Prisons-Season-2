@@ -13,8 +13,6 @@ import java.util.Objects;
 
 public class TeamPrefix {
 
-    private static YamlConfiguration config;
-
     private static final Map<String, Component> teamPrefix = new LinkedHashMap<>();
 
     public static void init() {
@@ -22,7 +20,7 @@ public class TeamPrefix {
     }
 
     private static void loadConfig() {
-        config = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder() + "/teamPrefix.yml"));
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder() + "/teamPrefix.yml"));
 
         if (!config.contains("teamPrefix")) {
             config.createSection("teamPrefix");

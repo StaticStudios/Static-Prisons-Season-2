@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,20 +42,20 @@ public class PayCommand implements CommandExecutor, TabCompleter {
             whoToPayName = p.getName();
             whoToPay = new PlayerData(Bukkit.getPlayer(args[0]));
         }
-        BigInteger amount;
+        long amount;
         try {
-            amount = new BigInteger(args[2]);
+            amount = Long.parseLong(args[2]);
         } catch (NumberFormatException ignore) {
             player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/pay <who> <money/tokens> <amount>"));
             return false;
         }
-        if (amount.compareTo(BigInteger.ZERO) < 1) {
+        if (amount < 1) {
             player.sendMessage(ChatColor.RED + "Amount must be more then 0!");
             return false;
         }
         switch (args[1].toLowerCase()) {
             case "money" -> {
-                if (playerData.getMoney().compareTo(amount) > -1) {
+                if (playerData.getMoney() > amount) {
                     playerData.removeMoney(amount);
                     whoToPay.addMoney(amount);
                     if (p != null) {
@@ -66,7 +65,7 @@ public class PayCommand implements CommandExecutor, TabCompleter {
                 } else player.sendMessage(ChatColor.RED + "You do not have enough money for this!");
             }
             case "tokens" -> {
-                if (playerData.getTokens().compareTo(amount) > -1) {
+                if (playerData.getTokens() > amount) {
                     playerData.removeTokens(amount);
                     whoToPay.addTokens(amount);
                     if (p != null) {

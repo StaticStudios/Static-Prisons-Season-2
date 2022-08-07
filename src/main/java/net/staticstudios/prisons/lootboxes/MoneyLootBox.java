@@ -15,7 +15,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
@@ -110,7 +109,7 @@ public class MoneyLootBox extends LootBox {
 
     @Override
     public void onClaim(Player player) {
-        BigInteger moneyToAdd = BigInteger.valueOf(PrisonUtils.randomLong(getTier(tier).minReward, getTier(tier).maxReward));
+        long moneyToAdd = PrisonUtils.randomLong(getTier(tier).minReward, getTier(tier).maxReward);
         new PlayerData(player).addMoney(moneyToAdd);
         player.sendMessage(Prefix.LOOT_BOX.append(Component.text("You've been given $" + PrisonUtils.addCommasToNumber(moneyToAdd) + "!")));
     }

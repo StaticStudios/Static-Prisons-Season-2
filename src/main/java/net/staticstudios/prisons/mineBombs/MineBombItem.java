@@ -20,6 +20,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class MineBombItem { //todo: clean this file up, precompute minebombs
     private static final long VIRTUAL_FORTUNE = 1000;
     public static void blockPlaced(PlayerInteractEvent e) {

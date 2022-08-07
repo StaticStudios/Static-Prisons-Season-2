@@ -8,11 +8,9 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigInteger;
-
 public class KeyFinderEnchant extends BaseEnchant {
     public KeyFinderEnchant() {
-        super("keyFinder", "&d&lKey Finder", 5000, BigInteger.valueOf(400), "&7Find crate keys while mining");
+        super("keyFinder", "&d&lKey Finder", 5000, 400, "&7Find crate keys while mining");
         setPickaxeLevelRequirement(31);
 
         setTiers(

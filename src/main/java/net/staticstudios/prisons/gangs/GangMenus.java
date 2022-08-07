@@ -11,7 +11,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -287,7 +286,7 @@ public class GangMenus extends GUIUtils {
         GUICreator c = new GUICreator(27, "Gang Bank | Money");
         c.setItem(11, ench(c.createButton(Material.LIME_STAINED_GLASS, "&a&lDeposit All ($" + PrisonUtils.prettyNum(playerData.getMoney()) + ")", List.of("Deposit all of your money"), (p, t) -> {
             gang.addBankMoney(playerData.getMoney());
-            playerData.setMoney(BigInteger.ZERO);
+            playerData.setMoney(0);
             openGangBankMoney(p, fromCommand);
         })));
         c.setItem(13, ench(c.createButton(Material.MAP, "&b&lYour Gang's Bank", List.of("&bMoney: &f$" + PrisonUtils.prettyNum(gang.getBankMoney()), "&bTokens: &f" + PrisonUtils.prettyNum(gang.getBankTokens())))));
@@ -314,7 +313,7 @@ public class GangMenus extends GUIUtils {
         GUICreator c = new GUICreator(27, "Gang Bank | Tokens");
         c.setItem(11, ench(c.createButton(Material.LIME_STAINED_GLASS, "&a&lDeposit All (" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens)", List.of("Deposit all of your tokens"), (p, t) -> {
             gang.addBankTokens(playerData.getTokens());
-            playerData.setTokens(BigInteger.ZERO);
+            playerData.setTokens(0);
             openGangBankTokens(p, fromCommand);
         })));
         c.setItem(13, ench(c.createButton(Material.MAP, "&b&lYour Gang's Bank", List.of("&bMoney: &f$" + PrisonUtils.prettyNum(gang.getBankMoney()), "&bTokens: &f" + PrisonUtils.prettyNum(gang.getBankTokens())))));

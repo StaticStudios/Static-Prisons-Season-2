@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,77 +162,77 @@ public class WarpsCommand implements CommandExecutor, TabCompleter {
                 } else player.sendMessage(notUnlocked);
             }
             case "p1" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[0])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[0]) {
                     Warps.warpToPrestigeMine(player, 0);
                 } else player.sendMessage(notUnlocked);
             }
             case "p2" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[1])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[1]) {
                     Warps.warpToPrestigeMine(player, 1);
                 } else player.sendMessage(notUnlocked);
             }
             case "p3" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[2])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[2]) {
                     Warps.warpToPrestigeMine(player, 2);
                 } else player.sendMessage(notUnlocked);
             }
             case "p4" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[3])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[3]) {
                     Warps.warpToPrestigeMine(player, 3);
                 } else player.sendMessage(notUnlocked);
             }
             case "p5" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[4])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[4]) {
                     Warps.warpToPrestigeMine(player, 4);
                 } else player.sendMessage(notUnlocked);
             }
             case "p6" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[5])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[5]) {
                     Warps.warpToPrestigeMine(player, 5);
                 } else player.sendMessage(notUnlocked);
             }
             case "p7" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[6])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[6]) {
                     Warps.warpToPrestigeMine(player, 6);
                 } else player.sendMessage(notUnlocked);
             }
             case "p8" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[7])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[7]) {
                     Warps.warpToPrestigeMine(player, 7);
                 } else player.sendMessage(notUnlocked);
             }
             case "p9" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[8])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[8]) {
                     Warps.warpToPrestigeMine(player, 8);
                 } else player.sendMessage(notUnlocked);
             }
             case "p10" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[9])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[9]) {
                     Warps.warpToPrestigeMine(player, 9);
                 } else player.sendMessage(notUnlocked);
             }
             case "p11" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[10])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[10]) {
                     Warps.warpToPrestigeMine(player, 10);
                 } else player.sendMessage(notUnlocked);
             }
             case "p12" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[11])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[11]) {
                     Warps.warpToPrestigeMine(player, 11);
                 } else player.sendMessage(notUnlocked);
             }
             case "p13" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[12])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[12]) {
                     Warps.warpToPrestigeMine(player, 12);
                 } else player.sendMessage(notUnlocked);
             }
             case "p14" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[13])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[13]) {
                     Warps.warpToPrestigeMine(player, 13);
                 } else player.sendMessage(notUnlocked);
             }
             case "p15" -> {
-                if (playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[14])) > -1) {
+                if (playerData.getPrestige() > Constants.PRESTIGE_MINE_REQUIREMENTS[14]) {
                     Warps.warpToPrestigeMine(player, 14);
                 } else player.sendMessage(notUnlocked);
             }

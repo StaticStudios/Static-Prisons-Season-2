@@ -12,7 +12,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,7 +23,7 @@ public class CoinFlip extends Flip { //todo clean this and tokenflip up to use a
 
     public static final Material HEADS_ICON = Material.PLAYER_HEAD;
     public static final Material TAILS_ICON = Material.RABBIT_FOOT;
-    public static void createCoinFlip(Player player, BigInteger amount, boolean isHeads) {
+    public static void createCoinFlip(Player player, long amount, boolean isHeads) {
         new CoinFlip(player, amount, isHeads);
     }
     public static boolean checkIfExists(String uuid) {
@@ -47,7 +46,7 @@ public class CoinFlip extends Flip { //todo clean this and tokenflip up to use a
         this.challenger = challenger;
         remove();
         //Check if owner has enough money
-        if (new PlayerData(owner).getMoney().compareTo(amount) < 0) {
+        if (new PlayerData(owner).getMoney() < amount) {
             challenger.sendMessage(ChatColor.RED + "The owner of this bet does not have enough money to continue.");
             GamblingMenus.openMain(challenger);
             return;
@@ -117,11 +116,11 @@ public class CoinFlip extends Flip { //todo clean this and tokenflip up to use a
                 }
                 case OWNER -> { //owner
                     msg = ChatColor.translateAlternateColorCodes('&', PREFIX + "&b" + owner.getName() + " won a coin flip against " + challenger.getName() + " for $" + PrisonUtils.prettyNum(amount) + "! &7&o(49% chance)");
-                    new PlayerData(owner).addMoney(amount.multiply(BigInteger.TWO));
+                    new PlayerData(owner).addMoney(amount * 2);
                 }
                 case CHALLENGER -> { //challenger
                     msg = ChatColor.translateAlternateColorCodes('&', PREFIX + "&b" + challenger.getName() + " won a coin flip against " + owner.getName() + " for $" + PrisonUtils.prettyNum(amount) + "! &7&o(49% chance)");
-                    new PlayerData(challenger).addMoney(amount.multiply(BigInteger.TWO));
+                    new PlayerData(challenger).addMoney(amount * 2);
                 }
             }
 
@@ -141,7 +140,7 @@ public class CoinFlip extends Flip { //todo clean this and tokenflip up to use a
     }
 
 
-    private CoinFlip(Player player, BigInteger amount, boolean isHeads) {
+    private CoinFlip(Player player, long amount, boolean isHeads) {
         uuid = player.getUniqueId().toString();
         owner = player;
         this.amount = amount;

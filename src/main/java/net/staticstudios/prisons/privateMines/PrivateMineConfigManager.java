@@ -15,7 +15,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -67,7 +66,7 @@ public class PrivateMineConfigManager {
         DEFAULT.worldborderOffsetX = d.getInt("border.offset_x");
         DEFAULT.worldborderOffsetZ = d.getInt("border.offset_z");
         DEFAULT.worldborderSize = d.getInt("border.size");
-        DEFAULT.upgradeCost = BigInteger.ZERO;
+        DEFAULT.upgradeCost = 0;
 
         int lastIndex = 0;
         STATS_PER_LEVEL[0] = DEFAULT;
@@ -92,7 +91,7 @@ public class PrivateMineConfigManager {
             if (s.contains("border.size")) mineStats.worldborderSize = s.getInt("border.size");
             else mineStats.worldborderSize = STATS_PER_LEVEL[lastIndex].worldborderSize;
 
-            if (s.contains("cost")) mineStats.upgradeCost = new BigInteger(s.getString("cost"));
+            if (s.contains("cost")) mineStats.upgradeCost = s.getLong("cost");
             else mineStats.upgradeCost = STATS_PER_LEVEL[lastIndex].upgradeCost;
 
             STATS_PER_LEVEL[level] = mineStats;

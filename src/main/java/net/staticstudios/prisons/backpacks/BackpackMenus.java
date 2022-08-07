@@ -10,7 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public class BackpackMenus extends GUIUtils {
@@ -57,7 +56,7 @@ public class BackpackMenus extends GUIUtils {
         c.setItem(14, upgradeSize(c, 100000, 6, backpack));
         c.setItem(15, upgradeSize(c, 1000000, 7, backpack));
         c.setItem(16, upgradeSize(c, 10000000, 8, backpack));
-        long maxSlots = playerData.getTokens().longValue() / SLOT_COST;
+        long maxSlots = playerData.getTokens() / SLOT_COST;
         c.setItem(17, PrisonUtils.setItemCount(ench(c.createButton(Material.ENDER_CHEST, "&d&l+" + PrisonUtils.addCommasToNumber(maxSlots) + " Slots (MAX)", List.of( //Max
                 "&oIncrease your backpack's capacity!",
                 "",
@@ -69,8 +68,8 @@ public class BackpackMenus extends GUIUtils {
             if (backpack.getSize() + toBuy > PrisonBackpacks.getMaxSize(backpack.getTier())) {
                 toBuy = PrisonBackpacks.getMaxSize(backpack.getTier()) - backpack.getSize();
             }
-            if (playerData.getTokens().compareTo(BigInteger.valueOf(toBuy * SLOT_COST)) >= 0) {
-                playerData.removeTokens(BigInteger.valueOf(toBuy * SLOT_COST));
+            if (playerData.getTokens() >= toBuy * SLOT_COST) {
+                playerData.removeTokens(toBuy * SLOT_COST);
                 backpack.addSize(toBuy);
                 open(p, backpack);
             } else {
@@ -199,8 +198,8 @@ public class BackpackMenus extends GUIUtils {
                 toBuy = PrisonBackpacks.getMaxSize(backpack.getTier()) - backpack.getSize();
             }
             PlayerData playerData = new PlayerData(p);
-            if (playerData.getTokens().compareTo(BigInteger.valueOf(toBuy * SLOT_COST)) >= 0) {
-                playerData.removeTokens(BigInteger.valueOf(toBuy * SLOT_COST));
+            if (playerData.getTokens() >= toBuy * SLOT_COST) {
+                playerData.removeTokens(toBuy * SLOT_COST);
                 backpack.addSize(toBuy);
                 open(p, backpack);
             } else {

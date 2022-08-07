@@ -4,8 +4,6 @@ import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.utils.WeightedElements;
 
-import java.math.BigInteger;
-
 public class PrivateMineStats {
     WeightedElements<MineBlock> blocks;
     Clipboard schematic;
@@ -13,7 +11,7 @@ public class PrivateMineStats {
     int worldborderOffsetX;
     int worldborderOffsetZ;
     int worldborderSize;
-    BigInteger upgradeCost;
+    long upgradeCost;
 
     public WeightedElements<MineBlock> getBlocks() {
         return blocks;
@@ -34,7 +32,7 @@ public class PrivateMineStats {
         return worldborderSize;
     }
 
-    public BigInteger getUpgradeCost() {
+    public long getUpgradeCost() {
         return upgradeCost;
     }
 

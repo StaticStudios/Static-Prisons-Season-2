@@ -4,11 +4,10 @@ import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 
-import java.math.BigInteger;
 
 public class FortuneEnchant extends BaseEnchant {
     public FortuneEnchant() {
-        super("fortune", "&b&lFortune", 2500, BigInteger.valueOf(1000), "&7Increase your blocks from mining");
+        super("fortune", "&b&lFortune", 2500, 1000, "&7Increase your blocks from mining");
 
         setTiers(
                 new EnchantTier(50, 0),

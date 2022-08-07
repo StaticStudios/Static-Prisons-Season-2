@@ -14,14 +14,17 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.items.SpreadOutExecution;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -207,6 +210,30 @@ public class PrisonPickaxe implements SpreadOutExecution {
         meta.getPersistentDataContainer().set(PICKAXE_KEY, PersistentDataType.STRING, uuid);
         item.setItemMeta(meta);
         pickaxeUUIDToPrisonPickaxe.put(uuid, this);
+    }
+
+    public static boolean checkIsPrisonPickaxe(ItemStack item) {
+        if (item == null) return false;
+        if (!item.hasItemMeta()) return false;
+        return item.getItemMeta().getPersistentDataContainer().has(PICKAXE_KEY, PersistentDataType.STRING);
+    }
+
+    public static ItemStack createNewPickaxe() {
+        ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
+        PrisonPickaxe pickaxe = new PrisonPickaxe(item);
+        ItemMeta meta = item.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        meta.setUnbreakable(true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addEnchant(Enchantment.DIG_SPEED, 100, true);
+        item.setItemMeta(meta);
+        pickaxe.setEnchantsLevel(PickaxeEnchants.FORTUNE, 5);
+        pickaxe.setEnchantsLevel(PickaxeEnchants.DOUBLE_FORTUNE, 5);
+        pickaxe.setEnchantsLevel(PickaxeEnchants.TOKENATOR, 1);
+        pickaxe.setEnchantsLevel(PickaxeEnchants.JACK_HAMMER, 1);
+        updateLore(item);
+        return item;
     }
 
     public List<BaseEnchant> getEnchants() {
@@ -587,7 +614,7 @@ public class PrisonPickaxe implements SpreadOutExecution {
             //Check if the player is holding a pickaxe and is trying to open the enchants menu
             if (e.getAction().isRightClick()) {
                 if (player.isSneaking()) {
-                    if (PrisonUtils.checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) {
+                    if (checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) {
                         if (new PlayerData(player).getIsMobile()) return;
                         PickaxeMenus.open(player, PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()));
                         e.setCancelled(true);

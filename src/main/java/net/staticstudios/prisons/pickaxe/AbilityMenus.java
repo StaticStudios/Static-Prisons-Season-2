@@ -20,7 +20,7 @@ public class AbilityMenus extends GUIUtils {
     public static void selectPickaxe(Player player) {
         GUICreator c = new GUICreator(36, "Select a pickaxe to manage");
         for (ItemStack item : player.getInventory().getContents()) {
-            if (PrisonUtils.checkIsPrisonPickaxe(item)) {
+            if (PrisonPickaxe.checkIsPrisonPickaxe(item)) {
                 c.addItem(c.createButton(item, (p, t) -> {
                     mainMenu(p, PrisonPickaxe.fromItem(item));
                 }));

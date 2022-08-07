@@ -5,11 +5,9 @@ import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
-import java.math.BigInteger;
-
 public class SpeedEnchant extends BaseEnchant {
     public SpeedEnchant() {
-        super("speed", "&b&lSpeed", 3, BigInteger.valueOf(1000), "&7Gives the vanilla speed effect");
+        super("speed", "&b&lSpeed", 3, 1000, "&7Gives the vanilla speed effect");
     }
 
 

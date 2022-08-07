@@ -15,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +22,9 @@ import java.util.Map;
 public class WithdrawCommand implements CommandExecutor, TabCompleter {
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             return false;
         }
-        Player player = (Player) sender;
         PlayerData playerData = new PlayerData(player);
         if (args.length < 2) {
             player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
@@ -34,15 +32,15 @@ public class WithdrawCommand implements CommandExecutor, TabCompleter {
         }
         switch (args[0].toLowerCase()) {
             case "money" -> {
-                BigInteger amount;
+                long amount;
                 int stackCount = 1;
                 try {
-                    amount = new BigInteger(args[1]);
+                    amount = Long.parseLong(args[1]);
                 } catch (NumberFormatException err) {
                     player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
                     return false;
                 }
-                if (amount.compareTo(BigInteger.ZERO) < 1) {
+                if (amount < 1) {
                     player.sendMessage(ChatColor.RED + "Amount must be greater than 0");
                     return false;
                 }
@@ -54,8 +52,8 @@ public class WithdrawCommand implements CommandExecutor, TabCompleter {
                         return false;
                     }
                 }
-                if (playerData.getMoney().compareTo(amount.multiply(BigInteger.valueOf(stackCount))) > -1) {
-                    BigInteger removed = BigInteger.ZERO;
+                if (playerData.getMoney() >= amount * stackCount) {
+                    long removed = 0;
                     ItemStack note = Vouchers.getMoneyNote(player.getName(), amount);
 
                     for (int i = 0; i < stackCount; i++) {
@@ -64,21 +62,21 @@ public class WithdrawCommand implements CommandExecutor, TabCompleter {
                             result.clear();
                             break;
                         }
-                        removed = removed.add(amount);
+                        removed += amount;
                     }
                     playerData.removeMoney(removed);
                 } else player.sendMessage(ChatColor.RED + "Insufficient Funds!");
             }
             case "tokens" -> {
-                BigInteger amount;
+                long amount;
                 int stackCount = 1;
                 try {
-                    amount = new BigInteger(args[1]);
+                    amount = Long.parseLong(args[1]);
                 } catch (NumberFormatException err) {
                     player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
                     return false;
                 }
-                if (amount.compareTo(BigInteger.ZERO) < 1) {
+                if (amount < 1) {
                     player.sendMessage(ChatColor.RED + "Amount must be greater than 0");
                     return false;
                 }
@@ -90,8 +88,8 @@ public class WithdrawCommand implements CommandExecutor, TabCompleter {
                         return false;
                     }
                 }
-                if (playerData.getTokens().compareTo(amount.multiply(BigInteger.valueOf(stackCount))) > -1) {
-                    BigInteger removed = BigInteger.ZERO;
+                if (playerData.getTokens() >= amount * stackCount) {
+                    long removed = 0;
                     ItemStack note = Vouchers.getTokenNote(player.getName(), amount);
 
                     for (int i = 0; i < stackCount; i++) {
@@ -100,7 +98,7 @@ public class WithdrawCommand implements CommandExecutor, TabCompleter {
                             result.clear();
                             break;
                         }
-                        removed = removed.add(amount);
+                        removed += amount;
                     }
                     playerData.removeTokens(removed);
                 } else player.sendMessage(ChatColor.RED + "Insufficient Funds!");

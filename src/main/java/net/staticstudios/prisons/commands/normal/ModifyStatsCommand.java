@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,9 +61,9 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                 }
             }
             case "prestige" -> {
-                BigInteger amount;
+                long amount;
                 try {
-                    amount = new BigInteger(args[3]);
+                    amount = Long.parseLong(args[3]);
                 } catch (NumberFormatException e) {
                     sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats prestige <who> <add|remove|set|reset> <amount>"));
                     return false;
@@ -73,30 +72,14 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     case "add" -> playerData.addPrestige(amount);
                     case "remove" -> playerData.removePrestige(amount);
                     case "set" -> playerData.setPrestige(amount);
-                    case "reset" -> playerData.setPrestige(BigInteger.ZERO);
+                    case "reset" -> playerData.setPrestige(0);
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats prestige <who> <add|remove|set|reset> <amount>"));
                 }
             }
-//            case "backpack" -> {
-//                long amount;
-//                try {
-//                    amount = Long.parseLong(args[3]);
-//                } catch (NumberFormatException e) {
-//                    sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
-//                    return false;
-//                }
-//                switch (args[2].toLowerCase()) {
-//                    case "add" -> playerData.setBackpackSize(playerData.getBackpackSize() + amount);
-//                    case "remove" -> playerData.setBackpackSize(playerData.getBackpackSize() - amount);
-//                    case "set" -> playerData.setBackpackSize(amount);
-//                    case "reset" -> playerData.setBackpackSize(0);
-//                    default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats backpack <who> <add|remove|set|reset> <amount>"));
-//                }
-//            }
             case "blocksmined" -> {
-                BigInteger amount;
+                long amount;
                 try {
-                    amount = new BigInteger(args[3]);
+                    amount = Long.parseLong(args[3]);
                 } catch (NumberFormatException e) {
                     sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats blocksmined <who> <add|remove|set|reset> <amount>"));
                     return false;
@@ -105,14 +88,14 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     case "add" -> playerData.addBlocksMined(amount);
                     case "remove" -> playerData.removeBlocksMined(amount);
                     case "set" -> playerData.setBlocksMined(amount);
-                    case "reset" -> playerData.setBlocksMined(BigInteger.ZERO);
+                    case "reset" -> playerData.setBlocksMined(0);
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats blocksmined <who> <add|remove|set|reset> <amount>"));
                 }
             }
             case "rawblocks", "rawblocksmined" -> {
-                BigInteger amount;
+                long amount;
                 try {
-                    amount = new BigInteger(args[3]);
+                    amount = Long.parseLong(args[3]);
                 } catch (NumberFormatException e) {
                     sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats rawblocks <who> <add|remove|set|reset> <amount>"));
                     return false;
@@ -121,7 +104,7 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     case "add" -> playerData.addRawBlocksMined(amount);
                     case "remove" -> playerData.removeRawBlocksMined(amount);
                     case "set" -> playerData.setRawBlocksMined(amount);
-                    case "reset" -> playerData.setRawBlocksMined(BigInteger.ZERO);
+                    case "reset" -> playerData.setRawBlocksMined(0);
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats rawblocks <who> <add|remove|set|reset> <amount>"));
                 }
             }
@@ -144,9 +127,9 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                 }
             }
             case "votes", "vote" -> {
-                BigInteger amount;
+                long amount;
                 try {
-                    amount = new BigInteger(args[3]);
+                    amount = Long.parseLong(args[3]);
                 } catch (NumberFormatException e) {
                     sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats votes <who> <add|remove|set|reset> <amount>"));
                     return false;
@@ -155,14 +138,14 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     case "add" -> playerData.addVotes(amount);
                     case "remove" -> playerData.removeVotes(amount);
                     case "set" -> playerData.setVotes(amount);
-                    case "reset" -> playerData.setVotes(BigInteger.ZERO);
+                    case "reset" -> playerData.setVotes(0);
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats votes <who> <add|remove|set|reset> <amount>"));
                 }
             }
             case "timeplayed" -> {
-                BigInteger amount;
+                long amount;
                 try {
-                    amount = new BigInteger(args[3]);
+                    amount = Long.parseLong(args[3]);
                 } catch (NumberFormatException e) {
                     sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats timeplayed <who> <add|remove|set|reset> <amount>"));
                     return false;
@@ -171,14 +154,14 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     case "add" -> playerData.addTimePlayed(amount);
                     case "remove" -> playerData.removeTimePlayed(amount);
                     case "set" -> playerData.setTimePlayed(amount);
-                    case "reset" -> playerData.setTimePlayed(BigInteger.ZERO);
+                    case "reset" -> playerData.setTimePlayed(0);
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats timeplayed <who> <add|remove|set|reset> <amount>"));
                 }
             }
             case "money" -> {
-                BigInteger amount;
+                long amount;
                 try {
-                    amount = new BigInteger(args[3]);
+                    amount = Long.parseLong(args[3]);
                 } catch (NumberFormatException e) {
                     sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats money <who> <add|remove|set|reset> <amount>"));
                     return false;
@@ -187,7 +170,7 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     case "add" -> playerData.addMoney(amount);
                     case "remove" -> playerData.removeMoney(amount);
                     case "set" -> playerData.setMoney(amount);
-                    case "reset" -> playerData.setMoney(BigInteger.ZERO);
+                    case "reset" -> playerData.setMoney(0);
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats money <who> <add|remove|set|reset> <amount>"));
                 }
             }
@@ -224,9 +207,9 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                 }
             }
             case "tokens" -> {
-                BigInteger amount;
+                long amount;
                 try {
-                    amount = new BigInteger(args[3]);
+                    amount = Long.parseLong(args[3]);
                 } catch (NumberFormatException e) {
                     sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
                     return false;
@@ -235,7 +218,7 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     case "add" -> playerData.addTokens(amount);
                     case "remove" -> playerData.removeTokens(amount);
                     case "set" -> playerData.setTokens(amount);
-                    case "reset" -> playerData.setTokens(BigInteger.ZERO);
+                    case "reset" -> playerData.setTokens(0);
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
                 }
             }
@@ -257,10 +240,10 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                 }
             }
             case "shards" -> {
-                BigInteger amount;
+                long amount;
 
                 try {
-                    amount = new BigInteger(args[3]);
+                    amount = Long.parseLong(args[3]);
 
                 } catch (NumberFormatException e) {
                     sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats shards <who> <add|remove|set|reset> <amount>"));
@@ -271,7 +254,7 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     case "add" -> playerData.addShards(amount);
                     case "remove" -> playerData.removeShards(amount);
                     case "set" -> playerData.setShards(amount);
-                    case "reset" -> playerData.setShards(BigInteger.ZERO);
+                    case "reset" -> playerData.setShards(0);
                     default -> sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats tokens <who> <add|remove|set|reset> <amount>"));
                 }
             }

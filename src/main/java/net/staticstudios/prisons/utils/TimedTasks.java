@@ -17,7 +17,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.time.Instant;
 
 public class TimedTasks {
@@ -52,7 +51,7 @@ public class TimedTasks {
         //Time played
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                new PlayerData(p).addTimePlayed(BigInteger.ONE);
+                new PlayerData(p).addTimePlayed(1);
                 Gang gang = Gang.getGang(p); //Gang stats
                 if (gang != null) gang.addSecondsPlayed(1);
             }

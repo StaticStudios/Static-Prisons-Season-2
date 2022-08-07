@@ -11,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class EnchantMenus extends GUIUtils {
     public static void selectPickaxe(Player player) {
         GUICreator c = new GUICreator(36, "Select a pickaxe to enchant");
         for (ItemStack item : player.getInventory().getContents()) {
-            if (PrisonUtils.checkIsPrisonPickaxe(item)) {
+            if (PrisonPickaxe.checkIsPrisonPickaxe(item)) {
                 c.addItem(c.createButton(item, (p, t) -> {
                     mainMenu(p, PrisonPickaxe.fromItem(item));
                 }));
@@ -226,7 +225,7 @@ public class EnchantMenus extends GUIUtils {
                 }),
                 c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 10 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE.multiply(BigInteger.valueOf(10))) + " Tokens",
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE * 10) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens",
                         "",
                         "&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)))
@@ -236,7 +235,7 @@ public class EnchantMenus extends GUIUtils {
                 }),
                 c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 100 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE.multiply(BigInteger.valueOf(100))) + " Tokens",
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE * 100) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens",
                         "",
                         "&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)))
@@ -246,7 +245,7 @@ public class EnchantMenus extends GUIUtils {
                 }),
                 c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 1,000 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE.multiply(BigInteger.valueOf(1000))) + " Tokens",
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE * 1000) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens",
                         "",
                         "&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)))
@@ -254,14 +253,14 @@ public class EnchantMenus extends GUIUtils {
                     enchant.tryToBuyLevels(p, pickaxe, 1000);
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
-                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy MAX (" + Math.min((long) enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)) - pickaxe.getEnchantLevel(enchant), playerData.getTokens().divide(enchant.PRICE).intValue()) + ") levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy MAX (" + Math.min((long) enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)) - pickaxe.getEnchantLevel(enchant), playerData.getTokens() / enchant.PRICE) + ") levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
                         "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE.multiply(BigInteger.valueOf(Math.min((long) enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)) - pickaxe.getEnchantLevel(enchant), playerData.getTokens().divide(enchant.PRICE).intValue())))) + " Tokens",
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE * Math.min((long) enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)) - pickaxe.getEnchantLevel(enchant), playerData.getTokens() / enchant.PRICE)) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens",
                         "",
                         "&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)))
                 ), (p, _t) -> {
-                    enchant.tryToBuyLevels(p, pickaxe, Math.min(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)) - pickaxe.getEnchantLevel(enchant), playerData.getTokens().divide(enchant.PRICE).intValue()));
+                    enchant.tryToBuyLevels(p, pickaxe, Math.min(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)) - pickaxe.getEnchantLevel(enchant), playerData.getTokens() / enchant.PRICE));
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
                 createGrayPlaceHolder(),

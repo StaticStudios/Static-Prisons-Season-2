@@ -28,7 +28,7 @@ public class PickaxeMenus extends GUIUtils {
                 "",
                 "&bClick here to create a new pickaxe!"
         ), (p, t) -> {
-            PrisonUtils.Players.addToInventory(p, PrisonUtils.createNewPickaxe());
+            PrisonUtils.Players.addToInventory(p, PrisonPickaxe.createNewPickaxe());
             p.closeInventory(); //Prevent spamming of this
         })));
 
@@ -59,7 +59,7 @@ public class PickaxeMenus extends GUIUtils {
     public static void selectPickaxe(Player player) {
         GUICreator c = new GUICreator(36, "Select A Pickaxe To Upgrade");
         for (ItemStack item : player.getInventory().getContents()) {
-            if (PrisonUtils.checkIsPrisonPickaxe(item)) {
+            if (PrisonPickaxe.checkIsPrisonPickaxe(item)) {
                 c.addItem(c.createButton(item, (p, t) -> {
                     open(p, PrisonPickaxe.fromItem(item));
                 }));

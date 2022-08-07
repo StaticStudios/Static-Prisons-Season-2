@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +31,10 @@ public class TokenFlipCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/tokenflip <amount> <heads|tails>"));
             return false;
         }
-        BigInteger amount;
+        long amount;
         boolean isHeads;
         try {
-            amount = new BigInteger(args[0]);
+            amount = Long.parseLong(args[0]);
         } catch (NumberFormatException e) {
             player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/tokenflip <amount> <heads|tails>"));
             return false;
@@ -52,11 +51,11 @@ public class TokenFlipCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(ChatColor.RED + "There are too many active TokenFlips for you to create a new one.");
             return false;
         }
-        if (amount.compareTo(new PlayerData(player).getTokens()) > 0) {
+        if (amount > new PlayerData(player).getTokens()) {
             player.sendMessage(ChatColor.RED + "You do not have enough tokens to create this bet!");
             return false;
         }
-        if (amount.compareTo(BigInteger.ZERO) < 1) {
+        if (amount < 1) {
             player.sendMessage(ChatColor.RED + "You cannot create a TokenFlip for less than 1 token!");
             return false;
         }

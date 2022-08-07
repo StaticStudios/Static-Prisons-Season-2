@@ -9,14 +9,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.time.Duration;
 import java.util.Locale;
 
 public class TokenPouch {
     public int timeBetweenFrames = 4;
-    public BigInteger reward = null;
+    public long reward = 0;
     String formattedRewardValue;
     public boolean announceRewardInChat;
 
@@ -26,7 +25,6 @@ public class TokenPouch {
 
     public void animateOpeningPouch (Player player, PlayerData playerData, String rewardMessage) {
         getRewardValue();
-        if (reward == null) return;
         for (int i = 0; i < formattedRewardValue.length() + 2; i++) {
             int finalI = i;
             Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> animateFrame(player, playerData, formattedRewardValue, rewardMessage.replace("{reward}", PrisonUtils.prettyNum(reward)), finalI, formattedRewardValue.length() + 1), i * timeBetweenFrames);

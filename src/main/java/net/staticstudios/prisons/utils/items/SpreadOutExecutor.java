@@ -36,7 +36,7 @@ public class SpreadOutExecutor {
             if (computeLater.isEmpty()) return;
             buildQue();
         }
-        long minFinishTime = System.nanoTime() + (long) (MIN_MS * 1000000); //The min time that the current iteration should take
+        long minFinishTime = System.nanoTime() + (long) (MIN_MS * 1_000_000); //The min time that the current iteration should take
         do {
             if (!completeNextIteration()) break; //If the que is empty, break out of the loop
         } while (System.nanoTime() < minFinishTime); //Keep looping if the current iteration didn't take enough time and there is still stuff to do
@@ -66,7 +66,11 @@ public class SpreadOutExecutor {
                     System.out.println("Item " + currentItem + " was removed from the que");
                     continue;
                 }
-                currentItem.runSpreadOutExecution();
+                try {
+                    currentItem.runSpreadOutExecution();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             computeLater.removeAll(currentIterationItems);
         }

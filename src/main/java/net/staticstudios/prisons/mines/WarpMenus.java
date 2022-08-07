@@ -13,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public class WarpMenus extends GUIUtils {
@@ -383,7 +382,7 @@ public class WarpMenus extends GUIUtils {
         c.setItems(
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[0])) > -1, "&c&lPrestige Mine #1", "&d&lPrestige Mine #1",
+                createMineWarp(c, playerData.getPrestige() >= Constants.PRESTIGE_MINE_REQUIREMENTS[0], "&c&lPrestige Mine #1", "&d&lPrestige Mine #1",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[0]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 75x99x75"},
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[0]) + " prestiges", "", "&aClick to warp!", "", "&7&oSize: 75x99x75"},
                         Material.COAL_BLOCK, Material.COAL_BLOCK, (p, t) -> {
@@ -391,7 +390,7 @@ public class WarpMenus extends GUIUtils {
                         }, (p, t) -> {
                             Warps.warpToPrestigeMine(p, 0);
                         }, true),
-                createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[1])) > -1, "&c&lPrestige Mine #2", "&d&lPrestige Mine #2",
+                createMineWarp(c, playerData.getPrestige() >= Constants.PRESTIGE_MINE_REQUIREMENTS[1], "&c&lPrestige Mine #2", "&d&lPrestige Mine #2",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[1]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 89x99x89"},
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[1]) + " prestiges", "", "&aClick to warp!", "", "&7&oSize: 89x99x89"},
                         Material.IRON_BLOCK, Material.IRON_BLOCK, (p, t) -> {
@@ -399,7 +398,7 @@ public class WarpMenus extends GUIUtils {
                         }, (p, t) -> {
                             Warps.warpToPrestigeMine(p, 1);
                         }, true),
-                createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[2])) > -1, "&c&lPrestige Mine #3", "&d&lPrestige Mine #3",
+                createMineWarp(c, playerData.getPrestige() >= Constants.PRESTIGE_MINE_REQUIREMENTS[2], "&c&lPrestige Mine #3", "&d&lPrestige Mine #3",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[2]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 89x99x89"},
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[2]) + " prestiges", "", "&aClick to warp!", "", "&7&oSize: 89x99x89"},
                         Material.GOLD_BLOCK, Material.GOLD_BLOCK, (p, t) -> {
@@ -407,7 +406,7 @@ public class WarpMenus extends GUIUtils {
                         }, (p, t) -> {
                             Warps.warpToPrestigeMine(p, 2);
                         }, true),
-                createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[3])) > -1, "&c&lPrestige Mine #4", "&d&lPrestige Mine #4",
+                createMineWarp(c, playerData.getPrestige() >= Constants.PRESTIGE_MINE_REQUIREMENTS[3], "&c&lPrestige Mine #4", "&d&lPrestige Mine #4",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[3]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 109x99x109"},
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[3]) + " prestiges", "", "&aClick to warp!", "", "&7&oSize: 109x99x109"},
                         Material.DIAMOND_BLOCK, Material.DIAMOND_BLOCK, (p, t) -> {
@@ -415,7 +414,7 @@ public class WarpMenus extends GUIUtils {
                         }, (p, t) -> {
                             Warps.warpToPrestigeMine(p, 3);
                         }, true),
-                createMineWarp(c, playerData.getPrestige().compareTo(BigInteger.valueOf(Constants.PRESTIGE_MINE_REQUIREMENTS[4])) > -1, "&c&lPrestige Mine #5", "&d&lPrestige Mine #5",
+                createMineWarp(c, playerData.getPrestige() >= Constants.PRESTIGE_MINE_REQUIREMENTS[4], "&c&lPrestige Mine #5", "&d&lPrestige Mine #5",
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[4]) + " prestiges", "", "&cYou do not have this unlocked!", "", "&7&oSize: 151x99x151"},
                         new String[]{"&bRequires " + PrisonUtils.addCommasToNumber(Constants.PRESTIGE_MINE_REQUIREMENTS[4]) + " prestiges", "", "&aClick to warp!", "", "&7&oSize: 151x99x151"},
                         Material.EMERALD_BLOCK, Material.EMERALD_BLOCK, (p, t) -> {

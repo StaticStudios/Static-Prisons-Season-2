@@ -24,11 +24,11 @@ public class RankUpMaxCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(ChatColor.RED + "You cannot rank up any more as you are already max rank! You can prestige with \"/prestige\"");
             return false;
         }
-        if (playerData.getMoney().compareTo(LevelUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) < 0) {
+        if (playerData.getMoney() < LevelUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) {
             player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + PrisonUtils.addCommasToNumber(LevelUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)));
             return false;
         }
-        while (playerData.getMineRank() < 25 && playerData.getMoney().compareTo(LevelUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) > -1) {
+        while (playerData.getMineRank() < 25 && playerData.getMoney() > LevelUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1)) {
             playerData.removeMoney(LevelUp.calculatePriceToRankUpTo(playerData, playerData.getMineRank() + 1));
             player.sendMessage(ChatColor.GREEN + "You have just ranked up! " + ChatColor.AQUA + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank()) + " -> " + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank() + 1));
             playerData.addMineRank(1);

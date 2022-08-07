@@ -13,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public class PrestigeMenus extends GUIUtils {
@@ -23,40 +22,40 @@ public class PrestigeMenus extends GUIUtils {
         GUICreator c = new GUICreator(27, "Prestige | Requires Mine Rank: " + ChatColor.BOLD + "Z");
 
         c.setItem(10, ench(c.createButton(Material.EMERALD, "&a&lPrestige " + PrisonUtils.addCommasToNumber(playerData.getPrestige()), List.of(
-                "Prestiging again will cost you $" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1)) + " and",
+                "Prestiging again will cost you $" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige(), 1)) + " and",
                 "50,000 Tokens. Each prestige also requires",
                 "a certain amount of raw blocks mined. Your next",
-                "prestige will require you to have " + PrisonUtils.addCommasToNumber(BigInteger.valueOf(25000).multiply(playerData.getPrestige().add(BigInteger.ONE))),
+                "prestige will require you to have " + PrisonUtils.addCommasToNumber(25_000 * (playerData.getPrestige() + 1)),
                 "raw blocks mined."
         ))));
 
         c.setItem(13, c.createButton(Material.NETHER_STAR, "&b&lLet's do it!", List.of(
                 "&oReady to prestige? Click here!",
                 "",
-                "&d&l│ &dCosts: &f$" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1)),
+                "&d&l│ &dCosts: &f$" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(playerData.getPrestige(), 1)),
                 "&d&l│ &dCosts: &f50,000 Tokens"
         ), (p, t) -> {
             if (playerData.getMineRank() < 25) {
                 p.sendMessage(Prefix.PRESTIGE.append(Component.text("You must be rank Z to prestige!").color(ComponentUtil.RED)));
                 return;
             }
-            if (playerData.getMoney().compareTo(BigInteger.valueOf(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1))) < 0) {
+            if (playerData.getMoney() < LevelUp.getPrestigePrice(playerData.getPrestige(), 1)) {
                 p.sendMessage(Prefix.PRESTIGE.append(Component.text("You don't have enough money to prestige!").color(ComponentUtil.RED)));
                 return;
             }
-            if (playerData.getTokens().compareTo(BigInteger.valueOf(50000)) < 0) {
+            if (playerData.getTokens() < 50_000) {
                 p.sendMessage(Prefix.PRESTIGE.append(Component.text("You don't have enough tokens to prestige!").color(ComponentUtil.RED)));
                 return;
             }
             //Players need to have 25K * prestige to go to raw blocks mined to prestige
-            if (playerData.getRawBlocksMined().compareTo(BigInteger.valueOf(25000 * (playerData.getPrestige().longValue() + 1))) < 0) {
-                p.sendMessage(Prefix.PRESTIGE.append(Component.text("You don't have enough raw blocks mined to prestige! You need " + PrisonUtils.addCommasToNumber(25000 * (playerData.getPrestige().longValue() + 1)) + " raw blocks mined!").color(ComponentUtil.RED)));
+            if (playerData.getRawBlocksMined() < 25_000 * (playerData.getPrestige() + 1)) {
+                p.sendMessage(Prefix.PRESTIGE.append(Component.text("You don't have enough raw blocks mined to prestige! You need " + PrisonUtils.addCommasToNumber(25000 * (playerData.getPrestige() + 1)) + " raw blocks mined!").color(ComponentUtil.RED)));
                 return;
             }
-            playerData.removeMoney(BigInteger.valueOf(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), 1)));
-            playerData.removeTokens(BigInteger.valueOf(50000));
+            playerData.removeMoney(LevelUp.getPrestigePrice(playerData.getPrestige(), 1));
+            playerData.removeTokens(50_000);
             playerData.setMineRank(0);
-            playerData.addPrestige(BigInteger.ONE);
+            playerData.addPrestige(1);
             playerData.addPrestigeTokens(1);
             Bukkit.broadcast(Prefix.PRESTIGE.append(Component.text(player.getName()).color(ComponentUtil.AQUA)).append(Component.text(" has prestiged " + PrisonUtils.addCommasToNumber(playerData.getPrestige()) + " time(s)!")));
             if (p.getWorld().equals(Constants.MINES_WORLD)) Warps.warpToSpawn(p);
@@ -130,22 +129,22 @@ public class PrestigeMenus extends GUIUtils {
         return ench(c.createButton(icon, "&d&lPrestige " + PrisonUtils.addCommasToNumber(prestige) + " Time" + (prestige > 1 ? "s" : ""), List.of(
                 "",
                 "&bCosts:",
-                "&b&l│ &b$" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(new PlayerData(player).getPrestige().longValue(), prestige)),
-                "&b&l│ &b$" + PrisonUtils.addCommasToNumber(LevelUp.getPrestigePrice(new PlayerData(player).getPrestige().longValue(), prestige))
+                "&b&l│ &b$" + PrisonUtils.prettyNum(LevelUp.getPrestigePrice(new PlayerData(player).getPrestige(), prestige)),
+                "&b&l│ &b$" + PrisonUtils.addCommasToNumber(LevelUp.getPrestigePrice(new PlayerData(player).getPrestige(), prestige))
         ), (p, t) -> {
             PlayerData playerData = new PlayerData(p);
             if (playerData.getMineRank() < 25) {
                 p.sendMessage(ChatColor.RED + "You must be mine rank " + ChatColor.BOLD + "Z " + ChatColor.RED + "in order to prestige!");
                 return;
             }
-            BigInteger price = BigInteger.valueOf(LevelUp.getPrestigePrice(playerData.getPrestige().longValue(), prestige));
-            if (playerData.getMoney().compareTo(price) > -1) {
-                BigInteger oldPrestigeRewards = playerData.getClaimedPrestigeRewardsAt().subtract(playerData.getPrestige()).divide(BigInteger.valueOf(250));
+            long price = LevelUp.getPrestigePrice(playerData.getPrestige(), prestige);
+            if (playerData.getMoney() >= price) {
+                long oldPrestigeRewards = playerData.getClaimedPrestigeRewardsAt() - playerData.getPrestige() / 250;
                 playerData.removeMoney(price);
-                playerData.addPrestige(BigInteger.valueOf(prestige));
+                playerData.addPrestige(prestige);
                 playerData.setMineRank(0);
                 p.sendMessage(ChatColor.AQUA + "You have just prestiged!");
-                if (playerData.getClaimedPrestigeRewardsAt().subtract(playerData.getPrestige()).divide(BigInteger.valueOf(250)).compareTo(oldPrestigeRewards) != 0) {
+                if ((playerData.getClaimedPrestigeRewardsAt() - playerData.getPrestige()) / 250 > oldPrestigeRewards) {
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&', "You have received reward(s) for prestiging &b250&r times! Claim them with &7&o/rewards"));
                 }
                 open(player, fromCommand);

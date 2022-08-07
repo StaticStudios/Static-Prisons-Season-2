@@ -15,13 +15,12 @@ import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JackHammerEnchant extends BaseEnchant {
     public JackHammerEnchant() {
-        super("jackHammer", "&8&lJack Hammer", 20000, BigInteger.valueOf(250), "&7Chance to destroy a layer of a mine");
+        super("jackHammer", "&8&lJack Hammer", 20000, 250, "&7Chance to destroy a layer of a mine");
 
         //40 Tiers
         setTiers(

@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.gui;
+package net.staticstudios.prisons.chat;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -6,6 +6,7 @@ import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.chat.ChatTags;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.gui.MainMenus;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -56,7 +57,7 @@ public class ChatTagMenus extends GUIUtils {
     }
 
     public static void activateTag(Player player, int slot) {
-        GUICreator c = new GUICreator(36, "Select a tag new");
+        GUICreator c = new GUICreator(36, "Select a new tag");
         PlayerData playerData = new PlayerData(player);
         for (String tag : ChatTags.getAllKeys()) {
             if (playerData.getChatTags().contains(tag)) {

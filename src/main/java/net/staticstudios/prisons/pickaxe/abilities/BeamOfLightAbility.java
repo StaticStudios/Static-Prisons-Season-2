@@ -3,12 +3,10 @@ package net.staticstudios.prisons.pickaxe.abilities;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.utils.PrisonUtils;
 
-import java.math.BigInteger;
-
 public class BeamOfLightAbility extends BaseAbility { //todo
 
     public BeamOfLightAbility() {
-        super("beamOfLight", "&d&lBeam O' Light", 10, BigInteger.valueOf(12), 1000 * 60 * 60 * 4,
+        super("beamOfLight", "&d&lBeam O' Light", 10, 12, 1000 * 60 * 60 * 4,
                 "&oSend a pulse of light through the mine every",
                 "&osecond destroying every block in its path!",
                 "&oIt will grow in size with each pulse.",

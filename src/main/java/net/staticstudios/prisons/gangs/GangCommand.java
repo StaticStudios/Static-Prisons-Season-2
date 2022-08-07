@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -144,20 +143,20 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                     }
                     case "money" -> {
                         if (args[2].equalsIgnoreCase("deposit")) {
-                            BigInteger amount;
+                            long amount;
                             try {
                                 if (args[3].equalsIgnoreCase("all")) amount = gang.getBankMoney();
-                                else amount = new BigInteger(args[3]);
+                                else amount = Long.parseLong(args[3]);
                             } catch (NumberFormatException e) {
                                 player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                                 return false;
                             }
-                            if (amount.compareTo(BigInteger.ZERO) < 1) {
+                            if (amount < 1) {
                                 player.sendMessage(ChatColor.RED + "Amount must be greater than 0!");
                                 return false;
                             }
                             PlayerData playerData = new PlayerData(player);
-                            if (playerData.getMoney().compareTo(amount) < 0) {
+                            if (playerData.getMoney() < amount) {
                                 player.sendMessage(ChatColor.RED + "You don't have enough money to do this!");
                                 return false;
                             }
@@ -169,20 +168,20 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                                 player.sendMessage(Gang.PREFIX + ChatColor.RED + "You can't withdraw from the bank as the owner has disabled it for your gang!");
                                 return false;
                             }
-                            BigInteger amount;
+                            long amount;
                             try {
                                 if (args[3].equalsIgnoreCase("all")) amount = gang.getBankMoney();
-                                else amount = new BigInteger(args[3]);
+                                else amount = Long.parseLong(args[3]);
                             } catch (NumberFormatException e) {
                                 player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                                 return false;
                             }
-                            if (amount.compareTo(BigInteger.ZERO) < 1) {
+                            if (amount < 1) {
                                 player.sendMessage(ChatColor.RED + "Amount must be greater than 0!");
                                 return false;
                             }
                             PlayerData playerData = new PlayerData(player);
-                            if (gang.getBankMoney().compareTo(amount) < 0) {
+                            if (gang.getBankMoney() < amount) {
                                 player.sendMessage(ChatColor.RED + "Your gang doesn't have enough money to do this!");
                                 return false;
                             }
@@ -196,20 +195,20 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                     }
                     case "tokens" -> {
                         if (args[2].equalsIgnoreCase("deposit")) {
-                            BigInteger amount;
+                            long amount;
                             try {
                                 if (args[3].equalsIgnoreCase("all")) amount = gang.getBankTokens();
-                                else amount = new BigInteger(args[3]);
+                                else amount = Long.parseLong(args[3]);
                             } catch (NumberFormatException e) {
                                 player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                                 return false;
                             }
-                            if (amount.compareTo(BigInteger.ZERO) < 1) {
+                            if (amount < 1) {
                                 player.sendMessage(ChatColor.RED + "Amount must be greater than 0!");
                                 return false;
                             }
                             PlayerData playerData = new PlayerData(player);
-                            if (playerData.getTokens().compareTo(amount) < 0) {
+                            if (playerData.getTokens() < amount) {
                                 player.sendMessage(ChatColor.RED + "You don't have enough tokens to do this!");
                                 return false;
                             }
@@ -221,20 +220,20 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                                 player.sendMessage(Gang.PREFIX + ChatColor.RED + "You can't withdraw from the bank as the owner has disabled it for your gang!");
                                 return false;
                             }
-                            BigInteger amount;
+                            long amount;
                             try {
                                 if (args[3].equalsIgnoreCase("all")) amount = gang.getBankTokens();
-                                else amount = new BigInteger(args[3]);
+                                else amount = Long.parseLong(args[3]);
                             } catch (NumberFormatException e) {
                                 player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                                 return false;
                             }
-                            if (amount.compareTo(BigInteger.ZERO) < 1) {
+                            if (amount < 1) {
                                 player.sendMessage(ChatColor.RED + "Amount must be greater than 0!");
                                 return false;
                             }
                             PlayerData playerData = new PlayerData(player);
-                            if (gang.getBankTokens().compareTo(amount) < 0) {
+                            if (gang.getBankTokens() < amount) {
                                 player.sendMessage(ChatColor.RED + "Your gang doesn't have enough tokens to do this!");
                                 return false;
                             }

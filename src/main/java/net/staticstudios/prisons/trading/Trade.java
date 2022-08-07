@@ -13,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public class Trade {
@@ -31,10 +30,10 @@ public class Trade {
     private ItemStack[] player1ItemOffer = new ItemStack[16];
     private ItemStack[] player2ItemOffer = new ItemStack[16];
 
-    private BigInteger player1MoneyOffer = BigInteger.ZERO; //The amount of money that player 1 is offering to trade
-    private BigInteger player1TokenOffer = BigInteger.ZERO; //The amount of tokens that player 1 is offering to trade
-    private BigInteger player2MoneyOffer = BigInteger.ZERO; //The amount of money that player 2 is offering to trade
-    private BigInteger player2TokenOffer = BigInteger.ZERO; //The amount of tokens that player 2 is offering to trade
+    private long player1MoneyOffer = 0; //The amount of money that player 1 is offering to trade
+    private long player1TokenOffer = 0; //The amount of tokens that player 1 is offering to trade
+    private long player2MoneyOffer = 0; //The amount of money that player 2 is offering to trade
+    private long player2TokenOffer = 0; //The amount of tokens that player 2 is offering to trade
 
     private boolean player1Accepted;
     private boolean player2Accepted;

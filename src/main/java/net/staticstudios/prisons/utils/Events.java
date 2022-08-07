@@ -2,6 +2,7 @@ package net.staticstudios.prisons.utils;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.staticstudios.prisons.chat.CustomChatMessage;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,7 +17,7 @@ public class Events implements Listener {
 
     @EventHandler
     void onDrop(PlayerDropItemEvent e) {
-        if (PrisonUtils.checkIsPrisonPickaxe(e.getItemDrop().getItemStack())) {
+        if (PrisonPickaxe.checkIsPrisonPickaxe(e.getItemDrop().getItemStack())) {
             e.setCancelled(true);
             e.getPlayer().sendMessage(ChatColor.RED + "You cannot drop this item! Type /dropitem to drop it!");
             return;

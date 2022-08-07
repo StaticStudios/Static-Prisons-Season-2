@@ -5,7 +5,6 @@ import net.staticstudios.prisons.data.serverData.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -17,13 +16,13 @@ public class PrestigeTop {
     public static List<UUID> top100UUIDs = new ArrayList<>();
     public static void calculateLeaderBoard() {
         List<UUID> topUUIDs = new ArrayList<>();
-        List<BigInteger> topValues = new ArrayList<>();
+        List<Long> topValues = new ArrayList<>();
         for (UUID uuid : ServerData.PLAYERS.getAllUUIDs()) {
             boolean ranked = false;
             PlayerData playerData = new PlayerData(uuid);
             if (playerData.getIsExemptFromLeaderboards()) continue;
             for (int i = 0; i < topUUIDs.size(); i++) {
-                if (topValues.get(i).compareTo(playerData.getPrestige()) < 0) {
+                if (topValues.get(i) < playerData.getPrestige()) {
                     ranked = true;
                     topValues.add(i, playerData.getPrestige());
                     topUUIDs.add(i, playerData.getUUID());

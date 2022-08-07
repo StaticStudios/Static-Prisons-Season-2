@@ -3,6 +3,7 @@ package net.staticstudios.prisons.data.serverData;
 import net.staticstudios.prisons.backpacks.PrisonBackpack;
 import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -22,10 +23,11 @@ public class ServerData {
             //First time joining
             Bukkit.getLogger().log(Level.INFO, "Player has joined for the first time with the uuid: " + player.getUniqueId() + " and the name: " + player.getName());
             Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + PrisonUtils.addCommasToNumber(PLAYERS.getAllUUIDs().size() + 1) + ")");
-            PrisonUtils.Players.addToInventory(player, PrisonUtils.createNewPickaxe());
+            PrisonUtils.Players.addToInventory(player, PrisonPickaxe.createNewPickaxe());
             PrisonBackpack backpack = PrisonBackpacks.createBackpack(1);
             backpack.setSize(2500);
             PrisonUtils.Players.addToInventory(player, backpack.getItem());
+            backpack.updateItemNow();
             PlayerData playerData = new PlayerData(player);
 //            playerData.setBackpackSize(2500); //todo: add a backpack to a player when they join for the first time
             playerData.setPlayerRank("member");

@@ -4,11 +4,10 @@ import net.staticstudios.prisons.blockBroken.BlockBreak;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import org.bukkit.ChatColor;
 
-import java.math.BigInteger;
 
 public class BackpackFinderEnchant extends BaseEnchant { //todo: repurpose this enchant
     public BackpackFinderEnchant() {
-        super("backpackFinder", "&6&lDuffle Bag", 10000, BigInteger.valueOf(500), "&7Chance to find an additional 1% to 4% of", "&7your backpack's max space while mining");
+        super("backpackFinder", "&6&lDuffle Bag", 10000, 500, "&7Chance to find an additional 1% to 4% of", "&7your backpack's max space while mining");
         setPickaxeLevelRequirement(25);
 
         setPickaxeLevelRequirement(999); //TODO: TEMP

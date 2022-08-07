@@ -219,7 +219,8 @@ public class PrisonBackpack implements SpreadOutExecution {
             default -> BackpackConstants.tier1Name;
             case 2 ->BackpackConstants.tier2Name;
             case 3 -> BackpackConstants.tier3Name;
-            case 4 -> BackpackConstants.tier5Name;
+            case 4 -> BackpackConstants.tier4Name;
+            case 5 -> BackpackConstants.tier5Name;
             case 6 -> BackpackConstants.tier6Name;
             case 7 -> BackpackConstants.tier7Name;
             case 8 -> BackpackConstants.tier8Name;

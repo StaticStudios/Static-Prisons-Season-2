@@ -12,7 +12,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,7 +23,7 @@ public class TokenFlip extends Flip {
 
     public static final Material HEADS_ICON = Material.SUNFLOWER;
     public static final Material TAILS_ICON = Material.FEATHER;
-    public static void createTokenFlip(Player player, BigInteger amount, boolean isHeads) {
+    public static void createTokenFlip(Player player, long amount, boolean isHeads) {
         new TokenFlip(player, amount, isHeads);
     }
     public static boolean checkIfExists(String uuid) {
@@ -47,7 +46,7 @@ public class TokenFlip extends Flip {
         this.challenger = challenger;
         remove();
         //Check if owner has enough money
-        if (new PlayerData(owner).getTokens().compareTo(amount) < 0) {
+        if (new PlayerData(owner).getTokens() < amount) {
             challenger.sendMessage(ChatColor.RED + "The owner of this bet does not have enough tokens to continue.");
             GamblingMenus.openMain(challenger);
             return;
@@ -118,11 +117,11 @@ public class TokenFlip extends Flip {
                 }
                 case OWNER -> { //owner
                     msg = ChatColor.translateAlternateColorCodes('&', PREFIX + "&b" + owner.getName() + " won a token flip against " + challenger.getName() + " for " + PrisonUtils.prettyNum(amount) + " tokens! &7&o(49% chance)");
-                    new PlayerData(owner).addTokens(amount.multiply(BigInteger.TWO));
+                    new PlayerData(owner).addTokens(amount * 2);
                 }
                 case CHALLENGER -> { //challenger
                     msg = ChatColor.translateAlternateColorCodes('&', PREFIX + "&b" + challenger.getName() + " won a token flip against " + owner.getName() + " for " + PrisonUtils.prettyNum(amount) + " tokens! &7&o(49% chance)");
-                    new PlayerData(challenger).addTokens(amount.multiply(BigInteger.TWO));
+                    new PlayerData(challenger).addTokens(amount * 2);
                 }
             }
 
@@ -144,7 +143,7 @@ public class TokenFlip extends Flip {
     }
 
 
-    private TokenFlip(Player player, BigInteger amount, boolean isHeads) {
+    private TokenFlip(Player player, long amount, boolean isHeads) {
         uuid = player.getUniqueId().toString();
         owner = player;
         this.amount = amount;

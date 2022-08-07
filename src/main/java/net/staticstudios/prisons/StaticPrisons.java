@@ -35,6 +35,7 @@ import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.gangs.GangCommand;
 import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.lootboxes.MoneyLootBox;
+import net.staticstudios.prisons.lootboxes.PickaxeLootBox;
 import net.staticstudios.prisons.lootboxes.TokenLootBox;
 import net.staticstudios.prisons.lootboxes.handler.LootBox;
 import net.staticstudios.prisons.mines.MineBlock;
@@ -68,7 +69,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -156,7 +156,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("addallchattags").setExecutor(new AddAllPlayerChatTagsCommand());
         getCommand("removechattag").setExecutor(new RemovePlayerChatTagCommand());
         getCommand("enderchestsee").setExecutor(new EnderChestSeeCommand());
-        getCommand("renameitem").setExecutor(new RenameItemCommand());
+        getCommand("renameitem").setExecutor(new RenameItemCommand()); //todo: remove
         getCommand("schedulerestart").setExecutor(new ScheduleRestartCommand());
         getCommand("schedulestop").setExecutor(new ScheduleStopCommand());
         getCommand("broadcast").setExecutor(new BroadcastMessageCommand());
@@ -287,18 +287,18 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         LevelUp.INITIAL_PRESTIGE_PRICE = config.getLong("prestiges.price.basePrice");
 
         //Load Pouches
-        MoneyPouchTier1.minValue = new BigInteger(config.getString("pouches.money.1.min"));
-        MoneyPouchTier1.maxValue = new BigInteger(config.getString("pouches.money.1.max"));
-        MoneyPouchTier2.minValue = new BigInteger(config.getString("pouches.money.2.min"));
-        MoneyPouchTier2.maxValue = new BigInteger(config.getString("pouches.money.2.max"));
-        MoneyPouchTier3.minValue = new BigInteger(config.getString("pouches.money.3.min"));
-        MoneyPouchTier3.maxValue = new BigInteger(config.getString("pouches.money.3.max"));
-        TokenPouchTier1.minValue = new BigInteger(config.getString("pouches.token.1.min"));
-        TokenPouchTier1.maxValue = new BigInteger(config.getString("pouches.token.1.max"));
-        TokenPouchTier2.minValue = new BigInteger(config.getString("pouches.token.2.min"));
-        TokenPouchTier2.maxValue = new BigInteger(config.getString("pouches.token.2.max"));
-        TokenPouchTier3.minValue = new BigInteger(config.getString("pouches.token.3.min"));
-        TokenPouchTier3.maxValue = new BigInteger(config.getString("pouches.token.3.max"));
+        MoneyPouchTier1.minValue = config.getLong("pouches.money.1.min");
+        MoneyPouchTier1.maxValue = config.getLong("pouches.money.1.max");
+        MoneyPouchTier2.minValue = config.getLong("pouches.money.2.min");
+        MoneyPouchTier2.maxValue = config.getLong("pouches.money.2.max");
+        MoneyPouchTier3.minValue = config.getLong("pouches.money.3.min");
+        MoneyPouchTier3.maxValue = config.getLong("pouches.money.3.max");
+        TokenPouchTier1.minValue = config.getLong("pouches.token.1.min");
+        TokenPouchTier1.maxValue = config.getLong("pouches.token.1.max");
+        TokenPouchTier2.minValue = config.getLong("pouches.token.2.min");
+        TokenPouchTier2.maxValue = config.getLong("pouches.token.2.max");
+        TokenPouchTier3.minValue = config.getLong("pouches.token.3.min");
+        TokenPouchTier3.maxValue = config.getLong("pouches.token.3.max");
         MultiPouchTier1.minAmount = config.getInt("pouches.multi.1.amount.min");
         MultiPouchTier1.maxAmount = config.getInt("pouches.multi.1.amount.max");
         MultiPouchTier1.minTime = config.getInt("pouches.multi.1.time.min");
@@ -315,6 +315,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         //Load loot boxes
         TokenLootBox.loadTiers(config.getConfigurationSection("lootboxes.token"));
         MoneyLootBox.loadTiers(config.getConfigurationSection("lootboxes.money"));
+        PickaxeLootBox.loadTiers(config.getConfigurationSection("lootboxes.pickaxe"));
 
 
         //SQL config
