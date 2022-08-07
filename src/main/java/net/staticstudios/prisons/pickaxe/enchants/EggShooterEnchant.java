@@ -2,13 +2,13 @@ package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.backpacks.PrisonBackpacks;
-import net.staticstudios.prisons.mineBombs.PreComputerMineBomb;
+import net.staticstudios.prisons.minebombs.PreComputerMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
-import net.staticstudios.prisons.privateMines.PrivateMine;
+import net.staticstudios.prisons.privatemines.PrivateMine;
 import net.staticstudios.prisons.utils.Constants;
 import org.bukkit.Material;
 import org.bukkit.Particle;

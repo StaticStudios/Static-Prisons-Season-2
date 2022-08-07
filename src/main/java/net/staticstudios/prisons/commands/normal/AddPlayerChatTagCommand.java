@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.chat.ChatTags;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.data.serverData.ServerData;
+import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

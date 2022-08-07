@@ -1,13 +1,13 @@
-package net.staticstudios.prisons.customItems.minebombs;
+package net.staticstudios.prisons.customitems.minebombs;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.PrisonBackpacks;
-import net.staticstudios.prisons.customItems.ICustomItem;
-import net.staticstudios.prisons.mineBombs.MultiBombMineBomb;
-import net.staticstudios.prisons.mineBombs.PreComputerMineBomb;
+import net.staticstudios.prisons.customitems.CustomItem;
+import net.staticstudios.prisons.minebombs.MultiBombMineBomb;
+import net.staticstudios.prisons.minebombs.PreComputerMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.Location;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MineBombTier1 implements ICustomItem {
+public class MineBombTier1 implements CustomItem {
 
     static NamespacedKey MINE_BOMB_KEY;
     static NamespacedKey getMineBombKey() {

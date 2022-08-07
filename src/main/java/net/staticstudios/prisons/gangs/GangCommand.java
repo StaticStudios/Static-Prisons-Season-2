@@ -2,7 +2,7 @@ package net.staticstudios.prisons.gangs;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.data.serverData.ServerData;
+import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

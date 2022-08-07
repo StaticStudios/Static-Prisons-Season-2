@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.pickaxe.enchants.handler;
 
-import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.enchants.*;
 

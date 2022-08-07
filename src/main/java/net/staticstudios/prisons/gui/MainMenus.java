@@ -2,7 +2,7 @@ package net.staticstudios.prisons.gui;
 
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
-import net.staticstudios.prisons.auctionHouse.AuctionHouseMenus;
+import net.staticstudios.prisons.auctionhouse.AuctionHouseMenus;
 import net.staticstudios.prisons.backpacks.BackpackMenus;
 import net.staticstudios.prisons.cells.CellMenus;
 import net.staticstudios.prisons.chat.ChatTagMenus;
@@ -12,7 +12,7 @@ import net.staticstudios.prisons.levelup.RankUpMenus;
 import net.staticstudios.prisons.levelup.prestige.PrestigeMenus;
 import net.staticstudios.prisons.mines.WarpMenus;
 import net.staticstudios.prisons.pickaxe.PickaxeMenus;
-import net.staticstudios.prisons.privateMines.PrivateMineMenus;
+import net.staticstudios.prisons.privatemines.PrivateMineMenus;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 

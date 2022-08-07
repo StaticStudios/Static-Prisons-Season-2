@@ -3,7 +3,7 @@ package net.staticstudios.prisons.lootboxes.handler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.lootboxes.MoneyLootBox;
 import net.staticstudios.prisons.lootboxes.PickaxeLootBox;
 import net.staticstudios.prisons.lootboxes.TokenLootBox;

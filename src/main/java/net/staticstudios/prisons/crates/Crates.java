@@ -1,8 +1,8 @@
 package net.staticstudios.prisons.crates;
 
-import net.staticstudios.prisons.customItems.CustomItems;
-import net.staticstudios.prisons.customItems.Vouchers;
-import net.staticstudios.prisons.customItems.pickaxes.PickaxeTemplates;
+import net.staticstudios.prisons.customitems.CustomItems;
+import net.staticstudios.prisons.customitems.Vouchers;
+import net.staticstudios.prisons.customitems.pickaxes.PickaxeTemplates;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.Bukkit;

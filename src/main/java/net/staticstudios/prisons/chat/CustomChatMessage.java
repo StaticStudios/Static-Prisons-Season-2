@@ -1,14 +1,13 @@
 package net.staticstudios.prisons.chat;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.staticstudios.prisons.UI.tablist.TeamPrefix;
+import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;

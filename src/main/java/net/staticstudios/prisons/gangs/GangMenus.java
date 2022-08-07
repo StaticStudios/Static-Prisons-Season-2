@@ -3,7 +3,7 @@ package net.staticstudios.prisons.gangs;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.data.serverData.ServerData;
+import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.gui.MainMenus;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;

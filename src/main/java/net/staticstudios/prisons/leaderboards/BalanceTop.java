@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.leaderboards;
 
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.data.serverData.ServerData;
+import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 

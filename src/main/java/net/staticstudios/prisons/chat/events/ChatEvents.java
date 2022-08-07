@@ -4,7 +4,7 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customItems.CustomItems;
+import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;
 import org.bukkit.Bukkit;

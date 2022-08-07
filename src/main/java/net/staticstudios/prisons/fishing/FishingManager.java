@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.fishing;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customItems.CustomItems;
+import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.utils.WeightedElements;

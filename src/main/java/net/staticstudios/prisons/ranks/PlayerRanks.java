@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.ranks;
 
-import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
 
 public class PlayerRanks {
 

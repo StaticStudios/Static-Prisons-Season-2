@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.events;
 
-import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
 
 public class EventManager {
 

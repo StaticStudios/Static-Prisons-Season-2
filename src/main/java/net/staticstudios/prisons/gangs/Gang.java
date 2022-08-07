@@ -2,14 +2,13 @@ package net.staticstudios.prisons.gangs;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockBroken.BlockBreak;
-import net.staticstudios.prisons.data.serverData.ServerData;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
+import net.staticstudios.prisons.data.serverdata.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;

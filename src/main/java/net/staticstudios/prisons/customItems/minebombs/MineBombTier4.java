@@ -1,13 +1,13 @@
-package net.staticstudios.prisons.customItems.minebombs;
+package net.staticstudios.prisons.customitems.minebombs;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.prisons.customItems.ICustomItem;
+import net.staticstudios.prisons.customitems.CustomItem;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class MineBombTier4 implements ICustomItem {
+public class MineBombTier4 implements CustomItem {
 
     public MineBombTier4() {
         register();

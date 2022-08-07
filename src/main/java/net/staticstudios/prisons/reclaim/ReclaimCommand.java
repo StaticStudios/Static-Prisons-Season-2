@@ -2,10 +2,10 @@ package net.staticstudios.prisons.reclaim;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.staticstudios.prisons.UI.tablist.TeamPrefix;
+import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.chat.ChatTags;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.data.serverData.ServerData;
+import net.staticstudios.prisons.data.serverdata.ServerData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;

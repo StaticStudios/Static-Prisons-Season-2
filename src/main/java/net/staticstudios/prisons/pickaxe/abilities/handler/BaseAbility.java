@@ -3,7 +3,7 @@ package net.staticstudios.prisons.pickaxe.abilities.handler;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import org.bukkit.Bukkit;

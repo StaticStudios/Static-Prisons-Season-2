@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.prisons.auctionHouse.AuctionHouseMenus;
-import net.staticstudios.prisons.auctionHouse.AuctionManager;
+import net.staticstudios.prisons.auctionhouse.AuctionHouseMenus;
+import net.staticstudios.prisons.auctionhouse.AuctionManager;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

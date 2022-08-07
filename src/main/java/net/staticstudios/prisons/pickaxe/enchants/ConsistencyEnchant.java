@@ -2,7 +2,7 @@ package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 import net.staticstudios.prisons.utils.PrisonUtils;

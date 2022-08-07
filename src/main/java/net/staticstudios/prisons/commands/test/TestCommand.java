@@ -1,8 +1,7 @@
 package net.staticstudios.prisons.commands.test;
 
-import net.staticstudios.prisons.lootboxes.handler.LootBoxType;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.privateMines.PrivateMine;
+import net.staticstudios.prisons.privatemines.PrivateMine;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.pickaxe.enchants;
 
-import net.staticstudios.prisons.blockBroken.BlockBreak;
-import net.staticstudios.prisons.mineBombs.MineBomb;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
+import net.staticstudios.prisons.minebombs.MineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;

@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.pickaxe.abilities;
 
 import net.staticstudios.mines.StaticMine;
-import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.utils.PrisonUtils;

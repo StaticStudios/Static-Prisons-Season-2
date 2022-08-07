@@ -3,7 +3,7 @@ package net.staticstudios.prisons.pvp;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.PrisonBackpack;
-import net.staticstudios.prisons.customItems.Vouchers;
+import net.staticstudios.prisons.customitems.Vouchers;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;

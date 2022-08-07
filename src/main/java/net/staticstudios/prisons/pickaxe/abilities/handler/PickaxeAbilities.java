@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.pickaxe.abilities.handler;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.abilities.*;
 import org.bukkit.Bukkit;

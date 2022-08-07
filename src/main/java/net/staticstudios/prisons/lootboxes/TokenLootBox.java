@@ -2,7 +2,7 @@ package net.staticstudios.prisons.lootboxes;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.prisons.blockBroken.BlockBreak;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.lootboxes.handler.LootBox;
 import net.staticstudios.prisons.lootboxes.handler.LootBoxType;

@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.pickaxe.enchants;
 
-import net.staticstudios.prisons.blockBroken.BlockBreak;
-import net.staticstudios.prisons.customItems.CustomItems;
+import net.staticstudios.prisons.blockbreak.BlockBreak;
+import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 import net.staticstudios.prisons.utils.PrisonUtils;
