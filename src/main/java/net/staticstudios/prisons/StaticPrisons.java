@@ -66,6 +66,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,6 +85,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public static final WorldEdit worldEdit = WorldEdit.getInstance();
     public static WorldBorderApi worldBorderAPI;
     public static long currentTick = 0;
+
+    private static FileConfiguration config;
 
     public static void log(String message) {
         plugin.getLogger().info(message);
@@ -255,7 +258,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     public void loadConfig() {
         reloadConfig();
-        FileConfiguration config = getConfig();
+
+        config = getConfig();
 
         if (config.getBoolean("discordLink", true)) {
             safe(DiscordLink::init);
@@ -287,18 +291,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         LevelUp.INITIAL_PRESTIGE_PRICE = config.getLong("prestiges.price.basePrice");
 
         //Load Pouches
-        MoneyPouchTier1.minValue = config.getLong("pouches.money.1.min");
-        MoneyPouchTier1.maxValue = config.getLong("pouches.money.1.max");
-        MoneyPouchTier2.minValue = config.getLong("pouches.money.2.min");
-        MoneyPouchTier2.maxValue = config.getLong("pouches.money.2.max");
-        MoneyPouchTier3.minValue = config.getLong("pouches.money.3.min");
-        MoneyPouchTier3.maxValue = config.getLong("pouches.money.3.max");
-        TokenPouchTier1.minValue = config.getLong("pouches.token.1.min");
-        TokenPouchTier1.maxValue = config.getLong("pouches.token.1.max");
-        TokenPouchTier2.minValue = config.getLong("pouches.token.2.min");
-        TokenPouchTier2.maxValue = config.getLong("pouches.token.2.max");
-        TokenPouchTier3.minValue = config.getLong("pouches.token.3.min");
-        TokenPouchTier3.maxValue = config.getLong("pouches.token.3.max");
+
         MultiPouchTier1.minAmount = config.getInt("pouches.multi.1.amount.min");
         MultiPouchTier1.maxAmount = config.getInt("pouches.multi.1.amount.max");
         MultiPouchTier1.minTime = config.getInt("pouches.multi.1.time.min");
@@ -353,6 +346,10 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         }
     }
 
-
+    @NotNull
+    @Override
+    public FileConfiguration getConfig() {
+        return config == null ? super.getConfig() : config;
+    }
 
 }
