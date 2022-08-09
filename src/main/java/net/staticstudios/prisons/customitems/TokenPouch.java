@@ -41,6 +41,6 @@ public enum TokenPouch implements Pouch<Long>{
 
     @Override
     public void addReward(Player player, Long reward) {
-        new PlayerData(player).addMoney(reward);
+        new PlayerData(player).addTokens(reward);
     }
 }
