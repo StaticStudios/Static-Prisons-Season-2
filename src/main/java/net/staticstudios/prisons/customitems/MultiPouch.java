@@ -35,7 +35,7 @@ public enum MultiPouch implements Pouch<ItemStack> {
 
         String formattedRewardValue = "+" + (multiplierAmount / 100d) + "x For: " + multiplierTime + " Minutes";
 
-        Component rewardMessage = Component.text("You won ").append(Component.text(formattedRewardValue)).append(Component.text(" from a Multiplier Pouch").append(tier).color(NamedTextColor.GREEN));
+        Component rewardMessage = Component.text("You won ").append(Component.text(formattedRewardValue)).append(Component.text(" from a Multiplier Pouch ").append(tier).color(NamedTextColor.GREEN));
 
         ItemStack reward = Vouchers.getMultiplierNote(multiplierAmount, multiplierTime);
 

@@ -32,7 +32,7 @@ public enum TokenPouch implements Pouch<Long>{
 
         String formattedRewardValue = NumberFormat.getNumberInstance(Locale.US).format(reward);
 
-        Component rewardMessage = Component.text("You won ").append(Component.text(formattedRewardValue)).append(Component.text(" from a Token Pouch").append(tier).color(NamedTextColor.GREEN));
+        Component rewardMessage = Component.text("You won ").append(Component.text(formattedRewardValue)).append(Component.text(" from a Token Pouch ").append(tier).color(NamedTextColor.GREEN));
 
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(),
                 () -> animateFrame(player, reward, formattedRewardValue, rewardMessage, PouchTypes.TOKEN,0, formattedRewardValue.length() + 1),

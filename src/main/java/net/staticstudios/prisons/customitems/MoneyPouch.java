@@ -32,7 +32,7 @@ public enum MoneyPouch implements Pouch<Long> {
 
         String formattedRewardValue = NumberFormat.getNumberInstance(Locale.US).format(reward);
 
-        Component rewardMessage = Component.text("You won ").append(Component.text(formattedRewardValue)).append(Component.text(" from a Money Pouch").append(tier).color(NamedTextColor.GREEN));
+        Component rewardMessage = Component.text("You won ").append(Component.text(formattedRewardValue)).append(Component.text(" from a Money Pouch ").append(tier).color(NamedTextColor.GREEN));
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(),
                 () -> animateFrame(player, reward, formattedRewardValue, rewardMessage, PouchTypes.MONEY,0, formattedRewardValue.length() + 1),
                 0);
