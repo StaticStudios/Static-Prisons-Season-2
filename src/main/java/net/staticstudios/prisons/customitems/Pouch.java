@@ -5,23 +5,22 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.data.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
 
-public interface Pouch {
+public interface Pouch<T> {
 
     int timeBetweenFrames = 4;
 
 
     void open(Player player);
 
-    default void animateFrame(Player player, PlayerData playerData, long reward, String rewardValue, Component announcementMessage, PouchTypes type, long currentPos, int finished) {
+    default void animateFrame(Player player, T reward, String rewardValue, Component announcementMessage, PouchTypes type, long currentPos, int finished) {
         if (currentPos == finished) {
             player.sendMessage(announcementMessage);
-            type.addReward(playerData, reward);
+            addReward(player, reward);
             return;
         }
 
@@ -40,7 +39,9 @@ public interface Pouch {
         player.showTitle(Title.title(title.color(NamedTextColor.GRAY), Component.empty(), Title.Times.of(Duration.ofMillis(fadeIn * 50), Duration.ofMillis(2000), Duration.ofMillis(500))));
 
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(),
-                () -> animateFrame(player, playerData, reward, rewardValue, announcementMessage, type, currentPos + 2, finished),
+                () -> animateFrame(player, reward, rewardValue, announcementMessage, type, currentPos + 2, finished),
                 timeBetweenFrames);
     }
+
+    void addReward(Player player, T reward);
 }

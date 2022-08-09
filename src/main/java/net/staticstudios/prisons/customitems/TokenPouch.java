@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public enum TokenPouches implements Pouch{
+public enum TokenPouch implements Pouch<Long>{
     TIER_1(Component.text("Tier 1"), "pouches.token.1.min", "pouches.token.1.max"),
     TIER_2(Component.text("Tier 2"), "pouches.token.2.min", "pouches.token.2.max"),
     TIER_3(Component.text("Tier 3"), "pouches.token.3.min", "pouches.token.3.max");
@@ -20,7 +20,7 @@ public enum TokenPouches implements Pouch{
     private final long minValue;
     private final long maxValue;
 
-    TokenPouches(Component tier, String configMinValue, String configMaxValue) {
+    TokenPouch(Component tier, String configMinValue, String configMaxValue) {
         this.tier = tier;
         this.minValue = StaticPrisons.getInstance().getConfig().getLong(configMinValue);
         this.maxValue = StaticPrisons.getInstance().getConfig().getLong(configMaxValue);
@@ -35,7 +35,12 @@ public enum TokenPouches implements Pouch{
         Component rewardMessage = Component.text("You won ").append(Component.text(formattedRewardValue)).append(Component.text(" from a Token Pouch").append(tier).color(NamedTextColor.GREEN));
 
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(),
-                () -> animateFrame(player, new PlayerData(player), reward, formattedRewardValue, rewardMessage, PouchTypes.TOKEN,0, formattedRewardValue.length() + 1),
+                () -> animateFrame(player, reward, formattedRewardValue, rewardMessage, PouchTypes.TOKEN,0, formattedRewardValue.length() + 1),
                 0);
+    }
+
+    @Override
+    public void addReward(Player player, Long reward) {
+        new PlayerData(player).addMoney(reward);
     }
 }

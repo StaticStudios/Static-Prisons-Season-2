@@ -319,63 +319,63 @@ public class Vouchers {
     public static final Voucher MONEY_POUCH_T1 = new Voucher("pouchMoney1", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Money Pouch Tier 1", ChatColor.GREEN + "Claim this to win a random amount of money!") {
         @Override
         void onClaim(Player player) {
-            MoneyPouches.TIER_1.open(player);
+            MoneyPouch.TIER_1.open(player);
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };
     public static final Voucher MONEY_POUCH_T2 = new Voucher("pouchMoney2", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Money Pouch Tier 2", ChatColor.GREEN + "Claim this to win a random amount of money!") {
         @Override
         void onClaim(Player player) {
-            MoneyPouches.TIER_2.open(player);
+            MoneyPouch.TIER_2.open(player);
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };
     public static final Voucher MONEY_POUCH_T3 = new Voucher("pouchMoney3", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Money Pouch Tier 3", ChatColor.GREEN + "Claim this to win a random amount of money!") {
         @Override
         void onClaim(Player player) {
-            MoneyPouches.TIER_3.open(player);
+            MoneyPouch.TIER_3.open(player);
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };
     public static final Voucher TOKEN_POUCH_T1 = new Voucher("pouchToken1", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Token Pouch Tier 1", ChatColor.GREEN + "Claim this to win a random amount of tokens!") {
         @Override
         void onClaim(Player player) {
-            TokenPouches.TIER_1.open(player);
+            TokenPouch.TIER_1.open(player);
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };
     public static final Voucher TOKEN_POUCH_T2 = new Voucher("pouchToken2", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Token Pouch Tier 2", ChatColor.GREEN + "Claim this to win a random amount of tokens!") {
         @Override
         void onClaim(Player player) {
-            TokenPouches.TIER_2.open(player);
+            TokenPouch.TIER_2.open(player);
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };
     public static final Voucher TOKEN_POUCH_T3 = new Voucher("pouchToken3", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Token Pouch Tier 3", ChatColor.GREEN + "Claim this to win a random amount of tokens!") {
         @Override
         void onClaim(Player player) {
-            TokenPouches.TIER_3.open(player);
+            TokenPouch.TIER_3.open(player);
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };
     public static final Voucher MULTI_POUCH_T1 = new Voucher("pouchMulti1", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Multiplier Pouch Tier 1", ChatColor.GREEN + "Claim this to win a random multiplier!") {
         @Override
         void onClaim(Player player) {
-            MultiPouchTier1.open(player);
+            MultiPouch.TIER_1.open(player);
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };
     public static final Voucher MULTI_POUCH_T2 = new Voucher("pouchMulti2", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Multiplier Pouch Tier 2", ChatColor.GREEN + "Claim this to win a random multiplier!") {
         @Override
         void onClaim(Player player) {
-            MultiPouchTier2.open(player);
+            MultiPouch.TIER_2.open(player);
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };
     public static final Voucher MULTI_POUCH_T3 = new Voucher("pouchMulti3", Material.ENDER_CHEST,ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Multiplier Pouch Tier 3", ChatColor.GREEN + "Claim this to win a random multiplier!") {
         @Override
         void onClaim(Player player) {
-            MultiPouchTier3.open(player);
+            MultiPouch.TIER_3.open(player);
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     };

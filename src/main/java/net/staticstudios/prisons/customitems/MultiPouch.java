@@ -1,50 +1,52 @@
 package net.staticstudios.prisons.customitems;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-import java.time.Duration;
+public enum MultiPouch implements Pouch<ItemStack> {
+    TIER_1(Component.text("Tier 1"), "pouches.multi.1.amount.min", "pouches.multi.1.amount.max", "pouches.multi.1.time.min", "pouches.multi.1.time.max"),
+    TIER_2(Component.text("Tier 2"), "pouches.multi.2.amount.min", "pouches.multi.2.amount.max", "pouches.multi.2.time.min", "pouches.multi.2.time.max"),
+    TIER_3(Component.text("Tier 3"), "pouches.multi.3.amount.min", "pouches.multi.3.amount.max", "pouches.multi.3.time.min", "pouches.multi.3.time.max");
 
-public class MultiPouch {
-    public int timeBetweenFrames = 4;
-    public double multiplierAmount;
-    public int multiplierTime;
-    String formattedRewardValue;
+    private final Component tier;
+    private final int minAmount;
+    private final int maxAmount;
+    private final int minTime;
+    private final int maxTime;
 
-    public void getRewardValue() {
-        formattedRewardValue = "+" + multiplierAmount + "x For: " + multiplierTime + " Minutes";
+    MultiPouch(Component tier, String configMinAmount, String configMaxAmount, String configMinTime, String configMaxTime) {
+        this.tier = tier;
+        minAmount = StaticPrisons.getInstance().getConfig().getInt(configMinAmount);
+        maxAmount = StaticPrisons.getInstance().getConfig().getInt(configMaxAmount);
+        minTime = StaticPrisons.getInstance().getConfig().getInt(configMinTime);
+        maxTime = StaticPrisons.getInstance().getConfig().getInt(configMaxTime);
     }
 
-    public void animateOpeningPouch (Player player, PlayerData playerData, String rewardMessage) {
-        getRewardValue();
-        for (int i = 0; i < formattedRewardValue.length() + 2; i++) {
-            int finalI = i;
-            Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> animateFrame(player, formattedRewardValue, rewardMessage.replace("{reward}", formattedRewardValue), finalI, formattedRewardValue.length() + 1), i * timeBetweenFrames);
-        }
+
+    @Override
+    public void open(Player player) {
+        int multiplierAmount = PrisonUtils.randomInt(minAmount, maxAmount);
+        int multiplierTime = PrisonUtils.randomInt(minTime, maxTime);
+
+        String formattedRewardValue = "+" + (multiplierAmount / 100d) + "x For: " + multiplierTime + " Minutes";
+
+        Component rewardMessage = Component.text("You won ").append(Component.text(formattedRewardValue)).append(Component.text(" from a Multiplier Pouch").append(tier).color(NamedTextColor.GREEN));
+
+        ItemStack reward = Vouchers.getMultiplierNote(multiplierAmount, multiplierTime);
+
+        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(),
+                () -> animateFrame(player, reward, formattedRewardValue, rewardMessage, PouchTypes.MULTIPLIER,0, formattedRewardValue.length() + 1),
+                0);
+
     }
-    void animateFrame(Player player, String rewardValue, String announcementMessage, int currentPos, int finished) {
-        if (currentPos == finished) {
-            PrisonUtils.Players.addToInventory(player, Vouchers.getMultiplierNote(multiplierAmount, multiplierTime));
-            player.sendMessage(announcementMessage);
-            return;
-        }
-        StringBuilder title = new StringBuilder();
-        int fadeIn = 10;
-        if (currentPos != 0) fadeIn = 0;
-        for (int i = 0; i < rewardValue.length(); i++) {
-            if (currentPos <= i) {
-                title.append(ChatColor.translateAlternateColorCodes('&', "&k" + rewardValue.charAt(i)));
-            } else {
-                title.append(rewardValue.charAt(i));
-            }
-        }
-        player.showTitle(Title.title(Component.text(ChatColor.GRAY + "" + title), Component.text(""), Title.Times.of(Duration.ofMillis(fadeIn * 50), Duration.ofMillis(2000), Duration.ofMillis(500))));
-//        player.sendTitle(ChatColor.GRAY + "" + title, "", fadeIn, 60, 10);
+
+    @Override
+    public void addReward(Player player, ItemStack reward) {
+        PrisonUtils.Players.addToInventory(player, reward);
     }
 }

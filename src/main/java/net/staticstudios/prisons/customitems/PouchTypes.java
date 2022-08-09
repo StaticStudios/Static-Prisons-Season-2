@@ -1,7 +1,6 @@
 package net.staticstudios.prisons.customitems;
 
 import net.kyori.adventure.text.Component;
-import net.staticstudios.prisons.data.PlayerData;
 
 public enum PouchTypes {
     MONEY(Component.text("$")),
@@ -16,9 +15,5 @@ public enum PouchTypes {
 
     public Component getPrefix() {
         return prefix;
-    }
-
-    public void addReward(PlayerData playerData, long reward) {
-
     }
 }
