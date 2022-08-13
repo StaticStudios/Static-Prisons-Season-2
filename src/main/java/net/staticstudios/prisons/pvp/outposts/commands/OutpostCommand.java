@@ -73,7 +73,6 @@ public class OutpostCommand implements TabExecutor {
 
                 String name = args[1].isBlank() ? args[2] : args[1];
 
-                System.out.println(name);
 
                 if (OutpostManager.createOutpost(args[2], name, args[3].toLowerCase())) {
                     player.sendMessage(Prefix.OUTPOST

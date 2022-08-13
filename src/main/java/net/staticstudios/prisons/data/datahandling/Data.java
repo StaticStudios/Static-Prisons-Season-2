@@ -6,10 +6,13 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.util.*;
 
 //Data types can be added here, they will get serialized without a problem as long as that type is serializable.
 public class Data {
+
+
 
     public Data(String key) {
         this.key = key;
@@ -42,7 +45,7 @@ public class Data {
     private long _long = 0;
     private double _double = 0;
     private String _string = "";
-//    private BigInteger bigInt = BigInteger.ZERO;
+    private BigInteger bigInt = BigInteger.ZERO;
 
 
     public List<String> getStringList() {
@@ -123,12 +126,12 @@ public class Data {
         } else if (!valueType.equals("string")) throw new IllegalStateException("Trying to get a string from a " + valueType + " data object");
         return _string;
     }
-//    public BigInteger getBigInt() {
-//        if (valueType.isEmpty()) {
-//            valueType = "bigInt";
-//        } else if (!valueType.equals("bigInt")) throw new IllegalStateException("Trying to get a big int from a " + valueType + " data object");
-//        return bigInt;
-//    }
+    public BigInteger getBigInt() {
+        if (valueType.isEmpty()) {
+            valueType = "bigInt";
+        } else if (!valueType.equals("bigInt")) throw new IllegalStateException("Trying to get a big int from a " + valueType + " data object");
+        return bigInt;
+    }
 
     public void setStringList(List<String> stringList) {
         this.stringList = stringList;

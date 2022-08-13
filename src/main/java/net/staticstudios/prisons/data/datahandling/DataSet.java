@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,7 +158,18 @@ public class DataSet {
     }
     @NotNull
     public long getLong(String key) {
-        return getDataNotNull(key).getLong();
+        Data data = getDataNotNull(key);
+
+        try {
+            return data.getLong();
+        } catch (IllegalStateException e) {
+            if ("bigInt".equals(data.valueType)) {
+                BigInteger bigInteger = data.getBigInt();
+                return bigInteger.longValue();
+            }
+        }
+
+        return 0L;
     }
     public void setBoolean(String key, boolean value) {
         Data data = new Data(key);

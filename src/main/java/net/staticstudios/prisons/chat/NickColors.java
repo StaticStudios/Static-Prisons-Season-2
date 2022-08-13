@@ -34,8 +34,6 @@ public class NickColors {
         for (String key : root.getKeys(false)) {
             nickColors.put(key, TextColor.fromHexString(Objects.requireNonNull(root.getString(key))));
         }
-
-        System.out.println("Loaded " + nickColors.size() + " nick colors");
     }
 
     public static TextColor getColor(String id) {

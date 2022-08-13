@@ -6,8 +6,6 @@ import net.luckperms.api.LuckPerms;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
-import net.staticstudios.prisons.ui.tablist.TabList;
-import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.auctionhouse.AuctionManager;
 import net.staticstudios.prisons.backpacks.BackpackCommand;
 import net.staticstudios.prisons.backpacks.PrisonBackpack;
@@ -24,7 +22,9 @@ import net.staticstudios.prisons.commands.test.Test2Command;
 import net.staticstudios.prisons.commands.test.TestCommand;
 import net.staticstudios.prisons.commands.votestore.VoteStoreListener;
 import net.staticstudios.prisons.crates.Crates;
-import net.staticstudios.prisons.customitems.*;
+import net.staticstudios.prisons.customitems.CustomItems;
+import net.staticstudios.prisons.customitems.CustomItemsCommand;
+import net.staticstudios.prisons.customitems.Kits;
 import net.staticstudios.prisons.data.backups.DataBackup;
 import net.staticstudios.prisons.data.datahandling.DataSet;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
@@ -56,6 +56,8 @@ import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.pvp.outposts.OutpostManager;
 import net.staticstudios.prisons.ranks.PlayerRanks;
 import net.staticstudios.prisons.reclaim.ReclaimCommand;
+import net.staticstudios.prisons.ui.tablist.TabList;
+import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.*;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
 import org.bukkit.Bukkit;
@@ -84,6 +86,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public static final WorldEdit worldEdit = WorldEdit.getInstance();
     public static WorldBorderApi worldBorderAPI;
     public static long currentTick = 0;
+
+    private static FileConfiguration config;
 
     public static void log(String message) {
         plugin.getLogger().info(message);
@@ -255,7 +259,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     public void loadConfig() {
         reloadConfig();
-        FileConfiguration config = getConfig();
+
+        config = getConfig();
 
         if (config.getBoolean("discordLink", true)) {
             safe(DiscordLink::init);
@@ -285,32 +290,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
             LevelUp.rankPrices[i] = config.getLong("rankup.prices." + (i + 1));
         }
         LevelUp.INITIAL_PRESTIGE_PRICE = config.getLong("prestiges.price.basePrice");
-
-        //Load Pouches
-        MoneyPouchTier1.minValue = config.getLong("pouches.money.1.min");
-        MoneyPouchTier1.maxValue = config.getLong("pouches.money.1.max");
-        MoneyPouchTier2.minValue = config.getLong("pouches.money.2.min");
-        MoneyPouchTier2.maxValue = config.getLong("pouches.money.2.max");
-        MoneyPouchTier3.minValue = config.getLong("pouches.money.3.min");
-        MoneyPouchTier3.maxValue = config.getLong("pouches.money.3.max");
-        TokenPouchTier1.minValue = config.getLong("pouches.token.1.min");
-        TokenPouchTier1.maxValue = config.getLong("pouches.token.1.max");
-        TokenPouchTier2.minValue = config.getLong("pouches.token.2.min");
-        TokenPouchTier2.maxValue = config.getLong("pouches.token.2.max");
-        TokenPouchTier3.minValue = config.getLong("pouches.token.3.min");
-        TokenPouchTier3.maxValue = config.getLong("pouches.token.3.max");
-        MultiPouchTier1.minAmount = config.getInt("pouches.multi.1.amount.min");
-        MultiPouchTier1.maxAmount = config.getInt("pouches.multi.1.amount.max");
-        MultiPouchTier1.minTime = config.getInt("pouches.multi.1.time.min");
-        MultiPouchTier1.maxTime = config.getInt("pouches.multi.1.time.max");
-        MultiPouchTier2.minAmount = config.getInt("pouches.multi.2.amount.min");
-        MultiPouchTier2.maxAmount = config.getInt("pouches.multi.2.amount.max");
-        MultiPouchTier2.minTime = config.getInt("pouches.multi.2.time.min");
-        MultiPouchTier2.maxTime = config.getInt("pouches.multi.2.time.max");
-        MultiPouchTier3.minAmount = config.getInt("pouches.multi.3.amount.min");
-        MultiPouchTier3.maxAmount = config.getInt("pouches.multi.3.amount.max");
-        MultiPouchTier3.minTime = config.getInt("pouches.multi.3.time.min");
-        MultiPouchTier3.maxTime = config.getInt("pouches.multi.3.time.max");
 
         //Load loot boxes
         TokenLootBox.loadTiers(config.getConfigurationSection("lootboxes.token"));
@@ -352,7 +331,4 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
             t.printStackTrace();
         }
     }
-
-
-
 }

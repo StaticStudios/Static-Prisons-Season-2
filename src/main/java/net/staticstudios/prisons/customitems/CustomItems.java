@@ -2,10 +2,6 @@ package net.staticstudios.prisons.customitems;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customitems.minebombs.MineBombTier1;
-import net.staticstudios.prisons.customitems.minebombs.MineBombTier2;
-import net.staticstudios.prisons.customitems.minebombs.MineBombTier3;
-import net.staticstudios.prisons.customitems.minebombs.MineBombTier4;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -25,11 +21,6 @@ import java.util.Map;
 
 public class CustomItems implements Listener { //todo: add an internal mapping that maps an ID to an item/runnable to get the item so commands can be used with tab completion | aka finish the custom items module
     public static void init() {
-        new MineBombTier1();
-        new MineBombTier2();
-        new MineBombTier3();
-        new MineBombTier4();
-
         //TODO: keys, pickaxes, etc.
 
 

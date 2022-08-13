@@ -48,7 +48,6 @@ public class PackageHandler {
                 if (!playerData.getPlayerRanks().contains("static")) playerData.setPlayerRank("static");
             }
             case "staticpPackage" -> {
-                System.out.println("staticpPackage");
                 handle(playerUUID, packageID, Component.text("Static+ Rank").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD), p -> {
                 }, true);
                 if (!playerData.getPlayerRanks().contains("staticp")) playerData.setPlayerRank("staticp");
