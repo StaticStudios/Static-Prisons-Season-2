@@ -45,8 +45,6 @@ public class OutpostManager {
 
     private static void loadConfig() {
 
-        System.out.println("Loading Outpost Config...");
-        System.out.println("Gang loaded: " + Gang.isLoaded());
 
         config = YamlConfiguration.loadConfiguration(
                 new File(StaticPrisons.getInstance().getDataFolder() + "/outposts.yml"));
@@ -62,7 +60,6 @@ public class OutpostManager {
 
             OutpostTypes type = OutpostTypes.valueOf(section.getString("type"));
             String gang = section.getString("currentGang", "");
-            System.out.println(gang);
             String name = section.getString("name");
             String id = section.getString("id");
             String region = section.getString("regionName");
@@ -167,8 +164,6 @@ public class OutpostManager {
     }
 
     public static void deleteOutpost(String name) {
-        System.out.println(outposts.keySet());
-        System.out.println(name);
         if (outposts.containsKey(name)) {
             Bukkit.getScheduler().cancelTask(getOutpost(name).getTaskId());
             outposts.remove(name);

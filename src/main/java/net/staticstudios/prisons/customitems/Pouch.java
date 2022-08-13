@@ -17,14 +17,14 @@ public interface Pouch<T> {
 
     void open(Player player);
 
-    default void animateFrame(Player player, T reward, String rewardValue, Component announcementMessage, PouchTypes type, long currentPos, int finished) {
+    default void animateFrame(Player player, T reward, String rewardValue, Component announcementMessage, Component prefix, long currentPos, int finished) {
         if (currentPos == finished) {
             player.sendMessage(announcementMessage);
             addReward(player, reward);
             return;
         }
 
-        Component title = type.getPrefix();
+        Component title = prefix;
 
         int fadeIn = currentPos != 0 ? 0 : 10;
 
@@ -39,7 +39,7 @@ public interface Pouch<T> {
         player.showTitle(Title.title(title.color(NamedTextColor.GRAY), Component.empty(), Title.Times.of(Duration.ofMillis(fadeIn * 50), Duration.ofMillis(2000), Duration.ofMillis(500))));
 
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(),
-                () -> animateFrame(player, reward, rewardValue, announcementMessage, type, currentPos + 2, finished),
+                () -> animateFrame(player, reward, rewardValue, announcementMessage, prefix, currentPos + 1, finished),
                 timeBetweenFrames);
     }
 

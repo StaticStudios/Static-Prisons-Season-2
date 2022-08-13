@@ -63,7 +63,7 @@ public class SpreadOutExecutor {
         if (currentIterationItems != null && !currentIterationItems.isEmpty()) {
             for (SpreadOutExecution currentItem : currentIterationItems) {
                 if (!computeLater.contains(currentItem)) { //Ensure that the item is still in the list of things to update, it might've been updated elsewhere
-                    System.out.println("Item " + currentItem + " was removed from the que");
+                    StaticPrisons.getInstance().getLogger().info("Item " + currentItem + " was removed from the que");
                     continue;
                 }
                 try {

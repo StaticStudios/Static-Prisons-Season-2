@@ -1,17 +1,19 @@
 package net.staticstudios.prisons.customitems;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+
 public enum MultiPouch implements Pouch<ItemStack> {
-    TIER_1(Component.text("Tier 1"), "pouches.multi.1.amount.min", "pouches.multi.1.amount.max", "pouches.multi.1.time.min", "pouches.multi.1.time.max"),
-    TIER_2(Component.text("Tier 2"), "pouches.multi.2.amount.min", "pouches.multi.2.amount.max", "pouches.multi.2.time.min", "pouches.multi.2.time.max"),
-    TIER_3(Component.text("Tier 3"), "pouches.multi.3.amount.min", "pouches.multi.3.amount.max", "pouches.multi.3.time.min", "pouches.multi.3.time.max");
+    TIER_1(text("Tier 1"), "pouches.multi.1.amount.min", "pouches.multi.1.amount.max", "pouches.multi.1.time.min", "pouches.multi.1.time.max"),
+    TIER_2(text("Tier 2"), "pouches.multi.2.amount.min", "pouches.multi.2.amount.max", "pouches.multi.2.time.min", "pouches.multi.2.time.max"),
+    TIER_3(text("Tier 3"), "pouches.multi.3.amount.min", "pouches.multi.3.amount.max", "pouches.multi.3.time.min", "pouches.multi.3.time.max");
 
     private final Component tier;
     private final int minAmount;
@@ -27,20 +29,23 @@ public enum MultiPouch implements Pouch<ItemStack> {
         maxTime = StaticPrisons.getInstance().getConfig().getInt(configMaxTime);
     }
 
-
     @Override
     public void open(Player player) {
-        int multiplierAmount = PrisonUtils.randomInt(minAmount, maxAmount);
+        double multiplierAmount = PrisonUtils.randomInt(minAmount, maxAmount) / 100d;
         int multiplierTime = PrisonUtils.randomInt(minTime, maxTime);
 
-        String formattedRewardValue = "+" + (multiplierAmount / 100d) + "x For: " + multiplierTime + " Minutes";
+        String formattedRewardValue = "+" + multiplierAmount + "x For: " + multiplierTime + " Minutes";
 
-        Component rewardMessage = Component.text("You won ").append(Component.text(formattedRewardValue)).append(Component.text(" from a Multiplier Pouch ").append(tier).color(NamedTextColor.GREEN));
+        Component rewardMessage = text("You won ")
+                .append(text(formattedRewardValue))
+                .append(text(" from a Multiplier Pouch "))
+                .append(tier)
+                .color(GREEN);
 
         ItemStack reward = Vouchers.getMultiplierNote(multiplierAmount, multiplierTime);
 
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(),
-                () -> animateFrame(player, reward, formattedRewardValue, rewardMessage, PouchTypes.MULTIPLIER,0, formattedRewardValue.length() + 1),
+                () -> animateFrame(player, reward, formattedRewardValue, rewardMessage, text("x"), 0, formattedRewardValue.length() + 1),
                 0);
 
     }
