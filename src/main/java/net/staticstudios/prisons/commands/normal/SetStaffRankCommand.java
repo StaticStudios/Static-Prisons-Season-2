@@ -3,9 +3,9 @@ package net.staticstudios.prisons.commands.normal;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.staticstudios.mines.StaticMineUtils;
-import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
+import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -19,8 +19,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
+
+    private List<String> ranks = List.of("member", "helper", "moderator", "admin", "sradmin", "manager", "owner");
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+
         if (args.length < 2) {
             sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/setstaffrank <player> <rank>"));
             return false;
@@ -36,7 +40,7 @@ public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("Set staff rank of ")
                 .append(Component.text(args[0]))
                 .append(Component.text(" to ")).color(NamedTextColor.GREEN)
-                .append(TeamPrefix.getFromID(args[1])));
+                .append(TeamPrefix.getFromIdDeserialized(args[1])));
 
         return false;
     }

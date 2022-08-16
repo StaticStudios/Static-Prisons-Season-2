@@ -1,8 +1,11 @@
 package net.staticstudios.prisons.commands.normal;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.staticstudios.mines.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
+import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -29,6 +32,12 @@ public class SetPlayerRankCommand implements CommandExecutor, TabCompleter {
         PlayerData playerData = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args[0]));
         playerData.setPlayerRank(args[1]);
         playerData.updateTabListPrefixID();
+
+        sender.sendMessage(Component.text("Set player rank of ")
+                .append(Component.text(args[0]))
+                .append(Component.text(" to ")).color(NamedTextColor.GREEN)
+                .append(TeamPrefix.getFromIdDeserialized(args[1])));
+
         return false;
     }
     @Override
