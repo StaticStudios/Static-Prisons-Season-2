@@ -48,7 +48,7 @@ public class TabList {
 
             Team team = scoreboard.getTeam(teamName) == null ? scoreboard.registerNewTeam(teamName) : scoreboard.getTeam(teamName);
             assert team != null;
-            team.prefix(prefix.get(name));
+            team.prefix(prefix.get(name).append(text(" ")));
             team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 
             teamNamesForPrefixIds.put(name, teamName);
@@ -130,7 +130,7 @@ public class TabList {
                     return;
                 }
 
-                staticp.prefix(miniMessage.deserialize(TeamPrefix.getFromId("staticp")));
+                staticp.prefix(miniMessage.deserialize(TeamPrefix.getFromId("staticp")).append(text(" ")));
 
                 Team owner = scoreboard.getTeam(teamNamesForPrefixIds.getOrDefault("owner", ""));
 
@@ -138,7 +138,7 @@ public class TabList {
                     return;
                 }
 
-                owner.prefix(miniMessage.deserialize(TeamPrefix.getFromId("owner")));
+                owner.prefix(miniMessage.deserialize(TeamPrefix.getFromId("owner")).append(text(" ")));
 
                 phase -= 0.03;
 
