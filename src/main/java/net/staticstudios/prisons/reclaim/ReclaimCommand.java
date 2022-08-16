@@ -2,10 +2,10 @@ package net.staticstudios.prisons.reclaim;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.chat.ChatTags;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
+import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -30,31 +30,31 @@ public class ReclaimCommand implements TabExecutor {
                 case "warrior" -> {
                     if (!playerData.getPlayerRanks().contains("warrior")) playerData.setPlayerRank("warrior");
                     player.sendMessage(Component.text("You have reclaimed your ").color(NamedTextColor.GREEN)
-                            .append(TeamPrefix.getFromID("warrior"))
+                            .append(TeamPrefix.getFromIdDeserialized("warrior"))
                             .append(Component.text(" rank.").color(NamedTextColor.GREEN)));
                 }
                 case "master" -> {
                     if (!playerData.getPlayerRanks().contains("master")) playerData.setPlayerRank("master");
                     player.sendMessage(Component.text("You have reclaimed your ").color(NamedTextColor.GREEN)
-                            .append(TeamPrefix.getFromID("master"))
+                            .append(TeamPrefix.getFromIdDeserialized("master"))
                             .append(Component.text(" rank.").color(NamedTextColor.GREEN)));
                 }
                 case "mythic" -> {
                     if (!playerData.getPlayerRanks().contains("mythic")) playerData.setPlayerRank("mythic");
                     player.sendMessage(Component.text("You have reclaimed your ").color(NamedTextColor.GREEN)
-                            .append(TeamPrefix.getFromID("mythic"))
+                            .append(TeamPrefix.getFromIdDeserialized("mythic"))
                             .append(Component.text(" rank.").color(NamedTextColor.GREEN)));
                 }
                 case "static" -> {
                     if (!playerData.getPlayerRanks().contains("static")) playerData.setPlayerRank("static");
                     player.sendMessage(Component.text("You have reclaimed your ").color(NamedTextColor.GREEN)
-                            .append(TeamPrefix.getFromID("static"))
+                            .append(TeamPrefix.getFromIdDeserialized("static"))
                             .append(Component.text(" rank.").color(NamedTextColor.GREEN)));
                 }
                 case "staticp" -> {
                     if (!playerData.getPlayerRanks().contains("staticp")) playerData.setPlayerRank("staticp");
                     player.sendMessage(Component.text("You have reclaimed your ").color(NamedTextColor.GREEN)
-                            .append(TeamPrefix.getFromID("staticp"))
+                            .append(TeamPrefix.getFromIdDeserialized("staticp"))
                             .append(Component.text(" rank.").color(NamedTextColor.GREEN)));
                 }
                 default -> {

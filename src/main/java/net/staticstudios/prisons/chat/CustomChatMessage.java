@@ -7,8 +7,8 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -38,7 +38,7 @@ public class CustomChatMessage {
         Component chatTag1 = ChatTags.getFromID(playerData.getChatTag1());
         Component chatTag2 = ChatTags.getFromID(playerData.getChatTag2());
 
-        Component rankTag = TeamPrefix.getFromID(playerData.getTabListPrefixID());
+        Component rankTag = TeamPrefix.getFromIdDeserialized(playerData.getTabListPrefixID());
 
         HoverEvent<Component> realNameHoverEvent = HoverEvent.showText(Component.text("Real Name: ").color(NamedTextColor.AQUA)
                 .append(source.name().color(NamedTextColor.WHITE))

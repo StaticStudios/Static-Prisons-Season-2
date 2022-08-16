@@ -56,7 +56,7 @@ import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.pvp.outposts.OutpostManager;
 import net.staticstudios.prisons.ranks.PlayerRanks;
 import net.staticstudios.prisons.reclaim.ReclaimCommand;
-import net.staticstudios.prisons.ui.tablist.TabList;
+    import net.staticstudios.prisons.ui.tablist.TabList;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.*;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
@@ -73,6 +73,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
 public final class StaticPrisons extends JavaPlugin implements Listener {
@@ -89,6 +92,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     private static FileConfiguration config;
 
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
+
     public static void log(String message) {
         plugin.getLogger().info(message);
     }
@@ -102,6 +107,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public void onEnable() {
         plugin = this;
 
+        safe(TeamPrefix::init);
         safe(StaticPrisons::unloadNetherAndEnd);
         safe(this::loadWorldBoarderAPI);
         safe(PrisonUtils::init);
@@ -133,7 +139,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(PrisonBackpack::init);
         safe(AdminManager::init);
         safe(ChatTags::init);
-        safe(TeamPrefix::init);
         safe(NickColors::init);
 
         StaticGUI.enable(this);
@@ -141,9 +146,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
         safe(this::loadConfig);
         safe(LootBox::init);
-
-
-
 
         Constants.MINES_WORLD = new WorldCreator("mines").createWorld();
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
@@ -225,6 +227,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getCommand("pvp").setExecutor(new PvPCommand());
         getCommand("rewards").setExecutor(new RewardsCommand());
         getCommand("advancednickname").setExecutor(new AdvancedNicknameCommand());
+        Objects.requireNonNull(getCommand("resetrank")).setExecutor(new ResetRankCommand());
         //Register Events
         getServer().getPluginManager().registerEvents(new EventListener(), plugin);
         getServer().getPluginManager().registerEvents(new Events(), plugin);
@@ -235,6 +238,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
+
         safe(StaticMines::disable);
         safe(DataSet::saveDataSync);
         safe(CellManager::saveSync);
@@ -247,9 +251,11 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(LootBox::saveAllNow);
         safe(AdminManager::save);
         safe(OutpostManager::save);
+        safe(TabList::stop);
 
         //Take a data backup
         safe(DataBackup::takeBackup);
+        executorService.shutdownNow();
     }
 
     static void unloadNetherAndEnd() {
@@ -330,5 +336,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         } catch (Throwable t) {
             t.printStackTrace();
         }
+    }
+
+    public void addTask(Runnable runnable) {
+        executorService.submit(runnable);
     }
 }
