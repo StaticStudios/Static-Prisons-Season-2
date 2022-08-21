@@ -79,7 +79,7 @@ public class StaticMinesConfig {
         config.addDefault("thread_pool.core_size", 3);
         config.addDefault("thread_pool.max_size", 10);
         config.addDefault("thread_pool.keep_alive_time", 30_000); //30 seconds
-        config.options().copyDefaults();
+        config.options().copyDefaults(true);
     }
 
 }
