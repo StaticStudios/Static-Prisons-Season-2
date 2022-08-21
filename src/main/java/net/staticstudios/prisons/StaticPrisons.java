@@ -147,7 +147,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(this::loadConfig);
         safe(LootBox::init);
 
-        Constants.MINES_WORLD = new WorldCreator("mines").createWorld();
+        Constants.MINES_WORLD = Bukkit.getWorld("mines"); //Loaded by StaticMines
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
 
 

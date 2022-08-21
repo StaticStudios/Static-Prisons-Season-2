@@ -11,8 +11,10 @@ import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import net.staticstudios.mines.StaticMine;
+import net.staticstudios.mines.builder.StaticMineBuilder;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
@@ -20,8 +22,8 @@ import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.Warps;
-import net.staticstudios.utils.WeightedElement;
-import net.staticstudios.utils.WeightedElements;
+import net.staticstudios.mines.utils.WeightedElement;
+import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -259,7 +261,7 @@ public class PrivateMine {
     private CompletableFuture<StaticMine> updateMine(boolean completeFutureOnMainThread) {
         CompletableFuture<StaticMine> future = new CompletableFuture<>();
         mine.delete();
-        MINE_ID_TO_PRIVATE_MINE.remove(mine.getID());
+        MINE_ID_TO_PRIVATE_MINE.remove(mine.getId());
         registerMine(completeFutureOnMainThread);
         future.complete(mine);
         return future;
@@ -272,22 +274,37 @@ public class PrivateMine {
         CompletableFuture<StaticMine> future = new CompletableFuture<>();
         int distanceFromCenter = getMineSize() / 2;
         int[] center = PrivateMineManager.getPosition(gridPosition);
-        StaticMine mine = new StaticMine("private_mine-" + privateMineId, new Location(PRIVATE_MINES_WORLD, center[0] - distanceFromCenter, 1, center[1] - distanceFromCenter), new Location(PRIVATE_MINES_WORLD, center[0] + distanceFromCenter, 99, center[1] + distanceFromCenter));
-        mine.setShouldSaveToFile(completeFutureOnMainThread);
-        mine.shouldRefillOnTimer = false;
 
-        List<StaticMine.MineBlock> mineBlocks = new ArrayList<>(); //Adapt the weighted elements to MineBlocks that the mine can use
-        for (WeightedElement<MineBlock> block : this.mineBlocks.getElements()) {
-            mineBlocks.add(new StaticMine.MineBlock(BukkitAdapter.asBlockType(block.getElement().material()), block.getWeight()));
+        WeightedElements<BlockType> mineBlocks = new WeightedElements<>();
+        for (WeightedElement<MineBlock> mineBlock : this.mineBlocks.getElements()) {
+            mineBlocks.add(BukkitAdapter.asBlockType(mineBlock.getElement().material()), mineBlock.getWeight());
         }
-        mine.setMineBlocks(mineBlocks.toArray(new StaticMine.MineBlock[0]));
 
-        this.mine = mine;
-        MINE_ID_TO_PRIVATE_MINE.put(mine.getID(), this);
-        mine.refill(completeFutureOnMainThread).thenAccept(m -> {
-            lastRefilledAt = System.currentTimeMillis();
-            future.complete(mine);
-        });
+        StaticMine mine = StaticMineBuilder.getBuilder()
+                .id("private_mine-" + privateMineId)
+                .world(PRIVATE_MINES_WORLD)
+                .corners(BlockVector3.at(center[0] - distanceFromCenter, 1, center[1] - distanceFromCenter), BlockVector3.at(center[0] + distanceFromCenter, 99, center[1] + distanceFromCenter))
+                .saveToFile(false)
+                .async(true)
+                .refillOnTimer(false)
+                .blocks(mineBlocks)
+                .onRefill(m -> lastRefilledAt = System.currentTimeMillis())
+                .build();
+
+        mine.refill().thenAccept(future::complete);
+
+//        List<StaticMine.MineBlock> mineBlocks = new ArrayList<>(); //Adapt the weighted elements to MineBlocks that the mine can use
+//        for (WeightedElement<MineBlock> block : this.mineBlocks.getElements()) {
+//            mineBlocks.add(new StaticMine.MineBlock(BukkitAdapter.asBlockType(block.getElement().material()), block.getWeight()));
+//        }
+//        mine.setMineBlocks(mineBlocks.toArray(new StaticMine.MineBlock[0]));
+
+//        this.mine = mine;
+//        MINE_ID_TO_PRIVATE_MINE.put(mine.getId(), this);
+//        mine.refill(completeFutureOnMainThread).thenAccept(m -> {
+//            lastRefilledAt = System.currentTimeMillis();
+//            future.complete(mine);
+//        });
         return future;
     }
 

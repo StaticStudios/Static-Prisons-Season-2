@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.staticstudios.mines.StaticMine;
+import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.minebombs.PreComputerMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
@@ -63,7 +64,7 @@ public class EggShooterEnchant extends BaseEnchant {
             return;
         }
         if (e.getHitBlock() == null) return;
-        StaticMine mine = StaticMine.fromLocationXZ(e.getHitBlock().getLocation());
+        StaticMine mine = StaticMines.fromLocation(e.getHitBlock().getLocation(), false);
         if (mine == null) return;
         int radius = (int) (pickaxe.getEnchantLevel(PickaxeEnchants.EGG_SHOOTER) / (PickaxeEnchants.EGG_SHOOTER.MAX_LEVEL / 5d) + 1);
 
@@ -80,7 +81,7 @@ public class EggShooterEnchant extends BaseEnchant {
             map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * fortune);
         }
         player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, e.getHitBlock().getLocation(), 3, 2, 2, 2);
-        mine.removeBlocksBrokenInMine(mineBomb.blocksChanged);
+        mine.removeBlocks(mineBomb.blocksChanged);
         pickaxe.addBlocksBroken(mineBomb.blocksChanged);
         pickaxe.addXp(mineBomb.blocksChanged * 2);
         PrisonBackpacks.addToBackpacks(player, map);

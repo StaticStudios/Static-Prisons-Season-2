@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -33,7 +33,7 @@ public class ListStaffRankCommand implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
         List<String> ranks = List.of("member", "moderator", "admin", "sradmin", "manager", "owner");
-        if (args.length == 1) list.addAll(StaticMineUtils.filterStringList(ranks, args[0]));
+        if (args.length == 1) list.addAll(StaticMineUtils.filterStrings(ranks, args[0]));
         return list;
     }
 }

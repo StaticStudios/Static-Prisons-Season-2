@@ -2,7 +2,7 @@ package net.staticstudios.prisons.pvp.outposts.commands;
 
 import com.sk89q.worldguard.WorldGuard;
 import net.kyori.adventure.text.Component;
-import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.pvp.outposts.OutpostManager;
 import net.staticstudios.prisons.pvp.outposts.OutpostTypes;
 import net.staticstudios.prisons.utils.ComponentUtil;
@@ -13,6 +13,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -127,7 +128,7 @@ public class OutpostCommand implements TabExecutor {
     public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
         if (args.length == 1) {
-            return StaticMineUtils.filterStringList(List.of("create", "list", "delete"), args[0]);
+            return StaticMineUtils.filterStrings(List.of("create", "list", "delete"), args[0]);
         }
 
         List<String> regionNames = new java.util.ArrayList<>(WorldGuard.getInstance().getPlatform().getRegionContainer().get(WE_PVP_WORLD).getRegions().keySet().stream().toList());
@@ -138,19 +139,19 @@ public class OutpostCommand implements TabExecutor {
             if ("create".equalsIgnoreCase(args[0])) {
                 return List.of("<name>");
             } else if ("delete".equalsIgnoreCase(args[0])) {
-                return StaticMineUtils.filterStringList(OutpostManager.getOutpostNames(), args[1]);
+                return StaticMineUtils.filterStrings(OutpostManager.getOutpostNames(), args[1]);
             }
         }
 
         if (args.length == 3) {
             if ("create".equalsIgnoreCase(args[0])) {
-                return  StaticMineUtils.filterStringList(regionNames, args[2]);
+                return StaticMineUtils.filterStrings(regionNames, args[2]);
             }
         }
 
         if (args.length == 4) {
             if ("create".equalsIgnoreCase(args[0]) && regionNames.contains(args[2])) {
-                return StaticMineUtils.filterStringList(OutpostTypes.toStringList(), args[3]);
+                return StaticMineUtils.filterStrings(OutpostTypes.toStringList(), args[3]);
             }
         }
 

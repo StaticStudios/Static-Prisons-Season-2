@@ -96,8 +96,8 @@ public class MultiDirectionalEnchant extends BaseEnchant {
             int blockZ = loc.getBlockZ();
             int blockX = loc.getBlockX();
             for(int y = minY; y <= fromY; y++) {
-                for (int x = mine.getMinVector().getBlockX(); x < mine.getMaxVector().getBlockX() + 1; x++) {
-                    Material mat = new Location(mine.getWorld(), x, y, blockZ).getBlock().getType();
+                for (int x = mine.getMinPoint().getBlockX(); x < mine.getMaxPoint().getBlockX() + 1; x++) {
+                    Material mat = new Location(mine.getBukkitWorld(), x, y, blockZ).getBlock().getType();
                     if (!mat.equals(Material.AIR)) {
                         totalBlocksBroken++;
                         if (!blocksBroken.containsKey(mat)) {
@@ -105,9 +105,9 @@ public class MultiDirectionalEnchant extends BaseEnchant {
                         } else blocksBroken.put(mat, blocksBroken.get(mat) + 1);
                     }
                 }
-                for (int z = mine.getMinVector().getBlockZ(); z < mine.getMaxVector().getBlockZ() + 1; z++) {
+                for (int z = mine.getMinPoint().getBlockZ(); z < mine.getMaxPoint().getBlockZ() + 1; z++) {
                     if (z == blockZ) continue; //We already got the 0 pos with the x loop
-                    Material mat = new Location(mine.getWorld(), blockX, y, z).getBlock().getType();
+                    Material mat = new Location(mine.getBukkitWorld(), blockX, y, z).getBlock().getType();
                     if (!mat.equals(Material.AIR)) {
                         totalBlocksBroken++;
                         if (!blocksBroken.containsKey(mat)) {
@@ -116,11 +116,11 @@ public class MultiDirectionalEnchant extends BaseEnchant {
                     }
                 }
             }
-            Region region = new CuboidRegion(mine.getWEWorld(), BlockVector3.at(mine.getMinVector().getBlockX(), minY, zCord), BlockVector3.at(mine.getMaxVector().getBlockX(), fromY, zCord));
+            Region region = new CuboidRegion(mine.getWorld(), BlockVector3.at(mine.getMinPoint().getBlockX(), minY, zCord), BlockVector3.at(mine.getMaxPoint().getBlockX(), fromY, zCord));
             EditSession editSession = WorldEdit.getInstance().newEditSession(region.getWorld());
             editSession.setBlocks(region, BlockTypes.AIR);
             editSession.close();
-            region = new CuboidRegion(mine.getWEWorld(), BlockVector3.at(xCord, minY,mine.getMaxVector().getBlockZ()), BlockVector3.at(xCord, fromY, mine.getMinVector().getBlockZ()));
+            region = new CuboidRegion(mine.getWorld(), BlockVector3.at(xCord, minY,mine.getMaxPoint().getBlockZ()), BlockVector3.at(xCord, fromY, mine.getMinPoint().getBlockZ()));
             editSession.setBlocks(region, BlockTypes.AIR);
             editSession.close();
             return blocksBroken;

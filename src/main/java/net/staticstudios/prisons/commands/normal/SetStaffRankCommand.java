@@ -2,7 +2,7 @@ package net.staticstudios.prisons.commands.normal;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;
@@ -15,6 +15,7 @@ import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,8 +48,8 @@ public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> ranks = List.of("member", "helper", "moderator", "admin", "sradmin", "manager", "owner");
-        if (args.length == 1) return StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[0]);
-        if (args.length == 2) return StaticMineUtils.filterStringList(ranks, args[1]);
+        if (args.length == 1) return StaticMineUtils.filterStrings(ServerData.PLAYERS.getAllNames(), args[0]);
+        if (args.length == 2) return StaticMineUtils.filterStrings(ranks, args[1]);
         return Collections.emptyList();
     }
 }

@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.fishing;
 
 import net.staticstudios.prisons.pvp.PvPManager;
-import net.staticstudios.utils.WeightedElements;
+import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

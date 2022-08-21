@@ -3,7 +3,7 @@ package net.staticstudios.prisons.crates;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import net.staticstudios.utils.WeightedElements;
+import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

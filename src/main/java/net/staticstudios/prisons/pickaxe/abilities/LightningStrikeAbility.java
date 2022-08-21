@@ -34,9 +34,9 @@ public class LightningStrikeAbility extends BaseAbility {
         if (PrisonUtils.randomInt(1, 20) != 1) return; //5% chance to activate
         StaticMine mine = blockBreak.getMine();
         Location loc = blockBreak.getBlockLocation().clone();
-        loc.setY(mine.getMaxVector().getBlockY());
+        loc.setY(mine.getMaxPoint().getBlockY());
         List<Location> locs = new LinkedList<>();
-        for (int y = mine.getMaxVector().getBlockY(); y > mine.getMinVector().getBlockY(); y -= STEP) {
+        for (int y = mine.getMaxPoint().getBlockY(); y > mine.getMinPoint().getBlockY(); y -= STEP) {
             loc.add(0, -STEP, 0);
             locs.add(loc.clone().add(PrisonUtils.randomDouble(-2, 2), -1, PrisonUtils.randomDouble(-2, 2)));
         }

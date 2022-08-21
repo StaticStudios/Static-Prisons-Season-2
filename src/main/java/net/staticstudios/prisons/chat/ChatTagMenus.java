@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
-import net.staticstudios.prisons.chat.ChatTags;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gui.MainMenus;
 import org.bukkit.Material;

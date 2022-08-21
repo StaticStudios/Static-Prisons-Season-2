@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands.normal;
 
 import net.md_5.bungee.api.ChatColor;
-import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -51,7 +51,7 @@ public class KeyallCommand implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
-        if (args.length == 1) list.addAll(StaticMineUtils.filterStringList(List.of("common", "rare", "epic", "legendary", "static", "staticp", "vote", "kit", "pickaxe"), args[0]));
+        if (args.length == 1) list.addAll(StaticMineUtils.filterStrings(List.of("common", "rare", "epic", "legendary", "static", "staticp", "vote", "kit", "pickaxe"), args[0]));
         return list;
     }
 }

@@ -1,4 +1,4 @@
-package net.staticstudios.utils;
+package net.staticstudios.mines.utils;
 
 
 /**

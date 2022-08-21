@@ -1,5 +1,6 @@
 package net.staticstudios.mines;
 
+import com.google.common.base.Preconditions;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -9,353 +10,257 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.World;
 import com.sk89q.worldedit.world.block.BlockType;
-import com.sk89q.worldedit.world.block.BlockTypes;
-import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import net.staticstudios.mines.minesapi.events.MineCreatedEvent;
-import net.staticstudios.mines.minesapi.events.MineRefilledEvent;
-import org.bukkit.Bukkit;
+import net.staticstudios.mines.utils.StaticMineUtils;
+import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.Location;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.IOException;
-import java.time.Instant;
-import java.util.*;
+import java.text.DecimalFormat;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+/**
+ * Each instance of this class represents a mine.
+ */
 public class StaticMine {
 
-    private static boolean hasRemovedOldWGRegions = false;
+    /**
+     * @param id The mine's ID.
+     * @return The mine with the given ID, or null if no mine with the given ID exists.
+     */
+    public static StaticMine getMine(String id) {
+        return StaticMines.MINES.get(id);
+    }
 
-    private static Map<String, StaticMine> ALL_MINES = new HashMap<>();
-    private static final List<String> SORTED_MINE_IDS = new ArrayList<>();
-    public static StaticMine getMine(String id) { return ALL_MINES.get(id); }
-    public static Collection<StaticMine> getAllMines() { return ALL_MINES.values(); }
-    public static Set<String> getAllMineIDS() { return ALL_MINES.keySet(); }
-    public static void unloadAllMines() { ALL_MINES = new HashMap<>(); }
+    private final String id;
+    private final org.bukkit.World bukkitWorld;
+    private final World world;
+    private final BlockVector3 minPoint;
+    private final BlockVector3 maxPoint;
+    private final Region mineRegion;
+    private final ProtectedRegion protectedMineRegion;
+    private final RandomPattern blockPattern;
+    private final WeightedElements<BlockType> blocks;
 
-    private String id;
-    private BlockVector3 minPoint;
-    private BlockVector3 maxPoint;
-    private org.bukkit.World world;
-    private World weWorld;
-    private Region region;
-    private ProtectedCuboidRegion wgRegion;
-    private boolean shouldRefillSync = false;
-    private boolean shouldSaveToFile = false;
-    private MineBlock[] mineBlocks = new MineBlock[] {new MineBlock(BlockTypes.STONE, 100) };
+    private final StaticMineSettings settings = new StaticMineSettings();
 
-    public boolean isRefilling = false;
-    public long blocksInMine;
-    public long blocksInFullMine;
-    private double refillAtPercentLeft = 50d; //TODO: can configure in config
-    private Consumer<StaticMine> runOnRefill = mine -> {};
+    private long lastRefilledAt = 0;
+    private long currentBlockCount = 0;
 
-    //todo: add these options to the config later on
-    public int secondsBetweenRefills = 600; //Refill every 10mins
-    private long refillNextAt = Long.MAX_VALUE;
-    public boolean shouldRefillOnTimer = true;
-    public static void refillAllTimedMines() {
-        for (StaticMine mine : getAllMines()) {
-            if (!mine.shouldRefillOnTimer) continue;
-            if (mine.blocksInMine == mine.blocksInFullMine) { //If the mine is full, delay the refill timer
-                mine.refillNextAt = Instant.now().getEpochSecond() + mine.secondsBetweenRefills;
-                continue;
-            }
-            if (mine.refillNextAt < Instant.now().getEpochSecond()) { //The mine has had blocks broken in it for a while, refill it
-                if (mine.blocksInMine != mine.blocksInFullMine) mine.refill();
-            }
+    private Consumer<StaticMine> onRefill = null;
+
+    /**
+     * @return The mine's ID.
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @return The mine's Bukkit world.
+     */
+    public org.bukkit.World getBukkitWorld() {
+        return bukkitWorld;
+    }
+
+    /**
+     * @return The mine's WorldEdit world.
+     */
+    public World getWorld() {
+        return world;
+    }
+
+    /**
+     * @return The mine's minimum point.
+     */
+    public BlockVector3 getMinPoint() {
+        return minPoint;
+    }
+
+    /**
+     * @return The mine's maximum point.
+     */
+    public BlockVector3 getMaxPoint() {
+        return maxPoint;
+    }
+
+    /**
+     * @return The mine's region.
+     */
+    public Region getRegion() {
+        return mineRegion;
+    }
+
+    /**
+     * @return The mine's WorldGuard region.
+     */
+    public ProtectedRegion getProtectedMineRegion() {
+        return protectedMineRegion;
+    }
+
+    /**
+     * @return The mine's block pattern.
+     */
+    public RandomPattern getBlockPattern() {
+        return blockPattern;
+    }
+
+    /**
+     * @return The mine's blocks.
+     */
+    public WeightedElements<BlockType> getBlocks() {
+        return blocks;
+    }
+
+    /**
+     * @return The mine's settings.
+     */
+    public StaticMineSettings settings() {
+        return settings;
+    }
+
+    /**
+     * @return The time (in milliseconds) that the mine was last refilled. If the mine has never been refilled, this will be 0.
+     */
+    public long getLastRefilledAt() {
+        return lastRefilledAt;
+    }
+
+    void setLastRefilledAt(long lastRefilledAt) {
+        this.lastRefilledAt = lastRefilledAt;
+    }
+
+    /**
+     * @return The amount of blocks in the mine when it is full.
+     */
+    public long getBlockCountWhenFull() {
+        return mineRegion.getVolume();
+    }
+
+    /**
+     * @return The current amount of blocks in the mine.
+     */
+    public long getCurrentBlockCount() {
+        return currentBlockCount;
+    }
+
+
+
+    public StaticMine(String id, org.bukkit.World bukkitWorld,
+                      BlockVector3 corner1, BlockVector3 corner2,
+                      WeightedElements<BlockType> blocks) {
+
+        Preconditions.checkNotNull(id, "id");
+        Preconditions.checkNotNull(bukkitWorld, "bukkitWorld");
+        Preconditions.checkNotNull(corner1, "corner1");
+        Preconditions.checkNotNull(corner2, "corner2");
+        Preconditions.checkNotNull(blocks, "mine blocks");
+
+        if (StaticMines.MINES.containsKey(id)) {
+            throw new IllegalArgumentException("Tried to create a mine with the ID: '" + id + "' when a mine with that ID already exists!");
         }
+
+        this.id = id;
+        this.bukkitWorld = bukkitWorld;
+        this.world = BukkitAdapter.adapt(bukkitWorld);
+        this.minPoint = StaticMineUtils.getMinPoint(corner1, corner2);
+        this.maxPoint = StaticMineUtils.getMaxPoint(corner1, corner2);
+        this.mineRegion = new CuboidRegion(world, minPoint, maxPoint);
+        this.protectedMineRegion = new ProtectedCuboidRegion(id + StaticMinesConfig.REGION_SUFFIX, minPoint, maxPoint);
+        this.blocks = blocks;
+        this.blockPattern = StaticMineUtils.toRandomPattern(blocks);
+
+        this.protectedMineRegion.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
+        this.protectedMineRegion.setPriority(1);
+
+        StaticMines.registerMine(this);
     }
 
-    public static StaticMine fromLocationXZ(Location location) {
-        for (StaticMine m : ALL_MINES.values()) {
-            if (!m.getWorld().equals(location.getWorld())) continue;
-            if (m.getMinPoint().getX() <= location.getBlockX() && m.getMaxPoint().getX() >= location.getBlockX() &&
-                    m.getMinPoint().getZ() <= location.getBlockZ() && m.getMaxPoint().getZ() >= location.getBlockZ()) {
-                return m;
+    /**
+     * Refills the mine. This may or may not be asynchronous.
+     * @return A future that will be completed when the refill operation has been completed.
+     */
+    public CompletableFuture<StaticMine> refill() {
+        CompletableFuture<StaticMine> future = new CompletableFuture<>();
+        Runnable runnable = () -> {
+            long startTime = System.nanoTime();
+            try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
+                editSession.setBlocks(mineRegion, blockPattern);
             }
+
+            currentBlockCount = mineRegion.getVolume();
+            lastRefilledAt = System.currentTimeMillis();
+
+            StaticMinesThreadManager.runOnMainThread(() -> {
+                if (onRefill != null) {
+                    onRefill.accept(this);
+                }
+                future.complete(this);
+            });
+            long endTime = System.nanoTime();
+            StaticMines.log("Refilled '" + id + "' in " + new DecimalFormat("#.##").format((endTime - startTime) / 1_000_000d) + "ms (" + (settings.async() ? "async" : "sync") + ")");
+        };
+
+        if (settings.async()) {
+            lastRefilledAt = System.currentTimeMillis(); //Set this here so that the timer loop doesn't try and reset it twice at the same time.
+            StaticMinesThreadManager.submit(runnable);
+        } else {
+            runnable.run();
         }
-        return null;
+
+        return future;
     }
 
-    public String getID() { return id; }
-    public org.bukkit.World getWorld() { return world; }
-    public World getWEWorld() { return weWorld; }
-    public Location getMinPoint() { return new Location(world, minPoint.getX(), minPoint.getY(), minPoint.getZ(), 0, 0); }
-    public Location getMaxPoint() { return new Location(world, maxPoint.getX(), maxPoint.getY(), maxPoint.getZ(), 0, 0); }
-    public BlockVector3 getMinVector() { return minPoint; }
-    public BlockVector3 getMaxVector() { return maxPoint; }
-    public boolean getShouldRefillSync() { return shouldRefillSync; }
-    public void setShouldRefillSync(boolean shouldRefillSync) { this.shouldRefillSync = shouldRefillSync; }
-    public MineBlock[] getMineBlocks() { return mineBlocks; }
-    public void setMineBlocks(MineBlock[] mineBlocks) { this.mineBlocks = mineBlocks; }
-    public RandomPattern getBlockPattern() { return MineBlock.buildRandomPattern(mineBlocks); }
-    public boolean isShouldSaveToFile() { return shouldSaveToFile; }
-    public void setShouldSaveToFile(boolean shouldSaveToFile) { this.shouldSaveToFile = shouldSaveToFile; }
-    public Region getRegion() { return region; }
-    public ProtectedRegion getWorldGuardRegion() { return wgRegion; }
-    public void removeBlocksBrokenInMine(long blocksBroken) {
-        blocksInMine -= blocksBroken;
-        if ((double) blocksInMine / blocksInFullMine < refillAtPercentLeft / 100) refill();
+    /**
+     * Set a callback to be run each time the mine is refilled.
+     * @param consumer The callback to be run. If it is null, then no callback will be run.
+     */
+    public void runOnRefill(@Nullable Consumer<StaticMine> consumer) {
+        this.onRefill = consumer;
     }
-    public void setRunOnRefill(Consumer<StaticMine> runOnRefill) { this.runOnRefill = runOnRefill; }
-    public Consumer<StaticMine> getRunOnRefill() { return runOnRefill; }
 
+    /**
+     * Unregister this mine, this will disable all listeners
+     */
+    public void delete() {
+        StaticMines.unregisterMine(this);
+    }
 
+    /**
+     * @return A list of all the players within the mine region.
+     */
     public List<Player> getPlayersInMine() {
-        List<Player> players = new ArrayList<>();
-        for (Player player : world.getPlayers()) {
-            if (player.getLocation().getX() < minPoint.getX() || player.getLocation().getY() < minPoint.getY() || player.getLocation().getZ() < minPoint.getZ()) continue;
-            if (player.getLocation().getX() > maxPoint.getX() || player.getLocation().getY() > maxPoint.getY() || player.getLocation().getZ() > maxPoint.getZ()) continue;
+        List<Player> players = new LinkedList<>();
+        for (Player player : bukkitWorld.getPlayers()) {
+            if (player.getLocation().getX() < minPoint.getX() || player.getLocation().getY() < minPoint.getY() || player.getLocation().getZ() < minPoint.getZ())
+                continue;
+            if (player.getLocation().getX() > maxPoint.getX() || player.getLocation().getY() > maxPoint.getY() || player.getLocation().getZ() > maxPoint.getZ())
+                continue;
+
             players.add(player);
         }
         return players;
     }
 
-
-    public StaticMine(String id, Location point1, Location point2) {
-        if (!Objects.equals(point1.getWorld(), point2.getWorld())) {
-            StaticMines.log("Tried to create a world with min and max points in different worlds! Skipping it...");
-            return;
-        }
-        this.id = id;
-        Location minPoint = StaticMine.getMinPoint(point1, point2);
-        Location maxPoint = StaticMine.getMaxPoint(point1, point2);
-        this.minPoint = BlockVector3.at(minPoint.getBlockX(), minPoint.getBlockY(), minPoint.getBlockZ());
-        this.maxPoint = BlockVector3.at(maxPoint.getBlockX(), maxPoint.getBlockY(), maxPoint.getBlockZ());
-        blocksInFullMine = (long) (maxPoint.getBlockX() - minPoint.getBlockX() + 1) *
-                (maxPoint.getBlockY() - minPoint.getBlockY() + 1) *
-                (maxPoint.getBlockZ() - minPoint.getBlockZ() + 1);
-        blocksInMine = 0;
-        world = minPoint.getWorld();
-        weWorld = BukkitAdapter.adapt(world);
-        region = new CuboidRegion(weWorld, this.minPoint, this.maxPoint);
-        wgRegion = new ProtectedCuboidRegion(id + "--static-mine", this.minPoint, this.maxPoint);
-        wgRegion.setFlag(Flags.BLOCK_BREAK, StateFlag.State.ALLOW);
-        wgRegion.setPriority(1);
-        WorldGuard.getInstance().getPlatform().getRegionContainer().get(weWorld).addRegion(wgRegion);
-        ALL_MINES.put(this.id, this);
-        SORTED_MINE_IDS.add(this.id);
-        if (!Bukkit.isPrimaryThread()) {
-            Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> {
-                Bukkit.getPluginManager().callEvent(new MineCreatedEvent(this));
-            });
-        } else Bukkit.getPluginManager().callEvent(new MineCreatedEvent(this));
-    }
-
     /**
-     * Refill the mine with blocks
-     * The completable future will be completed on the main thread, call refill(false) if it is safe to complete on a different thread (will always be completed on the main thread if the mine should refill sync). This is useful if you do not want to wait until the next tick to run an operation.
+     * Call this method to update the mine's current block count, specifying the amount of blocks that were broken.
+     * @param blocksToRemove The amount of blocks to remove from the mine's block count.
+     * @return true if the mine was refilled, false if it was not.
      */
-    public CompletableFuture<StaticMine> refill() {
-        return refill(true);
-    }
-    /**
-     * Refill the mine with blocks
-     * @param completeFutureOnMainThread - if true, the completeable future will be completed on the main thread, otherwise, it might be completed on a different thread (depends on if the mine refills sync or not). This is useful if you do not want to wait until the next tick to run an operation.
-     */
-    public CompletableFuture<StaticMine> refill(boolean completeFutureOnMainThread) {
-        CompletableFuture<StaticMine> future = new CompletableFuture<>();
-        refillNextAt = Instant.now().getEpochSecond() + secondsBetweenRefills;
-        if (!shouldRefillSync) {
-            Bukkit.getScheduler().runTaskAsynchronously(StaticMines.getParent(), () -> refillMine(true, completeFutureOnMainThread).thenRun(() -> future.complete(this)));
-        } else refillMine(false, completeFutureOnMainThread).thenRun(() -> future.complete(this));
-        return future;
-    }
-
-    /**
-     * This method is responsible for filling the mine with blocks
-     * @param completeFutureOnMainThread - if true, the completeable future will be completed on the main thread, otherwise, it might be completed on a different thread (depends on if the mine refills sync or not). This is useful if you do not want to wait until the next tick to run an operation.
-     */
-    CompletableFuture<StaticMine> refillMine(boolean async, boolean completeFutureOnMainThread) {
-        if (isRefilling) return CompletableFuture.completedFuture(this);
-        CompletableFuture<StaticMine> future = new CompletableFuture<>();
-        isRefilling = true;
-        EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld);
-        editSession.setBlocks(region, getBlockPattern());
-        editSession.close();
-        refillNextAt = Instant.now().getEpochSecond() + secondsBetweenRefills;
-        StaticMines.log("Refilled mine: " + id);
-
-
-
-
-
-
-        if (async) {
-            Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint())));
-        } else Bukkit.getPluginManager().callEvent(new MineRefilledEvent(id, getMinPoint(), getMaxPoint()));
-        if (completeFutureOnMainThread && !Bukkit.isPrimaryThread()) {
-            Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> {
-                runOnRefill.accept(this);
-                future.complete(this);
-                isRefilling = false;
-                blocksInMine = blocksInFullMine;
-            });
-        } else {
-            future.complete(this);
-            isRefilling = false;
-            blocksInMine = blocksInFullMine;
-            Bukkit.getScheduler().runTask(StaticMines.getParent(), () -> runOnRefill.accept(this));
+    public boolean removeBlocks(long blocksToRemove) {
+        currentBlockCount -= blocksToRemove;
+        if (currentBlockCount < 0 || currentBlockCount / (double) getBlockCountWhenFull() * 100 < settings.refillAtPercentFull()) {
+            refill();
+            return true;
         }
-        return future;
+        return false;
     }
-
-    public void delete() {
-        WorldGuard.getInstance().getPlatform().getRegionContainer().get(weWorld).removeRegion(id + "--static-mine");
-        ALL_MINES.remove(id);
-        SORTED_MINE_IDS.remove(id);
-    }
-
-
-    //Loading/Saving
-    public static void loadMines() {
-        unloadAllMines();
-        FileConfiguration config = StaticMines.getInstance().getConfig();
-        if (!config.contains("wait_for_world")) config.set("wait_for_world", "null");
-        if (!config.contains("mines_load_delay")) config.set("mines_load_delay", 20);
-        StaticMines.getInstance().saveConfig();
-        tryToLoadMines(config.getString("wait_for_world"), config.getInt("mines_load_delay"));
-    }
-
-    private static void tryToLoadMines(String worldToWaitFor, int waitAfterWorldLoads) {
-        if (Bukkit.getWorld(worldToWaitFor) == null) {
-            Bukkit.getScheduler().runTaskLater(StaticMines.getParent(), () -> tryToLoadMines(worldToWaitFor, waitAfterWorldLoads), 1);
-            return;
-        }
-        if (!hasRemovedOldWGRegions) {
-            World weWorld = BukkitAdapter.adapt(Bukkit.getWorld(worldToWaitFor));
-            for (String rgID : WorldGuard.getInstance().getPlatform().getRegionContainer().get(weWorld).getRegions().keySet()) {
-                if (rgID.endsWith("--static-mine")) WorldGuard.getInstance().getPlatform().getRegionContainer().get(weWorld).removeRegion(rgID);
-            }
-            hasRemovedOldWGRegions = true;
-        }
-        Bukkit.getScheduler().runTaskLater(StaticMines.getParent(), () -> {
-            File minesConfigFile = new File(StaticMines.getInstance().getDataFolder(), "mines.yml");
-                try {
-                    minesConfigFile.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            FileConfiguration minesConfig = YamlConfiguration.loadConfiguration(minesConfigFile);
-            for (String key : minesConfig.getKeys(false)) loadMine(key, minesConfig.getConfigurationSection(key));
-        }, Math.max(0, waitAfterWorldLoads));
-        StaticMines.log("Finished loading all mines (mines.yml)");
-        StaticMines.getRunAfterInitialLoad().run();
-    }
-
-    static void loadMine(String mineID, ConfigurationSection mineConfig) {
-        if (mineConfig.getString("location.point1.world") == null || mineConfig.getString("location.point2.world") == null) {
-            StaticMines.log("Tried to load a mine with an invalid location! Skipping it... Mine: " + mineID);
-            return;
-        }
-        if (Bukkit.getWorld(mineConfig.getString("location.point1.world")) == null || Bukkit.getWorld(mineConfig.getString("location.point2.world")) == null) {
-            StaticMines.log("Tried to load a mine with an invalid location! Skipping it... Mine: " + mineID);
-            return;
-        }
-
-        StaticMine mine = new StaticMine(mineID, new Location(Bukkit.getWorld(mineConfig.getString("location.point1.world")),
-                mineConfig.getDouble("location.point1.x"),
-                mineConfig.getDouble("location.point1.y"),
-                mineConfig.getDouble("location.point1.z"), 0, 0),
-                new Location(Bukkit.getWorld(mineConfig.getString("location.point2.world")),
-                mineConfig.getDouble("location.point2.x"),
-                mineConfig.getDouble("location.point2.y"),
-                mineConfig.getDouble("location.point2.z"), 0, 0));
-        mine.setShouldRefillSync(mineConfig.getBoolean("shouldRefillSync"));
-        List<MineBlock> mineBlocks = new ArrayList<>();
-        for (String key : mineConfig.getConfigurationSection("blocks").getKeys(false)) {
-            String _key = key.toLowerCase();
-            if (BlockTypes.get("minecraft:" + _key) == null) {
-                StaticMines.log("Tried to load a mine with an invalid block! Skipping it... Mine: " + mineID + ", Invalid block: " + key);
-                continue;
-            }
-            mineBlocks.add(new MineBlock(BlockTypes.get("minecraft:" + _key), mineConfig.getDouble("blocks." + key)));
-        }
-        mine.setMineBlocks(mineBlocks.toArray(new MineBlock[0]));
-        mine.refill();
-        mine.setShouldSaveToFile(true);
-    }
-
-
-    public static void saveMines() {
-        Bukkit.getScheduler().runTaskAsynchronously(StaticMines.getParent(), StaticMine::saveMinesSync);
-    }
-
-    public static void saveMinesSync() {
-        File minesConfigFile = new File(StaticMines.getInstance().getDataFolder(), "mines.yml");
-        FileConfiguration minesConfig = new YamlConfiguration();
-        for (String id : SORTED_MINE_IDS) {
-            if (!ALL_MINES.get(id).shouldSaveToFile) continue;
-            ConfigurationSection section = minesConfig.createSection(id);
-            StaticMine mine = ALL_MINES.get(id);
-            section.set("shouldRefillSync", mine.getShouldRefillSync());
-            ConfigurationSection blocks = section.createSection("blocks");
-            for (MineBlock mineBlock : mine.getMineBlocks()) blocks.set(mineBlock.getBlockType().getId().split("minecraft:")[1], mineBlock.getChance());
-            ConfigurationSection point1 = section.createSection("location.point1");
-            point1.set("world", mine.getWorld().getName());
-            point1.set("x", mine.getMinPoint().getBlockX());
-            point1.set("y", mine.getMinPoint().getBlockY());
-            point1.set("z", mine.getMinPoint().getBlockZ());
-            ConfigurationSection point2 = section.createSection("location.point2");
-            point2.set("world", mine.getWorld().getName());
-            point2.set("x", mine.getMaxPoint().getBlockX());
-            point2.set("y", mine.getMaxPoint().getBlockY());
-            point2.set("z", mine.getMaxPoint().getBlockZ());
-        }
-
-
-        try {
-            minesConfig.save(minesConfigFile);
-        } catch (IOException e) {
-            StaticMines.log("Could not save mine data");
-            e.printStackTrace();
-        }
-    }
-
-    //Util methods
-    static Location getMinPoint(Location loc1, Location loc2) {
-        double minX = Math.min(loc1.getX(), loc2.getX());
-        double minY = Math.min(loc1.getY(), loc2.getY());
-        double minZ = Math.min(loc1.getZ(), loc2.getZ());
-        return new Location(loc1.getWorld(), minX, minY, minZ);
-    }
-
-    static Location getMaxPoint(Location loc1, Location loc2) {
-        double maxX = Math.max(loc1.getX(), loc2.getX());
-        double maxY = Math.max(loc1.getY(), loc2.getY());
-        double maxZ = Math.max(loc1.getZ(), loc2.getZ());
-        return new Location(loc1.getWorld(), maxX, maxY, maxZ);
-    }
-
-    public record MineBlock(BlockType blockType, double chance) {
-
-        public BlockType getBlockType() {
-            return blockType;
-        }
-
-        public double getChance() {
-            return chance;
-        }
-
-
-        public static RandomPattern buildRandomPattern(MineBlock[] mineBlocks) {
-            RandomPattern randomPattern = new RandomPattern();
-            for (MineBlock mineBlock : mineBlocks) {
-                randomPattern.add(mineBlock.getBlockType(), mineBlock.getChance());
-            }
-            return randomPattern;
-        }
-    }
-
 }
 

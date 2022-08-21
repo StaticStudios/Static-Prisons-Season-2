@@ -3,6 +3,7 @@ package net.staticstudios.prisons.pickaxe;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.mines.StaticMine;
+import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
@@ -119,7 +120,7 @@ public class AbilityMenus extends GUIUtils {
 
                 StaticMine mine = null;
                 if (ability.requiresMineOnActivate) {
-                    mine = StaticMine.fromLocationXZ(p.getLocation());
+                    mine = StaticMines.fromLocation(p.getLocation(), false);
                     if (mine == null) {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou must be standing in a mine to activate this ability!"));
                         return;

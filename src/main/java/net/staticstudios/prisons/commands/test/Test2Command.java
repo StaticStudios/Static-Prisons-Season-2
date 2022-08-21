@@ -41,6 +41,8 @@ public class Test2Command implements CommandExecutor {
         player.getInventory().addItem(new MoneyLootBox(tier).getItem());
         player.getInventory().addItem(new PickaxeLootBox(tier).getItem());
 
+
+
         return false;
     }
 }

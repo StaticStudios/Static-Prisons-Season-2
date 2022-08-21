@@ -2,7 +2,7 @@ package net.staticstudios.prisons.privatemines;
 
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import net.staticstudios.prisons.mines.MineBlock;
-import net.staticstudios.utils.WeightedElements;
+import net.staticstudios.mines.utils.WeightedElements;
 
 public class PrivateMineStats {
     WeightedElements<MineBlock> blocks;

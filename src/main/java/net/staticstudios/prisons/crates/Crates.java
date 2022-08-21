@@ -5,7 +5,7 @@ import net.staticstudios.prisons.customitems.Vouchers;
 import net.staticstudios.prisons.customitems.minebombs.MineBomb;
 import net.staticstudios.prisons.customitems.pickaxes.PickaxeTemplates;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import net.staticstudios.utils.WeightedElements;
+import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 

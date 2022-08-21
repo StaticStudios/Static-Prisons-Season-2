@@ -52,10 +52,10 @@ public class SnowFallAbility extends BaseAbility {
     public void onTick(int tick, Player player, PrisonPickaxe pickaxe, StaticMine mine) {
         if (tick % 40 != 0) return; //Only run every 2 seconds
         SnowFallPickaxe source = new SnowFallPickaxe(player, pickaxe, mine);
-        for (int x = mine.getMinVector().getBlockX(); x < mine.getMaxVector().getBlockX(); x++) {
-            for (int z = mine.getMinVector().getBlockZ(); z < mine.getMaxVector().getBlockZ(); z++) {
+        for (int x = mine.getMinPoint().getBlockX(); x < mine.getMaxPoint().getBlockX(); x++) {
+            for (int z = mine.getMinPoint().getBlockZ(); z < mine.getMaxPoint().getBlockZ(); z++) {
                 if (PrisonUtils.randomInt(1, 50) != 1) continue; //2% chance to spawn snowball
-                Location loc = new Location(mine.getWorld(), x, mine.getMaxVector().getBlockY() + 50, z);
+                Location loc = new Location(mine.getBukkitWorld(), x, mine.getMaxPoint().getBlockY() + 50, z);
                 Snowball snowball = player.getWorld().spawn(loc, Snowball.class);
                 snowball.setShooter(source);
             }
@@ -96,16 +96,7 @@ public class SnowFallAbility extends BaseAbility {
                         map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * pickaxe.getEnchantLevel(PickaxeEnchants.FORTUNE));
                     }
                     PrisonBackpacks.addToBackpacks(player, map);
-//                    boolean backpackWasFull = playerData.getBackpackIsFull();
-//                    if (!backpackWasFull) {
-//                        Map<MineBlock, Long> map = new HashMap<>();
-//                        for (Map.Entry<Material, Long> entry : blocksBroken.entrySet()) {
-//                            map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * pickaxe.getEnchantLevel(PickaxeEnchants.FORTUNE));
-//                        }
-//                        playerData.addAllToBackpack(map);
-//                    }
-//                    PrisonUtils.Players.backpackFullCheck(backpackWasFull, player, playerData);
-                    mine.removeBlocksBrokenInMine(snowFallMineBomb.blocksChanged);
+                    mine.removeBlocks(snowFallMineBomb.blocksChanged);
                     locs.clear();
                 }, 4);
                 started = true;
@@ -123,7 +114,7 @@ public class SnowFallAbility extends BaseAbility {
         }
 
         @Override
-        public <T extends Projectile> @NotNull T launchProjectile(@NotNull Class<? extends T> projectile, @Nullable Vector velocity) {
+        public <T extends Projectile> T launchProjectile(@NotNull Class<? extends T> projectile, @Nullable Vector velocity) {
             return null;
         }
     }

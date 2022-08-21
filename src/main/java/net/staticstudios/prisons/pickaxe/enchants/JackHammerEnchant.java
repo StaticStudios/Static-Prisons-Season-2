@@ -98,9 +98,9 @@ public class JackHammerEnchant extends BaseEnchant {
         public Map<Material, Long> destroyLayer(int yLevel, int howDeepToGo) {
             Map<Material, Long> blocksBroken = new HashMap<>();
             for (int y = Math.max(1, yLevel - howDeepToGo + 1); y <= yLevel; y++) {
-                for (int x = mine.getMinVector().getBlockX(); x <= mine.getMaxVector().getBlockX(); x++) {
-                    for (int z = mine.getMinVector().getBlockZ(); z <= mine.getMaxVector().getBlockZ(); z++) {
-                        Material mat = new Location(mine.getWorld(), x, y, z).getBlock().getType();
+                for (int x = mine.getMinPoint().getBlockX(); x <= mine.getMaxPoint().getBlockX(); x++) {
+                    for (int z = mine.getMinPoint().getBlockZ(); z <= mine.getMaxPoint().getBlockZ(); z++) {
+                        Material mat = new Location(mine.getBukkitWorld(), x, y, z).getBlock().getType();
                         if (mat.equals(Material.AIR)) continue;
                         totalBlocksBroken += 1;
                         if (!blocksBroken.containsKey(mat)) {
@@ -112,7 +112,7 @@ public class JackHammerEnchant extends BaseEnchant {
 
 
 
-            Region region = new CuboidRegion(mine.getWEWorld(), BlockVector3.at(mine.getMinVector().getBlockX(), yLevel, mine.getMinVector().getBlockZ()), BlockVector3.at(mine.getMaxVector().getBlockX(), Math.max(1, yLevel - howDeepToGo + 1), mine.getMaxVector().getBlockZ()));
+            Region region = new CuboidRegion(mine.getWorld(), BlockVector3.at(mine.getMinPoint().getBlockX(), yLevel, mine.getMinPoint().getBlockZ()), BlockVector3.at(mine.getMaxPoint().getBlockX(), Math.max(1, yLevel - howDeepToGo + 1), mine.getMaxPoint().getBlockZ()));
             EditSession editSession = WorldEdit.getInstance().newEditSession(region.getWorld());
             editSession.setBlocks(region, BlockTypes.AIR);
             editSession.close();

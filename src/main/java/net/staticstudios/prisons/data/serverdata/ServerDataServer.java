@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.data.serverdata;
 
+
 import net.staticstudios.prisons.data.datahandling.DataSet;
 import net.staticstudios.prisons.data.datahandling.DataTypes;
 

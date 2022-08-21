@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands.normal;
 
 import net.kyori.adventure.text.Component;
-import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.chat.ChatTags;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
@@ -40,8 +40,8 @@ public class AddPlayerChatTagCommand implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
-        if (args.length == 1) list.addAll(StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[0]));
-        if (args.length == 2) list.addAll(StaticMineUtils.filterStringList(ChatTags.getAllKeys(), args[1]));
+        if (args.length == 1) list.addAll(StaticMineUtils.filterStrings(ServerData.PLAYERS.getAllNames(), args[0]));
+        if (args.length == 2) list.addAll(StaticMineUtils.filterStrings(ChatTags.getAllKeys(), args[1]));
         return list;
     }
 }

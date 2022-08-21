@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.pvp.commands;
 
 import net.kyori.adventure.text.Component;
-import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.Bukkit;
@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,11 +63,11 @@ public class PvPEventCommand implements TabExecutor {
     public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
         if (args.length == 1) {
-            return StaticMineUtils.filterStringList(List.of("start", "stop"), args[0]);
+            return StaticMineUtils.filterStrings(List.of("start", "stop"), args[0]);
         }
 
         if (args.length == 2 && "start".equalsIgnoreCase(args[0])) {
-            return StaticMineUtils.filterStringList(List.of("koth"), args[1]);
+            return StaticMineUtils.filterStrings(List.of("koth"), args[1]);
         }
 
         return Collections.emptyList();

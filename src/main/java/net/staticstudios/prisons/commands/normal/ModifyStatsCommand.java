@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -280,7 +280,7 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
             list.add("prestigetokens");
             list.add("shards");
         } else if (args.length == 2) {
-            list.addAll(StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[1]));
+            list.addAll(StaticMineUtils.filterStrings(ServerData.PLAYERS.getAllNames(), args[1]));
             list.add("self");
         } else if (args.length == 3) {
             list.add("add");
@@ -288,6 +288,6 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
             list.add("set");
             list.add("reset");
         } else if (args.length == 4) list.add("<amount>");
-        return StaticMineUtils.filterStringList(list, args[args.length - 1]);
+        return StaticMineUtils.filterStrings(list, args[args.length - 1]);
     }
 }

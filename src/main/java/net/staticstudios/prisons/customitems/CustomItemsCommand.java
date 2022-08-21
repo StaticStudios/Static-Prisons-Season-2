@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.customitems;
 
 import net.kyori.adventure.text.Component;
-import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomItemsCommand implements CommandExecutor, TabCompleter {
@@ -102,7 +103,7 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
     }
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        List<String> list = new ArrayList<>();
+//        List<String> list = new ArrayList<>();
 //        if (args.length == 1) {
 //            list.add("common_key");
 //            list.add("rare_key");
@@ -133,6 +134,9 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
 //            list.add("pickaxe_9");
 //            list.add("pickaxe_10");
 //        }
-        return StaticMineUtils.filterStringList(CustomItems.ITEMS.keySet(), args[0]);
+        if (args.length > 1) {
+            return Collections.emptyList();
+        }
+        return StaticMineUtils.filterStrings(CustomItems.ITEMS.keySet(), args[0]);
     }
 }

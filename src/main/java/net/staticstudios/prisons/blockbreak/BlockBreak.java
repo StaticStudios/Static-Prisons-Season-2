@@ -1,7 +1,8 @@
 package net.staticstudios.prisons.blockbreak;
 
 import net.staticstudios.mines.StaticMine;
-import net.staticstudios.mines.minesapi.events.BlockBrokenInMineEvent;
+import net.staticstudios.mines.StaticMines;
+import net.staticstudios.mines.api.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.PrisonBackpacks;
 import net.staticstudios.prisons.data.PlayerData;
@@ -76,7 +77,7 @@ public class BlockBreak {
         this.player = e.getPlayer();
         this.playerData = new PlayerData(player);
         this.pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
-        this.mine = StaticMine.fromLocationXZ(e.getBlock().getLocation());
+        this.mine = StaticMines.fromLocation(e.getBlock().getLocation(), false);
         this.blockLocation = e.getBlock().getLocation();
         this.isSimulated = false;
     }
@@ -93,13 +94,13 @@ public class BlockBreak {
         this.playerData = new PlayerData(player);
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
-        this.mine = StaticMine.fromLocationXZ(blockLocation);
+        this.mine = StaticMines.fromLocation(blockLocation, false);
     }
     public BlockBreak(@NotNull PlayerData playerData, PrisonPickaxe pickaxe, Block block) {
         this.playerData = playerData;
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
-        this.mine = StaticMine.fromLocationXZ(blockLocation);
+        this.mine = StaticMines.fromLocation(blockLocation, false);
     }
     public BlockBreak(@NotNull PlayerData playerData, PrisonPickaxe pickaxe, StaticMine mine, Block block) {
         this.playerData = playerData;
@@ -121,7 +122,7 @@ public class BlockBreak {
     }
     public BlockBreak setBlockLocation(Location blockLocation) {
         this.blockLocation = blockLocation;
-        this.mine = StaticMine.fromLocationXZ(blockLocation);
+        this.mine = StaticMines.fromLocation(blockLocation, false);
         return this;
     }
     public BlockBreak setIsSimulated(boolean isSimulated) {
@@ -205,7 +206,7 @@ public class BlockBreak {
                 pickaxe.addRawBlocksBroken(stats.getRawBlockBroken());
             }
 
-            mine.removeBlocksBrokenInMine(stats.getBlocksBroken());
+            mine.removeBlocks(stats.getBlocksBroken());
         }
         return isCancelled;
     }

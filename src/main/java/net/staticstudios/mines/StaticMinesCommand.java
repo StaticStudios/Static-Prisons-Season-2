@@ -1,35 +1,36 @@
 package net.staticstudios.mines;
 
+import net.staticstudios.mines.utils.StaticMineUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class StaticMinesCommand implements CommandExecutor, TabCompleter {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length == 0) return false;
         switch (args[0].toLowerCase()) {
             case "reload" -> {
-                StaticMines.getInstance().reloadConfig();
-                sender.sendMessage(ChatColor.GREEN + "Successfully reloaded the plugin's config (config.yml)");
-            }
-            case "load" -> {
-                StaticMine.loadMines();
-                sender.sendMessage(ChatColor.GREEN + "Successfully reloaded all mines (mines.yml)");
-            }
-            case "save" -> {
-                StaticMine.saveMinesSync();
-                sender.sendMessage(ChatColor.GREEN + "Successfully saved all mines (mines.yml)");
+                JavaPlugin parent = StaticMines.getParent();
+                StaticMines.disable();
+                StaticMines.enable(parent);
+                sender.sendMessage(ChatColor.GREEN + "Successfully reloaded StaticMines");
             }
             case "refillall" -> {
-                for (StaticMine mine : StaticMine.getAllMines()) mine.refill();
-                sender.sendMessage(ChatColor.GREEN + "Refilled all mines!");
+                for (StaticMine mine : StaticMines.MINES.values()) {
+                    mine.refill();
+                }
+                sender.sendMessage(ChatColor.GREEN + "Refilled all mines");
             }
             case "refill" -> {
                 if (args.length == 1) {
@@ -50,22 +51,20 @@ public class StaticMinesCommand implements CommandExecutor, TabCompleter {
 
     @Nullable
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        List<String> tab = new ArrayList<>();
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        Collection<String> tab = new ArrayList<>();
         switch (args.length) {
             case 1 -> {
                 tab.add("reload");
-                tab.add("load");
-                tab.add("save");
                 tab.add("refillall");
                 tab.add("refill");
             }
             case 2 -> {
-                switch (args[0].toLowerCase()) {
-                    case "refill" -> tab = new ArrayList<>(StaticMine.getAllMineIDS());
+                if ("refill".equalsIgnoreCase(args[0])) {
+                    tab = new ArrayList<>(StaticMines.MINES.keySet());
                 }
             }
         }
-        return StaticMineUtils.filterStringList(tab, args[args.length - 1]);
+        return StaticMineUtils.filterStrings(tab, args[args.length - 1]);
     }
 }

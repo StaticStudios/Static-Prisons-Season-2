@@ -37,7 +37,7 @@ public class TabList {
             <bold><colordark>SERVER IP: <reset><serverip>""";
 
 
-    public static void init() { //todo: look into ProtocolLib and see if this can be done with packets
+    public static void init() {
         scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         var prefix = TeamPrefix.getTeamPrefixAsComponents();
 

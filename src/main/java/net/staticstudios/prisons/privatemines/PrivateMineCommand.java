@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.privatemines;
 
 
-import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -99,7 +99,7 @@ public class PrivateMineCommand implements CommandExecutor, TabCompleter {
             list.add("invite");
             list.add("inv");
         } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("invite")) list.addAll(StaticMineUtils.filterStringList(ServerData.PLAYERS.getAllNames(), args[1]));
+            if (args[0].equalsIgnoreCase("invite")) list.addAll(StaticMineUtils.filterStrings(ServerData.PLAYERS.getAllNames(), args[1]));
         }
         return list;
     }

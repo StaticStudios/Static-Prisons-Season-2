@@ -6,7 +6,7 @@ import net.staticstudios.prisons.customitems.Vouchers;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import net.staticstudios.utils.WeightedElements;
+import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.inventory.ItemStack;
 
 public class SpecialFinderEnchant extends BaseEnchant {

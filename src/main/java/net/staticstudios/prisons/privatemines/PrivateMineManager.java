@@ -96,8 +96,8 @@ public class PrivateMineManager {
 //            StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PrivateMineBlockBreakListener(), StaticPrisons.getInstance());
 
             BlockBreak.addListener(blockBreak -> {
-                if (!blockBreak.getMine().getID().startsWith("private_mine")) return;
-                PrivateMine privateMine = PrivateMine.MINE_ID_TO_PRIVATE_MINE.get(blockBreak.getMine().getID());
+                if (!blockBreak.getMine().getId().startsWith("private_mine")) return;
+                PrivateMine privateMine = PrivateMine.MINE_ID_TO_PRIVATE_MINE.get(blockBreak.getMine().getId());
                 privateMine.blockBroken(blockBreak);
 
             });

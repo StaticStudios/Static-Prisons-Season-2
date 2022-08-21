@@ -5,7 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatColor;
-import net.staticstudios.mines.StaticMineUtils;
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.chat.NickColors;
 import net.staticstudios.prisons.data.PlayerData;
 import org.bukkit.command.Command;
@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -66,11 +67,11 @@ public class NicknameCommand implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) {
-            return StaticMineUtils.filterStringList(List.of("reset", "<nickname>"), args[0]);
+            return StaticMineUtils.filterStrings(List.of("reset", "<nickname>"), args[0]);
         }
 
         if (args.length == 2) {
-            return StaticMineUtils.filterStringList(NickColors.getKeySet(), args[1]);
+            return StaticMineUtils.filterStrings(NickColors.getKeySet(), args[1]);
         }
 
         return Collections.emptyList();
