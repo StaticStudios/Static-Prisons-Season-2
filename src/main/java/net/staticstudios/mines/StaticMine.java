@@ -16,7 +16,6 @@ import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.mines.utils.WeightedElements;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
