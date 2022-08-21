@@ -49,9 +49,9 @@ public class StaticMinesThreadManager {
     /**
      * Shutdown the thread pool.
      */
-    public static void shutdownNow() {
+    public static void shutdown() {
         if (threadPool == null) return;
-        threadPool.shutdownNow();
+        threadPool.shutdown();
         threadPool = null;
     }
 

@@ -8,7 +8,6 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import net.staticstudios.mines.api.events.MineCreatedEvent;
-import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.mines.utils.WeightedElement;
 import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.Bukkit;
@@ -137,7 +136,7 @@ public final class StaticMines implements Listener {
      */
     public static void disable() {
         log("Successfully disabled Static-Mines");
-        StaticMinesThreadManager.shutdownNow();
+        StaticMinesThreadManager.shutdown();
         saveMines();
         cleanUp();
         if (usingCommand && parent.getCommand(commandLabel) != null) {
