@@ -76,6 +76,7 @@ public class StaticMinesConfig {
 
     static void addDefaults() {
         config.addDefault("command_label", DEFAULT_COMMAND_LABEL);
+        config.addDefault("disable_logger", false);
         config.addDefault("thread_pool.core_size", 3);
         config.addDefault("thread_pool.max_size", 10);
         config.addDefault("thread_pool.keep_alive_time", 30_000); //30 seconds

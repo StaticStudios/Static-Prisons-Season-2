@@ -28,7 +28,7 @@ public class StaticMinesThreadManager {
      * Queue a task to be run on the thread pool.
      * @param runnable The task to run.
      */
-    public static Future submit(Runnable runnable) {
+    public static Future<?> submit(Runnable runnable) {
         if (threadPool == null) {
             throw new IllegalStateException("Thread pool has not been initialized!");
         }
