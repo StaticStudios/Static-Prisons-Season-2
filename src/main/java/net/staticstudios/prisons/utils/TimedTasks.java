@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.utils;
 
+import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.ui.PlayerUI;
 import net.staticstudios.prisons.ui.scoreboard.CustomScoreboard;
@@ -74,7 +75,7 @@ public class TimedTasks {
         }, 0, 20 * 60 * 30);
         //Tips
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
-            String tip = Constants.TIPS[PrisonUtils.randomInt(0, Constants.TIPS.length - 1)];
+            Component tip = Constants.TIPS.get(PrisonUtils.randomInt(0, Constants.TIPS.size() - 1));
             for (Player p : Bukkit.getOnlinePlayers()) if (!new PlayerData(p).getAreTipsDisabled()) p.sendMessage(tip);
         }, 20 * 60 * 5, 20 * 60 * 10);
         //Update all the leaderboards

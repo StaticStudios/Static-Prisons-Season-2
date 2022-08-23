@@ -44,7 +44,6 @@ public class TabList {
         int i = 0;
         for (String name : prefix.keySet()) {
             String teamName = "00" + (i++) + name;
-            System.out.println(teamName);
 
             Team team = scoreboard.getTeam(teamName) == null ? scoreboard.registerNewTeam(teamName) : scoreboard.getTeam(teamName);
             assert team != null;

@@ -2,8 +2,10 @@ package net.staticstudios.prisons;
 
 import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.WorldEdit;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.LuckPerms;
-import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.auctionhouse.AuctionManager;
@@ -56,13 +58,13 @@ import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.pvp.outposts.OutpostManager;
 import net.staticstudios.prisons.ranks.PlayerRanks;
 import net.staticstudios.prisons.reclaim.ReclaimCommand;
-    import net.staticstudios.prisons.ui.tablist.TabList;
+import net.staticstudios.prisons.ui.tablist.TabList;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.*;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.WorldCreator;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
@@ -274,7 +276,12 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
 
         //Load block sell prices
-        for (String key : config.getConfigurationSection("sellPrices").getKeys(false)) {
+        ConfigurationSection sellPricesSection = config.getConfigurationSection("sellPrices");
+        if (sellPricesSection == null) {
+            sellPricesSection = config.createSection("sellPrices");
+        }
+
+        for (String key : sellPricesSection.getKeys(false)) {
             try {
                 new MineBlock(Material.valueOf(key), config.getLong("sellPrices." + key));
             } catch (IllegalArgumentException e) {
@@ -283,11 +290,17 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
                 Bukkit.getLogger().warning("There was en error while loading the config! The value for '" + key + "' should be a valid number! Got: '" + config.getString("sellPrices." + key) + "' instead");
             }
         }
+
         //Tips
-        final String prefix = "&b&lTips &8&l>> &r";
-        List<String> tips = new ArrayList<>();
-        for (String tip : config.getStringList("tips")) tips.add(ChatColor.translateAlternateColorCodes('&', prefix + tip));
-        Constants.TIPS = tips.toArray(new String[0]);
+        List<Component> tips = new ArrayList<>();
+//        for (String tip : config.getStringList("tips")) tips.add(Prefix.TIPS.append(Component.text(tip)));
+
+        for (String tip : config.getStringList("tips")) {
+            // TODO: 23/08/2022 - change that to use minimessages in config
+            tips.add(Prefix.TIPS.append(LegacyComponentSerializer.legacyAmpersand().deserialize(tip)));
+        }
+
+        Constants.TIPS = tips;
 
         //Load prestige mine requirements
         for (int i = 0; i < 15; i++) Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
@@ -298,10 +311,21 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         LevelUp.INITIAL_PRESTIGE_PRICE = config.getLong("prestiges.price.basePrice");
 
         //Load loot boxes
-        TokenLootBox.loadTiers(config.getConfigurationSection("lootboxes.token"));
-        MoneyLootBox.loadTiers(config.getConfigurationSection("lootboxes.money"));
-        PickaxeLootBox.loadTiers(config.getConfigurationSection("lootboxes.pickaxe"));
+        ConfigurationSection tokenSection = config.getConfigurationSection("lootboxes.token");
+        ConfigurationSection moneySection = config.getConfigurationSection("lootboxes.money");
+        ConfigurationSection pickaxeSection = config.getConfigurationSection("lootboxes.pickaxe");
 
+        if (tokenSection != null) {
+            TokenLootBox.loadTiers(tokenSection);
+        }
+
+        if (moneySection != null) {
+            MoneyLootBox.loadTiers(moneySection);
+        }
+
+        if (pickaxeSection != null) {
+            PickaxeLootBox.loadTiers(pickaxeSection);
+        }
 
         //SQL config
         File sqlConfigFile = new File(getDataFolder(), "sqlConfig.yml");

@@ -262,8 +262,8 @@ public final class PrisonUtils {
     }
 
     public static char getMineRankLetterFromMineRank(int mineRank) {
-        if (mineRank > Constants.A_THROUGH_Z.length) return 'Z';
-        return Constants.A_THROUGH_Z[mineRank];
+        if (mineRank > 26) return 'Z';
+        return (char) (mineRank + 65);
     }
 
     public static <T> ArrayList<T> removeDuplicatesInArrayList(List<T> list) {
