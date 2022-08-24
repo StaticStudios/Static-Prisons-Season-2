@@ -2,9 +2,12 @@ package net.staticstudios.prisons;
 
 import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.WorldEdit;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.trait.TraitInfo;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.LuckPerms;
+import net.staticstudios.citizens.VisibleNameTrait;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.auctionhouse.AuctionManager;
@@ -25,6 +28,8 @@ import net.staticstudios.prisons.events.EventManager;
 import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.fishing.FishingManager;
 import net.staticstudios.prisons.gangs.Gang;
+import net.staticstudios.prisons.gangs.GangCommand;
+import net.staticstudios.prisons.leaderboards.Test;
 import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.lootboxes.MoneyLootBox;
@@ -81,9 +86,12 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
+    private boolean citizensEnabled = false;
+    
     @Override
     public void onEnable() {
         plugin = this;
+        enableCitizens();
 
         safe(TeamPrefix::init);
         safe(StaticPrisons::unloadNetherAndEnd);
@@ -128,7 +136,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         Constants.MINES_WORLD = Bukkit.getWorld("mines"); //Loaded by StaticMines
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
 
-
         //Register Commands
 
         CommandManager.loadCommands();
@@ -138,6 +145,17 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new Events(), plugin);
 //        getServer().getPluginManager().registerEvents(new BlockBreakListener(), plugin);
 
+    }
+
+    private void enableCitizens() {
+        if (getServer().getPluginManager().getPlugin("Citizens") == null) {
+            getLogger().warning("Citizens not found, disabling Citizens support");
+            return;
+        }
+
+        getServer().getPluginManager().registerEvents(new Test(), this);
+        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(VisibleNameTrait.class));
+        citizensEnabled = true;
     }
 
 
@@ -279,5 +297,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     public void addTask(Runnable runnable) {
         executorService.submit(runnable);
+    }
+
+    public boolean isCitizensEnabled() {
+        return citizensEnabled;
     }
 }
