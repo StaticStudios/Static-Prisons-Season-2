@@ -1,22 +1,21 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.commands.admin.commands;
 
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.utils.BroadcastMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class ScheduleStopCommand implements CommandExecutor, TabCompleter {
+public class ScheduleStopCommand implements TabExecutor {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         BroadcastMessage.send("Automatically stopping the server in 15 minute(s)");
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> BroadcastMessage.send("Automatically stopping the server in 10 minute(s)"), 20 * 60 * 5);
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), () -> BroadcastMessage.send("Automatically stopping the server in 5 minute(s)"), 20 * 60 * 10);
@@ -37,7 +36,6 @@ public class ScheduleStopCommand implements CommandExecutor, TabCompleter {
     }
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        List<String> list = new ArrayList<>();
-        return list;
+        return Collections.emptyList();
     }
 }

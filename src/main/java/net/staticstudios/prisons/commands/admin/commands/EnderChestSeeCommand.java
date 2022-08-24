@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.commands.admin.commands;
 
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.serverdata.ServerData;
@@ -14,17 +14,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class EnderChestSeeCommand implements CommandExecutor, TabCompleter {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
         if (args.length == 0) return false;
         if (Bukkit.getPlayer(args[0]) == null) {
             player.sendMessage(ChatColor.RED + "This player is currently offline.");
             return false;
         }
-        player.openInventory(Bukkit.getPlayer(args[0]).getEnderChest());
+        player.openInventory(Objects.requireNonNull(Bukkit.getPlayer(args[0])).getEnderChest());
         return false;
     }
     @Override

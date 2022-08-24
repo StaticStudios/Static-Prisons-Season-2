@@ -1,6 +1,8 @@
 package net.staticstudios.prisons.utils;
 
 import com.destroystokyo.paper.event.server.ServerTickStartEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
 import net.md_5.bungee.api.ChatColor;
@@ -26,9 +28,12 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static net.kyori.adventure.text.Component.empty;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
 
 public final class PrisonUtils {
     public static void init() {
@@ -402,13 +407,13 @@ public final class PrisonUtils {
     }
 
     public static class Commands {
-        public static final String noPermissionsMessage = org.bukkit.ChatColor.RED + "You do not have permission to use this command!";
-        public static final String commandCannotBeUsedInConsole = org.bukkit.ChatColor.AQUA + "This command cannot be run from the console!";
-        public static String getCorrectUsage(String correctUsage) {
-            return org.bukkit.ChatColor.BOLD + "" + org.bukkit.ChatColor.RED + "Incorrect command usage!\n" + org.bukkit.ChatColor.RESET + "" + org.bukkit.ChatColor.GRAY + correctUsage;
+        public static final Component noPermissionsMessage = Component.text("You do not have permission to use this command!").color(RED);
+        public static final Component commandCannotBeUsedInConsole = text("This command cannot be run from the console!").color(AQUA);
+        public static Component getCorrectUsage(String correctUsage) {
+            return text("Incorrect command usage!").color(RED).decorate(TextDecoration.BOLD).append(empty()).append(text(correctUsage).color(GRAY).decoration(TextDecoration.BOLD, false));
         }
         public static void logConsoleCannotUseThisCommand() {
-            Bukkit.getLogger().log(Level.INFO, commandCannotBeUsedInConsole);
+            Bukkit.getServer().getConsoleSender().sendMessage(commandCannotBeUsedInConsole);
         }
     }
 }

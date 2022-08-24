@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.commands.admin.commands;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -18,9 +18,8 @@ import java.util.List;
 
 public class RenameItemCommand implements CommandExecutor, TabCompleter { //todo: change this to rename pickaxes and backpacks and lootboxes ect... properly
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (!(sender instanceof Player)) return false;
-        Player player = (Player) sender;
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        if (!(sender instanceof Player player)) return false;
         if (args.length == 0) {
             player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/renameitem <name>"));
             return false;

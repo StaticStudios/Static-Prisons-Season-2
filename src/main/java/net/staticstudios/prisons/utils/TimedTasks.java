@@ -1,24 +1,30 @@
 package net.staticstudios.prisons.utils;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.ui.PlayerUI;
-import net.staticstudios.prisons.ui.scoreboard.CustomScoreboard;
-import net.staticstudios.prisons.ui.tablist.TabList;
 import net.staticstudios.prisons.auctionhouse.AuctionManager;
 import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.datahandling.DataSet;
 import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.gangs.Gang;
-import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.privatemines.PrivateMineManager;
+import net.staticstudios.prisons.ui.PlayerUI;
+import net.staticstudios.prisons.ui.scoreboard.CustomScoreboard;
+import net.staticstudios.prisons.ui.tablist.TabList;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.time.Duration;
 import java.time.Instant;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.TextDecoration.BOLD;
+import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
 
 public class TimedTasks {
 
@@ -45,7 +51,7 @@ public class TimedTasks {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 PlayerUI.sendActionbar(p);
-                }
+            }
         }, 0, 1);
         //Scoreboard
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), CustomScoreboard::updateAllScoreboards, 0, 2);
@@ -65,11 +71,11 @@ public class TimedTasks {
         }, 0, 60);
         //Reminder to vote
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                PlayerData playerData = new PlayerData(p);
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                PlayerData playerData = new PlayerData(player);
                 if (playerData.getLastVotedAt() < Instant.now().toEpochMilli() - 24 * 60 * 60 * 1000) {
-                    p.sendMessage(ChatColor.RED + "You have not voted today! In order to win free rewards from the vote party, vote everyday. You can vote by typing " + ChatColor.GREEN + "/vote");
-                    p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "/vote", ChatColor.RED + "" + ChatColor.ITALIC + "You haven't voted today!", 5, 40, 5);
+                    player.sendMessage(text("You have not voted today! In order to win free rewards from the vote party, vote everyday. You can vote by typing ").color(RED).append(text("/vote").color(GREEN)));
+                    player.showTitle(Title.title(text("/vote").color(RED).decorate(BOLD), text("You haven't voted today!").color(RED).decorate(ITALIC), Title.Times.times(Duration.ofMillis(5), Duration.ofMillis(40), Duration.ofMillis(5))));
                 }
             }
         }, 0, 20 * 60 * 30);
@@ -78,8 +84,6 @@ public class TimedTasks {
             Component tip = Constants.TIPS.get(PrisonUtils.randomInt(0, Constants.TIPS.size() - 1));
             for (Player p : Bukkit.getOnlinePlayers()) if (!new PlayerData(p).getAreTipsDisabled()) p.sendMessage(tip);
         }, 20 * 60 * 5, 20 * 60 * 10);
-
-
 
 
         //Manages mine refills
@@ -95,7 +99,6 @@ public class TimedTasks {
         //Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::dumpStatsToAllPickaxe, 0, 20 * 10);
         //Consistency enchant
         //Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), ConsistencyEnchant::worker, 30, 20);
-
 
 
     }

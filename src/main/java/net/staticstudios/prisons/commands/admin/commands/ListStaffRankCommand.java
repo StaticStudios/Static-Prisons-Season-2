@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.commands.admin.commands;
 
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
@@ -16,23 +16,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ListPlayerRankCommand implements CommandExecutor, TabCompleter {
+public class ListStaffRankCommand implements CommandExecutor, TabCompleter {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) return false;
         if (args.length == 0) {
-            sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/listplayerrank <rank>"));
+            sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/liststaffrank <rank>"));
             return false;
         }
         List<String> names = new ArrayList<>();
-        for (UUID uuid : ServerData.PLAYERS.getAllUUIDs()) if (new PlayerData(uuid).getPlayerRank().equals(args[0])) names.add(ServerData.PLAYERS.getName(uuid));
+        for (UUID uuid : ServerData.PLAYERS.getAllUUIDs()) if (new PlayerData(uuid).getStaffRank().equals(args[0])) names.add(ServerData.PLAYERS.getName(uuid));
         sender.sendMessage("The following players have this rank: " + names);
         return false;
     }
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
-        List<String> ranks = List.of("member", "warrior", "master", "mythic", "static", "staticp");
+        List<String> ranks = List.of("member", "moderator", "admin", "sradmin", "manager", "owner");
         if (args.length == 1) list.addAll(StaticMineUtils.filterStrings(ranks, args[0]));
         return list;
     }

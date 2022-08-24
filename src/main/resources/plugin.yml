@@ -5,291 +5,331 @@ description: This plugin allows static prisons to run!
 main: net.staticstudios.prisons.StaticPrisons
 api-version: 1.18
 depend: [ WorldEdit, WorldGuard, LuckPerms, WorldBorderAPI, ProtocolLib ]
+permissions:
+  static:
+    description: "Root node for the Static-Prisons plugin"
+    default: false
+    children:
+      - staff
+      - command
+      - outpost
+      - kingofthehill
+      - pvpevent
+  staff:
+    description: "Staff related permissions"
+    default: false
+    children:
+      - admin
+      - sradmin
+      - developer
+      - moderator
+  command:
+    description: "Commands related permissions"
+    default: false
+    children:
+      - vanish
+  outpost:
+    description: "Outpost related permissions"
+    default: false
+    children:
+      - manage
+  kingofthehill:
+    description: "King of the Hill related permissions"
+    default: false
+    children:
+      - manage
+  pvpevent:
+    description: "PvP Event related permissions"
+    default: false
+    children:
+      - manage
+
 commands:
   test:
-    description: a
+    description: development command
     permission: static.staff.developer
   test2:
-    description: a
+    description: development command
     permission: static.staff.developer
   static-mines:
-    permission: static.staff.admin
     description: Command to be used by the StaticMines dependency
+    permission: static.staff.admin
   setplayerrank:
-    description: a
+    description: set the player rank of a player
     permission: static.staff.admin
   addchattag:
-    description: a
+    description: add a chat tag to a player
     permission: static.staff.admin
   addallchattags:
-    description: a
+    description: add all available chat tags to a player
     permission: static.staff.sradmin
   removechattag:
-    description: a
+    description: remove a chat tag from a player
     permission: static.staff.admin
   setstaffrank:
-    description: a
+    description: set the staff rank of a player
     permission: static.staff.sradmin
   modifystats:
-    description: a
+    description: "Modify your stats or another player's stats"
     aliases:
       - modstats
     permission: static.staff.admin
   getnewpickaxe:
-    description: a
+    description: puts a new pickaxe in your inventory
     aliases:
       - pick
   sell:
-    description: a
+    description: sell all blocks in your backpack
     aliases:
       - sellall
   rankup:
-    description: a
+    description: rankup your mine rank
   rankupmax:
-    description: a
+    description: rankup your mine rank until you dont have enough money or you are max rank
   gui:
-    description: a
+    description: opens the gui
     aliases:
       - help
       - menu
   chattags:
+    description: opens the chat tags gui
     aliases:
       - tags
-    description: a
   prestige:
-    description: a
+    description: prestige - will reset your mine rank
   enderchest:
-    description: a
+    description: open your enderchest
     aliases:
       - echest
   enderchestsee:
-    description: a
+    description: See another players enderchest
     permission: static.staff.admin
     aliases:
       - echestsee
   renameitem:
-    description: a
+    description: rename an item
     permission: static.staff.moderator
     aliases:
       - nameitem
   auctionhouse:
-    description: a
+    description: opens the auction house gui
     aliases:
       - ah
       - auction
   settings:
-    description: a
+    description: opens the settings gui
     aliases:
       - autosell
       - chatfilter
       - tips
       - theme
   privatemine:
+    description: opens the private mine gui
     aliases:
       - pmine
       - pmines
   mobilesupport:
-    description: a
+    description: activates mobile support
   color:
-    description: a
+    description: opens the chat setting gui
     aliases:
       - bold
       - italic
       - underline
   stats:
-    description: a
+    description: opens the stats gui
   schedulerestart:
-    description: a
+    description: schedule a restart
     permission: static.staff.admin
   schedulestop:
-    description: a
+    description: schedule a stop
     permission: static.staff.admin
   broadcast:
-    description: a
+    description: Broadcast a message to all players across the server
     permission: static.staff.moderator
   discord:
-    description: a
+    description: discord related command
   coinflip:
-    description: a
+    description: play coinflip with another player
     aliases:
       - cf
   tokenflip:
-    description: a
+    description: play tokenflip with another player - works like coinflip just with tokens
     aliases:
       - tf
   npcdiag:
     description: a
   spawn:
-    description: a
+    description: teleport yourself to the spawn
     aliases:
       - s
   mines:
-    description: a
+    description: opens the mines gui
     aliases:
       - mine
   warps:
-    description: a
+    description: warp yourself to a mine
     aliases:
       - warp
   store:
-    description: a
+    description: displays the store url in chat
     aliases:
       - buy
   fly:
-    description: a
+    description: enables fly mode
   crates:
-    description: a
+    description: warp yorself to the crate area
   leaderboards:
-    description: a
+    description: warp yourself to the leaderboard area
     aliases:
       - lb
   _:
     description: vote/store
     permission: op
   votes:
-    description: a
+    description: vote for the server
   nickname:
-    description: a
+    description: give yourself another name
     aliases:
       - nick
   customitems:
-    description: a
+    description: give yourself a custom item
     permission: static.staff.admin
   keyall:
-    description: a
+    description: Give keys to all players
     permission: static.staff.admin
   updateleaderboards:
-    description: a
+    description: update the leaderboards
     permission: static.staff.admin
   refill:
-    description: a
+    description: refill mine command
     permission: static.staff.moderator
   withdraw:
-    description: a
+    description: withdraw money or tokens
     aliases:
       - balnote
       - tokennote
       - moneynote
   pay:
-    description: a
+    description: pay another player
     aliases:
       - transfer
   dropitem:
-    description: a
+    description: drop your currently held item
   reclaim:
-    description: a
+    description: reclaim perks bought in the shop
   listplayerrank:
-    description: a
+    description: list all player ranks of a player
     permission: static.staff.moderator
   liststaffrank:
-    description: a
+    description: list all staff ranks of a player
     permission: static.staff.moderator
   addpickaxexp:
-    description: a
+    description: add pickaxe xp to someones pickaxe
     permission: static.staff.admin
   addpickaxeblocksmined:
-    description: a
+    description: add blocks mined to someones pickaxe
     permission: static.staff.admin
   enchant:
-    description: a
+    description: opens the pickaxe enchant gui
     aliases:
       - enchants
       - customenchants
   dailyrewards:
-    description: a
+    description: opens the daily rewards gui
   island:
-    description: a
+    description: opens the cell gui
     aliases:
       - is
       - c
       - cell
   exemptfromleaderboards:
-    desription: a
+    desription: exempt someone from leaderboards
     aliases:
       - dontdisplayonlb
     permission: static.staff.admin
   balance:
-    description: a
+    description: displays your balance
     aliases:
       - bal
   tokens:
-    description: a
+    description: displays your tokens
     aliases:
       - tokenbal
   shards:
-    description: a
+    description: displays your shards
     aliases:
       - shardbal
   givevote:
-    desription: a
+    desription: give a vote to a player
     permission: static.staff.admin
   backpack:
-    desription: a
+    desription: opens the backpack management gui
     aliases:
       - bp
   message:
-    description: a
+    description: message someone else
     aliases:
       - msg
       - tell
       - w
       - whisper
   reply:
-    description: a
+    description: reply to the last private message sent to you
     aliases:
       - r
   watchmessages:
-    description: a
+    description: watch someones conversation
     permission: static.staff.admin
     aliases:
       - msgspy
       - socialspy
   trash:
-    description: a
+    description: opens a trashcan to dispose unwanted items
     aliases:
       - bin
       - trashcan
   multiplier:
-    description: a
+    description: displays all currently active multipliers
     aliases:
       - multi
   debug:
     description: a
     permission: static.staff.admin
   rules:
-    description: a
+    description: display the rules
   reload-config:
-    description: a
+    description: reload the config
     permission: op
   level:
-    description: a
+    description: opens the level gui
     aliases:
       - lvl
       - levelup
       - xp
   gang:
-    description: a
+    description: opens the gang gui
     aliases:
       - gangs
       - team
   pvp:
-    description: a
+    description: warp yourself to the pvp area
   rewards:
-    description: a
+    description: open the prestige reward gui
   kingofthehill:
-    description: a
+    description: king of the hill management command
     permission: static.kingofthehill.manage
   pvpevent:
-    description: a
+    description: pvp event command
     permission: static.pvpevent.manage
   outpost:
-    description: a
+    description: outpost command
     permission: static.outpost.manage
   vanish:
-    description: a
-    permission: static.vanish
+    description: "make yourself invisible to normal players (staff can still see you)"
+    permission: static.command.vanish
   advancednickname:
-    description: a
+    description: Give yourself a nickname not possible with the normal nick command
     permission: static.staff.*
     aliases:
       - adminnick

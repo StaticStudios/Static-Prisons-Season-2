@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.commands.admin.commands;
 
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length < 4) {
             if (!(args.length == 3 && "reset".equals(args[2]))) {
                 sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/modstats <stat> <who> <modify> <value>"));

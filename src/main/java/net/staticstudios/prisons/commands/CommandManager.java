@@ -1,12 +1,11 @@
 package net.staticstudios.prisons.commands;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.auctionhouse.commands.AuctionHouseCommand;
 import net.staticstudios.prisons.cells.IslandCommand;
-import net.staticstudios.prisons.commands.admin.AdvancedNicknameCommand;
 import net.staticstudios.prisons.commands.normal.*;
 import net.staticstudios.prisons.commands.test.Test2Command;
 import net.staticstudios.prisons.commands.test.TestCommand;
+import net.staticstudios.prisons.commands.votestore.VoteStoreListener;
 import net.staticstudios.prisons.gangs.GangCommand;
 import net.staticstudios.prisons.privatemines.PrivateMineCommand;
 import net.staticstudios.prisons.pvp.commands.PvPCommand;
@@ -21,28 +20,6 @@ public class CommandManager {
         registerCommand("test", new TestCommand());
         registerCommand("test2", new Test2Command());
         //Developer commands - end
-
-        //Admin commands - start
-        registerCommand("modifystats", new ModifyStatsCommand());
-        registerCommand("setplayerrank", new SetPlayerRankCommand());
-        registerCommand("setstaffrank", new SetStaffRankCommand());
-
-
-        registerCommand("enderchestsee", new EnderChestSeeCommand());
-        registerCommand("renameitem", new RenameItemCommand());
-        registerCommand("schedulerestart", new ScheduleRestartCommand());
-        registerCommand("schedulestop", new ScheduleStopCommand());
-        registerCommand("broadcast", new BroadcastMessageCommand());
-        registerCommand("keyall", new KeyallCommand());
-
-        registerCommand("listplayerrank", new ListPlayerRankCommand());
-        registerCommand("liststaffrank", new ListStaffRankCommand());
-
-        registerCommand("givevote", new GiveVoteCommand());
-
-        registerCommand("reload-config", new ReloadConfigCommand());
-        //Admin commands - end
-
 
         //Normal commands - start
         registerCommand("rules", new RulesCommand());
@@ -91,10 +68,9 @@ public class CommandManager {
         registerCommand("gang", new GangCommand());
         registerCommand("pvp", new PvPCommand());
         registerCommand("rewards", new RewardsCommand());
-        registerCommand("advancednickname", new AdvancedNicknameCommand());
         registerCommand("resetrank", new ResetRankCommand());
 
-
+        registerCommand("_", new VoteStoreListener());
 
         //Normal commands - end
 

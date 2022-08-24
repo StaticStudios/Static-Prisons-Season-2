@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.commands.admin.commands;
 
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.serverdata.ServerData;
@@ -15,13 +15,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GiveVoteCommand implements CommandExecutor, TabCompleter {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) return false;
-        Player player = (Player) sender;
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        if (!(sender instanceof Player player)) return false;
         if (args.length == 0) {
             player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/givevote <who>"));
             return false;
@@ -30,7 +30,7 @@ public class GiveVoteCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(ChatColor.RED + "Player not found!");
             return false;
         }
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "_ vote " + Bukkit.getPlayer(args[0]).getName());
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "_ vote " + Objects.requireNonNull(Bukkit.getPlayer(args[0])).getName());
         return true;
     }
     @Override

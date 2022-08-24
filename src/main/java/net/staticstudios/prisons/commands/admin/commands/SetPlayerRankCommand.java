@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.commands.admin.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -15,19 +15,17 @@ import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
+public class SetPlayerRankCommand implements CommandExecutor, TabCompleter {
 
-    private List<String> ranks = List.of("member", "helper", "moderator", "admin", "sradmin", "manager", "owner");
+    private final List<String> ranks = List.of("member", "warrior", "master", "mythic", "static", "staticp");
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/setstaffrank <player> <rank>"));
+            sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/setplayerrank <player> <rank>"));
             return false;
         }
         if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[0].toLowerCase())) {
@@ -35,19 +33,19 @@ public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
             return false;
         }
         PlayerData playerData = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args[0]));
-        playerData.setStaffRank(args[1]);
+        playerData.setPlayerRank(args[1]);
         playerData.updateTabListPrefixID();
 
-        sender.sendMessage(Component.text("Set staff rank of ")
+        sender.sendMessage(Component.text("Set player rank of ")
                 .append(Component.text(args[0]))
                 .append(Component.text(" to ")).color(NamedTextColor.GREEN)
                 .append(TeamPrefix.getFromIdDeserialized(args[1])));
 
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        List<String> ranks = List.of("member", "helper", "moderator", "admin", "sradmin", "manager", "owner");
         if (args.length == 1) return StaticMineUtils.filterStrings(ServerData.PLAYERS.getAllNames(), args[0]);
         if (args.length == 2) return StaticMineUtils.filterStrings(ranks, args[1]);
         return Collections.emptyList();

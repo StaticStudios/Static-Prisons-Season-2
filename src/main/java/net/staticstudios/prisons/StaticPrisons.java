@@ -15,7 +15,6 @@ import net.staticstudios.prisons.chat.ChatManager;
 import net.staticstudios.prisons.chat.nicknames.NickColors;
 import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.commands.admin.AdminManager;
-import net.staticstudios.prisons.commands.votestore.VoteStoreListener;
 import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.customitems.Kits;
@@ -82,16 +81,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
-    public static void log(String message) {
-        plugin.getLogger().info(message);
-    }
-
-    void loadWorldBoarderAPI() {
-        RegisteredServiceProvider<WorldBorderApi> worldBorderApiRegisteredServiceProvider = Bukkit.getServer().getServicesManager().getRegistration(WorldBorderApi.class);
-        assert worldBorderApiRegisteredServiceProvider != null;
-        worldBorderAPI = worldBorderApiRegisteredServiceProvider.getProvider();
-    }
-
     @Override
     public void onEnable() {
         plugin = this;
@@ -148,31 +137,21 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new EventListener(), plugin);
         getServer().getPluginManager().registerEvents(new Events(), plugin);
 //        getServer().getPluginManager().registerEvents(new BlockBreakListener(), plugin);
-        getCommand("_").setExecutor(new VoteStoreListener());
+
     }
 
 
-    @Override
-    public void onDisable() {
-
-        safe(StaticMines::disable);
-        safe(DataSet::saveDataSync);
-        safe(CellManager::saveSync);
-        safe(PrivateMineManager::saveSync);
-        safe(AuctionManager::saveAllAuctionsSync);
-        safe(PrisonPickaxe::savePickaxeDataNow);
-        safe(SpreadOutExecutor::flushQue);
-        safe(Gang::saveAllSync);
-        safe(PrisonBackpack::saveBackpacksNow);
-        safe(LootBox::saveAllNow);
-        safe(AdminManager::save);
-        safe(OutpostManager::save);
-        safe(TabList::stop);
-
-        //Take a data backup
-        safe(DataBackup::takeBackup);
-        executorService.shutdownNow();
+    public static void log(String message) {
+        plugin.getLogger().info(message);
     }
+
+    void loadWorldBoarderAPI() {
+        RegisteredServiceProvider<WorldBorderApi> worldBorderApiRegisteredServiceProvider = Bukkit.getServer().getServicesManager().getRegistration(WorldBorderApi.class);
+        assert worldBorderApiRegisteredServiceProvider != null;
+        worldBorderAPI = worldBorderApiRegisteredServiceProvider.getProvider();
+    }
+
+
 
     static void unloadNetherAndEnd() {
         Bukkit.unloadWorld("world_end", false);
@@ -264,6 +243,28 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getLogger().log(Level.INFO, "Finished loading config.yml");
     }
 
+
+    @Override
+    public void onDisable() {
+
+        safe(StaticMines::disable);
+        safe(DataSet::saveDataSync);
+        safe(CellManager::saveSync);
+        safe(PrivateMineManager::saveSync);
+        safe(AuctionManager::saveAllAuctionsSync);
+        safe(PrisonPickaxe::savePickaxeDataNow);
+        safe(SpreadOutExecutor::flushQue);
+        safe(Gang::saveAllSync);
+        safe(PrisonBackpack::saveBackpacksNow);
+        safe(LootBox::saveAllNow);
+        safe(AdminManager::save);
+        safe(OutpostManager::save);
+        safe(TabList::stop);
+
+        //Take a data backup
+        safe(DataBackup::takeBackup);
+        executorService.shutdownNow();
+    }
 
     /**
      * Safely run a piece of code in a try-catch block. Good for init tasks to prevent other modules from not loading due to errors.

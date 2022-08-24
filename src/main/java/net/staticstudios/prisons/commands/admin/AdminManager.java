@@ -2,6 +2,7 @@ package net.staticstudios.prisons.commands.admin;
 
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.commands.admin.commands.*;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.Bukkit;
@@ -12,8 +13,9 @@ import org.bukkit.event.Listener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.UUID;
+
+import static net.staticstudios.prisons.commands.CommandManager.registerCommand;
 
 public class AdminManager implements Listener {
 
@@ -25,7 +27,30 @@ public class AdminManager implements Listener {
     public static void init() {
         loadConfig();
 
-        Objects.requireNonNull(StaticPrisons.getInstance().getCommand("vanish")).setExecutor(new VanishCommand());
+        registerCommand("advancednickname", new AdvancedNicknameCommand());
+        registerCommand("vanish", new VanishCommand());
+        registerCommand("broadcast", new BroadcastMessageCommand());
+        registerCommand("modifystats", new ModifyStatsCommand());
+
+        registerCommand("enderchestsee", new EnderChestSeeCommand());
+
+        registerCommand("renameitem", new RenameItemCommand());
+
+        registerCommand("schedulerestart", new ScheduleRestartCommand());
+        registerCommand("schedulestop", new ScheduleStopCommand());
+
+        registerCommand("keyall", new KeyallCommand());
+
+        registerCommand("listplayerrank", new ListPlayerRankCommand());
+        registerCommand("liststaffrank", new ListStaffRankCommand());
+
+        registerCommand("setplayerrank", new SetPlayerRankCommand());
+        registerCommand("setstaffrank", new SetStaffRankCommand());
+
+        registerCommand("givevote", new GiveVoteCommand());
+
+        registerCommand("reload-config", new ReloadConfigCommand());
+
     }
 
     private static void loadConfig() {
@@ -97,9 +122,7 @@ public class AdminManager implements Listener {
     }
 
     public static void showPlayer(Player player) {
-        Bukkit.getOnlinePlayers().forEach(other -> {
-            other.showPlayer(StaticPrisons.getInstance(), player);
-        });
+        Bukkit.getOnlinePlayers().forEach(other -> other.showPlayer(StaticPrisons.getInstance(), player));
     }
 
 
