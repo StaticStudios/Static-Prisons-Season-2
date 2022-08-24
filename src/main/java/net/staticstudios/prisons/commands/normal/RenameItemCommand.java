@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RenameItemCommand implements CommandExecutor, TabCompleter {
+public class RenameItemCommand implements CommandExecutor, TabCompleter { //todo: change this to rename pickaxes and backpacks and lootboxes ect... properly
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)) return false;

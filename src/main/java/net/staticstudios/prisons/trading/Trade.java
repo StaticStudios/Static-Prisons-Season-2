@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class Trade {
+public class Trade { //todo
     public static final String PREFIX = "&b&lTrading &8&l>> &r";
 
     private static final int CONT_DOWN = 9; //Seconds that have to be waited after both players confirm the trade. Players can cancel during this time.
@@ -37,7 +37,6 @@ public class Trade {
 
     private boolean player1Accepted;
     private boolean player2Accepted;
-
 
 
     private boolean verifyThatTradeCanHappen() {

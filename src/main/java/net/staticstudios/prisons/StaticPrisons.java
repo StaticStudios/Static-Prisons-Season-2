@@ -3,29 +3,21 @@ package net.staticstudios.prisons;
 import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.WorldEdit;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.LuckPerms;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.auctionhouse.AuctionManager;
-import net.staticstudios.prisons.backpacks.BackpackCommand;
 import net.staticstudios.prisons.backpacks.PrisonBackpack;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.cells.CellManager;
-import net.staticstudios.prisons.cells.IslandCommand;
-import net.staticstudios.prisons.chat.ChatTags;
-import net.staticstudios.prisons.chat.NickColors;
-import net.staticstudios.prisons.chat.events.ChatEvents;
+import net.staticstudios.prisons.chat.ChatManager;
+import net.staticstudios.prisons.chat.nicknames.NickColors;
+import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.commands.admin.AdminManager;
-import net.staticstudios.prisons.commands.admin.AdvancedNicknameCommand;
-import net.staticstudios.prisons.commands.normal.*;
-import net.staticstudios.prisons.commands.test.Test2Command;
-import net.staticstudios.prisons.commands.test.TestCommand;
 import net.staticstudios.prisons.commands.votestore.VoteStoreListener;
 import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customitems.CustomItems;
-import net.staticstudios.prisons.customitems.CustomItemsCommand;
 import net.staticstudios.prisons.customitems.Kits;
 import net.staticstudios.prisons.data.backups.DataBackup;
 import net.staticstudios.prisons.data.datahandling.DataSet;
@@ -34,7 +26,7 @@ import net.staticstudios.prisons.events.EventManager;
 import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.fishing.FishingManager;
 import net.staticstudios.prisons.gangs.Gang;
-import net.staticstudios.prisons.gangs.GangCommand;
+import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.lootboxes.MoneyLootBox;
 import net.staticstudios.prisons.lootboxes.PickaxeLootBox;
@@ -42,22 +34,17 @@ import net.staticstudios.prisons.lootboxes.TokenLootBox;
 import net.staticstudios.prisons.lootboxes.handler.LootBox;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.mines.MineManager;
-import net.staticstudios.prisons.pickaxe.EnchantCommand;
-import net.staticstudios.prisons.pickaxe.PickaxeCommand;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
 import net.staticstudios.prisons.pickaxe.enchants.AutoSellEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.ConsistencyEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
-import net.staticstudios.prisons.privatemines.PrivateMineCommand;
 import net.staticstudios.prisons.privatemines.PrivateMineManager;
 import net.staticstudios.prisons.pvp.PvPManager;
-import net.staticstudios.prisons.pvp.commands.PvPCommand;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.pvp.outposts.OutpostManager;
 import net.staticstudios.prisons.ranks.PlayerRanks;
-import net.staticstudios.prisons.reclaim.ReclaimCommand;
 import net.staticstudios.prisons.ui.tablist.TabList;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.*;
@@ -75,7 +62,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -102,6 +88,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     void loadWorldBoarderAPI() {
         RegisteredServiceProvider<WorldBorderApi> worldBorderApiRegisteredServiceProvider = Bukkit.getServer().getServicesManager().getRegistration(WorldBorderApi.class);
+        assert worldBorderApiRegisteredServiceProvider != null;
         worldBorderAPI = worldBorderApiRegisteredServiceProvider.getProvider();
     }
 
@@ -123,7 +110,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(CellManager::init);
         safe(Gang::init);
         safe(PvPManager::init);
-        safe(ChatEvents::init);
         safe(TimedTasks::init);
         safe(DataSet::init);
         safe(DataBackup::init);
@@ -140,8 +126,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(KingOfTheHillManager::init);
         safe(PrisonBackpack::init);
         safe(AdminManager::init);
-        safe(ChatTags::init);
+        safe(ChatManager::init);
         safe(NickColors::init);
+        safe(LeaderboardManager::init);
 
         StaticGUI.enable(this);
 
@@ -154,82 +141,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
 
         //Register Commands
-        //--Staff Commands
-        getCommand("test").setExecutor(new TestCommand());
-        getCommand("test2").setExecutor(new Test2Command());
-        getCommand("modifystats").setExecutor(new ModifyStatsCommand());
-        getCommand("setplayerrank").setExecutor(new SetPlayerRankCommand());
-        getCommand("setstaffrank").setExecutor(new SetStaffRankCommand());
-        getCommand("addchattag").setExecutor(new AddPlayerChatTagCommand());
-        getCommand("addallchattags").setExecutor(new AddAllPlayerChatTagsCommand());
-        getCommand("removechattag").setExecutor(new RemovePlayerChatTagCommand());
-        getCommand("enderchestsee").setExecutor(new EnderChestSeeCommand());
-        getCommand("renameitem").setExecutor(new RenameItemCommand()); //todo: remove
-        getCommand("schedulerestart").setExecutor(new ScheduleRestartCommand());
-        getCommand("schedulestop").setExecutor(new ScheduleStopCommand());
-        getCommand("broadcast").setExecutor(new BroadcastMessageCommand());
-        getCommand("keyall").setExecutor(new KeyallCommand());
-        getCommand("customitems").setExecutor(new CustomItemsCommand());
-        getCommand("updateleaderboards").setExecutor(new UpdateLeaderboardsCommand());
-//        getCommand("refill").setExecutor(new RefillCommand()); //todo remove
-        getCommand("listplayerrank").setExecutor(new ListPlayerRankCommand());
-        getCommand("liststaffrank").setExecutor(new ListStaffRankCommand());
-        getCommand("addpickaxexp").setExecutor(new AddPickaxeXPCommand());
-        getCommand("addpickaxeblocksmined").setExecutor(new AddPickaxeBlocksMinedCommand());
-        getCommand("exemptfromleaderboards").setExecutor(new ExemptFromLeaderboardsCommand());
-        getCommand("givevote").setExecutor(new GiveVoteCommand());
-        getCommand("watchmessages").setExecutor(new MessageSpyCommand());
-        getCommand("reload-config").setExecutor(new ReloadConfigCommand());
-        //--Normal Commands
-        getCommand("rules").setExecutor(new RulesCommand());
-        getCommand("multiplier").setExecutor(new MultiplierCommand());
-        getCommand("trash").setExecutor(new TrashCommand());
-        getCommand("reply").setExecutor(new ReplyCommand());
-        getCommand("message").setExecutor(new MessageCommand());
-        getCommand("backpack").setExecutor(new BackpackCommand());
-        getCommand("shards").setExecutor(new ShardsCommand());
-        getCommand("tokens").setExecutor(new TokensCommand());
-        getCommand("balance").setExecutor(new BalanceCommand());
-        getCommand("island").setExecutor(new IslandCommand());
-        getCommand("dailyrewards").setExecutor(new DailyRewardsCommand());
-        getCommand("enchant").setExecutor(new EnchantCommand());
-        getCommand("reclaim").setExecutor(new ReclaimCommand());
-        getCommand("dropitem").setExecutor(new DropItemCommand());
-        getCommand("pay").setExecutor(new PayCommand());
-        getCommand("withdraw").setExecutor(new WithdrawCommand());
-        getCommand("nickname").setExecutor(new NicknameCommand());
-        getCommand("votes").setExecutor(new VotesCommand());
-        getCommand("crates").setExecutor(new CratesCommand());
-        getCommand("leaderboards").setExecutor(new LeaderboardsCommand());
-        getCommand("fly").setExecutor(new FlyCommand());
-        getCommand("store").setExecutor(new StoreCommand());
-        getCommand("mines").setExecutor(new MinesCommand());
-        getCommand("warps").setExecutor(new WarpsCommand());
-        getCommand("spawn").setExecutor(new SpawnCommand());
-        getCommand("coinflip").setExecutor(new CoinFlipCommand());
-        getCommand("tokenflip").setExecutor(new TokenFlipCommand());
-        getCommand("discord").setExecutor(new DiscordCommand());
-        getCommand("stats").setExecutor(new StatsCommand());
-        getCommand("color").setExecutor(new ColorCommand());
-        getCommand("mobilesupport").setExecutor(new MobileSupportCommand());
-        getCommand("privatemine").setExecutor(new PrivateMineCommand());
-        getCommand("auctionhouse").setExecutor(new AuctionHouseCommand());
-        getCommand("prestige").setExecutor(new PrestigeCommand());
-        getCommand("enderchest").setExecutor(new EnderChestCommand());
-        getCommand("chattags").setExecutor(new ChatTagsCommand());
-        getCommand("settings").setExecutor(new SettingsCommand());
-        getCommand("getnewpickaxe").setExecutor(new PickaxeCommand());
-        getCommand("sell").setExecutor(new SellCommand());
-        getCommand("rankup").setExecutor(new RankUpCommand());
-        getCommand("rankupmax").setExecutor(new RankUpMaxCommand());
-        getCommand("gui").setExecutor(new GUICommand());
-        getCommand("npcdiag").setExecutor(new NPCDialogCommand());
-        getCommand("level").setExecutor(new LevelCommand());
-        getCommand("gang").setExecutor(new GangCommand());
-        getCommand("pvp").setExecutor(new PvPCommand());
-        getCommand("rewards").setExecutor(new RewardsCommand());
-        getCommand("advancednickname").setExecutor(new AdvancedNicknameCommand());
-        Objects.requireNonNull(getCommand("resetrank")).setExecutor(new ResetRankCommand());
+
+        CommandManager.loadCommands();
+
         //Register Events
         getServer().getPluginManager().registerEvents(new EventListener(), plugin);
         getServer().getPluginManager().registerEvents(new Events(), plugin);
@@ -347,12 +261,12 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         MySQLConnection.username = sqlConfig.getString("username");
         MySQLConnection.password = sqlConfig.getString("password");
 
-        Bukkit.getLogger().log(Level.INFO, "Finished loading config.yml");
+        getLogger().log(Level.INFO, "Finished loading config.yml");
     }
 
 
     /**
-     * Safely run a piece of code in a try-catch block. Good for init tasks to prevent other modules from loading.
+     * Safely run a piece of code in a try-catch block. Good for init tasks to prevent other modules from not loading due to errors.
      */
     public static void safe(Runnable r) {
         try {

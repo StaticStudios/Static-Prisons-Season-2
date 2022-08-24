@@ -2,7 +2,7 @@ package net.staticstudios.prisons.reclaim;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.staticstudios.prisons.chat.ChatTags;
+import net.staticstudios.prisons.chat.tags.ChatTags;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;

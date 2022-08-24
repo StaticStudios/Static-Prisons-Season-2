@@ -1,6 +1,8 @@
 package net.staticstudios.prisons.auctionhouse;
 
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.auctionhouse.commands.AuctionHouseCommand;
+import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -28,6 +30,23 @@ public class AuctionManager {
     };
 
     public static List<Auction> auctions = new ArrayList<>();
+
+    public static void init() {
+        CommandManager.registerCommand("auctionhouse", new AuctionHouseCommand());
+        File file = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml");
+        FileConfiguration fileData = YamlConfiguration.loadConfiguration(file);
+        auctions.clear();
+        if (fileData.getConfigurationSection("auctions") == null) return;
+        for (String key : fileData.getConfigurationSection("auctions").getKeys(false)) {
+            auctions.add(new Auction(
+                    UUID.fromString(key),
+                    ExpiredAuction.fromBase64(fileData.getString("auctions." + key + ".item")),
+                    UUID.fromString(fileData.getString("auctions." + key + ".owner")),
+                    fileData.getLong("auctions." + key + ".expireAt"),
+                    fileData.getLong("auctions." + key + ".price")
+            ));
+        }
+    }
 
     public static int getMaxAuctionsPerPlayer(Player player) {
         PlayerData playerData = new PlayerData(player);
@@ -150,20 +169,6 @@ public class AuctionManager {
             e.printStackTrace();
         }
     }
-    public static void init() {
-        File file = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml");
-        FileConfiguration fileData = YamlConfiguration.loadConfiguration(file);
-        auctions.clear();
-        if (fileData.getConfigurationSection("auctions") == null) return;
-        for (String key : fileData.getConfigurationSection("auctions").getKeys(false)) {
-            auctions.add(new Auction(
-                    UUID.fromString(key),
-                    ExpiredAuction.fromBase64(fileData.getString("auctions." + key + ".item")),
-                    UUID.fromString(fileData.getString("auctions." + key + ".owner")),
-                    fileData.getLong("auctions." + key + ".expireAt"),
-                    fileData.getLong("auctions." + key + ".price")
-            ));
-        }
-    }
+
 
 }

@@ -2,6 +2,7 @@ package net.staticstudios.prisons.customitems;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.commands.CommandManager;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -23,6 +24,7 @@ public class CustomItems implements Listener { //todo: add an internal mapping t
     public static void init() {
         //TODO: keys, pickaxes, etc.
 
+        CommandManager.registerCommand("customitems", new CustomItemsCommand());
 
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new CustomItems(), StaticPrisons.getInstance()); //todo: loop through all custom items and run a listener for each one
     }

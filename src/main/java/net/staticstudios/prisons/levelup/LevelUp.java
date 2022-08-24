@@ -1,10 +1,22 @@
 package net.staticstudios.prisons.levelup;
 
+import net.staticstudios.prisons.commands.CommandManager;
+import net.staticstudios.prisons.levelup.commands.RankUpMaxCommand;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.levelup.commands.LevelCommand;
+import net.staticstudios.prisons.levelup.commands.PrestigeCommand;
+import net.staticstudios.prisons.levelup.commands.RankUpCommand;
 
 public class LevelUp {
     public static long[] rankPrices = new long[26];
     public static long INITIAL_PRESTIGE_PRICE;
+
+    public static void init() {
+        CommandManager.registerCommand("rankup", new RankUpCommand());
+        CommandManager.registerCommand("rankupmax", new RankUpMaxCommand());
+        CommandManager.registerCommand("level", new LevelCommand());
+        CommandManager.registerCommand("prestige", new PrestigeCommand());
+    }
 
     public static long calculatePriceToRankUpTo(PlayerData playerData, int rankToGoTo) {
         long price = 0;
@@ -19,14 +31,6 @@ public class LevelUp {
     }
 
     public static long getPrestigePrice(long currentPrestige, int prestigesToBuy) {
-        long price = INITIAL_PRESTIGE_PRICE * (currentPrestige + prestigesToBuy);
-//        for (int r = 1; r < prestigesToBuy - 1; r++) {
-//            long rankUpPrice = 0;
-//            for (int i = 1; i <= 25; i++) {
-//                rankUpPrice += getBaseRankUpPriceForRank(i);
-//            }
-//            price += rankUpPrice * currentPrestige / 3 + rankUpPrice;
-//        }
-        return price;
+        return INITIAL_PRESTIGE_PRICE * (currentPrestige + prestigesToBuy);
     }
 }

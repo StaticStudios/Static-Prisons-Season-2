@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.backpacks;
 
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.prisons.backpacks.selling.SellReceipt;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.utils.ItemUtils;

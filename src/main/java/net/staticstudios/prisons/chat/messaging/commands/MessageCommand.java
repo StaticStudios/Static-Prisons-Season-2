@@ -1,6 +1,8 @@
-package net.staticstudios.prisons.commands.normal;
+package net.staticstudios.prisons.chat.messaging.commands;
 
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.chat.messaging.MessageHandler;
+import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,26 +17,21 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReplyCommand implements CommandExecutor, TabCompleter {
+public class MessageCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (!(sender instanceof Player)) return false;
-        Player player = (Player) sender;
-        if (args.length < 1) {
-            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/reply <what>"));
+        if (!(sender instanceof Player player)) return false;
+        if (args.length < 2) {
+            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/msg <who> <what>"));
             return false;
         }
-        if (!MessageHandler.playerToRecentMessaged.containsKey(player.getUniqueId())) {
-            player.sendMessage(ChatColor.RED + "Could not find who to send the message to! Initiate a conversation with /msg");
-            return false;
-        }
-        Player receiver = Bukkit.getPlayer(MessageHandler.playerToRecentMessaged.get(player.getUniqueId()));
+        Player receiver = Bukkit.getPlayer(args[0]);
         if (receiver == null) {
-            player.sendMessage(ChatColor.RED + "Could not find who to send the message to! Initiate a conversation with /msg");
+            player.sendMessage(ChatColor.RED + "Could not find the player specified!");
             return false;
         }
         StringBuilder message = new StringBuilder();
-        for (String arg : args) message.append(arg).append(" ");
+        for (int i = 1; i < args.length; i++) message.append(args[i]).append(" ");
         MessageHandler.playerToRecentMessaged.put(player.getUniqueId(), receiver.getUniqueId());
         MessageHandler.playerToRecentMessaged.put(receiver.getUniqueId(), player.getUniqueId());
         MessageHandler.sendMessage(player, receiver, message.toString());
@@ -43,6 +40,7 @@ public class ReplyCommand implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
+        if (args.length == 1) list.addAll(StaticMineUtils.filterStrings(ServerData.PLAYERS.getAllNames(), args[0]));
         return list;
     }
 }

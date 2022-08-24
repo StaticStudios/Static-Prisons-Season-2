@@ -3,6 +3,9 @@ package net.staticstudios.prisons.backpacks;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.backpacks.commands.BackpackCommand;
+import net.staticstudios.prisons.commands.CommandManager;
+import net.staticstudios.prisons.backpacks.selling.SellCommand;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -32,6 +35,8 @@ public class PrisonBackpack implements SpreadOutExecution {
     public static final Map<String, PrisonBackpack> ALL_BACKPACKS = new HashMap<>();
 
     public static void init() {
+        CommandManager.registerCommand("backpack", new BackpackCommand());
+        CommandManager.registerCommand("sell", new SellCommand());
         loadBackpacks();
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
             PrisonBackpack.saveBackpacks();

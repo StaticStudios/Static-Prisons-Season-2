@@ -2,6 +2,7 @@ package net.staticstudios.prisons.commands.test;
 
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.privatemines.PrivateMine;
+import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -56,7 +57,7 @@ public class TestCommand implements CommandExecutor {
 //        ChatEvents.runEvent(ChatEvents.EventType.MATH);
 //
 
-//        Trade.test(player); //todo test
+//        Trade.test(player);
 
 //        FileConfiguration current = YamlConfiguration.loadConfiguration(new File("current.yml"));
 //        FileConfiguration recent = YamlConfiguration.loadConfiguration(new File("recent.yml"));
@@ -202,8 +203,11 @@ public class TestCommand implements CommandExecutor {
 
 //        player.getInventory().addItem(ItemUtils.createCustomSkull(LootBoxType.PICKAXE.base64Texture));
 //        player.getInventory().addItem(ItemUtils.createCustomSkull(LootBoxType.MINE_BOMB.base64Texture));
-        PrivateMine mine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
-        mine.setXpAndCalcLevel(Long.parseLong(args[0]));
+//        PrivateMine mine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
+//        mine.setXpAndCalcLevel(Long.parseLong(args[0]));
+
+
+        TeamPrefix.init();
         return false;
 
 

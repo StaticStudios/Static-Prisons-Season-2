@@ -26,7 +26,7 @@ public class TabList {
     private static final String HEADER = """
                       
                       
-            <bold><gray>-->><white><italic> Welcome To <colordark> Static Prisons <colordark/> <gray> <<--
+            <bold><gray>-->><white><italic> Welcome To<colordark> Static Prisons <colordark/><gray><<--
             """;
 
     private static final String FOOTER = """

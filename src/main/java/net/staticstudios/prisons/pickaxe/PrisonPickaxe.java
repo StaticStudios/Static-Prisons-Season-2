@@ -4,11 +4,17 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.commands.CommandManager;
+import net.staticstudios.prisons.pickaxe.commands.AddPickaxeBlocksMinedCommand;
+import net.staticstudios.prisons.pickaxe.commands.AddPickaxeXPCommand;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
+import net.staticstudios.prisons.pickaxe.commands.EnchantCommand;
+import net.staticstudios.prisons.pickaxe.commands.PickaxeCommand;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
+import net.staticstudios.prisons.pickaxe.gui.PickaxeMenus;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.items.SpreadOutExecution;
@@ -47,9 +53,14 @@ public class PrisonPickaxe implements SpreadOutExecution {
     }
 
     public static void init() {
+        CommandManager.registerCommand("addpickaxexp", new AddPickaxeXPCommand());
+        CommandManager.registerCommand("addpickaxeblocksmined", new AddPickaxeBlocksMinedCommand());
+        CommandManager.registerCommand("getnewpickaxe", new PickaxeCommand());
+        CommandManager.registerCommand("enchant", new EnchantCommand());
+
+
         loadPickaxeData();
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new Listener(), StaticPrisons.getInstance());
-
     }
 
     public static void loadPickaxeData() {

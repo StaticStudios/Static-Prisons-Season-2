@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
-import net.staticstudios.prisons.chat.ChatTags;
+import net.staticstudios.prisons.chat.tags.ChatTags;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;

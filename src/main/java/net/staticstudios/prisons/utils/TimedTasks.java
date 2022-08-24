@@ -78,8 +78,6 @@ public class TimedTasks {
             Component tip = Constants.TIPS.get(PrisonUtils.randomInt(0, Constants.TIPS.size() - 1));
             for (Player p : Bukkit.getOnlinePlayers()) if (!new PlayerData(p).getAreTipsDisabled()) p.sendMessage(tip);
         }, 20 * 60 * 5, 20 * 60 * 10);
-        //Update all the leaderboards
-        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), LeaderboardManager::updateAll, 20, 20 * 60 * 30);
 
 
 
