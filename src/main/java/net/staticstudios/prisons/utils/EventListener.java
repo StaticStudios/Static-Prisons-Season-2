@@ -7,7 +7,7 @@ import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.ui.scoreboard.CustomScoreboard;
 import net.staticstudios.prisons.ui.tablist.TabList;
-import net.staticstudios.prisons.commands.admin.AdminManager;
+import net.staticstudios.prisons.admin.AdminManager;
 import net.staticstudios.prisons.customitems.Vouchers;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;

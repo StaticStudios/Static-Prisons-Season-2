@@ -1,8 +1,8 @@
-package net.staticstudios.prisons.commands.admin;
+package net.staticstudios.prisons.admin;
 
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.commands.admin.commands.*;
+import net.staticstudios.prisons.admin.commands.*;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.Bukkit;

@@ -14,7 +14,7 @@ import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.chat.ChatManager;
 import net.staticstudios.prisons.chat.nicknames.NickColors;
 import net.staticstudios.prisons.commands.CommandManager;
-import net.staticstudios.prisons.commands.admin.AdminManager;
+import net.staticstudios.prisons.admin.AdminManager;
 import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.customitems.Kits;

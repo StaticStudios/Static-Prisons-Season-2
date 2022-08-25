@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.commands.admin.commands;
+package net.staticstudios.prisons.admin.commands;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.utils.PrisonUtils;

@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.commands.admin.commands;
+package net.staticstudios.prisons.admin.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;

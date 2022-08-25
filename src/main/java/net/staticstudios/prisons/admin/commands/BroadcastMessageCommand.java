@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.commands.admin.commands;
+package net.staticstudios.prisons.admin.commands;
 
 import net.staticstudios.prisons.utils.BroadcastMessage;
 import net.staticstudios.prisons.utils.PrisonUtils;
