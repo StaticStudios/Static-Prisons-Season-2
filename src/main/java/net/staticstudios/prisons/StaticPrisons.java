@@ -2,14 +2,13 @@ package net.staticstudios.prisons;
 
 import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.WorldEdit;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.trait.TraitInfo;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.LuckPerms;
-import net.staticstudios.citizens.VisibleNameTrait;
+import net.staticstudios.citizens.CitizensUtils;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
+import net.staticstudios.prisons.admin.AdminManager;
 import net.staticstudios.prisons.auctionhouse.AuctionManager;
 import net.staticstudios.prisons.backpacks.PrisonBackpack;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
@@ -17,7 +16,6 @@ import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.chat.ChatManager;
 import net.staticstudios.prisons.chat.nicknames.NickColors;
 import net.staticstudios.prisons.commands.CommandManager;
-import net.staticstudios.prisons.admin.AdminManager;
 import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.customitems.Kits;
@@ -28,8 +26,6 @@ import net.staticstudios.prisons.events.EventManager;
 import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.fishing.FishingManager;
 import net.staticstudios.prisons.gangs.Gang;
-import net.staticstudios.prisons.gangs.GangCommand;
-import net.staticstudios.prisons.leaderboards.Test;
 import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.lootboxes.MoneyLootBox;
@@ -87,12 +83,12 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     private boolean citizensEnabled = false;
-    
+
     @Override
     public void onEnable() {
         plugin = this;
-        enableCitizens();
 
+        safe(this::enableCitizens);
         safe(TeamPrefix::init);
         safe(StaticPrisons::unloadNetherAndEnd);
         safe(this::loadWorldBoarderAPI);
@@ -126,6 +122,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(ChatManager::init);
         safe(NickColors::init);
         safe(LeaderboardManager::init);
+        safe(CitizensUtils::init);
 
         StaticGUI.enable(this);
 
@@ -147,14 +144,14 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     }
 
+
+
     private void enableCitizens() {
         if (getServer().getPluginManager().getPlugin("Citizens") == null) {
             getLogger().warning("Citizens not found, disabling Citizens support");
             return;
         }
 
-        getServer().getPluginManager().registerEvents(new Test(), this);
-        CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(VisibleNameTrait.class));
         citizensEnabled = true;
     }
 
@@ -168,7 +165,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         assert worldBorderApiRegisteredServiceProvider != null;
         worldBorderAPI = worldBorderApiRegisteredServiceProvider.getProvider();
     }
-
 
 
     static void unloadNetherAndEnd() {
@@ -196,9 +192,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
             try {
                 new MineBlock(Material.valueOf(key), config.getLong("sellPrices." + key));
             } catch (IllegalArgumentException e) {
-                Bukkit.getLogger().warning("There was an error while loading the config! Unknown material '" + key + "'");
+                Bukkit.getServer().getLogger().warning("There was an error while loading the config! Unknown material '" + key + "'");
             } catch (NullPointerException e) {
-                Bukkit.getLogger().warning("There was en error while loading the config! The value for '" + key + "' should be a valid number! Got: '" + config.getString("sellPrices." + key) + "' instead");
+                Bukkit.getServer().getLogger().warning("There was en error while loading the config! The value for '" + key + "' should be a valid number! Got: '" + config.getString("sellPrices." + key) + "' instead");
             }
         }
 
@@ -214,7 +210,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         Constants.TIPS = tips;
 
         //Load prestige mine requirements
-        for (int i = 0; i < 15; i++) Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
+        for (int i = 0; i < 15; i++)
+            Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
         //Load rankup prices
         for (int i = 0; i < 26; i++) {
             LevelUp.rankPrices[i] = config.getLong("rankup.prices." + (i + 1));

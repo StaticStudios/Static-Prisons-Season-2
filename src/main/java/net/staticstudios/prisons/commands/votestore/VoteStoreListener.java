@@ -35,7 +35,7 @@ public class VoteStoreListener implements CommandExecutor {
             }
             case "tebex" -> {
                 if (args.length < 3) {
-                    Bukkit.getLogger().warning("Received an incorrect Tebex request!");
+                    Bukkit.getServer().getLogger().warning("Received an incorrect Tebex request!");
                     return false;
                 }
                 Player player = Bukkit.getPlayer(args[2]);

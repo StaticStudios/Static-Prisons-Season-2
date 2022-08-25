@@ -205,7 +205,7 @@ public class DiscordLink { //todo: this could be cleaned up and the SQL statemen
                     case "LINKSUCCESS" -> {
                         StringBuilder accountName = new StringBuilder();
                         for (int i = 2; i < args.size(); i++) accountName.append(args.get(i)).append(" ");
-                        Bukkit.getLogger().log(Level.INFO, "" + args.get(0) + " ( " + ServerData.PLAYERS.getName(UUID.fromString(args.get(0))) + " ) was linked to discord account " + args.get(1) + " ( " + accountName + ")");
+                        Bukkit.getServer().getLogger().log(Level.INFO, "" + args.get(0) + " ( " + ServerData.PLAYERS.getName(UUID.fromString(args.get(0))) + " ) was linked to discord account " + args.get(1) + " ( " + accountName + ")");
                         //Check if they are boosting
                         PlayerData playerData = new PlayerData(args.get(0));
                         try (Statement _stmt = MySQLConnection.getConnection().createStatement()) {
@@ -239,7 +239,7 @@ public class DiscordLink { //todo: this could be cleaned up and the SQL statemen
                         playerData.setDiscordName("null");
                         playerData.updateTabListPrefixID();
                     }
-                    default -> Bukkit.getLogger().warning("Got a callback with an unknown request! Callback: " + callback);
+                    default -> Bukkit.getServer().getLogger().warning("Got a callback with an unknown request! Callback: " + callback);
                 }
                 MySQLConnection.getConnection().createStatement().executeUpdate("DELETE FROM `serverCallback` WHERE id = " + rs.getInt("id"));
             }

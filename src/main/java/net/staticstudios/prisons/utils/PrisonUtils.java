@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -312,6 +313,14 @@ public final class PrisonUtils {
                 }
             }
             return name;
+        }
+    }
+
+    public static void saveConfig(YamlConfiguration config, String name) {
+        try {
+            config.save(new File(StaticPrisons.getInstance().getDataFolder(), name));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

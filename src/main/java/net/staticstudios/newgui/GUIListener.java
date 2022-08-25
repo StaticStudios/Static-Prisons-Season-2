@@ -57,7 +57,7 @@ public class GUIListener implements Listener {
             }
             button.onClick().accept(e, gui);
         } catch (Exception ex) {
-            Bukkit.getLogger().severe("Error while handling GUI click event");
+            Bukkit.getServer().getLogger().severe("Error while handling GUI click event");
             ex.printStackTrace();
         }
         e.setCancelled(true);
