@@ -3,6 +3,7 @@ package net.staticstudios.newgui.builder;
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.newgui.GUIButton;
@@ -130,7 +131,7 @@ public final class ButtonBuilder {
      * @return This ButtonBuilder instance.
      */
     public ButtonBuilder name(String name) {
-        this.name = LegacyComponentSerializer.legacyAmpersand().deserialize(name).decoration(TextDecoration.ITALIC, false);
+        this.name = pretty(LegacyComponentSerializer.legacyAmpersand().deserialize(name));
         return this;
     }
 
@@ -140,7 +141,7 @@ public final class ButtonBuilder {
      * @return This ButtonBuilder instance.
      */
     public ButtonBuilder name(Component name) {
-        this.name = name;
+        this.name = pretty(name);
         return this;
     }
 
@@ -150,6 +151,9 @@ public final class ButtonBuilder {
      * @return This ButtonBuilder instance.
      */
     public ButtonBuilder lore(List<Component> lore) {
+        lore = lore.stream()
+                .map(ButtonBuilder::pretty)
+                .map(component -> component.colorIfAbsent(NamedTextColor.GRAY)).toList();
         this.lore = lore;
         return this;
     }
@@ -182,5 +186,8 @@ public final class ButtonBuilder {
                 gui);
     }
 
+    private static Component pretty(Component component) {
+        return component.decoration(TextDecoration.ITALIC).equals(TextDecoration.State.NOT_SET) ? component.decoration(TextDecoration.ITALIC, false) : component;
+    }
 
 }
