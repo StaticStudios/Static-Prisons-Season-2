@@ -21,7 +21,7 @@ public class ServerData {
     public static void playerJoined(Player player) {
         if (!PLAYERS.getAllUUIDs().contains(player.getUniqueId())) {
             //First time joining
-            Bukkit.getLogger().log(Level.INFO, "Player has joined for the first time with the uuid: " + player.getUniqueId() + " and the name: " + player.getName());
+            Bukkit.getServer().getLogger().log(Level.INFO, "Player has joined for the first time with the uuid: " + player.getUniqueId() + " and the name: " + player.getName());
             Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + PrisonUtils.addCommasToNumber(PLAYERS.getAllUUIDs().size() + 1) + ")");
             PrisonUtils.Players.addToInventory(player, PrisonPickaxe.createNewPickaxe());
             PrisonBackpack backpack = PrisonBackpacks.createBackpack(1);

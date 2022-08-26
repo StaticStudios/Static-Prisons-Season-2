@@ -11,10 +11,7 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 public class DataSet {
@@ -47,7 +44,7 @@ public class DataSet {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Bukkit.getLogger().log(Level.INFO, "Finished saving all server data");
+            Bukkit.getServer().getLogger().log(Level.INFO, "Finished saving all server data");
         });
     }
 
@@ -68,7 +65,7 @@ public class DataSet {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Bukkit.getLogger().log(Level.INFO, "Finished saving all server data");
+        Bukkit.getServer().getLogger().log(Level.INFO, "Finished saving all server data");
     }
 
     /**
@@ -79,12 +76,12 @@ public class DataSet {
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
         for (String key : fileData.getKeys(false)) {
             try {
-                ALL_DATA.put(key, Data.fromConfigurationSection(key, fileData.getConfigurationSection(key)));
+                ALL_DATA.put(key, Data.fromConfigurationSection(key, Objects.requireNonNull(fileData.getConfigurationSection(key))));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        Bukkit.getLogger().log(Level.INFO, "Finished loading all server data");
+        Bukkit.getServer().getLogger().log(Level.INFO, "Finished loading all server data");
     }
 
     /**

@@ -5,8 +5,10 @@ import com.sk89q.worldedit.WorldEdit;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.LuckPerms;
+import net.staticstudios.citizens.CitizensUtils;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
+import net.staticstudios.prisons.admin.AdminManager;
 import net.staticstudios.prisons.auctionhouse.AuctionManager;
 import net.staticstudios.prisons.backpacks.PrisonBackpack;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
@@ -14,7 +16,6 @@ import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.chat.ChatManager;
 import net.staticstudios.prisons.chat.nicknames.NickColors;
 import net.staticstudios.prisons.commands.CommandManager;
-import net.staticstudios.prisons.admin.AdminManager;
 import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.customitems.Kits;
@@ -81,10 +82,13 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
+    private boolean citizensEnabled = false;
+
     @Override
     public void onEnable() {
         plugin = this;
 
+        safe(this::enableCitizens);
         safe(TeamPrefix::init);
         safe(StaticPrisons::unloadNetherAndEnd);
         safe(this::loadWorldBoarderAPI);
@@ -118,6 +122,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(ChatManager::init);
         safe(NickColors::init);
         safe(LeaderboardManager::init);
+        safe(CitizensUtils::init);
 
         StaticGUI.enable(this);
 
@@ -127,7 +132,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
         Constants.MINES_WORLD = Bukkit.getWorld("mines"); //Loaded by StaticMines
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);
-
 
         //Register Commands
 
@@ -141,6 +145,17 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     }
 
 
+
+    private void enableCitizens() {
+        if (getServer().getPluginManager().getPlugin("Citizens") == null) {
+            getLogger().warning("Citizens not found, disabling Citizens support");
+            return;
+        }
+
+        citizensEnabled = true;
+    }
+
+
     public static void log(String message) {
         plugin.getLogger().info(message);
     }
@@ -150,7 +165,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         assert worldBorderApiRegisteredServiceProvider != null;
         worldBorderAPI = worldBorderApiRegisteredServiceProvider.getProvider();
     }
-
 
 
     static void unloadNetherAndEnd() {
@@ -178,9 +192,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
             try {
                 new MineBlock(Material.valueOf(key), config.getLong("sellPrices." + key));
             } catch (IllegalArgumentException e) {
-                Bukkit.getLogger().warning("There was an error while loading the config! Unknown material '" + key + "'");
+                Bukkit.getServer().getLogger().warning("There was an error while loading the config! Unknown material '" + key + "'");
             } catch (NullPointerException e) {
-                Bukkit.getLogger().warning("There was en error while loading the config! The value for '" + key + "' should be a valid number! Got: '" + config.getString("sellPrices." + key) + "' instead");
+                Bukkit.getServer().getLogger().warning("There was en error while loading the config! The value for '" + key + "' should be a valid number! Got: '" + config.getString("sellPrices." + key) + "' instead");
             }
         }
 
@@ -196,7 +210,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         Constants.TIPS = tips;
 
         //Load prestige mine requirements
-        for (int i = 0; i < 15; i++) Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
+        for (int i = 0; i < 15; i++)
+            Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
         //Load rankup prices
         for (int i = 0; i < 26; i++) {
             LevelUp.rankPrices[i] = config.getLong("rankup.prices." + (i + 1));
@@ -279,5 +294,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     public void addTask(Runnable runnable) {
         executorService.submit(runnable);
+    }
+
+    public boolean isCitizensEnabled() {
+        return citizensEnabled;
     }
 }

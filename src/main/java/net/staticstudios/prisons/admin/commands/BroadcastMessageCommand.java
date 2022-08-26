@@ -24,7 +24,7 @@ public class BroadcastMessageCommand implements TabExecutor {
         String message = String.join(" ", args);
 
         BroadcastMessage.send(message);
-        Bukkit.getLogger().log(Level.INFO, message);
+        Bukkit.getServer().getLogger().log(Level.INFO, message);
         return false;
     }
 

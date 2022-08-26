@@ -5,11 +5,11 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
-import net.staticstudios.prisons.pickaxe.commands.AddPickaxeBlocksMinedCommand;
-import net.staticstudios.prisons.pickaxe.commands.AddPickaxeXPCommand;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
+import net.staticstudios.prisons.pickaxe.commands.AddPickaxeBlocksMinedCommand;
+import net.staticstudios.prisons.pickaxe.commands.AddPickaxeXPCommand;
 import net.staticstudios.prisons.pickaxe.commands.EnchantCommand;
 import net.staticstudios.prisons.pickaxe.commands.PickaxeCommand;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
@@ -178,7 +178,7 @@ public class PrisonPickaxe implements SpreadOutExecution {
             e.printStackTrace();
         }
 
-        Bukkit.getLogger().log(Level.INFO, "Saved all pickaxe data data/pickaxeData.yml");
+        Bukkit.getServer().getLogger().log(Level.INFO, "Saved all pickaxe data data/pickaxeData.yml");
     }
 
     public static PrisonPickaxe fromItem(ItemStack item) {

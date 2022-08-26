@@ -158,11 +158,7 @@ public final class StaticMines implements Listener {
      */
     public static void log(String str) {
         if (StaticMinesConfig.getConfig().getBoolean("disable_logger")) return;
-        if (parent != null) {
-            parent.getLogger().info("[Static-Mines] " + str);
-        } else {
-            Bukkit.getLogger().info("[Static-Mines] " + str);
-        }
+        Bukkit.getServer().getLogger().info("[StaticMines] " + str);
     }
 
     /**
