@@ -30,11 +30,11 @@ public final class GUIBuilder {
     private GUIButton nextPageButton;
     private GUIButton pageNumberButton;
 
-    private Consumer<StaticGUI> onUpdate;
+    private Consumer<StaticGUI> onUpdate = (gui) -> {};
     private int updateInterval; //In ticks
 
     private BiConsumer<Player, StaticGUI> onOpen;
-    private BiConsumer<Player, StaticGUI> onClose;
+    private BiConsumer<Player, StaticGUI> onClose = (player, gui) -> {};
 
     private GUIButton fillWith;
 
