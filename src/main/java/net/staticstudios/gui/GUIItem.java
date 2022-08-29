@@ -8,6 +8,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+@Deprecated
 public record GUIItem(ItemStack item) {
 
     public boolean hasRunnable() {

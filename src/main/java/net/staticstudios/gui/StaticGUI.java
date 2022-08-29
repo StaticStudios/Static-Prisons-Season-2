@@ -25,6 +25,7 @@ import java.util.function.Consumer;
  * This class is persistent as any GUI that is created with this (instead of GUICreator) will be kept in memory forever and will not be destroyed
  * Use this class for any static menus that will never be created more than once (Ex: How To Play Menu, its content is static)
  */
+@Deprecated
 public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
 
     private static JavaPlugin parent;

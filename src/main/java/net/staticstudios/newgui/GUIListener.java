@@ -19,7 +19,7 @@ public class GUIListener implements Listener {
 
         Player player = (Player) e.getWhoClicked();
         StaticGUI gui;
-        GUIButton button = null;
+        GUIButton button;
 
         if (e.getClickedInventory().getHolder() instanceof StaticGUI _gui) {
             gui = _gui;
@@ -78,7 +78,9 @@ public class GUIListener implements Listener {
         Player player = (Player) e.getPlayer();
 
         if (e.getReason().equals(InventoryCloseEvent.Reason.PLAYER)) { //Only call the onClose method if the player closed the GUI. The GUI could've been closed by another GUI opening which could lead to a stack overflow.
-            gui.onClose().accept(player, gui);
+            if (gui.onClose() != null) {
+                Bukkit.getScheduler().runTaskLater(StaticGUI.getParent(), () -> gui.onClose().accept(player, gui), 1); //Run 1 tick later to prevent inventory weirdness
+            }
         }
 
         if (gui.getSettings().allowPlayerItems()) { //Give the player their items back

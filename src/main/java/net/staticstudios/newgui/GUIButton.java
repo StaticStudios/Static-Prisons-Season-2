@@ -1,7 +1,6 @@
 package net.staticstudios.newgui;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -24,25 +23,16 @@ public class GUIButton {
 
 
     private final ItemStack item;
-    private final StaticGUI gui;
 
     public GUIButton(Consumer<Player> onLeftClick, Consumer<Player> onRightClick, Consumer<Player> onMiddleClick,
                      BiConsumer<InventoryClickEvent, StaticGUI> onClick,
-                     Material icon, Component name, List<Component> lore, boolean enchanted,
-                     StaticGUI gui) {
-        this(onLeftClick, onRightClick, onMiddleClick, onClick,
-                new ItemStack(icon), name, lore, enchanted, gui);
-    }
-
-    public GUIButton(Consumer<Player> onLeftClick, Consumer<Player> onRightClick, Consumer<Player> onMiddleClick,
-                     BiConsumer<InventoryClickEvent, StaticGUI> onClick,
-                     ItemStack item, Component name, List<Component> lore, boolean enchanted,
-                     StaticGUI gui) {
+                     ItemStack item, Component name, List<Component> lore, boolean enchanted, int stackCount) {
         this.onLeftClick = onLeftClick;
         this.onRightClick = onRightClick;
         this.onMiddleClick = onMiddleClick;
         this.onClick = onClick;
         this.item = item;
+        item.setAmount(stackCount);
         ItemMeta meta = item.getItemMeta();
         meta.displayName(name);
         meta.lore(lore);
@@ -51,7 +41,6 @@ public class GUIButton {
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         item.setItemMeta(meta);
-        this.gui = gui;
     }
 
     //Getters
@@ -69,9 +58,6 @@ public class GUIButton {
     }
     public ItemStack item() {
         return item;
-    }
-    public StaticGUI gui() {
-        return gui;
     }
 
 }

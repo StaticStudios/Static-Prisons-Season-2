@@ -5,6 +5,7 @@ import org.bukkit.event.inventory.InventoryType;
 /**
  * Use this class for ANY menu that can change in any way
  */
+@Deprecated
 public class GUICreator extends StaticGUI {
     public GUICreator(int size, String title) {
         super(size, title);

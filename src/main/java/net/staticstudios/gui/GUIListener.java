@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 
 import java.util.function.Consumer;
 
+@Deprecated
 public class GUIListener implements Listener {
 
     @EventHandler

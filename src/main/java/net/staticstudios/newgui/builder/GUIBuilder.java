@@ -17,7 +17,7 @@ public final class GUIBuilder {
     /**
      * @return A new GUIBuilder instance.
      */
-    public static GUIBuilder getBuilder() {
+    public static GUIBuilder builder() {
         return new GUIBuilder();
     }
 

@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+@Deprecated
 public class GUIUtils {
     public static NamespacedKey RUNNABLE_UUID_NAMESPACE_KEY;
     public static NamespacedKey RUNNABLE_TYPE;

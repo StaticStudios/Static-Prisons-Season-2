@@ -3,6 +3,7 @@ package net.staticstudios.newgui.settings;
 /**
  * @author Sam (GitHub: <a href="https://github.com/Sammster10">Sam's GitHub</a>)
  */
+@SuppressWarnings("unused")
 public class GUISettings {
     /**
      * Allow/disallow players to put their own items into the GUI.
@@ -27,6 +28,4 @@ public class GUISettings {
     public void allowPlayerItems(boolean allowPlayerItems) {
         this.allowPlayerItems = allowPlayerItems;
     }
-
-
 }
