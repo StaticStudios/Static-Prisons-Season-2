@@ -224,7 +224,7 @@ public class Gang {
         try {
             FileConfiguration fileData = new YamlConfiguration();
             for (Gang gang : GANGS.values()) fileData.set(gang.uuid.toString(), saveGang(gang));
-            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
+            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data/gangs.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -235,14 +235,14 @@ public class Gang {
             try {
                 FileConfiguration fileData = new YamlConfiguration();
                 for (Gang gang : temp.values()) fileData.set(gang.uuid.toString(), saveGang(gang));
-                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
+                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data/gangs.yml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
     public static void init() {
-        FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
+        FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data/gangs.yml"));
         for (String key : fileData.getKeys(false)) {
             ConfigurationSection section = fileData.getConfigurationSection(key);
             UUID uuid = UUID.fromString(section.getString("uuid"));

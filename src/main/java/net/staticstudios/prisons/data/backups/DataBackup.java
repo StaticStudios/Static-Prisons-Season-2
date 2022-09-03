@@ -13,15 +13,14 @@ public class DataBackup {
     private static final List<File> filesToBackup = new ArrayList<>();
 
     public static void init() {
-        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse"));
-        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "data/pickaxeData.yml"));
-        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines"));
-        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml"));
-        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));
-        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
-        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
-        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "backpacks.yml"));
-        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "lootboxes.yml"));
+        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "data"));
+//        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "data/pickaxeData.yml"));
+//        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "data/private_mines"));
+//        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));
+//        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "gangs.yml"));
+//        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
+//        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "data/backpacks.yml"));
+//        filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "lootboxes.yml"));
         filesToBackup.add(new File(StaticPrisons.getInstance().getDataFolder(), "nextReclaim.txt"));
         Bukkit.getScheduler().runTaskTimerAsynchronously(StaticPrisons.getInstance(), DataBackup::saveShortTermBackUp, 20 * 60 * 30, 20 * 60 * 30); //30 minutes
     }

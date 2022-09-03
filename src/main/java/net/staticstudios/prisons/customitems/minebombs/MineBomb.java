@@ -5,7 +5,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.backpacks.PrisonBackpacks;
+import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.customitems.CustomItem;
 import net.staticstudios.prisons.minebombs.PreComputerMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
@@ -95,7 +95,7 @@ public enum MineBomb implements CustomItem {
         }
         mine.removeBlocks(mineBomb.blocksChanged);
         e.getItem().setAmount(e.getItem().getAmount() - 1);
-        PrisonBackpacks.addToBackpacks(e.getPlayer(), map);
+        BackpackManager.addToBackpacks(e.getPlayer(), map);
         return true;
     }
 

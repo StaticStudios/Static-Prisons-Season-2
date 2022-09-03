@@ -89,7 +89,6 @@ public class TimedTasks {
 
 
         if (StaticPrisons.getInstance().isCitizensEnabled()) {
-            System.out.println("asdf");
             Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), LeaderboardManager::updateAll, 20, 20 * 60 * 30);
         }
 

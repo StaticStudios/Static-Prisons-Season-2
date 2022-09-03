@@ -4,7 +4,7 @@ import net.staticstudios.mines.StaticMine;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.mines.api.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.backpacks.PrisonBackpacks;
+import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
@@ -197,7 +197,7 @@ public class BlockBreak {
 
 //            boolean backpackWasFull = playerData.getBackpackIsFull();
             if (player != null) {
-                PrisonBackpacks.addToBackpacks(player, stats.getMinedBlocks());
+                BackpackManager.addToBackpacks(player, stats.getMinedBlocks());
             }
 
             if (pickaxe != null) {

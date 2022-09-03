@@ -23,7 +23,7 @@ public class ExpiredAuction {
 
     public static List<ExpiredAuction> getPlayerExpiredAuctions(UUID playerUUID) {
         List<ExpiredAuction> expiredAuctions = new ArrayList<>();
-        File folder = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse");
+        File folder = new File(StaticPrisons.getInstance().getDataFolder(), "data/auctionHouse");
         File playerFile = new File(folder, playerUUID + ".yml");
         if (!playerFile.exists()) return expiredAuctions;
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(playerFile);
@@ -32,7 +32,7 @@ public class ExpiredAuction {
         return expiredAuctions;
     }
     public static void clearPlayerExpiredAuctions(UUID playerUUID) {
-        new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse/" + playerUUID + ".yml").delete();
+        new File(StaticPrisons.getInstance().getDataFolder(), "data/auctionHouse/" + playerUUID + ".yml").delete();
     }
 
     public ExpiredAuction(Auction auction) {
@@ -50,7 +50,7 @@ public class ExpiredAuction {
     }
 
     public void removeFromFile() {
-        File folder = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse");
+        File folder = new File(StaticPrisons.getInstance().getDataFolder(), "data/auctionHouse");
         folder.mkdir();
         File playerFile = new File(folder, ownerUUID + ".yml");
         if (!playerFile.exists()) return;
@@ -70,7 +70,7 @@ public class ExpiredAuction {
         }
     }
     public void saveToFile() {
-        File folder = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse");
+        File folder = new File(StaticPrisons.getInstance().getDataFolder(), "data/auctionHouse");
         folder.mkdir();
         File playerFile = new File(folder, ownerUUID + ".yml");
         try {

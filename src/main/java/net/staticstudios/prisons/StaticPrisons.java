@@ -10,7 +10,7 @@ import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.admin.AdminManager;
 import net.staticstudios.prisons.auctionhouse.AuctionManager;
-import net.staticstudios.prisons.backpacks.PrisonBackpack;
+import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.chat.ChatManager;
@@ -117,7 +117,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(BlockBreak::init);
         safe(FishingManager::init);
         safe(KingOfTheHillManager::init);
-        safe(PrisonBackpack::init);
+        safe(BackpackManager::init);
         safe(AdminManager::init);
         safe(ChatManager::init);
         safe(NickColors::init);
@@ -125,6 +125,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(CitizensUtils::init);
 
         StaticGUI.enable(this);
+        net.staticstudios.newgui.StaticGUI.enable(this);
 
 
         safe(this::loadConfig);
@@ -261,7 +262,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-
+        safe(net.staticstudios.newgui.StaticGUI::disable);
         safe(StaticMines::disable);
         safe(DataSet::saveDataSync);
         safe(CellManager::saveSync);
@@ -270,7 +271,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(PrisonPickaxe::savePickaxeDataNow);
         safe(SpreadOutExecutor::flushQue);
         safe(Gang::saveAllSync);
-        safe(PrisonBackpack::saveBackpacksNow);
+        safe(BackpackManager::saveBackpacksNow);
         safe(LootBox::saveAllNow);
         safe(AdminManager::save);
         safe(OutpostManager::save);

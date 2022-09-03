@@ -2,7 +2,7 @@ package net.staticstudios.prisons.pvp;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.backpacks.PrisonBackpack;
+import net.staticstudios.prisons.backpacks.Backpack;
 import net.staticstudios.prisons.customitems.Vouchers;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gangs.Gang;
@@ -76,7 +76,7 @@ public class PvPManager {
             e.getItemsToKeep().addAll(pickaxes);
             List<ItemStack> backpacks = new LinkedList<>();
             for (ItemStack item : e.getDrops()) {
-                if (PrisonBackpack.fromItem(item) != null) backpacks.add(item);
+                if (Backpack.fromItem(item) != null) backpacks.add(item);
             }
             e.getDrops().removeAll(backpacks);
             e.getItemsToKeep().addAll(backpacks);

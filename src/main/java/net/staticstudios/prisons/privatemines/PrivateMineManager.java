@@ -38,7 +38,7 @@ public class PrivateMineManager {
             section.set("whitelist", members);
         }
         try {
-            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
+            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data/private_mines.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +64,7 @@ public class PrivateMineManager {
                 section.set("whitelist", members);
             }
             try {
-                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
+                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data/private_mines.yml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -73,7 +73,7 @@ public class PrivateMineManager {
     public static void init() {
         PrivateMine.PRIVATE_MINES_WORLD = new WorldCreator("private_mines").createWorld();
         PrivateMineConfigManager.init().thenRun(() -> {
-            FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines/data.yml"));
+            FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data/private_mines.yml"));
             for (String key : fileData.getKeys(false)) {
                 ConfigurationSection section = fileData.getConfigurationSection(key);
                 PrivateMine mine = new PrivateMine(

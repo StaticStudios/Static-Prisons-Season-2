@@ -1,8 +1,8 @@
 package net.staticstudios.prisons.commands.test;
 
+import net.staticstudios.prisons.backpacks.Backpack;
+import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.privatemines.PrivateMine;
-import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -207,8 +207,21 @@ public class TestCommand implements CommandExecutor {
 //        mine.setXpAndCalcLevel(Long.parseLong(args[0]));
 
 
-        TeamPrefix.init();
+//        TeamPrefix.init();
+
+        Backpack bp = BackpackManager.createBackpack(1);
+        bp.setCapacity(5000);
+        bp.updateItemNow();
+
+        player.getInventory().addItem(bp.getItem());
+        System.out.println(Runtime.getRuntime().availableProcessors());
+        switch ("") {
+            case (""):
+                break;
+                
+        }
         return false;
+
 
 
     }

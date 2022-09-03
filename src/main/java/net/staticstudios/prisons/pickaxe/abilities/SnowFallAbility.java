@@ -2,7 +2,7 @@ package net.staticstudios.prisons.pickaxe.abilities;
 
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.backpacks.PrisonBackpacks;
+import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.minebombs.MultiBombMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
@@ -95,7 +95,7 @@ public class SnowFallAbility extends BaseAbility {
                     for (Map.Entry<Material, Long> entry : blocksBroken.entrySet()) {
                         map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * pickaxe.getEnchantLevel(PickaxeEnchants.FORTUNE));
                     }
-                    PrisonBackpacks.addToBackpacks(player, map);
+                    BackpackManager.addToBackpacks(player, map);
                     mine.removeBlocks(snowFallMineBomb.blocksChanged);
                     locs.clear();
                 }, 4);

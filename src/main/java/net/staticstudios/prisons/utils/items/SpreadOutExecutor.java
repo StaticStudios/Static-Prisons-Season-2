@@ -49,7 +49,7 @@ public class SpreadOutExecutor {
     public static void flushQue() {
         if (!hasBeenInitialized) return;
         for (SpreadOutExecution currentItem : computeLater) {
-            currentItem.runSpreadOutExecution();
+            currentItem.execute();
         }
         computeLater.clear();
     }
@@ -67,7 +67,7 @@ public class SpreadOutExecutor {
                     continue;
                 }
                 try {
-                    currentItem.runSpreadOutExecution();
+                    currentItem.execute();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -126,7 +126,7 @@ public class SpreadOutExecutor {
     }
 
     public static void doNow(SpreadOutExecution item) {
-        item.runSpreadOutExecution();
+        item.execute();
         computeLater.remove(item);
     }
 

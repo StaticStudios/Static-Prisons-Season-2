@@ -33,7 +33,7 @@ public class AuctionManager {
 
     public static void init() {
         CommandManager.registerCommand("auctionhouse", new AuctionHouseCommand());
-        File file = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml");
+        File file = new File(StaticPrisons.getInstance().getDataFolder(), "data/auction_house.yml");
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(file);
         auctions.clear();
         if (fileData.getConfigurationSection("auctions") == null) return;
@@ -136,26 +136,15 @@ public class AuctionManager {
     }
 
     public static void saveAllAuctions() {
-        List<Auction> temp = new ArrayList<>(auctions);
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
-            File file = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml");
-            FileConfiguration fileData = new YamlConfiguration();
-            for (Auction auction : temp) {
-                fileData.set("auctions." + auction.id().toString() + ".item", ExpiredAuction.toBase64(auction.item()));
-                fileData.set("auctions." + auction.id() + ".owner", auction.owner().toString());
-                fileData.set("auctions." + auction.id() + ".expireAt", auction.expireAt());
-                fileData.set("auctions." + auction.id() + ".price", auction.price());
-            }
-            try {
-                fileData.save(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> saveAllAuctions(new ArrayList<>(auctions)));
     }
 
     public static void saveAllAuctionsSync() {
-        File file = new File(StaticPrisons.getInstance().getDataFolder(), "auctionHouse.yml");
+        saveAllAuctions(auctions);
+    }
+
+    private static void saveAllAuctions(List<Auction> auctions) {
+        File file = new File(StaticPrisons.getInstance().getDataFolder(), "data/auction_house.yml");
         FileConfiguration fileData = new YamlConfiguration();
         for (Auction auction : auctions) {
             fileData.set("auctions." + auction.id().toString() + ".item", ExpiredAuction.toBase64(auction.item()));

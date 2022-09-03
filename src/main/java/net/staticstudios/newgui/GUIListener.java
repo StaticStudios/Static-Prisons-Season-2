@@ -24,6 +24,11 @@ public class GUIListener implements Listener {
         if (e.getClickedInventory().getHolder() instanceof StaticGUI _gui) {
             gui = _gui;
             if (!StaticGUI.MENUS.contains(gui)) return;
+
+            if (gui.listeners.containsKey(e.getSlot())) { // If the slot has a listener, call it
+                gui.listeners.get(e.getSlot()).accept(gui, e);
+            }
+
             button = gui.getButtons()[e.getSlot()];
             if (button == null) {
                 //The player is using one of their own items
@@ -35,6 +40,11 @@ public class GUIListener implements Listener {
         } else if (e.getInventory().getHolder() instanceof StaticGUI _gui) {
             gui = _gui;
             if (!StaticGUI.MENUS.contains(gui)) return;
+
+            if (gui.listeners.containsKey(e.getInventory().firstEmpty())) { // If the slot has a listener, call it
+                gui.listeners.get(e.getInventory().firstEmpty()).accept(gui, e);
+            }
+
             if (e.getClick().isShiftClick()) {
                 //The player shift-clicked an item from their inventory, into the GUI
                 if (!gui.getSettings().allowPlayerItems()) {

@@ -5,8 +5,8 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.backpacks.PrisonBackpack;
-import net.staticstudios.prisons.backpacks.PrisonBackpacks;
+import net.staticstudios.prisons.backpacks.Backpack;
+import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.pvp.outposts.OutpostManager;
@@ -103,9 +103,9 @@ public class PlayerUI {
         PlayerData playerData = new PlayerData(player);
         long totalItems = 0;
         long totalSize = 0;
-        for (PrisonBackpack backpacks : PrisonBackpacks.getPlayerBackpacks(player)) {
+        for (Backpack backpacks : BackpackManager.getPlayerBackpacks(player)) {
             totalItems += backpacks.getItemCount();
-            totalSize += backpacks.getSize();
+            totalSize += backpacks.getCapacity();
         }
         double percent = 100;
         if (totalSize > 0) {

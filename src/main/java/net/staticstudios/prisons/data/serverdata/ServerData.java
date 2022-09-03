@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.data.serverdata;
 
-import net.staticstudios.prisons.backpacks.PrisonBackpack;
-import net.staticstudios.prisons.backpacks.PrisonBackpacks;
+import net.staticstudios.prisons.backpacks.Backpack;
+import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -24,8 +24,8 @@ public class ServerData {
             Bukkit.getServer().getLogger().log(Level.INFO, "Player has joined for the first time with the uuid: " + player.getUniqueId() + " and the name: " + player.getName());
             Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + PrisonUtils.addCommasToNumber(PLAYERS.getAllUUIDs().size() + 1) + ")");
             PrisonUtils.Players.addToInventory(player, PrisonPickaxe.createNewPickaxe());
-            PrisonBackpack backpack = PrisonBackpacks.createBackpack(1);
-            backpack.setSize(2500);
+            Backpack backpack = BackpackManager.createBackpack(1);
+            backpack.setCapacity(2500);
             PrisonUtils.Players.addToInventory(player, backpack.getItem());
             backpack.updateItemNow();
             PlayerData playerData = new PlayerData(player);

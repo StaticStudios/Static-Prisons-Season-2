@@ -65,7 +65,7 @@ public class PrisonPickaxe implements SpreadOutExecution {
 
     public static void loadPickaxeData() {
         pickaxeUUIDToPrisonPickaxe.clear();
-        File pickaxeData = new File(StaticPrisons.getInstance().getDataFolder(), "data/pickaxeData.yml");
+        File pickaxeData = new File(StaticPrisons.getInstance().getDataFolder(), "data/pickaxe_data.yml");
         FileConfiguration ymlData = YamlConfiguration.loadConfiguration(pickaxeData);
 
 
@@ -173,12 +173,12 @@ public class PrisonPickaxe implements SpreadOutExecution {
 
         }
         try {
-            allData.save(new File(dataFolder, "pickaxeData.yml"));
+            allData.save(new File(dataFolder, "pickaxe_data.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Bukkit.getServer().getLogger().log(Level.INFO, "Saved all pickaxe data data/pickaxeData.yml");
+        Bukkit.getServer().getLogger().log(Level.INFO, "Saved all pickaxe data data/pickaxe_data.yml");
     }
 
     public static PrisonPickaxe fromItem(ItemStack item) {
@@ -483,7 +483,7 @@ public class PrisonPickaxe implements SpreadOutExecution {
     }
 
     @Override
-    public void runSpreadOutExecution() {
+    public void execute() {
         if (item == null) return;
         ItemMeta meta = item.getItemMeta();
         meta.lore(buildLore());

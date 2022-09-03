@@ -2,7 +2,7 @@ package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.mines.StaticMines;
-import net.staticstudios.prisons.backpacks.PrisonBackpacks;
+import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.minebombs.PreComputerMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
@@ -84,7 +84,7 @@ public class EggShooterEnchant extends BaseEnchant {
         mine.removeBlocks(mineBomb.blocksChanged);
         pickaxe.addBlocksBroken(mineBomb.blocksChanged);
         pickaxe.addXp(mineBomb.blocksChanged * 2);
-        PrisonBackpacks.addToBackpacks(player, map);
+        BackpackManager.addToBackpacks(player, map);
     }
 
     public static class EggShooterPickaxe implements ProjectileSource {

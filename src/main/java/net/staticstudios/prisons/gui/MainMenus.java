@@ -81,7 +81,7 @@ public class MainMenus extends GUIUtils {
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
                 c.createButton(Material.ENDER_CHEST, "&e&lBackpack", List.of("&7&oUpgrade your backpack!"), (p, t) -> {
-                    BackpackMenus.mainMenu(player);
+                    BackpackMenus.open(player, false);
                 }),
                 createGrayPlaceHolder(),
 

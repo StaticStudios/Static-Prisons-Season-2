@@ -22,8 +22,8 @@ public class DataSet {
      * Archive old data in the event that something gets corrupted and a rollback is needed
      */
 //    static void changeOldData() {
-//        File oldData = new File(StaticPrisons.getInstance().getDataFolder(),"data.yml");
-//        if (oldData.exists()) oldData.renameTo(new File(StaticPrisons.getInstance().getDataFolder(), "data/oldServer/" + Instant.now().toEpochMilli() + "-oldData.yml"));
+//        File oldData = new File(StaticPrisons.getInstance().getDataFolder(),"data/server_data.yml");
+//        if (oldData.exists()) oldData.renameTo(new File(StaticPrisons.getInstance().getDataFolder(), "data/oldServer/" + Instant.now().toEpochMilli() + "-olddata/server_data.yml"));
 //    }
     /**
      * Save data async, do not use this if data needs to be instantly saved in the event of a server close
@@ -40,7 +40,7 @@ public class DataSet {
                 }
             }
             try {
-                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
+                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data/server_data.yml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -61,7 +61,7 @@ public class DataSet {
             }
         }
         try {
-            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
+            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data/server_data.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,7 +73,7 @@ public class DataSet {
      */
     public static void init() {
         ALL_DATA = new HashMap<>();
-        FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data.yml"));
+        FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data/server_data.yml"));
         for (String key : fileData.getKeys(false)) {
             try {
                 ALL_DATA.put(key, Data.fromConfigurationSection(key, Objects.requireNonNull(fileData.getConfigurationSection(key))));
@@ -135,7 +135,7 @@ public class DataSet {
         data.setInt(value);
         setData(key, data);
     }
-    @NotNull
+
     public int getInt(String key) {
         return getDataNotNull(key).getInt();
     }
@@ -144,7 +144,7 @@ public class DataSet {
         data.setDouble(value);
         setData(key, data);
     }
-    @NotNull
+
     public double getDouble(String key) {
         return getDataNotNull(key).getDouble();
     }
@@ -153,7 +153,7 @@ public class DataSet {
         data.setLong(value);
         setData(key, data);
     }
-    @NotNull
+
     public long getLong(String key) {
         Data data = getDataNotNull(key);
 
@@ -173,7 +173,7 @@ public class DataSet {
         data.setBoolean(value);
         setData(key, data);
     }
-    @NotNull
+
     public boolean getBoolean(String key) {
         return getDataNotNull(key).getBoolean();
     }

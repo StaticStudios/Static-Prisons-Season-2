@@ -51,7 +51,7 @@ public class CellManager {
             section.set("gridPos", entry.getValue().gridPosition);
         }
         try {
-            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));
+            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data/cells.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,14 +67,14 @@ public class CellManager {
                 section.set("gridPos", entry.getValue().gridPosition);
             }
             try {
-                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));
+                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data/cells.yml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
     public static void load() {
-        FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "cells.yml"));
+        FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data/cells.yml"));
         for (String key : fileData.getKeys(false)) {
             UUID uuid = UUID.fromString(key);
             String name = fileData.getString(key + ".name");

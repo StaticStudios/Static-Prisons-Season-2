@@ -90,14 +90,14 @@ public final class StaticMines implements Listener {
         StaticMines.parent = parent;
 
         if (!StaticMinesConfig.init()) {
-            log("Encountered an error while loading StaticMines!");
+            log(true, "Encountered an error while loading StaticMines!");
             disable();
             return CompletableFuture.completedFuture(null);
         }
         StaticMinesThreadManager.init();
 
         onEnable();
-        StaticMines.log("Successfully enabled Static-Mines");
+        StaticMines.log(true, "Successfully enabled Static-Mines");
         return future;
     }
 
@@ -135,7 +135,6 @@ public final class StaticMines implements Listener {
      * This will stop listening/handling events, unregister all commands and run a few clean-up tasks.
      */
     public static void disable() {
-        log("Successfully disabled Static-Mines");
         StaticMinesThreadManager.shutdown();
         saveMines();
         cleanUp();
@@ -150,6 +149,7 @@ public final class StaticMines implements Listener {
         ORDERED_MINES.clear();
 
         HandlerList.unregisterAll(eventListener);
+        log(true, "Successfully disabled Static-Mines");
     }
 
     /**
@@ -157,7 +157,16 @@ public final class StaticMines implements Listener {
      * @param str The message to log.
      */
     public static void log(String str) {
-        if (StaticMinesConfig.getConfig().getBoolean("disable_logger")) return;
+        log(false, str);
+    }
+
+    /**
+     * Log a message with the StaticMines prefix.
+     * @param ignoreDisabled Whether to ignore the disable_logger setting.
+     * @param str The message to log.
+     */
+    public static void log(boolean ignoreDisabled, String str) {
+        if (!ignoreDisabled && StaticMinesConfig.getConfig().getBoolean("disable_logger")) return;
         Bukkit.getServer().getLogger().info("[StaticMines] " + str);
     }
 
@@ -292,6 +301,8 @@ public final class StaticMines implements Listener {
      * Cleans up anything left behind by StaticMines. This will be called when StaticMines is disabled.
      */
     static void cleanUp() {
+        log("Running cleanup tasks...");
+
         //Stop the refill timer task
         if (refillTimerTask != null) {
             refillTimerTask.cancel();
@@ -328,7 +339,7 @@ public final class StaticMines implements Listener {
         for (StaticMine mine : mines) {
             if (yAxis && mine.getRegion().contains(location.getBlockX(), location.getBlockY(), location.getBlockZ())) {
                 return mine;
-            } else if (mine.getRegion().contains(location.getBlockX(), location.getBlockZ())) {
+            } else if (!yAxis && mine.getRegion().contains(location.getBlockX(), location.getBlockZ())) {
                 return mine;
             }
         }

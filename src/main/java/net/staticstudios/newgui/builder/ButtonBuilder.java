@@ -15,9 +15,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -30,7 +30,7 @@ public final class ButtonBuilder {
     /**
      * @return A new ButtonBuilder instance.
      */
-    public static ButtonBuilder getBuilder() {
+    public static ButtonBuilder builder() {
         return new ButtonBuilder();
     }
 
@@ -39,10 +39,11 @@ public final class ButtonBuilder {
     private Consumer<Player> onMiddleClick = (player) -> {};
     private BiConsumer<InventoryClickEvent, StaticGUI> onClick = (event, gui) -> {};
     private Material icon = Material.STONE;
-    private ItemStack skullItem;
-    private Component name = Component.text("GUI Button");
+    private ItemStack item;
+    private Component name = Component.empty();
     private List<Component> lore = List.of();
     private boolean enchanted = false;
+    private int stackCount = 1;
 
     public ButtonBuilder() {}
 
@@ -103,10 +104,10 @@ public final class ButtonBuilder {
      * @return This ButtonBuilder instance.
      */
     public ButtonBuilder skull(OfflinePlayer player) {
-        skullItem = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
+        item = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
         skullMeta.setOwningPlayer(player);
-        skullItem.setItemMeta(skullMeta);
+        item.setItemMeta(skullMeta);
         return this;
     }
 
@@ -116,12 +117,24 @@ public final class ButtonBuilder {
      * @return This ButtonBuilder instance.
      */
     public ButtonBuilder skull(String base64) {
-        skullItem = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta skullMeta = (SkullMeta) skullItem.getItemMeta();
+        item = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
         PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID(), null);
         profile.setProperty(new ProfileProperty("textures", base64));
         skullMeta.setPlayerProfile(profile);
-        skullItem.setItemMeta(skullMeta);
+        item.setItemMeta(skullMeta);
+        return this;
+    }
+
+    /**
+     * Set properties of this button from an ItemStack
+     * @param item The ItemStack to use as reference
+     * @return This ButtonBuilder instance
+     */
+    public ButtonBuilder fromItem(ItemStack item) {
+        this.item = item.clone();
+        this.name = item.getItemMeta().displayName();
+        this.lore = item.lore();
         return this;
     }
 
@@ -168,22 +181,23 @@ public final class ButtonBuilder {
     }
 
     /**
-     * @param gui The GUI that the button will be added to.
-     *            This can be set to null, however this will mean that the onClick method will not be called.
+     * Sets the stack count for the item of this button.
+     * @param count The stack count.
+     * @return This ButtonBuilder instance.
+     */
+    public ButtonBuilder count(int count) {
+        this.stackCount = count;
+        return this;
+    }
+
+    /**
      * @return a new GUIButton
      */
-    public GUIButton build(@Nullable StaticGUI gui) {
-        if (skullItem != null) {
-            return new GUIButton(onLeftClick, onRightClick, onMiddleClick,
-                    onClick,
-                    skullItem, name, lore, enchanted,
-                    gui);
-        }
-
+    public GUIButton build() {
         return new GUIButton(onLeftClick, onRightClick, onMiddleClick,
-                onClick,
-                icon, name, lore, enchanted,
-                gui);
+                onClick, Objects.requireNonNullElseGet(item, () -> new ItemStack(icon)),
+                name, lore, enchanted, stackCount);
+
     }
 
     private static Component pretty(Component component) {

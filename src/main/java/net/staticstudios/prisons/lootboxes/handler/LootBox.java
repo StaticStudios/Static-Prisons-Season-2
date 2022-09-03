@@ -33,7 +33,7 @@ public abstract class LootBox implements SpreadOutExecution {
     public static void init() {
         //Load them from a file
         lootBoxes.clear();
-        FileConfiguration data = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "lootboxes.yml"));
+        FileConfiguration data = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data/lootboxes.yml"));
         for (String key : data.getKeys(false)) {
             LootBox lootBox = LootBox.loadFromConfigurationSection(data.getConfigurationSection(key));
             lootBoxes.put(key, lootBox);
@@ -74,7 +74,7 @@ public abstract class LootBox implements SpreadOutExecution {
             fileData.set(entry.getKey(), entry.getValue().save());
         }
         try {
-            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "lootboxes.yml"));
+            fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data/lootboxes.yml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -153,7 +153,7 @@ public abstract class LootBox implements SpreadOutExecution {
         item.setItemMeta(meta);
     }
     @Override
-    public void runSpreadOutExecution() {
+    public void execute() {
         updateItemNow();
     }
 

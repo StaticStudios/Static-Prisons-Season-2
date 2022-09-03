@@ -2,7 +2,7 @@ package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.backpacks.PrisonBackpacks;
+import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
@@ -40,7 +40,7 @@ public class AutoSellEnchant extends BaseEnchant {
 
     static void onSell(PrisonPickaxe pickaxe, Player player) {
         PlayerData playerData = new PlayerData(player);
-        PrisonBackpacks.sell(player, (p, r) -> {
+        BackpackManager.sell(player, (p, r) -> {
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&lAuto Sell &7&o(Enchant) &8&l>> &f(x" + r.multiplier().setScale(2, RoundingMode.FLOOR) + ") Sold &b" + PrisonUtils.prettyNum(r.blocksSold()) + " &fblocks for: &a$" + PrisonUtils.prettyNum(r.soldFor())));
         });
     }
