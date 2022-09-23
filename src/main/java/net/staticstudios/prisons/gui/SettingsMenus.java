@@ -8,7 +8,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -28,7 +28,7 @@ public class SettingsMenus extends GUIUtils {
             })));
         } else
             c.setItem(1, c.createButton(Material.DIAMOND, "&bAuto Sell &8(&cDisabled&8)", List.of("&oAutomatically sell your backpack when it's full", "", "&aClick to enable"), (p, t) -> {
-                if (PrisonUtils.Players.canAutoSell(p)) playerData.setIsAutoSellEnabled(true);
+                if (PlayerUtils.canAutoSell(p)) playerData.setIsAutoSellEnabled(true);
                 else p.sendMessage(ChatColor.RED + "You cannot enable auto sell!");
                 open(p, fromCommand);
             }));

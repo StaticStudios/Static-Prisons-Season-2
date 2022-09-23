@@ -4,7 +4,7 @@ package net.staticstudios.prisons.privatemines;
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -65,7 +65,7 @@ public class PrivateMineCommand implements CommandExecutor, TabCompleter {
                     return false;
                 }
                 if (args.length == 1) {
-                    player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/pmine invite <who>"));
+                    player.sendMessage(CommandUtils.getCorrectUsage("/pmine invite <who>"));
                     return false;
                 }
                 UUID uuid = ServerData.PLAYERS.getUUIDIgnoreCase(args[1]);

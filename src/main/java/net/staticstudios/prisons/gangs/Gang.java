@@ -3,12 +3,15 @@ package net.staticstudios.prisons.gangs;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
+import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.io.File;
 import java.io.IOException;
@@ -275,18 +278,7 @@ public class Gang {
             loadGang(uuid, owner, name, members, isPublic, acceptingInvites, friendlyFire, canMembersWithdrawFomBank, rawBlocksMined, blocksMined, secondsPlayed, moneyMade, tokensFound, bankMoney, bankTokens, gangChest);
         }
 
-        BlockBreak.addListener(blockBreak -> {
-            blockBreak.addAfterProcess(bb -> {
-                Gang gang = Gang.getGang(bb.getPlayerData().getUUID());
-                if (gang != null) {
-                    gang.addRawBlocksMined(1);
-                    gang.addBlocksMined((long) (bb.getStats().getBlocksBroken() * bb.getStats().getBlocksBrokenMultiplier()));
-                    if (bb.getStats().getTokensEarned() > 0) {
-                        gang.addTokensFound(bb.getStats().getTokensEarned());
-                    }
-                }
-            });
-        });
+        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new GangListener(), StaticPrisons.getInstance());
 
         loaded = true;
     }

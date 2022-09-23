@@ -1,8 +1,11 @@
 package net.staticstudios.prisons.mines;
 
+import net.kyori.adventure.text.Component;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.mines.api.events.MineCreatedEvent;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.utils.ComponentUtil;
+import net.staticstudios.prisons.utils.Prefix;
 import net.staticstudios.prisons.utils.Warps;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,7 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 public class MineManager implements Listener {
-    static final String MINE_REFILL_MESSAGE = ChatColor.LIGHT_PURPLE + "This mine has been refilled";
+    static final Component MINE_REFILL_MESSAGE = Prefix.MINES.append(Component.text("The mine has been refilled").color(ComponentUtil.WHITE));
     public static void init() {
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new MineManager(), StaticPrisons.getInstance());
         StaticMines.enable(StaticPrisons.getInstance());

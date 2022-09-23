@@ -93,14 +93,8 @@ public class PrivateMineManager {
                     mine.addToWhitelist(uuid);
                 }
             }
-//            StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PrivateMineBlockBreakListener(), StaticPrisons.getInstance());
 
-            BlockBreak.addListener(blockBreak -> {
-                if (!blockBreak.getMine().getId().startsWith("private_mine")) return;
-                PrivateMine privateMine = PrivateMine.MINE_ID_TO_PRIVATE_MINE.get(blockBreak.getMine().getId());
-                privateMine.blockBroken(blockBreak);
-
-            });
+            StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PrivateMineListener(), StaticPrisons.getInstance());
 
             PrivateMine.finishedInitTasks = true;
         });

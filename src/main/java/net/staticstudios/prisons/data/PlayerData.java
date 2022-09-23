@@ -9,6 +9,7 @@ import net.staticstudios.prisons.data.datahandling.DataSet;
 import net.staticstudios.prisons.data.datahandling.DataTypes;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.ComponentUtil;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -416,7 +417,7 @@ public class PlayerData extends DataSet {
     //Settings
     public boolean getIsAutoSellEnabled() {
         boolean value = getBoolean("autoSell");
-        if (value && !PrisonUtils.Players.canAutoSell(this)) {
+        if (value && !PlayerUtils.canAutoSell(this)) {
             setIsAutoSellEnabled(false);
         }
         return value;

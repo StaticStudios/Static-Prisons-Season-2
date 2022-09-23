@@ -2,6 +2,7 @@ package net.staticstudios.prisons.crates;
 
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.*;
@@ -71,7 +72,7 @@ public class Crate {
         colorPrefix = ChatColor.translateAlternateColorCodes('&', colorPrefix);
         if (chance <= 2.5) for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(CRATE_PREFIX + player.getName() + " won " + rewardString + "!" + ChatColor.RESET + colorPrefix + " (" + new DecimalFormat("0.0").format(chance) + "% chance)" + ChatColor.RESET + " from a " + DISPLAY_NAME + "!");
         else player.sendMessage(CRATE_PREFIX + "You've won " + rewardString + "!" + ChatColor.RESET + colorPrefix + " (" + new DecimalFormat("0.0").format(chance) + "% chance)" + ChatColor.RESET + " from a " + DISPLAY_NAME + "!"); //Don't send the player the message if it already gets broadcast
-        if (reward.itemReward != null) PrisonUtils.Players.addToInventory(player, new ItemStack(reward.itemReward));
+        if (reward.itemReward != null) PlayerUtils.addToInventory(player, new ItemStack(reward.itemReward));
         else reward.runnableReward.accept(player);
 
         if (runOnOpen != null) runOnOpen.accept(player);

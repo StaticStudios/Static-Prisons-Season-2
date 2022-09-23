@@ -209,6 +209,7 @@ public class StaticMine {
 
         if (settings.async()) {
             lastRefilledAt = System.currentTimeMillis(); //Set this here so that the timer loop doesn't try and reset it twice at the same time.
+            currentBlockCount = mineRegion.getVolume(); //Set this now so the mine doesn't attempt to refill multiple times at once in certain situations.
             StaticMinesThreadManager.submit(runnable);
         } else {
             runnable.run();

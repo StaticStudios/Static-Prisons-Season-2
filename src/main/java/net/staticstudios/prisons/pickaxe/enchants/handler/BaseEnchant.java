@@ -5,6 +5,7 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ public abstract class BaseEnchant implements Listener {
     public static void init() {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (PrisonUtils.Players.isHoldingRightClick(player)) {
+                if (PlayerUtils.isHoldingRightClick(player)) {
                     ItemStack item = player.getInventory().getItemInMainHand();
                     PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(item);
                     if (pickaxe == null) continue;

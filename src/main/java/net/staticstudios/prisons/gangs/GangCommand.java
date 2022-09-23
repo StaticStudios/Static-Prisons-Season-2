@@ -3,6 +3,7 @@ package net.staticstudios.prisons.gangs;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
+import net.staticstudios.prisons.utils.CommandUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -70,7 +71,7 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                     return false;
                 }
                 if (args.length < 2) {
-                    player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang invite <player>"));
+                    player.sendMessage(CommandUtils.getCorrectUsage("Usage: /gang invite <player>"));
                     return false;
                 }
                 if (!gang.getOwner().equals(player.getUniqueId()) && !gang.isAcceptingInvites()) {
@@ -133,12 +134,12 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                     return false;
                 }
                 if (args.length < 4) {
-                    player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                    player.sendMessage(CommandUtils.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                     return false;
                 }
                 switch (args[1].toLowerCase()) {
                     default -> {
-                        player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                        player.sendMessage(CommandUtils.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                         return false;
                     }
                     case "money" -> {
@@ -148,7 +149,7 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                                 if (args[3].equalsIgnoreCase("all")) amount = gang.getBankMoney();
                                 else amount = Long.parseLong(args[3]);
                             } catch (NumberFormatException e) {
-                                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                                player.sendMessage(CommandUtils.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                                 return false;
                             }
                             if (amount < 1) {
@@ -173,7 +174,7 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                                 if (args[3].equalsIgnoreCase("all")) amount = gang.getBankMoney();
                                 else amount = Long.parseLong(args[3]);
                             } catch (NumberFormatException e) {
-                                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                                player.sendMessage(CommandUtils.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                                 return false;
                             }
                             if (amount < 1) {
@@ -189,7 +190,7 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                             gang.removeBankMoney(amount);
                             player.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You withdrew &a$" + PrisonUtils.addCommasToNumber(amount) + " &ffrom your gang's bank!"));
                         } else {
-                            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                            player.sendMessage(CommandUtils.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                             return false;
                         }
                     }
@@ -200,7 +201,7 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                                 if (args[3].equalsIgnoreCase("all")) amount = gang.getBankTokens();
                                 else amount = Long.parseLong(args[3]);
                             } catch (NumberFormatException e) {
-                                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                                player.sendMessage(CommandUtils.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                                 return false;
                             }
                             if (amount < 1) {
@@ -225,7 +226,7 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                                 if (args[3].equalsIgnoreCase("all")) amount = gang.getBankTokens();
                                 else amount = Long.parseLong(args[3]);
                             } catch (NumberFormatException e) {
-                                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                                player.sendMessage(CommandUtils.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                                 return false;
                             }
                             if (amount < 1) {
@@ -241,7 +242,7 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                             gang.removeBankTokens(amount);
                             player.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You withdrew &e" + PrisonUtils.addCommasToNumber(amount) + " tokens &ffrom your gang's bank!"));
                         } else {
-                            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
+                            player.sendMessage(CommandUtils.getCorrectUsage("Usage: /gang bank <money|tokens> <deposit|withdraw> <amount>"));
                             return false;
                         }
                     }

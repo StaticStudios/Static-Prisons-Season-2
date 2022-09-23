@@ -53,6 +53,8 @@ commands:
     permission: static.staff.developer
   static-mines:
     description: Command to be used by the StaticMines dependency
+    aliases:
+      - staticmines
     permission: static.staff.admin
   setplayerrank:
     description: set the player rank of a player
@@ -336,3 +338,9 @@ commands:
   resetrank:
     description: reset someones rank
     permission: static.staff.admin
+  challenges:
+    aliases:
+      - challenge
+      - quests
+      - quest
+      - objectives

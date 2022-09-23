@@ -4,7 +4,7 @@ import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.customitems.Vouchers;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +27,7 @@ public class WithdrawCommand implements CommandExecutor, TabCompleter {
         }
         PlayerData playerData = new PlayerData(player);
         if (args.length < 2) {
-            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+            player.sendMessage(CommandUtils.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
             return true;
         }
         switch (args[0].toLowerCase()) {
@@ -37,7 +37,7 @@ public class WithdrawCommand implements CommandExecutor, TabCompleter {
                 try {
                     amount = Long.parseLong(args[1]);
                 } catch (NumberFormatException err) {
-                    player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+                    player.sendMessage(CommandUtils.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
                     return false;
                 }
                 if (amount < 1) {
@@ -48,7 +48,7 @@ public class WithdrawCommand implements CommandExecutor, TabCompleter {
                     try {
                         stackCount = Integer.parseInt(args[2]);
                     } catch (NumberFormatException err) {
-                        player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+                        player.sendMessage(CommandUtils.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
                         return false;
                     }
                 }
@@ -73,7 +73,7 @@ public class WithdrawCommand implements CommandExecutor, TabCompleter {
                 try {
                     amount = Long.parseLong(args[1]);
                 } catch (NumberFormatException err) {
-                    player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+                    player.sendMessage(CommandUtils.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
                     return false;
                 }
                 if (amount < 1) {
@@ -84,7 +84,7 @@ public class WithdrawCommand implements CommandExecutor, TabCompleter {
                     try {
                         stackCount = Integer.parseInt(args[2]);
                     } catch (NumberFormatException err) {
-                        player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+                        player.sendMessage(CommandUtils.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
                         return false;
                     }
                 }
@@ -103,7 +103,7 @@ public class WithdrawCommand implements CommandExecutor, TabCompleter {
                     playerData.removeTokens(removed);
                 } else player.sendMessage(ChatColor.RED + "Insufficient Funds!");
             }
-            default -> player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
+            default -> player.sendMessage(CommandUtils.getCorrectUsage("/withdraw <money/tokens> <amount> <stack count (optional)>"));
         }
         return true;
     }

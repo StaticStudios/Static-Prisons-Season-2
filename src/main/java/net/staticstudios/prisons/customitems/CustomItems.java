@@ -40,16 +40,8 @@ public class CustomItems implements Listener { //todo: add an internal mapping t
     }
 
 
-//    @EventHandler
-//    void onDrop(PlayerDropItemEvent e) {
-//        MineBombItem.itemDropped(e);
-//    }
-    @EventHandler //do this to "fight" worldguard
+    @EventHandler
     void onClick(PlayerInteractEvent e) {
-//        if (e.getHand() == null) return;
-//        if (e.getHand().equals(EquipmentSlot.OFF_HAND)) return;
-//        MineBombItem.blockPlaced(e);
-
         for (CustomItem item : ITEMS.values()) {
             if (item.onInteract(e)) {
                 e.setCancelled(true);

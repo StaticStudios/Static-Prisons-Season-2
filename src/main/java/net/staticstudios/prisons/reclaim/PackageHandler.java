@@ -9,6 +9,7 @@ import net.staticstudios.prisons.chat.tags.ChatTags;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -79,37 +80,37 @@ public class PackageHandler {
             //Crate Keys
             case "legendaryKey" -> {
                 handle(playerUUID, packageID, Component.text("Legendary Crate Key").color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD), p -> {
-                    PrisonUtils.Players.addToInventory(p, CustomItems.getLegendaryCrateKey(1));
+                    PlayerUtils.addToInventory(p, CustomItems.getLegendaryCrateKey(1));
                 }, false);
             }
             case "staticKey" -> {
                 handle(playerUUID, packageID, Component.text("Static Crate Key").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD), p -> {
-                    PrisonUtils.Players.addToInventory(p, CustomItems.getStaticCrateKey(1));
+                    PlayerUtils.addToInventory(p, CustomItems.getStaticCrateKey(1));
                 }, false);
             }
             case "staticpKey" -> {
                 handle(playerUUID, packageID, Component.text("Static+ Crate Key").color(NamedTextColor.LIGHT_PURPLE).decorate(TextDecoration.BOLD), p -> {
-                    PrisonUtils.Players.addToInventory(p, CustomItems.getStaticpCrateKey(1));
+                    PlayerUtils.addToInventory(p, CustomItems.getStaticpCrateKey(1));
                 }, false);
             }
 
             //Starter packs
             case "starterPackageT1" -> {
                 handle(playerUUID, packageID, Component.text("Starter Package: Tier 1").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD), p -> {
-                    PrisonUtils.Players.addToInventory(p, CustomItems.getStaticCrateKey(2));
+                    PlayerUtils.addToInventory(p, CustomItems.getStaticCrateKey(2));
                 }, true);
                 if (!playerData.getPlayerRanks().contains("warrior")) playerData.setPlayerRank("warrior");
             }
             case "starterPackageT2" -> {
                 handle(playerUUID, packageID, Component.text("Starter Package: Tier 2").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD), p -> {
-                    PrisonUtils.Players.addToInventory(p, CustomItems.getStaticCrateKey(3));
+                    PlayerUtils.addToInventory(p, CustomItems.getStaticCrateKey(3));
                 }, true);
                 if (!playerData.getPlayerRanks().contains("master")) playerData.setPlayerRank("master");
             }
             case "starterPackageT3" -> {
                 handle(playerUUID, packageID, Component.text("Starter Package: Tier 3").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD), p -> {
-                    PrisonUtils.Players.addToInventory(p, CustomItems.getStaticCrateKey(2));
-                    PrisonUtils.Players.addToInventory(p, CustomItems.getStaticpCrateKey(1));
+                    PlayerUtils.addToInventory(p, CustomItems.getStaticCrateKey(2));
+                    PlayerUtils.addToInventory(p, CustomItems.getStaticpCrateKey(1));
                 }, true);
                 if (!playerData.getPlayerRanks().contains("mythic")) playerData.setPlayerRank("mythic");
             }

@@ -34,14 +34,6 @@ public class PickaxeAbilities {
         ORDERED_ABILITIES.add(METEOR_STRIKE);
         ORDERED_ABILITIES.add(BLACK_HOLE);
 
-        BlockBreak.addListener(blockBreak -> {
-            PrisonPickaxe pickaxe = blockBreak.getPickaxe();
-            Player player = blockBreak.getPlayer();
-            if (pickaxe == null || player == null) return;
-            for (BaseAbility.AbilityHolder ability : BaseAbility.pickaxeAbilities.getOrDefault(pickaxe, new HashSet<>())) {
-                ability.getAbility().onBlockBreak(blockBreak);
-            }
-        });
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), BaseAbility::tickActivateAbilities, 20, 1);
     }
 

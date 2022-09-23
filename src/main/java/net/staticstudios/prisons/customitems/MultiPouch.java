@@ -2,6 +2,7 @@ package net.staticstudios.prisons.customitems;
 
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -52,6 +53,6 @@ public enum MultiPouch implements Pouch<ItemStack> {
 
     @Override
     public void addReward(Player player, ItemStack reward) {
-        PrisonUtils.Players.addToInventory(player, reward);
+        PlayerUtils.addToInventory(player, reward);
     }
 }

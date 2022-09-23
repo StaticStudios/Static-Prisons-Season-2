@@ -2,7 +2,7 @@ package net.staticstudios.prisons.auctionhouse.commands;
 
 import net.staticstudios.prisons.auctionhouse.AuctionHouseMenus;
 import net.staticstudios.prisons.auctionhouse.AuctionManager;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +25,7 @@ public class AuctionHouseCommand implements CommandExecutor, TabCompleter {
         }
         if (args[0].equalsIgnoreCase("hand")) {
             if (args.length == 1) {
-                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/ah hand <price>"));
+                player.sendMessage(CommandUtils.getCorrectUsage("/ah hand <price>"));
                 return false;
             }
             try {
@@ -34,7 +34,7 @@ public class AuctionHouseCommand implements CommandExecutor, TabCompleter {
                     player.getInventory().getItemInMainHand().setAmount(0);
                 }
             } catch (NumberFormatException e) {
-                player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/ah hand <price>"));
+                player.sendMessage(CommandUtils.getCorrectUsage("/ah hand <price>"));
             }
         } else {
             AuctionHouseMenus.openMenu(player, 0);

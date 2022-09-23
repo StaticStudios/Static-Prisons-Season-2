@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customitems.CustomItems;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.Bukkit;
@@ -12,7 +13,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -90,7 +90,7 @@ public class ChatGames {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + player.getName() + " solved &b" + event.question + "!&f Correct answer: &a" + event.correctAnswer + "!&f " +
                                 player.getName() + " won " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward) + "!"));
                     }
-                    PrisonUtils.Players.addToInventory(player, reward);
+                    PlayerUtils.addToInventory(player, reward);
                 }, question, answer);
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     p.sendMessage(Component.text(ChatColor.translateAlternateColorCodes('&', PREFIX + "The first person to solve &b" + question + "&f will receive a reward!")).hoverEvent(Component.text(ChatColor.RED + "Question: " + ChatColor.WHITE + question)));
@@ -116,7 +116,7 @@ public class ChatGames {
                             .add(CustomItems.getStaticCrateKey(1), 10)
                             .getRandom();
 
-                    PrisonUtils.Players.addToInventory(player, reward);
+                    PlayerUtils.addToInventory(player, reward);
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + player.getName() + " correctly unscrambled &b" + event.question + "!&f Correct answer: &a" + event.correctAnswer + "!&f " +
                         player.getName() + " won " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward) + "!"));

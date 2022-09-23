@@ -3,7 +3,7 @@ package net.staticstudios.prisons.admin.commands;
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +21,7 @@ public class ListStaffRankCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) return false;
         if (args.length == 0) {
-            sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/liststaffrank <rank>"));
+            sender.sendMessage(CommandUtils.getCorrectUsage("/liststaffrank <rank>"));
             return false;
         }
         List<String> names = new ArrayList<>();

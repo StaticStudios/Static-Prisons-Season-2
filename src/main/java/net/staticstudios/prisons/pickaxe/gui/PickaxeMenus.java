@@ -4,7 +4,7 @@ import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.gui.MainMenus;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -29,7 +29,7 @@ public class PickaxeMenus extends GUIUtils {
                 "",
                 "&bClick here to create a new pickaxe!"
         ), (p, t) -> {
-            PrisonUtils.Players.addToInventory(p, PrisonPickaxe.createNewPickaxe());
+            PlayerUtils.addToInventory(p, PrisonPickaxe.createNewPickaxe());
             p.closeInventory(); //Prevent spamming of this
         })));
 

@@ -4,6 +4,7 @@ import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.Constants;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.Bukkit;
@@ -31,7 +32,7 @@ public class VoteParty {
                             .getRandom();
                     if (playerData.getIsNitroBoosting()) reward.setAmount(reward.getAmount() * 2);
                     p.sendMessage(ChatColor.WHITE + "You have received " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward) + ChatColor.WHITE + " from the vote party! You won this because you have voted within the past 24 hours!");
-                    PrisonUtils.Players.addToInventory(p, reward);
+                    PlayerUtils.addToInventory(p, reward);
                 } else p.sendMessage(ChatColor.RED + "You missed out on winning rewards from the vote party because you have not voted in the past 24 hours! To make sure this doesn't happen again, type " + ChatColor.GREEN + "/vote");
             }
         }

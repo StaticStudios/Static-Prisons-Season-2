@@ -2,7 +2,7 @@ package net.staticstudios.prisons.admin.commands;
 
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.serverdata.ServerData;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -23,7 +23,7 @@ public class GiveVoteCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
         if (args.length == 0) {
-            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/givevote <who>"));
+            player.sendMessage(CommandUtils.getCorrectUsage("/givevote <who>"));
             return false;
         }
         if (Bukkit.getPlayer(args[0]) == null) {

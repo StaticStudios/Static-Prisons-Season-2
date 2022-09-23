@@ -101,7 +101,7 @@ public class MainMenus extends GUIUtils {
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
                 createLightGrayPlaceHolder(),
-                ench(c.createButton(Material.GUNPOWDER, "&c&lSettings!", List.of("&7&oChange the way you play!"), (p, t) -> {
+                ench(c.createButton(Material.GUNPOWDER, "&c&lSettings", List.of("&7&oChange the way you play!"), (p, t) -> {
                     SettingsMenus.open(p, false);
                 })),
                 createLightGrayPlaceHolder(),

@@ -60,7 +60,7 @@ public class PrisonPickaxe implements SpreadOutExecution {
 
 
         loadPickaxeData();
-        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new Listener(), StaticPrisons.getInstance());
+        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PickaxeListener(), StaticPrisons.getInstance());
     }
 
     public static void loadPickaxeData() {
@@ -614,24 +614,5 @@ public class PrisonPickaxe implements SpreadOutExecution {
     @Override
     public int hashCode() {
         return Objects.hash(pickaxeUUID);
-    }
-
-
-    static class Listener implements org.bukkit.event.Listener {
-        @EventHandler
-        void onInteract(PlayerInteractEvent e) {
-            Player player = e.getPlayer();
-            if (Objects.equals(e.getHand(), EquipmentSlot.OFF_HAND)) return;
-            //Check if the player is holding a pickaxe and is trying to open the enchants menu
-            if (e.getAction().isRightClick()) {
-                if (player.isSneaking()) {
-                    if (checkIsPrisonPickaxe(player.getInventory().getItemInMainHand())) {
-                        if (new PlayerData(player).getIsMobile()) return;
-                        PickaxeMenus.open(player, PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand()));
-                        e.setCancelled(true);
-                    }
-                }
-            }
-        }
     }
 }

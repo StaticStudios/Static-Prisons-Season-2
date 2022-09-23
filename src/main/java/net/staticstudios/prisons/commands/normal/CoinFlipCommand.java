@@ -3,6 +3,7 @@ package net.staticstudios.prisons.commands.normal;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gambling.CoinFlip;
 import net.staticstudios.prisons.gambling.GamblingMenus;
+import net.staticstudios.prisons.utils.CommandUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -28,7 +29,7 @@ public class CoinFlipCommand implements CommandExecutor, TabCompleter {
             return false;
         }
         if (args.length == 1) {
-            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/coinflip <amount> <heads|tails>"));
+            player.sendMessage(CommandUtils.getCorrectUsage("/coinflip <amount> <heads|tails>"));
             return false;
         }
         long amount;
@@ -36,7 +37,7 @@ public class CoinFlipCommand implements CommandExecutor, TabCompleter {
         try {
             amount = Long.parseLong(args[0]);
         } catch (NumberFormatException e) {
-            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/coinflip <amount> <heads|tails>"));
+            player.sendMessage(CommandUtils.getCorrectUsage("/coinflip <amount> <heads|tails>"));
             return false;
         }
         if (args[1].equalsIgnoreCase("heads")) {
@@ -44,7 +45,7 @@ public class CoinFlipCommand implements CommandExecutor, TabCompleter {
         } else if (args[1].equalsIgnoreCase("tails")) {
             isHeads = false;
         } else {
-            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/coinflip <amount> <heads|tails>"));
+            player.sendMessage(CommandUtils.getCorrectUsage("/coinflip <amount> <heads|tails>"));
             return false;
         }
         if (CoinFlip.checkIfThereAreTooManyActiveFlips()) {

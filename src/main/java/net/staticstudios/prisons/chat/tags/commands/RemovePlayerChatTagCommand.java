@@ -5,7 +5,7 @@ import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.chat.tags.ChatTags;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,7 +21,7 @@ public class RemovePlayerChatTagCommand implements CommandExecutor, TabCompleter
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/removechattag <player> <chattag>"));
+            sender.sendMessage(CommandUtils.getCorrectUsage("/removechattag <player> <chattag>"));
             return false;
         }
         if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[0].toLowerCase())) {

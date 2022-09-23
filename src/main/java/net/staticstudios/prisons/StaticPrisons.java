@@ -13,6 +13,8 @@ import net.staticstudios.prisons.auctionhouse.AuctionManager;
 import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.cells.CellManager;
+import net.staticstudios.prisons.challenges.ChallengeManager;
+import net.staticstudios.prisons.challenges.ChallengeType;
 import net.staticstudios.prisons.chat.ChatManager;
 import net.staticstudios.prisons.chat.nicknames.NickColors;
 import net.staticstudios.prisons.commands.CommandManager;
@@ -90,7 +92,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
         safe(this::enableCitizens);
         safe(TeamPrefix::init);
-        safe(StaticPrisons::unloadNetherAndEnd);
         safe(this::loadWorldBoarderAPI);
         safe(PrisonUtils::init);
         safe(MineManager::init);
@@ -111,6 +112,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(AutoSellEnchant::initTimer);
         safe(ConsistencyEnchant::init);
         safe(Kits::init);
+        safe(LevelUp::init);
         safe(TabList::init);
         safe(EventManager::init);
         safe(PlayerRanks::init);
@@ -123,6 +125,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(NickColors::init);
         safe(LeaderboardManager::init);
         safe(CitizensUtils::init);
+        safe(ChallengeManager::init);
 
         StaticGUI.enable(this);
         net.staticstudios.newgui.StaticGUI.enable(this);
@@ -165,12 +168,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         RegisteredServiceProvider<WorldBorderApi> worldBorderApiRegisteredServiceProvider = Bukkit.getServer().getServicesManager().getRegistration(WorldBorderApi.class);
         assert worldBorderApiRegisteredServiceProvider != null;
         worldBorderAPI = worldBorderApiRegisteredServiceProvider.getProvider();
-    }
-
-
-    static void unloadNetherAndEnd() {
-        Bukkit.unloadWorld("world_end", false);
-        Bukkit.unloadWorld("world_nether", false);
     }
 
     public void loadConfig() {
@@ -273,6 +270,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(Gang::saveAllSync);
         safe(BackpackManager::saveBackpacksNow);
         safe(LootBox::saveAllNow);
+        safe(ChallengeManager::saveToFileNow);
         safe(AdminManager::save);
         safe(OutpostManager::save);
         safe(TabList::stop);

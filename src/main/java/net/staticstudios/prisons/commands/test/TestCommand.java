@@ -2,6 +2,9 @@ package net.staticstudios.prisons.commands.test;
 
 import net.staticstudios.prisons.backpacks.Backpack;
 import net.staticstudios.prisons.backpacks.BackpackManager;
+import net.staticstudios.prisons.challenges.Challenge;
+import net.staticstudios.prisons.challenges.ChallengeDuration;
+import net.staticstudios.prisons.challenges.ChallengeType;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -209,17 +212,6 @@ public class TestCommand implements CommandExecutor {
 
 //        TeamPrefix.init();
 
-        Backpack bp = BackpackManager.createBackpack(1);
-        bp.setCapacity(5000);
-        bp.updateItemNow();
-
-        player.getInventory().addItem(bp.getItem());
-        System.out.println(Runtime.getRuntime().availableProcessors());
-        switch ("") {
-            case (""):
-                break;
-                
-        }
         return false;
 
 

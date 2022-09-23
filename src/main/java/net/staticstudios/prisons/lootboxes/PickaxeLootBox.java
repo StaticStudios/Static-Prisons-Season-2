@@ -8,6 +8,7 @@ import net.staticstudios.prisons.lootboxes.handler.LootBox;
 import net.staticstudios.prisons.lootboxes.handler.LootBoxType;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.utils.ComponentUtil;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.Prefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.mines.utils.WeightedElements;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PickaxeLootBox extends LootBox {
+public class PickaxeLootBox extends LootBox { //todo: finish config options for rewards
 
     record PickaxeLootBoxOutline(int tier, long requires, WeightedElements<String> rewards) {}
 
@@ -128,7 +129,7 @@ public class PickaxeLootBox extends LootBox {
             case "tier_10" -> PickaxeTemplates.TIER_10.buildPickaxe();
         };
         ItemStack item = pickaxe.item;
-        PrisonUtils.Players.addToInventory(player, item);
+        PlayerUtils.addToInventory(player, item);
         player.sendMessage(Prefix.LOOT_BOX.append(Component.text("You've been given 1x " + PrisonUtils.Items.getPrettyItemName(item) + "!")));
     }
 

@@ -208,6 +208,9 @@ public class StaticGUI implements InventoryHolder {
      * @param player The player to open the GUI for.
      */
     public void open(Player player) {
+        if (!MENUS.contains(this)) {
+            throw new IllegalStateException("This GUI has already been destroyed, it no longer exists!");
+        }
         player.openInventory(inventory);
     }
 

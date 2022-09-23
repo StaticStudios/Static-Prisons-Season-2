@@ -6,7 +6,7 @@ import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,7 +26,7 @@ public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 
         if (args.length < 2) {
-            sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/setstaffrank <player> <rank>"));
+            sender.sendMessage(CommandUtils.getCorrectUsage("/setstaffrank <player> <rank>"));
             return false;
         }
         if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[0].toLowerCase())) {

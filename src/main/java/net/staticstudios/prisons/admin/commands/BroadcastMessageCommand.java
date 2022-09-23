@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.admin.commands;
 
 import net.staticstudios.prisons.utils.BroadcastMessage;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,7 +18,7 @@ public class BroadcastMessageCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(PrisonUtils.Commands.getCorrectUsage("/broadcast <message>"));
+            sender.sendMessage(CommandUtils.getCorrectUsage("/broadcast <message>"));
         }
 
         String message = String.join(" ", args);

@@ -4,6 +4,7 @@ import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -37,7 +38,7 @@ public class DailyRewardMenus extends GUIUtils {
                     case 11 -> reward = CustomItems.getStaticCrateKey(1);
                 }
                 playerData.setClaimedDailyRewardsRank1At(Instant.now().getEpochSecond());
-                PrisonUtils.Players.addToInventory(p, reward);
+                PlayerUtils.addToInventory(p, reward);
                 p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward));
                 mainMenu(p);
             })));
@@ -56,7 +57,7 @@ public class DailyRewardMenus extends GUIUtils {
                     case 10 -> reward = CustomItems.getLegendaryCrateKey(3);
                 }
                 playerData.setClaimedDailyRewardsAt(Instant.now().getEpochSecond());
-                PrisonUtils.Players.addToInventory(p, reward);
+                PlayerUtils.addToInventory(p, reward);
                 p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward));
                 mainMenu(p);
             })));
@@ -81,7 +82,7 @@ public class DailyRewardMenus extends GUIUtils {
                     case 12 -> reward = CustomItems.getStaticpCrateKey(1);
                 }
                 playerData.setClaimedDailyRewardsRank2At(Instant.now().getEpochSecond());
-                PrisonUtils.Players.addToInventory(p, reward);
+                PlayerUtils.addToInventory(p, reward);
                 p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward));
                 mainMenu(p);
             })));

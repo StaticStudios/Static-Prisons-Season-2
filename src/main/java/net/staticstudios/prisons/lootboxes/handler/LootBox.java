@@ -40,18 +40,6 @@ public abstract class LootBox implements SpreadOutExecution {
             SpreadOutExecutor.remove(lootBox);
         }
 
-
-        BlockBreak.addListener(blockBreak -> {
-            if (blockBreak.getPlayer() == null) return;
-            List<LootBox> lootBoxes = new LinkedList<>();
-            for (ItemStack itemStack : blockBreak.getPlayer().getInventory().getContents()) {
-                LootBox lootBox = fromItem(itemStack);
-                if (lootBox != null) lootBoxes.add(lootBox);
-            }
-            for (LootBox lootBox : lootBoxes) {
-                lootBox.onBlockBreak(blockBreak);
-            }
-        });
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new LootBoxListener(), StaticPrisons.getInstance());
 
         //Save every 5min

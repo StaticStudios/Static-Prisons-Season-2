@@ -14,7 +14,7 @@ import java.util.*;
 public abstract class BaseAbility { //todo: save abilities on the pickaxe
 
     private static final Set<AbilityHolder> activeAbilities = new HashSet<>();
-    static Map<PrisonPickaxe, Set<AbilityHolder>> pickaxeAbilities = new HashMap<>();
+    public static Map<PrisonPickaxe, Set<AbilityHolder>> pickaxeAbilities = new HashMap<>();
 
     public static void tickActivateAbilities() {
         Set<AbilityHolder> finished = new HashSet<>();

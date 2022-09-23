@@ -5,6 +5,7 @@ import net.staticstudios.prisons.auctionhouse.commands.AuctionHouseCommand;
 import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -91,7 +92,7 @@ public class AuctionManager {
         PlayerData playerData = new PlayerData(player);
         if (auction.owner().equals(player.getUniqueId())) {
             auctions.remove(auction);
-            PrisonUtils.Players.addToInventory(player, auction.item());
+            PlayerUtils.addToInventory(player, auction.item());
             player.sendMessage(AH_PREFIX + "You reclaimed " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()));
             return true;
         }
@@ -103,7 +104,7 @@ public class AuctionManager {
         auctions.remove(auction);
         playerData.removeMoney(auction.price());
         new PlayerData(auction.owner()).addMoney(auction.price());
-        PrisonUtils.Players.addToInventory(player, auction.item());
+        PlayerUtils.addToInventory(player, auction.item());
         if (Bukkit.getPlayer(auction.owner()) != null) {
             Bukkit.getPlayer(auction.owner()).sendMessage(AH_PREFIX +
                     player.getName() + " bought " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from you for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
@@ -130,7 +131,7 @@ public class AuctionManager {
             player.sendMessage(AH_PREFIX + ChatColor.RED + "You do not have any auction(s) to claim");
             return;
         }
-        for (ExpiredAuction expiredAuction : expiredAuctions) PrisonUtils.Players.addToInventory(player, expiredAuction.getItem());
+        for (ExpiredAuction expiredAuction : expiredAuctions) PlayerUtils.addToInventory(player, expiredAuction.getItem());
         ExpiredAuction.clearPlayerExpiredAuctions(player.getUniqueId());
         player.sendMessage(AH_PREFIX + "You claimed all of your expired auctions");
     }

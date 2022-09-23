@@ -73,24 +73,5 @@ public class PickaxeEnchants {
         ORDERED_ENCHANTS.add(SPEED);
         ORDERED_ENCHANTS.add(NIGHT_VISION);
 
-
-
-        BlockBreak.addListener(blockBreak -> {
-            PrisonPickaxe pickaxe = blockBreak.getPickaxe();
-            if (pickaxe == null) return;
-            boolean hasTokenator = false;
-            for (BaseEnchant enchant : pickaxe.getEnchants()) {
-                if (pickaxe.getIsEnchantEnabled(enchant)) {
-                    enchant.onBlockBreak(blockBreak);
-                }
-                if (enchant.equals(TOKENATOR)) {
-                    hasTokenator = true;
-                }
-            }
-            if (!hasTokenator) {
-                pickaxe.setEnchantsLevel(TOKENATOR, 1);
-            }
-        });
-
     }
 }

@@ -14,6 +14,7 @@ import net.staticstudios.prisons.backpacks.config.BackpackConfig;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gui.MainMenus;
 import net.staticstudios.prisons.utils.ComponentUtil;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.Prefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
@@ -79,12 +80,12 @@ public class BackpackMenus {
 
         if (backpack1 == null || backpack2 == null) { //There are 2 items in the slots, but one, or both of them, are not backpacks
             if (event.getInventory().getItem(10) != null) {
-                PrisonUtils.Players.addToInventory(plr, event.getInventory().getItem(10));
+                PlayerUtils.addToInventory(plr, event.getInventory().getItem(10));
                 gui.removeButton(10);
             }
 
             if (event.getInventory().getItem(12) != null) {
-                PrisonUtils.Players.addToInventory(plr, event.getInventory().getItem(12));
+                PlayerUtils.addToInventory(plr, event.getInventory().getItem(12));
                 gui.removeButton(12);
             }
             event.setCancelled(true);
@@ -98,20 +99,20 @@ public class BackpackMenus {
 
             if (event.isShiftClick()) {
                 if (event.getInventory().firstEmpty() == 10) {
-                    PrisonUtils.Players.addToInventory(plr, item2);
+                    PlayerUtils.addToInventory(plr, item2);
                     gui.removeButton(12);
                 } else if (event.getInventory().firstEmpty() == 12) {
-                    PrisonUtils.Players.addToInventory(plr, item1);
+                    PlayerUtils.addToInventory(plr, item1);
                     gui.removeButton(10);
                 }
             } else {
                 if (event.getSlot() == 12) {
-                    PrisonUtils.Players.addToInventory(plr, item1);
+                    PlayerUtils.addToInventory(plr, item1);
                     gui.removeButton(10);
                 }
 
                 if (event.getSlot() == 10) {
-                    PrisonUtils.Players.addToInventory(plr, item2);
+                    PlayerUtils.addToInventory(plr, item2);
                     gui.removeButton(12);
                 }
             }
@@ -125,20 +126,20 @@ public class BackpackMenus {
 
             if (event.isShiftClick()) {
                 if (event.getInventory().firstEmpty() == 10) {
-                    PrisonUtils.Players.addToInventory(plr, item2);
+                    PlayerUtils.addToInventory(plr, item2);
                     gui.removeButton(12);
                 } else if (event.getInventory().firstEmpty() == 12) {
-                    PrisonUtils.Players.addToInventory(plr, item1);
+                    PlayerUtils.addToInventory(plr, item1);
                     gui.removeButton(10);
                 }
             } else {
                 if (event.getSlot() == 12) {
-                    PrisonUtils.Players.addToInventory(plr, item1);
+                    PlayerUtils.addToInventory(plr, item1);
                     gui.removeButton(10);
                 }
 
                 if (event.getSlot() == 10) {
-                    PrisonUtils.Players.addToInventory(plr, item2);
+                    PlayerUtils.addToInventory(plr, item2);
                     gui.removeButton(12);
                 }
             }
@@ -157,7 +158,7 @@ public class BackpackMenus {
         gui.setButton(15, ButtonBuilder.builder()
                 .fromItem(result.getItem())
                 .onLeftClick(p -> {
-                    PrisonUtils.Players.addToInventory(p, result.getItem());
+                    PlayerUtils.addToInventory(p, result.getItem());
                     BackpackManager.sellBackpack(p, backpack1, false);
                     BackpackManager.sellBackpack(p, backpack2, false);
                     gui.removeButton(10);
@@ -248,7 +249,7 @@ public class BackpackMenus {
                     if (newBackpacks.size() > 0) {
                         for (Backpack backpack : newBackpacks) {
                             backpack.updateItemNow();
-                            PrisonUtils.Players.addToInventory(plr, backpack.getItem());
+                            PlayerUtils.addToInventory(plr, backpack.getItem());
                         }
                         plr.sendMessage(Prefix.BACKPACKS.append(Component.text("You combined " + (newBackpacks.size() * 2) + " backpacks!").color(ComponentUtil.GREEN)));
                         plr.closeInventory();

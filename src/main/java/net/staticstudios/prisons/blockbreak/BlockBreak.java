@@ -30,14 +30,14 @@ public class BlockBreak {
         Bukkit.getPluginManager().registerEvents(new BlockBreak.Listener(), StaticPrisons.getInstance());
     }
 
-    static List<Consumer<BlockBreak>> blockBreakListeners = new LinkedList<>();
-
-    /**
-     * Add a listener to be called when a block is broken.
-     */
-    public static void addListener(Consumer<BlockBreak> listener) {
-        blockBreakListeners.add(listener);
-    }
+//    static List<Consumer<BlockBreak>> blockBreakListeners = new LinkedList<>();
+//
+//    /**
+//     * Add a listener to be called when a block is broken.
+//     */
+//    public static void addListener(Consumer<BlockBreak> listener) {
+//        blockBreakListeners.add(listener);
+//    }
 
     private final BlockBreakStats stats = new BlockBreakStats();
 
@@ -59,15 +59,6 @@ public class BlockBreak {
     public BlockBreak addAfterProcess(Consumer<BlockBreak> consumer) {
         runAfterProcess.add(consumer);
         return this;
-    }
-
-
-    private boolean isCancelled = false;
-    public boolean isCancelled() {
-        return isCancelled;
-    }
-    public void setCancelled(boolean cancelled) {
-        isCancelled = cancelled;
     }
 
 
@@ -157,58 +148,52 @@ public class BlockBreak {
         return this;
     }
 
-    /**
-     *
-     * @return true if the block was successfully "broken", false if it was not.
-     */
-    public boolean process() {
-        for (Consumer<BlockBreak> listener : blockBreakListeners) {
-            if (isCancelled) break;
-            listener.accept(this);
+    public void process() {
+        new BlockBreakProcessEvent(this).callEvent();
+//        for (Consumer<BlockBreak> listener : blockBreakListeners) {
+//            if (isCancelled) break;
+//            listener.accept(this);
+//        }
+
+
+        if (!isSimulated && blockLocation != null) {
+            if (blockBreakEvent != null) {
+                blockBreakEvent.setCancelled(true);
+            }
+            MineBlock mb = MineBlock.fromMaterial(blockLocation.getBlock().getType());
+            if (mb != null && !mb.material().equals(Material.AIR)) {
+                stats.getMinedBlocks().put(mb, stats.getMinedBlocks().getOrDefault(mb, 0L) + 1);
+            }
+            blockLocation.getBlock().setType(Material.AIR, false);
+        }
+        stats.setBlocksBroken(stats.getBlocksBroken() + 1);
+        stats.setRawBlockBroken(stats.getRawBlockBroken() + 1);
+        for (Consumer<BlockBreak> consumer : runAfterProcess) {
+            consumer.accept(this);
         }
 
+        //Add stats to playerData and pickaxe
+        playerData.addMoney((long) (stats.getMoneyEarned() * stats.getMoneyMultiplier()));
+        playerData.addTokens((long) (stats.getTokensEarned() * stats.getTokenMultiplier()));
+        playerData.addPlayerXP((long) (stats.getXpEarned() * stats.getXpMultiplier()));
+        playerData.addRawBlocksMined(stats.getRawBlockBroken());
+        playerData.addBlocksMined(stats.getBlocksBroken());
 
-        if (!isCancelled) {
-            if (!isSimulated && blockLocation != null) {
-                if (blockBreakEvent != null) {
-                    blockBreakEvent.setCancelled(true);
-                }
-                MineBlock mb = MineBlock.fromMaterial(blockLocation.getBlock().getType());
-                if (mb != null && !mb.material().equals(Material.AIR)) {
-                    stats.getMinedBlocks().put(mb, stats.getMinedBlocks().getOrDefault(mb, 0L) + 1);
-                }
-                blockLocation.getBlock().setType(Material.AIR, false);
-            }
-            stats.setBlocksBroken(stats.getBlocksBroken() + 1);
-            stats.setRawBlockBroken(stats.getRawBlockBroken() + 1);
-            for (Consumer<BlockBreak> consumer : runAfterProcess) {
-                consumer.accept(this);
-            }
-
-            //Add stats to playerData and pickaxe
-            playerData.addMoney((long) (stats.getMoneyEarned() * stats.getMoneyMultiplier()));
-            playerData.addTokens((long) (stats.getTokensEarned() * stats.getTokenMultiplier()));
-            playerData.addPlayerXP((long) (stats.getXpEarned() * stats.getXpMultiplier()));
-            playerData.addRawBlocksMined(stats.getRawBlockBroken());
-            playerData.addBlocksMined(stats.getBlocksBroken());
-
-            //Apply the blocksBrokenMultiplier
-            stats.getMinedBlocks().replaceAll((k, v) -> (long) (v * stats.getBlocksBrokenMultiplier()));
+        //Apply the blocksBrokenMultiplier
+        stats.getMinedBlocks().replaceAll((k, v) -> (long) (v * stats.getBlocksBrokenMultiplier()));
 
 //            boolean backpackWasFull = playerData.getBackpackIsFull();
-            if (player != null) {
-                BackpackManager.addToBackpacks(player, stats.getMinedBlocks());
-            }
-
-            if (pickaxe != null) {
-                pickaxe.addXp((long) (2 * stats.getRawBlockBroken() * stats.getXpMultiplier()));
-                pickaxe.addBlocksBroken(stats.getBlocksBroken());
-                pickaxe.addRawBlocksBroken(stats.getRawBlockBroken());
-            }
-
-            mine.removeBlocks(stats.getBlocksBroken());
+        if (player != null) {
+            BackpackManager.addToBackpacks(player, stats.getMinedBlocks());
         }
-        return isCancelled;
+
+        if (pickaxe != null) {
+            pickaxe.addXp((long) (2 * stats.getRawBlockBroken() * stats.getXpMultiplier()));
+            pickaxe.addBlocksBroken(stats.getBlocksBroken());
+            pickaxe.addRawBlocksBroken(stats.getRawBlockBroken());
+        }
+
+        mine.removeBlocks(stats.getBlocksBroken());
     }
 
 

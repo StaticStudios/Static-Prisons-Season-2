@@ -4,6 +4,7 @@ import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -58,7 +59,7 @@ public class CellBlockShop {
                     return;
                 }
                 playerData.removeTokens(price);
-                PrisonUtils.Players.addToInventory(p, new ItemStack(mat, 64));
+                PlayerUtils.addToInventory(p, new ItemStack(mat, 64));
                 p.sendMessage(ChatColor.GREEN + "You bought 64x " + itemName + " for " + PrisonUtils.prettyNum(price) + " Tokens!");
                 openMenu(p, page, fromCommand);
             }), 64));

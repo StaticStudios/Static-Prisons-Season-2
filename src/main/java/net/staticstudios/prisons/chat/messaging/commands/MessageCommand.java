@@ -3,7 +3,7 @@ package net.staticstudios.prisons.chat.messaging.commands;
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.chat.messaging.MessageHandler;
 import net.staticstudios.prisons.data.serverdata.ServerData;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,7 +22,7 @@ public class MessageCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player player)) return false;
         if (args.length < 2) {
-            player.sendMessage(PrisonUtils.Commands.getCorrectUsage("/msg <who> <what>"));
+            player.sendMessage(CommandUtils.getCorrectUsage("/msg <who> <what>"));
             return false;
         }
         Player receiver = Bukkit.getPlayer(args[0]);

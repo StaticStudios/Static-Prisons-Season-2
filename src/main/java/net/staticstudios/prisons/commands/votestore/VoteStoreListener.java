@@ -4,7 +4,7 @@ import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.reclaim.PackageHandler;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -27,7 +27,7 @@ public class VoteStoreListener implements CommandExecutor {
                 playerData.addVotes(1);
                 playerData.setLastVotedAt(Instant.now().toEpochMilli());
                 Player player = Bukkit.getPlayer(uuid);
-                PrisonUtils.Players.addToInventory(player, CustomItems.getVoteCrateKey(1));
+                PlayerUtils.addToInventory(player, CustomItems.getVoteCrateKey(1));
                 for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(ChatColor.AQUA + player.getName() + ChatColor.WHITE + " voted for the server with " + ChatColor.GREEN + "/vote");
                 player.sendMessage(ChatColor.AQUA + "You have received 1x Vote Key!");
                 VoteParty.addVoteToVoteParty();
