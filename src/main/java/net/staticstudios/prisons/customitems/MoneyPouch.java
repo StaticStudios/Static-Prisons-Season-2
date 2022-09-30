@@ -24,8 +24,8 @@ public enum MoneyPouch implements Pouch<Long> {
 
     MoneyPouch(Component tier, String configMinValue, String configMaxValue) {
         this.tier = tier;
-        this.minValue = StaticPrisons.getInstance().getConfig().getLong(configMinValue);
-        this.maxValue = StaticPrisons.getInstance().getConfig().getLong(configMaxValue);
+        this.minValue = getConfig().getLong(configMinValue);
+        this.maxValue = getConfig().getLong(configMaxValue);
     }
 
     @Override
