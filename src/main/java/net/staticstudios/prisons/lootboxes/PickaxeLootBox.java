@@ -23,6 +23,7 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class PickaxeLootBox extends LootBox { //todo: finish config options for rewards
 
@@ -37,8 +38,9 @@ public class PickaxeLootBox extends LootBox { //todo: finish config options for 
             long requires = section.getLong(key + ".requires");
             ConfigurationSection rewards = section.getConfigurationSection(key + ".rewards.pickaxes");
             WeightedElements<String> weightedRewards = new WeightedElements<>();
+            assert rewards != null;
             for (String k : rewards.getKeys(false)) {
-                weightedRewards.add(k, Double.parseDouble(rewards.getString(k)));
+                weightedRewards.add(k, Double.parseDouble(Objects.requireNonNull(rewards.getString(k))));
             }
             TIERS.put(tier, new PickaxeLootBoxOutline(tier, requires, weightedRewards));
         }
@@ -130,7 +132,7 @@ public class PickaxeLootBox extends LootBox { //todo: finish config options for 
         };
         ItemStack item = pickaxe.item;
         PlayerUtils.addToInventory(player, item);
-        player.sendMessage(Prefix.LOOT_BOX.append(Component.text("You've been given 1x " + PrisonUtils.Items.getPrettyItemName(item) + "!")));
+        player.sendMessage(Prefix.LOOT_BOX.append(Component.text("You've been given 1x ")).append(Objects.requireNonNull(item.getItemMeta().displayName())));
     }
 
     @Override

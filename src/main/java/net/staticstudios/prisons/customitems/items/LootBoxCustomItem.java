@@ -23,8 +23,11 @@ public enum LootBoxCustomItem implements CustomItem {
     TOKEN_8(8, "token", "token_lootbox_8"),
     TOKEN_9(9, "token", "token_lootbox_9"),
     TOKEN_10(10, "token", "token_lootbox_10"),
-    PICKAXE_1(1, "pickaxe", "pickaxe_lootbox_1");
-    //todo: add more pickaxe lootboxes
+    PICKAXE_1(1, "pickaxe", "pickaxe_lootbox_1"),
+    PICKAXE_2(2, "pickaxe", "pickaxe_lootbox_2"),
+    PICKAXE_3(3, "pickaxe", "pickaxe_lootbox_3"),
+    PICKAXE_4(4, "pickaxe", "pickaxe_lootbox_4"),
+    PICKAXE_5(5, "pickaxe", "pickaxe_lootbox_5");
 
     private final int tier;
     private final String type;
