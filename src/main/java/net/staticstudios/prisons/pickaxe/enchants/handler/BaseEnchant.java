@@ -1,10 +1,13 @@
 package net.staticstudios.prisons.pickaxe.enchants.handler;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -58,16 +61,12 @@ public abstract class BaseEnchant implements Listener {
     public int getPickaxeLevelRequirement() {
         return pickaxeLevelRequirement;
     }
-    private int playerLevelRequirement;
-    public int getPlayerLevelRequirement() {
-        return playerLevelRequirement;
-    }
 
 
     public BaseEnchant(String id, String name, int maxLevel, long price, String... desc) {
         ENCHANT_ID = id;
         DISPLAY_NAME = ChatColor.translateAlternateColorCodes('&', name);
-        UNFORMATTED_DISPLAY_NAME= ChatColor.stripColor(DISPLAY_NAME);
+        UNFORMATTED_DISPLAY_NAME = ChatColor.stripColor(DISPLAY_NAME);
         MAX_LEVEL = maxLevel;
         PRICE = price;
         for (int i = 0; i < desc.length; i++) desc[i] = ChatColor.translateAlternateColorCodes('&', desc[i]);
@@ -77,10 +76,6 @@ public abstract class BaseEnchant implements Listener {
 
     public BaseEnchant setPickaxeLevelRequirement(int level) {
         pickaxeLevelRequirement = level;
-        return this;
-    }
-    public BaseEnchant setPlayerLevelRequirement(int level) {
-        playerLevelRequirement = level;
         return this;
     }
 
@@ -140,12 +135,12 @@ public abstract class BaseEnchant implements Listener {
     public boolean tryToBuyLevels(Player player, PrisonPickaxe pickaxe, long levelsToBuy) {
         PlayerData playerData = new PlayerData(player);
         if (levelsToBuy <= 0) {
-            player.sendMessage(org.bukkit.ChatColor.RED + "You do not have enough tokens to buy this!");
+            player.sendMessage(pickaxe.getNameAsMessagePrefix().append(Component.text("You do not have enough tokens to buy this!").color(ComponentUtil.RED)));
             return false;
         }
         levelsToBuy = Math.min(getMaxLevel(pickaxe.getEnchantTier(this)), pickaxe.getEnchantLevel(ENCHANT_ID) + levelsToBuy) - pickaxe.getEnchantLevel(ENCHANT_ID);
         if (levelsToBuy <= 0) {
-            player.sendMessage(org.bukkit.ChatColor.RED + "This enchant is already at its max level!");
+            player.sendMessage(pickaxe.getNameAsMessagePrefix().append(Component.text("This enchant is already at its max level!").color(ComponentUtil.RED)));
             return false;
         }
         if (playerData.getTokens() >= PRICE * levelsToBuy) {
@@ -154,11 +149,16 @@ public abstract class BaseEnchant implements Listener {
             pickaxe.addEnchantLevel(ENCHANT_ID, (int) levelsToBuy);
             int newLevel = pickaxe.getEnchantLevel(ENCHANT_ID);
             pickaxe.tryToUpdateLore();
-            if (pickaxe.getIsEnchantEnabled(ENCHANT_ID)) onUpgrade(player, pickaxe, oldLevel, newLevel);
-            player.sendMessage(org.bukkit.ChatColor.AQUA + "You successfully upgraded your pickaxe!");
+            if (pickaxe.getIsEnchantEnabled(ENCHANT_ID)) {
+                onUpgrade(player, pickaxe, oldLevel, newLevel);
+            }
+            player.sendMessage(pickaxe.getNameAsMessagePrefix().append(Component.text("Upgraded ").color(ComponentUtil.WHITE))
+                    .append(LegacyComponentSerializer.legacyAmpersand().deserialize(DISPLAY_NAME))
+                    .append(Component.text(" " + levelsToBuy + " time(s)!").color(ComponentUtil.WHITE)));
+
             return true;
         }
-        player.sendMessage(org.bukkit.ChatColor.RED + "You do not have enough tokens to buy this!");
+        player.sendMessage(pickaxe.getNameAsMessagePrefix().append(Component.text("You do not have enough tokens to buy this!").color(ComponentUtil.RED)));
         return false;
     }
 

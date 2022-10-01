@@ -12,6 +12,8 @@ import net.staticstudios.prisons.backpacks.selling.SellReceipt;
 import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mines.MineBlock;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.enchants.MerchantEnchant;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.Prefix;
@@ -218,9 +220,17 @@ public class BackpackManager {
                 player.getInventory().remove(itemStack);
             }
 
+            double multiplier = playerData.getMoneyMultiplier();
+            PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
+            if (pickaxe != null) {
+                multiplier += MerchantEnchant.getMultiplier(pickaxe);
+            }
+
+            totalValue *= multiplier;
+
             playerData.addMoney(totalValue);
 
-            player.sendMessage(Prefix.AUTO_SELL.append(Component.text("(" + BigDecimal.valueOf(playerData.getMoneyMultiplier()).setScale(2, RoundingMode.FLOOR) + "x) Sold ").color(ComponentUtil.WHITE)
+            player.sendMessage(Prefix.AUTO_SELL.append(Component.text("(" + BigDecimal.valueOf(multiplier).setScale(2, RoundingMode.FLOOR) + "x) Sold ").color(ComponentUtil.WHITE)
                     .append(Component.text(PrisonUtils.prettyNum(totalAmount)).color(ComponentUtil.AQUA))
                     .append(Component.text(" blocks for: ").color(ComponentUtil.WHITE))
                     .append(Component.text("$" + PrisonUtils.prettyNum(totalValue)).color(ComponentUtil.GREEN))
@@ -312,7 +322,15 @@ public class BackpackManager {
         }
 
         double multiplier = playerData.getMoneyMultiplier();
-        playerData.addMoney((long) (soldFor * multiplier));
+        PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
+        if (pickaxe != null) {
+            multiplier += MerchantEnchant.getMultiplier(pickaxe);
+            System.out.println(MerchantEnchant.getMultiplier(pickaxe));
+        }
+
+        soldFor *= multiplier;
+
+        playerData.addMoney(soldFor);
 
         if (blocksSold > 0) {
             runIfWasNotEmpty.accept(player, new SellReceipt(BigDecimal.valueOf(multiplier), blocksSold, soldFor));

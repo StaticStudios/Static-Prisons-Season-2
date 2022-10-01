@@ -43,7 +43,7 @@ public class Prefix {
             .append(Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true));
 
     public static final Component CHALLENGES = Component.empty()
-            .append(Component.text("Challenges").color(ComponentUtil.GOLD).decoration(TextDecoration.BOLD, true))
+            .append(Component.text("Challenges").color(ComponentUtil.RED).decoration(TextDecoration.BOLD, true))
             .append(Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true));
 
     public static final Component MINES = Component.empty()

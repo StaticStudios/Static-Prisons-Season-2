@@ -1,12 +1,7 @@
 package net.staticstudios.prisons.challenges;
 
-
-import net.staticstudios.prisons.StaticPrisons;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,20 +11,15 @@ public class ChallengeTemplate {
     public final long GOAL;
     public final int TIER;
 
-    public ChallengeTemplate(ChallengeType<?> type, ChallengeDuration duration, long goal, int tier) {
+    ChallengeTemplate(ChallengeType<?> type, ChallengeDuration duration, long goal, int tier) {
         this.TYPE = type;
         this.DURATION = duration;
         this.GOAL = goal;
         this.TIER = tier;
     }
 
-    public Challenge toChallenge() {
-        return new Challenge(TYPE, DURATION, GOAL, 0, TIER, System.currentTimeMillis());
-    }
-
     public static void loadTemplates(ConfigurationSection config) {
         Challenge.CHALLENGE_TEMPLATES.clear();
-
 
         for (String key : config.getKeys(false)) {
             ChallengeDuration duration;
@@ -64,5 +54,14 @@ public class ChallengeTemplate {
                 }
             }
         }
+    }
+
+    /**
+     * Convert this template into a challenge
+     *
+     * @return A challenge which uses this template's properties
+     */
+    public Challenge toChallenge() {
+        return new Challenge(TYPE, DURATION, GOAL, 0, TIER, System.currentTimeMillis());
     }
 }

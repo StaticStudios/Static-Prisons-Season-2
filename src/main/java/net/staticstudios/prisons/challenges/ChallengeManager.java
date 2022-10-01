@@ -12,16 +12,36 @@ import java.io.IOException;
 import java.util.*;
 
 public class ChallengeManager {
+    public static long HOURLY_CHALLENGE_COST;
+    public static long DAILY_CHALLENGE_COST;
+    public static long WEEKLY_CHALLENGE_COST;
+
+    public static FreeChallenge FREE_HOURLY_CHALLENGES;
+    public static FreeChallenge FREE_DAILY_CHALLENGES;
+    public static FreeChallenge FREE_WEEKLY_CHALLENGES;
+
     public static void init() {
         ChallengeType.init();
         loadFromFile();
+
+        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new ChallengeListener(), StaticPrisons.getInstance());
 
         CommandManager.registerCommand("challenges", new ChallengesCommand());
 
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), ChallengeManager::saveToFile, 20 * 60 * 3, 20 * 60 * 5);
 
+
         File file = new File(StaticPrisons.getInstance().getDataFolder(), "challenges.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        HOURLY_CHALLENGE_COST = config.getLong("hourly_cost");
+        DAILY_CHALLENGE_COST = config.getLong("daily_cost");
+        WEEKLY_CHALLENGE_COST = config.getLong("weekly_cost");
+
+        FREE_HOURLY_CHALLENGES = new FreeChallenge(config.getInt("free_challenges.hourly.every"), config.getInt("free_challenges.hourly.amount"));
+        FREE_DAILY_CHALLENGES = new FreeChallenge(config.getInt("free_challenges.daily.every"), config.getInt("free_challenges.daily.amount"));
+        FREE_WEEKLY_CHALLENGES = new FreeChallenge(config.getInt("free_challenges.weekly.every"), config.getInt("free_challenges.weekly.amount"));
+
         ChallengeTemplate.loadTemplates(Objects.requireNonNull(config.getConfigurationSection("challenges")));
         ChallengeReward.loadRewards(Objects.requireNonNull(config.getConfigurationSection("rewards")));
     }
@@ -29,6 +49,7 @@ public class ChallengeManager {
     public static void loadFromFile() {
         File file = new File(StaticPrisons.getInstance().getDataFolder(), "data/challenges.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
         for (String key : config.getKeys(false)) {
             UUID uuid = UUID.fromString(key);
             Map<String, List<Challenge>> challenges = new HashMap<>();

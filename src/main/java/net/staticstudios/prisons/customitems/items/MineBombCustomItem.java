@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.customitems.minebombs;
+package net.staticstudios.prisons.customitems.items;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -27,27 +27,41 @@ import java.util.Map;
 import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
 import static net.staticstudios.prisons.utils.ComponentUtil.LIGHT_GRAY;
 
-public enum MineBomb implements CustomItem {
+public enum MineBombCustomItem implements CustomItem {
     TIER_1(1, "mine_bomb_1", "&e&lSmall Mine Bomb", new PreComputerMineBomb(15)),
     TIER_2(2, "mine_bomb_2", "&6&lMedium Mine Bomb", new PreComputerMineBomb(20)),
     TIER_3(3, "mine_bomb_3", "&c&lLarge Mine Bomb", new PreComputerMineBomb(27)),
     TIER_4(4, "mine_bomb_4", "&4&lHUGE Mine Bomb", new PreComputerMineBomb(40));
 
 
+    private static final NamespacedKey MINE_BOMB_KEY = new NamespacedKey(StaticPrisons.getInstance(), "mineBomb");
+    private static final int VIRTUAL_FORTUNE = 500;
     private final int tier;
     private final String id;
     private final Component name;
     private final PreComputerMineBomb mineBomb;
 
-    private static final NamespacedKey MINE_BOMB_KEY = new NamespacedKey(StaticPrisons.getInstance(), "mineBomb");
-    private static final int VIRTUAL_FORTUNE = 500;
-
-    MineBomb(int tier, String id, String displayName, PreComputerMineBomb mineBomb) {
+    MineBombCustomItem(int tier, String id, String displayName, PreComputerMineBomb mineBomb) {
         this.tier = tier;
         this.id = id;
         this.name = LegacyComponentSerializer.legacyAmpersand().deserialize(displayName).decoration(ITALIC, false);
         this.mineBomb = mineBomb;
         register();
+    }
+
+    static ItemStack getMineBomb(int tier, Component name) {
+        ItemStack item = new ItemStack(Material.TNT);
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(MINE_BOMB_KEY, PersistentDataType.INTEGER, tier);
+        meta.displayName(name);
+        meta.lore(List.of(
+                Component.empty(),
+                Component.text("Place me in a mine and I'll explode!").color(LIGHT_GRAY).decorate(ITALIC)
+        ));
+        meta.addEnchant(Enchantment.LURE, 1, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+        item.setItemMeta(meta);
+        return item;
     }
 
     @Override
@@ -90,30 +104,13 @@ public enum MineBomb implements CustomItem {
 
 
         Map<MineBlock, Long> map = new HashMap<>();
-        for (Map.Entry<Material, Long> entry: mineBomb.explode(mine, block.getLocation()).entrySet()) {
+        for (Map.Entry<Material, Long> entry : mineBomb.explode(mine, block.getLocation()).entrySet()) {
             map.put(MineBlock.fromMaterial(entry.getKey()), entry.getValue() * VIRTUAL_FORTUNE);
         }
         mine.removeBlocks(mineBomb.blocksChanged);
         e.getItem().setAmount(e.getItem().getAmount() - 1);
         BackpackManager.addToBackpacks(e.getPlayer(), map);
         return true;
-    }
-
-    static ItemStack getMineBomb(int tier, Component name) {
-        ItemStack item = new ItemStack(Material.TNT);
-        ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(MINE_BOMB_KEY, PersistentDataType.INTEGER, tier);
-        meta.displayName(name);
-        meta.lore(
-                List.of(
-                        Component.empty(),
-                        Component.text("Place me in a mine and I'll explode!").color(LIGHT_GRAY).decorate(ITALIC)
-                )
-        );
-        meta.addEnchant(Enchantment.LURE, 1, true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
-        item.setItemMeta(meta);
-        return item;
     }
 
 }

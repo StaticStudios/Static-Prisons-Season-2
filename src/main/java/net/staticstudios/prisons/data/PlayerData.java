@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.ChatColor;
+import net.staticstudios.prisons.challenges.ChallengeDuration;
 import net.staticstudios.prisons.data.datahandling.DataSet;
 import net.staticstudios.prisons.data.datahandling.DataTypes;
 import net.staticstudios.prisons.data.serverdata.ServerData;
@@ -15,10 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerData extends DataSet {
     private static final DataTypes type = DataTypes.PLAYERS;
@@ -121,13 +119,15 @@ public class PlayerData extends DataSet {
     private static final int BASE_XP_PER_LEVEL = 1000;
     private static final double LEVEL_RATE_OF_INCREASE = 2.4;
     public static long getLevelRequirement(int level) {
-        if (level <= 0) return BASE_XP_PER_LEVEL;
+        if (level < 0) return BASE_XP_PER_LEVEL;
         return (long) ((long) BASE_XP_PER_LEVEL * level + level * Math.pow(LEVEL_RATE_OF_INCREASE * level, LEVEL_RATE_OF_INCREASE));
     }
     public long getNextLevelRequirement() {
         return getLevelRequirement(getPlayerLevel() + 1);
     }
     void updatePlayerLevel() {
+
+        Player player = Bukkit.getPlayer(uuid);
         //Calculate player level
         while (true) {
             long xp = getPlayerXP();
@@ -138,8 +138,10 @@ public class PlayerData extends DataSet {
             }
             if (xp >= getNextLevelRequirement()) {
                 addPlayerLevel(1);
-                if (Bukkit.getPlayer(uuid) != null) Bukkit.getPlayer(uuid).sendMessage("You leveled up to level " + ChatColor.YELLOW + ChatColor.BOLD + PrisonUtils.addCommasToNumber(getPlayerLevel()) + "!" + ChatColor.RESET +
-                        "\nNext level: " + ChatColor.YELLOW + ChatColor.BOLD + PrisonUtils.prettyNum(getPlayerXP()) + "/" +PrisonUtils.prettyNum(getNextLevelRequirement()) + " XP");
+                if (player != null) { //todo: components
+                    player.sendMessage("You leveled up to level " + ChatColor.YELLOW + ChatColor.BOLD + PrisonUtils.addCommasToNumber(getPlayerLevel()) + "!" + ChatColor.RESET +
+                            "\nNext level: " + ChatColor.YELLOW + ChatColor.BOLD + PrisonUtils.prettyNum(getPlayerXP()) + "/" + PrisonUtils.prettyNum(getNextLevelRequirement()) + " XP");
+                }
                 if (getPlayerLevel() % 10 == 0) {
                     String msg = ServerData.PLAYERS.getName(uuid) + " has reached level " + ChatColor.YELLOW + ChatColor.BOLD + PrisonUtils.addCommasToNumber(getPlayerLevel()) + "!";
                     for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(msg);
@@ -150,6 +152,21 @@ public class PlayerData extends DataSet {
             else break;
         }
 
+        if (player != null) {
+            player.setLevel(getPlayerLevel());
+            player.setExp(Math.max(0f, (float) (getPlayerXP() - getLevelRequirement(getPlayerLevel())) / (getNextLevelRequirement() - getLevelRequirement(getPlayerLevel()))));
+        }
+    }
+
+    public static int getLevelFromXP(long xp) {
+        int lvl = 0;
+        while (true) {
+            if (lvl > 10000) break;
+            if (xp >= getLevelRequirement(lvl + 1)) {
+                lvl++;
+            } else break;
+        }
+        return lvl;
     }
     public int getPlayerLevel() {
         return getInt("playerLevel");
@@ -358,26 +375,14 @@ public class PlayerData extends DataSet {
     }
 
     public String getSidebarRank() {
-        switch (getPlayerRank()) {
-            case "warrior" -> {
-                return "Warrior";
-            }
-            case "master" -> {
-                return "Master";
-            }
-            case "mythic" -> {
-                return "Mythic";
-            }
-            case "static" -> {
-                return "Static";
-            }
-            case "staticp" -> {
-                return "Static+";
-            }
-            default -> {
-                return "Member";
-            }
-        }
+        return switch (getPlayerRank()) {
+            case "warrior" -> "Warrior";
+            case "master" -> "Master";
+            case "mythic" -> "Mythic";
+            case "static" -> "Static";
+            case "staticp" -> "Static+";
+            default -> "Member";
+        };
     }
 
     public PlayerData setChatTags(List<String> value) {
@@ -772,5 +777,14 @@ public class PlayerData extends DataSet {
     }
     public boolean canUsePickaxeAbility() {
         return getLastUsedPickaxeAbility() + (1000 * 60 * 15) < System.currentTimeMillis();
+    }
+
+    public long getLastGotFreeChallengeAt(ChallengeDuration duration) {
+        return getLong("lastGotFreeChallengeAt" + duration);
+    }
+
+    public PlayerData setLastGotFreeChallengeAt(ChallengeDuration duration, long value) {
+        setLong("lastGotFreeChallengeAt" + duration, value);
+        return this;
     }
 }

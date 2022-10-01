@@ -1,7 +1,8 @@
-package net.staticstudios.prisons.customitems;
+package net.staticstudios.prisons.customitems.pouches;
 
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.customitems.Vouchers;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;

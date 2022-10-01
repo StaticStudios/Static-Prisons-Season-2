@@ -1,17 +1,19 @@
 package net.staticstudios.prisons.customitems.pickaxes;
 
+import net.staticstudios.prisons.customitems.CustomItem;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
-public class PickaxeTemplates {
+public class PickaxeTemplates implements CustomItem {
 
     public static final PickaxeTemplates TIER_1 = new PickaxeTemplates(
             1,
@@ -164,6 +166,8 @@ public class PickaxeTemplates {
         this.TOP_LORE = topLore;
         this.BOTTOM_LORE = bottomLore;
         this.DISPLAY_NAME = ChatColor.translateAlternateColorCodes('&', displayName);
+
+        register();
     }
 
     public PrisonPickaxe buildPickaxe() {
@@ -182,6 +186,16 @@ public class PickaxeTemplates {
         for (EnchantHolder enchantHolder : ENCHANTS) pickaxe.setEnchantsLevel(enchantHolder.enchantID(), enchantHolder.level());
         PrisonPickaxe.updateLore(item);
         return pickaxe;
+    }
+
+    @Override
+    public String getID() {
+        return "pickaxe_tier_" + TIER;
+    }
+
+    @Override
+    public ItemStack getItem(Player player) {
+        return buildPickaxe().item;
     }
 
     private record EnchantHolder(String enchantID, int level) {}

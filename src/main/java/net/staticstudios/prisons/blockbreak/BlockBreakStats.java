@@ -12,7 +12,7 @@ public class BlockBreakStats {
     private double blocksBrokenMultiplier = 1d;
 
     private long moneyEarned = 0;
-    private long xpEarned = 0;
+    private long xpEarned = 1;
     private long tokensEarned = 0;
 
     private long rawBlockBroken = 0;

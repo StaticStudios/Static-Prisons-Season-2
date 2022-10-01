@@ -1,7 +1,5 @@
-package net.staticstudios.prisons.customitems.crateKeys;
+package net.staticstudios.prisons.customitems.cratekeys;
 
-
-import net.staticstudios.prisons.customitems.CustomItem;
 
 //public class CommonCrateKey implements CustomItem {
 //

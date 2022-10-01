@@ -5,12 +5,22 @@ import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.challenges.Challenge;
 import net.staticstudios.prisons.challenges.ChallengeDuration;
 import net.staticstudios.prisons.challenges.ChallengeType;
+import net.staticstudios.prisons.customitems.items.LootBoxCustomItem;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class TestCommand implements CommandExecutor {
 
@@ -211,6 +221,27 @@ public class TestCommand implements CommandExecutor {
 
 
 //        TeamPrefix.init();
+
+//        ArmorStand a = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
+//        long start = System.currentTimeMillis();
+//        for (int i = 0; i < 10_000; i++) {
+//            a.teleport(a.getLocation());
+//        }
+//        player.sendMessage("Time: " + (System.currentTimeMillis() - start));
+//        a.setAI(false);
+//        a.setCanTick(false);
+//        a.setCanMove(false);
+//        start = System.currentTimeMillis();
+//        for (int i = 0; i < 10_000; i++) {
+//            a.teleport(a.getLocation());
+//        }
+//        player.sendMessage("Time: " + (System.currentTimeMillis() - start));
+//        a.remove();
+
+//        ArmorStand a = null;
+//        a.setVelocity();
+
+
 
         return false;
 

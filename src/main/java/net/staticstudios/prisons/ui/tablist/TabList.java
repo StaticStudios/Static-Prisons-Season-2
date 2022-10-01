@@ -85,7 +85,9 @@ public class TabList {
             Objects.requireNonNull(scoreboard.getPlayerTeam(player)).removePlayer(player);
         }
 
-        String rank = "member".equals(playerData.getStaffRank()) ? playerData.getPlayerRank() : playerData.getStaffRank();
+        String rank = "member".equals(playerData.getStaffRank()) ? (
+                "member".equals(playerData.getPlayerRank()) && playerData.getIsNitroBoosting() ? "nitro" : playerData.getPlayerRank()
+                ) : playerData.getStaffRank();
 
         Team team = scoreboard.getTeam(teamNamesForPrefixIds.getOrDefault(rank, ""));
 

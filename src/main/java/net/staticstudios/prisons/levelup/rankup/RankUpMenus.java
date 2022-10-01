@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.levelup;
+package net.staticstudios.prisons.levelup.rankup;
 
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
@@ -41,11 +41,8 @@ public class RankUpMenus extends GUIUtils {
             } else {
                 int finalI = i;
                 c.addItem(c.createButton(Material.RED_STAINED_GLASS, "&c&lMine " + PrisonUtils.getMineRankLetterFromMineRank(i) + " &c| Locked", List.of("", "&a&lCosts:",
-                        "&a&l│ &a$" + PrisonUtils.prettyNum(LevelUp.calculatePriceToRankUpTo(playerData, i)), "&a&l│ &a$" + PrisonUtils.addCommasToNumber(LevelUp.calculatePriceToRankUpTo(playerData, i)), "", "&cClick to unlock!"), (p, t) -> {
-                    long rankUpCost = LevelUp.calculatePriceToRankUpTo(playerData, finalI);
-                    if (playerData.getMoney() >= rankUpCost) {
-                        playerData.removeMoney(rankUpCost);
-                        playerData.setMineRank(finalI);
+                        "&a&l│ &a$" + PrisonUtils.prettyNum(RankUp.calculatePriceToRankUp(playerData, i)), "&a&l│ &a$" + PrisonUtils.addCommasToNumber(RankUp.calculatePriceToRankUp(playerData, i)), "", "&cClick to unlock!"), (p, t) -> {
+                    if (RankUp.rankUp(player, finalI)) {
                         p.sendMessage(ChatColor.AQUA + "You ranked up to Mine " + PrisonUtils.getMineRankLetterFromMineRank(finalI) + "!");
                     } else p.sendMessage(ChatColor.RED + "You don't have enough money to rank up!");
                     open(p, fromCommand);
@@ -54,7 +51,7 @@ public class RankUpMenus extends GUIUtils {
         }
         int maxRank = 0;
         for (int i = 25; i > 0; i--) {
-            if (playerData.getMoney() >= LevelUp.calculatePriceToRankUpTo(playerData, i)) {
+            if (playerData.getMoney() >= RankUp.calculatePriceToRankUp(playerData, i)) {
                 maxRank = i;
                 break;
             }
@@ -62,16 +59,13 @@ public class RankUpMenus extends GUIUtils {
         int finalMaxRank = maxRank;
         c.addItem(c.createButton(Material.NETHER_STAR, "&b&lRank Up Max", List.of("&bRank Up to Mine:&f " + PrisonUtils.getMineRankLetterFromMineRank(maxRank), "",
                 "&b&lCosts:",
-                "&b&l│ &f$" + PrisonUtils.prettyNum(LevelUp.calculatePriceToRankUpTo(playerData, maxRank)),
-                "&b&l│ &f$" + PrisonUtils.addCommasToNumber(LevelUp.calculatePriceToRankUpTo(playerData, maxRank))), (p, t) -> {
+                "&b&l│ &f$" + PrisonUtils.prettyNum(RankUp.calculatePriceToRankUp(playerData, maxRank)),
+                "&b&l│ &f$" + PrisonUtils.addCommasToNumber(RankUp.calculatePriceToRankUp(playerData, maxRank))), (p, t) -> {
             if (playerData.getMineRank() == finalMaxRank) {
                 p.sendMessage(ChatColor.RED + "You do not have enough money to rank up!");
                 return;
             }
-            long rankUpCost = LevelUp.calculatePriceToRankUpTo(playerData, finalMaxRank);
-            if (playerData.getMoney() >= rankUpCost) {
-                playerData.removeMoney(rankUpCost);
-                playerData.setMineRank(finalMaxRank);
+            if (RankUp.rankUp(player, finalMaxRank)) {
                 p.sendMessage(ChatColor.AQUA + "You ranked up to Mine " + PrisonUtils.getMineRankLetterFromMineRank(finalMaxRank) + "!");
             } else p.sendMessage(ChatColor.RED + "You don't have enough money to rank up!");
             open(p, fromCommand);

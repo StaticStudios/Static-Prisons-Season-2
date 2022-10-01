@@ -19,7 +19,7 @@ public class ServerData {
     public static final ServerDataPrivateMines PRIVATE_MINES = new ServerDataPrivateMines();
     public static final ServerDataReclaim RECLAIM = new ServerDataReclaim();
 
-    public static void playerJoined(Player player) {
+    public static void playerJoined(Player player) { //todo: clean this up
         if (!PLAYERS.getAllUUIDs().contains(player.getUniqueId())) {
             //First time joining
             Bukkit.getServer().getLogger().log(Level.INFO, "Player has joined for the first time with the uuid: " + player.getUniqueId() + " and the name: " + player.getName());
@@ -30,7 +30,6 @@ public class ServerData {
             PlayerUtils.addToInventory(player, backpack.getItem());
             backpack.updateItemNow();
             PlayerData playerData = new PlayerData(player);
-//            playerData.setBackpackSize(2500); //todo: add a backpack to a player when they join for the first time
             playerData.setPlayerRank("member");
             playerData.setStaffRank("member");
         }

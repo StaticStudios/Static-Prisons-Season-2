@@ -5,7 +5,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
-import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
 import net.staticstudios.prisons.pickaxe.commands.AddPickaxeBlocksMinedCommand;
@@ -14,7 +13,6 @@ import net.staticstudios.prisons.pickaxe.commands.EnchantCommand;
 import net.staticstudios.prisons.pickaxe.commands.PickaxeCommand;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
-import net.staticstudios.prisons.pickaxe.gui.PickaxeMenus;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.items.SpreadOutExecution;
@@ -27,9 +25,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -42,14 +37,50 @@ import java.util.logging.Level;
 
 public class PrisonPickaxe implements SpreadOutExecution {
 
+    public static final Map<String, PrisonPickaxe> UUID_TO_PICKAXE_MAP = new HashMap<>();
     public static final NamespacedKey PICKAXE_KEY = new NamespacedKey(StaticPrisons.getInstance(), "pickaxeUUID");
 
-    private static Map<String, PrisonPickaxe> pickaxeUUIDToPrisonPickaxe = new HashMap<>();
+    final static Component LORE_DIVIDER = Component.text("---------------").color(ComponentUtil.LIGHT_GRAY);
+    private final String uuidAsString;
+    private final Map<String, Integer> enchLevelMap = new HashMap<>();
+    private final Map<String, Integer> enchTierMap = new HashMap<>();
+    private final Map<String, Integer> abilityLevelMap = new HashMap<>();
+    private final Map<String, Long> lastUsedAbilityAtMap = new HashMap<>();
+    private final Set<String> disabledEnchants = new HashSet<>();
+    public ItemStack item = null;
+    private long level = 0;
+    private long xp = 0;
+    private long blocksBroken = 0;
+    private long rawBlocksBroken = 0;
+    private String name = "&b&lPrison Pickaxe";
+    private Component nameAsComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(name);
+    private List<String> topLore = new ArrayList<>();
+    private List<Component> topLoreAsComponent = new ArrayList<>();
+    private List<String> bottomLore = new ArrayList<>();
+    private List<Component> bottomLoreAsComponent = new ArrayList<>();
 
+    /**
+     * Construct a new PrisonPickaxe from a KNOWN uuid
+     *
+     * @param uuid A UUID (as a string) that is known to be a PrisonPickaxe. The ItemStack may or may not be known at this time but one does exist with this UUID.
+     */
+    public PrisonPickaxe(String uuid) {
+        uuidAsString = uuid;
+        UUID_TO_PICKAXE_MAP.put(uuid, this);
+    }
 
-    private static void addPickaxeToUpdateLore(PrisonPickaxe pickaxe) {
-        if (pickaxe.item == null) return;
-        pickaxe.queueExecution();
+    /**
+     * Create a completely new PrisonPickaxe with a new UUID
+     *
+     * @param item The ItemStack that the PrisonPickaxe will be based on. This will be the pickaxe that the player will use.
+     */
+    public PrisonPickaxe(ItemStack item) {
+        String uuid = UUID.randomUUID().toString();
+        uuidAsString = uuid;
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(PICKAXE_KEY, PersistentDataType.STRING, uuid);
+        item.setItemMeta(meta);
+        UUID_TO_PICKAXE_MAP.put(uuid, this);
     }
 
     public static void init() {
@@ -63,8 +94,11 @@ public class PrisonPickaxe implements SpreadOutExecution {
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PickaxeListener(), StaticPrisons.getInstance());
     }
 
+    /**
+     * Load all pickaxe data from disk
+     */
     public static void loadPickaxeData() {
-        pickaxeUUIDToPrisonPickaxe.clear();
+        UUID_TO_PICKAXE_MAP.clear();
         File pickaxeData = new File(StaticPrisons.getInstance().getDataFolder(), "data/pickaxe_data.yml");
         FileConfiguration ymlData = YamlConfiguration.loadConfiguration(pickaxeData);
 
@@ -102,8 +136,8 @@ public class PrisonPickaxe implements SpreadOutExecution {
                     pickaxe.disabledEnchants.add(enchantKey);
                 }
 
-                pickaxe.enchantLevels.put(enchantKey, lvl);
-                pickaxe.enchantTiers.put(enchantKey, tier);
+                pickaxe.enchLevelMap.put(enchantKey, lvl);
+                pickaxe.enchTierMap.put(enchantKey, tier);
             }
 
             //Abilities
@@ -113,8 +147,8 @@ public class PrisonPickaxe implements SpreadOutExecution {
                 int lvl = attributeSection.getInt("lvl");
                 long lastUsed = attributeSection.getLong("lastUsed");
 
-                pickaxe.abilityLevels.put(abilitiesKey, lvl);
-                pickaxe.lastActivatedAbilitiesAt.put(abilitiesKey, lastUsed);
+                pickaxe.abilityLevelMap.put(abilitiesKey, lvl);
+                pickaxe.lastUsedAbilityAtMap.put(abilitiesKey, lastUsed);
             }
 
             //Don't update the lore
@@ -122,18 +156,28 @@ public class PrisonPickaxe implements SpreadOutExecution {
         }
     }
 
+    /**
+     * Save all pickaxe data to disk asynchronously
+     */
     public static void savePickaxeData() {
-        Map<String, PrisonPickaxe> temp = new HashMap<>(pickaxeUUIDToPrisonPickaxe);
+        Map<String, PrisonPickaxe> temp = new HashMap<>(UUID_TO_PICKAXE_MAP);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
             savePickaxeData(temp);
         });
     }
 
+    /**
+     * Save all pickaxe data to disk synchronously
+     */
     public static void savePickaxeDataNow() {
-        savePickaxeData(pickaxeUUIDToPrisonPickaxe);
+        savePickaxeData(UUID_TO_PICKAXE_MAP);
     }
 
-
+    /**
+     * Save all pickaxe data to disk synchronously
+     *
+     * @param pickaxeUUIDToPrisonPickaxe The map of data to save
+     */
     private static void savePickaxeData(Map<String, PrisonPickaxe> pickaxeUUIDToPrisonPickaxe) {
         File dataFolder = new File(StaticPrisons.getInstance().getDataFolder(), "/data");
         FileConfiguration allData = new YamlConfiguration();
@@ -157,18 +201,18 @@ public class PrisonPickaxe implements SpreadOutExecution {
             statsSection.set("name", pickaxe.name);
 
             //Enchants
-            for (String enchantKey : pickaxe.enchantLevels.keySet()) {
+            for (String enchantKey : pickaxe.enchLevelMap.keySet()) {
                 ConfigurationSection enchantSection = enchantsSection.createSection(enchantKey);
-                enchantSection.set("lvl", pickaxe.enchantLevels.get(enchantKey));
-                enchantSection.set("tier", pickaxe.enchantTiers.get(enchantKey));
+                enchantSection.set("lvl", pickaxe.enchLevelMap.get(enchantKey));
+                enchantSection.set("tier", pickaxe.enchTierMap.get(enchantKey));
                 enchantSection.set("enabled", !pickaxe.disabledEnchants.contains(enchantKey));
             }
 
             //Abilities
-            for (String abilityKey : pickaxe.abilityLevels.keySet()) {
+            for (String abilityKey : pickaxe.abilityLevelMap.keySet()) {
                 ConfigurationSection abilitySection = abilitiesSection.createSection(abilityKey);
-                abilitySection.set("lvl", pickaxe.abilityLevels.get(abilityKey));
-                abilitySection.set("lastUsed", pickaxe.lastActivatedAbilitiesAt.get(abilityKey));
+                abilitySection.set("lvl", pickaxe.abilityLevelMap.get(abilityKey));
+                abilitySection.set("lastUsed", pickaxe.lastUsedAbilityAtMap.get(abilityKey));
             }
 
         }
@@ -181,54 +225,48 @@ public class PrisonPickaxe implements SpreadOutExecution {
         Bukkit.getServer().getLogger().log(Level.INFO, "Saved all pickaxe data data/pickaxe_data.yml");
     }
 
+    /**
+     * Get a PrisonPickaxe from an ItemStack. The ItemStack needs to already have been used to create a PrisonPickaxe at some point.
+     *
+     * @param item The ItemStack to get the PrisonPickaxe from
+     * @return The PrisonPickaxe, or null if it doesn't exist
+     */
     public static PrisonPickaxe fromItem(ItemStack item) {
         if (item == null) return null;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return null;
-        PrisonPickaxe pickaxe = PrisonPickaxe.fromID(meta.getPersistentDataContainer().get(PICKAXE_KEY, PersistentDataType.STRING));
+        PrisonPickaxe pickaxe = PrisonPickaxe.fromUUID(meta.getPersistentDataContainer().get(PICKAXE_KEY, PersistentDataType.STRING));
         if (pickaxe != null) pickaxe.item = item;
         return pickaxe;
     }
 
-    public static PrisonPickaxe fromID(String pickaxeUUID) {
-        return pickaxeUUIDToPrisonPickaxe.get(pickaxeUUID);
+    /**
+     * Get a PrisonPickaxe from a UUID. The UUID needs to already have been used to create a PrisonPickaxe at some point.
+     *
+     * @param pickaxeUUID The UUID to get the PrisonPickaxe from
+     * @return The PrisonPickaxe, or null if it doesn't exist
+     */
+    public static PrisonPickaxe fromUUID(String pickaxeUUID) {
+        return UUID_TO_PICKAXE_MAP.get(pickaxeUUID);
     }
 
-    private final String pickaxeUUID;
-    public ItemStack item = null;
-    private Map<String, Integer> enchantLevels = new HashMap<>();
-    private Map<String, Integer> enchantTiers = new HashMap<>();
-    private Map<String, Integer> abilityLevels = new HashMap<>();
-    private Map<String, Long> lastActivatedAbilitiesAt = new HashMap<>();
-    private Set<String> disabledEnchants = new HashSet<>();
-
-    private long level = 0;
-    private long xp = 0;
-    private long blocksBroken = 0;
-    private long rawBlocksBroken = 0;
-    private String name = "&b&lPrison Pickaxe";
-    private Component nameAsComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(name);
-
-    public PrisonPickaxe(String uuid) {
-        pickaxeUUID = uuid;
-        pickaxeUUIDToPrisonPickaxe.put(uuid, this);
-    }
-
-    public PrisonPickaxe(ItemStack item) {
-        String uuid = UUID.randomUUID().toString();
-        pickaxeUUID = uuid;
-        ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(PICKAXE_KEY, PersistentDataType.STRING, uuid);
-        item.setItemMeta(meta);
-        pickaxeUUIDToPrisonPickaxe.put(uuid, this);
-    }
-
+    /**
+     * Simple check to see if the ItemStack has been used to create a PrisonPickaxe at some point.
+     *
+     * @param item The ItemStack to check
+     * @return True if it has been used to create a PrisonPickaxe at some point, false otherwise
+     */
     public static boolean checkIsPrisonPickaxe(ItemStack item) {
         if (item == null) return false;
         if (!item.hasItemMeta()) return false;
         return item.getItemMeta().getPersistentDataContainer().has(PICKAXE_KEY, PersistentDataType.STRING);
     }
 
+    /**
+     * Create a new PrisonPickaxe & ItemStack.
+     *
+     * @return A diamond pickaxe with an associated PrisonPickaxe
+     */
     public static ItemStack createNewPickaxe() {
         ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
         PrisonPickaxe pickaxe = new PrisonPickaxe(item);
@@ -247,9 +285,29 @@ public class PrisonPickaxe implements SpreadOutExecution {
         return item;
     }
 
+    //BASE = 2500
+    //ROI = 2.4
+    //BASE * lvl + lvl * (ROI * lvl)^ROI
+    public static long getLevelRequirement(long level) {
+        if (level <= 0) return 2500;
+        return (long) (2500 * level + level * Math.pow(2.4 * level, 2.4));
+    }
+
+    public static void updateLore(ItemStack item) {
+        PrisonPickaxe pickaxe = fromItem(item);
+        ItemMeta meta = item.getItemMeta();
+        meta.lore(pickaxe.buildLore());
+        meta.displayName(Component.empty().append(pickaxe.nameAsComponent)
+                .append(Component.text(" [" + PrisonUtils.addCommasToNumber(pickaxe.rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY))
+                .decoration(TextDecoration.ITALIC, false)
+        );
+        item.setItemMeta(meta);
+        SpreadOutExecutor.remove(pickaxe);
+    }
+
     public List<BaseEnchant> getEnchants() {
         List<BaseEnchant> enchants = new ArrayList<>();
-        for(String enchantID : enchantLevels.keySet()) {
+        for (String enchantID : enchLevelMap.keySet()) {
             if (getEnchantLevel(enchantID) > 0) {
                 enchants.add(PickaxeEnchants.enchantIDToEnchant.get(enchantID));
             }
@@ -260,9 +318,10 @@ public class PrisonPickaxe implements SpreadOutExecution {
     public int getEnchantLevel(BaseEnchant enchant) {
         return getEnchantLevel(enchant.ENCHANT_ID);
     }
+
     public int getEnchantLevel(String enchantID) {
-        if (enchantLevels.containsKey(enchantID)) {
-            return enchantLevels.get(enchantID);
+        if (enchLevelMap.containsKey(enchantID)) {
+            return enchLevelMap.get(enchantID);
         }
         return 0;
     }
@@ -270,9 +329,10 @@ public class PrisonPickaxe implements SpreadOutExecution {
     public int getEnchantTier(BaseEnchant enchant) {
         return getEnchantTier(enchant.ENCHANT_ID);
     }
+
     public int getEnchantTier(String enchantID) {
-        if (enchantTiers.containsKey(enchantID)) {
-            return enchantTiers.get(enchantID);
+        if (enchTierMap.containsKey(enchantID)) {
+            return enchTierMap.get(enchantID);
         }
         return 0;
     }
@@ -280,14 +340,15 @@ public class PrisonPickaxe implements SpreadOutExecution {
     public void setEnchantTier(BaseEnchant enchant, int tier) {
         setEnchantTier(enchant.ENCHANT_ID, tier);
     }
-    public void setEnchantTier(String enchantID, int tier) {
-        enchantTiers.put(enchantID, tier);
-    }
 
+    public void setEnchantTier(String enchantID, int tier) {
+        enchTierMap.put(enchantID, tier);
+    }
 
     public void setIsEnchantEnabled(Player player, BaseEnchant enchant, boolean enabled) {
         setIsEnchantEnabled(player, enchant.ENCHANT_ID, enabled);
     }
+
     public void setIsEnchantEnabled(Player player, String enchantID, boolean enabled) {
         if (enabled) {
             disabledEnchants.remove(enchantID);
@@ -316,25 +377,29 @@ public class PrisonPickaxe implements SpreadOutExecution {
 
         }
     }
+
     public boolean getIsEnchantEnabled(BaseEnchant enchant) {
         return getIsEnchantEnabled(enchant.ENCHANT_ID);
     }
+
     public boolean getIsEnchantEnabled(String enchantID) {
         return !disabledEnchants.contains(enchantID);
     }
 
     public void setEnchantsLevel(BaseEnchant enchant, int level) {
-        addPickaxeToUpdateLore(this);
-        enchantLevels.put(enchant.ENCHANT_ID, level);
+        queueExecution();
+        enchLevelMap.put(enchant.ENCHANT_ID, level);
     }
+
     public void setEnchantsLevel(String enchant, int level) {
-        addPickaxeToUpdateLore(this);
-        enchantLevels.put(enchant, level);
+        queueExecution();
+        enchLevelMap.put(enchant, level);
     }
 
     public void addEnchantLevel(BaseEnchant enchant, int level) {
         setEnchantsLevel(enchant, getEnchantLevel(enchant) + level);
     }
+
     public void addEnchantLevel(String enchant, int level) {
         setEnchantsLevel(enchant, getEnchantLevel(enchant) + level);
     }
@@ -343,40 +408,41 @@ public class PrisonPickaxe implements SpreadOutExecution {
         setEnchantsLevel(enchant, Math.max(0, getEnchantLevel(enchant) - level));
     }
 
-
-
-
     public List<BaseAbility> getAbilities() {
         List<BaseAbility> abilities = new ArrayList<>();
-        for(String abilityID : abilityLevels.keySet()) {
+        for (String abilityID : abilityLevelMap.keySet()) {
             if (getAbilityLevel(abilityID) > 0) {
                 abilities.add(PickaxeAbilities.abilityIDToAbility.get(abilityID));
             }
         }
         return abilities;
     }
+
     public int getAbilityLevel(BaseAbility ability) {
         return getAbilityLevel(ability.ABILITY_ID);
     }
+
     public int getAbilityLevel(String abilityID) {
-        if (abilityLevels.containsKey(abilityID)) {
-            return abilityLevels.get(abilityID);
+        if (abilityLevelMap.containsKey(abilityID)) {
+            return abilityLevelMap.get(abilityID);
         }
         return 0;
     }
 
     public void setAbilityLevel(BaseAbility ability, int level) {
-        addPickaxeToUpdateLore(this);
-        abilityLevels.put(ability.ABILITY_ID, level);
+        queueExecution();
+        abilityLevelMap.put(ability.ABILITY_ID, level);
     }
+
     public void setAbilityLevel(String abilityID, int level) {
-        addPickaxeToUpdateLore(this);
-        abilityLevels.put(abilityID, level);
+        queueExecution();
+        abilityLevelMap.put(abilityID, level);
     }
 
     public void addAbilityLevel(BaseAbility ability, int level) {
         setAbilityLevel(ability, getAbilityLevel(ability) + level);
     }
+
     public void addAbilityLevel(String abilityID, int level) {
         setAbilityLevel(abilityID, getAbilityLevel(abilityID) + level);
     }
@@ -388,50 +454,61 @@ public class PrisonPickaxe implements SpreadOutExecution {
     public long getLastActivatedAbilityAt(BaseAbility ability) {
         return getLastActivatedAbilityAt(ability.ABILITY_ID);
     }
+
     public long getLastActivatedAbilityAt(String abilityID) {
-        return lastActivatedAbilitiesAt.getOrDefault(abilityID, 0L);
+        return lastUsedAbilityAtMap.getOrDefault(abilityID, 0L);
     }
+
     public void setLastActivatedAbilityAt(BaseAbility ability, long time) {
         setLastActivatedAbilityAt(ability.ABILITY_ID, time);
     }
+
     public void setLastActivatedAbilityAt(String abilityID, long time) {
-        lastActivatedAbilitiesAt.put(abilityID, time);
+        lastUsedAbilityAtMap.put(abilityID, time);
     }
 
     public long getLevel() {
         return level;
     }
+
+    public void setLevel(long level) {
+        if (this.level != level) {
+            queueExecution();
+        }
+        this.level = level;
+    }
+
     public long getXp() {
         return xp;
     }
+
+    public void setXp(long xp) {
+        if (this.xp != xp) {
+            queueExecution();
+        }
+        this.xp = xp;
+    }
+
     public long getBlocksBroken() {
         return blocksBroken;
     }
+
+    public void setBlocksBroken(long blocksBroken) {
+        if (this.blocksBroken != blocksBroken) {
+            queueExecution();
+        }
+        this.blocksBroken = blocksBroken;
+    }
+
     public long getRawBlocksBroken() {
         return rawBlocksBroken;
     }
-    public void setLevel(long level) {
-        if (this.level != level) addPickaxeToUpdateLore(this);
-        this.level = level;
-    }
-    public void setXp(long xp) {
-        if (this.xp != xp) addPickaxeToUpdateLore(this);
-        this.xp = xp;
-    }
-    public void setBlocksBroken(long blocksBroken) {
-        if (this.blocksBroken != blocksBroken) addPickaxeToUpdateLore(this);
-        this.blocksBroken = blocksBroken;
-    }
+
     public void setRawBlocksBroken(long rawBlocksBroken) {
-        if (this.rawBlocksBroken != rawBlocksBroken) addPickaxeToUpdateLore(this);
+        if (this.rawBlocksBroken != rawBlocksBroken) {
+            queueExecution();
+        }
         this.rawBlocksBroken = rawBlocksBroken;
-    }
-    //BASE = 2500
-    //ROI = 2.4
-    //BASE * lvl + lvl * (ROI * lvl)^ROI
-    public static long getLevelRequirement(long level) {
-        if (level <= 0) return 2500;
-        return (long) (2500 * level + level * Math.pow(2.4 * level, 2.4));
     }
 
     void calcLevel() {
@@ -444,23 +521,28 @@ public class PrisonPickaxe implements SpreadOutExecution {
         if (this.xp >= getLevelRequirement(level)) calcLevel(); //The pickaxe should level up
         setXp(this.xp + xp);
     }
+
     public void addBlocksBroken(long blocksBroken) {
         setBlocksBroken(this.blocksBroken + blocksBroken);
     }
+
     public void addRawBlocksBroken(long rawBlocksBroken) {
         setRawBlocksBroken(this.rawBlocksBroken + rawBlocksBroken);
     }
 
+    public Component getName() {
+        return nameAsComponent;
+    }
 
     public void setName(String name) {
         this.name = name;
         nameAsComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(name);
     }
 
+    public Component getNameAsMessagePrefix() {
+        return Component.empty().append(nameAsComponent).append(Component.text(" >> ").color(ComponentUtil.DARK_GRAY).decorate(TextDecoration.BOLD));
+    }
 
-
-    private List<String> topLore = new ArrayList<>();
-    private List<Component> topLoreAsComponent = new ArrayList<>();
     public PrisonPickaxe setTopLore(List<String> topLore) {
         this.topLore = topLore;
         if (topLore == null) return this;
@@ -470,8 +552,7 @@ public class PrisonPickaxe implements SpreadOutExecution {
         }
         return this;
     }
-    private List<String> bottomLore = new ArrayList<>();
-    private List<Component> bottomLoreAsComponent = new ArrayList<>();
+
     public PrisonPickaxe setBottomLore(List<String> bottomLore) {
         this.bottomLore = bottomLore;
         if (topLore == null) return this;
@@ -489,54 +570,10 @@ public class PrisonPickaxe implements SpreadOutExecution {
         meta.lore(buildLore());
         meta.displayName(
                 Component.empty().append(nameAsComponent).append(
-                        Component.text(" [" + PrisonUtils.addCommasToNumber(rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY))
+                                Component.text(" [" + PrisonUtils.addCommasToNumber(rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY))
                         .decoration(TextDecoration.ITALIC, false)
         );
         item.setItemMeta(meta);
-    }
-
-
-//    static final int DUMP_INTERVAL = 20; //The amount of ticks that this operation is spread across. It might take DUMP_INTERVAL * 2 ticks before a pickaxe's lore is updated.
-//    static ArrayList<PrisonPickaxe>[] pickaxeDumpQueue = new ArrayList[DUMP_INTERVAL]; //The array of lists of pickaxes that need to be updated. Each list in the array represents the pickaxes that should be done in that index's tick.
-//    static int currentDumpQueueTick = 0; //Number 1 - 100 representing the current tick.
-//
-//    public static void dumpLoreToAllPickaxes() { //This method should be called every tick
-//        if (currentDumpQueueTick == 0) { //Build the queue for the next 100 ticks
-//            pickaxeDumpQueue = new ArrayList[DUMP_INTERVAL];
-//            int i = 0; //Represents the index in the pickaxesToUpdateLore list
-//            int iteration = 0; //Represents the amount of times the loop has run.
-//            while (i < pickaxesToUpdateLore.size()) {
-//                int amountToDumpThisTick = (int) Math.ceil(((double) pickaxesToUpdateLore.size() - i) / (DUMP_INTERVAL - iteration));
-//                ArrayList<PrisonPickaxe> pickaxes = new ArrayList<>();
-//                for (int x = i; x < i + amountToDumpThisTick; x++) {
-//                    pickaxes.add(pickaxesToUpdateLore.get(x));
-//                }
-//                pickaxeDumpQueue[iteration] = pickaxes;
-//                i += amountToDumpThisTick;
-//                iteration++;
-//            }
-//        }
-//
-//        if (pickaxeDumpQueue[currentDumpQueueTick] != null) {
-//            for (PrisonPickaxe pickaxe : pickaxeDumpQueue[currentDumpQueueTick]) {
-//
-//                if (!pickaxesToUpdateLore.contains(pickaxe)) continue; //The lore was updated elsewhere
-//
-//            }
-//            pickaxesToUpdateLore.removeAll(pickaxeDumpQueue[currentDumpQueueTick]);
-//        }
-//        currentDumpQueueTick = (currentDumpQueueTick + 1) % DUMP_INTERVAL;
-//    }
-
-    public static void updateLore(ItemStack item) {
-        PrisonPickaxe pickaxe = fromItem(item);
-        ItemMeta meta = item.getItemMeta();
-        meta.lore(pickaxe.buildLore());
-        meta.displayName(
-                Component.empty().append(pickaxe.nameAsComponent).append(Component.text(" [" + PrisonUtils.addCommasToNumber(pickaxe.rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false)
-        );
-        item.setItemMeta(meta);
-        SpreadOutExecutor.remove(pickaxe);
     }
 
     public PrisonPickaxe tryToUpdateLore() {
@@ -545,7 +582,6 @@ public class PrisonPickaxe implements SpreadOutExecution {
         return this;
     }
 
-    final Component LORE_DIVIDER = Component.text("---------------").color(ComponentUtil.LIGHT_GRAY);
     public List<Component> buildLore() {
         List<Component> lore = new ArrayList<>();
         if (topLore != null) lore.addAll(topLoreAsComponent);
@@ -595,11 +631,11 @@ public class PrisonPickaxe implements SpreadOutExecution {
 
     /**
      * Remove this pickaxe from the internal mapping, this should only be called on pickaxes that are "templates" and will only ever be used to view a preview of the ItemStack
-     *
+     * <p>
      * Once a pickaxe is removed, it can no longer be used by a player
      */
     public PrisonPickaxe delete() {
-        pickaxeUUIDToPrisonPickaxe.remove(pickaxeUUID);
+        UUID_TO_PICKAXE_MAP.remove(uuidAsString);
         return this;
     }
 
@@ -608,11 +644,11 @@ public class PrisonPickaxe implements SpreadOutExecution {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PrisonPickaxe that = (PrisonPickaxe) o;
-        return Objects.equals(pickaxeUUID, that.pickaxeUUID);
+        return Objects.equals(uuidAsString, that.uuidAsString);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pickaxeUUID);
+        return Objects.hash(uuidAsString);
     }
 }

@@ -159,14 +159,21 @@ public class EnchantMenus extends GUIUtils {
         desc.add("&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()));
         desc.add("");
         desc.add("&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant))));
-        boolean locked = enchant.getPickaxeLevelRequirement() > pickaxe.getLevel() || enchant.getPlayerLevelRequirement() > playerData.getPlayerLevel();
+        boolean locked = enchant.getPickaxeLevelRequirement() > pickaxe.getLevel();
         if (locked) {
             desc.add("");
-            if (enchant.getPlayerLevelRequirement() > playerData.getPlayerLevel()) desc.add("&cMinimum Player Level: &f" + enchant.getPlayerLevelRequirement());
-            if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel()) desc.add("&cMinimum Pickaxe Level: &f" + enchant.getPickaxeLevelRequirement());
+//            if (enchant.getPlayerLevelRequirement() > playerData.getPlayerLevel()) {
+//                desc.add("&cMinimum Player Level: &f" + enchant.getPlayerLevelRequirement());
+//            }
+            if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel()) {
+                desc.add("&cMinimum Pickaxe Level: &f" + enchant.getPickaxeLevelRequirement());
+            }
             return c.createButton(icon, "&c&l[Locked] " + enchant.DISPLAY_NAME, desc, (p, t) -> {
-                if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel()) p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYour pickaxe is not high enough level to unlock this enchant!"));
-                else p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not a high enough level to unlock this enchant!"));
+                if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel()) {
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYour pickaxe is not high enough level to unlock this enchant!"));
+                } else{
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not a high enough level to unlock this enchant!"));
+                }
             });
         }
         String name = enchant.DISPLAY_NAME;

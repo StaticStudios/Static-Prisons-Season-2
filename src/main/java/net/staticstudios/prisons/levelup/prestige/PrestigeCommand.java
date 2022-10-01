@@ -1,6 +1,6 @@
-package net.staticstudios.prisons.levelup.commands;
+package net.staticstudios.prisons.levelup.prestige;
 
-import net.staticstudios.prisons.levelup.PrestigeMenus;
+import net.staticstudios.prisons.levelup.prestige.PrestigeMenus;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PrestigeCommand implements CommandExecutor, TabCompleter {
@@ -21,7 +22,6 @@ public class PrestigeCommand implements CommandExecutor, TabCompleter {
     }
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        List<String> list = new ArrayList<>();
-        return list;
+        return Collections.emptyList();
     }
 }

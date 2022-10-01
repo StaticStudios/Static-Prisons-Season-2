@@ -36,6 +36,7 @@ public class GUIButton {
         ItemMeta meta = item.getItemMeta();
         meta.displayName(name);
         meta.lore(lore);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
         if (enchanted) {
             meta.addEnchant(Enchantment.LURE, 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

@@ -14,7 +14,6 @@ import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.cells.CellManager;
 import net.staticstudios.prisons.challenges.ChallengeManager;
-import net.staticstudios.prisons.challenges.ChallengeType;
 import net.staticstudios.prisons.chat.ChatManager;
 import net.staticstudios.prisons.chat.nicknames.NickColors;
 import net.staticstudios.prisons.commands.CommandManager;
@@ -30,6 +29,8 @@ import net.staticstudios.prisons.fishing.FishingManager;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.levelup.LevelUp;
+import net.staticstudios.prisons.levelup.prestige.Prestige;
+import net.staticstudios.prisons.levelup.rankup.RankUp;
 import net.staticstudios.prisons.lootboxes.MoneyLootBox;
 import net.staticstudios.prisons.lootboxes.PickaxeLootBox;
 import net.staticstudios.prisons.lootboxes.TokenLootBox;
@@ -212,9 +213,9 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
             Constants.PRESTIGE_MINE_REQUIREMENTS[i] = config.getLong("prestiges.mineRequirements." + (i + 1));
         //Load rankup prices
         for (int i = 0; i < 26; i++) {
-            LevelUp.rankPrices[i] = config.getLong("rankup.prices." + (i + 1));
+            RankUp.RANK_PRICES[i] = config.getLong("rankup.prices." + (i + 1));
         }
-        LevelUp.INITIAL_PRESTIGE_PRICE = config.getLong("prestiges.price.basePrice");
+        Prestige.INITIAL_PRESTIGE_PRICE = config.getLong("prestiges.price.basePrice");
 
         //Load loot boxes
         ConfigurationSection tokenSection = config.getConfigurationSection("lootboxes.token");

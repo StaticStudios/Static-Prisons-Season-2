@@ -22,8 +22,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static net.kyori.adventure.text.Component.text;
-
 public final class PrisonUtils {
     public static void init() {
         PlayerUtils.init(StaticPrisons.getInstance());
@@ -256,7 +254,7 @@ public final class PrisonUtils {
     }
 
     public static char getMineRankLetterFromMineRank(int mineRank) {
-        if (mineRank > 26) return 'Z';
+        if (mineRank > 25) return 'Z';
         return (char) (mineRank + 65);
     }
 

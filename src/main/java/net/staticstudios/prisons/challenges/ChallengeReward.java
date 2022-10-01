@@ -70,7 +70,7 @@ public class ChallengeReward {
                 PlayerUtils.addToInventory(player, reward);
                 player.sendMessage(Prefix.CHALLENGES.append(Component.text("You were given " + reward.getAmount() + "x ").color(ComponentUtil.WHITE))
                         .append(Objects.requireNonNull(reward.getItemMeta().displayName()))
-                        .append(Component.text(" item for completing a challenge!").color(ComponentUtil.WHITE)));
+                        .append(Component.text(" for completing a challenge!").color(ComponentUtil.WHITE)));
             }
         }
     }

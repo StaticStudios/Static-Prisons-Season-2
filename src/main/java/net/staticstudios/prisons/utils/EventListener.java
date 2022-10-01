@@ -19,6 +19,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -36,7 +37,7 @@ public class EventListener implements Listener {
     void onNewTick(ServerTickStartEvent e) {
         StaticPrisons.currentTick += 1;
     }
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     void playerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 

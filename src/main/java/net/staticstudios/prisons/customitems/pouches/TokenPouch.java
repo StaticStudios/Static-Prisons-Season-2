@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.customitems;
+package net.staticstudios.prisons.customitems.pouches;
 
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;

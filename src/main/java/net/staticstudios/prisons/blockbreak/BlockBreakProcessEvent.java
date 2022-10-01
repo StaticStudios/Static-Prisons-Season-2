@@ -1,6 +1,5 @@
 package net.staticstudios.prisons.blockbreak;
 
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
@@ -14,6 +13,7 @@ public class BlockBreakProcessEvent extends PlayerEvent {
         this.blockBreak = blockBreak;
     }
 
+    @SuppressWarnings("unused")
     public static HandlerList getHandlerList() {
         return handlers;
     }

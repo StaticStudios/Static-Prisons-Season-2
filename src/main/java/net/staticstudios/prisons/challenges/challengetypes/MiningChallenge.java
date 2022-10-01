@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.challenges.types;
+package net.staticstudios.prisons.challenges.challengetypes;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -13,7 +13,7 @@ import java.util.List;
 public class MiningChallenge extends ChallengeType<BlockBreakProcessEvent> {
 
     public MiningChallenge() {
-        super("MINING", Component.text("Mining Challenge").color(ComponentUtil.AQUA).decorate(TextDecoration.BOLD), List.of(
+        super("MINING", Component.text("Mining Challenge").color(ComponentUtil.GOLD).decorate(TextDecoration.BOLD), List.of(
                 Component.empty().append(Component.text("Mine a set amount of blocks to complete this")),
                 Component.empty().append(Component.text("challenge. This challenge will count blocks")),
                 Component.empty().append(Component.text("broken by enchants."))
@@ -22,6 +22,6 @@ public class MiningChallenge extends ChallengeType<BlockBreakProcessEvent> {
 
     @EventHandler
     void onBlockBreakProcess(BlockBreakProcessEvent e) {
-        onEvent(e);
+        onEvent(e, e.getPlayer());
     }
 }

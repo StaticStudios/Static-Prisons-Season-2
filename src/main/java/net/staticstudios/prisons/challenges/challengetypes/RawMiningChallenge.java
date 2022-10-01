@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.challenges.types;
+package net.staticstudios.prisons.challenges.challengetypes;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -18,13 +18,11 @@ public class RawMiningChallenge extends ChallengeType<BlockBreakProcessEvent> {
                         Component.empty().append(Component.text("challenge. This challenge does not count blocks")),
                         Component.empty().append(Component.text("that are broken from enchants, bombs, or")),
                         Component.empty().append(Component.text("anything other than a pickaxe."))
-                ), Material.RAW_IRON, (event, challenge) -> {
-                    challenge.addProgress(1);
-                });
+                ), Material.RAW_IRON, (event, challenge) -> challenge.addProgress(1));
     }
 
     @EventHandler
     void onBlockBreakProcess(BlockBreakProcessEvent e) {
-        onEvent(e);
+        onEvent(e, e.getPlayer());
     }
 }
