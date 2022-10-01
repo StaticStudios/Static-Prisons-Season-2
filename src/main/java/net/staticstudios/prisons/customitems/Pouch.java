@@ -5,15 +5,19 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.utils.StaticFileSystemManager;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.time.Duration;
+import java.util.logging.Logger;
 
 public interface Pouch<T> {
 
     int timeBetweenFrames = 4;
-
 
     void open(Player player);
 
@@ -36,12 +40,17 @@ public interface Pouch<T> {
             }
         }
 
-        player.showTitle(Title.title(title.color(NamedTextColor.GRAY), Component.empty(), Title.Times.of(Duration.ofMillis(fadeIn * 50), Duration.ofMillis(2000), Duration.ofMillis(500))));
+        player.showTitle(Title.title(title.color(NamedTextColor.GRAY), Component.empty(), Title.Times.times(Duration.ofMillis(fadeIn * 50), Duration.ofMillis(2000), Duration.ofMillis(500))));
 
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(),
                 () -> animateFrame(player, reward, rewardValue, announcementMessage, prefix, currentPos + 1, finished),
                 timeBetweenFrames);
     }
 
+    default YamlConfiguration getConfig() {
+        return YamlConfiguration.loadConfiguration(StaticFileSystemManager.getFile("pouches.yml").orElseThrow(() -> new RuntimeException("Could not find pouches.yml")));
+    }
+
     void addReward(Player player, T reward);
+
 }

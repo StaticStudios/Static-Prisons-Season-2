@@ -24,10 +24,10 @@ public enum MultiPouch implements Pouch<ItemStack> {
 
     MultiPouch(Component tier, String configMinAmount, String configMaxAmount, String configMinTime, String configMaxTime) {
         this.tier = tier;
-        minAmount = StaticPrisons.getInstance().getConfig().getInt(configMinAmount);
-        maxAmount = StaticPrisons.getInstance().getConfig().getInt(configMaxAmount);
-        minTime = StaticPrisons.getInstance().getConfig().getInt(configMinTime);
-        maxTime = StaticPrisons.getInstance().getConfig().getInt(configMaxTime);
+        minAmount = getConfig().getInt(configMinAmount);
+        maxAmount = getConfig().getInt(configMaxAmount);
+        minTime = getConfig().getInt(configMinTime);
+        maxTime = getConfig().getInt(configMaxTime);
     }
 
     @Override
