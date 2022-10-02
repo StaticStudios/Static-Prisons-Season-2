@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Crate {
-//    public static final String CRATE_PREFIX = ChatColor.GOLD + "" + ChatColor.BOLD + "Crates " + ChatColor.DARK_GRAY + ChatColor.BOLD + ">> " + ChatColor.RESET;
-
     public static void init() {
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new CrateListener(), StaticPrisons.getInstance());
         CRATE_KEY_NAMESPACE_KEY = new NamespacedKey(StaticPrisons.getInstance(), "crateKey");

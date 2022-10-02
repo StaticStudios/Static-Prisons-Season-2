@@ -1,17 +1,13 @@
 package net.staticstudios.prisons.commands.test;
 
-import net.staticstudios.prisons.lootboxes.MoneyLootBox;
-import net.staticstudios.prisons.lootboxes.PickaxeLootBox;
-import net.staticstudios.prisons.lootboxes.TokenLootBox;
-import net.staticstudios.prisons.reclaim.PackageHandler;
+import net.staticstudios.prisons.lootboxes.lootboxes.MoneyLootBox;
+import net.staticstudios.prisons.lootboxes.lootboxes.PickaxeLootBox;
+import net.staticstudios.prisons.lootboxes.lootboxes.TokenLootBox;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 public class Test2Command implements CommandExecutor {
     @Override

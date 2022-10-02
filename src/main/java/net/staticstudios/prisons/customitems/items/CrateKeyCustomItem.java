@@ -4,12 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customitems.CustomItem;
-import net.staticstudios.prisons.lootboxes.MoneyLootBox;
-import net.staticstudios.prisons.lootboxes.PickaxeLootBox;
-import net.staticstudios.prisons.lootboxes.TokenLootBox;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public enum CrateKeyCustomItem implements CustomItem {

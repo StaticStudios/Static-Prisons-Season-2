@@ -1,6 +1,5 @@
 package net.staticstudios.prisons.customitems;
 
-import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.customitems.items.CrateKeyCustomItem;
@@ -8,21 +7,13 @@ import net.staticstudios.prisons.customitems.items.LootBoxCustomItem;
 import net.staticstudios.prisons.customitems.pouches.MoneyPouch;
 import net.staticstudios.prisons.customitems.pouches.MultiPouch;
 import net.staticstudios.prisons.customitems.pouches.TokenPouch;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CustomItems implements Listener {
@@ -33,9 +24,8 @@ public class CustomItems implements Listener {
 
         CommandManager.registerCommand("customitems", new CustomItemsCommand());
 
-        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new CustomItems(), StaticPrisons.getInstance()); //todo: loop through all custom items and run a listener for each one
+        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new CustomItems(), StaticPrisons.getInstance());
 
-        LootBoxCustomItem.MONEY_1.getID(); //Call this so that all the loot box enums are initialized
         TokenPouch.TIER_1.getID(); //Call this so that all the token pouch enums are initialized
         MoneyPouch.TIER_1.getID(); //Call this so that all the money pouch enums are initialized
         MultiPouch.TIER_1.getID(); //Call this so that all the multi pouch enums are initialized

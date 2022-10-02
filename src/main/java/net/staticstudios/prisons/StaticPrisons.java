@@ -31,10 +31,7 @@ import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.levelup.prestige.Prestige;
 import net.staticstudios.prisons.levelup.rankup.RankUp;
-import net.staticstudios.prisons.lootboxes.MoneyLootBox;
-import net.staticstudios.prisons.lootboxes.PickaxeLootBox;
-import net.staticstudios.prisons.lootboxes.TokenLootBox;
-import net.staticstudios.prisons.lootboxes.handler.LootBox;
+import net.staticstudios.prisons.lootboxes.LootBox;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.mines.MineManager;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
@@ -80,8 +77,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public static final WorldEdit worldEdit = WorldEdit.getInstance();
     public static WorldBorderApi worldBorderAPI;
     public static long currentTick = 0;
-
-    private static FileConfiguration config;
 
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -174,7 +169,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public void loadConfig() {
         reloadConfig();
 
-        config = getConfig();
+        FileConfiguration config = getConfig();
 
         if (config.getBoolean("discordLink", true)) {
             safe(DiscordLink::init);
@@ -217,22 +212,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         }
         Prestige.INITIAL_PRESTIGE_PRICE = config.getLong("prestiges.price.basePrice");
 
-        //Load loot boxes
-        ConfigurationSection tokenSection = config.getConfigurationSection("lootboxes.token");
-        ConfigurationSection moneySection = config.getConfigurationSection("lootboxes.money");
-        ConfigurationSection pickaxeSection = config.getConfigurationSection("lootboxes.pickaxe");
-
-        if (tokenSection != null) {
-            TokenLootBox.loadTiers(tokenSection);
-        }
-
-        if (moneySection != null) {
-            MoneyLootBox.loadTiers(moneySection);
-        }
-
-        if (pickaxeSection != null) {
-            PickaxeLootBox.loadTiers(pickaxeSection);
-        }
 
         //SQL config
         File sqlConfigFile = new File(getDataFolder(), "sqlConfig.yml");
