@@ -50,6 +50,10 @@ public class Prefix {
             .append(Component.text("Mines").color(ComponentUtil.LIGHT_PURPLE).decoration(TextDecoration.BOLD, true))
             .append(Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true));
 
+    public static final Component CRATES = Component.empty()
+            .append(Component.text("Crates").color(ComponentUtil.GOLD).decoration(TextDecoration.BOLD, true))
+            .append(Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true));
+
     public static final Component BROADCAST = Component.empty()
             .append(Component.text("[").color(NamedTextColor.DARK_GRAY))
             .append(Component.text("Server Broadcast").color(NamedTextColor.LIGHT_PURPLE))

@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public interface Pouch<T> {

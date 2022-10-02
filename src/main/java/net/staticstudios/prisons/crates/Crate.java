@@ -1,48 +1,41 @@
 package net.staticstudios.prisons.crates;
 
-import net.staticstudios.gui.GUICreator;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import net.staticstudios.newgui.StaticGUI;
+import net.staticstudios.newgui.builder.ButtonBuilder;
+import net.staticstudios.newgui.builder.GUIBuilder;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;
+import net.staticstudios.prisons.utils.Prefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Objects;
 
 public class Crate {
-    public static final String CRATE_PREFIX = ChatColor.GOLD + "" + ChatColor.BOLD + "Crates " + ChatColor.DARK_GRAY + ChatColor.BOLD + ">> " + ChatColor.RESET;
+//    public static final String CRATE_PREFIX = ChatColor.GOLD + "" + ChatColor.BOLD + "Crates " + ChatColor.DARK_GRAY + ChatColor.BOLD + ">> " + ChatColor.RESET;
 
     public static void init() {
-        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new Listener(), StaticPrisons.getInstance());
+        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new CrateListener(), StaticPrisons.getInstance());
         CRATE_KEY_NAMESPACE_KEY = new NamespacedKey(StaticPrisons.getInstance(), "crateKey");
     }
 
-    private static final List<Crate> crates = new ArrayList<>();
+    public static final List<Crate> CRATES = new ArrayList<>();
 
     public final String ID;
     public final String DISPLAY_NAME;
     public final String CRATE_KEY_ID;
-    private static NamespacedKey CRATE_KEY_NAMESPACE_KEY;
+    public static NamespacedKey CRATE_KEY_NAMESPACE_KEY;
     public final Location LOCATION;
     public final WeightedElements<CrateReward> REWARDS;
-
-    private Consumer<Player> runOnOpen;
-
-    public void setRunOnOpen(Consumer<Player> runOnOpen) {
-        this.runOnOpen = runOnOpen;
-    }
-    public Consumer<Player> getRunOnOpen() {
-        return runOnOpen;
-    }
 
 
     public Crate(String id, String displayName, String crateKeyID, Location location, WeightedElements<CrateReward> rewards) {
@@ -51,7 +44,7 @@ public class Crate {
         CRATE_KEY_ID = crateKeyID;
         LOCATION = location.toBlockLocation();
         REWARDS = rewards;
-        crates.add(this);
+        CRATES.add(this);
     }
 
 
@@ -60,68 +53,84 @@ public class Crate {
         CrateReward reward = REWARDS.getRandom();
 
 
-        String rewardString = "";
-        if (reward.itemReward != null) rewardString = reward.itemReward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward.itemReward);
-        else rewardString = reward.rewardName;
+
+        TextColor color = ComponentUtil.GREEN;
+
         double chance = REWARDS.getChance(reward);
-        String colorPrefix = "&a";
-        if (chance <= 1) colorPrefix = "&4&l";
-        else if (chance <= 5) colorPrefix = "&c&l";
-        else if (chance <= 25) colorPrefix = "&e";
-        else if (chance <= 50) colorPrefix = "&6";
-        colorPrefix = ChatColor.translateAlternateColorCodes('&', colorPrefix);
-        if (chance <= 2.5) for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(CRATE_PREFIX + player.getName() + " won " + rewardString + "!" + ChatColor.RESET + colorPrefix + " (" + new DecimalFormat("0.0").format(chance) + "% chance)" + ChatColor.RESET + " from a " + DISPLAY_NAME + "!");
-        else player.sendMessage(CRATE_PREFIX + "You've won " + rewardString + "!" + ChatColor.RESET + colorPrefix + " (" + new DecimalFormat("0.0").format(chance) + "% chance)" + ChatColor.RESET + " from a " + DISPLAY_NAME + "!"); //Don't send the player the message if it already gets broadcast
+        if (chance <= 1) {
+            color = ComponentUtil.DARK_RED;
+        } else if (chance <= 5) {
+            color = ComponentUtil.RED;
+        } else if (chance <= 25) {
+            color = ComponentUtil.YELLOW;
+        } else if (chance <= 50) {
+            color = ComponentUtil.GOLD;
+        }
+
+        Component rewardMessage = Prefix.CRATES;
+        if (reward.itemReward != null) {
+            rewardMessage = rewardMessage.append(Component.text((chance <= 2.5 ? player.getName() : "You") + " won " + reward.itemReward.getAmount() + "x "))
+                    .append(Objects.requireNonNull(reward.itemReward.getItemMeta().displayName()).append(Component.text("!")));
+        } else {
+            rewardMessage = rewardMessage.append(Component.text((chance <= 2.5 ? player.getName() : "You") + " won " + reward.rewardName + "!"));
+        }
+        rewardMessage = rewardMessage.append(Component.text(" (" + new DecimalFormat("0.0").format(chance) + "% chance) ").color(color))
+                .append(Component.text("from a " + DISPLAY_NAME + " crate!").color(ComponentUtil.WHITE));
+
+        if (chance <= 2.5) {
+            for (Player p : Bukkit.getOnlinePlayers()){
+                p.sendMessage(rewardMessage);
+            }
+        } else {
+            player.sendMessage(rewardMessage);
+        }
         if (reward.itemReward != null) PlayerUtils.addToInventory(player, new ItemStack(reward.itemReward));
         else reward.runnableReward.accept(player);
 
-        if (runOnOpen != null) runOnOpen.accept(player);
     }
 
     public void preview(Player player) {
         int size = REWARDS.getElements().size();
-        if (size % 9 != 0) size = (size / 9 + 1 ) * 9;
-        GUICreator c = new GUICreator(size, DISPLAY_NAME + " (Rewards)");
+        if (size % 9 != 0) {
+            size = (size / 9 + 1) * 9;
+        }
+
+        StaticGUI gui = new GUIBuilder()
+                .title(DISPLAY_NAME + " (Rewards)")
+                .size(size)
+                .build();
 
         for (int i = 0; i < REWARDS.getElements().size(); i++) {
             CrateReward reward = REWARDS.getElement(i).getElement();
-            String colorPrefix = "&a";
+            TextColor color = ComponentUtil.GREEN;
+
             double chance = REWARDS.getChance(i);
-            if (chance <= 1) colorPrefix = "&4";
-            else if (chance <= 5) colorPrefix = "&c";
-            else if (chance <= 25) colorPrefix = "&e";
-            else if (chance <= 50) colorPrefix = "&6";
-            c.setItem(i, PrisonUtils.Items.appendLoreToItem(reward.icon, List.of(
-                    "",
-                    "&f--------------------",
-                    colorPrefix + "Chance to win: &f" + new DecimalFormat("0.00").format(BigDecimal.valueOf(chance)) + "%",
-                    "&f--------------------")));
+            if (chance <= 1) {
+                color = ComponentUtil.DARK_RED;
+            } else if (chance <= 5) {
+                color = ComponentUtil.RED;
+            } else if (chance <= 25) {
+                color = ComponentUtil.YELLOW;
+            } else if (chance <= 50) {
+                color = ComponentUtil.GOLD;
+            }
+
+            List<Component> lore = reward.itemReward.lore() == null ? new ArrayList<>() : reward.itemReward.lore();
+
+            lore.add(Component.empty());
+            lore.add(Component.text("--------------------").color(ComponentUtil.WHITE));
+            lore.add(Component.empty().append(Component.text("Chance to win: ")).color(color)
+                    .append(Component.text(new DecimalFormat("0.00").format(chance) + "%").color(ComponentUtil.WHITE)));
+            lore.add(Component.text("--------------------").color(ComponentUtil.WHITE));
+
+            gui.setButton(i, ButtonBuilder.builder()
+                    .fromItem(reward.itemReward)
+                            .count(reward.itemReward.getAmount())
+                    .lore(lore)
+                    .build());
         }
-        c.open(player);
+        gui.open(player);
     }
 
-
-    static class Listener implements org.bukkit.event.Listener {
-        @EventHandler
-        void onInteract(PlayerInteractEvent e) {
-            if (e.getClickedBlock() == null) return;
-            Crate crate = null;
-            for (Crate c : crates) if (e.getClickedBlock().getLocation().equals(c.LOCATION)) {
-                    crate = c;
-                    break;
-                }
-            if (crate == null) return;
-            Player player = e.getPlayer();
-            ItemStack key = player.getInventory().getItemInMainHand();
-            e.setCancelled(true);
-            if (key.hasItemMeta() && key.getItemMeta().getPersistentDataContainer().has(CRATE_KEY_NAMESPACE_KEY)) {
-                boolean usingKey = key.getItemMeta().getPersistentDataContainer().get(CRATE_KEY_NAMESPACE_KEY, PersistentDataType.STRING).equals(crate.CRATE_KEY_ID);
-                if (usingKey && e.getAction().isRightClick()) {
-                    crate.open(player);
-                    key.setAmount(key.getAmount() - 1);
-                } else crate.preview(player);
-            } else crate.preview(player);
-        }
-    }
 
 }
