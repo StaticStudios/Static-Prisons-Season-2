@@ -2,7 +2,6 @@ package net.staticstudios.prisons.admin.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.staticstudios.prisons.data.PlayerData;
@@ -14,6 +13,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 public class AdvancedNicknameCommand implements TabExecutor {
 
@@ -27,32 +30,39 @@ public class AdvancedNicknameCommand implements TabExecutor {
         if ("".equals(playerData.getStaffRank())) return false;
 
         if (args.length != 1) {
-            player.sendMessage(Component.text("Usage: /advancednickname <minimessage ").append(Component.text("(click me)").clickEvent(ClickEvent.openUrl("https://webui.adventure.kyori.net/"))).append(Component.text(" | reset>")));
+            player.sendMessage(text("Usage: /advancednickname <minimessage ").append(text("(click me)").clickEvent(ClickEvent.openUrl("https://webui.adventure.kyori.net/"))).append(text(" | reset>")));
             return false;
         }
 
         if ("reset".equalsIgnoreCase(args[0])) {
             playerData.setIsChatNickNameEnabled(false);
-            player.sendMessage(Component.text("Your nickname has been reset!").color(NamedTextColor.GREEN));
+            player.sendMessage(text("Your nickname has been reset!").color(GREEN));
             return false;
         }
 
         Component nickname = MiniMessage.miniMessage().deserialize(args[0]);
 
         if (PlainTextComponentSerializer.plainText().serialize(nickname).contains("<") || PlainTextComponentSerializer.plainText().serialize(nickname).contains(">")) {
-            player.sendMessage(Component.text("Invalid MiniMessage!").color(NamedTextColor.RED));
+            player.sendMessage(text("Invalid MiniMessage!").color(RED));
             return false;
         }
 
-        if (PlainTextComponentSerializer.plainText().serialize(nickname).length() > 16) {
-            player.sendMessage(Component.text("You cannot set a nickname longer than 16 characters!").color(NamedTextColor.RED));
+        String nicknameString = PlainTextComponentSerializer.plainText().serialize(nickname);
+
+        if (nicknameString.length() > 16) {
+            player.sendMessage(text("You cannot set a nickname longer than 16 characters!").color(RED));
+            return false;
+        }
+
+        if (nicknameString.isEmpty()) {
+            player.sendMessage(text("You cannot have a blank nickname!").color(RED));
             return false;
         }
 
         playerData.setIsChatNickNameEnabled(true);
         playerData.setChatNickname(MiniMessage.miniMessage().serialize(nickname));
 
-        player.sendMessage(Component.text("Set nickname to ").color(NamedTextColor.GREEN).append(nickname).append(Component.text("!")));
+        player.sendMessage(text("Set nickname to ").color(GREEN).append(nickname).append(text("!")));
         return true;
     }
 

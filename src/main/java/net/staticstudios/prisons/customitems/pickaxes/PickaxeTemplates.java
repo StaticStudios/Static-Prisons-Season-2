@@ -9,7 +9,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
@@ -200,20 +199,28 @@ public class PickaxeTemplates implements CustomItem {
     }
 
     public PrisonPickaxe buildPickaxe() {
-        ItemStack item = new ItemStack(material);
+        ItemStack item = setCustomItem(new ItemStack(material));
+        
         PrisonPickaxe pickaxe = new PrisonPickaxe(item);
         pickaxe.setTopLore(TOP_LORE);
         pickaxe.setBottomLore(BOTTOM_LORE);
         pickaxe.setName(DISPLAY_NAME);
-        ItemMeta meta = item.getItemMeta();
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        meta.setUnbreakable(true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addEnchant(Enchantment.DIG_SPEED, 100, true);
-        item.setItemMeta(meta);
-        for (EnchantHolder enchantHolder : ENCHANTS) pickaxe.setEnchantsLevel(enchantHolder.enchantID(), enchantHolder.level());
+
+        item.editMeta(meta -> {
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            meta.addEnchant(Enchantment.DIG_SPEED, 100, true);
+
+        });
+
+        for (EnchantHolder enchantHolder : ENCHANTS) {
+            pickaxe.setEnchantsLevel(enchantHolder.enchantID(), enchantHolder.level());
+        }
+
         PrisonPickaxe.updateLore(item);
+
         return pickaxe;
     }
 
@@ -224,7 +231,7 @@ public class PickaxeTemplates implements CustomItem {
 
     @Override
     public ItemStack getItem(Player player) {
-        return buildPickaxe().item;
+        return setCustomItem(buildPickaxe().item);
     }
 
     private record EnchantHolder(String enchantID, int level) {}

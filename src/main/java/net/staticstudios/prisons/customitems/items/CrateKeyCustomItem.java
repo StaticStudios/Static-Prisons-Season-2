@@ -13,7 +13,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
@@ -47,19 +46,21 @@ public enum CrateKeyCustomItem implements CustomItem {
 
     @Override
     public ItemStack getItem(Player player) {
-        ItemStack item = new ItemStack(Material.TRIPWIRE_HOOK);
-        ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "crateKey"), PersistentDataType.STRING, id.split("_key")[0]);
-        meta.displayName(displayName);
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addEnchant(Enchantment.LURE, 100, true);
-        meta.lore(List.of(
-                Component.empty().append(Component.text("Open a crate with this key for").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
-                Component.empty().append(Component.text("a random reward!").color(ComponentUtil.LIGHT_GRAY))
-                        .append(Component.text(" /warp crates").color(ComponentUtil.AQUA)).decoration(TextDecoration.ITALIC, false)
-        ));
-        item.setItemMeta(meta);
+        ItemStack item = setCustomItem(new ItemStack(Material.TRIPWIRE_HOOK));
+
+        item.editMeta(itemMeta -> {
+            itemMeta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "crateKey"), PersistentDataType.STRING, id.split("_key")[0]);
+            itemMeta.displayName(displayName);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            itemMeta.addEnchant(Enchantment.LURE, 100, true);
+            itemMeta.lore(List.of(
+                    Component.empty().append(Component.text("Open a crate with this key for").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
+                    Component.empty().append(Component.text("a random reward!").color(ComponentUtil.LIGHT_GRAY))
+                            .append(Component.text(" /warp crates").color(ComponentUtil.AQUA)).decoration(TextDecoration.ITALIC, false)
+            ));
+        });
+
         return item;
     }
 }

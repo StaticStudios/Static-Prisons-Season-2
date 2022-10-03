@@ -9,7 +9,6 @@ import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -81,7 +80,7 @@ public enum MultiPouch implements Pouch<ItemStack>, CustomItem {
 
     @Override
     public ItemStack getItem(Player player) {
-        ItemStack item = ItemUtils.createCustomSkull(TEXTURE);
+        ItemStack item = setCustomItem(ItemUtils.createCustomSkull(TEXTURE));
         item.editMeta(meta -> {
             meta.displayName(name);
             meta.lore(List.of(

@@ -8,7 +8,6 @@ import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -22,7 +21,7 @@ import java.util.Locale;
 
 import static net.kyori.adventure.text.Component.empty;
 import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.format.NamedTextColor.*;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 
 public enum TokenPouch implements Pouch<Long>, CustomItem {
     TIER_1(1, text("Token Pouch"), "pouches.token.1.min", "pouches.token.1.max"),
@@ -74,7 +73,7 @@ public enum TokenPouch implements Pouch<Long>, CustomItem {
 
     @Override
     public ItemStack getItem(Player player) {
-        ItemStack item = ItemUtils.createCustomSkull(TEXTURE);
+        ItemStack item = setCustomItem(ItemUtils.createCustomSkull(TEXTURE));
         item.editMeta(meta -> {
             meta.displayName(name);
             meta.lore(List.of(

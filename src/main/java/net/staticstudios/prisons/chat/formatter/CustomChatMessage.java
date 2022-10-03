@@ -47,11 +47,13 @@ public final class CustomChatMessage {
 
         Component rankTag = TeamPrefix.getFromIdDeserialized(playerData.getTabListPrefixID());
 
+        String discordName = playerData.getDiscordName();
+
         HoverEvent<Component> realNameHoverEvent = HoverEvent.showText(Component.text("Real Name: ").color(NamedTextColor.AQUA)
                 .append(source.name().color(NamedTextColor.WHITE))
                 .append(Component.newline())
                 .append(Component.text("Discord Name: ").color(NamedTextColor.AQUA))
-                .append(Component.text(playerData.getDiscordName()).color(NamedTextColor.WHITE))
+                .append(Component.text(discordName == null ? "Not Linked" : discordName).color(NamedTextColor.WHITE))
                 .asComponent());
 
 

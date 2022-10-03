@@ -12,7 +12,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -188,6 +191,27 @@ public class StaticGUI implements InventoryHolder {
     public void setButton(int index, GUIButton button) {
         buttons[index] = button;
         inventory.setItem(index, button.item());
+    }
+
+    /**
+     * Add multiple buttons for this GUI
+     * @param starting starting index
+     * @param ending ending index
+     * @param button The button to add.
+     */
+    public void setButtons(int starting, int ending, GUIButton button) {
+        if (starting > ending) {
+            throw new IllegalArgumentException("Starting index cannot be greater than ending index!");
+        }
+
+        if (ending > (size + 1)) {
+            throw new IllegalArgumentException("Ending index cannot be greater than size of GUI!");
+        }
+
+        for (int i = starting; i < ending; i++) {
+            buttons[i] = button;
+            inventory.setItem(i, button.item());
+        }
     }
 
     /**

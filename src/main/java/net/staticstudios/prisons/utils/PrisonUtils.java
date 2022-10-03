@@ -1,5 +1,7 @@
 package net.staticstudios.prisons.utils;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
 import net.md_5.bungee.api.ChatColor;
@@ -54,15 +56,19 @@ public final class PrisonUtils {
     public static int randomInt(int min, int max) {
         return new Random().nextInt((max - min) + 1) + min;
     }
+
     public static long randomLong(long min, long max) {
         return new Random().nextLong((max - min) + 1) + min;
     }
+
     public static float randomFloat(float min, float max) {
         return new Random().nextFloat((max - min) + 1) + min;
     }
+
     public static double randomDouble(double min, double max) {
         return new Random().nextDouble((max - min) + 1) + min;
     }
+
     public static BigInteger randomBigInt(BigInteger min, BigInteger max) { //github copilot created this and i have no idea if it works - use numbers not string values
         return min.add(new BigInteger(String.valueOf(Math.round(Math.random() * (max.subtract(min).doubleValue())))));
     }
@@ -123,6 +129,7 @@ public final class PrisonUtils {
     public static boolean writeToAFile(String filePath, List<String> linesToWrite, boolean append) {
         return writeToAFile(new File(filePath), linesToWrite, append);
     }
+
     public static boolean writeToAFile(File file, List<String> linesToWrite, boolean append) { //todo make this better, this is inefficient
         try {
             file.mkdirs();
@@ -181,18 +188,23 @@ public final class PrisonUtils {
     public static String addCommasToNumber(BigInteger value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
+
     public static String addCommasToNumber(int value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
+
     public static String addCommasToNumber(long value) {
         return NumberFormat.getNumberInstance(Locale.US).format(value);
     }
+
     public static String prettyNum(BigInteger num) {
         return prettyNum(num.toString());
     }
+
     public static String prettyNum(long num) {
         return prettyNum(num + "");
     }
+
     public static String prettyNum(int num) {
         return prettyNum(num + "");
     }
@@ -222,13 +234,15 @@ public final class PrisonUtils {
             "Vg",
             "Uvg",
     };
+
     public static String prettyNum(String num) {
         BigInteger number = new BigInteger(num);
         String[] nums = num.split("(?!^)");
         String prettyNum = "";
         String digit = "";
         if ((number.toString().length() / 3) - 1 > abbreviations.length) digit = "BIG";
-        else if (((number.toString().length() - 1) / 3) - 1 >= 0) digit = abbreviations[((number.toString().length() - 1) / 3) - 1];
+        else if (((number.toString().length() - 1) / 3) - 1 >= 0)
+            digit = abbreviations[((number.toString().length() - 1) / 3) - 1];
         if (number.compareTo(BigInteger.valueOf(999)) == 1) {
             switch (num.length() % 3) {
                 case 1 -> prettyNum += nums[0] + "." + nums[1] + nums[2] + digit;
@@ -308,6 +322,14 @@ public final class PrisonUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean isValidComponent(Component toCheck) {
+        if (toCheck == null) {
+            return false;
+        }
+
+        return PlainTextComponentSerializer.plainText().serialize(toCheck).isEmpty();
     }
 
 }

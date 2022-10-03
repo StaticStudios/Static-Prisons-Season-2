@@ -71,7 +71,7 @@ public enum MineBombCustomItem implements CustomItem {
 
     @Override
     public ItemStack getItem(Player player) {
-        return getMineBomb(tier, name);
+        return setCustomItem(getMineBomb(tier, name));
     }
 
     @Override

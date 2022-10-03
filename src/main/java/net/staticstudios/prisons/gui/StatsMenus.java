@@ -1,41 +1,61 @@
 package net.staticstudios.prisons.gui;
 
-import net.staticstudios.gui.GUICreator;
+import net.kyori.adventure.text.Component;
 import net.staticstudios.gui.GUIUtils;
+import net.staticstudios.newgui.GUIPlaceholders;
+import net.staticstudios.newgui.StaticGUI;
+import net.staticstudios.newgui.builder.ButtonBuilder;
+import net.staticstudios.newgui.builder.GUIBuilder;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
+import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.AQUA;
+import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
 
 public class StatsMenus extends GUIUtils {
 
     public static void viewStats(Player player, UUID uuidOfPlayerToView) {
-        GUICreator c = new GUICreator(9, ServerData.PLAYERS.getName(uuidOfPlayerToView) + "'s Stats");
         PlayerData playerData = new PlayerData(uuidOfPlayerToView);
-        String playerRank = "Member";
-        switch (playerData.getPlayerRank()) {
-            case "warrior" -> playerRank = "Warrior";
-            case "master" -> playerRank = "Master";
-            case "mythic" -> playerRank = "Mythic";
-            case "static" -> playerRank = "Static";
-            case "staticp" -> playerRank = "Static+";
-        }
-        c.setItems(
-                c.createButton(Material.NETHER_STAR, "&bPlayer Rank:&f " + playerRank, List.of()),
-                c.createButton(Material.COBBLESTONE, "&bRaw Blocks Mined:&f " + PrisonUtils.addCommasToNumber(playerData.getRawBlocksMined()), List.of()),
-                c.createButton(Material.STONE, "&bBlocks Mined:&f " + PrisonUtils.addCommasToNumber(playerData.getBlocksMined()), List.of()),
-                c.createButton(Material.PAPER, "&bBalance:&f $" + PrisonUtils.addCommasToNumber(playerData.getMoney()), List.of()),
-                c.createButton(Material.SUNFLOWER, "&bTokens:&f " + PrisonUtils.addCommasToNumber(playerData.getTokens()), List.of()),
-                c.createButton(Material.AMETHYST_SHARD, "&bPrestige:&f " + PrisonUtils.addCommasToNumber(playerData.getPrestige()), List.of()),
-                c.createButton(Material.CLOCK, "&bTime Played:&f " + PrisonUtils.formatTime(playerData.getTimePlayed() * 1000), List.of()),
-                c.createButton(Material.DIAMOND, "&bVotes:&f " + PrisonUtils.addCommasToNumber(playerData.getVotes()), List.of()),
-                c.createButton(Material.BLUE_DYE, "&bDiscord:&f " + playerData.getDiscordName(), List.of())
-        );
-        c.open(player);
-        c.setOnCloseRun((p, t) -> MainMenus.open(p));
+
+        Logger.getLogger("StatsMenus").info(playerData.getPlayerRank());
+        Logger.getLogger("StatsMenus").info(playerData.getStaffRank());
+
+        StaticGUI gui = GUIBuilder.builder()
+                .title(text(ServerData.PLAYERS.getName(uuidOfPlayerToView) + "'s Stats"))
+                .size(36)
+                .onClose((p, t) -> MainMenus.open(p))
+                .fillWith(GUIPlaceholders.GRAY)
+                .build();
+
+
+        Component playerRank = TeamPrefix.getFromIdDeserialized(playerData.getPlayerRank());
+
+        // TODO: 02/10/2022 get away from String "null" and actually return null if not linked
+        String discordName = playerData.getDiscordName();
+
+        gui.setButton(10, ButtonBuilder.builder().icon(Material.NETHER_STAR).name(text("Player Rank: ").color(AQUA).append(playerRank)).build());
+        gui.setButton(11, ButtonBuilder.builder().icon(Material.EXPERIENCE_BOTTLE).name(text("Player Level: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getPlayerLevel())).color(WHITE))).build());
+        gui.setButton(12, ButtonBuilder.builder().icon(Material.PRISMARINE_SHARD).name(text("Shards: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getShards())).color(WHITE))).build());
+        gui.setButton(13, ButtonBuilder.builder().icon(Material.PAPER).name(text("Balance: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getMoney())).color(WHITE))).build());
+        gui.setButton(14, ButtonBuilder.builder().icon(Material.SUNFLOWER).name(text("Tokens: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getTokens())).color(WHITE))).build());
+        gui.setButton(15, ButtonBuilder.builder().icon(Material.AMETHYST_SHARD).name(text("Prestige: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getPrestige())).color(WHITE))).build());
+        gui.setButton(16, ButtonBuilder.builder().icon(Material.GOLDEN_HELMET).name(text("Mine Rank: ").color(AQUA).append(text(PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank())).color(WHITE))).build());
+
+        gui.setButton(20, ButtonBuilder.builder().icon(Material.DIAMOND).name(text("Votes: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getVotes())).color(WHITE))).build());
+        gui.setButton(21, ButtonBuilder.builder().icon(Material.BLUE_DYE).name(text("Discord: ").color(AQUA).append(text("null".equals(discordName) ? "Not Linked" : discordName).color(WHITE))).build());
+        gui.setButton(22, ButtonBuilder.builder().icon(Material.COBBLESTONE).name(text("Raw Blocks Mined: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getBlocksMined())).color(WHITE))).build());
+        gui.setButton(23, ButtonBuilder.builder().icon(Material.STONE).name(text("Blocks Mined: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getBlocksMined())).color(WHITE))).build());
+        gui.setButton(24, ButtonBuilder.builder().icon(Material.CLOCK).name(text("Time Played: ").color(AQUA).append(text(PrisonUtils.formatTime(playerData.getTimePlayed() * 1000)).color(WHITE))).build());
+
+
+        gui.open(player);
     }
 }
