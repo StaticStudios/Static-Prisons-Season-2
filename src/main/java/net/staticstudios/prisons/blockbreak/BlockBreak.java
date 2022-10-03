@@ -2,21 +2,17 @@ package net.staticstudios.prisons.blockbreak;
 
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.mines.StaticMines;
-import net.staticstudios.mines.api.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.privatemines.PrivateMine;
-import net.staticstudios.prisons.utils.Constants;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +23,7 @@ import java.util.function.Consumer;
 public class BlockBreak {
 
     public static void init() {
-        Bukkit.getPluginManager().registerEvents(new BlockBreak.Listener(), StaticPrisons.getInstance());
+        Bukkit.getPluginManager().registerEvents(new BlockBreakListener(), StaticPrisons.getInstance());
     }
 
 //    static List<Consumer<BlockBreak>> blockBreakListeners = new LinkedList<>();
@@ -196,17 +192,5 @@ public class BlockBreak {
         mine.removeBlocks(stats.getBlocksBroken());
     }
 
-
-    static class Listener implements org.bukkit.event.Listener {
-
-        @EventHandler
-        void onBlockBrokenInMine(BlockBrokenInMineEvent e) {
-            if (!e.getPlayer().getWorld().equals(Constants.MINES_WORLD) && !e.getPlayer().getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD)) return; //Ensure that a player is in a mines world
-            PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getPlayer().getInventory().getItemInMainHand());
-            if (pickaxe == null) return; //We don't care if the player is not holding a pickaxe
-            new BlockBreak(e.getPlayer(), pickaxe, e.getMine(), e.getBlock()).process();
-        }
-
-    }
 
 }

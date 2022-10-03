@@ -6,6 +6,8 @@ import net.staticstudios.prisons.challenges.Challenge;
 import net.staticstudios.prisons.challenges.ChallengeDuration;
 import net.staticstudios.prisons.challenges.ChallengeType;
 import net.staticstudios.prisons.customitems.items.LootBoxCustomItem;
+import net.staticstudios.prisons.enchants.testing.TestEnchant;
+import net.staticstudios.prisons.fishing.DefaultFishingRod;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
@@ -241,7 +243,10 @@ public class TestCommand implements CommandExecutor {
 //        ArmorStand a = null;
 //        a.setVelocity();
 
+//
+//        player.getInventory().addItem(new DefaultFishingRod().getItem());
 
+        new TestEnchant();
 
         return false;
 

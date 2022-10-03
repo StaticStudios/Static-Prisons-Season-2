@@ -325,7 +325,6 @@ public class BackpackManager {
         PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
         if (pickaxe != null) {
             multiplier += MerchantEnchant.getMultiplier(pickaxe);
-            System.out.println(MerchantEnchant.getMultiplier(pickaxe));
         }
 
         soldFor *= multiplier;
