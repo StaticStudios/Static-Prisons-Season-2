@@ -70,7 +70,7 @@ public abstract class LootBox implements SpreadOutExecution {
         lootBoxes.clear();
         FileConfiguration data = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data/lootboxes.yml"));
         for (String key : data.getKeys(false)) {
-            LootBox lootBox = LootBox.loadFromConfigurationSection(data.getConfigurationSection(key));
+            LootBox lootBox = LootBox.loadFromConfigurationSection(Objects.requireNonNull(data.getConfigurationSection(key)));
             lootBoxes.put(UUID.fromString(key), lootBox);
             SpreadOutExecutor.remove(lootBox);
         }

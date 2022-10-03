@@ -75,6 +75,7 @@ public class BackpackFinderEnchant extends BaseEnchant {
     public void onBlockBreak(BlockBreak blockBreak) {
         if (!activate(blockBreak.getPickaxe())) return;
         int tier = TIERS.getRandom();
+        tier = Math.min(tier, blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID) / (MAX_LEVEL / 10) + 1);
         boolean isEmpty = IS_EMPTY.getRandom();
         double percentFull = isEmpty ? 0 : PERCENT_FULL.getRandom();
 

@@ -44,7 +44,7 @@ public enum LootBoxType {
 
         ConfigurationSection config = Objects.requireNonNull(getConfig().getConfigurationSection(toString().toLowerCase()));
         this.base64Texture = config.getString("texture");
-        this.rewardType = LootBoxRewardType.valueOf(config.getString("reward_type").toUpperCase());
+        this.rewardType = LootBoxRewardType.valueOf(Objects.requireNonNull(config.getString("reward_type")).toUpperCase());
         loadRewards(config.getConfigurationSection("rewards"));
     }
 
@@ -172,10 +172,14 @@ public enum LootBoxType {
 
                     ConfigurationSection itemRewardsConfig = Objects.requireNonNull(config.getConfigurationSection(key + ".items"));
                     WeightedElements<LootBoxItemReward> weightedRewards = new WeightedElements<>();
-                    for (String itemId : itemRewardsConfig.getKeys(false)) {
+                    for (String k : itemRewardsConfig.getKeys(false)) {
+                        String itemId = k;
+                        if (itemId.startsWith("+")) {
+                            itemId = itemId.replaceAll("\\+", "");
+                        }
                         weightedRewards.add(
-                                new LootBoxItemReward(itemId, itemRewardsConfig.getInt(itemId + ".amount", 1)),
-                                itemRewardsConfig.getDouble(itemId + ".chance"));
+                                new LootBoxItemReward(itemId, itemRewardsConfig.getInt(k + ".amount", 1)),
+                                itemRewardsConfig.getDouble(k + ".chance"));
                     }
 
                     itemOutlines.put(tier, new LootBoxItemOutline(tier, requires, weightedRewards));

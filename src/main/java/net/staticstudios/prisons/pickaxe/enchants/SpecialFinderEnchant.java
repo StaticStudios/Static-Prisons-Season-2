@@ -46,6 +46,7 @@ public class SpecialFinderEnchant extends BaseEnchant {
 
     public void onBlockBreak(BlockBreak blockBreak) {
         if (blockBreak.getPlayer() == null) return;
+        if (!activate(blockBreak.getPickaxe())) return;
         ItemStack reward = new WeightedElements<ItemStack>()
                 .add(Vouchers.getMultiplierNote(PrisonUtils.randomInt(12, 75) / 100d, PrisonUtils.randomInt(20, 120)), 50)
                 .add(CustomItems.getItem("mine_bomb_1", null), 25)
