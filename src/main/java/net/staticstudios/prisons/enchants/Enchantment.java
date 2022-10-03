@@ -12,7 +12,9 @@ import java.util.Map;
 
 public interface Enchantment<E extends Event> extends Listener {
 
-    Map<Class<? extends Event>, Enchantment<? extends Event>> ENCHANTMENTS = new HashMap<>();
+    Map<Class<? extends Event>, Enchantment<? extends Event>> ENCHANT_EVENTS = new HashMap<>();
+    Map<Class<? extends Enchantment>, Enchantment> ENCHANTS = new HashMap<>();
+    Map<String, Enchantment> ENCHANTS_BY_ID = new HashMap<>();
 
     Class<E> getListeningFor();
 
@@ -22,11 +24,13 @@ public interface Enchantment<E extends Event> extends Listener {
         return EventPriority.NORMAL;
     }
 
+    String getId();
+
     String getName();
 
-    Component getDisplayName();
+    Component getNameAsComponent();
 
-    Component getUnformattedDisplayName();
+    Component getDisplayName();
 
     int getMaxLevel();
 
@@ -36,10 +40,26 @@ public interface Enchantment<E extends Event> extends Listener {
         return getUpgradeCost();
     }
 
+    default double getChanceToActivate(Enchantable enchantable) {
+        int level = enchantable.getEnchantmentLevel(this.getClass());
+        double totalChance = getDefaultChanceToActivate() + getChanceToActivateAtMaxLevel() / getMaxLevel() * level;
+        return Math.max(Math.min(totalChance, 1), 0);
+    }
+
+    double getDefaultChanceToActivate();
+
+    double getChanceToActivateAtMaxLevel();
+
+    default boolean shouldActivate(Enchantable enchantable) {
+        return Math.random() <= getChanceToActivate(enchantable);
+    }
+
     default void register() {
         StaticPrisons.log("[Enchants] Registering enchantment: " + getName());
 
-        ENCHANTMENTS.put(getListeningFor(), this);
+        ENCHANT_EVENTS.put(getListeningFor(), this);
+        ENCHANTS.put(this.getClass(), this);
+        ENCHANTS_BY_ID.put(getId(), this);
 
         try {
             StaticPrisons.getInstance().getServer().getPluginManager().registerEvent(

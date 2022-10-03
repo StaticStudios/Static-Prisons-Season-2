@@ -5,6 +5,8 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
+import net.staticstudios.prisons.enchants.EnchantHolder;
+import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
 import net.staticstudios.prisons.pickaxe.commands.AddPickaxeBlocksMinedCommand;
@@ -35,7 +37,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 
-public class PrisonPickaxe implements SpreadOutExecution {
+public class PrisonPickaxe implements Enchantable, SpreadOutExecution {
 
     public static final Map<String, PrisonPickaxe> UUID_TO_PICKAXE_MAP = new HashMap<>();
     public static final NamespacedKey PICKAXE_KEY = new NamespacedKey(StaticPrisons.getInstance(), "pickaxeUUID");
@@ -650,5 +652,34 @@ public class PrisonPickaxe implements SpreadOutExecution {
     @Override
     public int hashCode() {
         return Objects.hash(uuidAsString);
+    }
+
+    private final Map<Class<? extends net.staticstudios.prisons.enchants.Enchantment>, EnchantHolder> ENCHANTS = new HashMap<>();
+
+    @Override
+    public Map<Class<? extends net.staticstudios.prisons.enchants.Enchantment>, EnchantHolder> getEnchantments() {
+        return ENCHANTS;
+    }
+
+    @Override
+    public boolean setEnchantment(Class<? extends net.staticstudios.prisons.enchants.Enchantment> enchantment, int level) {
+        ENCHANTS.put(enchantment, new EnchantHolder(Enchantable.getEnchant(enchantment), level, false));
+        return true;
+    }
+
+    @Override
+    public boolean removeEnchantment(Class<? extends net.staticstudios.prisons.enchants.Enchantment> enchantment) {
+        ENCHANTS.remove(enchantment);
+        return false;
+    }
+
+    @Override
+    public boolean disableEnchantment(Class<? extends net.staticstudios.prisons.enchants.Enchantment> enchantment) {
+        return false;
+    }
+
+    @Override
+    public boolean enableEnchantment(Class<? extends net.staticstudios.prisons.enchants.Enchantment> enchantment) {
+        return false;
     }
 }

@@ -28,6 +28,6 @@ public class FortuneEnchant extends BaseEnchant {
     }
 
     public void onBlockBreak(BlockBreak blockBreak) {
-        blockBreak.getStats().setBlocksBrokenMultiplier(blockBreak.getStats().getBlocksBrokenMultiplier() * blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID));
+//        blockBreak.getStats().setBlocksBrokenMultiplier(blockBreak.getStats().getBlocksBrokenMultiplier() * blockBreak.getPickaxe().getEnchantLevel(ENCHANT_ID));
     }
 }

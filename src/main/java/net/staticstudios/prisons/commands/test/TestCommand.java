@@ -1,28 +1,12 @@
 package net.staticstudios.prisons.commands.test;
 
-import net.staticstudios.prisons.backpacks.Backpack;
-import net.staticstudios.prisons.backpacks.BackpackManager;
-import net.staticstudios.prisons.challenges.Challenge;
-import net.staticstudios.prisons.challenges.ChallengeDuration;
-import net.staticstudios.prisons.challenges.ChallengeType;
-import net.staticstudios.prisons.customitems.items.LootBoxCustomItem;
-import net.staticstudios.prisons.enchants.testing.TestEnchant;
-import net.staticstudios.prisons.fishing.DefaultFishingRod;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import org.bukkit.NamespacedKey;
+import net.staticstudios.prisons.pickaxe.newenchants.FortuneEnchant;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 
 public class TestCommand implements CommandExecutor {
 
@@ -246,7 +230,9 @@ public class TestCommand implements CommandExecutor {
 //
 //        player.getInventory().addItem(new DefaultFishingRod().getItem());
 
-        new TestEnchant();
+        new FortuneEnchant();
+        PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
+        pickaxe.setEnchantment(FortuneEnchant.class, 10);
 
         return false;
 
