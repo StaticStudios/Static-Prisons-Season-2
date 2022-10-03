@@ -51,7 +51,6 @@ public class Crate {
         CrateReward reward = REWARDS.getRandom();
 
 
-
         TextColor color = ComponentUtil.GREEN;
 
         double chance = REWARDS.getChance(reward);
@@ -76,7 +75,7 @@ public class Crate {
                 .append(Component.text("from a " + DISPLAY_NAME + " crate!").color(ComponentUtil.WHITE));
 
         if (chance <= 2.5) {
-            for (Player p : Bukkit.getOnlinePlayers()){
+            for (Player p : Bukkit.getOnlinePlayers()) {
                 p.sendMessage(rewardMessage);
             }
         } else {
@@ -113,7 +112,7 @@ public class Crate {
                 color = ComponentUtil.GOLD;
             }
 
-            List<Component> lore = reward.itemReward.lore() == null ? new ArrayList<>() : reward.itemReward.lore();
+            List<Component> lore = reward.icon.lore() == null ? new ArrayList<>() : reward.icon.lore();
 
             lore.add(Component.empty());
             lore.add(Component.text("--------------------").color(ComponentUtil.WHITE));
@@ -122,8 +121,8 @@ public class Crate {
             lore.add(Component.text("--------------------").color(ComponentUtil.WHITE));
 
             gui.setButton(i, ButtonBuilder.builder()
-                    .fromItem(reward.itemReward)
-                            .count(reward.itemReward.getAmount())
+                    .fromItem(reward.icon)
+                    .count(reward.icon.getAmount())
                     .lore(lore)
                     .build());
         }
