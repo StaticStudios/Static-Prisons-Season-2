@@ -15,7 +15,7 @@ public interface Enchantable {
      * @return The instance of the enchantment.
      */
     static Enchantment<?> getEnchant(Class<? extends Enchantment> enchantment) {
-        return Enchantment.ENCHANT_EVENTS.get(enchantment);
+        return Enchantment.ALL_ENCHANTMENTS.get(enchantment);
     }
 
     /**
@@ -49,6 +49,9 @@ public interface Enchantable {
      * @param config The ConfigurationSection.
      */
     default void deserialize(ConfigurationSection config) {
+
+        if (config == null) return;
+
         for (String enchantId : config.getKeys(false)) {
             ConfigurationSection enchantSection = config.getConfigurationSection(enchantId);
             assert enchantSection != null;
@@ -121,6 +124,15 @@ public interface Enchantable {
      */
     default int getEnchantmentLevel(Class<? extends Enchantment> enchantment) {
         EnchantHolder holder = getEnchantments().get(enchantment);
+        return holder == null ? 0 : holder.level();
+    }
+    /**
+     * Get the level of an enchantment on this item
+     * @param enchantment The enchantment to get the level of
+     * @return The level of the enchantment, or 0 if it is not on this item
+     */
+    default int getEnchantmentLevel(Enchantment enchantment) {
+        EnchantHolder holder = getEnchantments().get(enchantment.getClass());
         return holder == null ? 0 : holder.level();
     }
 

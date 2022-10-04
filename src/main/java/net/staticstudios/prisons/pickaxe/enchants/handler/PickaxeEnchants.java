@@ -1,8 +1,8 @@
 package net.staticstudios.prisons.pickaxe.enchants.handler;
 
-import net.staticstudios.prisons.blockbreak.BlockBreak;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.enchants.*;
+import net.staticstudios.prisons.pickaxe.enchants.doneconverting.FortuneEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.doneconverting.TokenatorEnchant;
 
 import java.util.ArrayList;
 import java.util.HashMap;

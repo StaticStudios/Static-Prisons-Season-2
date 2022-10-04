@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.pickaxe.enchants;
+package net.staticstudios.prisons.pickaxe.enchants.doneconverting;
 
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
