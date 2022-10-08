@@ -11,6 +11,7 @@ import net.staticstudios.prisons.pickaxe.newenchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.math.RoundingMode;
 import java.util.HashMap;
@@ -23,6 +24,8 @@ public class AutoSellEnchant extends PickaxeEnchant<BlockBreakProcessEvent> {
     private static int MAX_INTERVAL = 600;
     private static int STEP = 93;
 
+    private static BukkitTask timerTask;
+
     public AutoSellEnchant() {
         super(BlockBreakProcessEvent.class, "pickaxe-autosell");
 
@@ -31,10 +34,12 @@ public class AutoSellEnchant extends PickaxeEnchant<BlockBreakProcessEvent> {
 
         getConfig().getInt("max_interval", MAX_INTERVAL);
         getConfig().getInt("step", STEP);
-    }
 
-    public static void init() {
-        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
+        if (timerTask != null) {
+            timerTask.cancel();
+        }
+
+        timerTask = Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
             for (PrisonPickaxe pickaxe : ACTIVE_PICKAXES.keySet()) {
 
                 //Check if the enchantment has been just disabled

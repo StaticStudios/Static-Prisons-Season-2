@@ -30,6 +30,8 @@ public interface Enchantment<E extends Event> extends Listener {
      */
     default void onEvent(E event) {}
 
+    //TODO: a precheck that is called before onEvent, to check if the event should be called at all. for instance, check if the ench level is more than 0
+
     /**
      * Get the event priority of this enchantment.
      * @return The event priority.

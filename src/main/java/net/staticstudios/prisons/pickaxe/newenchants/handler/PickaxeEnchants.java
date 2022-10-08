@@ -1,9 +1,6 @@
 package net.staticstudios.prisons.pickaxe.newenchants.handler;
 
-import net.staticstudios.prisons.pickaxe.newenchants.AutoSellEnchant;
-import net.staticstudios.prisons.pickaxe.newenchants.BackpackFinderEnchant;
-import net.staticstudios.prisons.pickaxe.newenchants.FortuneEnchant;
-import net.staticstudios.prisons.pickaxe.newenchants.TokenatorEnchant;
+import net.staticstudios.prisons.pickaxe.newenchants.*;
 
 public class PickaxeEnchants {
 
@@ -12,5 +9,6 @@ public class PickaxeEnchants {
         new TokenatorEnchant();
         new AutoSellEnchant();
         new BackpackFinderEnchant();
+        new ConsistencyEnchant();
     }
 }

@@ -37,7 +37,7 @@ import net.staticstudios.prisons.mines.MineManager;
 import net.staticstudios.prisons.pickaxe.PickaxeManager;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
 import net.staticstudios.prisons.pickaxe.enchants.doneconverting.AutoSellEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.ConsistencyEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.doneconverting.ConsistencyEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.privatemines.PrivateMineManager;
