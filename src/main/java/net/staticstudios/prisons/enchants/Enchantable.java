@@ -106,7 +106,9 @@ public interface Enchantable {
      * @return A set containing all the disabled enchantments on this item
      */
     default Map<Class<? extends Enchantment>, EnchantHolder> getDisabledEnchantments() {
-        return getEnchantments().entrySet().stream().filter(entry -> entry.getValue().isDisabled()).collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
+        return getEnchantments().entrySet().stream()
+                .filter(entry -> entry.getValue().isDisabled())
+                .collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
     }
 
     /**
@@ -114,7 +116,9 @@ public interface Enchantable {
      * @return A set containing all the enabled enchantments on this item
      */
     default Map<Class<? extends Enchantment>, EnchantHolder> getEnabledEnchantments() {
-        return getEnchantments().entrySet().stream().filter(entry -> !entry.getValue().isDisabled()).collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
+        return getEnchantments().entrySet().stream()
+                .filter(entry -> !entry.getValue().isDisabled())
+                .collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
     }
 
     /**

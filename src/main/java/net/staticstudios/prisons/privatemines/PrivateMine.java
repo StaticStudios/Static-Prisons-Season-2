@@ -277,7 +277,7 @@ public class PrivateMine {
 
         WeightedElements<BlockType> mineBlocks = new WeightedElements<>();
         for (WeightedElement<MineBlock> mineBlock : this.mineBlocks.getElements()) {
-            mineBlocks.add(BukkitAdapter.asBlockType(mineBlock.getElement().material()), mineBlock.getWeight());
+            mineBlocks.add(BukkitAdapter.asBlockType(mineBlock.element().material()), mineBlock.weight());
         }
 
         StaticMine mine = StaticMineBuilder.getBuilder()

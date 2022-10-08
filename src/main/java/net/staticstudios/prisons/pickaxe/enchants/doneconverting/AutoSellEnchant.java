@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.pickaxe.enchants;
+package net.staticstudios.prisons.pickaxe.enchants.doneconverting;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class AutoSellEnchant extends BaseEnchant {
     public AutoSellEnchant() {
-        super("autoSell", "&d&lAuto Sell", 50000, 75, "&7Decrease the time between the", "&7automatic selling of your backpack", "&7Minimum interval: 60 seconds");
+        super("autoSell", "&d&lAuto Sell", 50000, 75, "&7Decrease the time between the", "&7", "&7");
         setPickaxeLevelRequirement(25);
 
         setTiers(

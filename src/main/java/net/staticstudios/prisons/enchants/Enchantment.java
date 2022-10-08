@@ -113,6 +113,14 @@ public interface Enchantment<E extends Event> extends Listener {
     double getChanceToActivateAtMaxLevel();
 
     /**
+     * Get the minimum level requirement for this enchantment.
+     * @return The level requirement.
+     */
+    int getLevelRequirement();
+
+
+
+    /**
      * Figure out if this enchantment should activate. This will check a random number against the chance to activate.
      * @param enchantable The enchantable item that this enchantment is on.
      * @return True if the enchantment should activate, false otherwise.

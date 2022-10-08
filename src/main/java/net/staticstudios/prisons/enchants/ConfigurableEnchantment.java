@@ -23,6 +23,7 @@ public abstract class ConfigurableEnchantment<E extends Event> implements Enchan
     private final long upgradeCost;
     private final double defaultChance;
     private final double chanceAtMaxLevel;
+    private final int levelRequirement;
 
     private final ConfigurationSection config;
 
@@ -50,10 +51,11 @@ public abstract class ConfigurableEnchantment<E extends Event> implements Enchan
                 description.add(MiniMessage.miniMessage().deserialize(line));
             }
             this.description = description;
-            this.maxLevel = config.getInt("max_level");
-            this.upgradeCost = config.getLong("upgrade_cost");
-            this.defaultChance = config.getDouble("default_chance");
-            this.chanceAtMaxLevel = config.getDouble("chance_at_max_level");
+            this.maxLevel = config.getInt("max_level", 0);
+            this.upgradeCost = config.getLong("upgrade_cost", 0);
+            this.defaultChance = config.getDouble("default_chance", 1);
+            this.chanceAtMaxLevel = config.getDouble("chance_at_max_level", 1);
+            this.levelRequirement = config.getInt("level_requirement", 0);
 
             orderedEnchants.add(this);
         } catch (NullPointerException exception) {
@@ -117,4 +119,10 @@ public abstract class ConfigurableEnchantment<E extends Event> implements Enchan
     public double getChanceToActivateAtMaxLevel() {
         return chanceAtMaxLevel;
     }
+
+    @Override
+    public int getLevelRequirement() {
+        return levelRequirement;
+    }
+
 }

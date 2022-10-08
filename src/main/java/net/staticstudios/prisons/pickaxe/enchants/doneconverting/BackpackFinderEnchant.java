@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.pickaxe.enchants;
+package net.staticstudios.prisons.pickaxe.enchants.doneconverting;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -17,31 +17,12 @@ import org.bukkit.ChatColor;
 
 public class BackpackFinderEnchant extends BaseEnchant {
     public BackpackFinderEnchant() {
-        super("backpackFinder", "&6&lDuffle Bag", 10000, 750, "&7Chance to find a random backpack while mining");
+        super("backpackFinder", "&6&lDuffle Bag", 10000, 750, "&7");
         setPickaxeLevelRequirement(25);
 
         //20 Tiers
         setTiers(
-                new EnchantTier(500, 0),
-                new EnchantTier(1000, 1),
-                new EnchantTier(1500, 1),
-                new EnchantTier(2000, 1),
-                new EnchantTier(2500, 1),
-                new EnchantTier(3000, 1),
-                new EnchantTier(3500, 1),
-                new EnchantTier(4000, 1),
-                new EnchantTier(4500, 1),
-                new EnchantTier(5000, 2),
-                new EnchantTier(5500, 2),
-                new EnchantTier(6000, 2),
-                new EnchantTier(6500, 3),
-                new EnchantTier(7000, 3),
-                new EnchantTier(7500, 3),
-                new EnchantTier(8000, 5),
-                new EnchantTier(8500, 5),
-                new EnchantTier(9000, 5),
-                new EnchantTier(9500, 5),
-                new EnchantTier(10000, 10)
+
         );
 
         setUseChances(true);

@@ -1,6 +1,8 @@
 package net.staticstudios.prisons.pickaxe.enchants.handler;
 
 import net.staticstudios.prisons.pickaxe.enchants.*;
+import net.staticstudios.prisons.pickaxe.enchants.doneconverting.AutoSellEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.doneconverting.BackpackFinderEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.doneconverting.FortuneEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.doneconverting.TokenatorEnchant;
 

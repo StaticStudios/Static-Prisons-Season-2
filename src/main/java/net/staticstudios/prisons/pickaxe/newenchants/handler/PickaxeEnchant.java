@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.pickaxe.newenchants;
+package net.staticstudios.prisons.pickaxe.newenchants.handler;
 
 import net.staticstudios.prisons.enchants.ConfigurableEnchantment;
 import net.staticstudios.prisons.enchants.Enchantable;
@@ -44,13 +44,13 @@ public abstract class PickaxeEnchant<E extends Event> extends ConfigurableEnchan
         return eventClass;
     }
 
-    public void onHold(Enchantable enchantable, Player player) {
+    public void onHold(Enchantable enchantable, Player player) { //todo: functionality
     }
 
     public void onUnHold(Enchantable enchantable, Player player) {
     }
 
-    public void onUpgrade(Enchantable enchantable, Player player) {
+    public void onUpgrade(Enchantable enchantable, Player player, int oldLevel, int newLevel) {
     }
 
     protected void setTiers(EnchantTier... tiers) {

@@ -251,7 +251,7 @@ public final class StaticMines implements Listener {
 
             ConfigurationSection blockData = mineData.createSection("blocks");
             for (WeightedElement<BlockType> block : mine.getBlocks().getElements()) {
-                putIfAbsent(blockData, block.getElement().getId().replace("minecraft:", ""), block.getWeight());
+                putIfAbsent(blockData, block.element().getId().replace("minecraft:", ""), block.weight());
             }
 
             ConfigurationSection settingData = mineData.getConfigurationSection("settings");

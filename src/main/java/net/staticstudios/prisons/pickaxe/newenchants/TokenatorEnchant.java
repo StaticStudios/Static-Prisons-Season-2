@@ -4,14 +4,10 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
-import net.staticstudios.prisons.enchants.Enchantment;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
+import net.staticstudios.prisons.pickaxe.newenchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import org.bukkit.entity.Player;
-
-import java.util.List;
 
 public class TokenatorEnchant extends PickaxeEnchant<BlockBreakProcessEvent> {
 

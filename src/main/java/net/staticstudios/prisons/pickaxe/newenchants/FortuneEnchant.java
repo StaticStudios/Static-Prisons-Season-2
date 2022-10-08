@@ -1,13 +1,8 @@
 package net.staticstudios.prisons.pickaxe.newenchants;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
-import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
-import net.staticstudios.prisons.utils.ComponentUtil;
-
-import java.util.List;
+import net.staticstudios.prisons.pickaxe.newenchants.handler.PickaxeEnchant;
 
 public class FortuneEnchant extends PickaxeEnchant<BlockBreakProcessEvent> {
 

@@ -9,7 +9,6 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.Prefix;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -98,7 +97,7 @@ public class Crate {
                 .build();
 
         for (int i = 0; i < REWARDS.getElements().size(); i++) {
-            CrateReward reward = REWARDS.getElement(i).getElement();
+            CrateReward reward = REWARDS.getElement(i).element();
             TextColor color = ComponentUtil.GREEN;
 
             double chance = REWARDS.getChance(i);
