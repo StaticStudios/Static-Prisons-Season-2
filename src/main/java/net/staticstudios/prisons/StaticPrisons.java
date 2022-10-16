@@ -23,6 +23,7 @@ import net.staticstudios.prisons.customitems.Kits;
 import net.staticstudios.prisons.data.backups.DataBackup;
 import net.staticstudios.prisons.data.datahandling.DataSet;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
+import net.staticstudios.prisons.enchants.Enchantment;
 import net.staticstudios.prisons.events.EventManager;
 import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.fishing.FishingManager;
@@ -36,9 +37,6 @@ import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.mines.MineManager;
 import net.staticstudios.prisons.pickaxe.PickaxeManager;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
-import net.staticstudios.prisons.pickaxe.enchants.doneconverting.AutoSellEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.doneconverting.ConsistencyEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.privatemines.PrivateMineManager;
 import net.staticstudios.prisons.pvp.PvPManager;
@@ -87,14 +85,14 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         plugin = this;
 
         safe(this::enableCitizens);
-        safe(TeamPrefix::init);
         safe(this::loadWorldBoarderAPI);
+        safe(TeamPrefix::init);
         safe(PrisonUtils::init);
         safe(MineManager::init);
         safe(PrivateMineManager::init);
-        safe(BaseEnchant::init);
+        safe(Enchantment::init);
         safe(PickaxeEnchants::init);
-        safe(PickaxeAbilities::init);
+//        safe(PickaxeAbilities::init);
         safe(CustomItems::init);
         safe(Crates::init);
         safe(CellManager::init);
@@ -105,8 +103,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(DataBackup::init);
         safe(PickaxeManager::init);
         safe(AuctionManager::init);
-        safe(AutoSellEnchant::initTimer);
-        safe(ConsistencyEnchant::init);
         safe(Kits::init);
         safe(LevelUp::init);
         safe(TabList::init);
@@ -261,7 +257,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     }
 
     /**
-     * Safely run a piece of code in a try-catch block. Good for init tasks to prevent other modules from not loading due to errors.
+     * Safely run a piece of code in a try-catch block.
+     * Good for init tasks to prevent other modules from not loading due to errors.
      */
     public static void safe(Runnable r) {
         try {

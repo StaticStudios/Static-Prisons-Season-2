@@ -12,7 +12,6 @@ import java.util.List;
 
 public abstract class ConfigurableEnchantment<E extends Event> implements Enchantment<E> {
     private static ConfigurationSection configuration;
-    private static List<Enchantment> orderedEnchants = new ArrayList<>();
 
     private final String id;
     private final String name;
@@ -43,7 +42,7 @@ public abstract class ConfigurableEnchantment<E extends Event> implements Enchan
         try {
 
             this.id = id;
-            this.name = config.getString("name");
+            this.name = config.getString("name", "null");
             this.unformattedName = MiniMessage.miniMessage().deserialize(config.getString("unformatted_name", name));
             this.displayName = MiniMessage.miniMessage().deserialize(config.getString("display_name", name));
             List<Component> description = new ArrayList<>();
@@ -57,14 +56,9 @@ public abstract class ConfigurableEnchantment<E extends Event> implements Enchan
             this.chanceAtMaxLevel = config.getDouble("chance_at_max_level", 1);
             this.levelRequirement = config.getInt("level_requirement", 0);
 
-            orderedEnchants.add(this);
         } catch (NullPointerException exception) {
             throw new IllegalArgumentException("Invalid config for configurable enchantment: " + id, exception);
         }
-    }
-
-    public static List<Enchantment> getEnchantsInOrder() {
-        return orderedEnchants;
     }
 
     /**

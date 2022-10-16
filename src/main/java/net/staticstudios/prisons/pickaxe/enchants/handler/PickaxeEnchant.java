@@ -1,26 +1,23 @@
-package net.staticstudios.prisons.pickaxe.newenchants.handler;
+package net.staticstudios.prisons.pickaxe.enchants.handler;
 
+import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
 import net.staticstudios.prisons.enchants.ConfigurableEnchantment;
 import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public abstract class PickaxeEnchant<E extends Event> extends ConfigurableEnchantment<E> {
+public abstract class PickaxeEnchant extends ConfigurableEnchantment<BlockBreakProcessEvent> {
 
-    private final Class<E> eventClass;
+    private final Class<? extends PickaxeEnchant> enchantClass;
     private EnchantTier[] tiers;
 
-    public PickaxeEnchant(@NotNull Class<E> eventClass, String id) {
+    public PickaxeEnchant(Class<? extends PickaxeEnchant> enchantClass, String id) {
         super(id);
-        this.eventClass = eventClass;
+        this.enchantClass = enchantClass;
 
         ConfigurationSection tiersConfig = getConfig().getConfigurationSection("tiers");
         if (tiersConfig != null) {
@@ -40,32 +37,38 @@ public abstract class PickaxeEnchant<E extends Event> extends ConfigurableEnchan
     }
 
     @Override
-    public Class<E> getListeningFor() {
-        return eventClass;
+    public Class<BlockBreakProcessEvent> getListeningFor() {
+        return BlockBreakProcessEvent.class;
     }
 
-    public void onHold(Enchantable enchantable, Player player) { //todo: functionality
+    @Override
+    public boolean beforeEvent(BlockBreakProcessEvent event) {
+        PrisonPickaxe pickaxe = event.getBlockBreak().getPickaxe();
+        return pickaxe == null || pickaxe.getEnchantmentLevel(enchantClass) <= 0 || !shouldActivate(pickaxe);
     }
 
-    public void onUnHold(Enchantable enchantable, Player player) {
-    }
+    @Override
+    public void onHold(Enchantable enchantable, Player player) {}
 
-    public void onUpgrade(Enchantable enchantable, Player player, int oldLevel, int newLevel) {
-    }
+    @Override
+    public void onUnHold(Enchantable enchantable, Player player) {}
+
+    @Override
+    public void onUpgrade(Enchantable enchantable, Player player, int oldLevel, int newLevel) {}
 
     protected void setTiers(EnchantTier... tiers) {
         this.tiers = tiers;
     }
 
-    public Optional<EnchantTier> getTier(int tier) {
+    public EnchantTier getTier(int tier) {
         if (tiers == null || tier < 0 || tier >= tiers.length) {
-            return Optional.empty();
+            return null;
         }
-        return Optional.of(tiers[tier]);
+        return tiers[tier];
     }
 
     public int getMaxLevel(int tier) {
-        EnchantTier enchantTier = getTier(tier).orElse(null);
+        EnchantTier enchantTier = getTier(tier);
         if (enchantTier == null) {
             return getMaxLevel();
         }
@@ -73,6 +76,6 @@ public abstract class PickaxeEnchant<E extends Event> extends ConfigurableEnchan
     }
 
     public int getMaxLevel(PrisonPickaxe pickaxe) {
-        return getMaxLevel(pickaxe.getEnchantmentTier(getId()));
+        return getMaxLevel(pickaxe.getEnchantmentTier(getClass()));
     }
 }

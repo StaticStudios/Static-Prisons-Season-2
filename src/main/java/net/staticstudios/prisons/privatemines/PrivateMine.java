@@ -446,12 +446,12 @@ public class PrivateMine {
     public static final int XP_PER_BLOCK_BROKEN = 1;
     public void blockBroken(BlockBreak blockBreak) {
         setXpAndCalcLevel(getXp() + XP_PER_BLOCK_BROKEN);
-        blockBreak.getStats().setMoneyMultiplier(blockBreak.getStats().getMoneyMultiplier() * sellPercentage);
+        blockBreak.stats().setMoneyMultiplier(blockBreak.stats().getMoneyMultiplier() * sellPercentage);
         if (!(blockBreak.getPlayerData().getUUID().equals(owner) || getWhitelist().contains(blockBreak.getPlayerData().getUUID()))) { //Don't tax owner or whitelisted players
 
             blockBreak.addAfterProcess(bb -> { //Add tax to the owner
-                new PlayerData(owner).addMoney((long) (bb.getStats().getMoneyEarned() * visitorTax));
-                bb.getStats().setMoneyMultiplier(bb.getStats().getMoneyMultiplier() * (1 - visitorTax));
+                new PlayerData(owner).addMoney((long) (bb.stats().getMoneyEarned() * visitorTax));
+                bb.stats().setMoneyMultiplier(bb.stats().getMoneyMultiplier() * (1 - visitorTax));
             });
         }
     }

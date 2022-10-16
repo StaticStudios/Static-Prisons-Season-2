@@ -305,7 +305,7 @@ public abstract class LootBox implements SpreadOutExecution {
     protected void onBlockBreak(BlockBreak blockBreak) {
         if (checkCondition()) return;
         blockBreak.addAfterProcess(bb -> {
-            progress += bb.getStats().getRawBlockBroken();
+            progress += bb.stats().getRawBlockBroken();
             checkIfReadyToClaim(blockBreak.getPlayer());
             updateItem();
         });

@@ -22,6 +22,12 @@ public abstract class EnchantableItemStack implements Enchantable, SpreadOutExec
         this.uuid = uuid;
     }
 
+    /**
+     * Get an EnchantableItemStack from an ItemStack.
+     * @param clazz The class of the EnchantableItemStack.
+     * @param itemStack The ItemStack.
+     * @return The EnchantableItemStack.
+     */
     public static <T extends EnchantableItemStack> T fromItem(Class<T> clazz, ItemStack itemStack) {
         if (!isEnchantable(clazz, itemStack)) return null;
         String uuidAsString = itemStack.getItemMeta().getPersistentDataContainer().get(getNamespacedKey(clazz), PersistentDataType.STRING);
@@ -31,6 +37,21 @@ public abstract class EnchantableItemStack implements Enchantable, SpreadOutExec
         if (obj == null) return null;
         obj.setItem(itemStack);
         return obj;
+    }
+
+    /**
+     * Get a list of all the EnchantableItemStacks on an ItemStack.
+     * @param itemStack The ItemStack.
+     * @return The list of EnchantableItemStacks, it will be empty if it is not an EnchantableItemStack.
+     */
+    public static <T extends EnchantableItemStack> List<T> fromGenericItem(ItemStack itemStack) {
+        List<T> items = new ArrayList<>();
+        for (Map.Entry<Class<? extends EnchantableItemStack>, NamespacedKey> entry : NAMESPACED_KEYS.entrySet()) {
+            if (isEnchantable(entry.getKey(), itemStack)) {
+                items.add((T) fromItem(entry.getKey(), itemStack));
+            }
+        }
+        return items;
     }
 
     public static <T extends EnchantableItemStack> T fromUid(Class<T> clazz, UUID uuid) {

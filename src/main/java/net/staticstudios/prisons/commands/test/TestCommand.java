@@ -1,14 +1,9 @@
 package net.staticstudios.prisons.commands.test;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
-import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.newenchants.FortuneEnchant;
-import net.staticstudios.prisons.pickaxe.newenchants.TokenatorEnchant;
-import org.bukkit.Bukkit;
+import net.staticstudios.prisons.pickaxe.enchants.FortuneEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.TokenatorEnchant;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

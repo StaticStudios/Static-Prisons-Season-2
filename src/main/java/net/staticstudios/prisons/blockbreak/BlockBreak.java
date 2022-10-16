@@ -37,7 +37,7 @@ public class BlockBreak {
 
     private final BlockBreakStats stats = new BlockBreakStats();
 
-    public BlockBreakStats getStats() {
+    public BlockBreakStats stats() {
         return stats;
     }
 

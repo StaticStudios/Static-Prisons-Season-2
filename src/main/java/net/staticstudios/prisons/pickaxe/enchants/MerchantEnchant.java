@@ -1,23 +1,21 @@
 package net.staticstudios.prisons.pickaxe.enchants;
 
+import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
 
-public class MerchantEnchant extends BaseEnchant {
+public class MerchantEnchant extends PickaxeEnchant {
+
+    private static double MULTIPLIER = 1.5;
+
     public MerchantEnchant() {
-        super("merchant", "&a&lMerchant", 6_000, 650, "&7Permanent +150% sell multiplier at max level");
-        setPickaxeLevelRequirement(15);
+        super(MerchantEnchant.class, "pickaxe-merchant");
 
-        setTiers(
-                new EnchantTier(3000, 0),
-                new EnchantTier(6000, 25)
-        );
+        MULTIPLIER = getConfig().getDouble("multiplier", MULTIPLIER);
     }
 
     public static double getMultiplier(PrisonPickaxe pickaxe) {
-        if (!pickaxe.getIsEnchantEnabled(PickaxeEnchants.MERCHANT)) return 0;
-        return (double) pickaxe.getEnchantLevel(PickaxeEnchants.MERCHANT) / PickaxeEnchants.MERCHANT.MAX_LEVEL * 1.5;
+        if (!pickaxe.getEnabledEnchantments().containsKey(MerchantEnchant.class)) return 0;
+        return (double) pickaxe.getEnchantmentLevel(MerchantEnchant.class) / ((PickaxeEnchant) Enchantable.getEnchant(MerchantEnchant.class)).getMaxLevel(pickaxe) * MULTIPLIER;
     }
 }

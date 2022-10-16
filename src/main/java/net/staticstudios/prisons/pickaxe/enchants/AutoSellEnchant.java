@@ -1,13 +1,11 @@
-package net.staticstudios.prisons.pickaxe.newenchants;
+package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.BackpackManager;
-import net.staticstudios.prisons.blockbreak.BlockBreak;
-import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
 import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.newenchants.handler.PickaxeEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,7 +15,7 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AutoSellEnchant extends PickaxeEnchant<BlockBreakProcessEvent> {
+public class AutoSellEnchant extends PickaxeEnchant {
 
     private static final Map<PrisonPickaxe, Integer> PICKAXE_TIME_LEFT = new HashMap<>();
     private static final Map<PrisonPickaxe, Player> ACTIVE_PICKAXES = new HashMap<>();
@@ -27,13 +25,13 @@ public class AutoSellEnchant extends PickaxeEnchant<BlockBreakProcessEvent> {
     private static BukkitTask timerTask;
 
     public AutoSellEnchant() {
-        super(BlockBreakProcessEvent.class, "pickaxe-autosell");
+        super(AutoSellEnchant.class, "pickaxe-autosell");
 
         PICKAXE_TIME_LEFT.clear();
         ACTIVE_PICKAXES.clear();
 
-        getConfig().getInt("max_interval", MAX_INTERVAL);
-        getConfig().getInt("step", STEP);
+        MAX_INTERVAL = getConfig().getInt("max_interval", MAX_INTERVAL);
+        STEP = getConfig().getInt("step", STEP);
 
         if (timerTask != null) {
             timerTask.cancel();

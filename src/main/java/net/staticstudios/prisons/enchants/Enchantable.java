@@ -2,6 +2,7 @@ package net.staticstudios.prisons.enchants;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +12,7 @@ public interface Enchantable {
 
     /**
      * Get the instance of the enchantment from its class.
+     *
      * @param enchantment The class of the enchantment.
      * @return The instance of the enchantment.
      */
@@ -20,6 +22,7 @@ public interface Enchantable {
 
     /**
      * Get the instance of the enchantment from its id.
+     *
      * @param id The id of the enchantment.
      * @return The instance of the enchantment.
      */
@@ -29,6 +32,7 @@ public interface Enchantable {
 
     /**
      * Convert all the enchants on this object to a ConfigurationSection.
+     *
      * @return The ConfigurationSection.
      */
     default ConfigurationSection serialize() {
@@ -46,6 +50,7 @@ public interface Enchantable {
 
     /**
      * Apply all the enchants defined in the ConfigurationSection to this object.
+     *
      * @param config The ConfigurationSection.
      */
     default void deserialize(ConfigurationSection config) {
@@ -68,41 +73,98 @@ public interface Enchantable {
 
     /**
      * Get all the enchantments on this item
+     *
      * @return A set of all the enchantments on this item
      */
     Map<Class<? extends Enchantment>, EnchantHolder> getEnchantments();
 
     /**
      * Add an enchantment to this item
+     *
      * @param enchantment The enchantment to add
-     * @param level The level of the enchantment
+     * @param level       The level of the enchantment
      * @return True if the enchantment was added, false if it was not
      */
     boolean setEnchantment(Class<? extends Enchantment> enchantment, int level);
 
     /**
+     * Attempt to upgrade an enchantment on this item.
+     *
+     * @param enchantment     The enchantment to upgrade.
+     * @param player          The player upgrading the enchantment.
+     * @param levelsToUpgrade The number of levels to upgrade the enchantment by.
+     * @return True if the enchantment was upgraded, false if it was not.
+     */
+    boolean upgrade(Class<? extends Enchantment> enchantment, Player player, int levelsToUpgrade);
+
+    /**
      * Remove an enchantment from this item
+     *
      * @param enchantment The enchantment to remove
+     * @param player      The player who removed the enchantment
      * @return True if the enchantment was removed, false if it was not
      */
-    boolean removeEnchantment(Class<? extends Enchantment> enchantment);
+    boolean removeEnchantment(Class<? extends Enchantment> enchantment, Player player);
 
     /**
      * Disable an enchantment on this item
+     *
      * @param enchantment The enchantment to disable
+     * @param player      The player who disabled the enchantment
      * @return True if the enchantment was disabled, false if it was not
      */
-    boolean disableEnchantment(Class<? extends Enchantment> enchantment);
+    boolean disableEnchantment(Class<? extends Enchantment> enchantment, Player player);
 
     /**
      * Enable an enchantment on this item
+     *
      * @param enchantment The enchantment to enable
+     * @param player      The player who enabled the enchantment
      * @return True if the enchantment was enabled, false if it was not
      */
-    boolean enableEnchantment(Class<? extends Enchantment> enchantment);
+    boolean enableEnchantment(Class<? extends Enchantment> enchantment, Player player);
+
+    /**
+     * Call this method when the Enchantable is held by a player.
+     *
+     * @param enchantable The Enchantable.
+     * @param player      The player holding the Enchantable.
+     */
+    default void onHold(Enchantable enchantable, Player player) {
+        for (EnchantHolder holder : getEnabledEnchantments().values()) {
+            holder.enchantment().onHold(enchantable, player);
+        }
+    }
+
+    /**
+     * Call this method when the Enchantable is un-held by a player.
+     *
+     * @param enchantable The Enchantable.
+     * @param player      The player un-holding the Enchantable.
+     */
+    default void onUnHold(Enchantable enchantable, Player player) {
+        for (EnchantHolder holder : getEnabledEnchantments().values()) {
+            holder.enchantment().onUnHold(enchantable, player);
+        }
+    }
+
+    /**
+     * Call this method when the Enchantable is upgraded by a player.
+     *
+     * @param enchantable The Enchantable.
+     * @param player      The player upgrading the Enchantable.
+     * @param oldLevel    The level the Enchantable was upgraded to.
+     * @param newLevel    The level the Enchantable was upgraded to.
+     */
+    default void onUpgrade(Enchantable enchantable, Player player, int oldLevel, int newLevel) {
+        for (EnchantHolder holder : getEnabledEnchantments().values()) {
+            holder.enchantment().onUpgrade(enchantable, player, oldLevel, newLevel);
+        }
+    }
 
     /**
      * Get a set containing all the disabled enchantments on this item
+     *
      * @return A set containing all the disabled enchantments on this item
      */
     default Map<Class<? extends Enchantment>, EnchantHolder> getDisabledEnchantments() {
@@ -113,6 +175,7 @@ public interface Enchantable {
 
     /**
      * Get a set containing all the enabled enchantments on this item
+     *
      * @return A set containing all the enabled enchantments on this item
      */
     default Map<Class<? extends Enchantment>, EnchantHolder> getEnabledEnchantments() {
@@ -123,6 +186,7 @@ public interface Enchantable {
 
     /**
      * Get the level of an enchantment on this item
+     *
      * @param enchantment The enchantment to get the level of
      * @return The level of the enchantment, or 0 if it is not on this item
      */
@@ -130,8 +194,10 @@ public interface Enchantable {
         EnchantHolder holder = getEnchantments().get(enchantment);
         return holder == null ? 0 : holder.level();
     }
+
     /**
      * Get the level of an enchantment on this item
+     *
      * @param enchantment The enchantment to get the level of
      * @return The level of the enchantment, or 0 if it is not on this item
      */
@@ -142,6 +208,7 @@ public interface Enchantable {
 
     /**
      * Check if this item has an enchantment
+     *
      * @param enchantment The enchantment to check for
      * @return True if the item has the enchantment, false if it does not
      */

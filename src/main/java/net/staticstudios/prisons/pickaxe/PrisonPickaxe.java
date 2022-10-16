@@ -2,15 +2,14 @@ package net.staticstudios.prisons.pickaxe;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.customitems.pickaxes.PickaxeTemplates;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.enchants.*;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.items.SpreadOutExecution;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemFlag;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -18,20 +17,7 @@ import java.util.*;
 
 public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExecution {
 
-    static {
-        EnchantableItemStack.setNamespacedKey(PrisonPickaxe.class, new NamespacedKey(StaticPrisons.getInstance(), "prisonPickaxe"));
-    }
-
-//    private static final Map<UUID, PrisonPickaxe> UUID_TO_PICKAXE_MAP = new HashMap<>();
-//    private static final NamespacedKey PICKAXE_KEY = new NamespacedKey(StaticPrisons.getInstance(), "pickaxeUUID");
-//
     private final static Component LORE_DIVIDER = Component.text("---------------").color(ComponentUtil.LIGHT_GRAY);
-//    private final String uuidAsString;
-//    private final Map<String, Integer> enchLevelMap = new HashMap<>();
-//    private final Map<String, Integer> enchTierMap = new HashMap<>();
-//    private final Map<String, Integer> abilityLevelMap = new HashMap<>();
-//    private final Map<String, Long> lastUsedAbilityAtMap = new HashMap<>();
-//    private final Set<String> disabledEnchants = new HashSet<>();
     private long level = 0;
     private long xp = 0;
     private long blocksBroken = 0;
@@ -56,10 +42,22 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
      * @param item The ItemStack that the PrisonPickaxe will be based on. This will be the pickaxe that the player will use.
      */
     public PrisonPickaxe(ItemStack item) {
+        this(item, true);
+    }
+
+    /**
+     * Create a completely new PrisonPickaxe with a new UUID
+     *
+     * @param item The ItemStack that the PrisonPickaxe will be based on. This will be the pickaxe that the player will use.
+     * @param register Whether the pickaxe should be registered, if not, it will not be tracked.
+     */
+    public PrisonPickaxe(ItemStack item, boolean register) {
         super(UUID.randomUUID());
         setItem(item);
-        keyItem();
-        register(this);
+        if (register) {
+            keyItem();
+            register(this);
+        }
     }
 
     /**
@@ -87,27 +85,10 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
      *
      * @return A diamond pickaxe with an associated PrisonPickaxe
      */
-    public static ItemStack createNewPickaxe() {
-        ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
-        PrisonPickaxe pickaxe = new PrisonPickaxe(item);
-        ItemMeta meta = item.getItemMeta();
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        meta.setUnbreakable(true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addEnchant(Enchantment.DIG_SPEED, 100, true);
-        item.setItemMeta(meta);
-        pickaxe.setEnchantsLevel(PickaxeEnchants.FORTUNE, 5);
-        pickaxe.setEnchantsLevel(PickaxeEnchants.DOUBLE_FORTUNE, 5);
-        pickaxe.setEnchantsLevel(PickaxeEnchants.TOKENATOR, 1);
-        pickaxe.setEnchantsLevel(PickaxeEnchants.JACK_HAMMER, 1);
-        updateLore(item);
-        return item;
+    public static PrisonPickaxe createNewPickaxe() {
+        return PickaxeTemplates.DEFAULT.getPickaxe();
     }
 
-    //BASE = 2500
-    //ROI = 2.4
-    //BASE * lvl + lvl * (ROI * lvl)^ROI
     public static long getLevelRequirement(long level) {
         if (level <= 0) return 2500;
         return (long) (2500 * level + level * Math.pow(2.4 * level, 2.4));
@@ -199,6 +180,14 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
         return this;
     }
 
+    public List<Component> getTopLore() {
+        return topLore;
+    }
+
+    public List<Component> getBottomLore() {
+        return bottomLore;
+    }
+
     @Override
     public void updateItemName(ItemMeta meta) {
         meta.displayName(Component.empty().append(displayName)
@@ -228,7 +217,7 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
         lore.add(LORE_DIVIDER);
 
         //Enchantment lore
-        for (Enchantment<?> enchantment : ConfigurableEnchantment.getEnchantsInOrder()) {
+        for (Enchantment<?> enchantment : Enchantment.getEnchantsInOrder()) {
             int level = getEnchantmentLevel(enchantment);
             if (level <= 0) continue;
             lore.add(enchantment.getNameAsComponent()
@@ -246,23 +235,6 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
         meta.lore(lore);
     }
 
-    public int getEnchantmentTier(String id) {
-        //todo
-        return 1;
-    }
-
-
-    /**
-     * Remove this pickaxe from the internal mapping, this should only be called on pickaxes that are "templates" and will only ever be used to view a preview of the ItemStack
-     * <p>
-     * Once a pickaxe is removed, it can no longer be used by a player
-     */
-    @Deprecated //delete this method
-    public PrisonPickaxe delete() {
-        UUID_TO_PICKAXE_MAP.remove(uuid);
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -277,6 +249,15 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
     }
 
     private final Map<Class<? extends Enchantment>, EnchantHolder> ENCHANTS = new HashMap<>();
+    private final Map<Class<? extends Enchantment>, Integer> ENCHANT_TIERS = new HashMap<>();
+
+    public int getEnchantmentTier(Class<? extends Enchantment> enchantment) {
+        return ENCHANT_TIERS.getOrDefault(enchantment, 0);
+    }
+
+    public void setEnchantmentTier(Class<? extends Enchantment> enchantment, int tier) {
+        ENCHANT_TIERS.put(enchantment, tier);
+    }
 
     @Override
     public Map<Class<? extends Enchantment>, EnchantHolder> getEnchantments() {
@@ -285,23 +266,83 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
 
     @Override
     public boolean setEnchantment(Class<? extends Enchantment> enchantment, int level) {
+        if (level < 0) {
+            ENCHANTS.remove(enchantment);
+            return false;
+        }
         ENCHANTS.put(enchantment, new EnchantHolder(Enchantable.getEnchant(enchantment), level, false));
         return true;
     }
 
     @Override
-    public boolean removeEnchantment(Class<? extends Enchantment> enchantment) {
-        ENCHANTS.remove(enchantment);
+    public boolean upgrade(Class<? extends Enchantment> enchantment, Player player, int levelsToUpgrade) {
+        if (!(Enchantable.getEnchant(enchantment) instanceof PickaxeEnchant enchant)) return false;
+        EnchantHolder holder = ENCHANTS.getOrDefault(enchantment, new EnchantHolder(enchant, 0, false));
+
+        levelsToUpgrade = Math.min(levelsToUpgrade, enchant.getMaxLevel(getEnchantmentTier(enchantment)) - holder.level());
+
+        if (enchant.getLevelRequirement() > getLevel()) {
+            player.sendMessage(enchant.getDisplayName()
+                    .append(Component.text(" >> ")
+                            .color(ComponentUtil.DARK_GRAY)
+                            .decorate(TextDecoration.BOLD))
+                    .append(Component.text("Your pickaxe needs to be at least level " + enchant.getLevelRequirement() + " to upgrade this enchantment!")
+                            .color(ComponentUtil.RED)));
+            return false;
+        }
+
+        if (levelsToUpgrade <= 0) {
+            //todo: msg player its maxed
+            player.sendMessage("max lvl");
+            return false;
+        }
+
+        PlayerData playerData = new PlayerData(player);
+        final long upgradeCost = levelsToUpgrade * enchant.getUpgradeCost(getEnchantmentLevel(enchantment));
+
+        if (upgradeCost > playerData.getMoney()) {
+            //todo: tell the player their broke
+            player.sendMessage("broke");
+            return false;
+        }
+
+        playerData.removeMoney(upgradeCost);
+
+        onUpgrade(this, player, holder.level(), holder.level() + levelsToUpgrade);
+        setEnchantment(enchantment, holder.level() + levelsToUpgrade);
+
+        //todo: tell player gg
+        player.sendMessage("gg");
+
         return true;
     }
 
     @Override
-    public boolean disableEnchantment(Class<? extends Enchantment> enchantment) {
-        return false;
+    public boolean removeEnchantment(Class<? extends Enchantment> enchantment, Player player) {
+        ENCHANTS.remove(enchantment);
+        if (player != null && player.getInventory().getItemInMainHand().equals(getItem())) {
+            Enchantable.getEnchant(enchantment).onUnHold(this, player);
+        }
+        return true;
     }
 
     @Override
-    public boolean enableEnchantment(Class<? extends Enchantment> enchantment) {
-        return false;
+    public boolean disableEnchantment(Class<? extends Enchantment> enchantment, Player player) {
+        EnchantHolder holder = ENCHANTS.get(enchantment);
+        ENCHANTS.put(enchantment, new EnchantHolder(holder.enchantment(), holder.level(), true));
+        if (player != null && player.getInventory().getItemInMainHand().equals(getItem())) {
+            Enchantable.getEnchant(enchantment).onUnHold(this, player);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean enableEnchantment(Class<? extends Enchantment> enchantment, Player player) {
+        EnchantHolder holder = ENCHANTS.get(enchantment);
+        ENCHANTS.put(enchantment, new EnchantHolder(holder.enchantment(), holder.level(), false));
+        if (player != null && player.getInventory().getItemInMainHand().equals(getItem())) {
+            Enchantable.getEnchant(enchantment).onHold(this, player);
+        }
+        return true;
     }
 }

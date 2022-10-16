@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.pickaxe.newenchants;
+package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -7,21 +7,20 @@ import net.staticstudios.prisons.backpacks.Backpack;
 import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.backpacks.config.BackpackConfig;
 import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.newenchants.handler.PickaxeEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class BackpackFinderEnchant extends PickaxeEnchant<BlockBreakProcessEvent> {
+public class BackpackFinderEnchant extends PickaxeEnchant {
 
     private static WeightedElements<Integer> BACKPACK_TIERS;
     private static WeightedElements<Boolean> CHANCE_TO_BE_EMPTY;
     private static WeightedElements<Double> PERCENT_FULL;
 
     public BackpackFinderEnchant() {
-        super(BlockBreakProcessEvent.class, "pickaxe-backpackfinder");
+        super(BackpackFinderEnchant.class, "pickaxe-backpackfinder");
 
         BACKPACK_TIERS = new WeightedElements<>();
         CHANCE_TO_BE_EMPTY = new WeightedElements<>();
@@ -54,9 +53,6 @@ public class BackpackFinderEnchant extends PickaxeEnchant<BlockBreakProcessEvent
 
     @Override
     public void onEvent(BlockBreakProcessEvent event) {
-        PrisonPickaxe pickaxe = event.getBlockBreak().getPickaxe();
-        if (pickaxe != null && shouldActivate(pickaxe)) return;
-
         int tier = BACKPACK_TIERS.getRandom();
         double percentFull = CHANCE_TO_BE_EMPTY.getRandom() ? 0 : PERCENT_FULL.getRandom();
 

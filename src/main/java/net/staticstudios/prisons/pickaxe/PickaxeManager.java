@@ -6,14 +6,11 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.enchants.EnchantableItemStack;
-import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
-import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
 import net.staticstudios.prisons.pickaxe.commands.AddPickaxeBlocksMinedCommand;
 import net.staticstudios.prisons.pickaxe.commands.AddPickaxeXPCommand;
 import net.staticstudios.prisons.pickaxe.commands.EnchantCommand;
 import net.staticstudios.prisons.pickaxe.commands.PickaxeCommand;
 import net.staticstudios.prisons.utils.ComponentUtil;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -53,8 +50,8 @@ public class PickaxeManager {
             pickaxe.setLevel(statsSection.getInt("level"));
             pickaxe.setBlocksBroken(statsSection.getLong("blocksBroken"));
             pickaxe.setRawBlocksBroken(statsSection.getLong("rawBlocksBroken"));
-            pickaxe.setTopLore(statsSection.getStringList("topLore"));
-            pickaxe.setBottomLore(statsSection.getStringList("bottomLore"));
+            pickaxe.setTopLore(statsSection.getStringList("topLore").stream().map(MiniMessage.miniMessage()::deserialize).toList());
+            pickaxe.setBottomLore(statsSection.getStringList("bottomLore").stream().map(MiniMessage.miniMessage()::deserialize).toList());
 
             String name = statsSection.getString("name");
             pickaxe.setName(name != null ? MiniMessage.miniMessage().deserialize(name) : DEFAULT_PICKAXE_NAME);
@@ -64,15 +61,15 @@ public class PickaxeManager {
             //todo: tiers
 
             //Abilities
-            for (String abilitiesKey : abilitiesSection.getKeys(false)) {
-                ConfigurationSection attributeSection = abilitiesSection.getConfigurationSection(abilitiesKey);
-                if (attributeSection == null) continue;
-                int lvl = attributeSection.getInt("lvl");
-                long lastUsed = attributeSection.getLong("lastUsed");
-
-                pickaxe.abilityLevelMap.put(abilitiesKey, lvl);
-                pickaxe.lastUsedAbilityAtMap.put(abilitiesKey, lastUsed);
-            }
+//            for (String abilitiesKey : abilitiesSection.getKeys(false)) {
+//                ConfigurationSection attributeSection = abilitiesSection.getConfigurationSection(abilitiesKey);
+//                if (attributeSection == null) continue;
+//                int lvl = attributeSection.getInt("lvl");
+//                long lastUsed = attributeSection.getLong("lastUsed");
+//
+//                pickaxe.abilityLevelMap.put(abilitiesKey, lvl);
+//                pickaxe.lastUsedAbilityAtMap.put(abilitiesKey, lastUsed);
+//            }
 
             //Don't update the lore
             SpreadOutExecutor.remove(pickaxe);
@@ -118,19 +115,19 @@ public class PickaxeManager {
             statsSection.set("level", pickaxe.getLevel());
             statsSection.set("blocksBroken", pickaxe.getBlocksBroken());
             statsSection.set("rawBlocksBroken", pickaxe.getRawBlocksBroken());
-            statsSection.set("topLore", pickaxe.getTopLore());
-            statsSection.set("bottomLore", pickaxe.getBottomLore());
+            statsSection.set("topLore", pickaxe.getTopLore().stream().map(MiniMessage.miniMessage()::serialize).toList());
+            statsSection.set("bottomLore", pickaxe.getBottomLore().stream().map(MiniMessage.miniMessage()::serialize).toList());
             statsSection.set("name", MiniMessage.miniMessage().serialize(pickaxe.getName()));
 
             //todo: tiers
             pickaxeSection.set("enchants", pickaxe.serialize());
 
             //Abilities
-            for (String abilityKey : pickaxe.abilityLevelMap.keySet()) {
-                ConfigurationSection abilitySection = abilitiesSection.createSection(abilityKey);
-                abilitySection.set("lvl", pickaxe.abilityLevelMap.get(abilityKey));
-                abilitySection.set("lastUsed", pickaxe.lastUsedAbilityAtMap.get(abilityKey));
-            }
+//            for (String abilityKey : pickaxe.abilityLevelMap.keySet()) {
+//                ConfigurationSection abilitySection = abilitiesSection.createSection(abilityKey);
+//                abilitySection.set("lvl", pickaxe.abilityLevelMap.get(abilityKey));
+//                abilitySection.set("lastUsed", pickaxe.lastUsedAbilityAtMap.get(abilityKey));
+//            }
 
         }
         try {
@@ -148,7 +145,7 @@ public class PickaxeManager {
         CommandManager.registerCommand("getnewpickaxe", new PickaxeCommand());
         CommandManager.registerCommand("enchant", new EnchantCommand());
 
-        net.staticstudios.prisons.pickaxe.newenchants.handler.PickaxeEnchants.init();
+        net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants.init();
 
         loadPickaxeData();
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PickaxeListener(), StaticPrisons.getInstance());

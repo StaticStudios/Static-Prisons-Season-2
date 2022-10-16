@@ -4,6 +4,7 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.customitems.items.CrateKeyCustomItem;
 import net.staticstudios.prisons.customitems.items.LootBoxCustomItem;
+import net.staticstudios.prisons.customitems.pickaxes.PickaxeTemplates;
 import net.staticstudios.prisons.customitems.pouches.MoneyPouch;
 import net.staticstudios.prisons.customitems.pouches.MultiPouch;
 import net.staticstudios.prisons.customitems.pouches.TokenPouch;
@@ -29,6 +30,7 @@ public class CustomItems implements Listener {
         TokenPouch.TIER_1.getID(); //Call this so that all the token pouch enums are initialized
         MoneyPouch.TIER_1.getID(); //Call this so that all the money pouch enums are initialized
         MultiPouch.TIER_1.getID(); //Call this so that all the multi pouch enums are initialized
+        PickaxeTemplates.DEFAULT.getID(); //Call this so that all the pickaxe templates are initialized
     }
 
     public static final Map<String, CustomItem> ITEMS = new HashMap<>();

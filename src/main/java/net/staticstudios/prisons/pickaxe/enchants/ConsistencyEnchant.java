@@ -1,13 +1,12 @@
-package net.staticstudios.prisons.pickaxe.newenchants;
+package net.staticstudios.prisons.pickaxe.enchants;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.newenchants.handler.PickaxeEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -20,7 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class ConsistencyEnchant extends PickaxeEnchant<BlockBreakProcessEvent> {
+public class ConsistencyEnchant extends PickaxeEnchant {
 
     private static final Map<Player, ConsistentData> TOKEN_MULTIPLIERS = new HashMap<>();
     private static final Map<Player, Long> LAST_BREAK = new HashMap<>();
@@ -36,7 +35,7 @@ public class ConsistencyEnchant extends PickaxeEnchant<BlockBreakProcessEvent> {
     private static final DecimalFormat MULTI_FORMAT = new DecimalFormat("0.00");
 
     public ConsistencyEnchant() {
-        super(BlockBreakProcessEvent.class, "pickaxe-consistency");
+        super(ConsistencyEnchant.class, "pickaxe-consistency");
 
         TOKEN_MULTIPLIERS.clear();
         LAST_BREAK.clear();
@@ -97,7 +96,6 @@ public class ConsistencyEnchant extends PickaxeEnchant<BlockBreakProcessEvent> {
         BlockBreak blockBreak = event.getBlockBreak();
         Player player = blockBreak.getPlayer();
         PrisonPickaxe pickaxe = blockBreak.getPickaxe();
-        if (pickaxe == null) return;
 
         long currentTime = System.currentTimeMillis();
         long totalTimeMining = TIME_MINING.getOrDefault(player, 0L) + (currentTime - LAST_BREAK.getOrDefault(player, currentTime));
@@ -146,7 +144,7 @@ public class ConsistencyEnchant extends PickaxeEnchant<BlockBreakProcessEvent> {
         }
 
         player.sendMessage(message);
-        blockBreak.getStats().setTokenMultiplier(blockBreak.getStats().getTokenMultiplier() + data.multi());
+        blockBreak.stats().setTokenMultiplier(blockBreak.stats().getTokenMultiplier() + data.multi());
     }
 
     private record ConsistentData(int tier, double multi) {

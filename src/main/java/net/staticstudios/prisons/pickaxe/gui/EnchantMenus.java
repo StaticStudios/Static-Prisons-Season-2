@@ -1,11 +1,15 @@
 package net.staticstudios.prisons.pickaxe.gui;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.enchants.Enchantable;
+import net.staticstudios.prisons.enchants.Enchantment;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.*;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -44,31 +48,31 @@ public class EnchantMenus extends GUIUtils {
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.FORTUNE, c, Material.DIAMOND, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.DOUBLE_FORTUNE, c, Material.AMETHYST_SHARD, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.TOKENATOR, c, Material.SUNFLOWER, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.KEY_FINDER, c, Material.TRIPWIRE_HOOK, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.METAL_DETECTOR, c, Material.FLINT_AND_STEEL, false),
+                createEnchantButton(playerData, pickaxe, FortuneEnchant.class, c, Material.DIAMOND, false),
+                createEnchantButton(playerData, pickaxe, OreSplitterEnchant.class, c, Material.AMETHYST_SHARD, false),
+                createEnchantButton(playerData, pickaxe, TokenatorEnchant.class, c, Material.SUNFLOWER, false),
+                createEnchantButton(playerData, pickaxe, KeyFinderEnchant.class, c, Material.TRIPWIRE_HOOK, false),
+                createEnchantButton(playerData, pickaxe, MetalDetectorEnchant.class, c, Material.FLINT_AND_STEEL, false),
                 createGrayPlaceHolder(),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.HASTE, c, Material.GOLDEN_PICKAXE, false),
-                createGrayPlaceHolder(),
-                createGrayPlaceHolder(),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.EXPLOSION, c, Material.TNT, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.JACK_HAMMER, c, Material.ANVIL, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.DOUBLE_JACK_HAMMER, c, Material.HOPPER, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.MULTI_DIRECTIONAL, c, Material.COMPARATOR, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.EGG_SHOOTER, c, Material.EGG, false),
-                createGrayPlaceHolder(),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.SPEED, c, Material.FEATHER, false),
+                createEnchantButton(playerData, pickaxe, HasteEnchant.class, c, Material.GOLDEN_PICKAXE, false),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.CONSISTENCY, c, Material.EMERALD, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.MERCHANT, c, Material.MAP, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.AUTO_SELL, c, Material.GOLD_NUGGET, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.XP_FINDER, c, Material.EXPERIENCE_BOTTLE, false),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.BACKPACK_FINDER, c, Material.CHEST_MINECART, false),
+                createEnchantButton(playerData, pickaxe, ExplosionEnchant.class, c, Material.TNT, false),
+                createEnchantButton(playerData, pickaxe, JackHammerEnchant.class, c, Material.ANVIL, false),
+                createEnchantButton(playerData, pickaxe, DoubleWammyEnchant.class, c, Material.HOPPER, false),
+                createEnchantButton(playerData, pickaxe, MultiDirectionalEnchant.class, c, Material.COMPARATOR, false),
+                createEnchantButton(playerData, pickaxe, EggShooterEnchant.class, c, Material.EGG, false),
                 createGrayPlaceHolder(),
-                createEnchantButton(playerData, pickaxe, PickaxeEnchants.NIGHT_VISION, c, Material.LAPIS_LAZULI, false),
+                createEnchantButton(playerData, pickaxe, SpeedEnchant.class, c, Material.FEATHER, false),
+                createGrayPlaceHolder(),
+                createGrayPlaceHolder(),
+                createEnchantButton(playerData, pickaxe, ConsistencyEnchant.class, c, Material.EMERALD, false),
+                createEnchantButton(playerData, pickaxe, MerchantEnchant.class, c, Material.MAP, false),
+                createEnchantButton(playerData, pickaxe, AutoSellEnchant.class, c, Material.GOLD_NUGGET, false),
+                createEnchantButton(playerData, pickaxe, XPFinderEnchant.class, c, Material.EXPERIENCE_BOTTLE, false),
+                createEnchantButton(playerData, pickaxe, BackpackFinderEnchant.class, c, Material.CHEST_MINECART, false),
+                createGrayPlaceHolder(),
+                createEnchantButton(playerData, pickaxe, NightVisionEnchant.class, c, Material.LAPIS_LAZULI, false),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
@@ -109,31 +113,31 @@ public class EnchantMenus extends GUIUtils {
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                createEnchantSettingsButton( pickaxe, PickaxeEnchants.FORTUNE, c, Material.DIAMOND, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.DOUBLE_FORTUNE, c, Material.AMETHYST_SHARD, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.TOKENATOR, c, Material.SUNFLOWER, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.KEY_FINDER, c, Material.TRIPWIRE_HOOK, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.METAL_DETECTOR, c, Material.FLINT_AND_STEEL, true),
+                createEnchantSettingsButton( pickaxe, FortuneEnchant.class, c, Material.DIAMOND, true),
+                createEnchantSettingsButton(pickaxe, OreSplitterEnchant.class, c, Material.AMETHYST_SHARD, true),
+                createEnchantSettingsButton(pickaxe, TokenatorEnchant.class, c, Material.SUNFLOWER, true),
+                createEnchantSettingsButton(pickaxe, KeyFinderEnchant.class, c, Material.TRIPWIRE_HOOK, true),
+                createEnchantSettingsButton(pickaxe, MetalDetectorEnchant.class, c, Material.FLINT_AND_STEEL, true),
                 createGrayPlaceHolder(),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.HASTE, c, Material.GOLDEN_PICKAXE, true),
-                createGrayPlaceHolder(),
-                createGrayPlaceHolder(),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.EXPLOSION, c, Material.TNT, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.JACK_HAMMER, c, Material.ANVIL, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.DOUBLE_JACK_HAMMER, c, Material.HOPPER, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.MULTI_DIRECTIONAL, c, Material.COMPARATOR, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.EGG_SHOOTER, c, Material.EGG, true),
-                createGrayPlaceHolder(),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.SPEED, c, Material.FEATHER, true),
+                createEnchantSettingsButton(pickaxe, HasteEnchant.class, c, Material.GOLDEN_PICKAXE, true),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.CONSISTENCY, c, Material.EMERALD, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.MERCHANT, c, Material.MAP, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.AUTO_SELL, c, Material.GOLD_NUGGET, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.XP_FINDER, c, Material.EXPERIENCE_BOTTLE, true),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.BACKPACK_FINDER, c, Material.CHEST_MINECART, true),
+                createEnchantSettingsButton(pickaxe, ExplosionEnchant.class, c, Material.TNT, true),
+                createEnchantSettingsButton(pickaxe, JackHammerEnchant.class, c, Material.ANVIL, true),
+                createEnchantSettingsButton(pickaxe, DoubleWammyEnchant.class, c, Material.HOPPER, true),
+                createEnchantSettingsButton(pickaxe, MultiDirectionalEnchant.class, c, Material.COMPARATOR, true),
+                createEnchantSettingsButton(pickaxe, EggShooterEnchant.class, c, Material.EGG, true),
                 createGrayPlaceHolder(),
-                createEnchantSettingsButton(pickaxe, PickaxeEnchants.NIGHT_VISION, c, Material.LAPIS_LAZULI, true),
+                createEnchantSettingsButton(pickaxe, SpeedEnchant.class, c, Material.FEATHER, true),
+                createGrayPlaceHolder(),
+                createGrayPlaceHolder(),
+                createEnchantSettingsButton(pickaxe, ConsistencyEnchant.class, c, Material.EMERALD, true),
+                createEnchantSettingsButton(pickaxe, MerchantEnchant.class, c, Material.MAP, true),
+                createEnchantSettingsButton(pickaxe, AutoSellEnchant.class, c, Material.GOLD_NUGGET, true),
+                createEnchantSettingsButton(pickaxe, XPFinderEnchant.class, c, Material.EXPERIENCE_BOTTLE, true),
+                createEnchantSettingsButton(pickaxe, BackpackFinderEnchant.class, c, Material.CHEST_MINECART, true),
+                createGrayPlaceHolder(),
+                createEnchantSettingsButton(pickaxe, NightVisionEnchant.class, c, Material.LAPIS_LAZULI, true),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
@@ -151,64 +155,65 @@ public class EnchantMenus extends GUIUtils {
 
 
     //---------- vvv Util methods vvv ----------
-    static ItemStack createEnchantButton(PlayerData playerData, PrisonPickaxe pickaxe, BaseEnchant enchant, GUICreator c, Material icon) {
-        List<String> desc = new ArrayList<>(enchant.DESCRIPTION);
-        desc.add("");
-        desc.add("&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)));
-        desc.add("&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE) + " Tokens");
-        desc.add("&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()));
-        desc.add("");
-        desc.add("&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant))));
-        boolean locked = enchant.getPickaxeLevelRequirement() > pickaxe.getLevel();
+    static ItemStack createEnchantButton(PlayerData playerData, PrisonPickaxe pickaxe, Class<? extends Enchantment> enchant, GUICreator c, Material icon) {
+        PickaxeEnchant pickaxeEnchantment = (PickaxeEnchant) Enchantable.getEnchant(enchant);
+        List<Component> desc = new ArrayList<>(pickaxeEnchantment.getDescription());
+        desc.add(Component.empty());
+        desc.add(LegacyComponentSerializer.legacyAmpersand().deserialize("&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantmentLevel(enchant))));
+        desc.add(LegacyComponentSerializer.legacyAmpersand().deserialize("&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getUpgradeCost()) + " Tokens"));
+        desc.add(LegacyComponentSerializer.legacyAmpersand().deserialize("&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens())));
+        desc.add(Component.empty());
+        desc.add(LegacyComponentSerializer.legacyAmpersand().deserialize("&bMax Level: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getMaxLevel(pickaxe.getEnchantmentTier(enchant)))));
+        boolean locked = pickaxeEnchantment.getLevelRequirement() > pickaxe.getLevel();
         if (locked) {
-            desc.add("");
-//            if (enchant.getPlayerLevelRequirement() > playerData.getPlayerLevel()) {
-//                desc.add("&cMinimum Player Level: &f" + enchant.getPlayerLevelRequirement());
-//            }
-            if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel()) {
-                desc.add("&cMinimum Pickaxe Level: &f" + enchant.getPickaxeLevelRequirement());
-            }
-            return c.createButton(icon, "&c&l[Locked] " + enchant.DISPLAY_NAME, desc, (p, t) -> {
-                if (enchant.getPickaxeLevelRequirement() > pickaxe.getLevel()) {
+            desc.add(Component.newline());
+            desc.add(LegacyComponentSerializer.legacyAmpersand().deserialize("&cMinimum Pickaxe Level: &f" + pickaxeEnchantment.getLevelRequirement()));
+            return c.createButton(icon, LegacyComponentSerializer.legacyAmpersand().deserialize("&c&l[Locked] " + pickaxeEnchantment.getName()), desc, (p, t) -> {
+                if (pickaxeEnchantment.getLevelRequirement() > pickaxe.getLevel()) {
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYour pickaxe is not high enough level to unlock this enchant!"));
                 } else{
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not a high enough level to unlock this enchant!"));
                 }
             });
         }
-        String name = enchant.DISPLAY_NAME;
-        if (!pickaxe.getIsEnchantEnabled(enchant)) {
-            desc.add("");
+        String name = pickaxeEnchantment.getName();
+        if (!pickaxe.getEnabledEnchantments().containsKey(enchant)) {
+            desc.add(Component.empty());
             name = "&c&l[Disabled] " + name;
         }
-        return c.createButton(icon, name, desc, (p, t) -> {
-            GUICreator _c = new GUICreator(9, enchant.DISPLAY_NAME);
+        return c.createButton(icon, LegacyComponentSerializer.legacyAmpersand().deserialize(name), desc, (p, t) -> {
+            GUICreator _c = new GUICreator(9, pickaxeEnchantment.getName());
             _c.setOnCloseRun((_p, _t) -> mainMenu(p, pickaxe));
             buildMenuContent(_c, p, enchant, pickaxe);
             _c.open(p);
         });
     }
-    static ItemStack createEnchantSettingsButton(PrisonPickaxe pickaxe, BaseEnchant enchant, GUICreator c, Material icon, boolean enchantIcon) {
+    static ItemStack createEnchantSettingsButton(PrisonPickaxe pickaxe, Class<? extends Enchantment> enchant, GUICreator c, Material icon, boolean enchantIcon) {
         ItemStack item = createEnchantSettingsButton(pickaxe, enchant, c, icon);
         if (enchantIcon) ench(item);
         return item;
     }
-    static ItemStack createEnchantSettingsButton(PrisonPickaxe pickaxe, BaseEnchant enchant, GUICreator c, Material icon) {
-        boolean isEnabled = pickaxe.getIsEnchantEnabled(enchant);
-        List<String> desc = new ArrayList<>(enchant.DESCRIPTION);
-        desc.add("");
-        desc.add("&bLevel: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)) + " / " + PrisonUtils.addCommasToNumber(enchant.MAX_LEVEL));
-        desc.add("&bCurrent State: &f" + (isEnabled ? "&aEnabled" : "&cDisabled"));
-        desc.add("");
-        desc.add("&7&oClick to " + (isEnabled ? "disable" : "enable"));
-        ItemStack button = c.createButton(icon, enchant.DISPLAY_NAME, desc, (p, t) -> {
-            pickaxe.setIsEnchantEnabled(p, enchant, !pickaxe.getIsEnchantEnabled(enchant));
+    static ItemStack createEnchantSettingsButton(PrisonPickaxe pickaxe, Class<? extends Enchantment> enchant, GUICreator c, Material icon) {
+        PickaxeEnchant pickaxeEnchantment = (PickaxeEnchant) Enchantable.getEnchant(enchant);
+        boolean isEnabled = pickaxe.getEnabledEnchantments().containsKey(enchant);
+        List<Component> desc = new ArrayList<>(pickaxeEnchantment.getDescription());
+        desc.add(Component.empty());
+        desc.add(LegacyComponentSerializer.legacyAmpersand().deserialize("&bLevel: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantmentLevel(enchant)) + " / " + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getMaxLevel(pickaxe.getEnchantmentTier(enchant)))));
+        desc.add(LegacyComponentSerializer.legacyAmpersand().deserialize("&bCurrent State: &f" + (isEnabled ? "&aEnabled" : "&cDisabled")));
+        desc.add(Component.empty());
+        desc.add(LegacyComponentSerializer.legacyAmpersand().deserialize("&7&oClick to " + (isEnabled ? "disable" : "enable")));
+        ItemStack button = c.createButton(icon, pickaxeEnchantment.getNameAsComponent(), desc, (p, t) -> {
+            if (pickaxe.getEnabledEnchantments().containsKey(enchant)) {
+                pickaxe.disableEnchantment(enchant, p);
+            } else {
+                pickaxe.enableEnchantment(enchant, p);
+            }
             openSettings(p, pickaxe);
         });
         if (isEnabled) button = ench(button);
         return button;
     }
-    static ItemStack createEnchantButton(PlayerData playerData, PrisonPickaxe pickaxe, BaseEnchant enchant, GUICreator c, Material icon, boolean enchantIcon) {
+    static ItemStack createEnchantButton(PlayerData playerData, PrisonPickaxe pickaxe, Class<? extends Enchantment> enchant, GUICreator c, Material icon, boolean enchantIcon) {
         ItemStack item = createEnchantButton(playerData, pickaxe, enchant, c, icon);
         if (enchantIcon) {
             return ench(item);
@@ -216,80 +221,81 @@ public class EnchantMenus extends GUIUtils {
         return item;
     }
 
-    static void buildMenuContent(GUICreator c, Player player, BaseEnchant enchant, PrisonPickaxe pickaxe) {
+    static void buildMenuContent(GUICreator c, Player player, Class<? extends Enchantment> enchant, PrisonPickaxe pickaxe) {
+        PickaxeEnchant pickaxeEnchantment = (PickaxeEnchant) Enchantable.getEnchant(enchant);
         PlayerData playerData = new PlayerData(player);
         c.setItems(
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder(),
-                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 1 level of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
-                        "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE) + " Tokens",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 1 level of " + pickaxeEnchantment.getName(), List.of("",
+                        "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantmentLevel(enchant)),
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getUpgradeCost()) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens",
                         "",
-                        "&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)))
+                        "&bMax Level: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getMaxLevel(pickaxe.getEnchantmentTier(enchant)))
                 ), (p, _t) -> {
-                    enchant.tryToBuyLevels(p, pickaxe, 1);
+                    pickaxe.upgrade(enchant, player, 1);
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
-                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 10 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
-                        "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE * 10) + " Tokens",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 10 levels of " + pickaxeEnchantment.getName(), List.of("",
+                        "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantmentLevel(enchant)),
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getUpgradeCost() * 10) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens",
                         "",
-                        "&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)))
+                        "&bMax Level: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getMaxLevel(pickaxe.getEnchantmentTier(enchant)))
                 ), (p, _t) -> {
-                    enchant.tryToBuyLevels(p, pickaxe, 10);
+                    pickaxe.upgrade(enchant, player, 10);
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
-                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 100 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
-                        "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE * 100) + " Tokens",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 100 levels of " + pickaxeEnchantment.getName(), List.of("",
+                        "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantmentLevel(enchant)),
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getUpgradeCost() * 100) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens",
                         "",
-                        "&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)))
+                        "&bMax Level: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getMaxLevel(pickaxe.getEnchantmentTier(enchant)))
                 ), (p, _t) -> {
-                    enchant.tryToBuyLevels(p, pickaxe, 100);
+                    pickaxe.upgrade(enchant, player, 100);
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
-                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 1,000 levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
-                        "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE * 1000) + " Tokens",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy 1,000 levels of " + pickaxeEnchantment.getName(), List.of("",
+                        "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantmentLevel(enchant)),
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getUpgradeCost() * 1000) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens",
                         "",
-                        "&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)))
+                        "&bMax Level: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getMaxLevel(pickaxe.getEnchantmentTier(enchant)))
                 ), (p, _t) -> {
-                    enchant.tryToBuyLevels(p, pickaxe, 1000);
+                    pickaxe.upgrade(enchant, player, 1000);
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
-                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy MAX (" + Math.min((long) enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)) - pickaxe.getEnchantLevel(enchant), playerData.getTokens() / enchant.PRICE) + ") levels of " + enchant.UNFORMATTED_DISPLAY_NAME, List.of("",
-                        "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantLevel(enchant)),
-                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.PRICE * Math.min((long) enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)) - pickaxe.getEnchantLevel(enchant), playerData.getTokens() / enchant.PRICE)) + " Tokens",
+                c.createButton(Material.LIME_STAINED_GLASS_PANE, "&aBuy MAX (" + Math.min((long) pickaxeEnchantment.getMaxLevel(pickaxe.getEnchantmentTier(enchant)) - pickaxe.getEnchantmentLevel(enchant), playerData.getTokens() / pickaxeEnchantment.getUpgradeCost()) + ") levels of " + pickaxeEnchantment.getName(), List.of("",
+                        "&bCurrent Level: &f" + PrisonUtils.addCommasToNumber(pickaxe.getEnchantmentLevel(enchant)),
+                        "&bUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getUpgradeCost() * Math.min((long) pickaxeEnchantment.getMaxLevel(pickaxe.getEnchantmentTier(enchant)) - pickaxe.getEnchantmentLevel(enchant), playerData.getTokens() / pickaxeEnchantment.getUpgradeCost())) + " Tokens",
                         "&bYour Tokens: &f" + PrisonUtils.prettyNum(playerData.getTokens()) + " Tokens",
                         "",
-                        "&bMax Level: &f" + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)))
+                        "&bMax Level: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getMaxLevel(pickaxe.getEnchantmentTier(enchant)))
                 ), (p, _t) -> {
-                    enchant.tryToBuyLevels(p, pickaxe, Math.min(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant)) - pickaxe.getEnchantLevel(enchant), playerData.getTokens() / enchant.PRICE));
+                    pickaxe.upgrade(enchant, player, (int) Math.min(pickaxeEnchantment.getMaxLevel(pickaxe.getEnchantmentTier(enchant)) - pickaxe.getEnchantmentLevel(enchant), playerData.getTokens() / pickaxeEnchantment.getUpgradeCost()));
                     buildMenuContent(c, p, enchant, pickaxe);
                 }),
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder()
         );
 
-        if (enchant.getTier(pickaxe.getEnchantTier(enchant) + 1) != null) {
+        if (pickaxeEnchantment.getTier(pickaxe.getEnchantmentTier(enchant) + 1) != null) {
             c.setItem(0, c.createButton(Material.NETHER_STAR, "&b&lIncrease Tier", List.of(
                     "Increasing the tier of this enchantment",
-                    "will set its max level to " + PrisonUtils.addCommasToNumber(enchant.getMaxLevel(pickaxe.getEnchantTier(enchant) + 1)) + ". This will",
-                    "cost " + PrisonUtils.addCommasToNumber(enchant.getTier(pickaxe.getEnchantTier(enchant) + 1).prestigeTokensRequired()) + " Prestige Token(s), which can",
+                    "will set its max level to " + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getMaxLevel(pickaxe.getEnchantmentTier(enchant) + 1)) + ". This will",
+                    "cost " + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getTier(pickaxe.getEnchantmentTier(enchant) + 1).prestigeTokensRequired()) + " Prestige Token(s), which can",
                     "be obtained from prestiging.",
                     "",
-                    "&eCurrent Tier: &f" + pickaxe.getEnchantTier(enchant),
-                    "&eNext Tier: &f" + (pickaxe.getEnchantTier(enchant) + 1),
-                    "&eUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(enchant.getTier(pickaxe.getEnchantTier(enchant) + 1).prestigeTokensRequired()) + " Prestige Tokens",
+                    "&eCurrent Tier: &f" + pickaxe.getEnchantmentTier(enchant),
+                    "&eNext Tier: &f" + (pickaxe.getEnchantmentTier(enchant) + 1),
+                    "&eUpgrade Cost: &f" + PrisonUtils.addCommasToNumber(pickaxeEnchantment.getTier(pickaxe.getEnchantmentTier(enchant) + 1).prestigeTokensRequired()) + " Prestige Tokens",
                     "&eYour Prestige Tokens: &f" + PrisonUtils.prettyNum(playerData.getPrestigeTokens())
             ), (p, t) -> {
-                if (playerData.getPrestigeTokens() >= enchant.getTier(pickaxe.getEnchantTier(enchant) + 1).prestigeTokensRequired()) {
-                    playerData.removePrestigeTokens(enchant.getTier(pickaxe.getEnchantTier(enchant) + 1).prestigeTokensRequired());
-                    pickaxe.setEnchantTier(enchant, pickaxe.getEnchantTier(enchant) + 1);
+                if (playerData.getPrestigeTokens() >= pickaxeEnchantment.getTier(pickaxe.getEnchantmentTier(enchant) + 1).prestigeTokensRequired()) {
+                    playerData.removePrestigeTokens(pickaxeEnchantment.getTier(pickaxe.getEnchantmentTier(enchant) + 1).prestigeTokensRequired());
+                    pickaxe.setEnchantmentTier(enchant, pickaxe.getEnchantmentTier(enchant) + 1);
                     p.sendMessage(org.bukkit.ChatColor.AQUA + "You successfully upgraded your pickaxe!");
                     buildMenuContent(c, p, enchant, pickaxe);
                 } else {
