@@ -44,7 +44,7 @@ public abstract class PickaxeEnchant extends ConfigurableEnchantment<BlockBreakP
     @Override
     public boolean beforeEvent(BlockBreakProcessEvent event) {
         PrisonPickaxe pickaxe = event.getBlockBreak().getPickaxe();
-        return pickaxe == null || pickaxe.getEnchantmentLevel(enchantClass) <= 0 || !shouldActivate(pickaxe);
+        return pickaxe != null && pickaxe.getEnchantmentLevel(enchantClass) > 0 && shouldActivate(pickaxe);
     }
 
     @Override

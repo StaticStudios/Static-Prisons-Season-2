@@ -140,7 +140,7 @@ public class PlayerData extends DataSet {
 
     //Player Level
     private static final int BASE_XP_PER_LEVEL = 1000;
-    private static final double LEVEL_RATE_OF_INCREASE = 2.4;
+    private static final double LEVEL_RATE_OF_INCREASE = 1.4;
 
     public static long getLevelRequirement(int level) {
         if (level < 0) return BASE_XP_PER_LEVEL;

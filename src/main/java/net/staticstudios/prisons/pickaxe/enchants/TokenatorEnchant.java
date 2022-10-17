@@ -36,7 +36,7 @@ public class TokenatorEnchant extends PickaxeEnchant {
                     .append(Component.text(" >> ")
                             .color(ComponentUtil.DARK_GRAY)
                             .decorate(TextDecoration.BOLD))
-                    .append(Component.text("Found " + PrisonUtils.addCommasToNumber((long) (bb.stats().getTokensEarned() * bb.stats().getTokenMultiplier())) + " tokens!")));
+                    .append(Component.text("Found " + PrisonUtils.addCommasToNumber((long) (bb.stats().getTokensEarned() * bb.stats().getTokenMultiplier())) + " tokens!")).color(ComponentUtil.WHITE));
         });
     }
 }

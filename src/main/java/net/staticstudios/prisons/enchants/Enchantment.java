@@ -221,7 +221,7 @@ public interface Enchantment<E extends Event> extends Listener {
                     getListeningFor(),
                     this,
                     getPriority(),
-                    EventExecutor.create(this.getClass().getMethod("eventCalled", getListeningFor()), getListeningFor()),
+                    EventExecutor.create(Enchantment.class.getDeclaredMethod("eventCalled", Event.class), Event.class),
                     StaticPrisons.getInstance());
         } catch (NoSuchMethodException e) {
             StaticPrisons.log("[Enchants] Failed to register enchantment: " + getName());

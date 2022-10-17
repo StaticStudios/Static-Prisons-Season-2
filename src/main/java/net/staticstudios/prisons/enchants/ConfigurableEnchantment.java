@@ -45,11 +45,7 @@ public abstract class ConfigurableEnchantment<E extends Event> implements Enchan
             this.name = config.getString("name", "null");
             this.unformattedName = MiniMessage.miniMessage().deserialize(config.getString("unformatted_name", name));
             this.displayName = MiniMessage.miniMessage().deserialize(config.getString("display_name", name));
-            List<Component> description = new ArrayList<>();
-            for (String line : config.getStringList("description")) {
-                description.add(MiniMessage.miniMessage().deserialize(line));
-            }
-            this.description = description;
+            this.description = config.getStringList("description").stream().map(MiniMessage.miniMessage()::deserialize).toList();
             this.maxLevel = config.getInt("max_level", 0);
             this.upgradeCost = config.getLong("upgrade_cost", 0);
             this.defaultChance = config.getDouble("default_chance", 1);

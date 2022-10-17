@@ -8,14 +8,13 @@ import net.staticstudios.prisons.enchants.*;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import net.staticstudios.prisons.utils.items.SpreadOutExecution;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExecution {
+public class PrisonPickaxe extends EnchantableItemStack {
 
     private final static Component LORE_DIVIDER = Component.text("---------------").color(ComponentUtil.LIGHT_GRAY);
     private long level = 0;
@@ -101,7 +100,7 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
 
     public void setLevel(long level) {
         if (this.level != level) {
-            queueExecution();
+            updateItem();
         }
         this.level = level;
     }
@@ -112,7 +111,7 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
 
     public void setXp(long xp) {
         if (this.xp != xp) {
-            queueExecution();
+            updateItem();
         }
         this.xp = xp;
     }
@@ -123,7 +122,7 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
 
     public void setBlocksBroken(long blocksBroken) {
         if (this.blocksBroken != blocksBroken) {
-            queueExecution();
+            updateItem();
         }
         this.blocksBroken = blocksBroken;
     }
@@ -134,7 +133,7 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
 
     public void setRawBlocksBroken(long rawBlocksBroken) {
         if (this.rawBlocksBroken != rawBlocksBroken) {
-            queueExecution();
+            updateItem();
         }
         this.rawBlocksBroken = rawBlocksBroken;
     }
@@ -292,27 +291,43 @@ public class PrisonPickaxe extends EnchantableItemStack implements SpreadOutExec
         }
 
         if (levelsToUpgrade <= 0) {
-            //todo: msg player its maxed
-            player.sendMessage("max lvl");
+            player.sendMessage(enchant.getDisplayName()
+                    .append(Component.text(" >> ")
+                            .color(ComponentUtil.DARK_GRAY)
+                            .decorate(TextDecoration.BOLD))
+                    .append(Component.text("Your pickaxe is already at the max level for this enchantment!")
+                            .color(ComponentUtil.RED)
+                            .decoration(TextDecoration.BOLD, false)));
             return false;
         }
 
         PlayerData playerData = new PlayerData(player);
         final long upgradeCost = levelsToUpgrade * enchant.getUpgradeCost(getEnchantmentLevel(enchantment));
 
-        if (upgradeCost > playerData.getMoney()) {
-            //todo: tell the player their broke
-            player.sendMessage("broke");
+        if (upgradeCost > playerData.getTokens()) {
+            player.sendMessage(enchant.getDisplayName()
+                    .append(Component.text(" >> ")
+                            .color(ComponentUtil.DARK_GRAY)
+                            .decorate(TextDecoration.BOLD))
+                    .append(Component.text("Your do not have enough tokens to upgrade this enchantment!")
+                            .color(ComponentUtil.RED)
+                            .decoration(TextDecoration.BOLD, false)));
             return false;
         }
 
-        playerData.removeMoney(upgradeCost);
+        playerData.removeTokens(upgradeCost);
 
         onUpgrade(this, player, holder.level(), holder.level() + levelsToUpgrade);
         setEnchantment(enchantment, holder.level() + levelsToUpgrade);
 
-        //todo: tell player gg
-        player.sendMessage("gg");
+        player.sendMessage(enchant.getDisplayName()
+                .append(Component.text(" >> ")
+                        .color(ComponentUtil.DARK_GRAY)
+                        .decorate(TextDecoration.BOLD))
+                .append(Component.text("You upgraded your pickaxe!")
+                        .color(ComponentUtil.WHITE)
+                        .decoration(TextDecoration.BOLD, false)));
+        updateItem();
 
         return true;
     }

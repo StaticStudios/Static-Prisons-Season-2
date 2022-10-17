@@ -78,7 +78,7 @@ public abstract class EnchantableItemStack implements Enchantable, SpreadOutExec
     }
 
     public static <T extends EnchantableItemStack> Map<UUID, T> getMap(Class<T> clazz) {
-        return (Map<UUID, T>) ITEMS.get(clazz);
+        return (Map<UUID, T>) ITEMS.getOrDefault(clazz, Collections.emptyMap());
     }
 
 

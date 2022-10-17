@@ -184,7 +184,7 @@ public class BlockBreak {
         }
 
         if (pickaxe != null) {
-            pickaxe.addXp((long) (2 * stats.getRawBlockBroken() * stats.getXpMultiplier()));
+            pickaxe.addXp((long) (2 * stats.getRawBlockBroken() * stats.getXpMultiplier())); //todo: ensure that the pickaxe isnt getting queued for execution 3 times in a row
             pickaxe.addBlocksBroken(stats.getBlocksBroken());
             pickaxe.addRawBlocksBroken(stats.getRawBlockBroken());
         }

@@ -18,11 +18,11 @@ public class KeyFinderEnchant extends PickaxeEnchant {
     private static WeightedElements<CrateKey> CRATE_KEYS;
 
     public KeyFinderEnchant() {
-        super(KeyFinderEnchant.class, "pickaxe-backpackfinder");
+        super(KeyFinderEnchant.class, "pickaxe-keyfinder");
 
         CRATE_KEYS = new WeightedElements<>();
 
-        ConfigurationSection crateKeys = getConfig().getConfigurationSection("create_keys");
+        ConfigurationSection crateKeys = getConfig().getConfigurationSection("crate_keys");
         if (crateKeys == null) {
             throw new IllegalStateException("No crate_keys section found in the " + getId() + " enchant config!");
         }

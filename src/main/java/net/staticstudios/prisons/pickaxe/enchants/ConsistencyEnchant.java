@@ -131,7 +131,7 @@ public class ConsistencyEnchant extends PickaxeEnchant {
                         .color(ComponentUtil.GREEN)
                         .decorate(TextDecoration.ITALIC));
 
-        if (data.tier() - 1 >= pickaxe.getEnchantmentLevel(ConsistencyEnchant.class) * MULTI_PER_LEVEL) {
+        if (data.tier() - 1 >= pickaxe.getEnchantmentLevel(ConsistencyEnchant.class) * MULTIPLIERS_PER_LEVEL) {
             message = message.append(Component.newline())
                     .append(Component.newline())
                     .append(Component.text("Your Token multiplier has maxed out! Upgrade the ")

@@ -58,6 +58,8 @@ public class EggShooterEnchant extends PickaxeEnchant implements Listener {
                 0,
                 getConfig().getInt("shoot_interval", 20)
         );
+
+        StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(this, StaticPrisons.getInstance());
     }
 
     @EventHandler
