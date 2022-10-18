@@ -250,6 +250,10 @@ public class PrisonPickaxe extends EnchantableItemStack {
     private final Map<Class<? extends Enchantment>, EnchantHolder> ENCHANTS = new HashMap<>();
     private final Map<Class<? extends Enchantment>, Integer> ENCHANT_TIERS = new HashMap<>();
 
+    public int getEnchantmentTier(Enchantment enchantment) {
+        return getEnchantmentTier(enchantment.getClass());
+    }
+
     public int getEnchantmentTier(Class<? extends Enchantment> enchantment) {
         return ENCHANT_TIERS.getOrDefault(enchantment, 0);
     }

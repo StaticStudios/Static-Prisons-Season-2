@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public interface Enchantable {
 
@@ -36,6 +38,16 @@ public interface Enchantable {
      * @return The ConfigurationSection.
      */
     default ConfigurationSection serialize() {
+        return serialize((a, b) -> {});
+    }
+
+    /**
+     * Convert all the enchants on this object to a ConfigurationSection.
+     *
+     * @param extra Extra data to add to each ConfigurationSection.
+     * @return The ConfigurationSection.
+     */
+    default ConfigurationSection serialize(BiConsumer<EnchantHolder, ConfigurationSection> extra) {
         ConfigurationSection config = new YamlConfiguration();
         for (Map.Entry<Class<? extends Enchantment>, EnchantHolder> entry : getEnchantments().entrySet()) {
             EnchantHolder holder = entry.getValue();
@@ -43,6 +55,7 @@ public interface Enchantable {
                 ConfigurationSection enchantSection = config.createSection(holder.enchantment().getId());
                 enchantSection.set("level", holder.level());
                 enchantSection.set("disabled", holder.isDisabled());
+                extra.accept(holder, enchantSection);
             }
         }
         return config;
@@ -54,7 +67,16 @@ public interface Enchantable {
      * @param config The ConfigurationSection.
      */
     default void deserialize(ConfigurationSection config) {
+        deserialize(config, (a, b) -> {});
+    }
 
+    /**
+     * Apply all the enchants defined in the ConfigurationSection to this object.
+     *
+     * @param config The ConfigurationSection.
+     * @param extra Extra data to process from each ConfigurationSection.
+     */
+    default void deserialize(ConfigurationSection config, BiConsumer<Enchantment, ConfigurationSection> extra) {
         if (config == null) return;
 
         for (String enchantId : config.getKeys(false)) {
@@ -67,6 +89,7 @@ public interface Enchantable {
             if (enchantSection.getBoolean("disabled")) {
                 getEnchantments().put(getEnchant(enchantId).getClass(), new EnchantHolder(getEnchant(enchantId), level, true));
             }
+            extra.accept(enchantment, enchantSection);
         }
     }
 

@@ -5,11 +5,13 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
+import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.enchants.EnchantableItemStack;
 import net.staticstudios.prisons.pickaxe.commands.AddPickaxeBlocksMinedCommand;
 import net.staticstudios.prisons.pickaxe.commands.AddPickaxeXPCommand;
 import net.staticstudios.prisons.pickaxe.commands.EnchantCommand;
 import net.staticstudios.prisons.pickaxe.commands.PickaxeCommand;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
 import org.bukkit.Bukkit;
@@ -57,8 +59,7 @@ public class PickaxeManager {
             pickaxe.setName(name != null ? StaticPrisons.miniMessage().deserialize(name) : DEFAULT_PICKAXE_NAME);
 
 
-            pickaxe.deserialize(enchantsSection);
-            //todo: tiers
+            pickaxe.deserialize(enchantsSection, (enchant, config) -> pickaxe.setEnchantmentTier(enchant.getClass(), config.getInt("tier", 0)));
 
             //Abilities
 //            for (String abilitiesKey : abilitiesSection.getKeys(false)) {
@@ -119,8 +120,7 @@ public class PickaxeManager {
             statsSection.set("bottomLore", pickaxe.getBottomLore().stream().map(StaticPrisons.miniMessage()::serialize).toList());
             statsSection.set("name", StaticPrisons.miniMessage().serialize(pickaxe.getName()));
 
-            //todo: tiers
-            pickaxeSection.set("enchants", pickaxe.serialize());
+            pickaxeSection.set("enchants", pickaxe.serialize((enchantHolder, config) -> config.set("tier", pickaxe.getEnchantmentTier(enchantHolder.enchantment()))));
 
             //Abilities
 //            for (String abilityKey : pickaxe.abilityLevelMap.keySet()) {
