@@ -46,10 +46,13 @@ public class PickaxeMenus extends GUIUtils {
 //        ), (p, t) -> {
 //            AbilityMenus.mainMenu(p, pickaxe);
 //        })));
+        c.setItem(10, ench(c.createButton(Material.BARRIER, "&c&lComing Soon!", List.of(
+                "&oUnlock, upgrade, and activate abilities for your pickaxe!"
+        ))));
 
-        c.setItem(13, ench(c.createButton(Material.ENCHANTED_BOOK, "&d&lPickaxe Enchants", List.of(
+        c.setItem(13, c.createButton(Material.ENCHANTED_BOOK, "&d&lPickaxe Enchants", List.of(
                 "&oUpgrade your pickaxe's enchants!"
-        ), (p, t) -> EnchantMenus.mainMenu(p, pickaxe))));
+        ), (p, t) -> EnchantMenus.mainMenu(p, pickaxe)));
 
         c.setItem(16, pickaxe.getItem());
 
