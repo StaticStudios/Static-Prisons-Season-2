@@ -4,6 +4,7 @@ import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
@@ -46,7 +47,7 @@ public class CellBlockShop {
             if (BLOCK_PRICES.size() - 1 < startIndex + i) break;
             Material mat = ORDERED_BLOCKS.get(startIndex + i);
             long price = BLOCK_PRICES.get(mat);
-            String itemName = PrisonUtils.Items.getPrettyItemName(new ItemStack(mat));
+            String itemName = ItemUtils.getPrettyItemName(new ItemStack(mat));
 
 
             c.setItem(i, PrisonUtils.setItemCount(c.createButton(mat, ChatColor.YELLOW + "64x " + itemName, List.of(

@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.mines.utils.StaticMineUtils;
+import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -57,7 +58,7 @@ public class NicknameCommand implements CommandExecutor, TabCompleter {
             }
         }
 
-        playerData.setChatNickname(MiniMessage.miniMessage().serialize(Component.text(newName).color(color)));
+        playerData.setChatNickname(StaticPrisons.miniMessage().serialize(Component.text(newName).color(color)));
         playerData.setIsChatNickNameEnabled(true);
         player.sendMessage(Component.text("Nickname successfully changed!").color(NamedTextColor.GREEN));
         return false;

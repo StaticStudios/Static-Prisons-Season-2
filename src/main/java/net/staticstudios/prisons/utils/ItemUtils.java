@@ -2,6 +2,7 @@ package net.staticstudios.prisons.utils;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -25,4 +26,19 @@ public class ItemUtils {
         return skull;
     }
 
+    public static String getPrettyItemName(ItemStack item) {
+        String name;
+        if (!item.hasItemMeta()) {
+            name = PrisonUtils.capitalizeEachWord(item.getType().toString().replace("_", " "));
+            name = ChatColor.RESET + "" + ChatColor.WHITE + name;
+        } else {
+            if (!item.getItemMeta().hasDisplayName()) {
+                name = PrisonUtils.capitalizeEachWord(item.getType().toString().replace("_", " "));
+                name = ChatColor.RESET + "" + ChatColor.WHITE + name;
+            } else {
+                name = item.getItemMeta().getDisplayName();
+            }
+        }
+        return name;
+    }
 }

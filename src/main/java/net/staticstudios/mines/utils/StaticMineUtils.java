@@ -50,7 +50,7 @@ public class StaticMineUtils {
     public static RandomPattern toRandomPattern(WeightedElements<BlockType> blocks) {
         RandomPattern pattern = new RandomPattern();
         for (WeightedElement<BlockType> block : blocks.getElements()) {
-            pattern.add(block.getElement(), block.getWeight());
+            pattern.add(block.element(), block.weight());
         }
         return pattern;
     }

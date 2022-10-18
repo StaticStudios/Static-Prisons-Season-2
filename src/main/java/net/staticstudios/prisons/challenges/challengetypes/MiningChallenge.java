@@ -17,7 +17,7 @@ public class MiningChallenge extends ChallengeType<BlockBreakProcessEvent> {
                 Component.empty().append(Component.text("Mine a set amount of blocks to complete this")),
                 Component.empty().append(Component.text("challenge. This challenge will count blocks")),
                 Component.empty().append(Component.text("broken by enchants."))
-        ), Material.COBBLESTONE, (event, challenge) -> event.getBlockBreak().addAfterProcess(blockBreak -> challenge.addProgress(blockBreak.getStats().getBlocksBroken())));
+        ), Material.COBBLESTONE, (event, challenge) -> event.getBlockBreak().addAfterProcess(blockBreak -> challenge.addProgress(blockBreak.stats().getBlocksBroken())));
     }
 
     @EventHandler

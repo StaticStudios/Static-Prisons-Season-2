@@ -80,7 +80,7 @@ public class ChallengeListener implements Listener {
         }
 
         if (receivedChallenges) {
-            player.sendMessage(Prefix.CHALLENGES.append(Component.text("You've received new challenges!")));
+            player.sendMessage(Prefix.CHALLENGES.append(Component.text("You have new challenges available!")));
         }
     }
 }

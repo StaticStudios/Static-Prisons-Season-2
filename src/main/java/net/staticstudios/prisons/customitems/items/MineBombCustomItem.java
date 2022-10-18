@@ -7,7 +7,7 @@ import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.customitems.CustomItem;
-import net.staticstudios.prisons.minebombs.PreComputerMineBomb;
+import net.staticstudios.prisons.minebombs.PreComputedMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -28,10 +28,10 @@ import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
 import static net.staticstudios.prisons.utils.ComponentUtil.LIGHT_GRAY;
 
 public enum MineBombCustomItem implements CustomItem {
-    TIER_1(1, "mine_bomb_1", "&e&lSmall Mine Bomb", new PreComputerMineBomb(15)),
-    TIER_2(2, "mine_bomb_2", "&6&lMedium Mine Bomb", new PreComputerMineBomb(20)),
-    TIER_3(3, "mine_bomb_3", "&c&lLarge Mine Bomb", new PreComputerMineBomb(27)),
-    TIER_4(4, "mine_bomb_4", "&4&lHUGE Mine Bomb", new PreComputerMineBomb(40));
+    TIER_1(1, "mine_bomb_1", "&e&lSmall Mine Bomb", new PreComputedMineBomb(15)),
+    TIER_2(2, "mine_bomb_2", "&6&lMedium Mine Bomb", new PreComputedMineBomb(20)),
+    TIER_3(3, "mine_bomb_3", "&c&lLarge Mine Bomb", new PreComputedMineBomb(27)),
+    TIER_4(4, "mine_bomb_4", "&4&lHUGE Mine Bomb", new PreComputedMineBomb(40));
 
 
     private static final NamespacedKey MINE_BOMB_KEY = new NamespacedKey(StaticPrisons.getInstance(), "mineBomb");
@@ -39,9 +39,9 @@ public enum MineBombCustomItem implements CustomItem {
     private final int tier;
     private final String id;
     private final Component name;
-    private final PreComputerMineBomb mineBomb;
+    private final PreComputedMineBomb mineBomb;
 
-    MineBombCustomItem(int tier, String id, String displayName, PreComputerMineBomb mineBomb) {
+    MineBombCustomItem(int tier, String id, String displayName, PreComputedMineBomb mineBomb) {
         this.tier = tier;
         this.id = id;
         this.name = LegacyComponentSerializer.legacyAmpersand().deserialize(displayName).decoration(ITALIC, false);

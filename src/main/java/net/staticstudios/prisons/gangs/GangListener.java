@@ -13,9 +13,9 @@ public class GangListener implements Listener {
             Gang gang = Gang.getGang(bb.getPlayerData().getUUID());
             if (gang != null) {
                 gang.addRawBlocksMined(1);
-                gang.addBlocksMined((long) (bb.getStats().getBlocksBroken() * bb.getStats().getBlocksBrokenMultiplier()));
-                if (bb.getStats().getTokensEarned() > 0) {
-                    gang.addTokensFound(bb.getStats().getTokensEarned());
+                gang.addBlocksMined((long) (bb.stats().getBlocksBroken() * bb.stats().getBlocksBrokenMultiplier()));
+                if (bb.stats().getTokensEarned() > 0) {
+                    gang.addTokensFound(bb.stats().getTokensEarned());
                 }
             }
         });

@@ -13,22 +13,24 @@ import java.util.List;
  */
 public class WeightedElements<T> {
 
+    private double totalWeight;
+
     /**
      * A static method to get a random element from a list of weighted elements.
      *
      * @param weightedElements A list of weighted elements.
      * @return A random element from the list while factoring in the elements' weights.
      */
-    public static <T> T getRandom(List<WeightedElement<T>> weightedElements) {
-        double totalWeight = 0;
-        for (WeightedElement<T> weightE : weightedElements) totalWeight += weightE.weight;
+    public static <T> T getRandom(List<WeightedElement<T>> weightedElements, double totalWeight) {
         double random = Math.random() * totalWeight;
         double currentWeight = 0;
         for (WeightedElement<T> weightedElement : weightedElements) {
-            currentWeight += weightedElement.weight;
-            if (random < currentWeight) return weightedElement.element;
+            currentWeight += weightedElement.weight();
+            if (random < currentWeight) {
+                return weightedElement.element();
+            }
         }
-        return weightedElements.get(0).element;
+        return weightedElements.get(0).element();
     }
 
     /**
@@ -68,8 +70,8 @@ public class WeightedElements<T> {
      *
      * @throws IndexOutOfBoundsException If the index is out of bounds.
      */
-    public double getObject(int index) {
-        return (elements.get(index).getWeight() / getTotalWeight()) * 100;
+    public T getObject(int index) {
+        return elements.get(index).element();
     }
 
 
@@ -80,25 +82,19 @@ public class WeightedElements<T> {
      * @throws IndexOutOfBoundsException If the index is out of bounds.
      */
     public double getChance(int index) {
-        return (elements.get(index).getWeight() / getTotalWeight()) * 100;
+        return (elements.get(index).weight() / totalWeight) * 100;
     }
     /**
      * @param o The object to look for in the list.
      * @return The weight of the object if it is contained in the list, otherwise it will return 0.
      */
     public double getChance(Object o) {
-        for (WeightedElement<T> element : elements)
-            if (element.element.equals(o)) return (element.getWeight() / getTotalWeight()) * 100;
+        for (WeightedElement<T> element : elements) {
+            if (element.element().equals(o)) {
+                return (element.weight() / totalWeight) * 100;
+            }
+        }
         return 0;
-    }
-
-    /**
-     * @return The total weight of all the elements in the list.
-     */
-    public double getTotalWeight() {
-        double totalWeight = 0;
-        for (WeightedElement<T> element : elements) totalWeight += element.weight;
-        return totalWeight;
     }
 
     /**
@@ -106,7 +102,9 @@ public class WeightedElements<T> {
      */
     public List<T> getObjectList() {
         List<T> elements = new ArrayList<>();
-        for (WeightedElement<T> weightedElement : this.elements) elements.add(weightedElement.element);
+        for (WeightedElement<T> weightedElement : this.elements) {
+            elements.add(weightedElement.element());
+        }
         return elements;
     }
 
@@ -117,6 +115,7 @@ public class WeightedElements<T> {
      */
     public WeightedElements<T> add(WeightedElement<T> e) {
         elements.add(e);
+        totalWeight += e.weight();
         return this;
     }
 
@@ -135,6 +134,7 @@ public class WeightedElements<T> {
      */
     public WeightedElements<T> remove(WeightedElement<T> e) {
         elements.remove(e);
+        totalWeight -= e.weight();
         return this;
     }
     /**
@@ -152,8 +152,11 @@ public class WeightedElements<T> {
      */
     @SafeVarargs
     public final WeightedElements<T> set(WeightedElement<T>... e) {
-        elements.clear();
-        elements.addAll(List.of(e));
+        clear();
+        for (WeightedElement<T> element : e) {
+            elements.add(element);
+            totalWeight += element.weight();
+        }
         return this;
     }
 
@@ -164,6 +167,7 @@ public class WeightedElements<T> {
      */
     public WeightedElements<T> clear() {
         elements.clear();
+        totalWeight = 0;
         return this;
     }
 
@@ -171,12 +175,12 @@ public class WeightedElements<T> {
      * @return A random element from the internal list of all WeightedElements while factoring in each element's weight.
      */
     public T getRandom() {
-        return getRandom(elements);
+        return getRandom(elements, totalWeight);
     }
 
 
     public boolean equals(WeightedElements<T> we) {
-        return we.elements.equals(this.elements);
+        return we == this || we.totalWeight == this.totalWeight && we.elements.equals(this.elements);
     }
 
 

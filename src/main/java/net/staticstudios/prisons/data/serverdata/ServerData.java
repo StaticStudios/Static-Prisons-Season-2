@@ -24,7 +24,7 @@ public class ServerData {
             //First time joining
             Bukkit.getServer().getLogger().log(Level.INFO, "Player has joined for the first time with the uuid: " + player.getUniqueId() + " and the name: " + player.getName());
             Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + PrisonUtils.addCommasToNumber(PLAYERS.getAllUUIDs().size() + 1) + ")");
-            PlayerUtils.addToInventory(player, PrisonPickaxe.createNewPickaxe());
+            PlayerUtils.addToInventory(player, PrisonPickaxe.createNewPickaxe().getItem());
             Backpack backpack = BackpackManager.createBackpack(1);
             backpack.setCapacity(2500);
             PlayerUtils.addToInventory(player, backpack.getItem());

@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.crates;
 
+import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.customitems.Vouchers;
 import net.staticstudios.prisons.customitems.items.MineBombCustomItem;
@@ -15,7 +16,7 @@ import org.bukkit.Location;
 
 import java.util.List;
 
-public class Crates {
+public class Crates { //todo: configuration file
 
     public static Crate COMMON;
     public static Crate RARE;
@@ -227,16 +228,16 @@ public class Crates {
 
         PICKAXE = new Crate("pickaxe", "Pickaxe Crate", "pickaxe", new Location(Bukkit.getWorld("world"), 12, 80, -137),
                 new WeightedElements<CrateReward>()
-                        .add(new CrateReward(PickaxeTemplates.TIER_1.buildPickaxe().delete().item, p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_1.buildPickaxe().setBottomLore(List.of("", "&7Won from a &aPickaxe &7crate")).tryToUpdateLore().item), "1x " + PickaxeTemplates.TIER_1.DISPLAY_NAME), 25)
-                        .add(new CrateReward(PickaxeTemplates.TIER_2.buildPickaxe().delete().item, p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_2.buildPickaxe().setBottomLore(List.of("", "&7Won from a &aPickaxe &7crate")).tryToUpdateLore().item), "1x " + PickaxeTemplates.TIER_2.DISPLAY_NAME), 20)
-                        .add(new CrateReward(PickaxeTemplates.TIER_3.buildPickaxe().delete().item, p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_3.buildPickaxe().setBottomLore(List.of("", "&7Won from a &aPickaxe &7crate")).tryToUpdateLore().item), "1x " + PickaxeTemplates.TIER_3.DISPLAY_NAME), 15)
-                        .add(new CrateReward(PickaxeTemplates.TIER_4.buildPickaxe().delete().item, p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_4.buildPickaxe().setBottomLore(List.of("", "&7Won from a &aPickaxe &7crate")).tryToUpdateLore().item), "1x " + PickaxeTemplates.TIER_4.DISPLAY_NAME), 12.5)
-                        .add(new CrateReward(PickaxeTemplates.TIER_5.buildPickaxe().delete().item, p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_5.buildPickaxe().setBottomLore(List.of("", "&7Won from a &aPickaxe &7crate")).tryToUpdateLore().item), "1x " + PickaxeTemplates.TIER_5.DISPLAY_NAME), 10)
-                        .add(new CrateReward(PickaxeTemplates.TIER_6.buildPickaxe().delete().item, p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_6.buildPickaxe().setBottomLore(List.of("", "&7Won from a &aPickaxe &7crate")).tryToUpdateLore().item), "1x " + PickaxeTemplates.TIER_6.DISPLAY_NAME), 7.5)
-                        .add(new CrateReward(PickaxeTemplates.TIER_7.buildPickaxe().delete().item, p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_7.buildPickaxe().setBottomLore(List.of("", "&7Won from a &aPickaxe &7crate")).tryToUpdateLore().item), "1x " + PickaxeTemplates.TIER_7.DISPLAY_NAME), 6)
-                        .add(new CrateReward(PickaxeTemplates.TIER_8.buildPickaxe().delete().item, p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_8.buildPickaxe().setBottomLore(List.of("", "&7Won from a &aPickaxe &7crate")).tryToUpdateLore().item), "1x " + PickaxeTemplates.TIER_8.DISPLAY_NAME), 2.5)
-                        .add(new CrateReward(PickaxeTemplates.TIER_9.buildPickaxe().delete().item, p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_9.buildPickaxe().setBottomLore(List.of("", "&7Won from a &aPickaxe &7crate")).tryToUpdateLore().item), "1x " + PickaxeTemplates.TIER_9.DISPLAY_NAME), 1)
-                        .add(new CrateReward(PickaxeTemplates.TIER_10.buildPickaxe().delete().item, p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_10.buildPickaxe().setBottomLore(List.of("", "&7Won from a &aPickaxe &7crate")).tryToUpdateLore().item), "1x " + PickaxeTemplates.TIER_10.DISPLAY_NAME), 0.5)
+                        .add(new CrateReward(PickaxeTemplates.TIER_1.getTemplateItem(), p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_1.getItem(p)), Component.text("1x ").append(PickaxeTemplates.TIER_1.getTemplateItem().getItemMeta().displayName())), 25)
+                        .add(new CrateReward(PickaxeTemplates.TIER_2.getTemplateItem(), p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_2.getItem(p)), Component.text("1x ").append(PickaxeTemplates.TIER_2.getTemplateItem().getItemMeta().displayName())), 20)
+                        .add(new CrateReward(PickaxeTemplates.TIER_3.getTemplateItem(), p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_3.getItem(p)), Component.text("1x ").append(PickaxeTemplates.TIER_3.getTemplateItem().getItemMeta().displayName())), 15)
+                        .add(new CrateReward(PickaxeTemplates.TIER_4.getTemplateItem(), p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_4.getItem(p)), Component.text("1x ").append(PickaxeTemplates.TIER_4.getTemplateItem().getItemMeta().displayName())), 12.5)
+                        .add(new CrateReward(PickaxeTemplates.TIER_5.getTemplateItem(), p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_5.getItem(p)), Component.text("1x ").append(PickaxeTemplates.TIER_5.getTemplateItem().getItemMeta().displayName())), 10)
+                        .add(new CrateReward(PickaxeTemplates.TIER_6.getTemplateItem(), p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_6.getItem(p)), Component.text("1x ").append(PickaxeTemplates.TIER_6.getTemplateItem().getItemMeta().displayName())), 7.5)
+                        .add(new CrateReward(PickaxeTemplates.TIER_7.getTemplateItem(), p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_7.getItem(p)), Component.text("1x ").append(PickaxeTemplates.TIER_7.getTemplateItem().getItemMeta().displayName())), 6)
+                        .add(new CrateReward(PickaxeTemplates.TIER_8.getTemplateItem(), p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_8.getItem(p)), Component.text("1x ").append(PickaxeTemplates.TIER_8.getTemplateItem().getItemMeta().displayName())), 2.5)
+                        .add(new CrateReward(PickaxeTemplates.TIER_9.getTemplateItem(), p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_9.getItem(p)), Component.text("1x ").append(PickaxeTemplates.TIER_9.getTemplateItem().getItemMeta().displayName())), 1)
+                        .add(new CrateReward(PickaxeTemplates.TIER_10.getTemplateItem(), p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_10.getItem(p)), Component.text("1x ").append(PickaxeTemplates.TIER_10.getTemplateItem().getItemMeta().displayName())), 0.5)
         );
 
     }

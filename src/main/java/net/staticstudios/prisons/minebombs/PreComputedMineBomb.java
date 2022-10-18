@@ -16,7 +16,7 @@ import org.bukkit.World;
 
 import java.util.*;
 
-public class PreComputerMineBomb {
+public class PreComputedMineBomb {
     static final Pattern pattern = BlockTypes.AIR;
     private Location location;
     private int originX;
@@ -42,12 +42,12 @@ public class PreComputerMineBomb {
     public long blocksChanged = 0;
     private StaticMine mine;
 
-    public PreComputerMineBomb(double radius) {
+    public PreComputedMineBomb(double radius) {
         this.radius = radius;
         computePositions();
     }
 
-    private PreComputerMineBomb computePositions() {
+    private PreComputedMineBomb computePositions() {
         positions = MineBomb.makeSphere(radius);
         return this;
     }

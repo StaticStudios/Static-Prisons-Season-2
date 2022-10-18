@@ -22,8 +22,8 @@ public enum CrateKeyCustomItem implements CustomItem {
     RARE("rare_key", Component.text("RARE CRATE KEY").color(TextColor.color(0x03fca1)).decorate(TextDecoration.BOLD)),
     EPIC("epic_key", Component.text("EPIC CRATE KEY").color(TextColor.color(0x9B37FF)).decorate(TextDecoration.BOLD)),
     LEGENDARY("legendary_key", Component.text("LEGENDARY CRATE KEY").color(ComponentUtil.GOLD).decorate(TextDecoration.BOLD)),
-    STATIC("static_key", MiniMessage.miniMessage().deserialize("<gradient:#fa04ff:#00b3ff>STATIC CRATE KEY").decorate(TextDecoration.BOLD)),
-    STATICP("staticp_key", MiniMessage.miniMessage().deserialize("<gradient:#ff0000:#9400d3>STATIC+ CRATE KEY").decorate(TextDecoration.BOLD)),
+    STATIC("static_key", StaticPrisons.miniMessage().deserialize("<gradient:#fa04ff:#00b3ff>STATIC CRATE KEY").decorate(TextDecoration.BOLD)),
+    STATICP("staticp_key", StaticPrisons.miniMessage().deserialize("<gradient:#ff0000:#9400d3>STATIC+ CRATE KEY").decorate(TextDecoration.BOLD)),
     KIT("kit_key", Component.text("KIT CRATE KEY").color(ComponentUtil.RED).decorate(TextDecoration.BOLD)),
     VOTE("vote_key", Component.text("VOTE CRATE KEY").color(ComponentUtil.LIGHT_PURPLE).decorate(TextDecoration.BOLD)),
     PICKAXE("pickaxe_key", Component.text("PICKAXE CRATE KEY").color(ComponentUtil.GREEN).decorate(TextDecoration.BOLD));

@@ -3,6 +3,7 @@ package net.staticstudios.prisons;
 import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.WorldEdit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.LuckPerms;
 import net.staticstudios.citizens.CitizensUtils;
@@ -23,6 +24,7 @@ import net.staticstudios.prisons.customitems.Kits;
 import net.staticstudios.prisons.data.backups.DataBackup;
 import net.staticstudios.prisons.data.datahandling.DataSet;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
+import net.staticstudios.prisons.enchants.Enchantment;
 import net.staticstudios.prisons.events.EventManager;
 import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.fishing.FishingManager;
@@ -34,11 +36,8 @@ import net.staticstudios.prisons.levelup.rankup.RankUp;
 import net.staticstudios.prisons.lootboxes.LootBox;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.mines.MineManager;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.PickaxeManager;
 import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
-import net.staticstudios.prisons.pickaxe.enchants.AutoSellEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.ConsistencyEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.privatemines.PrivateMineManager;
 import net.staticstudios.prisons.pvp.PvPManager;
@@ -68,10 +67,6 @@ import java.util.logging.Level;
 
 public final class StaticPrisons extends JavaPlugin implements Listener {
 
-    public static StaticPrisons getInstance() {
-        return plugin;
-    }
-
     private static StaticPrisons plugin;
     public static LuckPerms luckPerms;
     public static final WorldEdit worldEdit = WorldEdit.getInstance();
@@ -82,19 +77,30 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     private boolean citizensEnabled = false;
 
+
+
+    public static StaticPrisons getInstance() {
+        return plugin;
+    }
+
+
+    public static MiniMessage miniMessage() {
+        return PrisonUtils.miniMessage;
+    }
+
     @Override
     public void onEnable() {
         plugin = this;
 
         safe(this::enableCitizens);
-        safe(TeamPrefix::init);
         safe(this::loadWorldBoarderAPI);
+        safe(TeamPrefix::init);
         safe(PrisonUtils::init);
         safe(MineManager::init);
         safe(PrivateMineManager::init);
-        safe(BaseEnchant::init);
-        safe(PickaxeEnchants::init);
-        safe(PickaxeAbilities::init);
+        safe(Enchantment::init);
+        safe(PickaxeManager::init);
+//        safe(PickaxeAbilities::init);
         safe(CustomItems::init);
         safe(Crates::init);
         safe(CellManager::init);
@@ -103,10 +109,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(TimedTasks::init);
         safe(DataSet::init);
         safe(DataBackup::init);
-        safe(PrisonPickaxe::init);
         safe(AuctionManager::init);
-        safe(AutoSellEnchant::initTimer);
-        safe(ConsistencyEnchant::init);
         safe(Kits::init);
         safe(LevelUp::init);
         safe(TabList::init);
@@ -245,7 +248,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(CellManager::saveSync);
         safe(PrivateMineManager::saveSync);
         safe(AuctionManager::saveAllAuctionsSync);
-        safe(PrisonPickaxe::savePickaxeDataNow);
+        safe(PickaxeManager::savePickaxeDataNow);
         safe(SpreadOutExecutor::flushQue);
         safe(Gang::saveAllSync);
         safe(BackpackManager::saveBackpacksNow);
@@ -261,7 +264,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     }
 
     /**
-     * Safely run a piece of code in a try-catch block. Good for init tasks to prevent other modules from not loading due to errors.
+     * Safely run a piece of code in a try-catch block.
+     * Good for init tasks to prevent other modules from not loading due to errors.
      */
     public static void safe(Runnable r) {
         try {

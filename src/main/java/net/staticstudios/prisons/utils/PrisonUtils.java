@@ -1,6 +1,9 @@
 package net.staticstudios.prisons.utils;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.Tag;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
@@ -28,6 +31,12 @@ public final class PrisonUtils {
     public static void init() {
         PlayerUtils.init(StaticPrisons.getInstance());
     }
+
+    public static final MiniMessage miniMessage = MiniMessage.builder().tags(TagResolver.resolver(
+            TagResolver.standard(),
+            TagResolver.resolver("light_gray", Tag.styling(style -> style.color(ComponentUtil.LIGHT_GRAY))),
+            TagResolver.resolver("light_grey", Tag.styling(style -> style.color(ComponentUtil.LIGHT_GRAY)))
+    )).build();
 
     public static String formatTime(long milliseconds) {
         long days = milliseconds / 86400000;
@@ -259,7 +268,7 @@ public final class PrisonUtils {
         return name;
     }
 
-    private static String capitalizeEachWord(String words) {
+    static String capitalizeEachWord(String words) {
         words = words.toLowerCase();
         return Stream.of(words.trim().split("\\s"))
                 .filter(word -> word.length() > 0)
@@ -285,37 +294,6 @@ public final class PrisonUtils {
         return principal * Math.pow(1 + interest, years);
     }
 
-    public static class Items {
-        public static ItemStack appendLoreToItem(ItemStack item, List<String> extraLore) {
-            item = item.clone();
-            List<String> mutableLore = new ArrayList<>(); //Make sure the list is mutable
-            for (String line : extraLore) mutableLore.add(ChatColor.translateAlternateColorCodes('&', line));
-            ItemMeta meta = item.getItemMeta();
-            List<String> lore = new ArrayList<>();
-            if (meta.hasLore()) lore = meta.getLore();
-            lore.addAll(mutableLore);
-            meta.setLore(lore);
-            item.setItemMeta(meta);
-            return item;
-        }
-
-        public static String getPrettyItemName(ItemStack item) {
-            String name;
-            if (!item.hasItemMeta()) {
-                name = capitalizeEachWord(item.getType().toString().replace("_", " "));
-                name = ChatColor.RESET + "" + ChatColor.WHITE + name;
-            } else {
-                if (!item.getItemMeta().hasDisplayName()) {
-                    name = capitalizeEachWord(item.getType().toString().replace("_", " "));
-                    name = ChatColor.RESET + "" + ChatColor.WHITE + name;
-                } else {
-                    name = item.getItemMeta().getDisplayName();
-                }
-            }
-            return name;
-        }
-    }
-
     public static void saveConfig(YamlConfiguration config, String name) {
         try {
             config.save(new File(StaticPrisons.getInstance().getDataFolder(), name));
@@ -331,5 +309,7 @@ public final class PrisonUtils {
 
         return PlainTextComponentSerializer.plainText().serialize(toCheck).isEmpty();
     }
+
+
 
 }
