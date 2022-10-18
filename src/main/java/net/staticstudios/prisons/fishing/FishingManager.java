@@ -3,7 +3,7 @@ package net.staticstudios.prisons.fishing;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,25 +31,25 @@ public class FishingManager {
                 .add(e -> {
                     Player player = e.getPlayer();
                     ItemStack reward = CustomItems.getCommonCrateKey(1);
-                    player.sendMessage(FishingManager.PREFIX + "You caught a " + PrisonUtils.Items.getPrettyItemName(reward) + "!");
+                    player.sendMessage(FishingManager.PREFIX + "You caught a " + ItemUtils.getPrettyItemName(reward) + "!");
                     ((Item) e.getCaught()).setItemStack(reward);
                 }, 10)
                 .add(e -> {
                     Player player = e.getPlayer();
                     ItemStack reward = CustomItems.getRareCrateKey(1);
-                    player.sendMessage(FishingManager.PREFIX + "You caught a " + PrisonUtils.Items.getPrettyItemName(reward) + "!");
+                    player.sendMessage(FishingManager.PREFIX + "You caught a " + ItemUtils.getPrettyItemName(reward) + "!");
                     ((Item) e.getCaught()).setItemStack(reward);
                 }, 5)
                 .add(e -> {
                     Player player = e.getPlayer();
                     ItemStack reward = CustomItems.getEpicCrateKey(1);
-                    player.sendMessage(FishingManager.PREFIX + "You caught a " + PrisonUtils.Items.getPrettyItemName(reward) + "!");
+                    player.sendMessage(FishingManager.PREFIX + "You caught a " + ItemUtils.getPrettyItemName(reward) + "!");
                     ((Item) e.getCaught()).setItemStack(reward);
                 }, 3)
                 .add(e -> {
                     Player player = e.getPlayer();
                     ItemStack reward = CustomItems.getLegendaryCrateKey(1);
-                    player.sendMessage(FishingManager.PREFIX + "You caught a " + PrisonUtils.Items.getPrettyItemName(reward) + "!");
+                    player.sendMessage(FishingManager.PREFIX + "You caught a " + ItemUtils.getPrettyItemName(reward) + "!");
                     ((Item) e.getCaught()).setItemStack(reward);
                 }, 2)
                 .add(e -> {

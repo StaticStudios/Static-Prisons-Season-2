@@ -5,6 +5,7 @@ import net.staticstudios.prisons.auctionhouse.commands.AuctionHouseCommand;
 import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
+import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
@@ -93,7 +94,7 @@ public class AuctionManager {
         if (auction.owner().equals(player.getUniqueId())) {
             auctions.remove(auction);
             PlayerUtils.addToInventory(player, auction.item());
-            player.sendMessage(AH_PREFIX + "You reclaimed " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()));
+            player.sendMessage(AH_PREFIX + "You reclaimed " + auction.item().getAmount() + "x " + ItemUtils.getPrettyItemName(auction.item()));
             return true;
         }
         if (playerData.getMoney() < auction.price()) {
@@ -107,9 +108,9 @@ public class AuctionManager {
         PlayerUtils.addToInventory(player, auction.item());
         if (Bukkit.getPlayer(auction.owner()) != null) {
             Bukkit.getPlayer(auction.owner()).sendMessage(AH_PREFIX +
-                    player.getName() + " bought " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from you for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
+                    player.getName() + " bought " + auction.item().getAmount() + "x " + ItemUtils.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from you for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
         }
-        player.sendMessage(AH_PREFIX + "You bought " + auction.item().getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from " + ServerData.PLAYERS.getName(auction.owner()) + " for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
+        player.sendMessage(AH_PREFIX + "You bought " + auction.item().getAmount() + "x " + ItemUtils.getPrettyItemName(auction.item()) + ChatColor.WHITE + " from " + ServerData.PLAYERS.getName(auction.owner()) + " for " + ChatColor.GREEN + "$" + PrisonUtils.addCommasToNumber(auction.price()));
         return true;
     }
 

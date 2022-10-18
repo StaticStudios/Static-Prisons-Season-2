@@ -3,6 +3,7 @@ package net.staticstudios.prisons;
 import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.sk89q.worldedit.WorldEdit;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.LuckPerms;
 import net.staticstudios.citizens.CitizensUtils;
@@ -66,10 +67,6 @@ import java.util.logging.Level;
 
 public final class StaticPrisons extends JavaPlugin implements Listener {
 
-    public static StaticPrisons getInstance() {
-        return plugin;
-    }
-
     private static StaticPrisons plugin;
     public static LuckPerms luckPerms;
     public static final WorldEdit worldEdit = WorldEdit.getInstance();
@@ -79,6 +76,17 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     private boolean citizensEnabled = false;
+
+
+
+    public static StaticPrisons getInstance() {
+        return plugin;
+    }
+
+
+    public static MiniMessage miniMessage() {
+        return PrisonUtils.miniMessage;
+    }
 
     @Override
     public void onEnable() {

@@ -37,12 +37,11 @@ public final class ChatTags {
             config.createSection("chatTags");
         }
 
-        MiniMessage miniMessage = MiniMessage.miniMessage();
 
         ConfigurationSection root = config.getConfigurationSection("chatTags");
 
         for (String tag : Objects.requireNonNull(root).getKeys(false)) {
-            chatTags.put(tag, miniMessage.deserialize(root.getString(tag)));
+            chatTags.put(tag, StaticPrisons.miniMessage().deserialize(root.getString(tag)));
         }
     }
 

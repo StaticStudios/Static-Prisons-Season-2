@@ -2,6 +2,7 @@ package net.staticstudios.prisons.customitems.pickaxes;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customitems.CustomItem;
 import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.enchants.Enchantment;
@@ -52,9 +53,9 @@ public enum PickaxeTemplates implements CustomItem {
             enchants.put(enchantment.getClass(), enchantsSection.getInt(key));
         }
         pickaxeMaterial = Material.valueOf(section.getString("material"));
-        name = MiniMessage.miniMessage().deserialize(section.getString("name", "Prison Pickaxe"));
-        section.getStringList("top_lore").forEach(s -> topLore.add(MiniMessage.miniMessage().deserialize(s)));
-        section.getStringList("bottom_lore").forEach(s -> bottomLore.add(MiniMessage.miniMessage().deserialize(s)));
+        name = StaticPrisons.miniMessage().deserialize(section.getString("name", "Prison Pickaxe"));
+        section.getStringList("top_lore").forEach(s -> topLore.add(StaticPrisons.miniMessage().deserialize(s)));
+        section.getStringList("bottom_lore").forEach(s -> bottomLore.add(StaticPrisons.miniMessage().deserialize(s)));
 
         templateItem = buildPickaxe(false).getItem();
 

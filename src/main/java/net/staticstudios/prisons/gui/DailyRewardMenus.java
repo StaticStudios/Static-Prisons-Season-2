@@ -4,6 +4,7 @@ import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;
@@ -39,7 +40,7 @@ public class DailyRewardMenus extends GUIUtils {
                 }
                 playerData.setClaimedDailyRewardsRank1At(Instant.now().getEpochSecond());
                 PlayerUtils.addToInventory(p, reward);
-                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward));
+                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + ItemUtils.getPrettyItemName(reward));
                 mainMenu(p);
             })));
         } else c.setItem(2, c.createButton(Material.DIAMOND, "&bClaim Reward &e(Warrior)", List.of("&fYou can claim this reward every", "&f24 hours to get random crate keys!", "",
@@ -58,7 +59,7 @@ public class DailyRewardMenus extends GUIUtils {
                 }
                 playerData.setClaimedDailyRewardsAt(Instant.now().getEpochSecond());
                 PlayerUtils.addToInventory(p, reward);
-                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward));
+                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + ItemUtils.getPrettyItemName(reward));
                 mainMenu(p);
             })));
         } else c.setItem(4, c.createButton(Material.NETHER_STAR, "&bClaim Reward &a(Member)", List.of("&fYou can claim this reward every", "&f24 hours to get random crate keys!", "",
@@ -83,7 +84,7 @@ public class DailyRewardMenus extends GUIUtils {
                 }
                 playerData.setClaimedDailyRewardsRank2At(Instant.now().getEpochSecond());
                 PlayerUtils.addToInventory(p, reward);
-                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward));
+                p.sendMessage(ChatColor.WHITE + "You've been given " + reward.getAmount() + "x " + ItemUtils.getPrettyItemName(reward));
                 mainMenu(p);
             })));
         } else c.setItem(6, c.createButton(Material.AMETHYST_SHARD, "&bClaim Reward &d(Static)", List.of("&fYou can claim this reward every", "&f24 hours to get random crate keys!", "",

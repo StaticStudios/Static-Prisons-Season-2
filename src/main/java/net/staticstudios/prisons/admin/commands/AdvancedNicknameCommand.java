@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -40,7 +41,7 @@ public class AdvancedNicknameCommand implements TabExecutor {
             return false;
         }
 
-        Component nickname = MiniMessage.miniMessage().deserialize(args[0]);
+        Component nickname = StaticPrisons.miniMessage().deserialize(args[0]);
 
         if (PlainTextComponentSerializer.plainText().serialize(nickname).contains("<") || PlainTextComponentSerializer.plainText().serialize(nickname).contains(">")) {
             player.sendMessage(text("Invalid MiniMessage!").color(RED));
@@ -60,7 +61,7 @@ public class AdvancedNicknameCommand implements TabExecutor {
         }
 
         playerData.setIsChatNickNameEnabled(true);
-        playerData.setChatNickname(MiniMessage.miniMessage().serialize(nickname));
+        playerData.setChatNickname(StaticPrisons.miniMessage().serialize(nickname));
 
         player.sendMessage(text("Set nickname to ").color(GREEN).append(nickname).append(text("!")));
         return true;

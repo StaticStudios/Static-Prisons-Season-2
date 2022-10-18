@@ -35,7 +35,7 @@ public class BackpackConfig {
                     new BackpackTier(tier,
                             config.getString(key + ".skin"),
                             config.getLong(key + ".max_size"),
-                            Component.empty().append(MiniMessage.miniMessage().deserialize(Objects.requireNonNull(config.getString(key + ".name")), TagResolver.standard())))
+                            Component.empty().append(StaticPrisons.miniMessage().deserialize(Objects.requireNonNull(config.getString(key + ".name")))))
             );
         }
     }

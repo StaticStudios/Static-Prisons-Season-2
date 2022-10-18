@@ -50,11 +50,11 @@ public class PickaxeManager {
             pickaxe.setLevel(statsSection.getInt("level"));
             pickaxe.setBlocksBroken(statsSection.getLong("blocksBroken"));
             pickaxe.setRawBlocksBroken(statsSection.getLong("rawBlocksBroken"));
-            pickaxe.setTopLore(statsSection.getStringList("topLore").stream().map(MiniMessage.miniMessage()::deserialize).toList());
-            pickaxe.setBottomLore(statsSection.getStringList("bottomLore").stream().map(MiniMessage.miniMessage()::deserialize).toList());
+            pickaxe.setTopLore(statsSection.getStringList("topLore").stream().map(StaticPrisons.miniMessage()::deserialize).toList());
+            pickaxe.setBottomLore(statsSection.getStringList("bottomLore").stream().map(StaticPrisons.miniMessage()::deserialize).toList());
 
             String name = statsSection.getString("name");
-            pickaxe.setName(name != null ? MiniMessage.miniMessage().deserialize(name) : DEFAULT_PICKAXE_NAME);
+            pickaxe.setName(name != null ? StaticPrisons.miniMessage().deserialize(name) : DEFAULT_PICKAXE_NAME);
 
 
             pickaxe.deserialize(enchantsSection);
@@ -115,9 +115,9 @@ public class PickaxeManager {
             statsSection.set("level", pickaxe.getLevel());
             statsSection.set("blocksBroken", pickaxe.getBlocksBroken());
             statsSection.set("rawBlocksBroken", pickaxe.getRawBlocksBroken());
-            statsSection.set("topLore", pickaxe.getTopLore().stream().map(MiniMessage.miniMessage()::serialize).toList());
-            statsSection.set("bottomLore", pickaxe.getBottomLore().stream().map(MiniMessage.miniMessage()::serialize).toList());
-            statsSection.set("name", MiniMessage.miniMessage().serialize(pickaxe.getName()));
+            statsSection.set("topLore", pickaxe.getTopLore().stream().map(StaticPrisons.miniMessage()::serialize).toList());
+            statsSection.set("bottomLore", pickaxe.getBottomLore().stream().map(StaticPrisons.miniMessage()::serialize).toList());
+            statsSection.set("name", StaticPrisons.miniMessage().serialize(pickaxe.getName()));
 
             //todo: tiers
             pickaxeSection.set("enchants", pickaxe.serialize());

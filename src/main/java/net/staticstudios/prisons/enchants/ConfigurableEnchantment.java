@@ -2,6 +2,7 @@ package net.staticstudios.prisons.enchants;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.utils.StaticFileSystemManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -43,9 +44,9 @@ public abstract class ConfigurableEnchantment<E extends Event> implements Enchan
 
             this.id = id;
             this.name = config.getString("name", "null");
-            this.unformattedName = MiniMessage.miniMessage().deserialize(config.getString("unformatted_name", name));
-            this.displayName = MiniMessage.miniMessage().deserialize(config.getString("display_name", name));
-            this.description = config.getStringList("description").stream().map(MiniMessage.miniMessage()::deserialize).toList();
+            this.unformattedName = StaticPrisons.miniMessage().deserialize(config.getString("unformatted_name", name));
+            this.displayName = StaticPrisons.miniMessage().deserialize(config.getString("display_name", name));
+            this.description = config.getStringList("description").stream().map(StaticPrisons.miniMessage()::deserialize).toList();
             this.maxLevel = config.getInt("max_level", 0);
             this.upgradeCost = config.getLong("upgrade_cost", 0);
             this.defaultChance = config.getDouble("default_chance", 1);
