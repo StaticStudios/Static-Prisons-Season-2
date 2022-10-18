@@ -23,6 +23,6 @@ public class NightVisionEnchant extends PickaxeEnchant {
 
     @Override
     public void onUpgrade(Enchantable enchantable, Player player, int oldLevel, int newLevel) {
-        player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(Integer.MAX_VALUE, Math.min(10, enchantable.getEnchantmentLevel(NightVisionEnchant.class) - 1)));
+        player.addPotionEffect(PotionEffectType.NIGHT_VISION.createEffect(Integer.MAX_VALUE, Math.min(10, newLevel - 1)));
     }
 }

@@ -164,14 +164,6 @@ public class PlayerData extends DataSet {
             }
             if (xp >= getNextLevelRequirement()) {
                 addPlayerLevel(1);
-                if (player != null) { //todo: components
-                    player.sendMessage("You leveled up to level " + ChatColor.YELLOW + ChatColor.BOLD + PrisonUtils.addCommasToNumber(getPlayerLevel()) + "!" + ChatColor.RESET +
-                            "\nNext level: " + ChatColor.YELLOW + ChatColor.BOLD + PrisonUtils.prettyNum(getPlayerXP()) + "/" + PrisonUtils.prettyNum(getNextLevelRequirement()) + " XP");
-                }
-                if (getPlayerLevel() % 10 == 0) {
-                    String msg = ServerData.PLAYERS.getName(uuid) + " has reached level " + ChatColor.YELLOW + ChatColor.BOLD + PrisonUtils.addCommasToNumber(getPlayerLevel()) + "!";
-                    for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(msg);
-                }
             } else if (xp < getLevelRequirement(getPlayerLevel())) {
                 removePlayerLevel(1);
             } else break;

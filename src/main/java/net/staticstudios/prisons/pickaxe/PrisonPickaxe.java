@@ -262,6 +262,7 @@ public class PrisonPickaxe extends EnchantableItemStack {
     public Map<Class<? extends Enchantment>, EnchantHolder> getEnchantments() {
         return ENCHANTS;
     }
+    //todo: getEnchants() should return the key set only if the holder level is > 0 | isDisabled() should check if the ench is disabled | getEnchant() should return the holder if it exists, otherwise return a new holder with level 0
 
     @Override
     public boolean setEnchantment(Class<? extends Enchantment> enchantment, int level) {
@@ -317,8 +318,8 @@ public class PrisonPickaxe extends EnchantableItemStack {
 
         playerData.removeTokens(upgradeCost);
 
-        onUpgrade(this, player, holder.level(), holder.level() + levelsToUpgrade);
         setEnchantment(enchantment, holder.level() + levelsToUpgrade);
+        onUpgrade(this, player, holder.level() - levelsToUpgrade, holder.level());
 
         player.sendMessage(enchant.getDisplayName()
                 .append(Component.text(" >> ")
@@ -343,9 +344,9 @@ public class PrisonPickaxe extends EnchantableItemStack {
 
     @Override
     public boolean disableEnchantment(Class<? extends Enchantment> enchantment, Player player) {
-        EnchantHolder holder = ENCHANTS.get(enchantment);
+        EnchantHolder holder = ENCHANTS.getOrDefault(enchantment, new EnchantHolder(Enchantable.getEnchant(enchantment), 0, false));
         ENCHANTS.put(enchantment, new EnchantHolder(holder.enchantment(), holder.level(), true));
-        if (player != null && player.getInventory().getItemInMainHand().equals(getItem())) {
+        if (holder.level() > 0 && player != null && player.getInventory().getItemInMainHand().equals(getItem())) {
             Enchantable.getEnchant(enchantment).onUnHold(this, player);
         }
         return true;
@@ -353,9 +354,9 @@ public class PrisonPickaxe extends EnchantableItemStack {
 
     @Override
     public boolean enableEnchantment(Class<? extends Enchantment> enchantment, Player player) {
-        EnchantHolder holder = ENCHANTS.get(enchantment);
+        EnchantHolder holder = ENCHANTS.getOrDefault(enchantment, new EnchantHolder(Enchantable.getEnchant(enchantment), 0, false));
         ENCHANTS.put(enchantment, new EnchantHolder(holder.enchantment(), holder.level(), false));
-        if (player != null && player.getInventory().getItemInMainHand().equals(getItem())) {
+        if (holder.level() > 0 && player != null && player.getInventory().getItemInMainHand().equals(getItem())) {
             Enchantable.getEnchant(enchantment).onHold(this, player);
         }
         return true;

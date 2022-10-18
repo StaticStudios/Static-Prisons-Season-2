@@ -23,6 +23,6 @@ public class HasteEnchant extends PickaxeEnchant {
 
     @Override
     public void onUpgrade(Enchantable enchantable, Player player, int oldLevel, int newLevel) {
-        player.addPotionEffect(PotionEffectType.FAST_DIGGING.createEffect(Integer.MAX_VALUE, Math.min(10, enchantable.getEnchantmentLevel(HasteEnchant.class) - 1)));
+        player.addPotionEffect(PotionEffectType.FAST_DIGGING.createEffect(Integer.MAX_VALUE, Math.min(10, newLevel - 1)));
     }
 }
