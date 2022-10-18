@@ -86,7 +86,7 @@ public class EggShooterEnchant extends PickaxeEnchant implements Listener {
             if (pickaxe == null) return;
 
             if (pickaxe.getEnchantmentLevel(EggShooterEnchant.class) <= 0 ||
-                    pickaxe.getDisabledEnchantments().containsKey(EggShooterEnchant.class)) return;
+                    pickaxe.isDisabled(EggShooterEnchant.class)) return;
 
             Egg egg = player.getWorld().spawn(player.getEyeLocation(), Egg.class);
             egg.setShooter(new EggShooterPickaxe(player, pickaxe));
@@ -108,9 +108,9 @@ public class EggShooterEnchant extends PickaxeEnchant implements Listener {
             });
 
             boolean useFortune = pickaxe.getEnchantmentLevel(FortuneEnchant.class) > 0 &&
-                    !pickaxe.getDisabledEnchantments().containsKey(FortuneEnchant.class);
+                    !pickaxe.isDisabled(FortuneEnchant.class);
             boolean useOreSplitter = pickaxe.getEnchantmentLevel(OreSplitterEnchant.class) > 0 &&
-                    !pickaxe.getDisabledEnchantments().containsKey(OreSplitterEnchant.class);
+                    !pickaxe.isDisabled(OreSplitterEnchant.class);
 
             final int fortune = (1 +
                     (useFortune ? pickaxe().getEnchantmentLevel(FortuneEnchant.class) : 0)

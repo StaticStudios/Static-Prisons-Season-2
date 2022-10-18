@@ -3,7 +3,6 @@ package net.staticstudios.prisons.pickaxe;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
 import net.staticstudios.prisons.pickaxe.gui.PickaxeMenus;
 import net.staticstudios.prisons.pickaxe.enchants.TokenatorEnchant;
 import org.bukkit.entity.Player;
@@ -13,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -50,8 +48,8 @@ public class PickaxeListener implements Listener {
         if (pickaxe == null) return;
         AtomicBoolean hasTokenator = new AtomicBoolean(false);
 
-        pickaxe.getEnchantments().keySet().forEach(enchant -> {
-            if (enchant == TokenatorEnchant.class) {
+        pickaxe.getEnchantments().forEach(enchantHolder -> {
+            if (enchantHolder.enchantment().getClass() == TokenatorEnchant.class) {
                 hasTokenator.set(true);
             }
         });

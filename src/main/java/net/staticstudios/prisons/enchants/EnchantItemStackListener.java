@@ -21,7 +21,6 @@ public class EnchantItemStackListener implements Listener {
         if (enchantableItemStacks.isEmpty()) return;
 
         enchantableItemStacks.forEach(item -> item.getEnabledEnchantments()
-                .values()
                 .stream()
                 .map(EnchantHolder::enchantment)
                 .forEach(enchant -> enchant.onHold(item, player)));
@@ -35,7 +34,6 @@ public class EnchantItemStackListener implements Listener {
         if (enchantableItemStacks.isEmpty()) return;
 
         enchantableItemStacks.forEach(item -> item.getEnabledEnchantments()
-                .values()
                 .stream()
                 .map(EnchantHolder::enchantment)
                 .forEach(enchant -> enchant.onUnHold(item, player)));
@@ -59,7 +57,6 @@ public class EnchantItemStackListener implements Listener {
 
         if (!oldEnchantableItemStacks.isEmpty()) {
             oldEnchantableItemStacks.forEach(item -> item.getEnabledEnchantments()
-                    .values()
                     .stream()
                     .map(EnchantHolder::enchantment)
                     .forEach(enchant -> enchant.onUnHold(item, player)));
@@ -67,7 +64,6 @@ public class EnchantItemStackListener implements Listener {
 
         if (!newEnchantableItemStacks.isEmpty()) {
             newEnchantableItemStacks.forEach(item -> item.getEnabledEnchantments()
-                    .values()
                     .stream()
                     .map(EnchantHolder::enchantment)
                     .forEach(enchant -> enchant.onHold(item, player)));
@@ -88,7 +84,6 @@ public class EnchantItemStackListener implements Listener {
         if (enchantableItemStacks.isEmpty()) return;
 
         enchantableItemStacks.forEach(item -> item.getEnabledEnchantments()
-                .values()
                 .stream()
                 .map(EnchantHolder::enchantment)
                 .forEach(enchant -> enchant.onHold(item, player)));
@@ -112,7 +107,6 @@ public class EnchantItemStackListener implements Listener {
 
         if (!oldEnchantableItemStacks.isEmpty()) {
             oldEnchantableItemStacks.forEach(item -> item.getEnabledEnchantments()
-                    .values()
                     .stream()
                     .map(EnchantHolder::enchantment)
                     .forEach(enchant -> enchant.onUnHold(item, player)));
@@ -120,7 +114,6 @@ public class EnchantItemStackListener implements Listener {
 
         if (!newEnchantableItemStacks.isEmpty()) {
             newEnchantableItemStacks.forEach(item -> item.getEnabledEnchantments()
-                    .values()
                     .stream()
                     .map(EnchantHolder::enchantment)
                     .forEach(enchant -> enchant.onHold(item, player)));
@@ -133,7 +126,6 @@ public class EnchantItemStackListener implements Listener {
         if (enchantableItemStacks.isEmpty()) return;
 
         enchantableItemStacks.forEach(item -> item.getEnabledEnchantments()
-                .values()
                 .stream()
                 .map(EnchantHolder::enchantment)
                 .forEach(enchant -> enchant.onUnHold(item, player)));

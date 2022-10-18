@@ -15,7 +15,7 @@ public class MerchantEnchant extends PickaxeEnchant {
     }
 
     public static double getMultiplier(PrisonPickaxe pickaxe) {
-        if (!pickaxe.getEnabledEnchantments().containsKey(MerchantEnchant.class)) return 0;
+        if (pickaxe.isDisabled(MerchantEnchant.class)) return 0;
         return (double) pickaxe.getEnchantmentLevel(MerchantEnchant.class) / ((PickaxeEnchant) Enchantable.getEnchant(MerchantEnchant.class)).getMaxLevel(pickaxe) * MULTIPLIER;
     }
 }

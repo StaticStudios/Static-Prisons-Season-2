@@ -6,8 +6,9 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public interface Enchantable {
 
@@ -49,7 +50,7 @@ public interface Enchantable {
      */
     default ConfigurationSection serialize(BiConsumer<EnchantHolder, ConfigurationSection> extra) {
         ConfigurationSection config = new YamlConfiguration();
-        for (Map.Entry<Class<? extends Enchantment>, EnchantHolder> entry : getEnchantments().entrySet()) {
+        for (Map.Entry<Class<? extends Enchantment>, EnchantHolder> entry : getEnchantmentMap().entrySet()) {
             EnchantHolder holder = entry.getValue();
             if (holder.level() > 0) {
                 ConfigurationSection enchantSection = config.createSection(holder.enchantment().getId());
@@ -87,7 +88,7 @@ public interface Enchantable {
             int level = enchantSection.getInt("level");
             setEnchantment(enchantment.getClass(), level);
             if (enchantSection.getBoolean("disabled")) {
-                getEnchantments().put(getEnchant(enchantId).getClass(), new EnchantHolder(getEnchant(enchantId), level, true));
+                getEnchantmentMap().put(getEnchant(enchantId).getClass(), new EnchantHolder(getEnchant(enchantId), level, true));
             }
             extra.accept(enchantment, enchantSection);
         }
@@ -99,7 +100,24 @@ public interface Enchantable {
      *
      * @return A set of all the enchantments on this item
      */
-    Map<Class<? extends Enchantment>, EnchantHolder> getEnchantments();
+    Map<Class<? extends Enchantment>, EnchantHolder> getEnchantmentMap();
+
+    default Set<EnchantHolder> getEnchantments() {
+        return getEnchantmentMap()
+                .values()
+                .stream()
+                .filter(holder -> holder.level() > 0)
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
+    /**
+     * Get a specific enchant holder on an Enchantable, from the enchantment class.
+     * @param enchantment The enchantment class.
+     * @return The enchantment holder.
+     */
+    default EnchantHolder getEnchantment(Class<? extends Enchantment> enchantment) {
+        return getEnchantmentMap().getOrDefault(enchantment, new EnchantHolder(getEnchant(enchantment), 0, false));
+    }
 
     /**
      * Add an enchantment to this item
@@ -147,6 +165,10 @@ public interface Enchantable {
      */
     boolean enableEnchantment(Class<? extends Enchantment> enchantment, Player player);
 
+    default boolean isDisabled(Class<? extends Enchantment> enchantment) {
+        return getEnchantmentMap().getOrDefault(enchantment, new EnchantHolder(getEnchant(enchantment), 0, false)).isDisabled();
+    }
+
     /**
      * Call this method when the Enchantable is held by a player.
      *
@@ -154,7 +176,7 @@ public interface Enchantable {
      * @param player      The player holding the Enchantable.
      */
     default void onHold(Enchantable enchantable, Player player) {
-        for (EnchantHolder holder : getEnabledEnchantments().values()) {
+        for (EnchantHolder holder : getEnabledEnchantments()) {
             holder.enchantment().onHold(enchantable, player);
         }
     }
@@ -166,7 +188,7 @@ public interface Enchantable {
      * @param player      The player un-holding the Enchantable.
      */
     default void onUnHold(Enchantable enchantable, Player player) {
-        for (EnchantHolder holder : getEnabledEnchantments().values()) {
+        for (EnchantHolder holder : getEnabledEnchantments()) {
             holder.enchantment().onUnHold(enchantable, player);
         }
     }
@@ -180,7 +202,7 @@ public interface Enchantable {
      * @param newLevel    The level the Enchantable was upgraded to.
      */
     default void onUpgrade(Enchantable enchantable, Player player, int oldLevel, int newLevel) {
-        for (EnchantHolder holder : getEnabledEnchantments().values()) {
+        for (EnchantHolder holder : getEnabledEnchantments()) {
             holder.enchantment().onUpgrade(enchantable, player, oldLevel, newLevel);
         }
     }
@@ -190,10 +212,22 @@ public interface Enchantable {
      *
      * @return A set containing all the disabled enchantments on this item
      */
-    default Map<Class<? extends Enchantment>, EnchantHolder> getDisabledEnchantments() {
-        return getEnchantments().entrySet().stream()
+    default Map<Class<? extends Enchantment>, EnchantHolder> getDisabledEnchantmentMap() {
+        return getEnchantmentMap().entrySet().stream()
                 .filter(entry -> entry.getValue().isDisabled())
                 .collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
+    }
+
+    /**
+     * Get a set containing all the disabled enchantments on this item
+     * @return A set containing all the disabled enchantments on this item
+     */
+    default Set<EnchantHolder> getDisabledEnchantments() {
+        return getEnchantmentMap()
+                .values()
+                .stream()
+                .filter(holder -> holder.level() > 0 && holder.isDisabled())
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     /**
@@ -201,10 +235,22 @@ public interface Enchantable {
      *
      * @return A set containing all the enabled enchantments on this item
      */
-    default Map<Class<? extends Enchantment>, EnchantHolder> getEnabledEnchantments() {
-        return getEnchantments().entrySet().stream()
+    default Map<Class<? extends Enchantment>, EnchantHolder> getEnabledEnchantmentMap() {
+        return getEnchantmentMap().entrySet().stream()
                 .filter(entry -> !entry.getValue().isDisabled())
                 .collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
+    }
+
+    /**
+     * Get a set containing all the enabled enchantments on this item
+     * @return A set containing all the enabled enchantments on this item
+     */
+    default Set<EnchantHolder> getEnabledEnchantments() {
+        return getEnchantmentMap()
+                .values()
+                .stream()
+                .filter(holder -> holder.level() > 0 && !holder.isDisabled())
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     /**
@@ -214,7 +260,7 @@ public interface Enchantable {
      * @return The level of the enchantment, or 0 if it is not on this item
      */
     default int getEnchantmentLevel(Class<? extends Enchantment> enchantment) {
-        EnchantHolder holder = getEnchantments().get(enchantment);
+        EnchantHolder holder = getEnchantmentMap().get(enchantment);
         return holder == null ? 0 : holder.level();
     }
 
@@ -225,7 +271,7 @@ public interface Enchantable {
      * @return The level of the enchantment, or 0 if it is not on this item
      */
     default int getEnchantmentLevel(Enchantment enchantment) {
-        EnchantHolder holder = getEnchantments().get(enchantment.getClass());
+        EnchantHolder holder = getEnchantmentMap().get(enchantment.getClass());
         return holder == null ? 0 : holder.level();
     }
 
@@ -236,7 +282,7 @@ public interface Enchantable {
      * @return True if the item has the enchantment, false if it does not
      */
     default boolean hasEnchantment(Class<? extends Enchantment> enchantment) {
-        return getEnchantments().containsKey(enchantment);
+        return getEnchantmentMap().containsKey(enchantment);
     }
 
 }

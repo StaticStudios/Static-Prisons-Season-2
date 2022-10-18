@@ -41,7 +41,7 @@ public class AutoSellEnchant extends PickaxeEnchant {
             for (PrisonPickaxe pickaxe : ACTIVE_PICKAXES.keySet()) {
 
                 //Check if the enchantment has been just disabled
-                if (!pickaxe.getDisabledEnchantments().containsKey(AutoSellEnchant.class)) {
+                if (pickaxe.isDisabled(AutoSellEnchant.class)) {
                     ACTIVE_PICKAXES.remove(pickaxe);
                     PICKAXE_TIME_LEFT.remove(pickaxe);
                     continue;

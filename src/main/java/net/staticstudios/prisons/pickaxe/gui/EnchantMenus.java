@@ -234,7 +234,7 @@ public class EnchantMenus {
             );
 
 
-            boolean disabled = pickaxe.getDisabledEnchantments().containsKey(enchantClass);
+            boolean disabled = pickaxe.isDisabled(enchantClass);
             boolean locked = pickaxeEnchantment.getLevelRequirement() > pickaxe.getLevel();
 
             if (locked) {
@@ -374,7 +374,7 @@ public class EnchantMenus {
 
             return ButtonBuilder.builder()
                     .icon(icon)
-                    .name(Component.text(pickaxe.getDisabledEnchantments().containsKey(enchantClass) ? "[Disabled] " : "")
+                    .name(Component.text(pickaxe.isDisabled(enchantClass) ? "[Disabled] " : "")
                             .color(ComponentUtil.RED)
                             .decorate(TextDecoration.BOLD)
                             .decoration(TextDecoration.ITALIC, false)

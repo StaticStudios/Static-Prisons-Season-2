@@ -263,10 +263,9 @@ public class PrisonPickaxe extends EnchantableItemStack {
     }
 
     @Override
-    public Map<Class<? extends Enchantment>, EnchantHolder> getEnchantments() {
+    public Map<Class<? extends Enchantment>, EnchantHolder> getEnchantmentMap() {
         return ENCHANTS;
     }
-    //todo: getEnchants() should return the key set only if the holder level is > 0 | isDisabled() should check if the ench is disabled | getEnchant() should return the holder if it exists, otherwise return a new holder with level 0
 
     @Override
     public boolean setEnchantment(Class<? extends Enchantment> enchantment, int level) {
