@@ -11,6 +11,10 @@ public class GUISettings {
      */
     private boolean allowPlayerItems = false;
 
+    private boolean givePlayerItemsBack = true;
+
+    private boolean allowDragItems = false;
+
     //Getters & Setters
 
     /**
@@ -27,5 +31,29 @@ public class GUISettings {
      */
     public void allowPlayerItems(boolean allowPlayerItems) {
         this.allowPlayerItems = allowPlayerItems;
+    }
+
+    /**
+     * Returns whether the player's items will be given back to them when they close the GUI.
+     * @return True if the player's items should be given back to them when they close the GUI, false otherwise.
+     */
+    public boolean givePlayerItemsBack() {
+        return givePlayerItemsBack;
+    }
+
+    /**
+     * Allow/disallow the player's items to be given back to them when the GUI is being closed.
+     * @param givePlayerItemsBack true if the player's items should be given back to them when they close the GUI, false otherwise.
+     */
+    public void givePlayerItemsBack(boolean givePlayerItemsBack) {
+        this.givePlayerItemsBack = givePlayerItemsBack;
+    }
+
+    public boolean allowDragItems() {
+        return allowDragItems;
+    }
+
+    public void allowDragItems(boolean allowDragItems) {
+        this.allowDragItems = allowDragItems;
     }
 }

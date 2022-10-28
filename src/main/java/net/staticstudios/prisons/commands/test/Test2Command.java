@@ -1,8 +1,5 @@
 package net.staticstudios.prisons.commands.test;
 
-import net.staticstudios.prisons.lootboxes.lootboxes.MoneyLootBox;
-import net.staticstudios.prisons.lootboxes.lootboxes.PickaxeLootBox;
-import net.staticstudios.prisons.lootboxes.lootboxes.TokenLootBox;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,12 +28,6 @@ public class Test2Command implements CommandExecutor {
 //        DataBackup.init();
 
 //        PackageHandler.claimPackage(UUID.fromString("35afaa60-6792-455d-b30c-ed89fba9d157"), "staticpPackage", strings);
-
-        int tier = Integer.parseInt(strings[0]);
-        player.getInventory().addItem(new TokenLootBox(tier).getItem());
-        player.getInventory().addItem(new MoneyLootBox(tier).getItem());
-        player.getInventory().addItem(new PickaxeLootBox(tier).getItem());
-
 
 
         return false;

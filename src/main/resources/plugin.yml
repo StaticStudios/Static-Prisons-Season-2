@@ -344,3 +344,5 @@ commands:
       - quests
       - quest
       - objectives
+  trade:
+    description: trade with another player

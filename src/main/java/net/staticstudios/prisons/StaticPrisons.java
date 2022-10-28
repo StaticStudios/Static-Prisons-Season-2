@@ -45,6 +45,7 @@ import net.staticstudios.prisons.pvp.PvPManager;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.pvp.outposts.OutpostManager;
 import net.staticstudios.prisons.ranks.PlayerRanks;
+import net.staticstudios.prisons.trading.TradeManager;
 import net.staticstudios.prisons.ui.tablist.TabList;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.*;
@@ -122,6 +123,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(LeaderboardManager::init);
         safe(CitizensUtils::init);
         safe(ChallengeManager::init);
+        safe(TradeManager::init);
 
         StaticGUI.enable(this);
         net.staticstudios.newgui.StaticGUI.enable(this);
