@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.customitems;
+package net.staticstudios.prisons.customitems.old;
 
 import net.staticstudios.prisons.utils.PlayerUtils;
 import org.bukkit.entity.Player;

@@ -32,10 +32,10 @@ public class Test2Command implements CommandExecutor {
 
 //        PackageHandler.claimPackage(UUID.fromString("35afaa60-6792-455d-b30c-ed89fba9d157"), "staticpPackage", strings);
 
-        int tier = Integer.parseInt(strings[0]);
-        player.getInventory().addItem(new TokenLootBox(tier).getItem());
-        player.getInventory().addItem(new MoneyLootBox(tier).getItem());
-        player.getInventory().addItem(new PickaxeLootBox(tier).getItem());
+//        int tier = Integer.parseInt(strings[0]);
+//        player.getInventory().addItem(new TokenLootBox(tier).getItem());
+//        player.getInventory().addItem(new MoneyLootBox(tier).getItem());
+//        player.getInventory().addItem(new PickaxeLootBox(tier).getItem());
 
 
 

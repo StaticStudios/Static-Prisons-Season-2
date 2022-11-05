@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 public class SpreadOutExecutor {
 
@@ -25,7 +26,7 @@ public class SpreadOutExecutor {
     /**
      * The list of items to update later, they will be put into the que once the current que has been emptied
      */
-    private static final HashSet<SpreadOutExecution> computeLater = new HashSet<>();
+    private static final LinkedHashSet<SpreadOutExecution> computeLater = new LinkedHashSet<>();
 
     static final int DUMP_INTERVAL = 50; //The amount of ticks that this operation is spread across. It might take DUMP_INTERVAL * 2 ticks before an item's lore is updated.
     static HashSet<SpreadOutExecution>[] queue; //The array of lists of items that need to be updated. Each list in the array represents the items that should be done in that index's tick.

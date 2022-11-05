@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.customitems.items;
+package net.staticstudios.prisons.customitems;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -6,7 +6,7 @@ import net.staticstudios.mines.StaticMine;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.BackpackManager;
-import net.staticstudios.prisons.customitems.CustomItem;
+import net.staticstudios.prisons.customitems.handler.CustomItem;
 import net.staticstudios.prisons.minebombs.PreComputedMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import org.bukkit.Material;

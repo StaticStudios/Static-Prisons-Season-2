@@ -1,6 +1,6 @@
 package net.staticstudios.prisons.commands.votestore;
 
-import net.staticstudios.prisons.customitems.CustomItems;
+import net.staticstudios.prisons.customitems.handler.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.reclaim.PackageHandler;

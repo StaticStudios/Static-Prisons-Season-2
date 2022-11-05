@@ -5,17 +5,12 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.utils.StaticFileSystemManager;
+import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
 
 public interface Pouch<T> {
 

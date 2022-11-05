@@ -1,4 +1,4 @@
-package net.staticstudios.utils;
+package net.staticstudios.prisons.utils;
 
 import net.staticstudios.prisons.StaticPrisons;
 import org.bukkit.configuration.file.FileConfiguration;

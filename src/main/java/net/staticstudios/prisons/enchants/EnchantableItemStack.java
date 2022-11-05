@@ -73,7 +73,7 @@ public abstract class EnchantableItemStack implements Enchantable, SpreadOutExec
         NAMESPACED_KEYS.put(clazz, key);
     }
 
-    protected <T extends EnchantableItemStack> void register(T instance) {
+    protected static <T extends EnchantableItemStack> void register(T instance) {
         ITEMS.computeIfAbsent(instance.getClass(), k -> new HashMap<>()).put(instance.getUid(), instance);
     }
 

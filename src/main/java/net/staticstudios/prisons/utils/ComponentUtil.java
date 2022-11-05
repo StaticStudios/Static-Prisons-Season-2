@@ -1,6 +1,8 @@
 package net.staticstudios.prisons.utils;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import net.staticstudios.prisons.StaticPrisons;
 
 public class ComponentUtil {
 
@@ -30,4 +32,13 @@ public class ComponentUtil {
     public static final TextColor COAL = TextColor.color(35, 25, 21);
     public static final TextColor SILVER = TextColor.color(192, 192, 192);
     public static final TextColor BRONZE = TextColor.color(205, 127, 50);
+
+    public static String toString(Component component) {
+        return StaticPrisons.miniMessage().serialize(component);
+    }
+
+    public static Component fromString(String string) {
+        return StaticPrisons.miniMessage().deserialize(string);
+    }
+
 }

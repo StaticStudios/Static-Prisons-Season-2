@@ -172,6 +172,14 @@ public class WeightedElements<T> {
     }
 
     /**
+     * Get the total weight of all elements in the list.
+     * @return The total weight of all elements in the list.
+     */
+    public double getTotalWeight() {
+        return totalWeight;
+    }
+
+    /**
      * @return A random element from the internal list of all WeightedElements while factoring in each element's weight.
      */
     public T getRandom() {

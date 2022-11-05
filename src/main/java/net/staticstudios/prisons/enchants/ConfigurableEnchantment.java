@@ -1,14 +1,12 @@
 package net.staticstudios.prisons.enchants;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.utils.StaticFileSystemManager;
+import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Event;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ConfigurableEnchantment<E extends Event> implements Enchantment<E> {

@@ -13,6 +13,19 @@ public class CrateReward {
     public ItemStack icon;
     public Consumer<Player> runnableReward = null;
 
+
+    private String rewardItemID;
+    private int rewardItemAmount = 1;
+
+    public CrateReward(String rewardItemID, ItemStack displayItem) {
+        this.rewardItemID = rewardItemID;
+        this.icon = displayItem;
+    }
+    public CrateReward setRewardItemAmount(int rewardItemAmount) {
+        this.rewardItemAmount = rewardItemAmount;
+        return this;
+    }
+
     public CrateReward(ItemStack itemReward) {
         this.itemReward = itemReward.clone();
         icon = itemReward.clone();

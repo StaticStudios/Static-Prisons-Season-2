@@ -2,16 +2,14 @@ package net.staticstudios.prisons.pickaxe;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
-import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.enchants.EnchantableItemStack;
 import net.staticstudios.prisons.pickaxe.commands.AddPickaxeBlocksMinedCommand;
 import net.staticstudios.prisons.pickaxe.commands.AddPickaxeXPCommand;
 import net.staticstudios.prisons.pickaxe.commands.EnchantCommand;
 import net.staticstudios.prisons.pickaxe.commands.PickaxeCommand;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
 import org.bukkit.Bukkit;
@@ -22,7 +20,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
 
 public class PickaxeManager {
     public static final Component DEFAULT_PICKAXE_NAME = Component.empty().append(Component.text("Prison Pickaxe"))
@@ -135,8 +132,6 @@ public class PickaxeManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Bukkit.getServer().getLogger().log(Level.INFO, "Saved all pickaxe data data/pickaxe_data.yml");
     }
 
     public static void init() {
@@ -145,194 +140,10 @@ public class PickaxeManager {
         CommandManager.registerCommand("getnewpickaxe", new PickaxeCommand());
         CommandManager.registerCommand("enchant", new EnchantCommand());
 
-        net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants.init();
+        PickaxeEnchants.init();
 
         loadPickaxeData();
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new PickaxeListener(), StaticPrisons.getInstance());
+        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> savePickaxeData(), 20 * (60 * 5 + 14), 20 * 60 * 5);
     }
 }
-
-//    public static void updateLore(ItemStack item) {
-//        PrisonPickaxe pickaxe = fromItem(item);
-//        ItemMeta meta = item.getItemMeta();
-//        meta.lore(pickaxe.buildLore());
-//        meta.displayName(Component.empty().append(pickaxe.displayName)
-//                .append(Component.text(" [" + PrisonUtils.addCommasToNumber(pickaxe.rawBlocksBroken) + " Blocks Mined]").color(ComponentUtil.LIGHT_GRAY))
-//                .decoration(TextDecoration.ITALIC, false)
-//        );
-//        item.setItemMeta(meta);
-//        SpreadOutExecutor.remove(pickaxe);
-//    }
-
-//    public List<BaseEnchant> getEnchants() {
-//        List<BaseEnchant> enchants = new ArrayList<>();
-//        for (String enchantID : enchLevelMap.keySet()) {
-//            if (getEnchantLevel(enchantID) > 0) {
-//                enchants.add(PickaxeEnchants.enchantIDToEnchant.get(enchantID));
-//            }
-//        }
-//        return enchants;
-//    }
-//
-//    public int getEnchantLevel(BaseEnchant enchant) {
-//        return getEnchantLevel(enchant.ENCHANT_ID);
-//    }
-//
-//    public int getEnchantLevel(String enchantID) {
-//        if (enchLevelMap.containsKey(enchantID)) {
-//            return enchLevelMap.get(enchantID);
-//        }
-//        return 0;
-//    }
-//
-//    public int getEnchantTier(BaseEnchant enchant) {
-//        return getEnchantTier(enchant.ENCHANT_ID);
-//    }
-//
-//    public int getEnchantTier(String enchantID) {
-//        if (enchTierMap.containsKey(enchantID)) {
-//            return enchTierMap.get(enchantID);
-//        }
-//        return 0;
-//    }
-//
-//    public void setEnchantTier(BaseEnchant enchant, int tier) {
-//        setEnchantTier(enchant.ENCHANT_ID, tier);
-//    }
-//
-//    public void setEnchantTier(String enchantID, int tier) {
-//        enchTierMap.put(enchantID, tier);
-//    }
-//
-//    public void setIsEnchantEnabled(Player player, BaseEnchant enchant, boolean enabled) {
-//        setIsEnchantEnabled(player, enchant.ENCHANT_ID, enabled);
-//    }
-//
-//    public void setIsEnchantEnabled(Player player, String enchantID, boolean enabled) {
-//        if (enabled) {
-//            disabledEnchants.remove(enchantID);
-//        } else disabledEnchants.add(enchantID);
-//
-//        //activate or deactivate enchants that have been enabled or disabled if the player is holding the pickaxe
-//
-//        if (player.getInventory().getItemInMainHand().equals(item)) {
-//            if (enabled) {
-//                //The player is holding the pickaxe and the held method should be called
-//                for (BaseEnchant enchant : getEnchants()) {
-//                    if (enchant.ENCHANT_ID.equals(enchantID)) {
-//                        enchant.onPickaxeHeld(player, this);
-//                        break;
-//                    }
-//                }
-//            } else {
-//                //The player is holding the pickaxe and the unheld method should be called
-//                for (BaseEnchant enchant : getEnchants()) {
-//                    if (enchant.ENCHANT_ID.equals(enchantID)) {
-//                        enchant.onPickaxeUnHeld(player, this);
-//                        break;
-//                    }
-//                }
-//            }
-//
-//        }
-//    }
-//
-//    public boolean getIsEnchantEnabled(BaseEnchant enchant) {
-//        return getIsEnchantEnabled(enchant.ENCHANT_ID);
-//    }
-//
-//    public boolean getIsEnchantEnabled(String enchantID) {
-//        return !disabledEnchants.contains(enchantID);
-//    }
-//
-//    public void setEnchantsLevel(BaseEnchant enchant, int level) {
-//        queueExecution();
-//        enchLevelMap.put(enchant.ENCHANT_ID, level);
-//    }
-//
-//    public void setEnchantsLevel(String enchant, int level) {
-//        queueExecution();
-//        enchLevelMap.put(enchant, level);
-//    }
-//
-//    public void addEnchantLevel(BaseEnchant enchant, int level) {
-//        setEnchantsLevel(enchant, getEnchantLevel(enchant) + level);
-//    }
-//
-//    public void addEnchantLevel(String enchant, int level) {
-//        setEnchantsLevel(enchant, getEnchantLevel(enchant) + level);
-//    }
-//
-//    public void removeEnchantLevel(BaseEnchant enchant, int level) {
-//        setEnchantsLevel(enchant, Math.max(0, getEnchantLevel(enchant) - level));
-//    }
-
-//    public List<BaseAbility> getAbilities() {
-//        List<BaseAbility> abilities = new ArrayList<>();
-//        for (String abilityID : abilityLevelMap.keySet()) {
-//            if (getAbilityLevel(abilityID) > 0) {
-//                abilities.add(PickaxeAbilities.abilityIDToAbility.get(abilityID));
-//            }
-//        }
-//        return abilities;
-//    }
-//
-//    public int getAbilityLevel(BaseAbility ability) {
-//        return getAbilityLevel(ability.ABILITY_ID);
-//    }
-//
-//    public int getAbilityLevel(String abilityID) {
-//        if (abilityLevelMap.containsKey(abilityID)) {
-//            return abilityLevelMap.get(abilityID);
-//        }
-//        return 0;
-//    }
-//
-//    public void setAbilityLevel(BaseAbility ability, int level) {
-//        queueExecution();
-//        abilityLevelMap.put(ability.ABILITY_ID, level);
-//    }
-//
-//    public void setAbilityLevel(String abilityID, int level) {
-//        queueExecution();
-//        abilityLevelMap.put(abilityID, level);
-//    }
-//
-//    public void addAbilityLevel(BaseAbility ability, int level) {
-//        setAbilityLevel(ability, getAbilityLevel(ability) + level);
-//    }
-//
-//    public void addAbilityLevel(String abilityID, int level) {
-//        setAbilityLevel(abilityID, getAbilityLevel(abilityID) + level);
-//    }
-//
-//    public void removeAbilityLevel(BaseAbility ability, int level) {
-//        setAbilityLevel(ability, Math.max(0, getAbilityLevel(ability) - level));
-//    }
-//
-//    public long getLastActivatedAbilityAt(BaseAbility ability) {
-//        return getLastActivatedAbilityAt(ability.ABILITY_ID);
-//    }
-//
-//    public long getLastActivatedAbilityAt(String abilityID) {
-//        return lastUsedAbilityAtMap.getOrDefault(abilityID, 0L);
-//    }
-//
-//    public void setLastActivatedAbilityAt(BaseAbility ability, long time) {
-//        setLastActivatedAbilityAt(ability.ABILITY_ID, time);
-//    }
-//
-//    public void setLastActivatedAbilityAt(String abilityID, long time) {
-//        lastUsedAbilityAtMap.put(abilityID, time);
-//    }
-
-//    private List<Component> buildAbilityLore() {
-//        List<Component> lore = new ArrayList<>();
-//        for (BaseAbility ability : PickaxeAbilities.ORDERED_ABILITIES) {
-//            int level = getAbilityLevel(ability);
-//            if (level > 0) {
-//                lore.add(Component.empty().append(Component.text(ability.UNFORMATTED_DISPLAY_NAME + ": " + PrisonUtils.addCommasToNumber(level)).color(ComponentUtil.RED)));
-//            }
-//        }
-//        return lore;
-//    }

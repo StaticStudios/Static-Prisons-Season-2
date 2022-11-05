@@ -3,7 +3,7 @@ package net.staticstudios.prisons.trading;
 import net.staticstudios.gui.GUICreator;
 import net.staticstudios.gui.GUIUtils;
 import net.staticstudios.gui.StaticGUI;
-import net.staticstudios.prisons.customitems.CustomItems;
+import net.staticstudios.prisons.customitems.handler.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pvp.PvPManager;
 import net.staticstudios.prisons.utils.PrisonUtils;

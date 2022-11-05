@@ -4,7 +4,10 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.customitems.pickaxes.PickaxeTemplates;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.enchants.*;
+import net.staticstudios.prisons.enchants.EnchantHolder;
+import net.staticstudios.prisons.enchants.Enchantable;
+import net.staticstudios.prisons.enchants.EnchantableItemStack;
+import net.staticstudios.prisons.enchants.Enchantment;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -17,6 +20,8 @@ import java.util.*;
 public class PrisonPickaxe extends EnchantableItemStack {
 
     private final static Component LORE_DIVIDER = Component.text("---------------").color(ComponentUtil.LIGHT_GRAY);
+    private final Map<Class<? extends Enchantment>, EnchantHolder> ENCHANTS = new HashMap<>();
+    private final Map<Class<? extends Enchantment>, Integer> ENCHANT_TIERS = new HashMap<>();
     private long level = 0;
     private long xp = 0;
     private long blocksBroken = 0;
@@ -47,7 +52,7 @@ public class PrisonPickaxe extends EnchantableItemStack {
     /**
      * Create a completely new PrisonPickaxe with a new UUID
      *
-     * @param item The ItemStack that the PrisonPickaxe will be based on. This will be the pickaxe that the player will use.
+     * @param item     The ItemStack that the PrisonPickaxe will be based on. This will be the pickaxe that the player will use.
      * @param register Whether the pickaxe should be registered, if not, it will not be tracked.
      */
     public PrisonPickaxe(ItemStack item, boolean register) {
@@ -92,7 +97,6 @@ public class PrisonPickaxe extends EnchantableItemStack {
         if (level <= 0) return 2500;
         return (long) (2500 * level + level * Math.pow(2.4 * level, 2.4));
     }
-
 
     public long getLevel() {
         return level;
@@ -169,22 +173,22 @@ public class PrisonPickaxe extends EnchantableItemStack {
         return Component.empty().append(displayName).append(Component.text(" >> ").color(ComponentUtil.DARK_GRAY).decorate(TextDecoration.BOLD));
     }
 
+    public List<Component> getTopLore() {
+        return topLore;
+    }
+
     public PrisonPickaxe setTopLore(List<Component> topLore) {
         this.topLore = topLore;
         return this;
     }
 
+    public List<Component> getBottomLore() {
+        return bottomLore;
+    }
+
     public PrisonPickaxe setBottomLore(List<Component> bottomLore) {
         this.bottomLore = bottomLore;
         return this;
-    }
-
-    public List<Component> getTopLore() {
-        return topLore;
-    }
-
-    public List<Component> getBottomLore() {
-        return bottomLore;
     }
 
     @Override
@@ -246,9 +250,6 @@ public class PrisonPickaxe extends EnchantableItemStack {
     public int hashCode() {
         return getUid().hashCode();
     }
-
-    private final Map<Class<? extends Enchantment>, EnchantHolder> ENCHANTS = new HashMap<>();
-    private final Map<Class<? extends Enchantment>, Integer> ENCHANT_TIERS = new HashMap<>();
 
     public int getEnchantmentTier(Enchantment enchantment) {
         return getEnchantmentTier(enchantment.getClass());
@@ -313,7 +314,7 @@ public class PrisonPickaxe extends EnchantableItemStack {
                     .append(Component.text(" >> ")
                             .color(ComponentUtil.DARK_GRAY)
                             .decorate(TextDecoration.BOLD))
-                    .append(Component.text("Your do not have enough tokens to upgrade this enchantment!")
+                    .append(Component.text("You do not have enough tokens to upgrade this enchantment!")
                             .color(ComponentUtil.RED)
                             .decoration(TextDecoration.BOLD, false)));
             return false;

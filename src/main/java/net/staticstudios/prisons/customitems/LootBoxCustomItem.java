@@ -1,6 +1,6 @@
-package net.staticstudios.prisons.customitems.items;
+package net.staticstudios.prisons.customitems;
 
-import net.staticstudios.prisons.customitems.CustomItem;
+import net.staticstudios.prisons.customitems.handler.CustomItem;
 import net.staticstudios.prisons.lootboxes.LootBoxType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

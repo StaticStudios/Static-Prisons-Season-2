@@ -1,96 +1,87 @@
 package net.staticstudios.prisons.fishing.events;
 
+import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.fishing.CaughtType;
+import net.staticstudios.prisons.fishing.FishingReward;
+import net.staticstudios.prisons.fishing.PrisonFishingRod;
+import org.bukkit.entity.Item;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
-public class FishCaughtEvent {
+import java.util.Objects;
 
+public class FishCaughtEvent extends PlayerEvent {
+    private static final HandlerList handlers = new HandlerList();
     private final PlayerFishEvent event;
-
-    private CaughtType type = CaughtType.NOTHING;
-    private long playerXp = 0;
-    private double playerXpMultiplier = 1.0;
-    private long tokens = 0;
-    private double tokensMultiplier = 1.0;
-    private long shards = 0;
-    private double shardsMultiplier = 1.0;
-    private ItemStack itemCaught = null;
+    private final PrisonFishingRod fishingRod;
+    private final WeightedElements<FishingReward> lootTable = new WeightedElements<>();
+    private FishingReward reward = null;
     private ItemStack displayItem = null;
-
-
     private double durabilityLost = 1.0;
 
-    public FishCaughtEvent(PlayerFishEvent e) {
+    public FishCaughtEvent(PlayerFishEvent e, PrisonFishingRod fishingRod) {
+        super(e.getPlayer());
         this.event = e;
+        this.fishingRod = fishingRod;
+    }
+    /*
+    The loot table should be created from all the enchantments,
+    after the loot table is created, a random reward should be pulled as the actual reward.
+     */
+
+    @SuppressWarnings("unused")
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    public @NotNull HandlerList getHandlers() {
+        return handlers;
     }
 
     public PlayerFishEvent getPlayerFishEvent() {
         return event;
     }
 
-    public CaughtType getType() {
-        return type;
+    public PrisonFishingRod getFishingRod() {
+        return fishingRod;
     }
 
-    public void setType(CaughtType type) {
-        this.type = type;
+    public WeightedElements<FishingReward> getLootTable() {
+        return lootTable;
     }
 
-    public long getPlayerXp() {
-        return playerXp;
-    }
+    /**
+     * This method will return the reward that the player will receive.
+     * If a reward has not yet been chosen from the loot table, this method will generate one.
+     * It will also set the item on the fishing rod accordingly.
+     *
+     * @return The reward that the player will receive.
+     */
+    public FishingReward getReward() {
+        if (reward == null) {
+            double weight = 100 - lootTable.getTotalWeight();
+            if (weight < 100) {
+                lootTable.add(new FishingReward(CaughtType.NOTHING, 0, 0, 0, null), weight);
+            }
+            reward = lootTable.getRandom();
 
-    public void setPlayerXp(long playerXp) {
-        this.playerXp = playerXp;
-    }
+            displayItem = new ItemStack(reward.type().getDisplayItem());
 
-    public double getPlayerXpMultiplier() {
-        return playerXpMultiplier;
-    }
+            if (reward.type() == CaughtType.ITEM) {
+                displayItem = reward.item();
+            }
 
-    public void setPlayerXpMultiplier(double playerXpMultiplier) {
-        this.playerXpMultiplier = playerXpMultiplier;
-    }
+            Item item = (Item) Objects.requireNonNull(event.getCaught());
+            item.setItemStack(displayItem);
+            item.setPickupDelay(Integer.MAX_VALUE);
+            item.setWillAge(true);
+            item.setTicksLived(600 - 3 * 20);
 
-    public long getTokens() {
-        return tokens;
-    }
-
-    public void setTokens(long tokens) {
-        this.tokens = tokens;
-    }
-
-    public double getTokensMultiplier() {
-        return tokensMultiplier;
-    }
-
-    public void setTokensMultiplier(double tokensMultiplier) {
-        this.tokensMultiplier = tokensMultiplier;
-    }
-
-    public long getShards() {
-        return shards;
-    }
-
-    public void setShards(long shards) {
-        this.shards = shards;
-    }
-
-    public double getShardsMultiplier() {
-        return shardsMultiplier;
-    }
-
-    public void setShardsMultiplier(double shardsMultiplier) {
-        this.shardsMultiplier = shardsMultiplier;
-    }
-
-    public ItemStack getItemCaught() {
-        return itemCaught;
-    }
-
-    public void setItemCaught(ItemStack itemCaught) {
-        this.itemCaught = itemCaught;
+        }
+        return reward;
     }
 
     public ItemStack getDisplayItem() {

@@ -1,7 +1,8 @@
-package net.staticstudios.prisons.customitems;
+package net.staticstudios.prisons.customitems.commands;
 
 import net.kyori.adventure.text.Component;
 import net.staticstudios.mines.utils.StaticMineUtils;
+import net.staticstudios.prisons.customitems.handler.CustomItems;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

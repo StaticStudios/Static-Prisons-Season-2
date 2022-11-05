@@ -1,11 +1,8 @@
-package net.staticstudios.prisons.customitems;
+package net.staticstudios.prisons.customitems.old;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customitems.pouches.MoneyPouch;
-import net.staticstudios.prisons.customitems.pouches.MultiPouch;
-import net.staticstudios.prisons.customitems.pouches.TokenPouch;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.ChatColor;

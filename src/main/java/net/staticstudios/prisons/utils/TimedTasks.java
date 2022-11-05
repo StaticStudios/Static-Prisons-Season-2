@@ -42,8 +42,6 @@ public class TimedTasks {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), AuctionManager::updateExpiredAuctions, 60, 20 * 10);
         //Update the bots status
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), DiscordLink::updatePlayerCount, 200, 200);
-        //Save Pickaxe Data
-        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PickaxeManager::savePickaxeData, 20 * 60 * 5, 20 * 60 * 5);
         //Save Gang Data
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), Gang::saveAll, 20 * 60 * 6, 20 * 60 * 5);
 

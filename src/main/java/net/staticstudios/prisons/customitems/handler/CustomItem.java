@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.customitems;
+package net.staticstudios.prisons.customitems.handler;
 
 import net.staticstudios.prisons.StaticPrisons;
 import org.bukkit.NamespacedKey;

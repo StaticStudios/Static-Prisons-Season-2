@@ -14,7 +14,7 @@ public class Constants {
     public static final int VOTES_NEEDED_FOR_VOTE_PARTY = 50;
     public static long[] PRESTIGE_MINE_REQUIREMENTS = new long[15];
 
-    // TODO: 23/08/2022 - Config file + minimessage
+    // TODO: 23/08/2022 - minimessage
     public static List<Component> TIPS = List.of(
             Prefix.TIPS.append(text("Tired of seeing tips? You can disable them in your settings. ").append(text("/settings").color(GRAY))),
             Prefix.TIPS.append(text("Want to help support the server for free? All you have to do is vote! You will receive a vote crate key for every time that you vote! ").append(text("/vote").color(GREEN))),

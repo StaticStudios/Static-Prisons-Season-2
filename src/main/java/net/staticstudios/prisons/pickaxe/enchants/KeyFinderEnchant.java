@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
-import net.staticstudios.prisons.customitems.CustomItems;
+import net.staticstudios.prisons.customitems.handler.CustomItems;
 import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;

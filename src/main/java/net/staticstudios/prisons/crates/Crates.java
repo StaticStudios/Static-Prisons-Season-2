@@ -1,9 +1,11 @@
 package net.staticstudios.prisons.crates;
 
 import net.kyori.adventure.text.Component;
-import net.staticstudios.prisons.customitems.CustomItems;
-import net.staticstudios.prisons.customitems.Vouchers;
-import net.staticstudios.prisons.customitems.items.MineBombCustomItem;
+import net.staticstudios.mines.utils.WeightedElement;
+import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.customitems.handler.CustomItems;
+import net.staticstudios.prisons.customitems.old.Vouchers;
+import net.staticstudios.prisons.customitems.MineBombCustomItem;
 import net.staticstudios.prisons.customitems.pickaxes.PickaxeTemplates;
 import net.staticstudios.prisons.customitems.pouches.MoneyPouch;
 import net.staticstudios.prisons.customitems.pouches.MultiPouch;
@@ -11,14 +13,16 @@ import net.staticstudios.prisons.customitems.pouches.TokenPouch;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.mines.utils.WeightedElements;
+import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
+import java.util.*;
 
 public class Crates { //todo: configuration file
 
-    public static Crate COMMON;
     public static Crate RARE;
     public static Crate EPIC;
     public static Crate LEGENDARY;
@@ -30,21 +34,19 @@ public class Crates { //todo: configuration file
 
     public static void init() {
         Crate.init();
-        COMMON = new Crate("common", "Common Crate", "common", new Location(Bukkit.getWorld("world"), -51, 80, -137),
-                new WeightedElements<CrateReward>()
-                        .add(new CrateReward(MoneyPouch.TIER_1.getItem(null)), 10)
-                        .add(new CrateReward(PrisonUtils.setItemCount(MoneyPouch.TIER_1.getItem(null), 2)), 10)
-                        .add(new CrateReward(TokenPouch.TIER_1.getItem(null)), 15)
-                        .add(new CrateReward(PrisonUtils.setItemCount(MineBombCustomItem.TIER_1.getItem(null), 1)), 20)
-                        .add(new CrateReward(PrisonUtils.setItemCount(MineBombCustomItem.TIER_1.getItem(null), 2)), 10)
-                        .add(new CrateReward(MineBombCustomItem.TIER_2.getItem(null)), 5)
-                        .add(new CrateReward(CustomItems.getCommonCrateKey(3)), 7.5)
-                        .add(new CrateReward(CustomItems.getRareCrateKey(1)), 7.5)
-                        .add(new CrateReward(CustomItems.getRareCrateKey(2)), 5)
-                        .add(new CrateReward(CustomItems.getEpicCrateKey(1)), 2.5)
-                        .add(new CrateReward(CustomItems.getPickaxeCrateKey(1)), 5)
-                        .add(new CrateReward(CustomItems.getKitCrateKey(1)), 2.5)
-        );
+
+        ConfigurationSection config = StaticFileSystemManager.getYamlConfiguration("crates.yml");
+
+
+
+
+        new Crate("common", "Common Crate", "common", new Location(Bukkit.getWorld("world"), -51, 80, -137), loadCrate(config, "common"));
+        new Crate("rare", "Rare Crate", "rare", new Location(Bukkit.getWorld("world"), -42, 80, -137), loadCrate(config, "rare"));
+
+
+
+
+
         RARE = new Crate("rare", "Rare Crate", "rare", new Location(Bukkit.getWorld("world"), -42, 80, -137),
                 new WeightedElements<CrateReward>()
                         .add(new CrateReward(MoneyPouch.TIER_1.getItem(null)), 10)
@@ -240,6 +242,24 @@ public class Crates { //todo: configuration file
                         .add(new CrateReward(PickaxeTemplates.TIER_10.getTemplateItem(), p -> PlayerUtils.addToInventory(p, PickaxeTemplates.TIER_10.getItem(p)), Component.text("1x ").append(PickaxeTemplates.TIER_10.getTemplateItem().getItemMeta().displayName())), 0.5)
         );
 
+    }
+
+    private static WeightedElements<CrateReward> loadCrate(ConfigurationSection config, String crate) {
+        WeightedElements<CrateReward> rewards = new WeightedElements<>();
+
+        ConfigurationSection crateConfig = config.getConfigurationSection(crate);
+        if (crateConfig == null) {
+            StaticPrisons.log("Crate " + crate + " not found in crates.yml! Giving it no rewards...");
+            return new WeightedElements<>();
+        }
+
+        crateConfig.getKeys(false).forEach(key -> {
+            ConfigurationSection reward = crateConfig.getConfigurationSection(key);
+            String itemID = key.replaceAll("\\+", "");
+            int amount = reward.getInt("amount", 1);
+            rewards.add(new CrateReward(itemID, CustomItems.getItem(itemID, null)).setRewardItemAmount(amount), reward.getInt("chance"));
+        });
+        return rewards;
     }
 
 }

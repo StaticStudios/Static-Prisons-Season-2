@@ -1,13 +1,12 @@
 package net.staticstudios.prisons.customitems.pickaxes;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customitems.CustomItem;
+import net.staticstudios.prisons.customitems.handler.CustomItem;
 import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.enchants.Enchantment;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.utils.StaticFileSystemManager;
+import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;

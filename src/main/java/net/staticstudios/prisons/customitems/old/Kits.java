@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.customitems;
+package net.staticstudios.prisons.customitems.old;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

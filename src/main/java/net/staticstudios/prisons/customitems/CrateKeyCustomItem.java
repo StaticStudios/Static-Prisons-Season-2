@@ -1,11 +1,10 @@
-package net.staticstudios.prisons.customitems.items;
+package net.staticstudios.prisons.customitems;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customitems.CustomItem;
+import net.staticstudios.prisons.customitems.handler.CustomItem;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

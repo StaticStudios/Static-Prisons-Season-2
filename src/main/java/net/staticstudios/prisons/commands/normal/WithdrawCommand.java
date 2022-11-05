@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.commands.normal;
 
 import net.staticstudios.mines.utils.StaticMineUtils;
-import net.staticstudios.prisons.customitems.Vouchers;
+import net.staticstudios.prisons.customitems.old.Vouchers;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.CommandUtils;

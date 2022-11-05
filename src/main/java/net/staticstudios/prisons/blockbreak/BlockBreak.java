@@ -49,6 +49,7 @@ public class BlockBreak {
 
     private boolean isSimulated = false; //If true, there is no "real" block to "break"
     private BlockBreakEvent blockBreakEvent;
+    private Block block;
 
     private final List<Consumer<BlockBreak>> runAfterProcess = new LinkedList<>();
 
@@ -61,6 +62,7 @@ public class BlockBreak {
 
     public BlockBreak(BlockBreakEvent e) {
         this.blockBreakEvent = e;
+        this.block = e.getBlock();
         this.player = e.getPlayer();
         this.playerData = new PlayerData(player);
         this.pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
@@ -75,6 +77,7 @@ public class BlockBreak {
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
         this.mine = mine;
+        this.block = block;
     }
     public BlockBreak(Player player, PrisonPickaxe pickaxe, Block block) {
         this.player = player;
@@ -82,18 +85,21 @@ public class BlockBreak {
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
         this.mine = StaticMines.fromLocation(blockLocation, false);
+        this.block = block;
     }
     public BlockBreak(@NotNull PlayerData playerData, PrisonPickaxe pickaxe, Block block) {
         this.playerData = playerData;
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
         this.mine = StaticMines.fromLocation(blockLocation, false);
+        this.block = block;
     }
     public BlockBreak(@NotNull PlayerData playerData, PrisonPickaxe pickaxe, StaticMine mine, Block block) {
         this.playerData = playerData;
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
         this.mine = mine;
+        this.block = block;
     }
     public BlockBreak setPlayer(Player player) {
         this.player = player;
@@ -120,6 +126,11 @@ public class BlockBreak {
         this.blockBreakEvent = blockBreakEvent;
         return this;
     }
+
+    public Block getBlock() {
+        return block;
+    }
+
     public Player getPlayer() {
         return player;
     }

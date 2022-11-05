@@ -59,4 +59,8 @@ public class Prefix {
             .append(Component.text("Server Broadcast").color(NamedTextColor.LIGHT_PURPLE))
             .append(Component.text("] ").color(NamedTextColor.DARK_GRAY));
 
+    public static final Component FISHING = Component.empty()
+            .append(Component.text("Fishing").color(ComponentUtil.YELLOW).decoration(TextDecoration.BOLD, true))
+            .append(Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true));
+
 }
