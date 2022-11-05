@@ -72,6 +72,7 @@ public class StaticGUI implements InventoryHolder {
         this.onClose = onClose;
         this.inventory = Bukkit.createInventory(this, size, title);
         this.buttons = new GUIButton[size];
+
         MENUS.add(this);
     }
 
@@ -195,9 +196,10 @@ public class StaticGUI implements InventoryHolder {
 
     /**
      * Add multiple buttons for this GUI
+     *
      * @param starting starting index
-     * @param ending ending index
-     * @param button The button to add.
+     * @param ending   ending index
+     * @param button   The button to add.
      */
     public void setButtons(int starting, int ending, GUIButton button) {
         if (starting > ending) {
@@ -268,11 +270,10 @@ public class StaticGUI implements InventoryHolder {
 
     /**
      * Remove a listener from a specific slot in the GUI.
+     *
      * @param index The index of the slot.
      */
     public void removeListener(int index) {
         listeners.remove(index);
     }
-
-
 }

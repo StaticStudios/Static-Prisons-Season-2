@@ -1,5 +1,6 @@
 package net.staticstudios.newgui;
 
+import net.staticstudios.newgui.event.StaticGuiClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -35,6 +36,7 @@ public class GUIListener implements Listener {
                 if (!gui.getSettings().allowPlayerItems()) {
                     e.setCancelled(true);
                 }
+                Bukkit.getPluginManager().callEvent(new StaticGuiClickEvent(gui, null, e.getSlot(), e));
                 return;
             }
         } else if (e.getInventory().getHolder() instanceof StaticGUI _gui) {
@@ -51,11 +53,13 @@ public class GUIListener implements Listener {
                     e.setCancelled(true);
                 }
             }
+            Bukkit.getPluginManager().callEvent(new StaticGuiClickEvent(gui, null, e.getSlot(), e));
             return;
         } else {
             return;
         }
 
+        Bukkit.getPluginManager().callEvent(new StaticGuiClickEvent(gui, button, e.getSlot(), e));
 
         try {
             if (e.getClick().isLeftClick()) {
@@ -76,8 +80,8 @@ public class GUIListener implements Listener {
 
     @EventHandler
     void onDrag(InventoryDragEvent e) { //Prevent players from being able to lose items that they attempt to put into the GUI's inventory
-        if (e.getInventory().getHolder() instanceof StaticGUI) {
-            e.setCancelled(true);
+        if (e.getInventory().getHolder() instanceof StaticGUI gui) {
+            e.setCancelled(!gui.getSettings().allowDragItems());
         }
     }
 
@@ -93,7 +97,7 @@ public class GUIListener implements Listener {
             }
         }
 
-        if (gui.getSettings().allowPlayerItems()) { //Give the player their items back
+        if (gui.getSettings().allowPlayerItems() && gui.getSettings().givePlayerItemsBack()) { //Give the player their items back
             ItemStack[] contents = gui.getInventory().getContents();
             for (int i = 0; i < contents.length; i++) {
                 if (gui.getButtons()[i] == null) {
@@ -110,6 +114,7 @@ public class GUIListener implements Listener {
             gui.destroy();
         }
     }
+
     @EventHandler
     void invOpened(InventoryOpenEvent e) {
         if (!(e.getInventory().getHolder() instanceof StaticGUI gui)) return;

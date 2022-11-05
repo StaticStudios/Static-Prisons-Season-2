@@ -2,8 +2,8 @@ package net.staticstudios.newgui.builder;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.staticstudios.newgui.StaticGUI;
 import net.staticstudios.newgui.GUIButton;
+import net.staticstudios.newgui.StaticGUI;
 import org.bukkit.entity.Player;
 
 import java.util.function.BiConsumer;
@@ -30,20 +30,23 @@ public final class GUIBuilder {
     private GUIButton nextPageButton;
     private GUIButton pageNumberButton;
 
-    private Consumer<StaticGUI> onUpdate = (gui) -> {};
+    private Consumer<StaticGUI> onUpdate = (gui) -> {
+    };
     private int updateInterval; //In ticks
 
     private BiConsumer<Player, StaticGUI> onOpen;
-    private BiConsumer<Player, StaticGUI> onClose = (player, gui) -> {};
+    private BiConsumer<Player, StaticGUI> onClose = (player, gui) -> {
+    };
 
     private GUIButton fillWith;
 
-    public GUIBuilder() {}
-
+    public GUIBuilder() {
+    }
 
 
     /**
      * Sets the title of the GUI.
+     *
      * @param title The title of the GUI.
      * @return The Builder instance.
      */
@@ -54,6 +57,7 @@ public final class GUIBuilder {
 
     /**
      * Sets the title of the GUI.
+     *
      * @param title The title of the GUI.
      * @return The Builder instance.
      */
@@ -64,6 +68,7 @@ public final class GUIBuilder {
 
     /**
      * Sets the size of the GUI.
+     *
      * @param size The size of the GUI.
      * @return The Builder instance.
      */
@@ -77,6 +82,7 @@ public final class GUIBuilder {
 
     /**
      * Sets whether the GUI should exist forever, by default it will be destroyed as soon as it is closed by a player.
+     *
      * @param persistent Whether the GUI should exist forever.
      * @return The Builder instance.
      */
@@ -117,18 +123,20 @@ public final class GUIBuilder {
 
     /**
      * Sets a consumer that will get called every updateInterval ticks.
-     * @param onUpdate The consumer that will get called every updateInterval ticks.
-     * @param updateInterval The update interval.
+     *
+     * @param onUpdate              The consumer that will get called every updateInterval ticks.
+     * @param updateIntervalInTicks The update interval in ticks.
      * @return The Builder instance.
      */
-    public GUIBuilder onUpdate(Consumer<StaticGUI> onUpdate, int updateInterval) {
+    public GUIBuilder onUpdate(Consumer<StaticGUI> onUpdate, int updateIntervalInTicks) {
         this.onUpdate = onUpdate;
-        this.updateInterval = updateInterval;
+        this.updateInterval = updateIntervalInTicks;
         return this;
     }
 
     /**
      * Sets a consumer that will get called when the GUI is opened.
+     *
      * @param onOpen The consumer that will get called when the GUI is opened.
      * @return The Builder instance.
      */
@@ -139,6 +147,7 @@ public final class GUIBuilder {
 
     /**
      * Sets a consumer that will get called when the GUI is closed.
+     *
      * @param onClose The consumer that will get called when the GUI is closed.
      * @return The Builder instance.
      */
@@ -151,6 +160,7 @@ public final class GUIBuilder {
      * Fill all empty slots of the GUI with a button.
      * Typically, this would be done with placeholders.
      * This functions the same as calling build().fill(button)
+     *
      * @param fillWith The button that will fill the GUI with.
      * @return The Builder instance.
      */
@@ -160,11 +170,9 @@ public final class GUIBuilder {
     }
 
 
-
-
-
     /**
      * Builds the GUI.
+     *
      * @return The GUI instance.
      */
     public StaticGUI build() {

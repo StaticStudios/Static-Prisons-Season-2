@@ -34,10 +34,15 @@ public final class ButtonBuilder {
         return new ButtonBuilder();
     }
 
-    private Consumer<Player> onLeftClick = (player) -> {};
-    private Consumer<Player> onRightClick = (player) -> {};
-    private Consumer<Player> onMiddleClick = (player) -> {};
-    private BiConsumer<InventoryClickEvent, StaticGUI> onClick = (event, gui) -> {};
+
+    private Consumer<Player> onLeftClick = (player) -> {
+    };
+    private Consumer<Player> onRightClick = (player) -> {
+    };
+    private Consumer<Player> onMiddleClick = (player) -> {
+    };
+    private BiConsumer<InventoryClickEvent, StaticGUI> onClick = (event, gui) -> {
+    };
     private Material icon = Material.STONE;
     private ItemStack item;
     private Component name = Component.empty();
@@ -45,11 +50,13 @@ public final class ButtonBuilder {
     private boolean enchanted = false;
     private int stackCount = 1;
 
-    public ButtonBuilder() {}
+    public ButtonBuilder() {
+    }
 
 
     /**
      * Sets the onLeftClick action.
+     *
      * @param onLeftClick The action to perform when the player left-clicks the button.
      * @return This ButtonBuilder instance.
      */
@@ -60,6 +67,7 @@ public final class ButtonBuilder {
 
     /**
      * Sets the onRightClick action.
+     *
      * @param onRightClick The action to perform when the player right-clicks the button.
      * @return This ButtonBuilder instance.
      */
@@ -70,6 +78,7 @@ public final class ButtonBuilder {
 
     /**
      * Sets the onMiddleClick action.
+     *
      * @param onMiddleClick The action to perform when the player middle-clicks the button.
      * @return This ButtonBuilder instance.
      */
@@ -80,6 +89,7 @@ public final class ButtonBuilder {
 
     /**
      * Sets the onClick action. This action will be called along-side the other onClick actions.
+     *
      * @param onClick The action to perform when the player clicks the button.
      * @return This ButtonBuilder instance.
      */
@@ -90,6 +100,7 @@ public final class ButtonBuilder {
 
     /**
      * Sets the icon of the button.
+     *
      * @param icon The icon of the button.
      * @return This ButtonBuilder instance.
      */
@@ -100,6 +111,7 @@ public final class ButtonBuilder {
 
     /**
      * Sets the icon of the button to a player skull.
+     *
      * @param player The player's head to use as the icon.
      * @return This ButtonBuilder instance.
      */
@@ -113,6 +125,7 @@ public final class ButtonBuilder {
 
     /**
      * Sets the icon of the button to a player skull.
+     *
      * @param base64 An encoded base64 texture to use as the icon.
      * @return This ButtonBuilder instance.
      */
@@ -128,6 +141,7 @@ public final class ButtonBuilder {
 
     /**
      * Set properties of this button from an ItemStack
+     *
      * @param item The ItemStack to use as reference
      * @return This ButtonBuilder instance
      */
@@ -135,11 +149,13 @@ public final class ButtonBuilder {
         this.item = item.clone();
         this.name = item.getItemMeta().displayName();
         this.lore = item.lore();
+        this.stackCount = item.getAmount();
         return this;
     }
 
     /**
      * Sets the name of the button.
+     *
      * @param name The name of the button.
      * @return This ButtonBuilder instance.
      */
@@ -150,6 +166,7 @@ public final class ButtonBuilder {
 
     /**
      * Sets the name of the button.
+     *
      * @param name The name of the button.
      * @return This ButtonBuilder instance.
      */
@@ -160,6 +177,7 @@ public final class ButtonBuilder {
 
     /**
      * Sets the lore of the button.
+     *
      * @param lore The lore of the button.
      * @return This ButtonBuilder instance.
      */
@@ -173,6 +191,7 @@ public final class ButtonBuilder {
 
     /**
      * Sets whether the button is enchanted.
+     *
      * @return This ButtonBuilder instance.
      */
     public ButtonBuilder enchanted(boolean enchanted) {
@@ -182,6 +201,7 @@ public final class ButtonBuilder {
 
     /**
      * Sets the stack count for the item of this button.
+     *
      * @param count The stack count.
      * @return This ButtonBuilder instance.
      */
