@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.challenges;
 
 import net.kyori.adventure.text.Component;
-import net.staticstudios.prisons.customitems.CustomItems;
+import net.staticstudios.prisons.customitems.handler.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;

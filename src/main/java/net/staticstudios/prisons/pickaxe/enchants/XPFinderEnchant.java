@@ -1,30 +1,34 @@
 package net.staticstudios.prisons.pickaxe.enchants;
 
-import net.staticstudios.prisons.blockbreak.BlockBreak;
-import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
+import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
 
-public class XPFinderEnchant extends BaseEnchant {
+public class XPFinderEnchant extends PickaxeEnchant {
+
+    private static long MIN_XP = 1;
+    private static long MAX_XP = 5;
+
     public XPFinderEnchant() {
-        super("xpFinder", "&a&lXP Finder", 3000, 2500, "&7Change to fine a lump-some of", "&7experience while mining");
-        setPickaxeLevelRequirement(20);
+        super(XPFinderEnchant.class, "pickaxe-xpfinder");
 
-        setTiers(
-                new EnchantTier(1000, 0),
-                new EnchantTier(2000, 25),
-                new EnchantTier(3000, 50)
-        );
-
-        setUseChances(true);
-        setDefaultPercentChance(1d / 5000 * 100); //1 out of 5000
-        setPercentChancePerLevel((1d / 1000 * 100 - getDefaultPercentChance()) / MAX_LEVEL); //it will activate 1 out of 1000 times at max level
+        MIN_XP = getConfig().getLong("min_xp", MIN_XP);
+        MAX_XP = getConfig().getLong("max_xp", MAX_XP);
     }
 
-    public void onBlockBreak(BlockBreak blockBreak) {
-        if (!activate(blockBreak.getPickaxe())) return;
-        int xpFound = PrisonUtils.randomInt(1, 15_000);
-        blockBreak.getPlayerData().addPlayerXP(xpFound);
-        blockBreak.messagePlayer(DISPLAY_NAME + " &8&l>> &fFound " + PrisonUtils.addCommasToNumber(xpFound) + " experience!");
+    @Override
+    public void onEvent(BlockBreakProcessEvent event) {
+        long xpFound = PrisonUtils.randomLong(MIN_XP, MAX_XP);
+
+        event.getPlayer().sendMessage(getDisplayName()
+                .append(Component.text(" >> ")
+                        .color(ComponentUtil.DARK_GRAY)
+                        .decorate(TextDecoration.BOLD))
+                .append(Component.text("Found " + PrisonUtils.addCommasToNumber(xpFound) + " experience!")));
+
+        event.getBlockBreak().getPlayerData().addPlayerXP(xpFound);
     }
 }

@@ -40,7 +40,7 @@ public class MainMenus extends GUIUtils {
                 ench(c.createButton(Material.DIAMOND_PICKAXE, "&b&lPickaxes", List.of("&7&oManage your pickaxe!"), (p, t) -> {
                     PickaxeMenus.selectPickaxe(player);
                 })),
-                ench(c.createButton(Material.CLOCK, "&a&lAuction House", List.of("&7&oBuy items sold by other players!", "&7&oType \"/auc had <price>\" to sell an item!"), (p, t) -> {
+                ench(c.createButton(Material.CLOCK, "&a&lAuction House", List.of("&7&oBuy items sold by other players!", "&7&oType \"/auc hand <price>\" to sell an item!"), (p, t) -> {
                     AuctionHouseMenus.openMenu(player, 0);
                 })),
                 ench(c.createButton(Material.DEEPSLATE_DIAMOND_ORE, "&b&lPrivate Mines", List.of("&7&oMine in your personal mine!"), (p, t) -> {

@@ -10,7 +10,7 @@ import net.staticstudios.prisons.data.datahandling.DataSet;
 import net.staticstudios.prisons.external.DiscordLink;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.leaderboards.LeaderboardManager;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.PickaxeManager;
 import net.staticstudios.prisons.privatemines.PrivateMineManager;
 import net.staticstudios.prisons.ui.PlayerUI;
 import net.staticstudios.prisons.ui.scoreboard.CustomScoreboard;
@@ -42,8 +42,6 @@ public class TimedTasks {
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), AuctionManager::updateExpiredAuctions, 60, 20 * 10);
         //Update the bots status
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), DiscordLink::updatePlayerCount, 200, 200);
-        //Save Pickaxe Data
-        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), PrisonPickaxe::savePickaxeData, 20 * 60 * 5, 20 * 60 * 5);
         //Save Gang Data
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), Gang::saveAll, 20 * 60 * 6, 20 * 60 * 5);
 

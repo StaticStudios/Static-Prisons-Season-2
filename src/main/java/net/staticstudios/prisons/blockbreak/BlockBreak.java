@@ -2,21 +2,17 @@ package net.staticstudios.prisons.blockbreak;
 
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.mines.StaticMines;
-import net.staticstudios.mines.api.events.BlockBrokenInMineEvent;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.privatemines.PrivateMine;
-import net.staticstudios.prisons.utils.Constants;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +23,7 @@ import java.util.function.Consumer;
 public class BlockBreak {
 
     public static void init() {
-        Bukkit.getPluginManager().registerEvents(new BlockBreak.Listener(), StaticPrisons.getInstance());
+        Bukkit.getPluginManager().registerEvents(new BlockBreakListener(), StaticPrisons.getInstance());
     }
 
 //    static List<Consumer<BlockBreak>> blockBreakListeners = new LinkedList<>();
@@ -41,7 +37,7 @@ public class BlockBreak {
 
     private final BlockBreakStats stats = new BlockBreakStats();
 
-    public BlockBreakStats getStats() {
+    public BlockBreakStats stats() {
         return stats;
     }
 
@@ -53,6 +49,7 @@ public class BlockBreak {
 
     private boolean isSimulated = false; //If true, there is no "real" block to "break"
     private BlockBreakEvent blockBreakEvent;
+    private Block block;
 
     private final List<Consumer<BlockBreak>> runAfterProcess = new LinkedList<>();
 
@@ -65,6 +62,7 @@ public class BlockBreak {
 
     public BlockBreak(BlockBreakEvent e) {
         this.blockBreakEvent = e;
+        this.block = e.getBlock();
         this.player = e.getPlayer();
         this.playerData = new PlayerData(player);
         this.pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
@@ -79,6 +77,7 @@ public class BlockBreak {
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
         this.mine = mine;
+        this.block = block;
     }
     public BlockBreak(Player player, PrisonPickaxe pickaxe, Block block) {
         this.player = player;
@@ -86,18 +85,21 @@ public class BlockBreak {
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
         this.mine = StaticMines.fromLocation(blockLocation, false);
+        this.block = block;
     }
     public BlockBreak(@NotNull PlayerData playerData, PrisonPickaxe pickaxe, Block block) {
         this.playerData = playerData;
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
         this.mine = StaticMines.fromLocation(blockLocation, false);
+        this.block = block;
     }
     public BlockBreak(@NotNull PlayerData playerData, PrisonPickaxe pickaxe, StaticMine mine, Block block) {
         this.playerData = playerData;
         this.pickaxe = pickaxe;
         this.blockLocation = block.getLocation();
         this.mine = mine;
+        this.block = block;
     }
     public BlockBreak setPlayer(Player player) {
         this.player = player;
@@ -124,6 +126,11 @@ public class BlockBreak {
         this.blockBreakEvent = blockBreakEvent;
         return this;
     }
+
+    public Block getBlock() {
+        return block;
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -188,7 +195,7 @@ public class BlockBreak {
         }
 
         if (pickaxe != null) {
-            pickaxe.addXp((long) (2 * stats.getRawBlockBroken() * stats.getXpMultiplier()));
+            pickaxe.addXp((long) (2 * stats.getRawBlockBroken() * stats.getXpMultiplier())); //todo: ensure that the pickaxe isnt getting queued for execution 3 times in a row
             pickaxe.addBlocksBroken(stats.getBlocksBroken());
             pickaxe.addRawBlocksBroken(stats.getRawBlockBroken());
         }
@@ -196,17 +203,5 @@ public class BlockBreak {
         mine.removeBlocks(stats.getBlocksBroken());
     }
 
-
-    static class Listener implements org.bukkit.event.Listener {
-
-        @EventHandler
-        void onBlockBrokenInMine(BlockBrokenInMineEvent e) {
-            if (!e.getPlayer().getWorld().equals(Constants.MINES_WORLD) && !e.getPlayer().getWorld().equals(PrivateMine.PRIVATE_MINES_WORLD)) return; //Ensure that a player is in a mines world
-            PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(e.getPlayer().getInventory().getItemInMainHand());
-            if (pickaxe == null) return; //We don't care if the player is not holding a pickaxe
-            new BlockBreak(e.getPlayer(), pickaxe, e.getMine(), e.getBlock()).process();
-        }
-
-    }
 
 }

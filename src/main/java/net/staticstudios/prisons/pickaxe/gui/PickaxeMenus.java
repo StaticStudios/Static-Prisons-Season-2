@@ -29,7 +29,7 @@ public class PickaxeMenus extends GUIUtils {
                 "",
                 "&bClick here to create a new pickaxe!"
         ), (p, t) -> {
-            PlayerUtils.addToInventory(p, PrisonPickaxe.createNewPickaxe());
+            PlayerUtils.addToInventory(p, PrisonPickaxe.createNewPickaxe().getItem());
             p.closeInventory(); //Prevent spamming of this
         })));
 
@@ -41,17 +41,20 @@ public class PickaxeMenus extends GUIUtils {
     public static void open(Player player, PrisonPickaxe pickaxe) {
         GUICreator c = new GUICreator(27, "Manage Your Pickaxe");
 
-        c.setItem(10, ench(c.createButton(Material.NETHER_STAR, "&a&lPickaxe Abilities", List.of(
+//        c.setItem(10, ench(c.createButton(Material.NETHER_STAR, "&a&lPickaxe Abilities", List.of(
+//                "&oUnlock, upgrade, and activate abilities for your pickaxe!"
+//        ), (p, t) -> {
+//            AbilityMenus.mainMenu(p, pickaxe);
+//        })));
+        c.setItem(10, ench(c.createButton(Material.BARRIER, "&c&lComing Soon!", List.of(
                 "&oUnlock, upgrade, and activate abilities for your pickaxe!"
-        ), (p, t) -> {
-            AbilityMenus.mainMenu(p, pickaxe);
-        })));
+        ))));
 
-        c.setItem(13, ench(c.createButton(Material.ENCHANTED_BOOK, "&d&lPickaxe Enchants", List.of(
+        c.setItem(13, c.createButton(Material.ENCHANTED_BOOK, "&d&lPickaxe Enchants", List.of(
                 "&oUpgrade your pickaxe's enchants!"
-        ), (p, t) -> EnchantMenus.mainMenu(p, pickaxe))));
+        ), (p, t) -> EnchantMenus.mainMenu(p, pickaxe)));
 
-        c.setItem(16, pickaxe.item);
+        c.setItem(16, pickaxe.getItem());
 
         c.fill(createGrayPlaceHolder());
         c.open(player);

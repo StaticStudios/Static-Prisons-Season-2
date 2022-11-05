@@ -1,26 +1,19 @@
 package net.staticstudios.prisons.commands.test;
 
-import net.staticstudios.prisons.backpacks.Backpack;
-import net.staticstudios.prisons.backpacks.BackpackManager;
-import net.staticstudios.prisons.challenges.Challenge;
-import net.staticstudios.prisons.challenges.ChallengeDuration;
-import net.staticstudios.prisons.challenges.ChallengeType;
-import net.staticstudios.prisons.customitems.items.LootBoxCustomItem;
+import io.papermc.lib.PaperLib;
+import net.staticstudios.prisons.enchants.Enchantable;
+import net.staticstudios.prisons.fishing.PrisonFishingRod;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import org.bukkit.NamespacedKey;
+import net.staticstudios.prisons.pickaxe.enchants.FortuneEnchant;
+import net.staticstudios.prisons.pickaxe.enchants.TokenatorEnchant;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 
 public class TestCommand implements CommandExecutor {
 
@@ -241,6 +234,17 @@ public class TestCommand implements CommandExecutor {
 //        ArmorStand a = null;
 //        a.setVelocity();
 
+//
+//        player.getInventory().addItem(new DefaultFishingRod().getItem());
+
+//        new FortuneEnchant();
+//        PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(player.getInventory().getItemInMainHand());
+//        pickaxe.setEnchantment(FortuneEnchant.class, 10);
+//        pickaxe.setEnchantment(TokenatorEnchant.class, Enchantable.getEnchant(TokenatorEnchant.class).getMaxLevel());
+
+        player.getInventory().addItem(new PrisonFishingRod().getItem());
+
+//        StaticPrisons.getPlugin()
 
 
         return false;

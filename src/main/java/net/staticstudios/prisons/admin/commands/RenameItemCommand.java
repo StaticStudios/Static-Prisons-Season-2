@@ -2,9 +2,9 @@ package net.staticstudios.prisons.admin.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.staticstudios.prisons.customitems.CustomItem;
+import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.customitems.handler.CustomItem;
 import net.staticstudios.prisons.utils.CommandUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
@@ -76,6 +76,6 @@ public class RenameItemCommand implements TabExecutor { //todo: change this to r
     }
 
     private Component deserializeMini(String string) {
-        return MiniMessage.miniMessage().deserialize(string);
+        return StaticPrisons.miniMessage().deserialize(string);
     }
 }

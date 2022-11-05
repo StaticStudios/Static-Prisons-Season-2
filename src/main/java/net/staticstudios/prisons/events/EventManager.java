@@ -3,10 +3,8 @@ package net.staticstudios.prisons.events;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
-import net.staticstudios.prisons.data.PlayerData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 public class EventManager implements Listener {
 
@@ -18,7 +16,7 @@ public class EventManager implements Listener {
     void onBlockBreakProcess(BlockBreakProcessEvent e) {
         BlockBreak blockBreak = e.getBlockBreak();
         if (blockBreak.getMine().getId().equals("eventMine")) { //Apply the event mine 120% token multiplier
-            blockBreak.getStats().setTokenMultiplier(blockBreak.getStats().getTokenMultiplier() + 0.2d);
+            blockBreak.stats().setTokenMultiplier(blockBreak.stats().getTokenMultiplier() + 0.2d);
         }
     }
 

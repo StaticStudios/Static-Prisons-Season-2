@@ -1,50 +1,64 @@
 package net.staticstudios.prisons.pickaxe.enchants;
 
-import net.staticstudios.prisons.blockbreak.BlockBreak;
-import net.staticstudios.prisons.customitems.CustomItems;
-import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
-import net.staticstudios.prisons.utils.PlayerUtils;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.mines.utils.WeightedElements;
+import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
+import net.staticstudios.prisons.customitems.handler.CustomItems;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
+import net.staticstudios.prisons.utils.ComponentUtil;
+import net.staticstudios.prisons.utils.PlayerUtils;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
-public class KeyFinderEnchant extends BaseEnchant {
+import java.util.Objects;
+
+public class KeyFinderEnchant extends PickaxeEnchant {
+
+    private static WeightedElements<CrateKey> CRATE_KEYS;
+
     public KeyFinderEnchant() {
-        super("keyFinder", "&d&lKey Finder", 5000, 400, "&7Find crate keys while mining");
-        setPickaxeLevelRequirement(31);
+        super(KeyFinderEnchant.class, "pickaxe-keyfinder");
 
-        setTiers(
-                new EnchantTier(500, 0),
-                new EnchantTier(1000, 1),
-                new EnchantTier(1500, 2),
-                new EnchantTier(2000, 3),
-                new EnchantTier(2500, 4),
-                new EnchantTier(3000, 5),
-                new EnchantTier(3500, 6),
-                new EnchantTier(4000, 7),
-                new EnchantTier(4500, 8),
-                new EnchantTier(5000, 9)
-        );
+        CRATE_KEYS = new WeightedElements<>();
 
-        setUseChances(true);
-        setDefaultPercentChance(1d / 10000 * 100); //1 out of 10,000
-        setPercentChancePerLevel((1d / 5000 * 100 - getDefaultPercentChance()) / MAX_LEVEL); //it will activate 1 out of 5,000 times at max level
+        ConfigurationSection crateKeys = getConfig().getConfigurationSection("crate_keys");
+        if (crateKeys == null) {
+            throw new IllegalStateException("No crate_keys section found in the " + getId() + " enchant config!");
+        }
+        for (String key : crateKeys.getKeys(false)) {
+            key = key.replace("+", "");
+            CRATE_KEYS.add(new CrateKey(key, crateKeys.getInt(key + ".amount", 1)), crateKeys.getDouble(key + ".chance"));
+        }
     }
 
-    public void onBlockBreak(BlockBreak blockBreak) {
-        if (blockBreak.getPlayer() == null) return;
-        if (!activate(blockBreak.getPickaxe())) return;
+    @Override
+    public void onEvent(BlockBreakProcessEvent event) {
+        CrateKey crateKey = CRATE_KEYS.getRandom();
+        ItemStack item = crateKey.getCrateKey();
 
-        ItemStack reward = new WeightedElements<ItemStack>()
-                .add(CustomItems.getCommonCrateKey(2), 15)
-                .add(CustomItems.getRareCrateKey(2), 30)
-                .add(CustomItems.getEpicCrateKey(2), 45)
-                .add(CustomItems.getLegendaryCrateKey(2), 5)
-                .add(CustomItems.getStaticCrateKey(2), 4)
-                .add(CustomItems.getStaticCrateKey(2), 1)
-                .getRandom();
-        blockBreak.messagePlayer(DISPLAY_NAME + " &8&l>> &fFound " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward) + "&f while mining!");
-        PlayerUtils.addToInventory(blockBreak.getPlayer(), reward);
+        PlayerUtils.addToInventory(event.getPlayer(), item);
+
+        event.getPlayer().sendMessage(getDisplayName()
+                .append(Component.text(" >> ")
+                        .color(ComponentUtil.DARK_GRAY)
+                        .decorate(TextDecoration.BOLD))
+                .append(Component.text("Found " + crateKey.amount + "x "))
+                .append(Objects.requireNonNull(item.getItemMeta().displayName()).append(Component.text("!"))));
+    }
+
+    record CrateKey(String key, int amount) {
+
+        ItemStack getCrateKey() {
+            ItemStack item = CustomItems.getItem(key, null);
+
+            if (item == null) {
+                throw new IllegalStateException("[Key Finder] No crate itemID found with the id " + key + "!");
+            }
+
+            item.setAmount(amount);
+            return item;
+        }
+
     }
 }

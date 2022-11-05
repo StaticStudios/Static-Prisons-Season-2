@@ -3,81 +3,90 @@ package net.staticstudios.prisons.pickaxe.enchants;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.BackpackManager;
-import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AutoSellEnchant extends BaseEnchant {
+public class AutoSellEnchant extends PickaxeEnchant {
+
+    private static final Map<PrisonPickaxe, Integer> PICKAXE_TIME_LEFT = new HashMap<>();
+    private static final Map<PrisonPickaxe, Player> ACTIVE_PICKAXES = new HashMap<>();
+    private static int MAX_INTERVAL = 600;
+    private static int STEP = 93;
+
+    private static BukkitTask timerTask;
+
     public AutoSellEnchant() {
-        super("autoSell", "&d&lAuto Sell", 50000, 75, "&7Decrease the time between the", "&7automatic selling of your backpack", "&7Minimum interval: 60 seconds");
-        setPickaxeLevelRequirement(25);
+        super(AutoSellEnchant.class, "pickaxe-autosell");
 
-        setTiers(
-                new EnchantTier(1000, 0),
-                new EnchantTier(2000, 1),
-                new EnchantTier(3000, 2),
-                new EnchantTier(4000, 3),
-                new EnchantTier(5000, 4),
-                new EnchantTier(10000, 5),
-                new EnchantTier(20000, 10),
-                new EnchantTier(30000, 15),
-                new EnchantTier(40000, 20),
-                new EnchantTier(50000, 25)
-        );
-    }
+        PICKAXE_TIME_LEFT.clear();
+        ACTIVE_PICKAXES.clear();
 
-    public static Map<PrisonPickaxe, Integer> autoSellTimeLeft = new HashMap<>();
-    public static Map<PrisonPickaxe, Player> activePickaxes = new HashMap<>();
+        MAX_INTERVAL = getConfig().getInt("max_interval", MAX_INTERVAL);
+        STEP = getConfig().getInt("step", STEP);
 
-    static void onSell(PrisonPickaxe pickaxe, Player player) {
-        PlayerData playerData = new PlayerData(player);
-        BackpackManager.sell(player, (p, r) -> {
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&lAuto Sell &7&o(Enchant) &8&l>> &f(x" + r.multiplier().setScale(2, RoundingMode.FLOOR) + ") Sold &b" + PrisonUtils.prettyNum(r.blocksSold()) + " &fblocks for: &a$" + PrisonUtils.prettyNum(r.soldFor())));
-        });
-    }
-    static final int MAX_INTERVAL = 600;
-    static final int STEP = 93;
-    static int getSecBetweenInterval(int level) {
-        return MAX_INTERVAL - level / STEP;
-    }
+        if (timerTask != null) {
+            timerTask.cancel();
+        }
 
-    public static void initTimer() {
-        Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
-            for (PrisonPickaxe pickaxe : activePickaxes.keySet()) {
-                if (!pickaxe.getIsEnchantEnabled(PickaxeEnchants.AUTO_SELL)) { //The enchantment was just disabled
-                    activePickaxes.remove(pickaxe);
-                    autoSellTimeLeft.remove(pickaxe);
+        timerTask = Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
+            for (PrisonPickaxe pickaxe : ACTIVE_PICKAXES.keySet()) {
+
+                //Check if the enchantment has been just disabled
+                if (pickaxe.isDisabled(AutoSellEnchant.class)) {
+                    ACTIVE_PICKAXES.remove(pickaxe);
+                    PICKAXE_TIME_LEFT.remove(pickaxe);
                     continue;
                 }
-                autoSellTimeLeft.put(pickaxe, autoSellTimeLeft.get(pickaxe) - 3);
-                if (autoSellTimeLeft.get(pickaxe) <= 0) {
-                    autoSellTimeLeft.put(pickaxe, getSecBetweenInterval(pickaxe.getEnchantLevel(PickaxeEnchants.AUTO_SELL.ENCHANT_ID)));
-                    onSell(pickaxe, activePickaxes.get(pickaxe));
+
+                PICKAXE_TIME_LEFT.put(pickaxe, PICKAXE_TIME_LEFT.get(pickaxe) - 3);
+                if (PICKAXE_TIME_LEFT.get(pickaxe) <= 0) {
+                    PICKAXE_TIME_LEFT.put(pickaxe, getSecBetweenInterval(pickaxe.getEnchantmentLevel(AutoSellEnchant.class)));
+                    onSell(ACTIVE_PICKAXES.get(pickaxe));
                 }
             }
         }, 20, 20 * 3);
     }
 
+    private static int getSecBetweenInterval(int level) {
+        return MAX_INTERVAL - level / STEP;
+    }
 
-    public void onPickaxeHeld(Player player, PrisonPickaxe pickaxe) {
-        if (!autoSellTimeLeft.containsKey(pickaxe)) autoSellTimeLeft.put(pickaxe, getSecBetweenInterval(pickaxe.getEnchantLevel(ENCHANT_ID)));
-        activePickaxes.put(pickaxe, player);
+    private static void onSell(Player player) {
+        BackpackManager.sell(player, (p, r) -> {
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&lAuto Sell &7&o(Enchant) &8&l>> &f(x" + r.multiplier().setScale(2, RoundingMode.FLOOR) + ") Sold &b" + PrisonUtils.prettyNum(r.blocksSold()) + " &fblocks for: &a$" + PrisonUtils.prettyNum(r.soldFor())));
+        });
     }
-    public void onPickaxeUnHeld(Player player, PrisonPickaxe pickaxe) {
-        activePickaxes.remove(pickaxe);
+
+    @Override
+    public void onHold(Enchantable enchantable, Player player) {
+        PrisonPickaxe pickaxe = (PrisonPickaxe) enchantable;
+        if (!PICKAXE_TIME_LEFT.containsKey(pickaxe)) {
+            PICKAXE_TIME_LEFT.put(pickaxe, getSecBetweenInterval(pickaxe.getEnchantmentLevel(AutoSellEnchant.class)));
+        }
+        ACTIVE_PICKAXES.put(pickaxe, player);
     }
-    public void onUpgrade(Player player, PrisonPickaxe pickaxe, int oldLevel, int newLevel) {
+
+    @Override
+    public void onUnHold(Enchantable enchantable, Player player) {
+        ACTIVE_PICKAXES.remove((PrisonPickaxe) enchantable);
+    }
+
+    @Override
+    public void onUpgrade(Enchantable enchantable, Player player, int oldLevel, int newLevel) {
+        PrisonPickaxe pickaxe = (PrisonPickaxe) enchantable;
         int intervalDecrease = getSecBetweenInterval(oldLevel) - getSecBetweenInterval(newLevel);
-        if (!autoSellTimeLeft.containsKey(pickaxe)) autoSellTimeLeft.put(pickaxe, getSecBetweenInterval(pickaxe.getEnchantLevel(ENCHANT_ID)));
-        autoSellTimeLeft.put(pickaxe, autoSellTimeLeft.get(pickaxe) - intervalDecrease);
+        if (!PICKAXE_TIME_LEFT.containsKey(pickaxe)) {
+            PICKAXE_TIME_LEFT.put(pickaxe, getSecBetweenInterval(pickaxe.getEnchantmentLevel(AutoSellEnchant.class)));
+        }
+        PICKAXE_TIME_LEFT.put(pickaxe, PICKAXE_TIME_LEFT.get(pickaxe) - intervalDecrease);
     }
 }

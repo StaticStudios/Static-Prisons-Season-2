@@ -7,6 +7,7 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.chat.tags.ChatTags;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;
@@ -62,7 +63,7 @@ public final class CustomChatMessage {
                 "".equals(playerData.getChatTag1()) ? Component.empty() : Component.text("[").color(NamedTextColor.DARK_GRAY).append(chatTag1).append(Component.text("] ").color(NamedTextColor.DARK_GRAY)),
                 "".equals(playerData.getChatTag2()) ? Component.empty() : Component.text("[").color(NamedTextColor.DARK_GRAY).append(chatTag2).append(Component.text("] ").color(NamedTextColor.DARK_GRAY)),
                 Component.text("[").color(NamedTextColor.DARK_GRAY).append(rankTag).append(Component.text("] ").color(NamedTextColor.DARK_GRAY)),
-                playerData.getIsChatNicknameEnabled() ? MiniMessage.miniMessage().deserialize(playerData.getChatNickname()) : source.displayName().color(TextColor.fromHexString("#54f08a"))
+                playerData.getIsChatNicknameEnabled() ? StaticPrisons.miniMessage().deserialize(playerData.getChatNickname()) : source.displayName().color(TextColor.fromHexString("#54f08a"))
         );
 
         //Component censoredMessage = Component.text(chatFilter(PlainTextComponentSerializer.plainText().serialize(message)));

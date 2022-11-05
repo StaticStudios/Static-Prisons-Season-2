@@ -2,10 +2,10 @@ package net.staticstudios.prisons.admin.commands;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.mines.utils.StaticMineUtils;
-import net.staticstudios.prisons.customitems.CustomItems;
+import net.staticstudios.prisons.customitems.handler.CustomItems;
 import net.staticstudios.prisons.utils.CommandUtils;
+import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.PlayerUtils;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -44,7 +44,7 @@ public class KeyallCommand implements CommandExecutor, TabCompleter {
             }
         }
         for (Player p : Bukkit.getOnlinePlayers()) {
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&l[Key All] &fYou have received 1x " + PrisonUtils.Items.getPrettyItemName(item) + "&f from a key all!"));
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&l[Key All] &fYou have received 1x " + ItemUtils.getPrettyItemName(item) + "&f from a key all!"));
             PlayerUtils.addToInventory(p, item);
         }
         return false;

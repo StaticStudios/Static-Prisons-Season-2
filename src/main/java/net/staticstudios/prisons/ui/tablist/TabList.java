@@ -31,7 +31,7 @@ public class TabList {
 
     private static final String FOOTER = """
                         
-            <bold><colorlight>PLAYERS ONLINE:<reset> <playersonline><gray> | <bold><colorlight>YOUR PING: <reset> <ping>ms
+            <bold><colorlight>PLAYERS ONLINE:<reset> <playersonline><gray> | <bold><colorlight>YOUR PING: <reset><ping>ms
 
             <bold><colordark>DISCORD: <reset><discord><gray> | <colordark><bold>WEBSITE: <reset><website>
             <bold><colordark>SERVER IP: <reset><serverip>""";
@@ -140,6 +140,14 @@ public class TabList {
                 }
 
                 owner.prefix(miniMessage.deserialize(TeamPrefix.getFromId("owner")).append(text(" ")));
+
+                Team manager = scoreboard.getTeam(teamNamesForPrefixIds.getOrDefault("manager", ""));
+
+                if (manager == null) {
+                    return;
+                }
+
+                manager.prefix(miniMessage.deserialize(TeamPrefix.getFromId("manager")).append(text(" ")));
 
                 phase -= 0.03;
 

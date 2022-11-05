@@ -1,7 +1,11 @@
 package net.staticstudios.prisons.fishing;
 
+import net.kyori.adventure.text.Component;
+import net.staticstudios.prisons.fishing.events.FishCaughtEvent;
 import net.staticstudios.prisons.pvp.PvPManager;
 import net.staticstudios.mines.utils.WeightedElements;
+import net.staticstudios.prisons.utils.ComponentUtil;
+import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,13 +25,17 @@ public class FishingListener implements Listener {
         Player player = e.getPlayer();
         if (!player.getWorld().equals(PvPManager.PVP_WORLD)) {
             e.setCancelled(true);
-            player.sendMessage(FishingManager.PREFIX + ChatColor.RED + "You can only fish in the PvP arena!");
+            player.sendMessage(Prefix.FISHING
+                    .append(Component.text("You can only fish in the PvP arena!")
+                    .color(ComponentUtil.RED)));
             return;
         }
-        if (e.getState() != PlayerFishEvent.State.CAUGHT_FISH) return;
-        if (e.getCaught() == null) return;
-        FISHING_REWARDS.getRandom().accept(e);
-        e.setExpToDrop(0);
+
+        PrisonFishingRod fishingRod = PrisonFishingRod.fromItem(e.getPlayer().getInventory().getItemInMainHand());
+        if (fishingRod == null) {
+            //This is not a prison fishing rod so make it unable to catch fish
+            e.getHook().setMaxWaitTime(Integer.MAX_VALUE);
+        }
     }
 
     @EventHandler

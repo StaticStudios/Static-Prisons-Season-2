@@ -1,53 +1,51 @@
 package net.staticstudios.prisons.pickaxe.enchants;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
-import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.EnchantTier;
+import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
+import net.staticstudios.prisons.customitems.icebomb.IceBomb;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchant;
+import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
+import org.bukkit.Material;
 
-public class TokenatorEnchant extends BaseEnchant {
+public class TokenatorEnchant extends PickaxeEnchant {
+
     public TokenatorEnchant() {
-        super("tokenator", "&6&lTokenator", 5000, 1250, "&7Increases the chance to find tokens while mining");
-
-        setTiers(
-                new EnchantTier(100, 0),
-                new EnchantTier(200, 2),
-                new EnchantTier(300, 2),
-                new EnchantTier(400, 2),
-                new EnchantTier(500, 2),
-                new EnchantTier(750, 3),
-                new EnchantTier(1000, 3),
-                new EnchantTier(1250, 3),
-                new EnchantTier(1500, 4),
-                new EnchantTier(1750, 4),
-                new EnchantTier(2000, 4),
-                new EnchantTier(2250, 5),
-                new EnchantTier(2500, 5),
-                new EnchantTier(2750, 6),
-                new EnchantTier(3000, 7),
-                new EnchantTier(3250, 8),
-                new EnchantTier(3500, 9),
-                new EnchantTier(3750, 10),
-                new EnchantTier(4000, 11),
-                new EnchantTier(4250, 12),
-                new EnchantTier(4500, 13),
-                new EnchantTier(4750, 14),
-                new EnchantTier(5000, 15)
-        );
-
-        setUseChances(true);
-        setDefaultPercentChance(1d / 400 * 100); //1 out of 400
-        setPercentChancePerLevel((1d / 200 * 100 - getDefaultPercentChance()) / MAX_LEVEL); //it will activate 1 out of 200 times at max level
+        super( TokenatorEnchant.class, "pickaxe-tokenator");
     }
 
-    public void onBlockBreak(BlockBreak blockBreak) {
-        if (activate(blockBreak.getPickaxe())) {
-            blockBreak.getStats().setTokensEarned(blockBreak.getStats().getTokensEarned() + PrisonUtils.randomInt(200, 800)); //Average of 500 tokens per block
+    @Override
+    public boolean beforeEvent(BlockBreakProcessEvent event) {
+        if (event.getBlockBreak().getBlock().getType() == Material.PACKED_ICE) {
+            return event.getBlockBreak().getPickaxe() != null && event.getBlockBreak().getPickaxe().getEnchantmentLevel(TokenatorEnchant.class) > 0 && Math.random() <= IceBomb.TOKENATOR_PROC_CHANCE;
         }
+        return super.beforeEvent(event);
+    }
+
+    @Override
+    public void onEvent(BlockBreakProcessEvent event) {
+        BlockBreak blockBreak = event.getBlockBreak();
+        PrisonPickaxe pickaxe = blockBreak.getPickaxe();
+
+        int level = pickaxe.getEnchantmentLevel(TokenatorEnchant.class);
+        if (level == 0) {
+            pickaxe.setEnchantment(TokenatorEnchant.class, 1);
+        }
+
+        blockBreak.stats().setTokensEarned(blockBreak.stats().getTokensEarned() + PrisonUtils.randomInt(200, 800)); //Average of 500 tokens per block
         blockBreak.addAfterProcess(bb -> {
-            if (bb.getStats().getTokensEarned() > 0) {
-                bb.messagePlayer(DISPLAY_NAME + " &8&l>> &fFound " + PrisonUtils.addCommasToNumber((long) (bb.getStats().getTokensEarned() * bb.getStats().getTokenMultiplier())) + " tokens!");
-            }
+            if (bb.stats().getTokensEarned() <= 0) return;
+
+            bb.getPlayer().sendMessage(getDisplayName()
+                    .append(Component.text(" >> ")
+                            .color(ComponentUtil.DARK_GRAY)
+                            .decorate(TextDecoration.BOLD))
+                    .append(Component.text("Found " + PrisonUtils.addCommasToNumber((long) (bb.stats().getTokensEarned() * bb.stats().getTokenMultiplier())) + " tokens!")
+                            .color(ComponentUtil.WHITE)
+                            .decoration(TextDecoration.BOLD, false)));
         });
     }
 }

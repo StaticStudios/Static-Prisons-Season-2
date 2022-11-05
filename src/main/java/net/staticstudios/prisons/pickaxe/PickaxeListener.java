@@ -3,18 +3,17 @@ package net.staticstudios.prisons.pickaxe;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
-import net.staticstudios.prisons.pickaxe.enchants.handler.BaseEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.pickaxe.gui.PickaxeMenus;
+import net.staticstudios.prisons.pickaxe.enchants.TokenatorEnchant;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import java.util.HashSet;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PickaxeListener implements Listener {
     @EventHandler
@@ -32,32 +31,30 @@ public class PickaxeListener implements Listener {
             }
         }
     }
-    @EventHandler
-    void onBlockBreakProcessAbilities(BlockBreakProcessEvent e) {
-        BlockBreak blockBreak = e.getBlockBreak();
-        PrisonPickaxe pickaxe = blockBreak.getPickaxe();
-        Player player = blockBreak.getPlayer();
-        if (pickaxe == null || player == null) return;
-        for (BaseAbility.AbilityHolder ability : BaseAbility.pickaxeAbilities.getOrDefault(pickaxe, new HashSet<>())) {
-            ability.getAbility().onBlockBreak(blockBreak);
-        }
-    }
-    @EventHandler
+//    @EventHandler
+//    void onBlockBreakProcessAbilities(BlockBreakProcessEvent e) {
+//        BlockBreak blockBreak = e.getBlockBreak();
+//        PrisonPickaxe pickaxe = blockBreak.getPickaxe();
+//        Player player = blockBreak.getPlayer();
+//        if (pickaxe == null || player == null) return;
+//        for (BaseAbility.AbilityHolder ability : BaseAbility.pickaxeAbilities.getOrDefault(pickaxe, new HashSet<>())) {
+//            ability.getAbility().onBlockBreak(blockBreak);
+//        }
+//    }
+    @EventHandler(priority = EventPriority.LOW)
     void onBlockBreakProcessEnchants(BlockBreakProcessEvent e) {
         BlockBreak blockBreak = e.getBlockBreak();
         PrisonPickaxe pickaxe = blockBreak.getPickaxe();
         if (pickaxe == null) return;
-        boolean hasTokenator = false;
-        for (BaseEnchant enchant : pickaxe.getEnchants()) {
-            if (pickaxe.getIsEnchantEnabled(enchant)) {
-                enchant.onBlockBreak(blockBreak);
+        AtomicBoolean hasTokenator = new AtomicBoolean(false);
+
+        pickaxe.getEnchantments().forEach(enchantHolder -> {
+            if (enchantHolder.enchantment().getClass() == TokenatorEnchant.class) {
+                hasTokenator.set(true);
             }
-            if (enchant.equals(PickaxeEnchants.TOKENATOR)) {
-                hasTokenator = true;
-            }
-        }
-        if (!hasTokenator) {
-            pickaxe.setEnchantsLevel(PickaxeEnchants.TOKENATOR, 1);
+        });
+        if (!hasTokenator.get()) {
+            pickaxe.setEnchantment(TokenatorEnchant.class, 1);
         }
     }
 }

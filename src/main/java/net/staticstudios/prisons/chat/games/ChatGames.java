@@ -4,7 +4,8 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customitems.CustomItems;
+import net.staticstudios.prisons.customitems.handler.CustomItems;
+import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.mines.utils.WeightedElements;
@@ -88,7 +89,7 @@ public class ChatGames {
                             .getRandom();
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + player.getName() + " solved &b" + event.question + "!&f Correct answer: &a" + event.correctAnswer + "!&f " +
-                                player.getName() + " won " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward) + "!"));
+                                player.getName() + " won " + reward.getAmount() + "x " + ItemUtils.getPrettyItemName(reward) + "!"));
                     }
                     PlayerUtils.addToInventory(player, reward);
                 }, question, answer);
@@ -119,7 +120,7 @@ public class ChatGames {
                     PlayerUtils.addToInventory(player, reward);
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + player.getName() + " correctly unscrambled &b" + event.question + "!&f Correct answer: &a" + event.correctAnswer + "!&f " +
-                        player.getName() + " won " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward) + "!"));
+                        player.getName() + " won " + reward.getAmount() + "x " + ItemUtils.getPrettyItemName(reward) + "!"));
                     }
                 }, question.toString(), answer);
                 for (Player p : Bukkit.getOnlinePlayers()) {

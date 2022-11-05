@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.pvp;
 
 import net.staticstudios.prisons.backpacks.Backpack;
-import net.staticstudios.prisons.customitems.Vouchers;
+import net.staticstudios.prisons.customitems.old.Vouchers;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;

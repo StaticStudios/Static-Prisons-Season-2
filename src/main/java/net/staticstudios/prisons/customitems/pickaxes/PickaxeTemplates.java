@@ -1,238 +1,114 @@
 package net.staticstudios.prisons.customitems.pickaxes;
 
-import net.staticstudios.prisons.customitems.CustomItem;
+import net.kyori.adventure.text.Component;
+import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.customitems.handler.CustomItem;
+import net.staticstudios.prisons.enchants.Enchantable;
+import net.staticstudios.prisons.enchants.Enchantment;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
-import org.bukkit.ChatColor;
+import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
+import java.util.*;
 
-public class PickaxeTemplates implements CustomItem {
+public enum PickaxeTemplates implements CustomItem {
 
-    public static final PickaxeTemplates TIER_1 = new PickaxeTemplates(
-            1,
-            new EnchantHolder[]{
-                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 25),
-                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 5),
-                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 25)
-            },
-            null,
-            null,
-            "&c&lTrash Pickaxe"
-    ).setMaterial(Material.STONE_PICKAXE);
+    DEFAULT("default"),
+    TIER_1("tier_1"),
+    TIER_2("tier_2"),
+    TIER_3("tier_3"),
+    TIER_4("tier_4"),
+    TIER_5("tier_5"),
+    TIER_6("tier_6"),
+    TIER_7("tier_7"),
+    TIER_8("tier_8"),
+    TIER_9("tier_9"),
+    TIER_10("tier_10");
 
-    public static final PickaxeTemplates TIER_2 = new PickaxeTemplates(
-            2,
-            new EnchantHolder[]{
-                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 50),
-                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 20),
-                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 50),
-                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 25)
-            },
-            null,
-            null,
-            "&c&lMeh Pickaxe"
-    ).setMaterial(Material.STONE_PICKAXE);
+    private final String id;
 
-    public static final PickaxeTemplates TIER_3 = new PickaxeTemplates(
-            3,
-            new EnchantHolder[]{
-                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 100),
-                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 50),
-                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 75),
-                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 50)
-            },
-            null,
-            null,
-            "&e&lOk Pickaxe"
-    ).setMaterial(Material.GOLDEN_PICKAXE);
+    private final ItemStack templateItem;
 
-    public static final PickaxeTemplates TIER_4 = new PickaxeTemplates(
-            4,
-            new EnchantHolder[]{
-                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 175),
-                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 80),
-                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 120),
-                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 65),
-                    new EnchantHolder(PickaxeEnchants.MERCHANT.ENCHANT_ID, 40)
+    private final Material pickaxeMaterial;
+    private final Component name;
+    private final List<Component> topLore = new ArrayList<>();
+    private final List<Component> bottomLore = new ArrayList<>();
+    private final Map<Class<? extends Enchantment>, Integer> enchants = new HashMap<>();
 
-            },
-            null,
-            null,
-            "&e&lDecent Pickaxe"
-    ).setMaterial(Material.GOLDEN_PICKAXE);
+    PickaxeTemplates(String id) {
+        this.id = "pickaxe_" + id;
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(StaticFileSystemManager.getFile("pickaxeTemplates.yml").orElseThrow(() -> new RuntimeException("Could not find pickaxeTemplates.yml")));
 
-    public static final PickaxeTemplates TIER_5 = new PickaxeTemplates(
-            5,
-            new EnchantHolder[]{
-                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 250),
-                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 100),
-                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 175),
-                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 150),
-                    new EnchantHolder(PickaxeEnchants.MERCHANT.ENCHANT_ID, 130),
-                    new EnchantHolder(PickaxeEnchants.AUTO_SELL.ENCHANT_ID, 1)
-            },
-            null,
-            null,
-            "&a&lGood Pickaxe"
-    ).setMaterial(Material.IRON_PICKAXE);
+        ConfigurationSection section = config.getConfigurationSection(id);
+        ConfigurationSection enchantsSection = Objects.requireNonNull(section).getConfigurationSection("enchants");
+        for (String key : Objects.requireNonNull(enchantsSection).getKeys(false)) {
+            Enchantment<?> enchantment = Enchantable.getEnchant(key);
+            if (enchantment == null) continue;
+            enchants.put(enchantment.getClass(), enchantsSection.getInt(key));
+        }
+        pickaxeMaterial = Material.valueOf(section.getString("material"));
+        name = StaticPrisons.miniMessage().deserialize(section.getString("name", "Prison Pickaxe"));
+        section.getStringList("top_lore").forEach(s -> topLore.add(StaticPrisons.miniMessage().deserialize(s)));
+        section.getStringList("bottom_lore").forEach(s -> bottomLore.add(StaticPrisons.miniMessage().deserialize(s)));
 
-    public static final PickaxeTemplates TIER_6 = new PickaxeTemplates(
-            6,
-            new EnchantHolder[]{
-                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 400),
-                    new EnchantHolder(PickaxeEnchants.DOUBLE_FORTUNE.ENCHANT_ID, 20),
-                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 230),
-                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 250),
-                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 250),
-                    new EnchantHolder(PickaxeEnchants.MERCHANT.ENCHANT_ID, 200),
-                    new EnchantHolder(PickaxeEnchants.AUTO_SELL.ENCHANT_ID, 1)
-            },
-            null,
-            null,
-            "&a&lPretty Good Pickaxe"
-    ).setMaterial(Material.IRON_PICKAXE);
-
-    public static final PickaxeTemplates TIER_7 = new PickaxeTemplates(
-            7,
-            new EnchantHolder[]{
-                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 700),
-                    new EnchantHolder(PickaxeEnchants.DOUBLE_FORTUNE.ENCHANT_ID, 25),
-                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 400),
-                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 400),
-                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 400),
-                    new EnchantHolder(PickaxeEnchants.MERCHANT.ENCHANT_ID, 400),
-                    new EnchantHolder(PickaxeEnchants.AUTO_SELL.ENCHANT_ID, 1),
-                    new EnchantHolder(PickaxeEnchants.KEY_FINDER.ENCHANT_ID, 250),
-                    new EnchantHolder(PickaxeEnchants.METAL_DETECTOR.ENCHANT_ID, 250)
-            },
-            null,
-            null,
-            "&b&lEfficient Pickaxe"
-    ).setMaterial(Material.DIAMOND_PICKAXE);
-
-    public static final PickaxeTemplates TIER_8 = new PickaxeTemplates(
-            8,
-            new EnchantHolder[]{
-                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 900),
-                    new EnchantHolder(PickaxeEnchants.DOUBLE_FORTUNE.ENCHANT_ID, 30),
-                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 600),
-                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 1000),
-                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 1000),
-                    new EnchantHolder(PickaxeEnchants.MERCHANT.ENCHANT_ID, 400),
-                    new EnchantHolder(PickaxeEnchants.AUTO_SELL.ENCHANT_ID, 6000),
-                    new EnchantHolder(PickaxeEnchants.KEY_FINDER.ENCHANT_ID, 400),
-                    new EnchantHolder(PickaxeEnchants.METAL_DETECTOR.ENCHANT_ID, 300)
-            },
-            null,
-            null,
-            "&b&lEffective Pickaxe"
-    ).setMaterial(Material.DIAMOND_PICKAXE);
-
-    public static final PickaxeTemplates TIER_9 = new PickaxeTemplates(
-            9,
-            new EnchantHolder[]{
-                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 900),
-                    new EnchantHolder(PickaxeEnchants.DOUBLE_FORTUNE.ENCHANT_ID, 30),
-                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 700),
-                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 3000),
-                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 2000),
-                    new EnchantHolder(PickaxeEnchants.MERCHANT.ENCHANT_ID, 900),
-                    new EnchantHolder(PickaxeEnchants.AUTO_SELL.ENCHANT_ID, 7500),
-                    new EnchantHolder(PickaxeEnchants.KEY_FINDER.ENCHANT_ID, 600),
-                    new EnchantHolder(PickaxeEnchants.METAL_DETECTOR.ENCHANT_ID, 500)
-            },
-            null,
-            null,
-            "&d&lExtraordinary Pickaxe"
-    ).setMaterial(Material.NETHERITE_PICKAXE);
-
-    public static final PickaxeTemplates TIER_10 = new PickaxeTemplates(
-            10,
-            new EnchantHolder[]{
-                    new EnchantHolder(PickaxeEnchants.FORTUNE.ENCHANT_ID, 1000),
-                    new EnchantHolder(PickaxeEnchants.DOUBLE_FORTUNE.ENCHANT_ID, 50),
-                    new EnchantHolder(PickaxeEnchants.TOKENATOR.ENCHANT_ID, 950),
-                    new EnchantHolder(PickaxeEnchants.JACK_HAMMER.ENCHANT_ID, 5000),
-                    new EnchantHolder(PickaxeEnchants.MULTI_DIRECTIONAL.ENCHANT_ID, 4000),
-                    new EnchantHolder(PickaxeEnchants.MERCHANT.ENCHANT_ID, 1750),
-                    new EnchantHolder(PickaxeEnchants.AUTO_SELL.ENCHANT_ID, 12500),
-                    new EnchantHolder(PickaxeEnchants.KEY_FINDER.ENCHANT_ID, 1000),
-                    new EnchantHolder(PickaxeEnchants.METAL_DETECTOR.ENCHANT_ID, 1000),
-                    new EnchantHolder(PickaxeEnchants.CONSISTENCY.ENCHANT_ID, 1),
-                    new EnchantHolder(PickaxeEnchants.EGG_SHOOTER.ENCHANT_ID, 50)
-            },
-            null,
-            null,
-            "&c&lWooden Pickaxe"
-    ).setMaterial(Material.WOODEN_PICKAXE);
-
-
-
-
-
-    public final int TIER;
-    public final EnchantHolder[] ENCHANTS;
-    public final List<String> TOP_LORE;
-    public final List<String> BOTTOM_LORE;
-    public final String DISPLAY_NAME;
-    private Material material = Material.DIAMOND_PICKAXE;
-
-    public PickaxeTemplates(int tier, EnchantHolder[] enchantHolder, List<String> topLore, List<String> bottomLore, String displayName) {
-        this.TIER = tier;
-        this.ENCHANTS = enchantHolder;
-        this.TOP_LORE = topLore;
-        this.BOTTOM_LORE = bottomLore;
-        this.DISPLAY_NAME = ChatColor.translateAlternateColorCodes('&', displayName);
+        templateItem = buildPickaxe(false).getItem();
 
         register();
     }
 
-    public PickaxeTemplates setMaterial(Material material) {
-        this.material = material;
-        return this;
+    /**
+     * Returns an ItemStack that is intended to be used in a GUI as a button.
+     * It will NOT be tracked by the server as a PrisonPickaxe.
+     * @return an ItemStack that is intended to be used in a GUI as a button.
+     */
+    public ItemStack getTemplateItem() {
+        return templateItem;
     }
 
-    public PrisonPickaxe buildPickaxe() {
-        ItemStack item = setCustomItem(new ItemStack(material));
-        
-        PrisonPickaxe pickaxe = new PrisonPickaxe(item);
-        pickaxe.setTopLore(TOP_LORE);
-        pickaxe.setBottomLore(BOTTOM_LORE);
-        pickaxe.setName(DISPLAY_NAME);
+    /**
+     * Create a new PrisonPickaxe instance
+     * @return A new PrisonPickaxe using this template's values as a reference
+     */
+    public PrisonPickaxe getPickaxe() {
+        return buildPickaxe(true);
+    }
 
+
+
+    private PrisonPickaxe buildPickaxe(boolean register) {
+        ItemStack item = new ItemStack(pickaxeMaterial);
+        PrisonPickaxe pickaxe = new PrisonPickaxe(item, register);
+        pickaxe.setName(name);
+        pickaxe.setTopLore(topLore);
+        pickaxe.setBottomLore(bottomLore);
         item.editMeta(meta -> {
             meta.setUnbreakable(true);
-            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            meta.addEnchant(Enchantment.DIG_SPEED, 100, true);
-
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            meta.addEnchant(org.bukkit.enchantments.Enchantment.DIG_SPEED, 100, true);
         });
+        enchants.forEach(pickaxe::setEnchantment);
+        pickaxe.updateItemNow();
 
-        for (EnchantHolder enchantHolder : ENCHANTS) {
-            pickaxe.setEnchantsLevel(enchantHolder.enchantID(), enchantHolder.level());
-        }
-
-        PrisonPickaxe.updateLore(item);
+        assert pickaxe.getItem() != null;
+        setCustomItem(pickaxe.getItem());
 
         return pickaxe;
     }
 
     @Override
     public String getID() {
-        return "pickaxe_tier_" + TIER;
+        return id;
     }
 
     @Override
     public ItemStack getItem(Player player) {
-        return setCustomItem(buildPickaxe().item);
+        return getPickaxe().getItem();
     }
-
-    private record EnchantHolder(String enchantID, int level) {}
 }
