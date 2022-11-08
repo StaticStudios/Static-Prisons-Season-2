@@ -34,7 +34,6 @@ public class SetPlayerRankCommand implements CommandExecutor, TabCompleter {
         }
         PlayerData playerData = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args[0]));
         playerData.setPlayerRank(args[1]);
-        playerData.updateTabListPrefixID();
 
         sender.sendMessage(Component.text("Set player rank of ")
                 .append(Component.text(args[0]))

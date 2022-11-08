@@ -75,7 +75,7 @@ public class TabList {
                 TagResolver.resolver("colordark", Tag.styling(style -> style.color(colorDark))),
                 TagResolver.resolver("playersonline", Tag.inserting(text(Bukkit.getOnlinePlayers().size()))),
                 TagResolver.resolver("ping", Tag.inserting(text(player.getPing()))),
-                TagResolver.resolver("discord", Tag.inserting(text("discord.gg/static"))),
+                TagResolver.resolver("discord", Tag.inserting(text("discord.gg/9S6K9E5"))),
                 TagResolver.resolver("website", Tag.inserting(text("static-studios.net"))),
                 TagResolver.resolver("serverip", Tag.inserting(text("play.static-studios.net"))))).build();
 

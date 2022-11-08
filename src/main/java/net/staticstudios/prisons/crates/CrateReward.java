@@ -15,14 +15,20 @@ public class CrateReward {
 
 
     private String rewardItemID;
+    private String[] rewardArgs;
     private int rewardItemAmount = 1;
 
-    public CrateReward(String rewardItemID, ItemStack displayItem) {
+    public CrateReward(String rewardItemID, String[] args, ItemStack displayItem) {
         this.rewardItemID = rewardItemID;
+        this.rewardArgs = args;
         this.icon = displayItem;
+        if (displayItem == null) {
+            System.out.println(rewardItemID);
+        }
     }
     public CrateReward setRewardItemAmount(int rewardItemAmount) {
         this.rewardItemAmount = rewardItemAmount;
+        this.icon.setAmount(rewardItemAmount);
         return this;
     }
 

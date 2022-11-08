@@ -33,7 +33,7 @@ public abstract class LootBox implements SpreadOutExecution {
     public static final NamespacedKey LOOT_BOX_KEY = new NamespacedKey(StaticPrisons.getInstance(), "lootboxUUID");
     public static final Component LORE_PREFIX = Component.empty().append(Component.text("| ").color(ComponentUtil.DARK_GRAY).decorate(TextDecoration.BOLD));
 
-    static Map<UUID, LootBox> lootBoxes = new HashMap<>();
+    public static final Map<UUID, LootBox> LOOT_BOXES = new HashMap<>();
     protected final long goal;
     protected final int tier;
     private final LootBoxType type;
@@ -59,7 +59,7 @@ public abstract class LootBox implements SpreadOutExecution {
             item.editMeta(meta -> meta.getPersistentDataContainer().set(LOOT_BOX_KEY, PersistentDataType.STRING, uuid.toString()));
             updateItemNow();
         }
-        lootBoxes.put(uuid, this);
+        LOOT_BOXES.put(uuid, this);
     }
 
     public static void init() {
@@ -67,11 +67,11 @@ public abstract class LootBox implements SpreadOutExecution {
         LootBoxType.MONEY.getMinTier(); //Call this to load all the enums
 
         //Load them from a file
-        lootBoxes.clear();
+        LOOT_BOXES.clear();
         FileConfiguration data = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data/lootboxes.yml"));
         for (String key : data.getKeys(false)) {
             LootBox lootBox = LootBox.loadFromConfigurationSection(Objects.requireNonNull(data.getConfigurationSection(key)));
-            lootBoxes.put(UUID.fromString(key), lootBox);
+            LOOT_BOXES.put(UUID.fromString(key), lootBox);
             SpreadOutExecutor.remove(lootBox);
         }
 
@@ -86,14 +86,14 @@ public abstract class LootBox implements SpreadOutExecution {
      * Save all loot box data to disk synchronously
      */
     public static void saveAllNow() {
-        saveData(lootBoxes);
+        saveData(LOOT_BOXES);
     }
 
     /**
      * Save all loot box data to disk asynchronously
      */
     public static void saveAll() {
-        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> saveData(new HashMap<>(lootBoxes)));
+        Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> saveData(new HashMap<>(LOOT_BOXES)));
     }
 
     /**
@@ -160,7 +160,7 @@ public abstract class LootBox implements SpreadOutExecution {
      * @return The LootBox instance, or null if the UUID is not associated with a LootBox instance
      */
     private static LootBox fromUUID(UUID uuid) {
-        return lootBoxes.get(uuid);
+        return LOOT_BOXES.get(uuid);
     }
 
     /**
@@ -188,6 +188,17 @@ public abstract class LootBox implements SpreadOutExecution {
      */
     public ItemStack getItem() {
         return item;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setProgress(long progress, boolean updateItem) {
+        this.progress = progress;
+        if (updateItem) {
+            updateItem();
+        }
     }
 
     /**
@@ -251,7 +262,7 @@ public abstract class LootBox implements SpreadOutExecution {
         if (checkCondition()) {
             onClaim(player);
             item.setAmount(0);
-            lootBoxes.remove(uuid);
+            LOOT_BOXES.remove(uuid);
             return true;
         }
         player.sendMessage(Prefix.LOOT_BOX.append(Component.text("This loot box is not ready to be claimed!").color(ComponentUtil.RED)));

@@ -35,7 +35,6 @@ public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
         }
         PlayerData playerData = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args[0]));
         playerData.setStaffRank(args[1]);
-        playerData.updateTabListPrefixID();
 
         sender.sendMessage(Component.text("Set staff rank of ")
                 .append(Component.text(args[0]))

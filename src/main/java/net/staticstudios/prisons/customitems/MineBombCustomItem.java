@@ -65,7 +65,7 @@ public enum MineBombCustomItem implements CustomItem {
     }
 
     @Override
-    public String getID() {
+    public String getId() {
         return id;
     }
 

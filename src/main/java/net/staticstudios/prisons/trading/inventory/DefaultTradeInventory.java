@@ -32,14 +32,14 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
     public DefaultTradeInventory(Trade trade) {
         this.trade = trade;
 
-        this.inventory = create();
+        this.inventory = create(trade.initiator().getName() + " | " + trade.trader().getName());
 
         inventory.getSettings().allowPlayerItems(true);
         inventory.getSettings().givePlayerItemsBack(false);
         inventory.getSettings().allowDragItems(true);
 
-        inventory.setButton(45, ButtonBuilder.builder().name("Confirm Initiator").icon(Material.RED_STAINED_GLASS_PANE).onClick(this::confirmInitiator).build());
-        inventory.setButton(53, ButtonBuilder.builder().name("Confirm Trader").icon(Material.RED_STAINED_GLASS_PANE).onClick(this::confirmTrader).build());
+        inventory.setButton(45, ButtonBuilder.builder().name(trade.initiator().getName() + " has not confirmed").icon(Material.RED_STAINED_GLASS_PANE).onClick(this::confirmInitiator).build());
+        inventory.setButton(53, ButtonBuilder.builder().name(trade.trader().getName() + " has not confirmed").icon(Material.RED_STAINED_GLASS_PANE).onClick(this::confirmTrader).build());
 
         Bukkit.getPluginManager().registerEvents(this, StaticPrisons.getInstance());
     }
@@ -275,8 +275,8 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
 
         inventory.setButton(45,
                 trade.isInitiatorConfirmed()
-                        ? ButtonBuilder.builder().name("Initiator confirmed").icon(Material.GREEN_STAINED_GLASS_PANE).onClick(this::confirmInitiator).build()
-                        : ButtonBuilder.builder().name("Initiator not confirmed").icon(Material.RED_STAINED_GLASS_PANE).onClick(this::confirmInitiator).build()
+                        ? ButtonBuilder.builder().name(trade.initiator().getName() + " has confirmed").icon(Material.LIME_STAINED_GLASS_PANE).onClick(this::confirmInitiator).build()
+                        : ButtonBuilder.builder().name(trade.initiator().getName() + " has not confirmed").icon(Material.RED_STAINED_GLASS_PANE).onClick(this::confirmInitiator).build()
         );
 
         if (!trade.isInitiatorConfirmed()) {
@@ -314,8 +314,8 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
     private void setTraderConfirmButton() {
         inventory.setButton(53,
                 trade.isTraderConfirmed()
-                        ? ButtonBuilder.builder().name("Trader confirmed").onClick(this::confirmTrader).icon(Material.GREEN_STAINED_GLASS_PANE).build()
-                        : ButtonBuilder.builder().name("Trader not confirmed").onClick(this::confirmTrader).icon(Material.RED_STAINED_GLASS_PANE).build()
+                        ? ButtonBuilder.builder().name(trade.trader().getName() + " has confirmed").onClick(this::confirmTrader).icon(Material.LIME_STAINED_GLASS_PANE).build()
+                        : ButtonBuilder.builder().name(trade.trader().getName() + " has not confirmed").onClick(this::confirmTrader).icon(Material.RED_STAINED_GLASS_PANE).build()
         );
 
         if (!trade.isTraderConfirmed()) {

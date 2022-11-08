@@ -39,7 +39,7 @@ public enum CrateKeyCustomItem implements CustomItem {
     }
 
     @Override
-    public String getID() {
+    public String getId() {
         return id;
     }
 

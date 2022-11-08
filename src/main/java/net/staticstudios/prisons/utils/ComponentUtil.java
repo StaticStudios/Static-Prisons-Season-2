@@ -2,9 +2,13 @@ package net.staticstudios.prisons.utils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
 
 public class ComponentUtil {
+
+    public static final Component BLANK = Component.empty()
+            .decoration(TextDecoration.ITALIC, false);
 
     public static final TextColor DARK_RED = TextColor.color(170, 0, 0);
     public static final TextColor RED = TextColor.color(255, 85, 85);

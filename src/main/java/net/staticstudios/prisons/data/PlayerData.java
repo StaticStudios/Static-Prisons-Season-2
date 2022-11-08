@@ -354,32 +354,8 @@ public class PlayerData extends DataSet {
         return multipliers;
     }
 
-
-//    public double getTokenMultiplier() {
-//        BigDecimal multi = BigDecimal.ZERO;
-//        //Factor in the consistency enchant
-//        return multi;
-//    }
-
-
-    //TabList
-    public void updateTabListPrefixID() {
-        if (!getStaffRank().equals("member") && !getStaffRank().equals("")) {
-            setTabListPrefixID(getStaffRank());
-        } else if (!getPlayerRank().equals("member")) {
-            setTabListPrefixID(getPlayerRank());
-        } else if (getIsNitroBoosting()) {
-            setTabListPrefixID("nitro");
-        } else setTabListPrefixID("member");
-    }
-
     public String getTabListPrefixID() {
-        return getString("tabListPrefixID");
-    }
-
-    public PlayerData setTabListPrefixID(String value) {
-        setString("tabListPrefixID", value);
-        return this;
+        return !getStaffRank().equals("member") ? getStaffRank() : !getPlayerRank().equals("member") ? getPlayerRank() : getIsNitroBoosting() ? "nitro" : "member";
     }
 
 

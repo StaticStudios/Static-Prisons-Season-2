@@ -32,7 +32,9 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(msg);
             return true;
         }
-        ItemStack item = CustomItems.getItem(args[0].toLowerCase(), player);
+        String[] customArgs = new String[args.length - 1];
+        System.arraycopy(args, 1, customArgs, 0, args.length - 1);
+        ItemStack item = CustomItems.getItem(args[0].toLowerCase(), player, customArgs);
         if (item == null) {
             player.sendMessage(Component.text("Item not found!").color(ComponentUtil.RED));
             return true;

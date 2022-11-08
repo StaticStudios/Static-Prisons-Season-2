@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.trading;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.trading.commands.TradeCommand;
@@ -21,6 +22,11 @@ public class TradeManager {
     }
 
     public void newTrade(Player sender, Player player) {
+        if (sender.getWorld().getName().equals("pvp") || player.getWorld().getName().equals("pvp")) {
+            sender.sendMessage(Prefix.TRADING.append(Component.text("Players cannot trade while in pvp!", NamedTextColor.RED)));
+            return;
+        }
+
         UUID uuid = UUID.randomUUID();
 
         Trade trade = new Trade(uuid, sender, player);
@@ -35,7 +41,10 @@ public class TradeManager {
                 .append(sender.name())
                 .append(Component.text(" has requested to trade with you. Type "))
                 .append(Component.text("/trade accept").color(NamedTextColor.GOLD))
-                .append(Component.text(" to accept.")));
+                .append(Component.text(" to accept."))
+                .clickEvent(ClickEvent.runCommand("/trade accept"))
+                .hoverEvent(Component.text("Click to accept trade request!")
+                        .color(NamedTextColor.GOLD)));
 
         sender.sendMessage(Prefix.TRADING
                 .append(Component.text("Sent a trade request to "))

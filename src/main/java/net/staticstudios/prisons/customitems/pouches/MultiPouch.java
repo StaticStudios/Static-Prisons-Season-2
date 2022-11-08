@@ -74,7 +74,7 @@ public enum MultiPouch implements Pouch<ItemStack>, CustomItem {
     }
 
     @Override
-    public String getID() {
+    public String getId() {
         return "multi_pouch_" + tier;
     }
 

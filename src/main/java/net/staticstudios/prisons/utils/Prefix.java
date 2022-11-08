@@ -67,4 +67,8 @@ public class Prefix {
             .append(Component.text("Fishing").color(ComponentUtil.YELLOW).decoration(TextDecoration.BOLD, true))
             .append(Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true));
 
+    public static final Component RANKS = Component.empty()
+            .append(Component.text("Ranks").color(ComponentUtil.RED).decoration(TextDecoration.BOLD, true))
+            .append(Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true));
+
 }

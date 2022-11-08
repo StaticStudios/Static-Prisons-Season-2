@@ -91,26 +91,4 @@ public final class CustomChatMessage {
 
         event.renderer((source1, sourceDisplayName, message1, viewer) -> formattedMessage);
     }
-
-    private static final List<String> bannedWords = new ArrayList<>();
-
-    public static String chatFilter(String chatMessage) {
-        for (String bannedWord : bannedWords){
-            StringBuilder censor = new StringBuilder();
-            censor.append("*".repeat(bannedWord.length()));
-            chatMessage = chatMessage.replaceAll("(?i)" + bannedWord, censor.toString());
-        }
-        return chatMessage;
-    }
-
-    static {
-        bannedWords.add("nigger");
-        bannedWords.add("nigga");
-        bannedWords.add("fuck");
-        bannedWords.add("bitch");
-        bannedWords.add("cunt");
-        bannedWords.add("pussy");
-        bannedWords.add("faggot");
-        bannedWords.add("bald");
-    }
 }

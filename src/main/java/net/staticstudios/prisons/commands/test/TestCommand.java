@@ -1,14 +1,10 @@
 package net.staticstudios.prisons.commands.test;
 
-import io.papermc.lib.PaperLib;
-import net.staticstudios.prisons.enchants.Enchantable;
-import net.staticstudios.prisons.fishing.PrisonFishingRod;
+import net.staticstudios.prisons.customitems.handler.CustomItems;
+import net.staticstudios.prisons.customitems.vouchers.KitVouchers;
+import net.staticstudios.prisons.customitems.vouchers.PerkVouchers;
+import net.staticstudios.prisons.customitems.vouchers.RankVouchers;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.enchants.FortuneEnchant;
-import net.staticstudios.prisons.pickaxe.enchants.TokenatorEnchant;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -242,11 +238,15 @@ public class TestCommand implements CommandExecutor {
 //        pickaxe.setEnchantment(FortuneEnchant.class, 10);
 //        pickaxe.setEnchantment(TokenatorEnchant.class, Enchantable.getEnchant(TokenatorEnchant.class).getMaxLevel());
 
-        player.getInventory().addItem(new PrisonFishingRod().getItem());
+//        player.getInventory().addItem(new PrisonFishingRod().getItem());
 
 //        StaticPrisons.getPlugin()
 
-
+        player.getInventory().addItem(KitVouchers.WEAPONS.getItem(player));
+        player.getInventory().addItem(KitVouchers.POTIONS.getItem(player));
+        for (int i = 1; i <= 6; i++) {
+            player.getInventory().addItem(CustomItems.getItem("voucher-kit_tier_" + i, null));
+        }
         return false;
 
 

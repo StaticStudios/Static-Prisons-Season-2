@@ -31,7 +31,6 @@ public class ResetRankCommand implements TabExecutor {
 
             PlayerData playerData = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args[1]));
             playerData.setStaffRank("member");
-            playerData.updateTabListPrefixID();
         }
 
         if (args[0].equalsIgnoreCase("player")) {
@@ -42,7 +41,6 @@ public class ResetRankCommand implements TabExecutor {
 
             PlayerData playerData = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args[1]));
             playerData.setPlayerRank("member");
-            playerData.updateTabListPrefixID();
         }
 
         sender.sendMessage(text("Reset ").append(text(args[0])).append(text(" rank of ")).append(text(args[1])).color(NamedTextColor.GREEN));

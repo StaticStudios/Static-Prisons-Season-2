@@ -41,7 +41,7 @@ public class IceBomb implements CustomItem {
 
 
     @Override
-    public String getID() {
+    public String getId() {
         return "ice_bomb";
     }
 

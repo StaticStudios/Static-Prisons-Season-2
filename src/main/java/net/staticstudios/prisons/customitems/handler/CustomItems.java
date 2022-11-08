@@ -2,6 +2,8 @@ package net.staticstudios.prisons.customitems.handler;
 
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
+import net.staticstudios.prisons.customitems.BackpackCustomItem;
+import net.staticstudios.prisons.customitems.MineBombCustomItem;
 import net.staticstudios.prisons.customitems.commands.CustomItemsCommand;
 import net.staticstudios.prisons.customitems.CrateKeyCustomItem;
 import net.staticstudios.prisons.customitems.icebomb.IceBomb;
@@ -9,6 +11,7 @@ import net.staticstudios.prisons.customitems.pickaxes.PickaxeTemplates;
 import net.staticstudios.prisons.customitems.pouches.MoneyPouch;
 import net.staticstudios.prisons.customitems.pouches.MultiPouch;
 import net.staticstudios.prisons.customitems.pouches.TokenPouch;
+import net.staticstudios.prisons.customitems.vouchers.Voucher;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,10 +31,14 @@ public class CustomItems implements Listener {
 
         StaticPrisons.getInstance().getServer().getPluginManager().registerEvents(new CustomItems(), StaticPrisons.getInstance());
 
-        TokenPouch.TIER_1.getID(); //Call this so that all the token pouch enums are initialized
-        MoneyPouch.TIER_1.getID(); //Call this so that all the money pouch enums are initialized
-        MultiPouch.TIER_1.getID(); //Call this so that all the multi pouch enums are initialized
-        PickaxeTemplates.DEFAULT.getID(); //Call this so that all the pickaxe templates are initialized
+        TokenPouch.TIER_1.getId(); //Call this so that all the token pouch enums are initialized
+        MoneyPouch.TIER_1.getId(); //Call this so that all the money pouch enums are initialized
+        MultiPouch.TIER_1.getId(); //Call this so that all the multi pouch enums are initialized
+        PickaxeTemplates.DEFAULT.getId(); //Call this so that all the pickaxe templates are initialized
+        MineBombCustomItem.TIER_1.getId(); //Call this so that all the mine bomb custom items are initialized
+        CrateKeyCustomItem.COMMON.getId(); //Call this so that all the crate key custom items are initialized
+        BackpackCustomItem.TIER_1.getId(); //Call this so that all the backpack custom items are initialized
+        Voucher.init();
 
         IceBomb.init();
     }
@@ -44,6 +51,17 @@ public class CustomItems implements Listener {
             return null;
         }
         return item.getItem(player);
+    }
+
+    public static ItemStack getItem(String id, Player player, String[] args) {
+        if (args.length == 0) {
+            return getItem(id, player);
+        }
+        CustomItem item = ITEMS.get(id);
+        if (item == null) {
+            return null;
+        }
+        return item.getItem(player, args);
     }
 
 

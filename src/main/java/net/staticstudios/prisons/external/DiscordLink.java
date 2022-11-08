@@ -35,7 +35,6 @@ public class DiscordLink { //todo: this could be cleaned up and the SQL statemen
         playerData.setDiscordName("null");
         playerData.setDiscordID("");
         playerData.setIsNitroBoosting(false);
-        playerData.updateTabListPrefixID();
 
 
 
@@ -72,7 +71,6 @@ public class DiscordLink { //todo: this could be cleaned up and the SQL statemen
                     rs.next();
                     rs.getString("discordID"); //Check if it throws an error
                     playerData.setIsNitroBoosting(true);
-                    playerData.updateTabListPrefixID();
                 } catch (SQLException e) {}
             }
 
@@ -110,7 +108,6 @@ public class DiscordLink { //todo: this could be cleaned up and the SQL statemen
         playerData.setDiscordName("null");
         playerData.setDiscordID("");
         playerData.setIsNitroBoosting(false);
-        playerData.updateTabListPrefixID();
     }
 
     public static void initiateLinkRequest(UUID playerUUID) {
@@ -213,7 +210,6 @@ public class DiscordLink { //todo: this could be cleaned up and the SQL statemen
                             _rs.next();
                             _rs.getString("discordID"); //Check if it throws an error
                             playerData.setIsNitroBoosting(true);
-                            playerData.updateTabListPrefixID();
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
@@ -222,13 +218,11 @@ public class DiscordLink { //todo: this could be cleaned up and the SQL statemen
                         UUID uuid = UUID.fromString(callback.split(" ")[1]);
                         PlayerData playerData = new PlayerData(uuid);
                         playerData.setIsNitroBoosting(true);
-                        playerData.updateTabListPrefixID();
                     }
                     case "PLAYERSTOPPEDBOOSTING" -> {
                         UUID uuid = UUID.fromString(callback.split(" ")[1]);
                         PlayerData playerData = new PlayerData(uuid);
                         playerData.setIsNitroBoosting(false);
-                        playerData.updateTabListPrefixID();
                     }
                     case "UNLINKEDACCOUNT" -> {
                         UUID uuid = UUID.fromString(callback.split(" ")[1]);
@@ -237,7 +231,6 @@ public class DiscordLink { //todo: this could be cleaned up and the SQL statemen
                         playerData.setIsDiscordLinked(false);
                         playerData.setDiscordID("");
                         playerData.setDiscordName("null");
-                        playerData.updateTabListPrefixID();
                     }
                     default -> Bukkit.getServer().getLogger().warning("Got a callback with an unknown request! Callback: " + callback);
                 }

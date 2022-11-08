@@ -16,8 +16,8 @@ import static net.kyori.adventure.text.Component.text;
 
 public interface TradeInventory extends Listener {
 
-    default StaticGUI create() {
-        StaticGUI inv = GUIBuilder.builder().title(text("Trading")).onClose(this::onClose).size(54).build();
+    default StaticGUI create(String title) {
+        StaticGUI inv = GUIBuilder.builder().title(text(title)).onClose(this::onClose).size(54).build();
 
         inv.getSettings().allowPlayerItems(true);
 

@@ -47,23 +47,23 @@ public class Crates { //todo: configuration file
 
 
 
-        RARE = new Crate("rare", "Rare Crate", "rare", new Location(Bukkit.getWorld("world"), -42, 80, -137),
-                new WeightedElements<CrateReward>()
-                        .add(new CrateReward(MoneyPouch.TIER_1.getItem(null)), 10)
-                        .add(new CrateReward(PrisonUtils.setItemCount(MoneyPouch.TIER_1.getItem(null), 2)), 10)
-                        .add(new CrateReward(TokenPouch.TIER_1.getItem(null)), 10)
-                        .add(new CrateReward(PrisonUtils.setItemCount(TokenPouch.TIER_1.getItem(null), 2)), 15)
-                        .add(new CrateReward(MultiPouch.TIER_1.getItem(null)), 10)
-                        .add(new CrateReward(PrisonUtils.setItemCount(MineBombCustomItem.TIER_1.getItem(null), 3)), 5)
-                        .add(new CrateReward(PrisonUtils.setItemCount(MineBombCustomItem.TIER_2.getItem(null), 1)), 15)
-                        .add(new CrateReward(MineBombCustomItem.TIER_3.getItem(null)), 10)
-                        .add(new CrateReward(CustomItems.getRareCrateKey(2)), 4)
-                        .add(new CrateReward(CustomItems.getEpicCrateKey(1)), 2)
-                        .add(new CrateReward(CustomItems.getEpicCrateKey(2)), 1)
-                        .add(new CrateReward(CustomItems.getLegendaryCrateKey(1)), 2)
-                        .add(new CrateReward(CustomItems.getPickaxeCrateKey(1)), 4)
-                        .add(new CrateReward(CustomItems.getKitCrateKey(1)), 2)
-        );
+//        RARE = new Crate("rare", "Rare Crate", "rare", new Location(Bukkit.getWorld("world"), -42, 80, -137),
+//                new WeightedElements<CrateReward>()
+//                        .add(new CrateReward(MoneyPouch.TIER_1.getItem(null)), 10)
+//                        .add(new CrateReward(PrisonUtils.setItemCount(MoneyPouch.TIER_1.getItem(null), 2)), 10)
+//                        .add(new CrateReward(TokenPouch.TIER_1.getItem(null)), 10)
+//                        .add(new CrateReward(PrisonUtils.setItemCount(TokenPouch.TIER_1.getItem(null), 2)), 15)
+//                        .add(new CrateReward(MultiPouch.TIER_1.getItem(null)), 10)
+//                        .add(new CrateReward(PrisonUtils.setItemCount(MineBombCustomItem.TIER_1.getItem(null), 3)), 5)
+//                        .add(new CrateReward(PrisonUtils.setItemCount(MineBombCustomItem.TIER_2.getItem(null), 1)), 15)
+//                        .add(new CrateReward(MineBombCustomItem.TIER_3.getItem(null)), 10)
+//                        .add(new CrateReward(CustomItems.getRareCrateKey(2)), 4)
+//                        .add(new CrateReward(CustomItems.getEpicCrateKey(1)), 2)
+//                        .add(new CrateReward(CustomItems.getEpicCrateKey(2)), 1)
+//                        .add(new CrateReward(CustomItems.getLegendaryCrateKey(1)), 2)
+//                        .add(new CrateReward(CustomItems.getPickaxeCrateKey(1)), 4)
+//                        .add(new CrateReward(CustomItems.getKitCrateKey(1)), 2)
+//        );
 
         EPIC = new Crate("epic", "Epic Crate", "epic", new Location(Bukkit.getWorld("world"), -33, 80, -137),
                 new WeightedElements<CrateReward>()
@@ -257,8 +257,13 @@ public class Crates { //todo: configuration file
             ConfigurationSection reward = crateConfig.getConfigurationSection(key);
             String itemID = key.replaceAll("\\+", "");
             int amount = reward.getInt("amount", 1);
-            rewards.add(new CrateReward(itemID, CustomItems.getItem(itemID, null)).setRewardItemAmount(amount), reward.getInt("chance"));
+            String[] displayArgs = reward.getStringList("display_item_args").toArray(new String[0]);
+            String[] args = reward.getStringList("args").toArray(new String[0]);
+            rewards.add(new CrateReward(itemID, args, CustomItems.getItem(itemID, null, displayArgs)).setRewardItemAmount(amount), reward.getDouble("chance"));
         });
+        if (rewards.getTotalWeight() != 100) {
+            StaticPrisons.log("Crate " + crate + " has a total weight of " + rewards.getTotalWeight() + "! It should be 100!");
+        }
         return rewards;
     }
 

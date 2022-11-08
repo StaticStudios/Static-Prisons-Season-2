@@ -23,7 +23,7 @@ public class DiscordCommand implements TabExecutor {
             return false;
         }
         if (args.length == 0) {
-            Component message = Component.text("Join our Discord: ").color(NamedTextColor.BLUE).append(Component.text("discord.gg/static").color(NamedTextColor.WHITE))
+            Component message = Component.text("Join our Discord: ").color(NamedTextColor.BLUE).append(Component.text("discord.gg/9S6K9E5").color(NamedTextColor.WHITE))
                     .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/9S6K9E5"))
                     .hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text("Click here to join our discord!").color(NamedTextColor.GREEN)));
             player.sendMessage(message);

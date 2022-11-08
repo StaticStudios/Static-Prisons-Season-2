@@ -67,7 +67,7 @@ public enum MoneyPouch implements Pouch<Long>, CustomItem {
     }
 
     @Override
-    public String getID() {
+    public String getId() {
         return "money_pouch_" + tier;
     }
 

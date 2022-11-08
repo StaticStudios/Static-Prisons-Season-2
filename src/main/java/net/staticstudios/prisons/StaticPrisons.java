@@ -101,7 +101,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(PickaxeManager::init);
 //        safe(PickaxeAbilities::init);
         safe(CustomItems::init);
-        safe(Crates::init);
         safe(CellManager::init);
         safe(Gang::init);
         safe(PvPManager::init);
@@ -132,6 +131,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
         safe(this::loadConfig);
         safe(LootBox::init);
+        safe(Crates::init);
 
         Constants.MINES_WORLD = Bukkit.getWorld("mines"); //Loaded by StaticMines
         luckPerms = getServer().getServicesManager().load(LuckPerms.class);

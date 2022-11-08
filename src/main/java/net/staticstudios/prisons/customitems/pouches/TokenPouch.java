@@ -67,7 +67,7 @@ public enum TokenPouch implements Pouch<Long>, CustomItem {
     }
 
     @Override
-    public String getID() {
+    public String getId() {
         return "token_pouch_" + tier;
     }
 

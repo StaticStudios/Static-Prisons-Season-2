@@ -22,7 +22,7 @@ public class TradeLogger {
     public TradeLogger(String tradeId) {
         this.id = tradeId;
         logger = LoggerFactory.getLogger("Logger for trade " + tradeId);
-        logFile = new File(StaticPrisons.getInstance().getDataFolder(),  "/tradeLogs/"+ tradeId + ".log");
+        logFile = new File(StaticPrisons.getInstance().getDataFolder(), "data/tradeLogs/"+ tradeId + ".log");
         if (!Files.exists(logFile.toPath())) {
             try {
                 logFile.getParentFile().mkdirs();

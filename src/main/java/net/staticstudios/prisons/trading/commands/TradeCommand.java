@@ -44,12 +44,22 @@ public class TradeCommand implements TabExecutor {
         }
 
         if (args.length == 2) {
+            if ("accept".equalsIgnoreCase(args[0])) {
+                tradeManager.acceptTrade(player);
+                return true;
+            }
+
+            if ("decline".equalsIgnoreCase(args[0])) {
+                tradeManager.declineTrade(player);
+                return true;
+            }
+
             if (!"request".equalsIgnoreCase(args[0])) {
                 player.sendMessage(Prefix.TRADING.append(Component.text("Usage: /trade <accept|decline|request> <player>")));
                 return false;
             }
 
-            if (args[1].equalsIgnoreCase("cancel")) {
+            if ("cancel".equalsIgnoreCase(args[1])) {
                 tradeManager.cancelRequest(player);
                 return true;
             }
