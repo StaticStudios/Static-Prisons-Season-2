@@ -23,22 +23,20 @@ import java.util.UUID;
 
 public final class Trade implements Listener {
     private final UUID uuid;
+
     private final Player initiator;
-
-
     private boolean isInitiatorConfirmed;
 
     private final Player trader;
-
-
     private boolean isTraderConfirmed;
-
 
     private final DefaultTradeInventory tradeInventory;
 
     private final TradeLogger tradeLogger;
 
     private final Audience audience;
+
+    private boolean inCompletedState = false;
 
     public Trade(UUID uuid, Player initiator, Player trader) {
         this.uuid = uuid;
@@ -60,9 +58,20 @@ public final class Trade implements Listener {
         tradeInventory.setMiddleColumn(ButtonBuilder.builder().icon(Material.LIGHT_BLUE_STAINED_GLASS_PANE).build());
 
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), new ConfirmTask(this), 20);
+        Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), new ConfirmTask(this), 25);
     }
 
-    public void complete() {
+    public synchronized void complete() {
+        if (inCompletedState) {
+            return;
+        }
+
+        inCompletedState = true;
+
+        if (!isInitiatorConfirmed || !isTraderConfirmed) {
+            return;
+        }
+
         tradeInventory.complete();
         audience.sendMessage(Prefix.TRADING.append(Component.text("Trade completed!").color(NamedTextColor.GREEN)));
         sendId();
@@ -140,5 +149,7 @@ public final class Trade implements Listener {
                 "trader=" + trader + ']';
     }
 
-
+    public boolean isInCompletedState() {
+        return inCompletedState;
+    }
 }

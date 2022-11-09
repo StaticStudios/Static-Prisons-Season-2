@@ -97,7 +97,7 @@ public class TradeCommand implements TabExecutor {
             return StaticMineUtils.filterStrings(List.of("accept", "decline", "request"), args[0]);
         }
 
-        if (args.length == 2) {
+        if (args.length == 2 && args[0].equalsIgnoreCase("request")) {
 
             List<String> possibleArgs = new ArrayList<>(Bukkit.getOnlinePlayers().stream().map(Player::getName).toList());
 

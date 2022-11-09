@@ -22,6 +22,10 @@ public class ConfirmTask implements Runnable {
 
 
         if (secondsLeft < 0) {
+            if (trade.isInCompletedState()) {
+                return;
+            }
+
             trade.complete();
             return;
         }
