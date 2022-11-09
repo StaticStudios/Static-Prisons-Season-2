@@ -52,6 +52,7 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
     @EventHandler
     @Override
     public void onClick(InventoryClickEvent event) {
+
         if (event.getClickedInventory() == null) {
             return;
         }
@@ -190,6 +191,7 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
             int nextSlot = getNextFreeInitiatorSlot(inventory.getInventory(), 0);
 
             if (nextSlot == -1) {
+                event.setCancelled(true);
                 return;
             }
 
@@ -209,6 +211,7 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
             int nextSlot = getNextFreeTraderSlot(inventory.getInventory(), 0);
 
             if (nextSlot == -1) {
+                event.setCancelled(true);
                 return;
             }
 

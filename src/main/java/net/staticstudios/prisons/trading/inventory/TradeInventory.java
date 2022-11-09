@@ -25,13 +25,7 @@ public interface TradeInventory extends Listener {
         inv.setButton(13, getPlaceholder());
         inv.setButton(22, getPlaceholder());
         inv.setButton(31, getPlaceholder());
-        inv.setButtons(36, 45, getPlaceholder());
-        inv.setButton(45, getPlaceholder());
-        inv.setButton(46, getPlaceholder());
-        inv.setButton(49, getPlaceholder());
-        inv.setButton(52, getPlaceholder());
-        inv.setButton(53, getPlaceholder());
-
+        inv.setButtons(36, 53, getPlaceholder());
         return inv;
     }
 
@@ -48,8 +42,12 @@ public interface TradeInventory extends Listener {
         if (startingSlot == 0) {
             int slot = inventory.firstEmpty();
 
-            if (slot % 9 <= 3) {
-                slot = getNextFreeTraderSlot(inventory, ++slot);
+            if (slot == -1) {
+                return -1;
+            } else {
+                if (slot % 9 <= 3) {
+                    slot = getNextFreeTraderSlot(inventory, ++slot);
+                }
             }
 
             return slot;
@@ -78,8 +76,13 @@ public interface TradeInventory extends Listener {
         if (startingSlot == 0) {
             int slot = inventory.firstEmpty();
 
-            if (slot % 9 > 4) {
-                slot = getNextFreeInitiatorSlot(inventory, ++slot);
+
+            if (slot == -1) {
+                return -1;
+            } else {
+                if (slot % 9 > 4) {
+                    slot = getNextFreeInitiatorSlot(inventory, ++slot);
+                }
             }
 
             return slot;
