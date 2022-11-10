@@ -3,14 +3,17 @@ package net.staticstudios.prisons.ui;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.admin.AdminManager;
 import net.staticstudios.prisons.backpacks.Backpack;
 import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.pvp.outposts.OutpostManager;
 import net.staticstudios.prisons.pvp.outposts.domain.Outpost;
+import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.TimeUtils;
 import org.bukkit.entity.Player;
@@ -117,6 +120,18 @@ public class PlayerUI {
                         + "/" + PrisonUtils.prettyNum(totalSize)
                         + " Items | "
                         + BigDecimal.valueOf(percent).setScale(2, RoundingMode.FLOOR) + "% Full");
+
+        if (AdminManager.containedInHiddenPlayers(player)) {
+            actionbar = ComponentUtil.BLANK
+                    .append(Component.text("Vanished ")
+                            .color(ComponentUtil.RED)
+                            .decoration(TextDecoration.BOLD, true))
+                    .append(Component.text(" | ")
+                            .color(ComponentUtil.LIGHT_GRAY)
+                            .decoration(TextDecoration.BOLD, false))
+                    .append(actionbar);
+        }
+
         ACTIONBARS.put(player, actionbar);
     }
 

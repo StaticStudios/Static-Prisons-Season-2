@@ -26,9 +26,9 @@ public class ServerData {
             Bukkit.broadcastMessage(org.bukkit.ChatColor.LIGHT_PURPLE + player.getName() + org.bukkit.ChatColor.GREEN + " joined for the first time! " + org.bukkit.ChatColor.GRAY + "(" + "#" + PrisonUtils.addCommasToNumber(PLAYERS.getAllUUIDs().size() + 1) + ")");
             PlayerUtils.addToInventory(player, PrisonPickaxe.createNewPickaxe().getItem());
             Backpack backpack = BackpackManager.createBackpack(1);
-            backpack.setCapacity(2500);
-            PlayerUtils.addToInventory(player, backpack.getItem());
+            backpack.setCapacity(2500, false);
             backpack.updateItemNow();
+            PlayerUtils.addToInventory(player, backpack.getItem());
             PlayerData playerData = new PlayerData(player);
             playerData.setPlayerRank("member");
             playerData.setStaffRank("member");
