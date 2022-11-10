@@ -2,6 +2,7 @@ package net.staticstudios.prisons.customitems.pouches;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import net.staticstudios.prisons.StaticPrisons;
@@ -17,6 +18,8 @@ public interface Pouch<T> {
     int timeBetweenFrames = 4;
 
     void open(Player player);
+
+    TextColor getTitleColor();
 
     default void animateFrame(Player player, T reward, String rewardValue, Component announcementMessage, Component prefix, long currentPos, int finished) {
         if (currentPos == finished) {
@@ -37,7 +40,7 @@ public interface Pouch<T> {
             }
         }
 
-        player.showTitle(Title.title(title.color(NamedTextColor.GRAY), Component.empty(), Title.Times.times(Duration.ofMillis(fadeIn * 50), Duration.ofMillis(2000), Duration.ofMillis(500))));
+        player.showTitle(Title.title(title.color(getTitleColor()), Component.empty(), Title.Times.times(Duration.ofMillis(fadeIn * 50), Duration.ofMillis(2000), Duration.ofMillis(500))));
 
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(),
                 () -> animateFrame(player, reward, rewardValue, announcementMessage, prefix, currentPos + 1, finished),

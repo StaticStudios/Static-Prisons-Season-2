@@ -1,10 +1,11 @@
 package net.staticstudios.prisons.customitems.pouches;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customitems.handler.CustomItem;
-import net.staticstudios.prisons.customitems.old.Vouchers;
+import net.staticstudios.prisons.customitems.CustomItem;
+import net.staticstudios.prisons.customitems.currency.MultiplierVoucher;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.PlayerUtils;
@@ -28,6 +29,7 @@ public enum MultiPouch implements Pouch<ItemStack>, CustomItem {
     TIER_2(2, text("Multiplier Pouch"), "pouches.multi.2.amount.min", "pouches.multi.2.amount.max", "pouches.multi.2.time.min", "pouches.multi.2.time.max"),
     TIER_3(3, text("Multiplier Pouch"), "pouches.multi.3.amount.min", "pouches.multi.3.amount.max", "pouches.multi.3.time.min", "pouches.multi.3.time.max");
 
+    private static final DecimalFormat formatter = new DecimalFormat("#,###.##");
 
     private final String TEXTURE = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzljN2YxZGIxY2UyMWFkMGQyYzVkMTEyNDY2ZWVhNzk4NGRhM2EwMTMzMzBlMTBhYzljMWU3OWQxNjAyNWU5MiJ9fX0=";
     private final NamespacedKey MULTI_POUCH_KEY = new NamespacedKey(StaticPrisons.getInstance(), "multi_pouch");
@@ -51,6 +53,11 @@ public enum MultiPouch implements Pouch<ItemStack>, CustomItem {
     }
 
     @Override
+    public TextColor getTitleColor() {
+        return ComponentUtil.LIGHT_PURPLE;
+    }
+
+    @Override
     public void open(Player player) {
         double multiplierAmount = PrisonUtils.randomInt(minAmount, maxAmount) / 100d;
         int multiplierTime = PrisonUtils.randomInt(minTime, maxTime);
@@ -60,10 +67,16 @@ public enum MultiPouch implements Pouch<ItemStack>, CustomItem {
         Component rewardMessage = Component.empty()
                 .append(name)
                 .append(text(" >> ").color(ComponentUtil.DARK_GRAY).decorate(TextDecoration.BOLD))
-                .append(text("You won "))
-                .append(text("+" + new DecimalFormat("#.00").format(multiplierAmount * 100) + "% for " + multiplierTime + " minutes").color(GREEN));
+                .append(Component.text("You won a ")
+                .color(ComponentUtil.LIGHT_PURPLE)
+                .append(text('+' + formatter.format(multiplierAmount) + "x")
+                        .color(ComponentUtil.WHITE))
+                .append(text(" multiplier for ")
+                        .color(ComponentUtil.LIGHT_PURPLE))
+                .append(text(PrisonUtils.formatTime(multiplierTime * 60 * 1000L))
+                        .color(ComponentUtil.WHITE)));
 
-        ItemStack reward = Vouchers.getMultiplierNote(multiplierAmount, multiplierTime);
+        ItemStack reward = MultiplierVoucher.getMultiplierNote(multiplierAmount, multiplierTime);
 
         animateFrame(player, reward, formattedRewardValue, rewardMessage, empty(), 0, formattedRewardValue.length() + 1);
     }

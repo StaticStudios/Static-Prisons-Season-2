@@ -6,7 +6,6 @@ import net.staticstudios.mines.StaticMine;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.BackpackManager;
-import net.staticstudios.prisons.customitems.handler.CustomItem;
 import net.staticstudios.prisons.minebombs.PreComputedMineBomb;
 import net.staticstudios.prisons.mines.MineBlock;
 import org.bukkit.Material;

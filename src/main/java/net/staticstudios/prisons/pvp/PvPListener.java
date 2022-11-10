@@ -1,10 +1,12 @@
 package net.staticstudios.prisons.pvp;
 
+import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.backpacks.Backpack;
-import net.staticstudios.prisons.customitems.old.Vouchers;
+import net.staticstudios.prisons.customitems.currency.MoneyNote;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.Warps;
 import org.bukkit.ChatColor;
@@ -22,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 class PvPListener implements org.bukkit.event.Listener {
 
@@ -51,7 +54,12 @@ class PvPListener implements org.bukkit.event.Listener {
         if (moneyToDrop > 0) {
             playerData.removeMoney(moneyToDrop);
             player.sendMessage(PvPManager.PREFIX + ChatColor.RED + "You lost $" + PrisonUtils.prettyNum(moneyToDrop) + " because you died");
-            e.getDrops().add(Vouchers.getMoneyNote(player.getName() + ChatColor.RED + " (From Death)", moneyToDrop));
+
+            ItemStack moneyNote = MoneyNote.getMoneyNote(player, moneyToDrop);
+            moneyNote.editMeta(meta -> meta.displayName(ComponentUtil.BLANK
+                            .append(Component.text("(From Death) ")
+                                    .color(ComponentUtil.RED)).append(Objects.requireNonNull(meta.displayName()))));
+            e.getDrops().add(moneyNote);
         }
     }
 

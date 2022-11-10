@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.lootboxes;
+package net.staticstudios.prisons.customitems.lootboxes;
 
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;

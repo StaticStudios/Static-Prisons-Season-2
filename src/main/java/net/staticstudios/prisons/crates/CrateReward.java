@@ -2,12 +2,9 @@ package net.staticstudios.prisons.crates;
 
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customitems.handler.CustomItems;
-import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.customitems.CustomItems;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.function.Consumer;
 
 public class CrateReward {
     private Component rewardName;

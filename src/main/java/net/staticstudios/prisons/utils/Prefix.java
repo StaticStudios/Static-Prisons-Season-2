@@ -71,4 +71,9 @@ public class Prefix {
             .append(Component.text("Ranks").color(ComponentUtil.RED).decoration(TextDecoration.BOLD, true))
             .append(Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true));
 
+
+    public static final Component STATIC_PRISONS = Component.empty()
+            .append(Component.text("Static Prisons").color(ComponentUtil.LIGHT_PURPLE).decoration(TextDecoration.BOLD, true))
+            .append(Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true));
+
 }

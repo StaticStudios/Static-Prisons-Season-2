@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.lootboxes.rewards;
+package net.staticstudios.prisons.customitems.lootboxes.rewards;
 
 import net.staticstudios.mines.utils.WeightedElements;
 

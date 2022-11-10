@@ -2,7 +2,7 @@ package net.staticstudios.prisons.customitems.commands;
 
 import net.kyori.adventure.text.Component;
 import net.staticstudios.mines.utils.StaticMineUtils;
-import net.staticstudios.prisons.customitems.handler.CustomItems;
+import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

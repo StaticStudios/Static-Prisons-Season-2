@@ -1,13 +1,12 @@
-package net.staticstudios.prisons.customitems.handler;
+package net.staticstudios.prisons.customitems;
 
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
-import net.staticstudios.prisons.customitems.BackpackCustomItem;
-import net.staticstudios.prisons.customitems.MineBombCustomItem;
 import net.staticstudios.prisons.customitems.commands.CustomItemsCommand;
-import net.staticstudios.prisons.customitems.CrateKeyCustomItem;
+import net.staticstudios.prisons.customitems.currency.MoneyNote;
+import net.staticstudios.prisons.customitems.currency.MultiplierVoucher;
+import net.staticstudios.prisons.customitems.currency.TokenNote;
 import net.staticstudios.prisons.customitems.icebomb.IceBomb;
-import net.staticstudios.prisons.customitems.PickaxeTemplates;
 import net.staticstudios.prisons.customitems.pouches.MoneyPouch;
 import net.staticstudios.prisons.customitems.pouches.MultiPouch;
 import net.staticstudios.prisons.customitems.pouches.TokenPouch;
@@ -39,6 +38,11 @@ public class CustomItems implements Listener {
         MineBombCustomItem.TIER_1.getId(); //Call this so that all the mine bomb custom items are initialized
         CrateKeyCustomItem.COMMON.getId(); //Call this so that all the crate key custom items are initialized
         BackpackCustomItem.TIER_1.getId(); //Call this so that all the backpack custom items are initialized
+
+        MoneyNote.INSTANCE.getId();
+        TokenNote.INSTANCE.getId();
+        MultiplierVoucher.INSTANCE.getId();
+
         Voucher.init();
 
         IceBomb.init();

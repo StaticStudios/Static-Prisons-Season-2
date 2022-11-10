@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.crates;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customitems.handler.CustomItems;
+import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import org.bukkit.Bukkit;

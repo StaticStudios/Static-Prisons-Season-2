@@ -1,17 +1,17 @@
-package net.staticstudios.prisons.lootboxes;
+package net.staticstudios.prisons.customitems.lootboxes;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.customitems.LootBoxCustomItem;
-import net.staticstudios.prisons.lootboxes.lootboxes.MineBombLootBox;
-import net.staticstudios.prisons.lootboxes.lootboxes.MoneyLootBox;
-import net.staticstudios.prisons.lootboxes.lootboxes.PickaxeLootBox;
-import net.staticstudios.prisons.lootboxes.lootboxes.TokenLootBox;
-import net.staticstudios.prisons.lootboxes.rewards.LootBoxCurrencyOutline;
-import net.staticstudios.prisons.lootboxes.rewards.LootBoxItemOutline;
-import net.staticstudios.prisons.lootboxes.rewards.LootBoxItemReward;
-import net.staticstudios.prisons.lootboxes.rewards.LootBoxRewardType;
+import net.staticstudios.prisons.customitems.lootboxes.lootboxes.MineBombLootBox;
+import net.staticstudios.prisons.customitems.lootboxes.lootboxes.MoneyLootBox;
+import net.staticstudios.prisons.customitems.lootboxes.lootboxes.PickaxeLootBox;
+import net.staticstudios.prisons.customitems.lootboxes.lootboxes.TokenLootBox;
+import net.staticstudios.prisons.customitems.lootboxes.rewards.LootBoxCurrencyOutline;
+import net.staticstudios.prisons.customitems.lootboxes.rewards.LootBoxItemOutline;
+import net.staticstudios.prisons.customitems.lootboxes.rewards.LootBoxItemReward;
+import net.staticstudios.prisons.customitems.lootboxes.rewards.LootBoxRewardType;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import org.bukkit.configuration.ConfigurationSection;

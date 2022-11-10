@@ -4,8 +4,6 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.Backpack;
 import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.backpacks.config.BackpackConfig;
-import net.staticstudios.prisons.backpacks.config.BackpackTier;
-import net.staticstudios.prisons.customitems.handler.CustomItem;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

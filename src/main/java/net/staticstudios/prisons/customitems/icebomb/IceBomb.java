@@ -4,7 +4,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customitems.handler.CustomItem;
+import net.staticstudios.prisons.customitems.CustomItem;
 import net.staticstudios.prisons.minebombs.MineBomb;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.Material;

@@ -2,7 +2,7 @@ package net.staticstudios.prisons.admin.commands;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.mines.utils.StaticMineUtils;
-import net.staticstudios.prisons.customitems.handler.CustomItems;
+import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.utils.CommandUtils;
 import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.PlayerUtils;

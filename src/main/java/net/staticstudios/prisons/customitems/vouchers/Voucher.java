@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.customitems.vouchers;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customitems.handler.CustomItem;
+import net.staticstudios.prisons.customitems.CustomItem;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;

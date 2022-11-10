@@ -2,7 +2,6 @@ package net.staticstudios.prisons.customitems;
 
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.customitems.handler.CustomItem;
 import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.enchants.Enchantment;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;

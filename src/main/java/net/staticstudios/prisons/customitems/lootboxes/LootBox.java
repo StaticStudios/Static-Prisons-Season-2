@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.lootboxes;
+package net.staticstudios.prisons.customitems.lootboxes;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -6,7 +6,6 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.ItemUtils;
-import net.staticstudios.prisons.utils.Prefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.items.SpreadOutExecution;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;

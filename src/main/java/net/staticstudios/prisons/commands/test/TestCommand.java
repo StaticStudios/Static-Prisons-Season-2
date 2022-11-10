@@ -1,9 +1,7 @@
 package net.staticstudios.prisons.commands.test;
 
-import net.staticstudios.prisons.customitems.handler.CustomItems;
+import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.customitems.vouchers.KitVouchers;
-import net.staticstudios.prisons.customitems.vouchers.PerkVouchers;
-import net.staticstudios.prisons.customitems.vouchers.RankVouchers;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
