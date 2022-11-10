@@ -64,7 +64,7 @@ public class LootBoxCustomItem implements CustomItem {
             lootbox.setProgress(progress, false);
             lootbox.updateItemNow();
             ItemStack item = lootbox.getItem();
-            setCustomItem(item);
+            setCustomItem(item, this);
             return item;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {

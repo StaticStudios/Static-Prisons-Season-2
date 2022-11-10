@@ -1,8 +1,8 @@
 package net.staticstudios.prisons.auctionhouse;
 
 import net.md_5.bungee.api.ChatColor;
-import net.staticstudios.gui.GUICreator;
-import net.staticstudios.gui.GUIUtils;
+import net.staticstudios.gui.legacy.GUICreator;
+import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.gui.MainMenus;
 import net.staticstudios.prisons.utils.PrisonUtils;

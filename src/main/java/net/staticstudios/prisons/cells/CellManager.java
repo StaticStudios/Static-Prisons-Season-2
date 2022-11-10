@@ -6,6 +6,7 @@ import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.serverdata.ServerData;
+import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.ConfigurationSection;
@@ -25,7 +26,7 @@ public class CellManager {
         CellBlockShop.init();
         new WorldCreator("islands").createWorld();
 
-        File file = new File("./data/island-template.schem");
+        File file = StaticFileSystemManager.getFile("island-template.schem").orElseThrow(() -> new RuntimeException("Could not find island-template.schem"));
         ClipboardFormat format = ClipboardFormats.findByFile(file);
         try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
             islandTemplate = reader.read();

@@ -2,10 +2,10 @@ package net.staticstudios.prisons.trading.inventory;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.staticstudios.newgui.GUIButton;
-import net.staticstudios.newgui.GUIPlaceholders;
-import net.staticstudios.newgui.StaticGUI;
-import net.staticstudios.newgui.builder.ButtonBuilder;
+import net.staticstudios.gui.GUIButton;
+import net.staticstudios.gui.GUIPlaceholders;
+import net.staticstudios.gui.StaticGUI;
+import net.staticstudios.gui.builder.ButtonBuilder;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.trading.domain.Trade;
 import org.bukkit.Bukkit;

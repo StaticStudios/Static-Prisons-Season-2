@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.gui;
 
-import net.staticstudios.gui.GUICreator;
-import net.staticstudios.gui.GUIUtils;
+import net.staticstudios.gui.legacy.GUICreator;
+import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.prisons.customitems.handler.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.ItemUtils;

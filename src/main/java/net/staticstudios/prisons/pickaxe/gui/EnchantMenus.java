@@ -2,11 +2,11 @@ package net.staticstudios.prisons.pickaxe.gui;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.newgui.GUIButton;
-import net.staticstudios.newgui.GUIPlaceholders;
-import net.staticstudios.newgui.StaticGUI;
-import net.staticstudios.newgui.builder.ButtonBuilder;
-import net.staticstudios.newgui.builder.GUIBuilder;
+import net.staticstudios.gui.GUIButton;
+import net.staticstudios.gui.GUIPlaceholders;
+import net.staticstudios.gui.StaticGUI;
+import net.staticstudios.gui.builder.ButtonBuilder;
+import net.staticstudios.gui.builder.GUIBuilder;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.enchants.Enchantment;

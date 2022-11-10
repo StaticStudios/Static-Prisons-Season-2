@@ -2,7 +2,7 @@ package net.staticstudios.prisons.pickaxe;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.prisons.customitems.pickaxes.PickaxeTemplates;
+import net.staticstudios.prisons.customitems.PickaxeTemplates;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.enchants.EnchantHolder;
 import net.staticstudios.prisons.enchants.Enchantable;

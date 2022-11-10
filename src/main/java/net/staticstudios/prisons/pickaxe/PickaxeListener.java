@@ -9,11 +9,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
 public class PickaxeListener implements Listener {
     @EventHandler
@@ -31,16 +35,7 @@ public class PickaxeListener implements Listener {
             }
         }
     }
-//    @EventHandler
-//    void onBlockBreakProcessAbilities(BlockBreakProcessEvent e) {
-//        BlockBreak blockBreak = e.getBlockBreak();
-//        PrisonPickaxe pickaxe = blockBreak.getPickaxe();
-//        Player player = blockBreak.getPlayer();
-//        if (pickaxe == null || player == null) return;
-//        for (BaseAbility.AbilityHolder ability : BaseAbility.pickaxeAbilities.getOrDefault(pickaxe, new HashSet<>())) {
-//            ability.getAbility().onBlockBreak(blockBreak);
-//        }
-//    }
+
     @EventHandler(priority = EventPriority.LOW)
     void onBlockBreakProcessEnchants(BlockBreakProcessEvent e) {
         BlockBreak blockBreak = e.getBlockBreak();
@@ -55,6 +50,14 @@ public class PickaxeListener implements Listener {
         });
         if (!hasTokenator.get()) {
             pickaxe.setEnchantment(TokenatorEnchant.class, 1);
+        }
+    }
+
+    @EventHandler
+    void onDrop(PlayerDropItemEvent e) {
+        if (PrisonPickaxe.checkIsPrisonPickaxe(e.getItemDrop().getItemStack())) {
+            e.setCancelled(true);
+            e.getPlayer().sendMessage(text("You cannot drop this item! Type /dropitem to drop it!").color(RED));
         }
     }
 }

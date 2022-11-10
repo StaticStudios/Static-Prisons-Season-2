@@ -2,12 +2,11 @@ package net.staticstudios.prisons.levelup.xp;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.gui.GUICreator;
-import net.staticstudios.gui.GUIUtils;
-import net.staticstudios.newgui.GUIPlaceholders;
-import net.staticstudios.newgui.StaticGUI;
-import net.staticstudios.newgui.builder.ButtonBuilder;
-import net.staticstudios.newgui.builder.GUIBuilder;
+import net.staticstudios.gui.legacy.GUIUtils;
+import net.staticstudios.gui.GUIPlaceholders;
+import net.staticstudios.gui.StaticGUI;
+import net.staticstudios.gui.builder.ButtonBuilder;
+import net.staticstudios.gui.builder.GUIBuilder;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -20,8 +19,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;

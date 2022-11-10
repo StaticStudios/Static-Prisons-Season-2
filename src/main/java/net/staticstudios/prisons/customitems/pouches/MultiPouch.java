@@ -80,7 +80,7 @@ public enum MultiPouch implements Pouch<ItemStack>, CustomItem {
 
     @Override
     public ItemStack getItem(Player player) {
-        ItemStack item = setCustomItem(ItemUtils.createCustomSkull(TEXTURE));
+        ItemStack item = setCustomItem(ItemUtils.createCustomSkull(TEXTURE), this);
         item.editMeta(meta -> {
             meta.displayName(name);
             meta.lore(List.of(

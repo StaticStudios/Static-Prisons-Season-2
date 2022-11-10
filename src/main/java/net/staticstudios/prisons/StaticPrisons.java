@@ -7,7 +7,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.luckperms.api.LuckPerms;
 import net.staticstudios.citizens.CitizensUtils;
-import net.staticstudios.gui.StaticGUI;
+import net.staticstudios.gui.legacy.StaticGUI;
 import net.staticstudios.mines.StaticMines;
 import net.staticstudios.prisons.admin.AdminManager;
 import net.staticstudios.prisons.auctionhouse.AuctionManager;
@@ -75,11 +75,16 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     private boolean citizensEnabled = false;
+    private boolean isDevServer = false;
 
 
 
     public static StaticPrisons getInstance() {
         return plugin;
+    }
+
+    public static boolean isDevServer() {
+        return plugin.isDevServer;
     }
 
 
@@ -90,6 +95,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         plugin = this;
+        isDevServer = StaticFileSystemManager.getFile("devserver.txt").isPresent();
 
         safe(this::enableCitizens);
         safe(this::loadWorldBoarderAPI);
@@ -126,7 +132,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         safe(TradeManager::init);
 
         StaticGUI.enable(this);
-        net.staticstudios.newgui.StaticGUI.enable(this);
+        net.staticstudios.gui.StaticGUI.enable(this);
 
 
         safe(this::loadConfig);
@@ -142,8 +148,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
         //Register Events
         getServer().getPluginManager().registerEvents(new EventListener(), plugin);
-        getServer().getPluginManager().registerEvents(new Events(), plugin);
-//        getServer().getPluginManager().registerEvents(new BlockBreakListener(), plugin);
 
     }
 
@@ -242,7 +246,7 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        safe(net.staticstudios.newgui.StaticGUI::disable);
+        safe(net.staticstudios.gui.StaticGUI::disable);
         safe(StaticMines::disable);
         safe(DataSet::saveDataSync);
         safe(CellManager::saveSync);

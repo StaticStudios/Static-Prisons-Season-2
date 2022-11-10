@@ -7,7 +7,7 @@ import net.staticstudios.prisons.customitems.MineBombCustomItem;
 import net.staticstudios.prisons.customitems.commands.CustomItemsCommand;
 import net.staticstudios.prisons.customitems.CrateKeyCustomItem;
 import net.staticstudios.prisons.customitems.icebomb.IceBomb;
-import net.staticstudios.prisons.customitems.pickaxes.PickaxeTemplates;
+import net.staticstudios.prisons.customitems.PickaxeTemplates;
 import net.staticstudios.prisons.customitems.pouches.MoneyPouch;
 import net.staticstudios.prisons.customitems.pouches.MultiPouch;
 import net.staticstudios.prisons.customitems.pouches.TokenPouch;
@@ -17,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,12 +68,22 @@ public class CustomItems implements Listener {
 
     @EventHandler
     void onClick(PlayerInteractEvent e) {
-        for (CustomItem item : ITEMS.values()) {
-            if (item.onInteract(e)) {
-                e.setCancelled(true);
-                return;
-            }
+        ItemStack item = e.getItem();
+        if (item == null) {
+            return;
         }
+        if (!item.hasItemMeta()) {
+            return;
+        }
+        if (!item.getItemMeta().getPersistentDataContainer().has(CustomItem.CUSTOM_ITEM_ID, PersistentDataType.STRING)) {
+            return;
+        }
+        String id = item.getItemMeta().getPersistentDataContainer().get(CustomItem.CUSTOM_ITEM_ID, PersistentDataType.STRING);
+        CustomItem customItem = ITEMS.get(id);
+        if (customItem == null) {
+            return;
+        }
+        customItem.onInteract(e);
     }
     public static ItemStack getVoteCrateKey(int amount) {
         ItemStack item = CrateKeyCustomItem.VOTE.getItem(null);

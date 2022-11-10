@@ -1,7 +1,7 @@
 package net.staticstudios.prisons.cells;
 
-import net.staticstudios.gui.GUICreator;
-import net.staticstudios.gui.GUIUtils;
+import net.staticstudios.gui.legacy.GUICreator;
+import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.prisons.gui.MainMenus;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

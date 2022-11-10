@@ -1,4 +1,4 @@
-package net.staticstudios.newgui.builder;
+package net.staticstudios.gui.builder;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

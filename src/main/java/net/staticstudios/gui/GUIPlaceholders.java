@@ -1,6 +1,6 @@
-package net.staticstudios.newgui;
+package net.staticstudios.gui;
 
-import net.staticstudios.newgui.builder.ButtonBuilder;
+import net.staticstudios.gui.builder.ButtonBuilder;
 import org.bukkit.Material;
 
 /**

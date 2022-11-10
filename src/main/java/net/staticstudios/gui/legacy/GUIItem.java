@@ -1,4 +1,4 @@
-package net.staticstudios.gui;
+package net.staticstudios.gui.legacy;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;

@@ -1,12 +1,16 @@
-package net.staticstudios.prisons.privatemines;
+package net.staticstudios.prisons.privatemines.gui;
 
-import net.staticstudios.gui.GUICreator;
-import net.staticstudios.gui.GUIRunnable;
-import net.staticstudios.gui.GUIUtils;
+import net.staticstudios.gui.legacy.GUICreator;
+import net.staticstudios.gui.legacy.GUIRunnable;
+import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.prisons.auctionhouse.AuctionManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.gui.MainMenus;
+import net.staticstudios.prisons.privatemines.PrivateMine;
+import net.staticstudios.prisons.privatemines.PrivateMineConfigManager;
+import net.staticstudios.prisons.privatemines.PrivateMineManager;
+import net.staticstudios.prisons.privatemines.PrivateMineStats;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.Warps;
 import org.bukkit.Bukkit;
@@ -19,6 +23,11 @@ import java.util.*;
 
 public class PrivateMineMenus extends GUIUtils {
     public static void open(Player player, boolean fromCommand) {
+
+        player.sendMessage(ChatColor.RED + "This feature has been disabled.");
+        if (true) return;
+
+
         if (!PrivateMine.finishedInitTasks) return;
         PlayerData playerData = new PlayerData(player);
         if (playerData.getPlayerLevel() < 5) {
@@ -49,6 +58,9 @@ public class PrivateMineMenus extends GUIUtils {
     }
 
     public static void cannotView(Player player, GUIRunnable onClose) {
+
+        player.sendMessage(ChatColor.RED + "This feature has been disabled.");
+        if (true) return;
         if (!PrivateMine.finishedInitTasks) return;
         GUICreator c = new GUICreator(27, "Private Mines");
         c.setItem(11, c.createButton(Material.NETHER_STAR, "&b&lPublic Mines", List.of("View private mines that have", "been opened to the public.", "", "&cYou must be level 5 before you can access this!")));
@@ -59,6 +71,9 @@ public class PrivateMineMenus extends GUIUtils {
         c.open(player);
     }
     public static void manageMine(Player player, boolean fromCommand) {
+
+        player.sendMessage(ChatColor.RED + "This feature has been disabled.");
+        if (true) return;
         if (!PrivateMine.finishedInitTasks) return;
         GUICreator c = new GUICreator(27, "Your Private Mine");
         PlayerData playerData = new PlayerData(player);
@@ -105,6 +120,9 @@ public class PrivateMineMenus extends GUIUtils {
     }
 
     public static void whitelist(Player player, boolean fromCommand) {
+
+        player.sendMessage(ChatColor.RED + "This feature has been disabled.");
+        if (true) return;
         if (!PrivateMine.finishedInitTasks) return;
         GUICreator c = new GUICreator(54, "Invited Players");
         PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
@@ -127,6 +145,9 @@ public class PrivateMineMenus extends GUIUtils {
     }
 
     public static void myInvites(Player player, int page, boolean fromCommand) {
+
+        player.sendMessage(ChatColor.RED + "This feature has been disabled.");
+        if (true) return;
         if (!PrivateMine.finishedInitTasks) return;
         int startIndex = page * MINES_PER_PAGE;
         GUICreator c = new GUICreator(54, "Your Invites");
@@ -163,6 +184,9 @@ public class PrivateMineMenus extends GUIUtils {
     }
 
     public static void settings(Player player, boolean fromCommand) {
+
+        player.sendMessage(ChatColor.RED + "This feature has been disabled.");
+        if (true) return;
         if (!PrivateMine.finishedInitTasks) return;
         GUICreator c = new GUICreator(27, "Private Mine Settings");
         PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
@@ -201,6 +225,9 @@ public class PrivateMineMenus extends GUIUtils {
 
     public static final int MINES_PER_PAGE = 45;
     public static void publicMines(Player player, int page, boolean fromCommand) {
+
+        player.sendMessage(ChatColor.RED + "This feature has been disabled.");
+        if (true) return;
         if (!PrivateMine.finishedInitTasks) return;
         int startIndex = page * MINES_PER_PAGE;
         GUICreator c = new GUICreator(54, "Public Private Mines (Page " + (page + 1) + ")");
@@ -249,6 +276,9 @@ public class PrivateMineMenus extends GUIUtils {
     }
 
     public static void viewMine(Player player, PrivateMine privateMine, int page, boolean fromCommand) {
+
+        player.sendMessage(ChatColor.RED + "This feature has been disabled.");
+        if (true) return;
         if (!PrivateMine.finishedInitTasks) return;
         GUICreator c = new GUICreator(27, privateMine.name);
         c.setItem(11, ench(c.createButton(Material.COMPASS, "&a&lWarp to Mine", List.of("Warp to " + privateMine.name), (p, t) -> {
@@ -287,6 +317,9 @@ public class PrivateMineMenus extends GUIUtils {
         c.open(player);
     }
     public static void upgrade(Player player, boolean fromCommand) {
+
+        player.sendMessage(ChatColor.RED + "This feature has been disabled.");
+        if (true) return;
         if (!PrivateMine.finishedInitTasks) return;
         PrivateMine privateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
         GUICreator c = new GUICreator(27, "Upgrade");

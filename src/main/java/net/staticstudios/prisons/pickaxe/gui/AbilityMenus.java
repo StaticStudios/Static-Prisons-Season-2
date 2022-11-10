@@ -1,21 +1,6 @@
 package net.staticstudios.prisons.pickaxe.gui;
 
-import net.staticstudios.gui.GUICreator;
-import net.staticstudios.gui.GUIUtils;
-import net.staticstudios.mines.StaticMine;
-import net.staticstudios.mines.StaticMines;
-import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
-import net.staticstudios.prisons.pickaxe.abilities.handler.PickaxeAbilities;
-import net.staticstudios.prisons.utils.PrisonUtils;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.staticstudios.gui.legacy.GUIUtils;
 
 public class AbilityMenus extends GUIUtils {
 //

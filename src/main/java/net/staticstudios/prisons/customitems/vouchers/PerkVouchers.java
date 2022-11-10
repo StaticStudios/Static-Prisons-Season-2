@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PerkVouchers {
     public static Voucher AUTO_SELL = new Voucher("autosell", () -> {
-        ItemStack item = new ItemStack(Material.RAW_GOLD);
+        ItemStack item = new ItemStack(Material.BLAZE_POWDER);
         item.editMeta(meta -> {
             meta.displayName(ComponentUtil.BLANK
                     .append(Component.text("Auto-Sell Voucher"))

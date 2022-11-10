@@ -7,7 +7,7 @@ import net.staticstudios.prisons.commands.test.Test2Command;
 import net.staticstudios.prisons.commands.test.TestCommand;
 import net.staticstudios.prisons.commands.votestore.VoteStoreListener;
 import net.staticstudios.prisons.gangs.GangCommand;
-import net.staticstudios.prisons.privatemines.PrivateMineCommand;
+import net.staticstudios.prisons.privatemines.commands.PrivateMineCommand;
 import net.staticstudios.prisons.pvp.commands.PvPCommand;
 import net.staticstudios.prisons.reclaim.ReclaimCommand;
 import org.bukkit.command.CommandExecutor;

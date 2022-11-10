@@ -17,7 +17,7 @@ import java.util.List;
 
 public class RankVouchers {
     public static Voucher WARRIOR = new Voucher("warrior_rank",
-            () -> makeItem(Material.GOLDEN_HELMET, "Warrior", ComponentUtil.AQUA),
+            () -> makeItem(Material.IRON_HELMET, "Warrior", ComponentUtil.AQUA),
             player -> tryToClaim(player, "warrior", "Warrior"));
 
     public static Voucher MASTER = new Voucher("master_rank",

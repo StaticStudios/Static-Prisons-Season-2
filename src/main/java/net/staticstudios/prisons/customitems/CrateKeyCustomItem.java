@@ -45,7 +45,7 @@ public enum CrateKeyCustomItem implements CustomItem {
 
     @Override
     public ItemStack getItem(Player player) {
-        ItemStack item = setCustomItem(new ItemStack(Material.TRIPWIRE_HOOK));
+        ItemStack item = setCustomItem(new ItemStack(Material.TRIPWIRE_HOOK), this);
 
         item.editMeta(itemMeta -> {
             itemMeta.getPersistentDataContainer().set(new NamespacedKey(StaticPrisons.getInstance(), "crateKey"), PersistentDataType.STRING, id.split("_key")[0]);

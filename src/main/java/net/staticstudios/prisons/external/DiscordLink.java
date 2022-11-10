@@ -6,6 +6,7 @@ import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.data.sql.MySQLConnection;
 import net.staticstudios.prisons.utils.PrisonUtils;
+import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -14,11 +15,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 
 public class DiscordLink { //todo: this could be cleaned up and the SQL statements could be better
-    public static final int SERVER_ID = Integer.parseInt(PrisonUtils.getFileContents("./data/discord/serverID.txt"));
+    public static final int SERVER_ID = StaticFileSystemManager.getYamlConfiguration("discord.yml").getInt("server_id");
     public static final int SECONDS_TO_KEEP_LINK_REQUESTS_ALIVE = 300;
     public static final int LINK_CODE_LENGTH = 7;
 

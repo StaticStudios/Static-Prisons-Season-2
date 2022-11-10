@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.customitems.pickaxes;
+package net.staticstudios.prisons.customitems;
 
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
@@ -97,7 +97,7 @@ public enum PickaxeTemplates implements CustomItem {
         pickaxe.updateItemNow();
 
         assert pickaxe.getItem() != null;
-        setCustomItem(pickaxe.getItem());
+        setCustomItem(pickaxe.getItem(), this);
 
         return pickaxe;
     }
@@ -109,6 +109,25 @@ public enum PickaxeTemplates implements CustomItem {
 
     @Override
     public ItemStack getItem(Player player) {
-        return getPickaxe().getItem();
+        return getItem(player, new String[]{"true"});
+    }
+
+    @Override
+    public ItemStack getItem(Player player, String[] args) {
+        boolean registered;
+        try {
+            registered = Boolean.parseBoolean(args[0]);
+        } catch (Exception e) {
+            String msg = "Got an error while parsing args for " + id + "! Using default values instead... [true]\n" + "Expected: [boolean(should be tracked by the server)]\n" + "Got: " + Arrays.toString(args);
+            if (player != null) {
+                player.sendMessage(msg);
+            }
+            StaticPrisons.log(msg);
+            registered = true;
+        }
+        if (registered) {
+            return getPickaxe().getItem();
+        }
+        return getTemplateItem();
     }
 }

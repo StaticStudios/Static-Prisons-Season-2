@@ -1,9 +1,9 @@
-package net.staticstudios.newgui.builder;
+package net.staticstudios.gui.builder;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.staticstudios.newgui.GUIButton;
-import net.staticstudios.newgui.StaticGUI;
+import net.staticstudios.gui.GUIButton;
+import net.staticstudios.gui.StaticGUI;
 import org.bukkit.entity.Player;
 
 import java.util.function.BiConsumer;

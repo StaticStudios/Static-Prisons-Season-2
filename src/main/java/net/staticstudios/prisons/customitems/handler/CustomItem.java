@@ -10,6 +10,7 @@ import org.bukkit.persistence.PersistentDataType;
 public interface CustomItem {
 
     NamespacedKey customItemNamespace = new NamespacedKey(StaticPrisons.getInstance(), "customItem");
+    NamespacedKey CUSTOM_ITEM_ID = new NamespacedKey(StaticPrisons.getInstance(), "customItemId");
 
     default void register() {
         CustomItems.ITEMS.put(getId(), this);
@@ -34,12 +35,15 @@ public interface CustomItem {
     }
 
     /**
-     * Sets this as a custom item, this is useful to know if an item is "important"
+     * Marks this as a custom item. This will also be used to help call the onInteract method.
      * @param item The item to set as a custom item.
      * @return The item.
      */
-    default ItemStack setCustomItem(ItemStack item) {
-        item.editMeta(itemMeta -> itemMeta.getPersistentDataContainer().set(customItemNamespace, PersistentDataType.BYTE, (byte) 1));
+    default ItemStack setCustomItem(ItemStack item, CustomItem customItem) {
+        item.editMeta(itemMeta -> {
+            itemMeta.getPersistentDataContainer().set(customItemNamespace, PersistentDataType.BYTE, (byte) 1);
+            itemMeta.getPersistentDataContainer().set(CUSTOM_ITEM_ID, PersistentDataType.STRING, customItem.getId());
+        });
         return item;
     }
 }

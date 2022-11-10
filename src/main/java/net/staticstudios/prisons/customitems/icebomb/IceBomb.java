@@ -67,7 +67,7 @@ public class IceBomb implements CustomItem {
             meta.getPersistentDataContainer().set(NAMESPACE, PersistentDataType.BYTE, (byte) 0);
             meta.addEnchant(Enchantment.LURE, 1, true);
         });
-
+        setCustomItem(itemStack, this);
         return itemStack;
     }
 

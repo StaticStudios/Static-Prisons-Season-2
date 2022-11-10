@@ -1,61 +1,125 @@
 package net.staticstudios.gui;
 
+import net.staticstudios.gui.event.StaticGuiClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.*;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.function.Consumer;
-
-@Deprecated
+/**
+ * @author Sam (GitHub: <a href="https://github.com/Sammster10">Sam's GitHub</a>)
+ */
 public class GUIListener implements Listener {
 
     @EventHandler
     void onClick(InventoryClickEvent e) {
         if (e.getClickedInventory() == null) return;
-        if (!(e.getClickedInventory().getHolder() instanceof StaticGUI gui)) {
-            if (e.getInventory().getHolder() instanceof StaticGUI) e.setCancelled(e.getClick().isShiftClick());
+
+        Player player = (Player) e.getWhoClicked();
+        StaticGUI gui;
+        GUIButton button;
+
+        if (e.getClickedInventory().getHolder() instanceof StaticGUI _gui) {
+            gui = _gui;
+            if (!StaticGUI.MENUS.contains(gui)) return;
+
+            if (gui.listeners.containsKey(e.getSlot())) { // If the slot has a listener, call it
+                gui.listeners.get(e.getSlot()).accept(gui, e);
+            }
+
+            button = gui.getButtons()[e.getSlot()];
+            if (button == null) {
+                //The player is using one of their own items
+                if (!gui.getSettings().allowPlayerItems()) {
+                    e.setCancelled(true);
+                }
+                Bukkit.getPluginManager().callEvent(new StaticGuiClickEvent(gui, null, e.getSlot(), e));
+                return;
+            }
+        } else if (e.getInventory().getHolder() instanceof StaticGUI _gui) {
+            gui = _gui;
+            if (!StaticGUI.MENUS.contains(gui)) return;
+
+            if (gui.listeners.containsKey(e.getInventory().firstEmpty())) { // If the slot has a listener, call it
+                gui.listeners.get(e.getInventory().firstEmpty()).accept(gui, e);
+            }
+
+            if (e.getClick().isShiftClick()) {
+                //The player shift-clicked an item from their inventory, into the GUI
+                if (!gui.getSettings().allowPlayerItems()) {
+                    e.setCancelled(true);
+                }
+            }
+            Bukkit.getPluginManager().callEvent(new StaticGuiClickEvent(gui, null, e.getSlot(), e));
+            return;
+        } else {
             return;
         }
 
-        if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
-            if (gui.getOnClickEmptySlot() != null) gui.getOnClickEmptySlot().accept(e);
-            else e.setCancelled(true);
-            return;
-        }
+        Bukkit.getPluginManager().callEvent(new StaticGuiClickEvent(gui, button, e.getSlot(), e));
 
-
-        Consumer<InventoryClickEvent> listener = new GUIItem(e.getCurrentItem()).getListener();
-        if (listener == null) {
-            e.setCancelled(true);
-            new GUIItem(e.getCurrentItem()).getRunnable().run((Player) e.getWhoClicked(), e.getClick());
-            return;
+        try {
+            if (e.getClick().isLeftClick()) {
+                button.onLeftClick().accept(player);
+            } else if (e.getClick().isRightClick()) {
+                button.onRightClick().accept(player);
+            } else if (e.getClick().equals(ClickType.MIDDLE)) {
+                button.onMiddleClick().accept(player);
+            }
+            button.onClick().accept(e, gui);
+        } catch (Exception ex) {
+            Bukkit.getServer().getLogger().severe("Error while handling GUI click event");
+            ex.printStackTrace();
         }
-        listener.accept(e);
+        e.setCancelled(true);
+
     }
+
     @EventHandler
     void onDrag(InventoryDragEvent e) { //Prevent players from being able to lose items that they attempt to put into the GUI's inventory
-        if (e.getInventory().getHolder() instanceof StaticGUI) e.setCancelled(true);
+        if (e.getInventory().getHolder() instanceof StaticGUI gui) {
+            e.setCancelled(!gui.getSettings().allowDragItems());
+        }
     }
 
     @EventHandler
     void invClosed(InventoryCloseEvent e) {
         if (!(e.getInventory().getHolder() instanceof StaticGUI gui)) return;
+        if (!StaticGUI.MENUS.contains(gui)) return;
         Player player = (Player) e.getPlayer();
-        if (gui.destroyOnClose) gui.destroy();
-        if (e.getReason().equals(InventoryCloseEvent.Reason.PLAYER)) if (gui.getMenuToOpenOnClose() != null)  {
-            Bukkit.getScheduler().runTaskLater(StaticGUI.getParent(), () -> gui.getMenuToOpenOnClose().open(player), 1);
-        } else if (gui.getOnCloseRun() != null) {
-            Bukkit.getScheduler().runTaskLater(StaticGUI.getParent(), () -> gui.getOnCloseRun().run(player, null), 1);
+
+        if (e.getReason().equals(InventoryCloseEvent.Reason.PLAYER)) { //Only call the onClose method if the player closed the GUI. The GUI could've been closed by another GUI opening which could lead to a stack overflow.
+            if (gui.onClose() != null) {
+                Bukkit.getScheduler().runTaskLater(StaticGUI.getParent(), () -> gui.onClose().accept(player, gui), 1); //Run 1 tick later to prevent inventory weirdness
+            }
+        }
+
+        if (gui.getSettings().allowPlayerItems() && gui.getSettings().givePlayerItemsBack()) { //Give the player their items back
+            ItemStack[] contents = gui.getInventory().getContents();
+            for (int i = 0; i < contents.length; i++) {
+                if (gui.getButtons()[i] == null) {
+                    ItemStack item = gui.getInventory().getContents()[i];
+                    if (item != null && item.getType() != Material.AIR) {
+                        player.getInventory().addItem(item);
+                        contents[i] = null; //Remove the item from the GUI's inventory in the event 2 players are viewing it to prevent item duplication.
+                    }
+                }
+            }
+        }
+
+        if (!gui.isPersistent()) {
+            gui.destroy();
         }
     }
+
     @EventHandler
     void invOpened(InventoryOpenEvent e) {
-        if (!(e.getInventory().getHolder() instanceof StaticGUI)) return;
+        if (!(e.getInventory().getHolder() instanceof StaticGUI gui)) return;
+        if (gui.onOpen() == null) return;
+
+        gui.onOpen().accept((Player) e.getPlayer(), gui);
     }
 }

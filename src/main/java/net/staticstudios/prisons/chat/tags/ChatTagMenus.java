@@ -2,9 +2,8 @@ package net.staticstudios.prisons.chat.tags;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.staticstudios.gui.GUICreator;
-import net.staticstudios.gui.GUIUtils;
-import net.staticstudios.prisons.chat.tags.ChatTags;
+import net.staticstudios.gui.legacy.GUICreator;
+import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.gui.MainMenus;
 import org.bukkit.Material;

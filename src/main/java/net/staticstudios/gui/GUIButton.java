@@ -1,4 +1,4 @@
-package net.staticstudios.newgui;
+package net.staticstudios.gui;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.enchantments.Enchantment;

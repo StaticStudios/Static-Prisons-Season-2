@@ -2,9 +2,9 @@ package net.staticstudios.prisons.crates;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import net.staticstudios.newgui.StaticGUI;
-import net.staticstudios.newgui.builder.ButtonBuilder;
-import net.staticstudios.newgui.builder.GUIBuilder;
+import net.staticstudios.gui.StaticGUI;
+import net.staticstudios.gui.builder.ButtonBuilder;
+import net.staticstudios.gui.builder.GUIBuilder;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;
@@ -48,6 +48,7 @@ public class Crate {
     public void open(Player player) {
         LOCATION.getWorld().spawnParticle(Particle.TOTEM, LOCATION.getBlockX() + 0.5d, LOCATION.getBlockY() + 1, LOCATION.getBlockZ() + 0.5d, 100);
         CrateReward reward = REWARDS.getRandom();
+        ItemStack itemReward = reward.getItemReward(player);
 
 
         TextColor color = ComponentUtil.GREEN;
@@ -63,15 +64,11 @@ public class Crate {
             color = ComponentUtil.GOLD;
         }
 
-        Component rewardMessage = Prefix.CRATES;
-        if (reward.itemReward != null) {
-            rewardMessage = rewardMessage.append(Component.text((chance <= 2.5 ? player.getName() : "You") + " won " + reward.itemReward.getAmount() + "x "))
-                    .append(Objects.requireNonNull(reward.itemReward.getItemMeta().displayName()).append(Component.text("!")));
-        } else {
-            rewardMessage = rewardMessage.append(Component.text((chance <= 2.5 ? player.getName() : "You") + " won " + reward.rewardName + "!"));
-        }
+        Component rewardMessage = Prefix.CRATES
+                .append(Component.text((chance <= 2.5 ? player.getName() : "You") + " won " + itemReward.getAmount() + "x "))
+                    .append(Objects.requireNonNull(itemReward.getItemMeta().displayName()).append(Component.text("!")));
         rewardMessage = rewardMessage.append(Component.text(" (" + new DecimalFormat("0.0").format(chance) + "% chance) ").color(color))
-                .append(Component.text("from a " + DISPLAY_NAME + " crate!").color(ComponentUtil.WHITE));
+                .append(Component.text("from a " + DISPLAY_NAME + "!").color(ComponentUtil.WHITE));
 
         if (chance <= 2.5) {
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -80,8 +77,7 @@ public class Crate {
         } else {
             player.sendMessage(rewardMessage);
         }
-        if (reward.itemReward != null) PlayerUtils.addToInventory(player, new ItemStack(reward.itemReward));
-        else reward.runnableReward.accept(player);
+        PlayerUtils.addToInventory(player, itemReward);
 
     }
 
@@ -111,7 +107,7 @@ public class Crate {
                 color = ComponentUtil.GOLD;
             }
 
-            List<Component> lore = reward.icon.lore() == null ? new ArrayList<>() : reward.icon.lore();
+            List<Component> lore = reward.getIcon().lore() == null ? new ArrayList<>() : reward.getIcon().lore();
 
             lore.add(Component.empty());
             lore.add(Component.text("--------------------").color(ComponentUtil.WHITE));
@@ -120,8 +116,8 @@ public class Crate {
             lore.add(Component.text("--------------------").color(ComponentUtil.WHITE));
 
             gui.setButton(i, ButtonBuilder.builder()
-                    .fromItem(reward.icon)
-                    .count(reward.icon.getAmount())
+                    .fromItem(reward.getIcon())
+                    .count(reward.getIcon().getAmount())
                     .lore(lore)
                     .build());
         }

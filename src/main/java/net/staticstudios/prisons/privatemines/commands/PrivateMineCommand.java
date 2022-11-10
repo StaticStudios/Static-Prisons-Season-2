@@ -1,9 +1,11 @@
-package net.staticstudios.prisons.privatemines;
+package net.staticstudios.prisons.privatemines.commands;
 
 
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
+import net.staticstudios.prisons.privatemines.PrivateMine;
+import net.staticstudios.prisons.privatemines.gui.PrivateMineMenus;
 import net.staticstudios.prisons.utils.CommandUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -1,4 +1,4 @@
-package net.staticstudios.gui;
+package net.staticstudios.gui.legacy;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

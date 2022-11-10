@@ -1,8 +1,8 @@
 package net.staticstudios.prisons.gui;
 
 import net.md_5.bungee.api.ChatColor;
-import net.staticstudios.gui.GUICreator;
-import net.staticstudios.gui.GUIUtils;
+import net.staticstudios.gui.legacy.GUICreator;
+import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;

@@ -39,7 +39,7 @@ public class Voucher implements CustomItem {
             meta.getPersistentDataContainer().set(NAMESPACED_KEY, PersistentDataType.STRING, id);
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
         });
-        setCustomItem(item);
+        setCustomItem(item, this);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class TabList {
 
     private static final Map<String, String> teamNamesForPrefixIds = new HashMap<>();
 
-    private static final String HEADER = """
+    private static final String HEADER =  (StaticPrisons.isDevServer() ? "\n<red><bold>DEVELOPMENT SERVER" : "") + """
                       
                       
             <bold><gray>-->><white><italic> Welcome To<colordark> Static Prisons <colordark/><gray><<--

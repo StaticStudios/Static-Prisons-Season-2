@@ -2,11 +2,11 @@ package net.staticstudios.prisons.challenges.gui;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.newgui.GUIButton;
-import net.staticstudios.newgui.GUIPlaceholders;
-import net.staticstudios.newgui.StaticGUI;
-import net.staticstudios.newgui.builder.ButtonBuilder;
-import net.staticstudios.newgui.builder.GUIBuilder;
+import net.staticstudios.gui.GUIButton;
+import net.staticstudios.gui.GUIPlaceholders;
+import net.staticstudios.gui.StaticGUI;
+import net.staticstudios.gui.builder.ButtonBuilder;
+import net.staticstudios.gui.builder.GUIBuilder;
 import net.staticstudios.prisons.challenges.Challenge;
 import net.staticstudios.prisons.challenges.ChallengeDuration;
 import net.staticstudios.prisons.challenges.ChallengeManager;

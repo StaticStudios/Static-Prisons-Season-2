@@ -1,9 +1,9 @@
 package net.staticstudios.prisons.trading.inventory;
 
-import net.staticstudios.newgui.GUIButton;
-import net.staticstudios.newgui.StaticGUI;
-import net.staticstudios.newgui.builder.ButtonBuilder;
-import net.staticstudios.newgui.builder.GUIBuilder;
+import net.staticstudios.gui.GUIButton;
+import net.staticstudios.gui.StaticGUI;
+import net.staticstudios.gui.builder.ButtonBuilder;
+import net.staticstudios.gui.builder.GUIBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -1,11 +1,11 @@
 package net.staticstudios.prisons.gui;
 
 import net.kyori.adventure.text.Component;
-import net.staticstudios.gui.GUIUtils;
-import net.staticstudios.newgui.GUIPlaceholders;
-import net.staticstudios.newgui.StaticGUI;
-import net.staticstudios.newgui.builder.ButtonBuilder;
-import net.staticstudios.newgui.builder.GUIBuilder;
+import net.staticstudios.gui.legacy.GUIUtils;
+import net.staticstudios.gui.GUIPlaceholders;
+import net.staticstudios.gui.StaticGUI;
+import net.staticstudios.gui.builder.ButtonBuilder;
+import net.staticstudios.gui.builder.GUIBuilder;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;

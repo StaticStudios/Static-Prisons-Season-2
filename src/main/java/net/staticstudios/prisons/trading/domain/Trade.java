@@ -6,7 +6,7 @@ import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.newgui.builder.ButtonBuilder;
+import net.staticstudios.gui.builder.ButtonBuilder;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.trading.TradeLogger;
 import net.staticstudios.prisons.trading.inventory.DefaultTradeInventory;

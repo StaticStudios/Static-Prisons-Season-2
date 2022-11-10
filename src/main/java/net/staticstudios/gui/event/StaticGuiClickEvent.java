@@ -1,7 +1,7 @@
-package net.staticstudios.newgui.event;
+package net.staticstudios.gui.event;
 
-import net.staticstudios.newgui.GUIButton;
-import net.staticstudios.newgui.StaticGUI;
+import net.staticstudios.gui.GUIButton;
+import net.staticstudios.gui.StaticGUI;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.InventoryClickEvent;

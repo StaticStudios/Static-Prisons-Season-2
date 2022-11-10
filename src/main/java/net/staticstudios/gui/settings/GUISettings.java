@@ -1,4 +1,4 @@
-package net.staticstudios.newgui.settings;
+package net.staticstudios.gui.settings;
 
 /**
  * @author Sam (GitHub: <a href="https://github.com/Sammster10">Sam's GitHub</a>)

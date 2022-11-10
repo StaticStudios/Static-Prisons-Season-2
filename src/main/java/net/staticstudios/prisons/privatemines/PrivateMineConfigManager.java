@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PrivateMineConfigManager {
 
     static Map<String, Clipboard> schematics = new HashMap<>();
-    static PrivateMineStats[] STATS_PER_LEVEL;
+    public static PrivateMineStats[] STATS_PER_LEVEL;
     static PrivateMineStats DEFAULT = new PrivateMineStats();
     public static double DEFAULT_SELL_PERCENTAGE;
     public static double DEFAULT_TAX;
