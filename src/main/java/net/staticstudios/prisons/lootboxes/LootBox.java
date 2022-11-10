@@ -265,7 +265,7 @@ public abstract class LootBox implements SpreadOutExecution {
             LOOT_BOXES.remove(uuid);
             return true;
         }
-        player.sendMessage(Prefix.LOOT_BOX.append(Component.text("This loot box is not ready to be claimed!").color(ComponentUtil.RED)));
+        player.sendMessage(getPrefix().append(Component.text("This loot box is not ready to be claimed!").color(ComponentUtil.RED)));
         return false;
     }
 
