@@ -20,6 +20,9 @@ public class DailyRewardMenus extends GUIUtils {
     final static int SECONDS_BETWEEN_CLAIMS = 60 * 60 * 24;
 
     public static void mainMenu(Player player) {
+
+        if (true) return;
+
         GUICreator c = new GUICreator(9, "Daily Rewards");
         PlayerData playerData = new PlayerData(player);
         if (playerData.getClaimedDailyRewardsRank1At() + SECONDS_BETWEEN_CLAIMS <= Instant.now().getEpochSecond()) {
