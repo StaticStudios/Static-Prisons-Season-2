@@ -42,7 +42,7 @@ public class AuctionManager {
         for (String key : fileData.getConfigurationSection("auctions").getKeys(false)) {
             auctions.add(new Auction(
                     UUID.fromString(key),
-                    ExpiredAuction.fromBase64(fileData.getString("auctions." + key + ".item")),
+                    (ItemStack) ItemUtils.fromBase64(fileData.getString("auctions." + key + ".item")),
                     UUID.fromString(fileData.getString("auctions." + key + ".owner")),
                     fileData.getLong("auctions." + key + ".expireAt"),
                     fileData.getLong("auctions." + key + ".price")

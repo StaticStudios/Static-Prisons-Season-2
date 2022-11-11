@@ -1,18 +1,21 @@
 package net.staticstudios.prisons.trading;
 
 import net.staticstudios.prisons.StaticPrisons;
-import org.apache.commons.lang.StringUtils;
+import net.staticstudios.prisons.trading.domain.Trade;
+import net.staticstudios.prisons.trading.logging.TradeAction;
+import net.staticstudios.prisons.trading.logging.TradeActionLogger;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class TradeLogger {
 
@@ -22,6 +25,10 @@ public class TradeLogger {
     private final Logger logger;
 
     private final Executor executor = Executors.newSingleThreadExecutor();
+
+    private final TradeActionLogger actionLogger = new TradeActionLogger(this);
+
+    private boolean finished = false;
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public TradeLogger(String tradeId) {
@@ -35,7 +42,7 @@ public class TradeLogger {
                     logFile.getParentFile().mkdirs();
                     logFile.createNewFile();
 
-                    Files.writeString(logFile.toPath(), "Trade history of trade with id " + tradeId + " started.\n", StandardOpenOption.APPEND);
+                    Files.writeString(logFile.toPath(), "[Trade ID] " + tradeId + "\n\n\n", StandardOpenOption.APPEND);
                 } catch (IOException e) {
                     logger.error("Could not create log file for trade " + tradeId);
                 }
@@ -43,95 +50,90 @@ public class TradeLogger {
         });
     }
 
-    public void removed(Player player, ItemStack itemStack) {
-        String playerName = player.getName();
-        String itemName = itemStack.getType().name();
-        int amount = itemStack.getAmount();
-
+    private void log(String message) {
         executor.execute(() -> {
             try {
-                Files.writeString(logFile.toPath(), playerName + " removed " + amount + " " + itemName + " from trade\n", StandardOpenOption.APPEND);
+                Files.writeString(logFile.toPath(), message, StandardOpenOption.APPEND);
             } catch (IOException e) {
-                logger.error("Could not write to log file for trade " + logFile.getName());
-                logger.error(playerName + " removed " + amount + " " + itemName + " from trade");
+                logger.error("Could not write to log file for trade " + id);
             }
         });
     }
 
-    public void added(Player player, ItemStack itemStack) {
-        String playerName = player.getName();
-        String itemName = itemStack.getType().name();
-        int amount = itemStack.getAmount();
-
-        executor.execute(() -> {
-            try {
-                Files.writeString(logFile.toPath(), playerName + " added " + amount + " " + itemName + " to trade\n", StandardOpenOption.APPEND);
-            } catch (IOException e) {
-                logger.error("Could not write to log file for trade " + logFile.getName());
-                logger.error(playerName + " added " + amount + " " + itemName + " to trade");
-            }
-        });
+    public void start(Trade trade) {
+        log(actionLogger.startTrade(trade));
     }
 
-    public void accepted(Player player) {
-        String playerName = player.getName();
+    public void removeItem(Player player, ItemStack itemStack) {
+        log(actionLogger.removeItem(player, itemStack));
+    }
 
-        executor.execute(() -> {
-            try {
-                Files.writeString(logFile.toPath(), playerName + " accepted trade\n", StandardOpenOption.APPEND);
-            } catch (IOException e) {
-                logger.error("Could not write to log file for trade " + logFile.getName());
-                logger.error(playerName + " accepted trade");
-            }
-        });
+    public void addItem(Player player, ItemStack itemStack) {
+        log(actionLogger.addItem(player, itemStack));
+    }
+
+    public void confirm(Player player) {
+        log(actionLogger.playerLog(TradeAction.CONFIRM, player));
     }
 
     public void retract(Player player) {
-        String playerName = player.getName();
-
-        executor.execute(() -> {
-            try {
-                Files.writeString(logFile.toPath(), playerName + " retracted the trade\n", StandardOpenOption.APPEND);
-            } catch (IOException e) {
-                logger.error("Could not write to log file for trade " + logFile.getName());
-                logger.error(playerName + " retracted the trade");
-            }
-        });
+        log(actionLogger.playerLog(TradeAction.UN_CONFIRM, player));
     }
 
 
     public void completed() {
-        executor.execute(() -> {
-            try {
-                Files.writeString(logFile.toPath(), "Trade with ID " + id + " completed\n", StandardOpenOption.APPEND);
-            } catch (IOException e) {
-                logger.error("Could not write to log file for trade " + logFile.getName());
-                logger.error("Trade completed");
-            }
-            finish();
-        });
+        log(actionLogger.actionLog(TradeAction.COMPLETE));
+        finish();
     }
 
     public void cancelled(Player player) {
-        String playerName = player.getName();
-
-        executor.execute(() -> {
-            try {
-                Files.writeString(logFile.toPath(), playerName + " cancelled the trade with id: " + id + "\n", StandardOpenOption.APPEND);
-            } catch (IOException e) {
-                logger.error("Could not write to log file for trade " + logFile.getName());
-                logger.error(playerName + " cancelled trade");
-            }
-        });
+        log(actionLogger.playerLog(TradeAction.CANCEL, player));
+        finish();
     }
 
     public void finish() {
-        try {
-            if (StringUtils.countMatches(Files.readString(logFile.toPath()), "completed") > 2) {
+
+        log(actionLogger.actionLog(TradeAction.FINISH));
+
+        executor.execute(() -> {
+            if (finished) {
                 logger.error("Trade with id " + id + " has been completed more than twice. Please check the log file for more information.");
+                return;
             }
-        } catch (IOException exception) {
-            logger.error("Could not read log file for trade " + logFile.getName() + " - aborting finishing.");
-        }
+            finished = true;
+
+
+            File zipFile = new File(StaticPrisons.getInstance().getDataFolder(), "data/tradeLogs/" + id + ".zip");
+            try {
+                zipFile.createNewFile();
+            } catch (IOException e) {
+                logger.error("Could not zip log file for trade " + id);
+                e.printStackTrace();
+                return;
+            }
+
+            try (
+                    ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile.getPath()));
+                    FileInputStream fis = new FileInputStream(logFile);
+            ) {
+                ZipEntry zipEntry = new ZipEntry(logFile.getName());
+                zos.putNextEntry(zipEntry);
+
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = fis.read(buffer)) > 0) {
+                    zos.write(buffer, 0, len);
+                }
+                zos.closeEntry();
+            } catch (IOException e) {
+                logger.error("Could not zip log file for trade " + id);
+                e.printStackTrace();
+                return;
+            }
+
+
+            logFile.delete();
+
+        });
     }
 }

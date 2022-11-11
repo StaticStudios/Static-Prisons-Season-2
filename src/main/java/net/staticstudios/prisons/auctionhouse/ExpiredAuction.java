@@ -5,10 +5,7 @@ import net.staticstudios.prisons.utils.ItemUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +42,7 @@ public class ExpiredAuction {
     }
 
     public ItemStack getItem() {
-        return fromBase64(encodedItemStack);
+        return (ItemStack) ItemUtils.fromBase64(encodedItemStack);
     }
 
     public void removeFromFile() {
@@ -90,23 +87,5 @@ public class ExpiredAuction {
         }
     }
 
-
-    static ItemStack fromBase64(String data) {
-        try {
-            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(new ByteArrayInputStream(Base64Coder.decodeLines(data)));
-            ItemStack item = (ItemStack) dataInput.readObject();
-            dataInput.close();
-            return item;
-        } catch (ClassNotFoundException e) {
-            try {
-                throw new IOException("Unable to decode class type.", e);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 }

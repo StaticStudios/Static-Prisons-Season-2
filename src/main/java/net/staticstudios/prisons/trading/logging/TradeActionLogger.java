@@ -3,6 +3,7 @@ package net.staticstudios.prisons.trading.logging;
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import net.staticstudios.prisons.trading.TradeLogger;
 import net.staticstudios.prisons.trading.domain.Trade;
 import net.staticstudios.prisons.utils.ItemUtils;
 import org.apache.logging.log4j.util.Strings;
@@ -12,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Objects;
 
-public class TradeLogAction {
+public class TradeActionLogger {
 
     private static final String SPACING = "    ";
     private static final String INDENT = SPACING + "| ";
@@ -22,41 +23,11 @@ public class TradeLogAction {
 
     private static final char NEW_LINE = '\n';
 
-    public static String startTrade(Trade trade) {
-        return getBuilder(TradeAction.REQUEST)
-                .append(' ')
-                .append(trade.initiator().getName())
-                .append(NEW_LINE)
-                .append(getBuilder(TradeAction.ACCEPT))
-                .append(' ')
-                .append(trade.trader().getName())
-                .append(NEW_LINE)
-                .append(getBuilder(TradeAction.BEGIN))
-                .append(NEW_LINE)
-                .append(NEW_LINE)
-                .toString();
-    }
+    private final TradeLogger tradeLogger;
 
-    public static String addItem(Player player, ItemStack item) {
-        return getBuilder(TradeAction.ADD_ITEM)
-                .append(' ')
-                .append(player.getName())
-                .append(':')
-                .append(NEW_LINE)
-                .append(getItemSection(item))
-                .toString();
+    public TradeActionLogger(TradeLogger tradeLogger) {
+        this.tradeLogger = tradeLogger;
     }
-
-    public static String removeItem(Player player, ItemStack item) {
-        return getBuilder(TradeAction.REMOVE_ITEM)
-                .append(' ')
-                .append(player.getName())
-                .append(':')
-                .append(NEW_LINE)
-                .append(getItemSection(item))
-                .toString();
-    }
-
 
     private static StringBuilder getBuilder(TradeAction action) {
         return new StringBuilder('[' + action.getName() + ']');
@@ -87,7 +58,7 @@ public class TradeLogAction {
         if (lore != null && !lore.isEmpty()) {
             builder.append(INDENT)
                     .append("lore: ")
-                    .append("[ ")
+                    .append('[')
                     .append(Strings.join(
                             lore.stream()
                                     .map(StaticPrisons.miniMessage()::serialize)
@@ -95,16 +66,17 @@ public class TradeLogAction {
                                     .iterator(),
                             ','
                     ))
-                    .append(" ]")
+                    .append(']')
                     .append(NEW_LINE);
         }
 
+        builder.append(getPrisonPickaxeSection(item));
+
         builder.append(INDENT)
                 .append("base64: ")
+                .append(NEW_LINE)
                 .append(ItemUtils.toBase64(item))
                 .append(NEW_LINE);
-
-        builder.append(getPrisonPickaxeSection(item));
 
         return builder;
     }
@@ -127,6 +99,7 @@ public class TradeLogAction {
                 .append("name: ")
                 .append(StaticPrisons.miniMessage().serialize(pickaxe.getName()))
                 .append(NEW_LINE)
+                .append(DOUBLE_INDENT)
                 .append("level: ")
                 .append(pickaxe.getLevel())
                 .append(NEW_LINE)
@@ -147,14 +120,78 @@ public class TradeLogAction {
                 .append(NEW_LINE);
 
         pickaxe.getEnchantmentMap().forEach((clazz, holder) -> builder.append(TRIPLE_INDENT)
-                .append(holder.enchantment().getName())
+                .append(holder.enchantment().getId())
                 .append(": ")
                 .append(holder.level())
                 .append(" | ")
-                .append("Tier: ")
+                .append("tier: ")
                 .append(pickaxe.getEnchantmentTier(clazz))
                 .append(NEW_LINE));
 
         return builder;
+    }
+
+    public String startTrade(Trade trade) {
+        return getBuilder(TradeAction.REQUEST)
+                .append(' ')
+                .append(trade.initiator().getName())
+                .append(NEW_LINE)
+                .append(getBuilder(TradeAction.ACCEPT))
+                .append(' ')
+                .append(trade.trader().getName())
+                .append(NEW_LINE)
+                .append(getBuilder(TradeAction.BEGIN))
+                .append(NEW_LINE)
+                .append(NEW_LINE)
+                .toString();
+    }
+
+    public String addItem(Player player, ItemStack item) {
+        return getBuilder(TradeAction.ADD_ITEM)
+                .append(' ')
+                .append(player.getName())
+                .append(':')
+                .append(NEW_LINE)
+                .append(getItemSection(item))
+                .toString();
+    }
+
+    public String removeItem(Player player, ItemStack item) {
+        return getBuilder(TradeAction.REMOVE_ITEM)
+                .append(' ')
+                .append(player.getName())
+                .append(':')
+                .append(NEW_LINE)
+                .append(getItemSection(item))
+                .toString();
+    }
+
+    public String playerLog(TradeAction action, Player player, String... args) {
+        StringBuilder builder = getBuilder(action)
+                .append(' ')
+                .append(player.getName());
+
+        if (args.length > 0) {
+            builder.append(": ");
+            for (String arg : args) {
+                builder.append(arg)
+                        .append(' ');
+            }
+        }
+
+        return builder.append(NEW_LINE)
+                .toString();
+    }
+
+    public String actionLog(TradeAction action, String... args) {
+        StringBuilder builder = getBuilder(action);
+
+        for (String arg : args) {
+            builder.append(' ')
+                    .append(arg);
+        }
+
+        return builder.append(NEW_LINE)
+                .toString();
     }
 }

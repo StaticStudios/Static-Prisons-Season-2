@@ -10,6 +10,9 @@ public enum TradeAction {
     INV_OPENED("Inventory Opened"),
     ADD_ITEM("Add Item"),
     REMOVE_ITEM("Remove Item"),
+
+    CONFIRM("Confirm Trade"),
+    UN_CONFIRM("Un-confirm Trade"),
     CANCEL("Cancel Trade"),
     COMPLETE("Trade Completed"),
     FINISH("Finish Trade");

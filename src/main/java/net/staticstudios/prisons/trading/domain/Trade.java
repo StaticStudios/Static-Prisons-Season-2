@@ -6,6 +6,7 @@ import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.staticstudios.gui.GUIPlaceholders;
 import net.staticstudios.gui.builder.ButtonBuilder;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.trading.TradeLogger;
@@ -47,6 +48,7 @@ public final class Trade implements Listener {
 
         this.tradeInventory = new DefaultTradeInventory(this);
 
+        tradeLogger.start(this);
     }
 
 
@@ -55,7 +57,7 @@ public final class Trade implements Listener {
     }
 
     public void startTimer() {
-        tradeInventory.setMiddleColumn(ButtonBuilder.builder().icon(Material.LIGHT_BLUE_STAINED_GLASS_PANE).build());
+        tradeInventory.setMiddleColumn(GUIPlaceholders.LIME);
 
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), new ConfirmTask(this), 20);
         Bukkit.getScheduler().runTaskLater(StaticPrisons.getInstance(), new ConfirmTask(this), 25);
