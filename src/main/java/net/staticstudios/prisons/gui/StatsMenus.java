@@ -25,9 +25,6 @@ public class StatsMenus extends GUIUtils {
     public static void viewStats(Player player, UUID uuidOfPlayerToView) {
         PlayerData playerData = new PlayerData(uuidOfPlayerToView);
 
-        Logger.getLogger("StatsMenus").info(playerData.getPlayerRank());
-        Logger.getLogger("StatsMenus").info(playerData.getStaffRank());
-
         StaticGUI gui = GUIBuilder.builder()
                 .title(text(ServerData.PLAYERS.getName(uuidOfPlayerToView) + "'s Stats"))
                 .size(36)
@@ -51,7 +48,7 @@ public class StatsMenus extends GUIUtils {
 
         gui.setButton(20, ButtonBuilder.builder().icon(Material.DIAMOND).name(text("Votes: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getVotes())).color(WHITE))).build());
         gui.setButton(21, ButtonBuilder.builder().icon(Material.BLUE_DYE).name(text("Discord: ").color(AQUA).append(text("null".equals(discordName) ? "Not Linked" : discordName).color(WHITE))).build());
-        gui.setButton(22, ButtonBuilder.builder().icon(Material.COBBLESTONE).name(text("Raw Blocks Mined: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getBlocksMined())).color(WHITE))).build());
+        gui.setButton(22, ButtonBuilder.builder().icon(Material.COBBLESTONE).name(text("Raw Blocks Mined: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getRawBlocksMined())).color(WHITE))).build());
         gui.setButton(23, ButtonBuilder.builder().icon(Material.STONE).name(text("Blocks Mined: ").color(AQUA).append(text(PrisonUtils.addCommasToNumber(playerData.getBlocksMined())).color(WHITE))).build());
         gui.setButton(24, ButtonBuilder.builder().icon(Material.CLOCK).name(text("Time Played: ").color(AQUA).append(text(PrisonUtils.formatTime(playerData.getTimePlayed() * 1000)).color(WHITE))).build());
 
