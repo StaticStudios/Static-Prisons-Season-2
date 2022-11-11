@@ -284,7 +284,9 @@ public final class PrisonUtils {
     public static <T> ArrayList<T> removeDuplicatesInArrayList(List<T> list) {
         ArrayList<T> newList = new ArrayList<T>();
         for (T element : list) {
-            if (!newList.contains(element)) newList.add(element);
+            if (!newList.contains(element)) {
+                newList.add(element);
+            }
         }
         return newList;
     }

@@ -8,7 +8,6 @@ import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.challenges.ChallengeDuration;
 import net.staticstudios.prisons.data.datahandling.DataSet;
 import net.staticstudios.prisons.data.datahandling.DataTypes;
-import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -16,20 +15,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerData extends DataSet {
     private static final DataTypes type = DataTypes.PLAYERS;
 
-    public UUID getUUID() {
-        return uuid;
-    }
+    private static final int BASE_XP_PER_LEVEL = 1000;
+    private static final double LEVEL_RATE_OF_INCREASE = 1.4;
 
     UUID uuid;
-
 
     public PlayerData(Player player) {
         super(type, player.getUniqueId().toString());
@@ -41,11 +35,107 @@ public class PlayerData extends DataSet {
         this.uuid = uuid;
     }
 
-    public PlayerData(String uuid) {
-        super(type, uuid);
-        this.uuid = UUID.fromString(uuid);
+    public static long getLevelRequirement(int level) {
+        if (level < 0) {
+            return BASE_XP_PER_LEVEL;
+        }
+        return (long) ((long) BASE_XP_PER_LEVEL * level + level * Math.pow(LEVEL_RATE_OF_INCREASE * level, LEVEL_RATE_OF_INCREASE));
     }
 
+    public static int getLevelFromXP(long xp) {
+        int lvl = 0;
+        while (true) {
+            if (lvl > 10000) break;
+            if (xp >= getLevelRequirement(lvl + 1)) {
+                lvl++;
+            } else break;
+        }
+        return lvl;
+    }
+
+    public static ChatColor getPrimaryUITheme(String theme) {
+        switch (theme) {
+            default -> { //b
+                return ChatColor.of("#3dc2ff");
+            }
+            case "5" -> {
+                return ChatColor.of("#b638ff");
+            }
+            case "2" -> {
+                return ChatColor.of("#00ba31");
+            }
+            case "4" -> {
+                return ChatColor.DARK_RED;
+            }
+            case "6" -> {
+                return ChatColor.of("#ffcc00");
+            }
+        }
+    }
+
+    public static TextColor getPrimaryUIThemeAsTextColor(String theme) {
+        switch (theme) {
+            default -> { //b
+                return TextColor.fromHexString("#3dc2ff");
+            }
+            case "5" -> {
+                return TextColor.fromHexString("#b638ff");
+            }
+            case "2" -> {
+                return TextColor.fromHexString("#00ba31");
+            }
+            case "4" -> {
+                return ComponentUtil.DARK_RED;
+            }
+            case "6" -> {
+                return TextColor.fromHexString("#ffcc00");
+            }
+        }
+    }
+
+    public static ChatColor getSecondaryUITheme(String theme) {
+        switch (theme) {
+            default -> { //b
+                return ChatColor.AQUA;
+            }
+            case "5" -> {
+                return ChatColor.LIGHT_PURPLE;
+            }
+            case "2" -> {
+                return ChatColor.GREEN;
+            }
+            case "4" -> {
+                return ChatColor.RED;
+            }
+            case "6" -> {
+                return ChatColor.GOLD;
+            }
+        }
+    }
+
+    public static TextColor getSecondaryUIThemeAsTextColor(String theme) {
+        switch (theme) {
+            default -> { //b
+                return ComponentUtil.AQUA;
+            }
+            case "5" -> {
+                return ComponentUtil.LIGHT_PURPLE;
+            }
+            case "2" -> {
+                return ComponentUtil.GREEN;
+            }
+            case "4" -> {
+                return ComponentUtil.RED;
+            }
+            case "6" -> {
+                return ComponentUtil.GOLD;
+            }
+        }
+    }
+
+    public UUID getUUID() {
+        return uuid;
+    }
 
     //Money
     public long getMoney() {
@@ -119,15 +209,9 @@ public class PlayerData extends DataSet {
         return setShards(getShards() - value);
     }
 
-    //Player XP
+    //Player XP & Level
     public long getPlayerXP() {
         return getLong("playerXP");
-    }
-
-    public PlayerData setPlayerXP(long value) {
-        setLong("playerXP", value);
-        updatePlayerLevel();
-        return this;
     }
 
     public PlayerData addPlayerXP(long value) {
@@ -138,23 +222,10 @@ public class PlayerData extends DataSet {
         return setPlayerXP(getPlayerXP() - value);
     }
 
-    //Player Level
-    private static final int BASE_XP_PER_LEVEL = 1000;
-    private static final double LEVEL_RATE_OF_INCREASE = 1.4;
+    public PlayerData setPlayerXP(long value) {
+        setLong("playerXP", value);
 
-    public static long getLevelRequirement(int level) {
-        if (level < 0) return BASE_XP_PER_LEVEL;
-        return (long) ((long) BASE_XP_PER_LEVEL * level + level * Math.pow(LEVEL_RATE_OF_INCREASE * level, LEVEL_RATE_OF_INCREASE));
-    }
-
-    public long getNextLevelRequirement() {
-        return getLevelRequirement(getPlayerLevel() + 1);
-    }
-
-    void updatePlayerLevel() {
-
-        Player player = Bukkit.getPlayer(uuid);
-        //Calculate player level
+        //Re-calc the player's level
         while (true) {
             long xp = getPlayerXP();
             if (getPlayerLevel() > 10000) break;
@@ -169,21 +240,18 @@ public class PlayerData extends DataSet {
             } else break;
         }
 
+
+        Player player = Bukkit.getPlayer(uuid);
         if (player != null) {
             player.setLevel(getPlayerLevel());
             player.setExp(Math.max(0f, (float) (getPlayerXP() - getLevelRequirement(getPlayerLevel())) / (getNextLevelRequirement() - getLevelRequirement(getPlayerLevel()))));
         }
+
+        return this;
     }
 
-    public static int getLevelFromXP(long xp) {
-        int lvl = 0;
-        while (true) {
-            if (lvl > 10000) break;
-            if (xp >= getLevelRequirement(lvl + 1)) {
-                lvl++;
-            } else break;
-        }
-        return lvl;
+    public long getNextLevelRequirement() {
+        return getLevelRequirement(getPlayerLevel() + 1);
     }
 
     public int getPlayerLevel() {
@@ -275,7 +343,7 @@ public class PlayerData extends DataSet {
         return setMineRank(getMineRank() - value);
     }
 
-    //Blocks Mined
+    //Prestige
     public long getPrestige() {
         return getLong("prestige");
     }
@@ -304,76 +372,77 @@ public class PlayerData extends DataSet {
 
     //Multipliers
     public double getMoneyMultiplier() {
-        double multi = 1;
-        //Factor in ranks
-        switch (getPlayerRank()) {
-            case "warrior" -> multi += 0.05d; //+5%
-            case "master" -> multi += 0.10d; //+10%
-            case "mythic" -> multi += 0.15d; //+15%
-            case "static" -> multi += 0.20d; //+20%
-            case "staticp" -> multi += 0.25d; //+25%
-        }
-        return multi + getTempMoneyMultiplier();
+        double multi = 1 + getTempMoneyMultiplier();
+        return switch (getPlayerRank()) {
+            default -> multi;
+            case "warrior" -> multi + 0.05d; //+5%
+            case "master" -> multi + 0.10d; //+10%
+            case "mythic" -> multi + 0.15d; //+15%
+            case "static" -> multi + 0.20d; //+20%
+            case "staticp" -> multi + 0.25d; //+25%
+        };
     }
 
     public double getTempMoneyMultiplier() {
-        List<String> multipliers = getTempMoneyMultiplierList();
-        double multiplier = 0d;
-        for (String multi : multipliers) {
-            multiplier += Double.parseDouble(multi.split(",")[0]);
-        }
-        return multiplier;
-    }
+        //Get the lists containing the multipliers and times
+        List<Double> amounts = new ArrayList<>(getStringList("tempMoneyMultipliers-amounts").stream()
+                .map(Double::parseDouble).toList());
+        List<Long> times = new ArrayList<>(getStringList("tempMoneyMultipliers-times").stream()
+                .map(Long::parseLong).toList());
 
-    public PlayerData setTempMoneyMultiplierList(List<String> value) {
-        setStringList("tempMoneyMultipliers", value);
-        return this;
-    }
+        assert amounts.size() == times.size();
+        List<Double> amountsToRemove = new ArrayList<>();
+        List<Long> timesToRemove = new ArrayList<>();
 
-    public double addTempMoneyMultiplier(double amount, long lengthInMS) {
-        List<String> multipliers = getTempMoneyMultiplierList();
-        multipliers.add(amount + "," + (System.currentTimeMillis() + lengthInMS));
-        setTempMoneyMultiplierList(multipliers);
-        return getTempMoneyMultiplier();
-    }
-
-    List<String> getTempMoneyMultiplierList() {
-        List<String> initialMultipliers = getStringList("tempMoneyMultipliers");
-        List<String> multipliers = new ArrayList<>(initialMultipliers);
-        List<String> multipliersToRemove = new ArrayList<>();
-        for (String multi : multipliers) {
-            //amount|time
-            if (Long.parseLong(multi.split(",")[1]) < System.currentTimeMillis()) {
-                multipliersToRemove.add(multi);
+        //Filter them to remove any that have expired
+        for (int i = 0; i < times.size(); i++) {
+            if (times.get(i) >= System.currentTimeMillis()) {
+                continue;
             }
+
+            amountsToRemove.add(amounts.get(i));
+            timesToRemove.add(times.get(i));
         }
-        multipliers.removeAll(multipliersToRemove);
-        if (!multipliers.equals(initialMultipliers)) {
-            setStringList("tempMoneyMultipliers", multipliers);
-        }
-        return multipliers;
+
+        amounts.removeAll(amountsToRemove);
+        times.removeAll(timesToRemove);
+
+        //Set the lists to the new filtered lists
+        setStringList("tempMoneyMultipliers-amounts", new ArrayList<>(amounts.stream()
+                .map(String::valueOf).toList()));
+        setStringList("tempMoneyMultipliers-times", new ArrayList<>(times.stream()
+                .map(String::valueOf).toList()));
+
+        return amounts.stream().mapToDouble(Double::doubleValue).sum();
     }
 
-    public String getTabListPrefixID() {
-        return !getStaffRank().equals("member") ? getStaffRank() : !getPlayerRank().equals("member") ? getPlayerRank() : getIsNitroBoosting() ? "nitro" : "member";
-    }
+    public void addTempMoneyMultiplier(double amount, long lengthInMS) {
+        List<String> amounts = getStringList("tempMoneyMultipliers-amounts");
+        List<String> times = getStringList("tempMoneyMultipliers-times");
 
+        amounts.add(String.valueOf(amount));
+        times.add(String.valueOf(System.currentTimeMillis() + lengthInMS));
+
+        setStringList("tempMoneyMultipliers-amounts", amounts);
+        setStringList("tempMoneyMultipliers-times", times);
+
+        getTempMoneyMultiplier();
+    }
 
     public String getPlayerRank() {
         return getString("playerRank");
     }
 
-    public PlayerData setPlayerRank(String value) {
-        setString("playerRank", value);
+    public void setPlayerRank(String value) {
+        setString("playerRank", value != null ? value : "member");
         Player player = Bukkit.getPlayer(getUUID());
         if (player != null) {
             PrisonUtils.updateLuckPermsForPlayerRanks(player);
         }
-        return this;
     }
 
-    public List<String> getPlayerRanks() {
-        List<String> ranks = new ArrayList<>();
+    public HashSet<String> getPlayerRanks() {
+        HashSet<String> ranks = new HashSet<>();
         ranks.add("member");
         switch (getPlayerRank()) {
             case "staticp":
@@ -394,29 +463,16 @@ public class PlayerData extends DataSet {
         return getString("staffRank");
     }
 
-    public PlayerData setStaffRank(String value) {
-        setString("staffRank", value);
-        return this;
-    }
-
-    public String getSidebarRank() {
-        return switch (getPlayerRank()) {
-            case "warrior" -> "Warrior";
-            case "master" -> "Master";
-            case "mythic" -> "Mythic";
-            case "static" -> "Static";
-            case "staticp" -> "Static+";
-            default -> "Member";
-        };
-    }
-
-    public PlayerData setChatTags(List<String> value) {
-        setStringList("chatTags", PrisonUtils.removeDuplicatesInArrayList(value));
-        return this;
+    public void setStaffRank(String value) {
+        setString("staffRank", value != null ? value : "member");
     }
 
     public List<String> getChatTags() {
         return getStringList("chatTags");
+    }
+
+    public void setChatTags(List<String> value) {
+        setStringList("chatTags", PrisonUtils.removeDuplicatesInArrayList(value));
     }
 
     public void removeChatTag(String value) {
@@ -431,24 +487,23 @@ public class PlayerData extends DataSet {
         setChatTags(tags);
     }
 
+    public String getChatTag1() {
+        return getString("chatTag1");
+    }
+
     public PlayerData setChatTag1(String value) {
         setString("chatTag1", value);
         return this;
-    }
-
-    public PlayerData setChatTag2(String value) {
-        setString("chatTag2", value);
-        return this;
-    }
-
-    public String getChatTag1() {
-        return getString("chatTag1");
     }
 
     public String getChatTag2() {
         return getString("chatTag2");
     }
 
+    public PlayerData setChatTag2(String value) {
+        setString("chatTag2", value);
+        return this;
+    }
 
     //Settings
     public boolean getIsAutoSellEnabled() {
@@ -486,39 +541,9 @@ public class PlayerData extends DataSet {
         return getBoolean("mobile");
     }
 
-    public PlayerData setIsMobile(boolean value) {
+    public void setIsMobile(boolean value) {
         setBoolean("mobile", value);
-        return this;
     }
-
-    //Private mines
-    public PlayerData setPrivateMineMat(Material value) {
-        setString("privateMineMat", value.name());
-        return this;
-    }
-
-    public Material getPrivateMineMat() {
-        return Material.valueOf(getString("privateMineMat"));
-    }
-
-    public PlayerData setHasPrivateMine(boolean value) {
-        setBoolean("hasPrivateMine", value);
-        return this;
-    }
-
-    public boolean getHasPrivateMine() {
-        return getBoolean("hasPrivateMine");
-    }
-
-    public PlayerData setPrivateMineSquareSize(int value) {
-        setInt("privateMineSquareSize", value);
-        return this;
-    }
-
-    public int getPrivateMineSquareSize() {
-        return getInt("privateMineSquareSize");
-    }
-
 
     //Chat settings
     public boolean getIsChatBold() {
@@ -555,6 +580,11 @@ public class PlayerData extends DataSet {
         return TextColor.fromHexString(str);
     }
 
+    public PlayerData setChatColor(TextColor value) {
+        setString("chatColor", value.asHexString());
+        return this;
+    }
+
     public Map<TextDecoration, TextDecoration.State> getChatDecorations() {
         return Map.ofEntries(
                 Map.entry(TextDecoration.BOLD, getIsChatBold() ? TextDecoration.State.TRUE : TextDecoration.State.FALSE),
@@ -563,36 +593,20 @@ public class PlayerData extends DataSet {
         );
     }
 
-    public PlayerData setChatColor(TextColor value) {
-        setString("chatColor", value.asHexString());
-        return this;
-    }
-
-    public boolean getIsChatColorEnabled() {
-        return getBoolean("chatUseColor");
-    }
-
-    public PlayerData setIsChatColorEnabled(boolean value) {
-        setBoolean("chatUseColor", value);
-        return this;
-    }
-
-    public String getChatNickname() {
+    public String getNickname() {
         return getString("chatNickName");
     }
 
-    public PlayerData setChatNickname(String value) {
+    public void setNickname(String value) {
         setString("chatNickName", value);
-        return this;
     }
 
-    public boolean getIsChatNicknameEnabled() {
+    public boolean useNickname() {
         return getBoolean("chatUseNickName");
     }
 
-    public PlayerData setIsChatNickNameEnabled(boolean value) {
+    public void useNickname(boolean value) {
         setBoolean("chatUseNickName", value);
-        return this;
     }
 
     //Discord
@@ -601,36 +615,32 @@ public class PlayerData extends DataSet {
         return "null".equals(discordName) ? null : discordName;
     }
 
-    public PlayerData setDiscordName(String value) {
+    public void setDiscordName(String value) {
         setString("discordName", value);
-        return this;
     }
 
     public String getDiscordID() {
         return getString("discordID");
     }
 
-    public PlayerData setDiscordID(String value) {
+    public void setDiscordID(String value) {
         setString("discordID", value);
-        return this;
     }
 
     public boolean getIsDiscordLinked() {
         return getBoolean("discordIsLinked");
     }
 
-    public PlayerData setIsDiscordLinked(boolean value) {
+    public void setIsDiscordLinked(boolean value) {
         setBoolean("discordIsLinked", value);
-        return this;
     }
 
     public boolean getIsNitroBoosting() {
         return getBoolean("discordIsBoosting");
     }
 
-    public PlayerData setIsNitroBoosting(boolean value) {
+    public void setIsNitroBoosting(boolean value) {
         setBoolean("discordIsBoosting", value);
-        return this;
     }
 
     //Votes
@@ -696,25 +706,6 @@ public class PlayerData extends DataSet {
         return this;
     }
 
-    //Player Island UUIDs
-    public String getPlayerIslandUUID() {
-        return getString("playerIslandUUID");
-    }
-
-    public PlayerData setPlayerIslandUUID(String value) {
-        setString("playerIslandUUID", value);
-        return this;
-    }
-
-    public boolean getIfPlayerHasIsland() {
-        return getBoolean("ifPlayerHasIsland");
-    }
-
-    public PlayerData setIfPlayerHasIsland(boolean value) {
-        setBoolean("ifPlayerHasIsland", value);
-        return this;
-    }
-
     public boolean getIsWatchingMessages() {
         return getBoolean("isWatchingMessages");
     }
@@ -725,22 +716,6 @@ public class PlayerData extends DataSet {
     }
 
     @Deprecated
-    public Material getUITheme() {
-        String theme = getString("UITheme");
-        if (theme.equals("")) {
-            setUITheme(Material.LIGHT_BLUE_DYE);
-            return Material.LIGHT_BLUE_DYE;
-        }
-        return Material.valueOf(theme);
-    }
-
-    @Deprecated
-    public PlayerData setUITheme(Material value) {
-        setString("UITheme", value.name());
-        return this;
-    }
-
-
     public ChatColor getPrimaryUITheme() {
         return getPrimaryUITheme(getUIThemeID());
     }
@@ -749,92 +724,13 @@ public class PlayerData extends DataSet {
         return getPrimaryUIThemeAsTextColor(getUIThemeID());
     }
 
+    @Deprecated
     public ChatColor getSecondaryUITheme() {
         return getSecondaryUITheme(getUIThemeID());
     }
 
     public TextColor getSecondaryUIThemeAsTextColor() {
         return getSecondaryUIThemeAsTextColor(getUIThemeID());
-    }
-
-    public static ChatColor getPrimaryUITheme(String theme) {
-        switch (theme) {
-            default -> { //b
-                return ChatColor.of("#3dc2ff");
-            }
-            case "5" -> {
-                return ChatColor.of("#b638ff");
-            }
-            case "2" -> {
-                return ChatColor.of("#00ba31");
-            }
-            case "4" -> {
-                return ChatColor.DARK_RED;
-            }
-            case "6" -> {
-                return ChatColor.of("#ffcc00");
-            }
-        }
-    }
-
-    public static TextColor getPrimaryUIThemeAsTextColor(String theme) {
-        switch (theme) {
-            default -> { //b
-                return TextColor.fromHexString("#3dc2ff");
-            }
-            case "5" -> {
-                return TextColor.fromHexString("#b638ff");
-            }
-            case "2" -> {
-                return TextColor.fromHexString("#00ba31");
-            }
-            case "4" -> {
-                return ComponentUtil.DARK_RED;
-            }
-            case "6" -> {
-                return TextColor.fromHexString("#ffcc00");
-            }
-        }
-    }
-
-    public static ChatColor getSecondaryUITheme(String theme) {
-        switch (theme) {
-            default -> { //b
-                return ChatColor.AQUA;
-            }
-            case "5" -> {
-                return ChatColor.LIGHT_PURPLE;
-            }
-            case "2" -> {
-                return ChatColor.GREEN;
-            }
-            case "4" -> {
-                return ChatColor.RED;
-            }
-            case "6" -> {
-                return ChatColor.GOLD;
-            }
-        }
-    }
-
-    public static TextColor getSecondaryUIThemeAsTextColor(String theme) {
-        switch (theme) {
-            default -> { //b
-                return ComponentUtil.AQUA;
-            }
-            case "5" -> {
-                return ComponentUtil.LIGHT_PURPLE;
-            }
-            case "2" -> {
-                return ComponentUtil.GREEN;
-            }
-            case "4" -> {
-                return ComponentUtil.RED;
-            }
-            case "6" -> {
-                return ComponentUtil.GOLD;
-            }
-        }
     }
 
     public String getUIThemeID() {
@@ -848,14 +744,13 @@ public class PlayerData extends DataSet {
         return this;
     }
 
+    public long getLastUsedPickaxeAbility() {
+        return getLong("lastUsedPickaxeAbility");
+    }
 
     public PlayerData setLastUsedPickaxeAbility(long value) {
         setLong("lastUsedPickaxeAbility", value);
         return this;
-    }
-
-    public long getLastUsedPickaxeAbility() {
-        return getLong("lastUsedPickaxeAbility");
     }
 
     public boolean canUsePickaxeAbility() {

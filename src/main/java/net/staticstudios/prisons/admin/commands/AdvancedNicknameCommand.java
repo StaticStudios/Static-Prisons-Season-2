@@ -2,7 +2,6 @@ package net.staticstudios.prisons.admin.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
@@ -36,7 +35,7 @@ public class AdvancedNicknameCommand implements TabExecutor {
         }
 
         if ("reset".equalsIgnoreCase(args[0])) {
-            playerData.setIsChatNickNameEnabled(false);
+            playerData.useNickname(false);
             player.sendMessage(text("Your nickname has been reset!").color(GREEN));
             return false;
         }
@@ -60,8 +59,8 @@ public class AdvancedNicknameCommand implements TabExecutor {
             return false;
         }
 
-        playerData.setIsChatNickNameEnabled(true);
-        playerData.setChatNickname(StaticPrisons.miniMessage().serialize(nickname));
+        playerData.useNickname(true);
+        playerData.setNickname(StaticPrisons.miniMessage().serialize(nickname));
 
         player.sendMessage(text("Set nickname to ").color(GREEN).append(nickname).append(text("!")));
         return true;

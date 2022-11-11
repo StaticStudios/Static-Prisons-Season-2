@@ -108,24 +108,6 @@ public class ModifyStatsCommand implements CommandExecutor, TabCompleter {
                     default -> sender.sendMessage(CommandUtils.getCorrectUsage("/modstats rawblocks <who> <add|remove|set|reset> <amount>"));
                 }
             }
-            case "pmine", "privatemine" -> {
-                switch (args[2].toLowerCase()) {
-                    case "set" -> {
-                        int amount;
-                        try {
-                            amount = Integer.parseInt(args[3]);
-                        } catch (NumberFormatException e) {
-                            sender.sendMessage(CommandUtils.getCorrectUsage("/modstats pmine <who> <set> <amount>"));
-                            return false;
-                        }
-                        playerData.setPrivateMineSquareSize(amount);
-                        playerData.setHasPrivateMine(true);
-                        playerData.setPrivateMineMat(Material.STONE);
-                    }
-                    case "reset" -> playerData.setHasPrivateMine(false);
-                    default -> sender.sendMessage(CommandUtils.getCorrectUsage("/modstats pmine <who> <set|reset>"));
-                }
-            }
             case "votes", "vote" -> {
                 long amount;
                 try {

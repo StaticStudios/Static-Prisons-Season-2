@@ -6,7 +6,6 @@ import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.chat.tags.ChatTags;
 import net.staticstudios.prisons.data.PlayerData;
@@ -16,8 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public final class CustomChatMessage {
@@ -46,7 +43,12 @@ public final class CustomChatMessage {
         Component chatTag1 = ChatTags.getFromID(playerData.getChatTag1());
         Component chatTag2 = ChatTags.getFromID(playerData.getChatTag2());
 
-        Component rankTag = TeamPrefix.getFromIdDeserialized(playerData.getTabListPrefixID());
+        Component rankTag = TeamPrefix.getFromIdDeserialized(
+                !"member".equals(playerData.getStaffRank()) ?
+                playerData.getStaffRank() :
+                !"member".equals(playerData.getPlayerRank()) ? playerData.getPlayerRank() :
+                        playerData.getIsNitroBoosting() ? "nitro" : "member"
+        );
 
         String discordName = playerData.getDiscordName();
 
@@ -63,7 +65,7 @@ public final class CustomChatMessage {
                 "".equals(playerData.getChatTag1()) ? Component.empty() : Component.text("[").color(NamedTextColor.DARK_GRAY).append(chatTag1).append(Component.text("] ").color(NamedTextColor.DARK_GRAY)),
                 "".equals(playerData.getChatTag2()) ? Component.empty() : Component.text("[").color(NamedTextColor.DARK_GRAY).append(chatTag2).append(Component.text("] ").color(NamedTextColor.DARK_GRAY)),
                 Component.text("[").color(NamedTextColor.DARK_GRAY).append(rankTag).append(Component.text("] ").color(NamedTextColor.DARK_GRAY)),
-                playerData.getIsChatNicknameEnabled() ? StaticPrisons.miniMessage().deserialize(playerData.getChatNickname()) : source.displayName().color(TextColor.fromHexString("#54f08a"))
+                playerData.useNickname() ? StaticPrisons.miniMessage().deserialize(playerData.getNickname()) : source.displayName().color(TextColor.fromHexString("#54f08a"))
         );
 
         //Component censoredMessage = Component.text(chatFilter(PlainTextComponentSerializer.plainText().serialize(message)));

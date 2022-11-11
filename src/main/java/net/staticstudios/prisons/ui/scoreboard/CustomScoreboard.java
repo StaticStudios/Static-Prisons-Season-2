@@ -105,8 +105,18 @@ public class CustomScoreboard { //todo make a custom thing instead of fastboard
 
         board.updateTitle(boardTitle);
         String cost = PrisonUtils.prettyNum(RankUp.calculatePriceToRankUp(playerData, Math.min(25, playerData.getMineRank() + 1)));
-        if (playerData.getMineRank() == 25) cost = PrisonUtils.prettyNum(Prestige.getPrestigePrice(playerData.getPrestige(), 1));
+        if (playerData.getMineRank() == 25) {
+            cost = PrisonUtils.prettyNum(Prestige.getPrestigePrice(playerData.getPrestige(), 1));
+        }
 
+        String sidebarRank = switch (playerData.getPlayerRank()) {
+            case "warrior" -> "Warrior";
+            case "master" -> "Master";
+            case "mythic" -> "Mythic";
+            case "static" -> "Static";
+            case "staticp" -> "Static+";
+            default -> "Member";
+        };
 
         board.updateLines(
                 ChatColor.RED + "",
@@ -115,11 +125,9 @@ public class CustomScoreboard { //todo make a custom thing instead of fastboard
                 colorLight + "│ " + colorBase + (playerData.getMineRank() == 25 ? "Prestige: " : "Rank Up: ") + colorLight + "$" + cost,
                 ChatColor.BLUE + "",
                 colorDark + "" + ChatColor.BOLD + player.getName() ,
-                colorLight + "│ " + colorBase + "Rank: " + colorLight + playerData.getSidebarRank(),
-//                colorLight + "│ " + colorBase + "Level: " + colorLight + "" + PrisonUtils.prettyNum(playerData.getPlayerLevel()),
+                colorLight + "│ " + colorBase + "Rank: " + colorLight + sidebarRank,
                 colorLight + "│ " + colorBase + "Balance: " + colorLight + "$" + PrisonUtils.prettyNum(playerData.getMoney()),
                 colorLight + "│ " + colorBase + "Tokens: " + colorLight + "⛃" + PrisonUtils.prettyNum(playerData.getTokens()),
-//                colorLight + "│ " + colorBase + "Shards: " + colorLight + "⬧ " + PrisonUtils.prettyNum(playerData.getShards()),
                 colorLight + "│ " + colorBase + "Prestige: " + colorLight + PrisonUtils.prettyNum(playerData.getPrestige()),
                 colorLight + "│ " + colorBase + "Vote Party: " + colorLight + ServerData.SERVER.getVoteParty() + "/" + Constants.VOTES_NEEDED_FOR_VOTE_PARTY,
                 ChatColor.GREEN + "",

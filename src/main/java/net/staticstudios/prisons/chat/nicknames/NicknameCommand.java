@@ -3,7 +3,6 @@ package net.staticstudios.prisons.chat.nicknames;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.StaticPrisons;
@@ -37,7 +36,7 @@ public class NicknameCommand implements CommandExecutor, TabCompleter {
         String newName = args[0];
 
         if (newName.equalsIgnoreCase("reset")) {
-            playerData.setIsChatNickNameEnabled(false);
+            playerData.useNickname(false);
             player.sendMessage(Component.text("Your nickname has been reset!").color(NamedTextColor.GREEN));
             return false;
         }
@@ -58,8 +57,8 @@ public class NicknameCommand implements CommandExecutor, TabCompleter {
             }
         }
 
-        playerData.setChatNickname(StaticPrisons.miniMessage().serialize(Component.text(newName).color(color)));
-        playerData.setIsChatNickNameEnabled(true);
+        playerData.setNickname(StaticPrisons.miniMessage().serialize(Component.text(newName).color(color)));
+        playerData.useNickname(true);
         player.sendMessage(Component.text("Nickname successfully changed!").color(NamedTextColor.GREEN));
         return false;
     }
