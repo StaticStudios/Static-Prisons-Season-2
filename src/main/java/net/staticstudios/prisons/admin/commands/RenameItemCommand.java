@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customitems.CustomItem;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.utils.CommandUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class RenameItemCommand implements TabExecutor { //todo: change this to rename pickaxes and backpacks and lootboxes ect... properly
+public class RenameItemCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
@@ -29,12 +30,9 @@ public class RenameItemCommand implements TabExecutor { //todo: change this to r
             return false;
         }
 
-        if (player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-            player.sendMessage(Component.text("You cannot rename this item.").color(NamedTextColor.RED));
-            return false;
-        }
+        ItemStack item = player.getInventory().getItemInMainHand();
 
-        if (player.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(CustomItem.customItemNamespace)) {
+        if (item.getType().equals(Material.AIR)) {
             player.sendMessage(Component.text("You cannot rename this item.").color(NamedTextColor.RED));
             return false;
         }
@@ -55,7 +53,19 @@ public class RenameItemCommand implements TabExecutor { //todo: change this to r
             return false;
         }
 
-        ItemStack item = player.getInventory().getItemInMainHand();
+        if (item.getItemMeta().getPersistentDataContainer().has(CustomItem.customItemNamespace)) {
+
+            PrisonPickaxe pickaxe = PrisonPickaxe.fromItem(item);
+            if (pickaxe == null) {
+                player.sendMessage(Component.text("You cannot rename this item.").color(NamedTextColor.RED));
+                return false;
+            }
+
+            pickaxe.setName(displayName);
+            pickaxe.updateItem();
+            player.sendMessage(Component.text("Renamed item to ").color(NamedTextColor.GREEN).append(displayName));
+            return true;
+        }
 
         item.editMeta(itemMeta -> itemMeta.displayName(displayName));
 

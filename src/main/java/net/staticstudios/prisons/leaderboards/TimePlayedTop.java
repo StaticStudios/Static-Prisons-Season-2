@@ -17,6 +17,7 @@ public class TimePlayedTop {
     public static void calculateLeaderBoard() {
         top100UUIDs = ServerData.PLAYERS.getAllUUIDs().stream()
                 .map(PlayerData::new)
+                .filter(playerData -> !playerData.getIsExemptFromLeaderboards())
                 .sorted((o1, o2) -> Long.compare(o2.getTimePlayed(), o1.getTimePlayed()))
                 .map(PlayerData::getUUID)
                 .limit(100)

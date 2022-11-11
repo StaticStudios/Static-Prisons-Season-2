@@ -18,6 +18,7 @@ public class BlocksMinedTop {
 
         top100UUIDs = ServerData.PLAYERS.getAllUUIDs().stream()
                 .map(PlayerData::new)
+                .filter(playerData -> !playerData.getIsExemptFromLeaderboards())
                 .sorted((o1, o2) -> Long.compare(o2.getBlocksMined(), o1.getBlocksMined()))
                 .map(PlayerData::getUUID)
                 .limit(100)

@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ExemptFromLeaderboardsCommand implements CommandExecutor, TabCompleter {
@@ -19,13 +20,13 @@ public class ExemptFromLeaderboardsCommand implements CommandExecutor, TabComple
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
         PlayerData playerData = new PlayerData(player);
-            playerData.setIsExemptFromLeaderboards(!playerData.getIsExemptFromLeaderboards());
-            player.sendMessage(ChatColor.GREEN + "Stats will display on leaderboards: " + !playerData.getIsExemptFromLeaderboards());
+        playerData.setIsExemptFromLeaderboards(!playerData.getIsExemptFromLeaderboards());
+        player.sendMessage(ChatColor.GREEN + "Stats will display on leaderboards: " + !playerData.getIsExemptFromLeaderboards());
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        List<String> list = new ArrayList<>();
-        return list;
+        return Collections.emptyList();
     }
 }
