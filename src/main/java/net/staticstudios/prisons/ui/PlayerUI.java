@@ -123,7 +123,7 @@ public class PlayerUI {
 
         if (AdminManager.containedInHiddenPlayers(player)) {
             actionbar = ComponentUtil.BLANK
-                    .append(Component.text("Vanished ")
+                    .append(Component.text("Vanished")
                             .color(ComponentUtil.RED)
                             .decoration(TextDecoration.BOLD, true))
                     .append(Component.text(" | ")

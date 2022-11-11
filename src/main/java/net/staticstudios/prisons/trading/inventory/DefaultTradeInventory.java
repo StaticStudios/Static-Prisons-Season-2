@@ -111,10 +111,15 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
                     if (trade.isInitiatorConfirmed()) {
                         trade.getTradeLogger().retract(trade.initiator());
                     }
-
                     trade.isInitiatorConfirmed(false);
+                    if (trade.isTraderConfirmed()) {
+                        trade.getTradeLogger().retract(trade.trader());
+                    }
+                    trade.isTraderConfirmed(false);
+
                     setInitiatorConfirmButton();
-                    trade.getTradeLogger().removed(trade.initiator(), currentItem);
+                    setTraderConfirmButton();
+                    trade.getTradeLogger().removeItem(trade.initiator(), currentItem);
                 }
             } else {
                 event.setCancelled(true);
@@ -122,13 +127,19 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
         } else if (event.getWhoClicked().equals(trade.trader())) {
             if (event.getSlot() % 9 > 4) {
                 if (traderItems.remove(currentItem)) {
+                    if (trade.isInitiatorConfirmed()) {
+                        trade.getTradeLogger().retract(trade.initiator());
+                    }
+                    trade.isInitiatorConfirmed(false);
                     if (trade.isTraderConfirmed()) {
                         trade.getTradeLogger().retract(trade.trader());
                     }
-
                     trade.isTraderConfirmed(false);
+
+                    setInitiatorConfirmButton();
                     setTraderConfirmButton();
-                    trade.getTradeLogger().removed(trade.trader(), currentItem);
+
+                    trade.getTradeLogger().removeItem(trade.trader(), currentItem);
                 }
             } else {
                 event.setCancelled(true);
@@ -154,10 +165,16 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
                 if (trade.isInitiatorConfirmed()) {
                     trade.getTradeLogger().retract(trade.initiator());
                 }
-
                 trade.isInitiatorConfirmed(false);
+                if (trade.isTraderConfirmed()) {
+                    trade.getTradeLogger().retract(trade.trader());
+                }
+                trade.isTraderConfirmed(false);
+
                 setInitiatorConfirmButton();
-                trade.getTradeLogger().added(trade.initiator(), currentItem);
+                setTraderConfirmButton();
+
+                trade.getTradeLogger().addItem(trade.initiator(), currentItem);
             } else {
                 event.setCancelled(true);
             }
@@ -165,13 +182,19 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
             if (event.getSlot() % 9 > 4) {
                 traderItems.add(currentItem);
 
+                if (trade.isInitiatorConfirmed()) {
+                    trade.getTradeLogger().retract(trade.initiator());
+                }
+                trade.isInitiatorConfirmed(false);
                 if (trade.isTraderConfirmed()) {
                     trade.getTradeLogger().retract(trade.trader());
                 }
-
                 trade.isTraderConfirmed(false);
+
+                setInitiatorConfirmButton();
                 setTraderConfirmButton();
-                trade.getTradeLogger().added(trade.trader(), currentItem);
+
+                trade.getTradeLogger().addItem(trade.trader(), currentItem);
             } else {
                 event.setCancelled(true);
             }
@@ -202,10 +225,16 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
             if (trade.isInitiatorConfirmed()) {
                 trade.getTradeLogger().retract(trade.initiator());
             }
-
             trade.isInitiatorConfirmed(false);
+            if (trade.isTraderConfirmed()) {
+                trade.getTradeLogger().retract(trade.trader());
+            }
+            trade.isTraderConfirmed(false);
+
             setInitiatorConfirmButton();
-            trade.getTradeLogger().added(trade.initiator(), currentItem);
+            setTraderConfirmButton();
+
+            trade.getTradeLogger().addItem(trade.initiator(), currentItem);
         } else if (Objects.equals(event.getClickedInventory(), trade.trader().getInventory()) && event.getWhoClicked().equals(trade.trader())) {
 
             int nextSlot = getNextFreeTraderSlot(inventory.getInventory(), 0);
@@ -219,13 +248,19 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
 
             traderItems.add(currentItem);
 
+            if (trade.isInitiatorConfirmed()) {
+                trade.getTradeLogger().retract(trade.initiator());
+            }
+            trade.isInitiatorConfirmed(false);
             if (trade.isTraderConfirmed()) {
                 trade.getTradeLogger().retract(trade.trader());
             }
-
             trade.isTraderConfirmed(false);
+
+            setInitiatorConfirmButton();
             setTraderConfirmButton();
-            trade.getTradeLogger().added(trade.trader(), currentItem);
+
+            trade.getTradeLogger().addItem(trade.trader(), currentItem);
         } else if (Objects.equals(event.getClickedInventory(), inventory.getInventory())) {
             handle(event, currentItem);
             return;
@@ -268,7 +303,7 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
         setInitiatorConfirmButton();
 
         if (trade.isInitiatorConfirmed()) {
-            trade.getTradeLogger().accepted(trade.initiator());
+            trade.getTradeLogger().confirm(trade.initiator());
         } else {
             trade.getTradeLogger().retract(trade.initiator());
         }
@@ -302,7 +337,7 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
         setTraderConfirmButton();
 
         if (trade.isTraderConfirmed()) {
-            trade.getTradeLogger().accepted(trade.trader());
+            trade.getTradeLogger().confirm(trade.trader());
         } else {
             trade.getTradeLogger().retract(trade.trader());
         }
