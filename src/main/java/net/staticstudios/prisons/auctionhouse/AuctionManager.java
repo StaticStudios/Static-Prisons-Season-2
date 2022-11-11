@@ -149,7 +149,7 @@ public class AuctionManager {
         File file = new File(StaticPrisons.getInstance().getDataFolder(), "data/auction_house.yml");
         FileConfiguration fileData = new YamlConfiguration();
         for (Auction auction : auctions) {
-            fileData.set("auctions." + auction.id().toString() + ".item", ExpiredAuction.toBase64(auction.item()));
+            fileData.set("auctions." + auction.id().toString() + ".item", ItemUtils.toBase64(auction.item()));
             fileData.set("auctions." + auction.id() + ".owner", auction.owner().toString());
             fileData.set("auctions." + auction.id() + ".expireAt", auction.expireAt());
             fileData.set("auctions." + auction.id() + ".price", auction.price());

@@ -1,15 +1,14 @@
 package net.staticstudios.prisons.auctionhouse;
 
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.utils.ItemUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class ExpiredAuction {
     }
 
     public ExpiredAuction(Auction auction) {
-        encodedItemStack = toBase64(auction.item());
+        encodedItemStack = ItemUtils.toBase64(auction.item());
         ownerUUID = auction.owner();
     }
 
@@ -92,20 +91,6 @@ public class ExpiredAuction {
     }
 
 
-
-
-    static String toBase64(ItemStack item) {
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
-            dataOutput.writeObject(item);
-            dataOutput.close();
-            return Base64Coder.encodeLines(outputStream.toByteArray());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     static ItemStack fromBase64(String data) {
         try {
             BukkitObjectInputStream dataInput = new BukkitObjectInputStream(new ByteArrayInputStream(Base64Coder.decodeLines(data)));
