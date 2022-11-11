@@ -12,6 +12,7 @@ import java.util.*;
 
 public class Data {
 
+
     public Data(String key) {
         this.key = key;
     }
@@ -28,6 +29,20 @@ public class Data {
     private long _long = 0;
     private double _double = 0;
     private String _string = "";
+
+    public boolean isDefaultValue() {
+        return switch (valueType) {
+            case "stringList" -> stringList.isEmpty();
+            case "stringUuidMap" -> stringUuidMap.isEmpty();
+            case "uuidStringMap" -> uuidStringMap.isEmpty();
+            case "boolean" -> !_boolean;
+            case "int" -> _int == 0;
+            case "long" -> _long == 0;
+            case "double" -> _double == 0;
+            case "string" -> _string.isEmpty();
+            default -> true;
+        };
+    }
 
 
     public List<String> getStringList() {
@@ -127,7 +142,6 @@ public class Data {
         this._string = _string;
         valueType = "string";
     }
-
 
     public ConfigurationSection toConfigurationSection() {
         ConfigurationSection section = new YamlConfiguration();

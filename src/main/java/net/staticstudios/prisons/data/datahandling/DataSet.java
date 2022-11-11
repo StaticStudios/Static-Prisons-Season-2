@@ -15,6 +15,7 @@ import java.util.logging.Level;
 public class DataSet {
     //Map containing all server data including player data and any other data that is being stored by this plugin
     private static Map<String, Data> ALL_DATA = new HashMap<>();
+    private static final Data EMPTY_DATA = new Data("");
 
     /**
      * Save data async, do not use this if data needs to be instantly saved in the event of a server close
@@ -22,20 +23,7 @@ public class DataSet {
     public static void saveData() {
         Map<String, Data> temp = new HashMap<>(ALL_DATA);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
-            FileConfiguration fileData = new YamlConfiguration();
-            for (Map.Entry<String, Data> entry : temp.entrySet()) {
-                try {
-                    fileData.set(entry.getKey(), entry.getValue().toConfigurationSection());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data/server_data.yml"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Bukkit.getServer().getLogger().log(Level.INFO, "Finished saving all server data");
+            saveData(temp);
         });
     }
 
@@ -43,20 +31,29 @@ public class DataSet {
      * Immediately save all data
      */
     public static void saveDataSync() {
+        saveData(ALL_DATA);
+    }
+
+    private static void saveData(Map<String, Data> dataMap) {
         FileConfiguration fileData = new YamlConfiguration();
-        for (Map.Entry<String, Data> entry : ALL_DATA.entrySet()) {
+
+        dataMap.forEach((key, data) -> {
             try {
-                fileData.set(entry.getKey(), entry.getValue().toConfigurationSection());
+                if (data.isDefaultValue()) {
+                    return;
+                }
+                fileData.set(key, data.toConfigurationSection());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        });
+
         try {
             fileData.save(new File(StaticPrisons.getInstance().getDataFolder(), "data/server_data.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Bukkit.getServer().getLogger().log(Level.INFO, "Finished saving all server data");
+        StaticPrisons.log("Finished saving all server data");
     }
 
     /**
