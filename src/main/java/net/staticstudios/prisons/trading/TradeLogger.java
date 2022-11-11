@@ -92,7 +92,6 @@ public class TradeLogger {
     }
 
     public void finish() {
-
         log(actionLogger.actionLog(TradeAction.FINISH));
 
         executor.execute(() -> {
