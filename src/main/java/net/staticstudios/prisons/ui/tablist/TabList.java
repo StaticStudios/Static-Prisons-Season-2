@@ -23,7 +23,7 @@ public class TabList {
 
     private static final Map<String, String> teamNamesForPrefixIds = new HashMap<>();
 
-    private static final String HEADER =  (StaticPrisons.isDevServer() ? "\n<red><bold>DEVELOPMENT SERVER" : "") + """
+    private static final String HEADER = (StaticPrisons.isDevServer() ? "\n<red><bold>DEVELOPMENT SERVER" : "") + """
                       
                       
             <bold><gray>-->><white><italic> Welcome To<colordark> Static Prisons <colordark/><gray><<--
@@ -87,7 +87,7 @@ public class TabList {
 
         String rank = "member".equals(playerData.getStaffRank()) ? (
                 "member".equals(playerData.getPlayerRank()) && playerData.getIsNitroBoosting() ? "nitro" : playerData.getPlayerRank()
-                ) : playerData.getStaffRank();
+        ) : playerData.getStaffRank();
 
         Team team = scoreboard.getTeam(teamNamesForPrefixIds.getOrDefault(rank, ""));
 
@@ -124,6 +124,7 @@ public class TabList {
                 if (phase < -1.0) {
                     phase = 1.0;
                 }
+                // TODO: 12/11/2022 I am sure this can be optimized
 
                 Team staticp = scoreboard.getTeam(teamNamesForPrefixIds.getOrDefault("staticp", ""));
 
@@ -148,6 +149,14 @@ public class TabList {
                 }
 
                 manager.prefix(miniMessage.deserialize(TeamPrefix.getFromId("manager")).append(text(" ")));
+
+                Team dev = scoreboard.getTeam(teamNamesForPrefixIds.getOrDefault("dev", ""));
+
+                if (dev == null) {
+                    return;
+                }
+
+                dev.prefix(miniMessage.deserialize(TeamPrefix.getFromId("dev")).append(text(" ")));
 
                 phase -= 0.03;
 

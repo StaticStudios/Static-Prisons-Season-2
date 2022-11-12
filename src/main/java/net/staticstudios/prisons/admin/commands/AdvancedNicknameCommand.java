@@ -40,6 +40,11 @@ public class AdvancedNicknameCommand implements TabExecutor {
             return false;
         }
 
+        if (args[0].matches(".*<click:.*>.*")) {
+            player.sendMessage(text("You can't use click events in your nickname!").color(RED));
+            return false;
+        }
+
         Component nickname = StaticPrisons.miniMessage().deserialize(args[0]);
 
         if (PlainTextComponentSerializer.plainText().serialize(nickname).contains("<") || PlainTextComponentSerializer.plainText().serialize(nickname).contains(">")) {

@@ -12,7 +12,6 @@ import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -715,6 +714,10 @@ public class PlayerData extends DataSet {
         return this;
     }
 
+    /**
+     * @return The primary UI theme color
+     * @deprecated In favor of {@link #getPrimaryUIThemeAsTextColor()}
+     */
     @Deprecated
     public ChatColor getPrimaryUITheme() {
         return getPrimaryUITheme(getUIThemeID());
@@ -724,6 +727,10 @@ public class PlayerData extends DataSet {
         return getPrimaryUIThemeAsTextColor(getUIThemeID());
     }
 
+    /**
+     * @return The secondary UI theme color
+     * @deprecated In favor of {@link #getSecondaryUIThemeAsTextColor()}
+     */
     @Deprecated
     public ChatColor getSecondaryUITheme() {
         return getSecondaryUITheme(getUIThemeID());

@@ -43,10 +43,19 @@ public class RenameItemCommand implements TabExecutor {
 
         displayName = switch (args[0]) {
             case "none" -> Component.text(name.substring(name.indexOf("name") + 5));
-            case "mini" -> deserializeMini(name.substring(name.indexOf("mini") + 5));
+            case "mini" -> {
+                if (name.matches(".*<click:.*>.*")) {
+                    player.sendMessage(Component.text("You can't use click events in your item's name!").color(NamedTextColor.RED));
+                    yield null;
+                }
+
+                yield deserializeMini(name.substring(name.indexOf("mini") + 5));
+            }
             case "ampersand" -> deserializeAmpersand(name.substring(name.indexOf("ampersand") + 10));
             default -> Component.text(name);
         };
+
+        if (displayName == null) return false;
 
         if (PrisonUtils.isValidComponent(displayName)) {
             player.sendMessage(Component.text("Invalid name. ").color(NamedTextColor.RED));

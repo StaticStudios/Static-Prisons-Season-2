@@ -20,7 +20,7 @@ import java.util.List;
 
 public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
 
-    private final List<String> ranks = List.of("member", "helper", "moderator", "admin", "sradmin", "manager", "owner");
+    private final List<String> ranks = List.of("member", "helper", "moderator", "admin", "sradmin", "manager", "owner", "dev");
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
