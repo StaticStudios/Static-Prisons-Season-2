@@ -4,6 +4,7 @@ import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.trading.domain.Trade;
 import net.staticstudios.prisons.trading.logging.TradeAction;
 import net.staticstudios.prisons.trading.logging.TradeActionLogger;
+import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
@@ -25,15 +28,18 @@ public class TradeLogger {
     private final Logger logger;
 
     private final Executor executor = Executors.newSingleThreadExecutor();
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     private final TradeActionLogger actionLogger = new TradeActionLogger(this);
 
     private boolean finished = false;
 
+
+
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public TradeLogger(String tradeId) {
         this.id = tradeId;
-        logger = LoggerFactory.getLogger("Logger for trade " + tradeId);
+        logger = LoggerFactory.getLogger("Trade " + tradeId);
         logFile = new File(StaticPrisons.getInstance().getDataFolder(), "data/tradeLogs/" + tradeId + ".log");
 
         executor.execute(() -> {
@@ -62,6 +68,16 @@ public class TradeLogger {
 
     public void start(Trade trade) {
         log(actionLogger.startTrade(trade));
+
+        logger.info(trade.initiator().getName() + " started a trade with " + trade.trader().getName());
+
+        try {
+            Files.writeString(StaticFileSystemManager.getFileOrCreate("data/tradeLogs/trades.log").toPath(),
+                    '[' + dateFormat.format(new Date()) + "] " + trade.initiator().getName() + " started a trade with " + trade.trader().getName() + " | ID: " + trade.getUuid() + '\n', StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            logger.error("Could not write to trades.log log file");
+            e.printStackTrace();
+        }
     }
 
     public void removeItem(Player player, ItemStack itemStack) {
@@ -81,14 +97,37 @@ public class TradeLogger {
     }
 
 
-    public void completed() {
+    public void completed(Trade trade) {
         log(actionLogger.actionLog(TradeAction.COMPLETE));
+
+        logger.info(trade.initiator().getName() + " completed a trade with " + trade.trader().getName());
         finish();
+
+
+        try {
+            Files.writeString(StaticFileSystemManager.getFileOrCreate("data/tradeLogs/trades.log").toPath(),
+                    '[' + dateFormat.format(new Date()) + "] " + trade.initiator().getName() + " completed a trade with " + trade.trader().getName() + " | ID: " + trade.getUuid() + '\n', StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            logger.error("Could not write to trades.log log file");
+            e.printStackTrace();
+        }
     }
 
-    public void cancelled(Player player) {
+    public void cancelled(Trade trade, Player player) {
         log(actionLogger.playerLog(TradeAction.CANCEL, player));
+
+        logger.info(player.getName() + " cancelled a trade with " + (player.equals(trade.initiator()) ? trade.trader().getName() : trade.initiator().getName()));
         finish();
+
+
+        try {
+            Files.writeString(StaticFileSystemManager.getFileOrCreate("data/tradeLogs/trades.log").toPath(),
+                    '[' + dateFormat.format(new Date()) + "] " + player.getName() + " canceled a trade with " +
+                            (player.equals(trade.initiator()) ? trade.trader().getName() : trade.initiator().getName()) + " | ID: " + trade.getUuid() + '\n', StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            logger.error("Could not write to trades.log log file");
+            e.printStackTrace();
+        }
     }
 
     public void finish() {

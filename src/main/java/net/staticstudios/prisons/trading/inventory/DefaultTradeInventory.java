@@ -282,7 +282,7 @@ public class DefaultTradeInventory implements TradeInventory, Listener {
         trade.sendMessage(player.name().append(Component.text(" canceled the trade").color(NamedTextColor.RED)));
         trade.sendId();
 
-        trade.getTradeLogger().cancelled(player);
+        trade.getTradeLogger().cancelled(trade, player);
     }
 
     @EventHandler

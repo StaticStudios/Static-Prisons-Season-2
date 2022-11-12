@@ -80,7 +80,7 @@ public final class Trade implements Listener {
 
         initiator.closeInventory(InventoryCloseEvent.Reason.PLUGIN);
         trader.closeInventory(InventoryCloseEvent.Reason.PLUGIN);
-        tradeLogger.completed();
+        tradeLogger.completed(this);
     }
 
     public void updateTimer(int secondsLeft) {
@@ -153,5 +153,9 @@ public final class Trade implements Listener {
 
     public boolean isInCompletedState() {
         return inCompletedState;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 }
