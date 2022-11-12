@@ -22,7 +22,7 @@ public class TokenLootBox extends LootBox {
     }
 
     public TokenLootBox(int tier, UUID uuid, boolean createItem) {
-        super(tier, LootBoxType.TOKEN, uuid, createItem);
+        super(tier, LootBoxType.TOKEN, uuid, createItem, 51);
     }
 
     @Override

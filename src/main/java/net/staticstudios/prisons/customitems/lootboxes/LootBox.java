@@ -48,14 +48,17 @@ public abstract class LootBox implements SpreadOutExecution {
      * @param uuid       The UUID of the loot box
      * @param createItem Whether to create a new item or not
      */
-    public LootBox(int tier, LootBoxType type, UUID uuid, boolean createItem) {
+    public LootBox(int tier, LootBoxType type, UUID uuid, boolean createItem, int customModelData) {
         this.uuid = uuid;
         this.type = type;
         this.tier = tier;
         this.goal = type.getGoal(tier);
         if (createItem) {
             item = ItemUtils.createCustomSkull(type.getBase64Texture());
-            item.editMeta(meta -> meta.getPersistentDataContainer().set(LOOT_BOX_KEY, PersistentDataType.STRING, uuid.toString()));
+            item.editMeta(meta -> {
+                meta.getPersistentDataContainer().set(LOOT_BOX_KEY, PersistentDataType.STRING, uuid.toString());
+                meta.setCustomModelData(customModelData);
+            });
             updateItemNow();
         }
         LOOT_BOXES.put(uuid, this);

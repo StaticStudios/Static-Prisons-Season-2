@@ -22,7 +22,7 @@ public class PickaxeLootBox extends LootBox {
     }
 
     public PickaxeLootBox(int tier, UUID uuid, boolean createItem) {
-        super(tier, LootBoxType.PICKAXE, uuid, createItem);
+        super(tier, LootBoxType.PICKAXE, uuid, createItem, 52);
     }
 
     @Override

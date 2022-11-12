@@ -22,7 +22,7 @@ public class MoneyLootBox extends LootBox {
     }
 
     public MoneyLootBox(int tier, UUID uuid, boolean createItem) {
-        super(tier, LootBoxType.MONEY, uuid, createItem);
+        super(tier, LootBoxType.MONEY, uuid, createItem, 50);
     }
 
     @Override

@@ -1,12 +1,15 @@
 package net.staticstudios.prisons.commands.test;
 
+import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.customitems.vouchers.KitVouchers;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class TestCommand implements CommandExecutor {
@@ -240,11 +243,17 @@ public class TestCommand implements CommandExecutor {
 
 //        StaticPrisons.getPlugin()
 
-        player.getInventory().addItem(KitVouchers.WEAPONS.getItem(player));
-        player.getInventory().addItem(KitVouchers.POTIONS.getItem(player));
-        for (int i = 1; i <= 6; i++) {
-            player.getInventory().addItem(CustomItems.getItem("voucher-kit_tier_" + i, null));
-        }
+//        player.getInventory().addItem(KitVouchers.WEAPONS.getItem(player));
+//        player.getInventory().addItem(KitVouchers.POTIONS.getItem(player));
+//        for (int i = 1; i <= 6; i++) {
+//            player.getInventory().addItem(CustomItems.getItem("voucher-kit_tier_" + i, null));
+//        }
+
+//        ItemStack item = BackpackManager.createBackpack(2).getItem();
+//        item.editMeta(meta -> {
+//            meta.setCustomModelData(1);
+//        });
+//        player.getInventory().addItem(item);
         return false;
 
 

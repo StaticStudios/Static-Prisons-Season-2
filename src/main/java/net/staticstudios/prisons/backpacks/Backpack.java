@@ -42,7 +42,10 @@ public class Backpack implements SpreadOutExecution {
         uuid = UUID.randomUUID().toString();
         this.item = item;
         this.tier = tier;
-        item.editMeta(meta -> meta.getPersistentDataContainer().set(BackpackConfig.BACKPACK_KEY, PersistentDataType.STRING, uuid));
+        item.editMeta(meta -> {
+            meta.getPersistentDataContainer().set(BackpackConfig.BACKPACK_KEY, PersistentDataType.STRING, uuid);
+            meta.setCustomModelData(100 + tier - 1);
+        });
         updateItemNow();
         BackpackManager.ALL_BACKPACKS.put(uuid, this);
     }

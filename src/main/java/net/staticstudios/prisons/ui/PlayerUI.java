@@ -121,7 +121,7 @@ public class PlayerUI {
                         + " Items | "
                         + BigDecimal.valueOf(percent).setScale(2, RoundingMode.FLOOR) + "% Full");
 
-        if (AdminManager.containedInHiddenPlayers(player)) {
+        if (AdminManager.isHidden(player)) {
             actionbar = ComponentUtil.BLANK
                     .append(Component.text("Vanished")
                             .color(ComponentUtil.RED)

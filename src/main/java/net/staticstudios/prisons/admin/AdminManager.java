@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
 
 import static net.staticstudios.prisons.commands.CommandManager.registerCommand;
@@ -21,8 +22,8 @@ public class AdminManager implements Listener {
 
     private static YamlConfiguration config;
 
-    private static final ArrayList<UUID> admins = new ArrayList<>();
-    private static final ArrayList<UUID> hiddenPlayers = new ArrayList<>();
+    private static final HashSet<UUID> admins = new HashSet<>();
+    private static final HashSet<UUID> hiddenPlayers = new HashSet<>();
 
     public static void init() {
         loadConfig();
@@ -50,6 +51,8 @@ public class AdminManager implements Listener {
         registerCommand("givevote", new GiveVoteCommand());
 
         registerCommand("reload-config", new ReloadConfigCommand());
+
+        Bukkit.getPluginManager().registerEvents(new AdminListener(), StaticPrisons.getInstance());
 
     }
 
@@ -126,7 +129,7 @@ public class AdminManager implements Listener {
     }
 
 
-    public static boolean containedInHiddenPlayers(Player player) {
+    public static boolean isHidden(Player player) {
         return hiddenPlayers.contains(player.getUniqueId());
     }
 }

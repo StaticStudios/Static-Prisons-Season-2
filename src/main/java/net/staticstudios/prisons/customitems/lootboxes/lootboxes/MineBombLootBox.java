@@ -23,7 +23,7 @@ public class MineBombLootBox extends LootBox {
     }
 
     public MineBombLootBox(int tier, UUID uuid, boolean createItem) {
-        super(tier, LootBoxType.MINE_BOMB, uuid, createItem);
+        super(tier, LootBoxType.MINE_BOMB, uuid, createItem, 53);
     }
 
     @Override

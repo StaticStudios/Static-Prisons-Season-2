@@ -58,7 +58,7 @@ public class EventListener implements Listener {
     void playerQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
 
-        if (AdminManager.containedInHiddenPlayers(player)) {
+        if (AdminManager.isHidden(player)) {
             e.quitMessage(Component.empty());
         } else {
 //            e.setQuitMessage(ChatColor.translateAlternateColorCodes('&', "&a&lLeft&a -> &f" + e.getPlayer().getName()));
