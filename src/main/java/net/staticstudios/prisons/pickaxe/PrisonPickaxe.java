@@ -323,7 +323,7 @@ public class PrisonPickaxe extends EnchantableItemStack {
         playerData.removeTokens(upgradeCost);
 
         setEnchantment(enchantment, holder.level() + levelsToUpgrade);
-        onUpgrade(this, player, holder.level() - levelsToUpgrade, holder.level());
+        onUpgrade(this, Enchantable.getEnchant(enchantment), player, holder.level() - levelsToUpgrade, holder.level());
 
         player.sendMessage(enchant.getDisplayName()
                 .append(Component.text(" >> ")

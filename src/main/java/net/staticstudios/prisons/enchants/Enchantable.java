@@ -197,14 +197,13 @@ public interface Enchantable {
      * Call this method when the Enchantable is upgraded by a player.
      *
      * @param enchantable The Enchantable.
+     * @param enchantment The enchantment that was upgraded.
      * @param player      The player upgrading the Enchantable.
      * @param oldLevel    The level the Enchantable was upgraded to.
      * @param newLevel    The level the Enchantable was upgraded to.
      */
-    default void onUpgrade(Enchantable enchantable, Player player, int oldLevel, int newLevel) {
-        for (EnchantHolder holder : getEnabledEnchantments()) {
-            holder.enchantment().onUpgrade(enchantable, player, oldLevel, newLevel);
-        }
+    default void onUpgrade(Enchantable enchantable, Enchantment<?> enchantment, Player player, int oldLevel, int newLevel) {
+        enchantment.onUpgrade(enchantable, player, oldLevel, newLevel);
     }
 
     /**
