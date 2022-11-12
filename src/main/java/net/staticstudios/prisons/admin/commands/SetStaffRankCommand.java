@@ -7,7 +7,6 @@ import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.CommandUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
+public class SetStaffRankCommand extends SetRankCommand implements CommandExecutor, TabCompleter {
 
     private final List<String> ranks = List.of("member", "helper", "moderator", "admin", "sradmin", "manager", "owner", "dev");
 
@@ -29,10 +28,11 @@ public class SetStaffRankCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(CommandUtils.getCorrectUsage("/setstaffrank <player> <rank>"));
             return false;
         }
-        if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[0].toLowerCase())) {
-            sender.sendMessage(ChatColor.RED + "Player not found!");
+
+        if (!validateArgs(sender, args)) {
             return false;
         }
+
         PlayerData playerData = new PlayerData(ServerData.PLAYERS.getUUIDIgnoreCase(args[0]));
         playerData.setStaffRank(args[1]);
 
