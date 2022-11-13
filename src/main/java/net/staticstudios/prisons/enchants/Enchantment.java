@@ -201,7 +201,8 @@ public interface Enchantment<E extends Event> extends Listener {
      * @return True if the enchantment should activate, false otherwise.
      */
     default boolean shouldActivate(Enchantable enchantable) {
-        return Math.random() <= getChanceToActivate(enchantable);
+        return !enchantable.isDisabled(this.getClass()) &&
+                Math.random() <= getChanceToActivate(enchantable);
     }
 
     /**
