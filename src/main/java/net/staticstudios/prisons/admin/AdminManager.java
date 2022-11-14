@@ -1,8 +1,12 @@
 package net.staticstudios.prisons.admin;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.admin.commands.*;
+import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.Bukkit;
@@ -128,12 +132,19 @@ public class AdminManager implements Listener {
             }
         });
 
-        player.playerListName(ComponentUtil.BLANK.append(player.displayName()).color(ComponentUtil.GRAY));
+        player.playerListName(Component
+                .textOfChildren(
+                        TeamPrefix.getFromIdDeserialized(new PlayerData(player).getStaffRank()),
+                        Component.text(" "),
+                        player.name().color(ComponentUtil.GRAY))
+                .decorate(TextDecoration.ITALIC)
+                .append(ComponentUtil.BLANK.append(Component.text(" V").color(NamedTextColor.RED)))
+        );
     }
 
     public static void showPlayer(Player player) {
+        player.playerListName(null);
         Bukkit.getOnlinePlayers().forEach(other -> other.showPlayer(StaticPrisons.getInstance(), player));
-        player.playerListName(ComponentUtil.BLANK.append(player.displayName()).color(ComponentUtil.WHITE));
     }
 
 

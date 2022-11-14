@@ -3,6 +3,7 @@ package net.staticstudios.prisons.admin.commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import org.bukkit.command.Command;
@@ -73,6 +74,9 @@ public class AdvancedNicknameCommand implements TabExecutor {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        if (args.length == 1) {
+            return StaticMineUtils.filterStrings(List.of("<minimessage>", "reset"), args[0]);
+        }
         return null;
     }
 }

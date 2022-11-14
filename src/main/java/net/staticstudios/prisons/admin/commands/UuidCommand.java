@@ -2,11 +2,12 @@ package net.staticstudios.prisons.admin.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.mines.utils.StaticMineUtils;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.ComponentUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ import java.util.UUID;
 
 public class UuidCommand implements CommandExecutor, TabCompleter {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 
         if (args.length == 0) {
             sender.sendMessage("Please provide a player name. /uuid <player>");
@@ -37,23 +38,35 @@ public class UuidCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        sender.sendMessage(ComponentUtil.BLANK
-                .append(Component.text(uuid.toString())
-                        .color(ComponentUtil.RED)
-                        .decorate(TextDecoration.UNDERLINED))
-                .hoverEvent(Component.text("Click to copy")
-                        .color(ComponentUtil.GREEN))
-                .clickEvent(ClickEvent.copyToClipboard(uuid.toString())));
+        String uuidString = uuid.toString();
+
+        if (sender instanceof Player) {
+            sender.sendMessage(Component
+                    .text("Click to copy UUID of player ")
+                    .append(Component.text(name).color(NamedTextColor.GOLD))
+                    .color(NamedTextColor.RED)
+                    .hoverEvent(HoverEvent.showText(Component.text(uuidString)))
+                    .clickEvent(ClickEvent.copyToClipboard(uuidString))
+            );
+        } else {
+            sender.sendMessage(ComponentUtil.BLANK
+                    .append(Component.text(uuidString)
+                            .color(ComponentUtil.RED)
+                            .decorate(TextDecoration.UNDERLINED))
+                    .hoverEvent(Component.text("Click to copy")
+                            .color(ComponentUtil.GREEN))
+                    .clickEvent(ClickEvent.copyToClipboard(uuidString)));
+        }
 
         return false;
     }
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if (args.length != 1) {
-            return Collections.emptyList();
+        if (args.length == 1) {
+            return StaticMineUtils.filterStrings(ServerData.PLAYERS.getAllNames(), args[0]);
         }
 
-        return StaticMineUtils.filterStrings(ServerData.PLAYERS.getAllNames(), args[0]);
+        return Collections.emptyList();
     }
 }
