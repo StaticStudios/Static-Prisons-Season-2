@@ -27,9 +27,28 @@ public class VanishCommand implements TabExecutor {
 
         if (AdminManager.removeFromHiddenPlayers(player)) {
 
-            Bukkit.broadcast(Component.text("Joined").color(ComponentUtil.GREEN).decorate(TextDecoration.BOLD)
+
+            Component playerJoined = Component.text("Joined").color(ComponentUtil.GREEN).decorate(TextDecoration.BOLD)
                     .append(Component.text(" -> ")).decoration(TextDecoration.BOLD, false)
-                    .append(player.name().color(ComponentUtil.WHITE)));
+                    .append(player.name().color(ComponentUtil.WHITE));
+
+            Bukkit.getOnlinePlayers().forEach(p -> {
+
+                if (p.equals(player)) {
+                    return;
+                }
+
+                if (p.hasPermission("static.vanish")) {
+                    p.sendMessage(Prefix.VANISH
+                            .append(player.name().
+                                    append(Component.text(" has reappeared!"))
+                                    .color(ComponentUtil.RED)));
+                    return;
+                }
+
+                p.sendMessage(playerJoined);
+            });
+
 
             StaticPrisons.getInstance().getLogger().warning(player.getName() + " exited vanish mode");
 
@@ -40,9 +59,27 @@ public class VanishCommand implements TabExecutor {
             AdminManager.showPlayer(player);
         } else {
 
-            Bukkit.broadcast(Component.text("Left").color(ComponentUtil.RED).decorate(TextDecoration.BOLD)
+            Component playerLeft = Component.text("Left").color(ComponentUtil.RED).decorate(TextDecoration.BOLD)
                     .append(Component.text(" -> ")).decoration(TextDecoration.BOLD, false)
-                    .append(player.name().color(ComponentUtil.WHITE)));
+                    .append(player.name().color(ComponentUtil.WHITE));
+
+            Bukkit.getOnlinePlayers().forEach(p -> {
+
+                if (p.equals(player)) {
+                    return;
+                }
+
+                if (p.hasPermission("static.vanish")) {
+                    p.sendMessage(Prefix.VANISH
+                            .append(player.name().
+                                    append(Component.text(" has vanished!"))
+                                    .color(ComponentUtil.RED)));
+                    return;
+                }
+
+                p.sendMessage(playerLeft);
+
+            });
 
             StaticPrisons.getInstance().getLogger().warning(player.getName() + " entered vanish mode");
 

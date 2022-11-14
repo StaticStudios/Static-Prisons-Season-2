@@ -5,6 +5,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.staticstudios.prisons.StaticPrisons;
+import net.staticstudios.prisons.admin.AdminManager;
 import net.staticstudios.prisons.data.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -74,7 +75,7 @@ public class TabList {
                 TagResolver.standard(),
                 TagResolver.resolver("colorlight", Tag.styling(style -> style.color(colorLight))),
                 TagResolver.resolver("colordark", Tag.styling(style -> style.color(colorDark))),
-                TagResolver.resolver("playersonline", Tag.inserting(text(Bukkit.getOnlinePlayers().size()))),
+                TagResolver.resolver("playersonline", Tag.inserting(text(getPlayerCount(player)))),
                 TagResolver.resolver("ping", Tag.inserting(text(player.getPing()))),
                 TagResolver.resolver("discord", Tag.inserting(text("discord.gg/9S6K9E5"))),
                 TagResolver.resolver("website", Tag.inserting(text("static-studios.net"))),
@@ -106,6 +107,14 @@ public class TabList {
 
         team.addPlayer(player);
         player.setScoreboard(scoreboard);
+    }
+
+    private static int getPlayerCount(Player player) {
+        if (player.hasPermission("static.vanish")) {
+            return Bukkit.getOnlinePlayers().size();
+        } else {
+            return Bukkit.getOnlinePlayers().size() - AdminManager.getHiddenPlayers().size();
+        }
     }
 
     private static final class UpdateGradientRunnable implements Runnable {

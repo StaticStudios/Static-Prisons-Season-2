@@ -4,13 +4,17 @@ import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.customitems.vouchers.KitVouchers;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.stream.Collectors;
 
 public class TestCommand implements CommandExecutor {
 
@@ -254,6 +258,8 @@ public class TestCommand implements CommandExecutor {
 //            meta.setCustomModelData(1);
 //        });
 //        player.getInventory().addItem(item);
+        System.out.println(Bukkit.getScoreboardManager().getMainScoreboard().getTeams().stream().map(Team::getName).collect(Collectors.toList()));
+
         return false;
 
 

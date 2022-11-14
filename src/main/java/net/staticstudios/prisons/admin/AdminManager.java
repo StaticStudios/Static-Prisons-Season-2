@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static net.staticstudios.prisons.commands.CommandManager.registerCommand;
@@ -51,6 +52,8 @@ public class AdminManager implements Listener {
         registerCommand("givevote", new GiveVoteCommand());
 
         registerCommand("reload-config", new ReloadConfigCommand());
+
+        registerCommand("uuid", new UuidCommand());
 
         Bukkit.getPluginManager().registerEvents(new AdminListener(), StaticPrisons.getInstance());
 
@@ -122,14 +125,21 @@ public class AdminManager implements Listener {
                 }
             }
         });
+
+        player.playerListName(ComponentUtil.BLANK.append(player.displayName()).color(ComponentUtil.GRAY));
     }
 
     public static void showPlayer(Player player) {
         Bukkit.getOnlinePlayers().forEach(other -> other.showPlayer(StaticPrisons.getInstance(), player));
+        player.playerListName(ComponentUtil.BLANK.append(player.displayName()).color(ComponentUtil.WHITE));
     }
 
 
     public static boolean isHidden(Player player) {
         return hiddenPlayers.contains(player.getUniqueId());
+    }
+
+    public static Set<UUID> getHiddenPlayers() {
+        return hiddenPlayers;
     }
 }

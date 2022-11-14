@@ -346,3 +346,6 @@ commands:
       - objectives
   trade:
     description: trade with another player
+  uuid:
+    permission: static.staff.admin
+    description: get the uuid of a player
