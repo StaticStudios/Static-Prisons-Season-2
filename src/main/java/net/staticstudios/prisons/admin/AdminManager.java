@@ -29,6 +29,7 @@ public class AdminManager implements Listener {
     public static void init() {
         loadConfig();
 
+        registerCommand("staffchat", new StaffChatCommand());
         registerCommand("advancednickname", new AdvancedNicknameCommand());
         registerCommand("vanish", new VanishCommand());
         registerCommand("broadcast", new BroadcastMessageCommand());
@@ -95,6 +96,7 @@ public class AdminManager implements Listener {
         return hiddenPlayers.remove(player.getUniqueId());
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static boolean addToHiddenPlayers(Player player) {
         return hiddenPlayers.add(player.getUniqueId());
     }

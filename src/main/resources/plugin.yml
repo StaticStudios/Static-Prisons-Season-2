@@ -346,6 +346,11 @@ commands:
       - objectives
   trade:
     description: trade with another player
+  staffchat:
+    description: send a message to the staff chat
+    permission: static.staff
+    aliases:
+      - stc
   uuid:
     permission: static.staff.admin
     description: get the uuid of a player
