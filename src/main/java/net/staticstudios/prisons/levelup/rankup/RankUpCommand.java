@@ -1,39 +1,43 @@
 package net.staticstudios.prisons.levelup.rankup;
 
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.levelup.rankup.RankUp;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public class RankUpCommand implements CommandExecutor, TabCompleter {
+public class RankUpCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
+
         PlayerData playerData = new PlayerData(player);
+
         if (playerData.getMineRank() >= 25) {
-            player.sendMessage(ChatColor.RED + "You cannot rank up any more as you are already max rank! You can prestige with \"/prestige\"");
+            player.sendMessage(text("You cannot rank up any more as you are already max rank! You can prestige with \"/prestige\"").color(RED));
+
             return false;
         }
+
         if (RankUp.rankUp(player, playerData.getMineRank() + 1)) {
-            player.sendMessage(ChatColor.GREEN + "You just ranked up! " + ChatColor.AQUA + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank() - 1) + " -> " + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank()));
+            player.sendMessage(text("You just ranked up! ").color(GREEN)
+                    .append(text(PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank() - 1))
+                            .append(text(" -> "))
+                            .append(text(PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank())).color(AQUA))
+                    )
+            );
         } else {
-            player.sendMessage(ChatColor.RED + "You do not have enough money to rank up! To rank up, it will cost: $" + PrisonUtils.addCommasToNumber(RankUp.calculatePriceToRankUp(playerData, playerData.getMineRank() + 1)));
+            player.sendMessage(text("You do not have enough money to rank up! To rank up, it will cost: $")
+                    .append(text(PrisonUtils.addCommasToNumber(RankUp.calculatePriceToRankUp(playerData, playerData.getMineRank() + 1))))
+                    .color(RED)
+            );
         }
+
         return false;
-    }
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        return Collections.emptyList();
     }
 }
