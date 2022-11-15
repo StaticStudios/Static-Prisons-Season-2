@@ -772,4 +772,13 @@ public class PlayerData extends DataSet {
         setLong("lastGotFreeChallengeAt" + duration, value);
         return this;
     }
+
+    public boolean isStaffChatEnabled() {
+        return getBoolean("isStaffChatEnabled");
+    }
+
+    public PlayerData setStaffChatEnabled(boolean value) {
+        setBoolean("isStaffChatEnabled", value);
+        return this;
+    }
 }

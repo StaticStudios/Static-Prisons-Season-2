@@ -25,17 +25,24 @@ public class ProtocolConfig {
     }
 
     private void initServerPingListener() {
-        protocolManager.addPacketListener(new PacketAdapter(
-                StaticPrisons.getInstance(),
-                ListenerPriority.NORMAL,
-                PacketType.Status.Server.SERVER_INFO
-        ) {
-            @Override
-            public void onPacketSending(PacketEvent event) {
-                WrappedServerPing ping = event.getPacket().getServerPings().read(0);
-                ping.setPlayersOnline(Bukkit.getOnlinePlayers().size() - AdminManager.getHiddenPlayers().stream().filter(uuid -> Bukkit.getPlayer(uuid) != null).toList().size());
-                ping.setPlayers(Bukkit.getOnlinePlayers().stream().filter(player -> !AdminManager.isHidden(player)).map(WrappedGameProfile::fromPlayer).collect(Collectors.toList()));
-            }
-        });
+        protocolManager.addPacketListener(
+                new PacketAdapter(StaticPrisons.getInstance(), ListenerPriority.NORMAL, PacketType.Status.Server.SERVER_INFO) {
+                    @Override
+                    public void onPacketSending(PacketEvent event) {
+                        WrappedServerPing ping = event.getPacket().getServerPings().read(0);
+
+                        ping.setPlayersOnline(
+                                Bukkit.getOnlinePlayers().size() - AdminManager.getHiddenPlayers().stream()
+                                        .filter(uuid -> Bukkit.getPlayer(uuid) != null)
+                                        .toList()
+                                        .size()
+                        );
+                        ping.setPlayers(Bukkit.getOnlinePlayers().stream()
+                                .filter(player -> !AdminManager.isHidden(player))
+                                .map(WrappedGameProfile::fromPlayer)
+                                .collect(Collectors.toList())
+                        );
+                    }
+                });
     }
 }

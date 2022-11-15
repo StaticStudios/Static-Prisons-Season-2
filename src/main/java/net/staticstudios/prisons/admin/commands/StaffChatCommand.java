@@ -28,12 +28,33 @@ public class StaffChatCommand implements CommandExecutor {
         }
 
         if (args.length < 1) {
-            sender.sendMessage(CommandUtils.getCorrectUsage("/staffchat <message>"));
-            return false;
+            if (!(sender instanceof Player player)) {
+                sender.sendMessage(CommandUtils.getCorrectUsage("/staffchat <message>"));
+                return true;
+            }
+
+            PlayerData playerData = new PlayerData(player);
+
+            playerData.setStaffChatEnabled(!playerData.isStaffChatEnabled());
+
+            player.sendMessage((playerData.isStaffChatEnabled()
+                    ? Component.text("Enabled").color(GREEN)
+                    : Component.text("Disabled").color(RED))
+                    .append(Component.text(" staff chat.").color(GRAY))
+            );
+
+            return true;
+        }
+
+        if (sender instanceof Player player && !new PlayerData(player).isStaffChatEnabled()) {
+            new PlayerData(player).setStaffChatEnabled(true);
+
+            player.sendMessage(Component.text("Enabled").color(GREEN)
+                    .append(Component.text(" staff chat.").color(GRAY)));
         }
 
         ArrayList<Audience> audiences = Bukkit.getOnlinePlayers().stream()
-                .filter(player -> player.hasPermission("static.staff"))
+                .filter(player -> player.hasPermission("static.staff") && new PlayerData(player).isStaffChatEnabled())
                 .map(player -> (Audience) player).collect(Collectors.toCollection(ArrayList::new));
 
         audiences.add(Bukkit.getConsoleSender());
