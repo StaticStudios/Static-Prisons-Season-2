@@ -20,6 +20,7 @@ import net.staticstudios.prisons.chat.nicknames.NickColors;
 import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.crates.Crates;
 import net.staticstudios.prisons.customitems.CustomItems;
+import net.staticstudios.prisons.customitems.lootboxes.LootBox;
 import net.staticstudios.prisons.customitems.old.Kits;
 import net.staticstudios.prisons.data.backups.DataBackup;
 import net.staticstudios.prisons.data.datahandling.DataSet;
@@ -33,7 +34,6 @@ import net.staticstudios.prisons.leaderboards.LeaderboardManager;
 import net.staticstudios.prisons.levelup.LevelUp;
 import net.staticstudios.prisons.levelup.prestige.Prestige;
 import net.staticstudios.prisons.levelup.rankup.RankUp;
-import net.staticstudios.prisons.customitems.lootboxes.LootBox;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.mines.MineManager;
 import net.staticstudios.prisons.pickaxe.PickaxeManager;
@@ -47,6 +47,7 @@ import net.staticstudios.prisons.ui.tablist.TabList;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.*;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
+import net.staticstudios.protocol.ProtocolConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -96,6 +97,8 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     public void onEnable() {
         plugin = this;
         isDevServer = StaticFileSystemManager.getFile("devserver.txt").isPresent();
+
+        new ProtocolConfig();
 
         safe(this::enableCitizens);
         safe(this::loadWorldBoarderAPI);
