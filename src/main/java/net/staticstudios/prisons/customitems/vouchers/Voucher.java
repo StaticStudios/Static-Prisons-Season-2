@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.customitems.vouchers;
 
+import net.kyori.adventure.audience.Audience;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customitems.CustomItem;
 import org.bukkit.NamespacedKey;
@@ -48,7 +49,7 @@ public class Voucher implements CustomItem {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
+    public ItemStack getItem(Audience audience) {
         ItemStack item = itemStackSupplier.get();
         keyItem(item);
         return item;

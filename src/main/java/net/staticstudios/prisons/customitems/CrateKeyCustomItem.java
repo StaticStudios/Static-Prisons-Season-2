@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.customitems;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -8,7 +9,6 @@ import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -43,7 +43,7 @@ public enum CrateKeyCustomItem implements CustomItem {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
+    public ItemStack getItem(Audience audience) {
         ItemStack item = setCustomItem(new ItemStack(Material.TRIPWIRE_HOOK), this);
 
         item.editMeta(itemMeta -> {

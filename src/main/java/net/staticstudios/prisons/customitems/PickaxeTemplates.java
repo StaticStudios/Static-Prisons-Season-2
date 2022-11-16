@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.customitems;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.enchants.Enchantable;
@@ -9,7 +10,6 @@ import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
@@ -63,6 +63,7 @@ public enum PickaxeTemplates implements CustomItem {
     /**
      * Returns an ItemStack that is intended to be used in a GUI as a button.
      * It will NOT be tracked by the server as a PrisonPickaxe.
+     *
      * @return an ItemStack that is intended to be used in a GUI as a button.
      */
     public ItemStack getTemplateItem() {
@@ -71,12 +72,12 @@ public enum PickaxeTemplates implements CustomItem {
 
     /**
      * Create a new PrisonPickaxe instance
+     *
      * @return A new PrisonPickaxe using this template's values as a reference
      */
     public PrisonPickaxe getPickaxe() {
         return buildPickaxe(true);
     }
-
 
 
     private PrisonPickaxe buildPickaxe(boolean register) {
@@ -107,26 +108,33 @@ public enum PickaxeTemplates implements CustomItem {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
-        return getItem(player, new String[]{"true"});
+    public ItemStack getItem(Audience audience) {
+        return getItem(audience, new String[]{"true"});
     }
 
     @Override
-    public ItemStack getItem(Player player, String[] args) {
+    public ItemStack getItem(Audience audience, String[] args) {
         boolean registered;
+
         try {
             registered = Boolean.parseBoolean(args[0]);
         } catch (Exception e) {
-            String msg = "Got an error while parsing args for " + id + "! Using default values instead... [true]\n" + "Expected: [boolean(should be tracked by the server)]\n" + "Got: " + Arrays.toString(args);
-            if (player != null) {
-                player.sendMessage(msg);
-            }
+            // TODO: 16/11/2022 Component
+            String msg = "Got an error while parsing args for " + id + "! Using default values instead... [true]\n"
+                    + "Expected: [boolean(should be tracked by the server)]\n"
+                    + "Got: " + Arrays.toString(args);
+
+
+            audience.sendMessage(Component.text(msg));
+
             StaticPrisons.log(msg);
             registered = true;
         }
+
         if (registered) {
             return getPickaxe().getItem();
         }
+
         return getTemplateItem();
     }
 }

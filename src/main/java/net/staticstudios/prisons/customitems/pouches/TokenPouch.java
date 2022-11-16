@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.customitems.pouches;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -78,8 +79,9 @@ public enum TokenPouch implements Pouch<Long>, CustomItem {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
+    public ItemStack getItem(Audience audience) {
         ItemStack item = setCustomItem(ItemUtils.createCustomSkull(TEXTURE), this);
+
         item.editMeta(meta -> {
             meta.displayName(name);
             meta.lore(List.of(
@@ -94,6 +96,7 @@ public enum TokenPouch implements Pouch<Long>, CustomItem {
             ));
             meta.getPersistentDataContainer().set(TOKEN_POUCH_KEY, PersistentDataType.INTEGER, tier);
         });
+
         return item;
     }
 

@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.customitems.currency;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customitems.CustomItem;
@@ -9,7 +10,6 @@ import net.staticstudios.prisons.utils.Prefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -37,14 +37,14 @@ public class MoneyNote implements CustomItem {
     }
 
     @Override
-    public ItemStack getItem(CommandSender sender) {
+    public ItemStack getItem(Audience audience) {
         throw new UnsupportedOperationException("This requires args! Please use MoneyNote#getItem(Player, String[])");
     }
 
     @Override
-    public ItemStack getItem(CommandSender sender, String[] args) {
+    public ItemStack getItem(Audience audience, String[] args) {
 
-        var optionalLong = validateInput(sender, args[0]);
+        var optionalLong = validateInput(audience, args[0]);
 
         if (optionalLong.isEmpty() || optionalLong.get() == -1) {
             return null;
@@ -52,7 +52,7 @@ public class MoneyNote implements CustomItem {
 
         long value = optionalLong.get();
 
-        if (sender instanceof Player player) {
+        if (audience instanceof Player player) {
             PlayerData playerData = new PlayerData(player);
 
             if (playerData.getMoney() < value) {
@@ -64,7 +64,7 @@ public class MoneyNote implements CustomItem {
             playerData.removeMoney(value);
         }
 
-        Component creator = sender instanceof Player player ?
+        Component creator = audience instanceof Player player ?
                 player.name().color(ComponentUtil.WHITE) :
                 Component.text("Server").color(ComponentUtil.RED);
 

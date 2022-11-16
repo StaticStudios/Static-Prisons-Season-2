@@ -1,10 +1,10 @@
 package net.staticstudios.prisons.customitems;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.NamespacedKey;
-import org.bukkit.command.CommandSender;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -22,10 +22,10 @@ public interface CustomItem {
 
     String getId();
 
-    ItemStack getItem(CommandSender player);
+    ItemStack getItem(Audience audience);
 
-    default ItemStack getItem(CommandSender player, String[] args) {
-        return getItem(player);
+    default ItemStack getItem(Audience audience, String[] args) {
+        return getItem(audience);
     }
 
     /**
@@ -52,7 +52,7 @@ public interface CustomItem {
         return item;
     }
 
-    default Optional<Long> validateInput(CommandSender sender, String value) {
+    default Optional<Long> validateInput(Audience sender, String value) {
         long l;
         try {
             l = Long.parseLong(value);

@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.customitems;
 
+import net.kyori.adventure.audience.Audience;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.customitems.commands.CustomItemsCommand;
@@ -90,47 +91,47 @@ public class CustomItems implements Listener {
         customItem.onInteract(e);
     }
     public static ItemStack getVoteCrateKey(int amount) {
-        ItemStack item = CrateKeyCustomItem.VOTE.getItem(null);
+        ItemStack item = CrateKeyCustomItem.VOTE.getItem(Audience.empty());
         item.setAmount(amount);
         return item;
     }
     public static ItemStack getKitCrateKey(int amount) {
-        ItemStack item = CrateKeyCustomItem.KIT.getItem(null);
+        ItemStack item = CrateKeyCustomItem.KIT.getItem(Audience.empty());
         item.setAmount(amount);
         return item;
     }
     public static ItemStack getPickaxeCrateKey(int amount) {
-        ItemStack item = CrateKeyCustomItem.PICKAXE.getItem(null);
+        ItemStack item = CrateKeyCustomItem.PICKAXE.getItem(Audience.empty());
         item.setAmount(amount);
         return item;
     }
     public static ItemStack getCommonCrateKey(int amount) {
-        ItemStack item = CrateKeyCustomItem.COMMON.getItem(null);
+        ItemStack item = CrateKeyCustomItem.COMMON.getItem(Audience.empty());
         item.setAmount(amount);
         return item;
     }
     public static ItemStack getRareCrateKey(int amount) {
-        ItemStack item = CrateKeyCustomItem.RARE.getItem(null);
+        ItemStack item = CrateKeyCustomItem.RARE.getItem(Audience.empty());
         item.setAmount(amount);
         return item;
     }
     public static ItemStack getEpicCrateKey(int amount) {
-        ItemStack item = CrateKeyCustomItem.EPIC.getItem(null);
+        ItemStack item = CrateKeyCustomItem.EPIC.getItem(Audience.empty());
         item.setAmount(amount);
         return item;
     }
     public static ItemStack getLegendaryCrateKey(int amount) {
-        ItemStack item = CrateKeyCustomItem.LEGENDARY.getItem(null);
+        ItemStack item = CrateKeyCustomItem.LEGENDARY.getItem(Audience.empty());
         item.setAmount(amount);
         return item;
     }
     public static ItemStack getStaticCrateKey(int amount) {
-        ItemStack item = CrateKeyCustomItem.STATIC.getItem(null);
+        ItemStack item = CrateKeyCustomItem.STATIC.getItem(Audience.empty());
         item.setAmount(amount);
         return item;
     }
     public static ItemStack getStaticpCrateKey(int amount) {
-        ItemStack item = CrateKeyCustomItem.STATICP.getItem(null);
+        ItemStack item = CrateKeyCustomItem.STATICP.getItem(Audience.empty());
         item.setAmount(amount);
         return item;
     }

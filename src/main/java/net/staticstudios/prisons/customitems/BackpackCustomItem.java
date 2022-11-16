@@ -1,10 +1,11 @@
 package net.staticstudios.prisons.customitems;
 
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.backpacks.Backpack;
 import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.backpacks.config.BackpackConfig;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -38,21 +39,26 @@ public enum BackpackCustomItem implements CustomItem {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
-        return getItem(player, new String[]{"true", "0"});
+    public ItemStack getItem(Audience audience) {
+        if (audience == null) {
+            audience = Audience.empty();
+        }
+
+        return getItem(audience, new String[]{"true", "0"});
     }
 
     @Override
-    public ItemStack getItem(Player player, String[] args) {
+    public ItemStack getItem(Audience audience, String[] args) {
         boolean registered;
         long maxSize;
         try {
             registered = Boolean.parseBoolean(args[0]);
             maxSize = Integer.parseInt(args[1]);
         } catch (Exception e) {
+            // TODO: 16/11/2022 component
             String msg = "Got an error while parsing args for " + id + "! Using default values instead... [true, 0]\n" + "Expected: [boolean(should be tracked by the server), int(max capacity)]\n" + "Got: " + Arrays.toString(args);
-            if (player != null) {
-                player.sendMessage(msg);
+            if (audience != null) {
+                audience.sendMessage(Component.text(msg));
             }
             StaticPrisons.log(msg);
             registered = true;

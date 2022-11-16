@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.customitems.currency;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
@@ -11,7 +12,6 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -39,7 +39,7 @@ public class MultiplierVoucher implements CustomItem {
     }
 
     public static ItemStack getMultiplierNote(double amount, int lengthInMins) {
-        return INSTANCE.getItem(null, new String[]{String.valueOf(amount), String.valueOf(lengthInMins)});
+        return INSTANCE.getItem(Audience.empty(), new String[]{String.valueOf(amount), String.valueOf(lengthInMins)});
     }
 
     @Override
@@ -48,26 +48,24 @@ public class MultiplierVoucher implements CustomItem {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
+    public ItemStack getItem(Audience audience) {
         throw new RuntimeException("This requires args! Please use MultiplierVoucher#getItem(Player, String[])");
     }
 
     @Override
-    public ItemStack getItem(Player player, String[] args) {
-        double amount = 0;
-        int duration = 0;
+    public ItemStack getItem(Audience audience, String[] args) {
+        double amount;
+        int duration;
+
         try {
             amount = Double.parseDouble(args[0]);
             duration = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
-            StaticPrisons.log("Invalid args for multiplier voucher! Expected [double(amount), int(duration)] but got: " + Arrays.toString(args));
-            if (player != null) {
-                player.sendMessage("Invalid args for multiplier voucher! Expected [double(amount), int(duration)] but got: " + Arrays.toString(args));
-            }
+            audience.sendMessage(Component.text("Invalid args for multiplier voucher! Expected [double(amount), int(duration)] but got: ")
+                    .append(text(Arrays.toString(args))));
+            return null;
         }
 
-        final double _amount = amount;
-        final int _duration = duration;
 
         ItemStack item = new ItemStack(Material.EMERALD);
         item.editMeta(meta -> {
@@ -75,18 +73,18 @@ public class MultiplierVoucher implements CustomItem {
                     .append(Component.text("Multiplier: ")
                             .color(ComponentUtil.LIGHT_PURPLE)
                             .decorate(TextDecoration.BOLD))
-                    .append(Component.text(formatter.format(_amount) + "x for " + PrisonUtils.formatTime(_duration * 60 * 1000L))
+                    .append(Component.text(formatter.format(amount) + "x for " + PrisonUtils.formatTime(duration * 60 * 1000L))
                             .color(ComponentUtil.WHITE)
                             .decoration(TextDecoration.BOLD, false)));
             meta.lore(List.of(
                     empty(),
                     text("Amount: ").color(LIGHT_PURPLE)
                             .append(text("+")
-                                    .append(text(_amount))
+                                    .append(text(amount))
                                     .append(text("x")).color(WHITE))
                             .decoration(TextDecoration.ITALIC, false),
                     text("Duration: ").color(LIGHT_PURPLE)
-                            .append(text(PrisonUtils.formatTime(_duration * 60 * 1000L))
+                            .append(text(PrisonUtils.formatTime(duration * 60 * 1000L))
                                     .color(WHITE))
                             .decoration(TextDecoration.ITALIC, false),
                     empty(),
@@ -96,8 +94,8 @@ public class MultiplierVoucher implements CustomItem {
             meta.addEnchant(Enchantment.LUCK, 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
-            meta.getPersistentDataContainer().set(MULTI_AMOUNT, PersistentDataType.DOUBLE, _amount);
-            meta.getPersistentDataContainer().set(MULTI_DURATION, PersistentDataType.INTEGER, _duration);
+            meta.getPersistentDataContainer().set(MULTI_AMOUNT, PersistentDataType.DOUBLE, amount);
+            meta.getPersistentDataContainer().set(MULTI_DURATION, PersistentDataType.INTEGER, duration);
         });
         setCustomItem(item, this);
         return item;

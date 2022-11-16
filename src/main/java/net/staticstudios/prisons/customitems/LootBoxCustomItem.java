@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.customitems;
 
+import net.kyori.adventure.audience.Audience;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customitems.lootboxes.LootBox;
 import net.staticstudios.prisons.customitems.lootboxes.LootBoxType;
@@ -29,22 +30,27 @@ public class LootBoxCustomItem implements CustomItem {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
-        return getItem(player, new String[]{"true", "0"});
+    public ItemStack getItem(Audience audience) {
+        return getItem(audience, new String[]{"true", "0"});
     }
 
     @Override
-    public ItemStack getItem(Player player, String[] args) {
+    public ItemStack getItem(Audience audience, String[] args) {
         boolean registered;
         long progress;
+
         try {
             registered = Boolean.parseBoolean(args[0]);
             progress = Long.parseLong(args[1]);
         } catch (Exception e) {
-            String msg = "Got an error while parsing args for " + id + "! Using default values instead... [true, 0]\n" + "Expected: [boolean(should be tracked by the server), long(progress)]\n" + "Got: " + Arrays.toString(args);
-            if (player != null) {
+            String msg = "Got an error while parsing args for " + id + "! Using default values instead... [true, 0]\n"
+                    + "Expected: [boolean(should be tracked by the server), long(progress)]\n"
+                    + "Got: " + Arrays.toString(args);
+
+            if (audience instanceof Player player) {
                 player.sendMessage(msg);
             }
+
             StaticPrisons.log(msg);
             registered = true;
             progress = 0;

@@ -1,5 +1,6 @@
 package net.staticstudios.prisons.customitems.pouches;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -22,7 +23,6 @@ import java.util.List;
 
 import static net.kyori.adventure.text.Component.empty;
 import static net.kyori.adventure.text.Component.text;
-import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 
 public enum MultiPouch implements Pouch<ItemStack>, CustomItem {
     TIER_1(1, text("Multiplier Pouch"), "pouches.multi.1.amount.min", "pouches.multi.1.amount.max", "pouches.multi.1.time.min", "pouches.multi.1.time.max"),
@@ -92,8 +92,9 @@ public enum MultiPouch implements Pouch<ItemStack>, CustomItem {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
+    public ItemStack getItem(Audience audience) {
         ItemStack item = setCustomItem(ItemUtils.createCustomSkull(TEXTURE), this);
+
         item.editMeta(meta -> {
             meta.displayName(name);
             meta.lore(List.of(
@@ -111,6 +112,7 @@ public enum MultiPouch implements Pouch<ItemStack>, CustomItem {
             ));
             meta.getPersistentDataContainer().set(MULTI_POUCH_KEY, PersistentDataType.INTEGER, tier);
         });
+
         return item;
     }
 

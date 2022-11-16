@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.customitems.icebomb;
 
 import com.sk89q.worldedit.math.BlockVector3;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
@@ -10,7 +11,6 @@ import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
@@ -46,7 +46,7 @@ public class IceBomb implements CustomItem {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
+    public ItemStack getItem(Audience audience) {
         ItemStack itemStack = new ItemStack(Material.SNOWBALL);
         itemStack.editMeta(meta -> {
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
