@@ -56,9 +56,11 @@ class PvPListener implements org.bukkit.event.Listener {
             player.sendMessage(PvPManager.PREFIX + ChatColor.RED + "You lost $" + PrisonUtils.prettyNum(moneyToDrop) + " because you died");
 
             ItemStack moneyNote = MoneyNote.getMoneyNote(player, moneyToDrop);
+
             moneyNote.editMeta(meta -> meta.displayName(ComponentUtil.BLANK
                             .append(Component.text("(From Death) ")
                                     .color(ComponentUtil.RED)).append(Objects.requireNonNull(meta.displayName()))));
+
             e.getDrops().add(moneyNote);
         }
     }

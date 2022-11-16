@@ -9,6 +9,7 @@ import net.staticstudios.prisons.utils.Prefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -36,25 +37,24 @@ public class MoneyNote implements CustomItem {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
-        throw new RuntimeException("This requires args! Please use MoneyNote#getItem(Player, String[])");
+    public ItemStack getItem(CommandSender sender) {
+        throw new UnsupportedOperationException("This requires args! Please use MoneyNote#getItem(Player, String[])");
     }
 
     @Override
-    public ItemStack getItem(Player player, String[] args) {
-        long value = 0;
-        try {
-            value = Long.parseLong(args[0]);
-        } catch (NumberFormatException e) {
-            StaticPrisons.log("Invalid number for money note: " + args[0]);
-            if (player != null) {
-                player.sendMessage("Invalid number for money note: " + args[0]);
-            }
+    public ItemStack getItem(CommandSender sender, String[] args) {
+
+        var optionalLong = validateInput(sender, args[0]);
+
+        if (optionalLong.isEmpty() || optionalLong.get() == -1) {
+            return null;
         }
 
+        long value = optionalLong.get();
 
-        if (player != null) {
+        if (sender instanceof Player player) {
             PlayerData playerData = new PlayerData(player);
+
             if (playerData.getMoney() < value) {
                 player.sendMessage(Prefix.STATIC_PRISONS
                         .append(Component.text("You don't have enough money to make a note for that amount!")));
@@ -64,40 +64,40 @@ public class MoneyNote implements CustomItem {
             playerData.removeMoney(value);
         }
 
-        final long _value = value;
-
-        Component creator = player != null ?
+        Component creator = sender instanceof Player player ?
                 player.name().color(ComponentUtil.WHITE) :
                 Component.text("Server").color(ComponentUtil.RED);
 
         ItemStack item = new ItemStack(Material.PAPER);
         item.editMeta(meta -> {
-           meta.displayName(ComponentUtil.BLANK
-                   .append(Component.text("Money Note: ")
-                           .color(ComponentUtil.GREEN))
-                   .append(Component.text('$' + PrisonUtils.prettyNum(_value))));
-              meta.lore(List.of(
-                      ComponentUtil.BLANK
-                              .append(Component.text("Created By: ")
-                                      .color(ComponentUtil.GREEN)
-                                      .append(creator)),
-                        ComponentUtil.BLANK
-                                .append(Component.text("Redeem Amount: ")
-                                        .color(ComponentUtil.GREEN)
-                                        .append(Component.text("$" + PrisonUtils.addCommasToNumber(_value))
-                                                .color(ComponentUtil.WHITE))),
-                        Component.empty(),
-                        ComponentUtil.BLANK
-                                .append(Component.text("Right-click to redeem!")
-                                        .color(ComponentUtil.YELLOW)),
-                      ComponentUtil.BLANK
-                              .append(Component.text("Shift + right-click to redeem a full stack!")
-                                      .color(ComponentUtil.YELLOW))
-              ));
+            meta.displayName(ComponentUtil.BLANK
+                    .append(Component.text("Money Note: ")
+                            .color(ComponentUtil.GREEN))
+                    .append(Component.text('$' + PrisonUtils.prettyNum(value))));
+            meta.lore(List.of(
+                    ComponentUtil.BLANK
+                            .append(Component.text("Created By: ")
+                                    .color(ComponentUtil.GREEN)
+                                    .append(creator)),
+                    ComponentUtil.BLANK
+                            .append(Component.text("Redeem Amount: ")
+                                    .color(ComponentUtil.GREEN)
+                                    .append(Component.text("$" + PrisonUtils.addCommasToNumber(value))
+                                            .color(ComponentUtil.WHITE))),
+                    Component.empty(),
+                    ComponentUtil.BLANK
+                            .append(Component.text("Right-click to redeem!")
+                                    .color(ComponentUtil.YELLOW)),
+                    ComponentUtil.BLANK
+                            .append(Component.text("Shift + right-click to redeem a full stack!")
+                                    .color(ComponentUtil.YELLOW))
+            ));
 
-              meta.getPersistentDataContainer().set(CURRENCY_VALUE, PersistentDataType.LONG, _value);
+            meta.getPersistentDataContainer().set(CURRENCY_VALUE, PersistentDataType.LONG, value);
         });
+
         setCustomItem(item, this);
+
         return item;
     }
 
