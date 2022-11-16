@@ -12,6 +12,7 @@ import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -63,6 +64,11 @@ public class MultiplierVoucher implements CustomItem {
         } catch (NumberFormatException e) {
             audience.sendMessage(Component.text("Invalid args for multiplier voucher! Expected [double(amount), int(duration)] but got: ")
                     .append(text(Arrays.toString(args))));
+
+            if (audience instanceof Player) {
+                StaticPrisons.log("Invalid args for multiplier voucher! Expected [double(amount), int(duration)] but got: " + Arrays.toString(args));
+            }
+
             return null;
         }
 

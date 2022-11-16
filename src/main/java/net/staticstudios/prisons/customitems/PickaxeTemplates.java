@@ -45,11 +45,13 @@ public enum PickaxeTemplates implements CustomItem {
 
         ConfigurationSection section = config.getConfigurationSection(id);
         ConfigurationSection enchantsSection = Objects.requireNonNull(section).getConfigurationSection("enchants");
+
         for (String key : Objects.requireNonNull(enchantsSection).getKeys(false)) {
             Enchantment<?> enchantment = Enchantable.getEnchant(key);
             if (enchantment == null) continue;
             enchants.put(enchantment.getClass(), enchantsSection.getInt(key));
         }
+
         pickaxeMaterial = Material.valueOf(section.getString("material"));
         name = StaticPrisons.miniMessage().deserialize(section.getString("name", "Prison Pickaxe"));
         section.getStringList("top_lore").forEach(s -> topLore.add(StaticPrisons.miniMessage().deserialize(s)));
