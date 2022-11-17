@@ -6,7 +6,7 @@ import net.staticstudios.prisons.commands.normal.*;
 import net.staticstudios.prisons.commands.test.Test2Command;
 import net.staticstudios.prisons.commands.test.TestCommand;
 import net.staticstudios.prisons.commands.votestore.VoteStoreListener;
-import net.staticstudios.prisons.customitems.currency.WithdrawCommand;
+import net.staticstudios.prisons.customitems.currency.commands.WithdrawCommand;
 import net.staticstudios.prisons.gangs.GangCommand;
 import net.staticstudios.prisons.privatemines.commands.PrivateMineCommand;
 import net.staticstudios.prisons.pvp.commands.PvPCommand;

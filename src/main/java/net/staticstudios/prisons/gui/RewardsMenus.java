@@ -1,54 +1,62 @@
 package net.staticstudios.prisons.gui;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.legacy.GUICreator;
 import net.staticstudios.gui.legacy.GUIUtils;
+import net.staticstudios.mines.utils.WeightedElements;
+import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.utils.ComponentUtil;
+import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Objects;
 
 public class RewardsMenus extends GUIUtils {
 
-    public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&b&lRewards &8&l>> &r");
+    public static final Component PREFIX = ComponentUtil.BLANK
+            .append(Component.text("Rewards")
+                    .color(ComponentUtil.LIGHT_PURPLE))
+            .append(Component.text(" >> ")
+                    .color(ComponentUtil.DARK_GRAY))
+            .decorate(TextDecoration.BOLD);
 
     public static void open(Player player) {
         GUICreator c = new GUICreator(27, "Your Rewards");
         PlayerData playerData = new PlayerData(player);
         long difference = playerData.getPrestige() - playerData.getClaimedPrestigeRewardsAt();
-        long rewards = difference / 250;
-        c.setItem(13, ench(c.createButton(Material.AMETHYST_CLUSTER, "&d&lPrestige Rewards", List.of("You have " + PrisonUtils.addCommasToNumber(rewards) + " reward(s) to claim!", "You get a new one every 250 prestiges!", "", "&b&oClick to claim"), (p, t) -> {
-//            if (rewards.compareTo(BigInteger.ZERO) == 0) {
-//                p.sendMessage(PREFIX + ChatColor.RED + "You have no rewards to claim!");
-//                return;
-//            }
-//            playerData.setClaimedPrestigeRewardsAt(playerData.getPrestige());
-//            long r = rewards.longValue();
-//            while (r > 0) {
-//                ItemStack reward = new WeightedElements<ItemStack>()
-//                        .add(CustomItems.getCommonCrateKey(5), 20)
-//                        .add(CustomItems.getRareCrateKey(4), 20)
-//                        .add(CustomItems.getEpicCrateKey(2), 10)
-//                        .add(CustomItems.getEpicCrateKey(3), 5)
-//                        .add(CustomItems.getEpicCrateKey(5), 5)
-//                        .add(CustomItems.getLegendaryCrateKey(1), 15)
-//                        .add(CustomItems.getLegendaryCrateKey(2), 5)
-//                        .add(CustomItems.getLegendaryCrateKey(3), 5)
-//                        .add(CustomItems.getStaticCrateKey(1), 5)
-//                        .add(CustomItems.getStaticCrateKey(2), 5)
-//                        .add(CustomItems.getStaticpCrateKey(1), 2)
-//                        .add(CustomItems.getPickaxeCrateKey(3), 1)
-//                        .add(CustomItems.getPickaxeCrateKey(1), 1)
-//                        .add(CustomItems.getKitCrateKey(2), 1)
-//                        .getRandom(); //
-//                PrisonUtils.Players.addToInventory(p, reward);
-//                p.sendMessage(PREFIX + "You've been given " + reward.getAmount() + "x " + PrisonUtils.Items.getPrettyItemName(reward));
-//                r--;
-//            }
-//            open(p);
-            p.sendMessage(PREFIX + "This feature has been disabled for the time being");
+        c.setItem(13, ench(c.createButton(Material.AMETHYST_CLUSTER, "&d&lPrestige Rewards", List.of("You have " + PrisonUtils.addCommasToNumber(difference) + " reward(s) to claim!", "You get a new one every prestige!", "", "&b&oClick to claim"), (p, t) -> {
+            if (difference <= 0) {
+                p.sendMessage(ComponentUtil.BLANK
+                        .append(PREFIX)
+                        .append(Component.text("You have no rewards to claim!")
+                                .color(ComponentUtil.RED)));
+                return;
+            }
+            playerData.setClaimedPrestigeRewardsAt(playerData.getPrestige());
+            long r = difference;
+            while (r > 0) {
+                ItemStack reward = new WeightedElements<ItemStack>()
+                        .add(CustomItems.getLegendaryCrateKey(1), 15)
+                        .add(CustomItems.getLegendaryCrateKey(2), 30)
+                        .add(CustomItems.getStaticCrateKey(1), 40)
+                        .add(CustomItems.getStaticpCrateKey(1), 5)
+                        .getRandom(); //
+                PlayerUtils.addToInventory(p, reward);
+                p.sendMessage(ComponentUtil.BLANK
+                        .append(PREFIX)
+                        .append(Component.text("You won " + reward.getAmount() + "x ")
+                                .color(ComponentUtil.WHITE))
+                        .append(Objects.requireNonNull(reward.getItemMeta().displayName())));
+                r--;
+            }
+            open(p);
         })));
         c.fill(createGrayPlaceHolder());
         c.open(player);

@@ -32,7 +32,7 @@ public class BackpackMenus {
     /**
      * The amount of tokens that are required to purchase an additional slot
      */
-    private static final int SLOT_COST = 5;
+    private static final int SLOT_COST = 2;
     private static final Component EXPLAIN_COMBINE_BACKPACKS = Prefix.BACKPACKS.append(Component.text("Combine two backpacks of the same tier to upgrade one of them to have an increased tier AND max capacity. This will sacrifice one of the backpacks, only giving back one.").color(ComponentUtil.WHITE));
     private static final GUIButton RESULT_BACKPACK_PLACEHOLDER = ButtonBuilder.builder()
             .icon(Material.BARRIER)

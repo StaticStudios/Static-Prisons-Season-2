@@ -1,5 +1,7 @@
-package net.staticstudios.prisons.customitems.currency;
+package net.staticstudios.prisons.customitems.currency.commands;
 
+import net.staticstudios.prisons.customitems.currency.MoneyNote;
+import net.staticstudios.prisons.customitems.currency.TokenNote;
 import net.staticstudios.prisons.utils.CommandUtils;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import org.bukkit.command.Command;
