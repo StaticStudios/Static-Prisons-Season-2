@@ -117,6 +117,8 @@ public class PrestigeMenus {
                                 .append(Component.text("Prestiging will give you").color(ComponentUtil.LIGHT_GRAY)),
                         Component.empty().append(Component.text("access to new mines and will unlock new features.")).color(ComponentUtil.LIGHT_GRAY),
                         Component.empty().append(Component.text("After you prestige, you will go back to rank A.")).color(ComponentUtil.LIGHT_GRAY),
+                        Component.empty().append(Component.text("After prestiging, you will be rewarded! ")).color(ComponentUtil.LIGHT_GRAY)
+                                .append(Component.empty().append(Component.text("/rewards").color(ComponentUtil.AQUA))),
                         Component.empty(),
                         Component.empty().append(Component.text("Ready to do it?").color(ComponentUtil.LIGHT_GRAY))
                 ))
