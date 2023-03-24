@@ -10,14 +10,11 @@ import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.utils.PlayerUtils;
-import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -158,9 +155,9 @@ public class PackageHandler {
             case "staticpPackage" -> logID = "staticp";
         }
         if (reclaim) ServerData.RECLAIM.addNextReclaim(playerUUID, logID);
-        List<String> packages = new ArrayList<>(); //log to file
-        packages.add(playerName + " | " + playerUUID + " | " + packageID + " | ");
-        PrisonUtils.writeToAFile("./data/tebexPurchases.txt", packages, true);
+
+        PersistenceManager.saveNewPackageClaim(playerName, playerUUID.toString(), packageID);
+
     }
 
 
