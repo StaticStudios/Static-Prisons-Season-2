@@ -38,9 +38,9 @@ public class RankUpMaxCommand implements CommandExecutor {
 
 
         player.sendMessage(text("You just ranked up! ").color(GREEN)
-                .append(text(PrisonUtils.getMineRankLetterFromMineRank(rankBefore))
-                        .append(text(" -> "))
-                        .append(text(PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank())).color(AQUA)))
+                .append(text(PrisonUtils.getMineRankLetterFromMineRank(rankBefore)).color(AQUA))
+                .append(text(" -> "))
+                .append(text(PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank())).color(AQUA))
         );
         return false;
     }

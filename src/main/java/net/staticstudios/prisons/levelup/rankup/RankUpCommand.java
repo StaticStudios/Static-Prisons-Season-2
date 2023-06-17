@@ -26,10 +26,9 @@ public class RankUpCommand implements CommandExecutor {
 
         if (RankUp.rankUp(player, playerData.getMineRank() + 1)) {
             player.sendMessage(text("You just ranked up! ").color(GREEN)
-                    .append(text(PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank() - 1))
-                            .append(text(" -> "))
-                            .append(text(PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank())).color(AQUA))
-                    )
+                    .append(text(PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank() - 1)).color(AQUA))
+                    .append(text(" -> "))
+                    .append(text(PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank())).color(AQUA))
             );
         } else {
             player.sendMessage(text("You do not have enough money to rank up! To rank up, it will cost: $")
