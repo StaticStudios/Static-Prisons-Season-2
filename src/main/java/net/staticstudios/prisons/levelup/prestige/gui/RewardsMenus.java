@@ -1,4 +1,4 @@
-package net.staticstudios.prisons.gui;
+package net.staticstudios.prisons.levelup.prestige.gui;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -8,6 +8,7 @@ import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.gui.MainMenus;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;

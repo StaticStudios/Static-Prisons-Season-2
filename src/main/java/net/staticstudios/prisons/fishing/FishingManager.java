@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.enchants.EnchantableItemStack;
+import net.staticstudios.prisons.fishing.enchants.handler.FishingEnchants;
 import net.staticstudios.prisons.pickaxe.PickaxeListener;
 import net.staticstudios.prisons.pickaxe.commands.AddPickaxeBlocksMinedCommand;
 import net.staticstudios.prisons.pickaxe.commands.AddPickaxeXPCommand;
@@ -32,9 +33,12 @@ public class FishingManager {
             .decoration(TextDecoration.BOLD, true);
 
     public static void init() {
-        EnchantableItemStack.setNamespacedKey(PrisonFishingRod.class, new NamespacedKey(StaticPrisons.getInstance(), "fishingRod"));
         Bukkit.getPluginManager().registerEvents(new FishingListener(), StaticPrisons.getInstance());
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> saveData(), 20 * (60 * 5 + 22), 20 * 60 * 5);
+
+        FishingEnchants.init();
+
+        FishingRewardOutline.load();
 
         loadData();
     }

@@ -3,7 +3,9 @@ package net.staticstudios.prisons.pvp;
 import net.kyori.adventure.text.Component;
 import net.staticstudios.prisons.backpacks.Backpack;
 import net.staticstudios.prisons.customitems.currency.MoneyNote;
+import net.staticstudios.prisons.customitems.lootboxes.LootBox;
 import net.staticstudios.prisons.data.PlayerData;
+import net.staticstudios.prisons.fishing.PrisonFishingRod;
 import net.staticstudios.prisons.gangs.Gang;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.utils.ComponentUtil;
@@ -34,18 +36,27 @@ class PvPListener implements org.bukkit.event.Listener {
         //A money voucher should be created for 15% of a players total money
         Player player = e.getEntity();
         if (!player.getWorld().equals(PvPManager.PVP_WORLD)) return;
-        List<ItemStack> pickaxes = new LinkedList<>();
+        List<ItemStack> keepOnDeath = new LinkedList<>();
         for (ItemStack item : e.getDrops()) {
-            if (PrisonPickaxe.checkIsPrisonPickaxe(item)) pickaxes.add(item);
+            if (Backpack.fromItem(item) != null) {
+                keepOnDeath.add(item);
+                return;
+            }
+            if (PrisonPickaxe.checkIsPrisonPickaxe(item)) {
+                keepOnDeath.add(item);
+                return;
+            }
+            if (PrisonFishingRod.checkIsPrisonFishingRod(item)) {
+                keepOnDeath.add(item);
+                return;
+            }
+            if (LootBox.fromItem(item) != null) {
+                keepOnDeath.add(item);
+                return;
+            }
         }
-        e.getDrops().removeAll(pickaxes);
-        e.getItemsToKeep().addAll(pickaxes);
-        List<ItemStack> backpacks = new LinkedList<>();
-        for (ItemStack item : e.getDrops()) {
-            if (Backpack.fromItem(item) != null) backpacks.add(item);
-        }
-        e.getDrops().removeAll(backpacks);
-        e.getItemsToKeep().addAll(backpacks);
+        e.getDrops().removeAll(keepOnDeath);
+        e.getItemsToKeep().addAll(keepOnDeath);
 
         e.setShouldDropExperience(false);
 
@@ -106,6 +117,11 @@ class PvPListener implements org.bukkit.event.Listener {
     @EventHandler
     void onTeleport(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
+
+        if (player.hasMetadata("NPC")) {
+            return;
+        }
+
         if (!player.getWorld().equals(PvPManager.PVP_WORLD)) return;
         if (player.getGameMode().equals(GameMode.CREATIVE) || player.getGameMode().equals(GameMode.SPECTATOR))
             return;
@@ -122,6 +138,8 @@ class PvPListener implements org.bukkit.event.Listener {
         if (!player.getWorld().equals(PvPManager.PVP_WORLD)) return;
         if (player.getGameMode().equals(GameMode.CREATIVE) || player.getGameMode().equals(GameMode.SPECTATOR))
             return;
+
+        if (e.getMessage().equals("/gui fisherman")) return;
 
         if (!(e.getMessage().split(" ")[0].equalsIgnoreCase("/spawn") || e.getMessage().split(" ")[0].equalsIgnoreCase("/s"))) {
             player.sendMessage(PvPManager.PREFIX + ChatColor.RED + "You cannot use that here! The only command you can use is " + ChatColor.GRAY + ChatColor.ITALIC + "/spawn");

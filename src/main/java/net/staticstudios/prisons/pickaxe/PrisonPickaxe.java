@@ -19,7 +19,7 @@ import java.util.*;
 
 public class PrisonPickaxe extends EnchantableItemStack {
 
-    private final static Component LORE_DIVIDER = Component.text("---------------").color(ComponentUtil.LIGHT_GRAY);
+    public final static Component LORE_DIVIDER = Component.text("---------------").color(ComponentUtil.LIGHT_GRAY);
     private final Map<Class<? extends Enchantment>, EnchantHolder> ENCHANTS = new HashMap<>();
     private final Map<Class<? extends Enchantment>, Integer> ENCHANT_TIERS = new HashMap<>();
     private long level = 0;

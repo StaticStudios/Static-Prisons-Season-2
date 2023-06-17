@@ -2,10 +2,12 @@ package net.staticstudios.prisons.fishing;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.enchants.EnchantHolder;
 import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.enchants.EnchantableItemStack;
 import net.staticstudios.prisons.enchants.Enchantment;
+import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import org.bukkit.Material;
@@ -23,6 +25,7 @@ public class PrisonFishingRod extends EnchantableItemStack {
     private int itemsCaught;
     private int caughtNothing;
     private double durability = 10;
+    private List<Component> cachedLore = null;
     public PrisonFishingRod() {
         super(UUID.randomUUID());
         setItem(new ItemStack(Material.FISHING_ROD));
@@ -66,7 +69,7 @@ public class PrisonFishingRod extends EnchantableItemStack {
     }
 
     public static double getMaxDurability(int level) {
-        return 10;
+        return Math.max(10, 8 + (level * 2));
     }
 
     public int getLevel() {
@@ -84,7 +87,6 @@ public class PrisonFishingRod extends EnchantableItemStack {
 
     public void setXp(long xp) {
         this.xp = xp;
-
         while (xp >= getXpRequired()) {
             level++;
         }
@@ -231,7 +233,11 @@ public class PrisonFishingRod extends EnchantableItemStack {
 
     @Override
     public void updateItemLore(ItemMeta meta) {
+        updateLore();
+        meta.lore(cachedLore);
+    }
 
+    public void updateLore() {
         Component durability = Component.text('|');
         Component durabilityBar = Component.empty();
 
@@ -245,33 +251,64 @@ public class PrisonFishingRod extends EnchantableItemStack {
             }
         }
 
+
         List<Component> lore = new ArrayList<>();
         lore.add(Component.empty().append(Component.text("Level: ").color(ComponentUtil.YELLOW))
-                .append(Component.text(PrisonUtils.addCommasToNumber(level)).color(ComponentUtil.WHITE))
-                .decoration(TextDecoration.ITALIC, false));
+                .append(Component.text(PrisonUtils.addCommasToNumber(level)).color(ComponentUtil.WHITE)));
         lore.add(Component.empty().append(Component.text("Experience: ").color(ComponentUtil.YELLOW))
-                .append(Component.text(PrisonUtils.prettyNum(getXp()) + " / " + PrisonUtils.prettyNum(getXpRequired())).color(ComponentUtil.WHITE))
-                .decoration(TextDecoration.ITALIC, false));
+                .append(Component.text(PrisonUtils.prettyNum(getXp()) + " / " + PrisonUtils.prettyNum(getXpRequired())).color(ComponentUtil.WHITE)));
         lore.add(Component.empty().append(Component.text("Items Caught: ").color(ComponentUtil.YELLOW))
-                .append(Component.text(PrisonUtils.addCommasToNumber(itemsCaught)).color(ComponentUtil.WHITE))
-                .decoration(TextDecoration.ITALIC, false));
-        lore.add(Component.empty().append(Component.text("Caught Nothing: ").color(ComponentUtil.YELLOW))
-                .append(Component.text(PrisonUtils.addCommasToNumber(caughtNothing)).color(ComponentUtil.WHITE))
-                .decoration(TextDecoration.ITALIC, false));
+                .append(Component.text(PrisonUtils.addCommasToNumber(itemsCaught)).color(ComponentUtil.WHITE)));
+//        lore.add(Component.empty().append(Component.text("Caught Nothing: ").color(ComponentUtil.YELLOW))
+//                .append(Component.text(PrisonUtils.addCommasToNumber(caughtNothing)).color(ComponentUtil.WHITE)));
+
+
+        lore.add(PrisonPickaxe.LORE_DIVIDER);
+
+        //Enchantment lore
+        for (Enchantment<?> enchantment : Enchantment.getEnchantsInOrder()) {
+            int level = getEnchantmentLevel(enchantment);
+            if (level <= 0) continue;
+            lore.add(enchantment.getNameAsComponent()
+                    .append(Component.text(':'))
+                    .append(Component.text(' ' + PrisonUtils.addCommasToNumber(level))).color(ComponentUtil.LIGHT_PURPLE));
+        }
+
+        lore.add(PrisonPickaxe.LORE_DIVIDER);
+
         lore.add(Component.text("Durability: ").color(ComponentUtil.YELLOW)
                 .append(Component.text('[').color(ComponentUtil.LIGHT_GRAY))
                 .append(durabilityBar)
                 .append(Component.text(']').color(ComponentUtil.LIGHT_GRAY))
-                .decoration(TextDecoration.ITALIC, false));
-        meta.lore(lore);
+                .append(Component.text(" " + PrisonUtils.addCommasToNumber((int) this.durability) + " / " + PrisonUtils.addCommasToNumber((int) getMaxDurability(level)))
+                        .color(ComponentUtil.LIGHT_GRAY)));
+
+
+        lore.replaceAll(line -> line.decoration(TextDecoration.ITALIC, false));
+
+        cachedLore = lore;
+    }
+
+    public List<Component> getLore() {
+        if (cachedLore == null) {
+            updateLore();
+        }
+
+        return cachedLore;
     }
 
     public long getXpRequired() {
         return getXpRequired(getLevel());
     }
 
+
+    private static final int BASE_XP_PER_LEVEL = 85;
+    private static final double LEVEL_RATE_OF_INCREASE = 1.6;
     public long getXpRequired(int level) {
-        return (long) (Math.pow(level + 1, 2) * 100);
+        if (level < 0) {
+            return BASE_XP_PER_LEVEL;
+        }
+        return (long) ((long) BASE_XP_PER_LEVEL * level + level * Math.pow(LEVEL_RATE_OF_INCREASE * level, LEVEL_RATE_OF_INCREASE));
     }
 
 }

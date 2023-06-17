@@ -9,6 +9,7 @@ import net.staticstudios.prisons.customitems.lootboxes.rewards.LootBoxItemReward
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,22 +27,28 @@ public class MineBombLootBox extends LootBox {
         super(tier, LootBoxType.MINE_BOMB, uuid, createItem, 53);
     }
 
+    public MineBombLootBox(ConfigurationSection section) {
+        this(section.getInt("tier"),
+                UUID.fromString(Objects.requireNonNull(section.getString("uuid"))),
+                false);
+    }
+
     @Override
     public List<Component> getLore() {
         return List.of(
-                Component.empty(),
-                LORE_PREFIX.append(Component.text("Open this loot box to receive a random").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
-                LORE_PREFIX.append(Component.text("mine bomb! This loot box's challenge").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
-                LORE_PREFIX.append(Component.text("requires you to mine " + PrisonUtils.addCommasToNumber(goal) + " blocks").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
+                LORE_PREFIX,
+                LORE_PREFIX.append(Component.text("Open this loot box to receive a random").color(ComponentUtil.LIGHT_GRAY)),
+                LORE_PREFIX.append(Component.text("mine bomb! This loot box's challenge").color(ComponentUtil.LIGHT_GRAY)),
+                LORE_PREFIX.append(Component.text("requires you to mine " + PrisonUtils.addCommasToNumber(goal) + " blocks").color(ComponentUtil.LIGHT_GRAY)),
                 LORE_PREFIX.append(Component.text("You are currently ").color(ComponentUtil.LIGHT_GRAY))
                         .append(Component.text(BigDecimal.valueOf((double) progress / goal * 100).setScale(2, RoundingMode.FLOOR) + "%").color(ComponentUtil.GREEN).decorate(TextDecoration.BOLD))
-                        .append(Component.text(" done with this!").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
-                LORE_PREFIX.decoration(TextDecoration.ITALIC, false),
+                        .append(Component.text(" done with this!").color(ComponentUtil.LIGHT_GRAY)),
+                LORE_PREFIX,
                 LORE_PREFIX.append(Component.text("Tier: ").color(ComponentUtil.RED))
-                        .append(Component.text(tier + "").color(ComponentUtil.WHITE)).decoration(TextDecoration.ITALIC, false),
+                        .append(Component.text(tier + "").color(ComponentUtil.WHITE)),
                 LORE_PREFIX.append(Component.text("Reward: ").color(ComponentUtil.RED))
                         .append(Component.text("AAAAA").decorate(TextDecoration.OBFUSCATED).color(ComponentUtil.WHITE))
-                        .append(Component.text(" Mine Bomb").color(ComponentUtil.WHITE)).decoration(TextDecoration.ITALIC, false)
+                        .append(Component.text(" Mine Bomb").color(ComponentUtil.WHITE))
         );
     }
 

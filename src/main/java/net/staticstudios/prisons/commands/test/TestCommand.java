@@ -3,6 +3,8 @@ package net.staticstudios.prisons.commands.test;
 import net.staticstudios.prisons.backpacks.BackpackManager;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.customitems.vouchers.KitVouchers;
+import net.staticstudios.prisons.fishing.PrisonFishingRod;
+import net.staticstudios.prisons.fishing.enchants.ExampleEnchant;
 import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -258,7 +260,13 @@ public class TestCommand implements CommandExecutor {
 //            meta.setCustomModelData(1);
 //        });
 //        player.getInventory().addItem(item);
-        System.out.println(Bukkit.getScoreboardManager().getMainScoreboard().getTeams().stream().map(Team::getName).collect(Collectors.toList()));
+//        System.out.println(Bukkit.getScoreboardManager().getMainScoreboard().getTeams().stream().map(Team::getName).collect(Collectors.toList()));
+
+        PrisonFishingRod rod = new PrisonFishingRod();
+        rod.setEnchantment(ExampleEnchant.class, 1);
+        rod.updateItemNow();
+
+        player.getInventory().addItem(rod.getItem());
 
         return false;
 

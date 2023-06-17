@@ -1,14 +1,20 @@
 package net.staticstudios.prisons.fishing.events;
 
+import net.kyori.adventure.text.Component;
 import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.fishing.CaughtType;
 import net.staticstudios.prisons.fishing.FishingReward;
+import net.staticstudios.prisons.fishing.FishingRewardOutline;
 import net.staticstudios.prisons.fishing.PrisonFishingRod;
+import net.staticstudios.prisons.utils.ComponentUtil;
+import net.staticstudios.prisons.utils.PrisonUtils;
+import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -19,13 +25,24 @@ public class FishCaughtEvent extends PlayerEvent {
     private final PrisonFishingRod fishingRod;
     private final WeightedElements<FishingReward> lootTable = new WeightedElements<>();
     private FishingReward reward = null;
-    private ItemStack displayItem = null;
+//    private ItemStack displayItem = null;
     private double durabilityLost = 1.0;
 
     public FishCaughtEvent(PlayerFishEvent e, PrisonFishingRod fishingRod) {
         super(e.getPlayer());
         this.event = e;
         this.fishingRod = fishingRod;
+
+        FishingRewardOutline.outlines.forEach((tier, outline) -> {
+            ItemStack item = new ItemStack(outline.material());
+            item.editMeta(meta -> {
+                meta.displayName(outline.name());
+                meta.lore(outline.lore());
+                meta.getPersistentDataContainer().set(FishingRewardOutline.KEY, PersistentDataType.INTEGER, tier);
+            });
+
+            lootTable.add(new FishingReward(CaughtType.ITEM, outline.xp(), 0, 0, item), outline.chance());
+        });
     }
     /*
     The loot table should be created from all the enchantments,
@@ -68,28 +85,14 @@ public class FishCaughtEvent extends PlayerEvent {
             }
             reward = lootTable.getRandom();
 
-            displayItem = new ItemStack(reward.type().getDisplayItem());
-
-            if (reward.type() == CaughtType.ITEM) {
-                displayItem = reward.item();
-            }
-
-            Item item = (Item) Objects.requireNonNull(event.getCaught());
-            item.setItemStack(displayItem);
-            item.setPickupDelay(Integer.MAX_VALUE);
-            item.setWillAge(true);
-            item.setTicksLived(600 - 3 * 20);
+//            Item item = (Item) Objects.requireNonNull(event.getCaught());
+//            item.setItemStack(displayItem);
+//            item.setPickupDelay(Integer.MAX_VALUE);
+//            item.setWillAge(true);
+//            item.setTicksLived(600 - 3 * 20);
 
         }
         return reward;
-    }
-
-    public ItemStack getDisplayItem() {
-        return displayItem;
-    }
-
-    public void setDisplayItem(ItemStack displayItem) {
-        this.displayItem = displayItem;
     }
 
     public double getDurabilityLost() {
@@ -100,5 +103,8 @@ public class FishCaughtEvent extends PlayerEvent {
         this.durabilityLost = durabilityLost;
     }
 
+    public int getRodXp() {
+        return PrisonUtils.randomInt(3, 20);
+    }
 
 }

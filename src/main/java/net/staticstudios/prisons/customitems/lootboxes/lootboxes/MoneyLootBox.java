@@ -8,11 +8,13 @@ import net.staticstudios.prisons.customitems.lootboxes.LootBoxType;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.Prefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class MoneyLootBox extends LootBox {
@@ -25,21 +27,27 @@ public class MoneyLootBox extends LootBox {
         super(tier, LootBoxType.MONEY, uuid, createItem, 50);
     }
 
+    public MoneyLootBox(ConfigurationSection section) {
+        this(section.getInt("tier"),
+                UUID.fromString(Objects.requireNonNull(section.getString("uuid"))),
+                false);
+    }
+
     @Override
     public List<Component> getLore() {
         return List.of(
-                Component.empty(),
-                LORE_PREFIX.append(Component.text("Open this loot box to receive a random").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
-                LORE_PREFIX.append(Component.text("amount of money! This loot box's challenge").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
-                LORE_PREFIX.append(Component.text("requires you to mine " + PrisonUtils.addCommasToNumber(goal) + " blocks").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
+                LORE_PREFIX,
+                LORE_PREFIX.append(Component.text("Open this loot box to receive a random").color(ComponentUtil.LIGHT_GRAY)),
+                LORE_PREFIX.append(Component.text("amount of money! This loot box's challenge").color(ComponentUtil.LIGHT_GRAY)),
+                LORE_PREFIX.append(Component.text("requires you to mine " + PrisonUtils.addCommasToNumber(goal) + " blocks").color(ComponentUtil.LIGHT_GRAY)),
                 LORE_PREFIX.append(Component.text("You are currently ").color(ComponentUtil.LIGHT_GRAY))
                         .append(Component.text(BigDecimal.valueOf((double) progress / goal * 100).setScale(2, RoundingMode.FLOOR) + "%").color(ComponentUtil.GREEN).decorate(TextDecoration.BOLD))
-                        .append(Component.text(" done with this!").color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
-                LORE_PREFIX.decoration(TextDecoration.ITALIC, false),
+                        .append(Component.text(" done with this!").color(ComponentUtil.LIGHT_GRAY)),
+                LORE_PREFIX,
                 LORE_PREFIX.append(Component.text("Tier: ").color(ComponentUtil.GREEN))
-                        .append(Component.text(tier + "").color(ComponentUtil.WHITE)).decoration(TextDecoration.ITALIC, false),
+                        .append(Component.text(tier + "").color(ComponentUtil.WHITE)),
                 LORE_PREFIX.append(Component.text("Reward: ").color(ComponentUtil.GREEN))
-                        .append(Component.text("$" + PrisonUtils.addCommasToNumber(getType().getMinCurrencyReward(tier)) + " - $" + PrisonUtils.addCommasToNumber(getType().getMaxCurrencyReward(tier))).color(ComponentUtil.WHITE)).decoration(TextDecoration.ITALIC, false)
+                        .append(Component.text("$" + PrisonUtils.addCommasToNumber(getType().getMinCurrencyReward(tier)) + " - $" + PrisonUtils.addCommasToNumber(getType().getMaxCurrencyReward(tier))).color(ComponentUtil.WHITE))
         );
     }
 

@@ -38,11 +38,16 @@ public class ComponentUtil {
     public static final TextColor BRONZE = TextColor.color(205, 127, 50);
 
     public static String toString(Component component) {
-        return StaticPrisons.miniMessage().serialize(component);
+        try {
+            return StaticPrisons.miniMessage().serialize(component);
+        } catch (NoClassDefFoundError e) { //will throw during a reload of the plugin. should be fine for prod
+//            e.printStackTrace();
+            return "Unknown component";
+        }
     }
 
     public static Component fromString(String string) {
-        return StaticPrisons.miniMessage().deserialize(string);
+        return BLANK.append(StaticPrisons.miniMessage().deserialize(string));
     }
 
 }

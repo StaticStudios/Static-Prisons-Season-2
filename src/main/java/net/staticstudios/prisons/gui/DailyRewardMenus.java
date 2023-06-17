@@ -21,7 +21,7 @@ public class DailyRewardMenus extends GUIUtils {
 
     public static void mainMenu(Player player) {
 
-        if (true) return;
+        if (true) return; //TODO: Remove this line to enable the menu
 
         GUICreator c = new GUICreator(9, "Daily Rewards");
         PlayerData playerData = new PlayerData(player);

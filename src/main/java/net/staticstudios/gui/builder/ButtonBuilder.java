@@ -8,6 +8,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.staticstudios.gui.GUIButton;
 import net.staticstudios.gui.StaticGUI;
+import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -166,6 +167,18 @@ public final class ButtonBuilder {
 
     /**
      * Sets the name of the button.
+     * Parses the String using minimessage.
+     *
+     * @param name The name of the button to parse using minimessage.
+     * @return This ButtonBuilder instance.
+     */
+    public ButtonBuilder parseName(String name) {
+        this.name = ComponentUtil.fromString(name);
+        return this;
+    }
+
+    /**
+     * Sets the name of the button.
      *
      * @param name The name of the button.
      * @return This ButtonBuilder instance.
@@ -182,10 +195,26 @@ public final class ButtonBuilder {
      * @return This ButtonBuilder instance.
      */
     public ButtonBuilder lore(List<Component> lore) {
-        lore = lore.stream()
+        this.lore = lore.stream()
                 .map(ButtonBuilder::pretty)
-                .map(component -> component.colorIfAbsent(NamedTextColor.GRAY)).toList();
-        this.lore = lore;
+                .map(component -> component.colorIfAbsent(ComponentUtil.LIGHT_GRAY))
+                .toList();
+        return this;
+    }
+
+    /**
+     * Sets the lore of the button.
+     * This will be parsed with minimessage.
+     *
+     * @param lore The lore of the button.
+     * @return This ButtonBuilder instance.
+     */
+    public ButtonBuilder parseLore(List<String> lore) {
+        this.lore = lore.stream()
+                .map(ComponentUtil::fromString)
+                .map(ButtonBuilder::pretty)
+                .map(component -> component.colorIfAbsent(ComponentUtil.LIGHT_GRAY))
+                .toList();
         return this;
     }
 

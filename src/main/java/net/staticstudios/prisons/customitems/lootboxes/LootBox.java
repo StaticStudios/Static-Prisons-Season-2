@@ -30,10 +30,10 @@ import java.util.*;
 public abstract class LootBox implements SpreadOutExecution {
 
     public static final NamespacedKey LOOT_BOX_KEY = new NamespacedKey(StaticPrisons.getInstance(), "lootboxUUID");
-    public static final Component LORE_PREFIX = Component.empty().append(Component.text("| ").color(ComponentUtil.DARK_GRAY).decorate(TextDecoration.BOLD));
+    public static final Component LORE_PREFIX = Component.empty().append(Component.text("| ").color(ComponentUtil.DARK_GRAY).decorate(TextDecoration.BOLD)).decoration(TextDecoration.ITALIC, false);
 
     public static final Map<UUID, LootBox> LOOT_BOXES = new HashMap<>();
-    protected final long goal;
+    protected long goal;
     protected final int tier;
     private final LootBoxType type;
     private final UUID uuid;
@@ -54,14 +54,18 @@ public abstract class LootBox implements SpreadOutExecution {
         this.tier = tier;
         this.goal = type.getGoal(tier);
         if (createItem) {
-            item = ItemUtils.createCustomSkull(type.getBase64Texture());
-            item.editMeta(meta -> {
-                meta.getPersistentDataContainer().set(LOOT_BOX_KEY, PersistentDataType.STRING, uuid.toString());
-                meta.setCustomModelData(customModelData);
-            });
-            updateItemNow();
+            createItem(customModelData);
         }
         LOOT_BOXES.put(uuid, this);
+    }
+
+    public void createItem(int customModelData) {
+        item = ItemUtils.createCustomSkull(type.getBase64Texture());
+        item.editMeta(meta -> {
+            meta.getPersistentDataContainer().set(LOOT_BOX_KEY, PersistentDataType.STRING, uuid.toString());
+            meta.setCustomModelData(customModelData);
+        });
+        updateItemNow();
     }
 
     public static void init() {
@@ -143,10 +147,8 @@ public abstract class LootBox implements SpreadOutExecution {
         try {
             LootBoxType type = LootBoxType.valueOf(Objects.requireNonNull(section.getString("type")));
             LootBox lootBox = type.getLootBoxClass()
-                    .getDeclaredConstructor(int.class, UUID.class, boolean.class)
-                    .newInstance(section.getInt("tier"),
-                            UUID.fromString(Objects.requireNonNull(section.getString("uuid"))),
-                            false);
+                    .getDeclaredConstructor(ConfigurationSection.class)
+                    .newInstance(section);
             lootBox.progress = section.getLong("progress");
             return lootBox;
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |

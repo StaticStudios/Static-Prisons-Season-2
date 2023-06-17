@@ -29,7 +29,6 @@ public class MineBomb {
     private int originZ;
     private World world;
     private double radius;
-    private RelightMode relightMode;
     private boolean useParticles = true;
 
     public boolean isUseParticles() {
@@ -40,13 +39,6 @@ public class MineBomb {
         this.useParticles = useParticles;
     }
 
-    public RelightMode getRelightMode() {
-        return relightMode;
-    }
-
-    public void setRelightMode(RelightMode relightMode) {
-        this.relightMode = relightMode;
-    }
 
     public Set<BlockVector3> positions = new HashSet<>();
 
@@ -98,7 +90,6 @@ public class MineBomb {
         this.mine = mine;
         editSession = StaticPrisons.worldEdit.newEditSessionBuilder()
                 .world(BukkitAdapter.adapt(world))
-                .relightMode(relightMode)
                 .build();
         editSession.setMask(new RegionMask(mine.getRegion()));
         for (BlockVector3 pos : positions) {

@@ -113,9 +113,9 @@ public class PickaxeManager {
             statsSection.set("level", pickaxe.getLevel());
             statsSection.set("blocksBroken", pickaxe.getBlocksBroken());
             statsSection.set("rawBlocksBroken", pickaxe.getRawBlocksBroken());
-            statsSection.set("topLore", pickaxe.getTopLore().stream().map(StaticPrisons.miniMessage()::serialize).toList());
-            statsSection.set("bottomLore", pickaxe.getBottomLore().stream().map(StaticPrisons.miniMessage()::serialize).toList());
-            statsSection.set("name", StaticPrisons.miniMessage().serialize(pickaxe.getName()));
+            statsSection.set("topLore", pickaxe.getTopLore().stream().map(ComponentUtil::toString).toList());
+            statsSection.set("bottomLore", pickaxe.getBottomLore().stream().map(ComponentUtil::toString).toList());
+            statsSection.set("name", ComponentUtil.toString(pickaxe.getName()));
 
             pickaxeSection.set("enchants", pickaxe.serialize((enchantHolder, config) -> config.set("tier", pickaxe.getEnchantmentTier(enchantHolder.enchantment()))));
 

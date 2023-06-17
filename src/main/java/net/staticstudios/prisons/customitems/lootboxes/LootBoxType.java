@@ -4,10 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.customitems.LootBoxCustomItem;
-import net.staticstudios.prisons.customitems.lootboxes.lootboxes.MineBombLootBox;
-import net.staticstudios.prisons.customitems.lootboxes.lootboxes.MoneyLootBox;
-import net.staticstudios.prisons.customitems.lootboxes.lootboxes.PickaxeLootBox;
-import net.staticstudios.prisons.customitems.lootboxes.lootboxes.TokenLootBox;
+import net.staticstudios.prisons.customitems.lootboxes.lootboxes.*;
 import net.staticstudios.prisons.customitems.lootboxes.rewards.LootBoxCurrencyOutline;
 import net.staticstudios.prisons.customitems.lootboxes.rewards.LootBoxItemOutline;
 import net.staticstudios.prisons.customitems.lootboxes.rewards.LootBoxItemReward;
@@ -25,7 +22,8 @@ public enum LootBoxType {
     TOKEN(TokenLootBox.class, Component.empty().append(Component.text("Token Loot Box").color(ComponentUtil.GOLD).decoration(TextDecoration.BOLD, true))),
     MONEY(MoneyLootBox.class, Component.empty().append(Component.text("Money Loot Box").color(ComponentUtil.GREEN).decoration(TextDecoration.BOLD, true))),
     MINE_BOMB(MineBombLootBox.class, Component.empty().append(Component.text("Mine Bomb Loot Box").color(ComponentUtil.RED).decoration(TextDecoration.BOLD, true))),
-    PICKAXE(PickaxeLootBox.class, Component.empty().append(Component.text("Pickaxe Loot Box").color(ComponentUtil.AQUA).decoration(TextDecoration.BOLD, true)));
+    PICKAXE(PickaxeLootBox.class, Component.empty().append(Component.text("Pickaxe Loot Box").color(ComponentUtil.AQUA).decoration(TextDecoration.BOLD, true))),
+    FISHING_BOX(FishingLootBox.class, Component.empty().append(Component.text("Fishing Rod Package").color(ComponentUtil.BLUE).decoration(TextDecoration.BOLD, true)));
 //    MULTIPLIER("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWUyZTRjZGYyN2UzMmRjMThiNjA2NGNkZGNmZTFmZmIxZjM4ZDE0ODFiZDdjNDcyZWExMjMwNzZhMDc4NTAzZiJ9fX0=",
 //            Component.empty().append(Component.text("Pickaxe Loot Box").color(ComponentUtil.AQUA).decoration(TextDecoration.BOLD, true)), null),
 
@@ -81,6 +79,7 @@ public enum LootBoxType {
         return switch (rewardType) {
             case CURRENCY -> currencyOutlines.get(tier).goal();
             case ITEM -> itemOutlines.get(tier).goal();
+            case CUSTOM -> 0;
         };
     }
 

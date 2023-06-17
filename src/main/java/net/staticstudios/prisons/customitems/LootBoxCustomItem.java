@@ -70,6 +70,7 @@ public class LootBoxCustomItem implements CustomItem {
             return item;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {
+            StaticPrisons.log("Error when loading lootbox type: " + type);
             throw new RuntimeException(e);
         }
     }
