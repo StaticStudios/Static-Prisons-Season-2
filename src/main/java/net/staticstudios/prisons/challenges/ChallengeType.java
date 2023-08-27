@@ -110,7 +110,7 @@ public abstract class ChallengeType<E extends Event> implements Listener {
      * <p>
      * This method will call the onEvent BiConsumer and will perform a check to see if the challenge has been completed; the player will be rewarded if so.
      *
-     * @param e The event that was fired.
+     * @param e      The event that was fired.
      * @param player The player that the event was fired for.
      */
     protected void onEvent(E e, Player player) {

@@ -20,7 +20,8 @@ public class BlockBreakStats {
 
     private Map<MineBlock, Long> minedBlocks = new HashMap<>();
 
-    public BlockBreakStats() {}
+    public BlockBreakStats() {
+    }
 
     public double getMoneyMultiplier() {
         return moneyMultiplier;

@@ -37,9 +37,11 @@ public class CustomScoreboard { //todo make a custom thing instead of fastboard
         }
         boards.get(uuid).updateBoard();
     }
+
     public static void playerLeft(String uuid) {
         CustomScoreboard.boards.remove(uuid);
     }
+
     public static void updateAllScoreboards() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             updatePlayerScoreboard(player);
@@ -47,49 +49,49 @@ public class CustomScoreboard { //todo make a custom thing instead of fastboard
     }
 
     void updateTitle() {
-        String[] titles = new String[] {
+        String[] titles = new String[]{
                 colorBase + "" + ChatColor.BOLD + "STATIC PRISONS",
                 colorBase + "" + ChatColor.BOLD + "STATIC PRISONS",
                 colorBase + "" + ChatColor.BOLD + "STATIC PRISONS",
-                colorLight + "" + ChatColor.BOLD + "S" + colorBase + "" + ChatColor.BOLD +  "TATIC PRISONS",
-                colorDark + "" + ChatColor.BOLD + "S" + colorLight + "" + ChatColor.BOLD +  "T" + colorBase + "" + ChatColor.BOLD +  "ATIC PRISONS",
-                colorDark + "" + ChatColor.BOLD + "ST" + colorLight + "" + ChatColor.BOLD +  "A" + colorBase + "" + ChatColor.BOLD +  "TIC PRISONS",
-                colorDark + "" + ChatColor.BOLD + "STA" + colorLight + "" + ChatColor.BOLD +  "T" + colorBase + "" + ChatColor.BOLD +  "IC PRISONS",
-                colorLight + "" + ChatColor.BOLD + "S" + colorDark + "" + ChatColor.BOLD +  "TAT" + colorLight + "" + ChatColor.BOLD +  "I" + colorBase + "" + ChatColor.BOLD +  "C PRISONS",
-                colorBase + "" + ChatColor.BOLD + "S" + colorLight + "" + ChatColor.BOLD +  "T" + colorDark + "" + ChatColor.BOLD +  "ATI" + colorLight + "" + ChatColor.BOLD +  "C" + colorBase + "" + ChatColor.BOLD +  " PRISONS",
-                colorBase + "" + ChatColor.BOLD + "ST" + colorLight + "" + ChatColor.BOLD +  "A" + colorDark + "" + ChatColor.BOLD +  "TIC" + colorLight + "" + ChatColor.BOLD +  " " + colorBase + "" + ChatColor.BOLD +  "PRISONS",
-                colorBase + "" + ChatColor.BOLD + "STA" + colorLight + "" + ChatColor.BOLD +  "T" + colorDark + "" + ChatColor.BOLD +  "IC " + colorLight + "" + ChatColor.BOLD +  "P" + colorBase + "" + ChatColor.BOLD +  "RISONS",
-                colorBase + "" + ChatColor.BOLD + "STAT" + colorLight + "" + ChatColor.BOLD +  "I" + colorDark + "" + ChatColor.BOLD +  "C P" + colorLight + "" + ChatColor.BOLD +  "R" + colorBase + "" + ChatColor.BOLD +  "ISONS",
-                colorBase + "" + ChatColor.BOLD + "STATI" + colorLight + "" + ChatColor.BOLD +  "C" + colorDark + "" + ChatColor.BOLD +  " PR" + colorLight + "" + ChatColor.BOLD +  "I" + colorBase + "" + ChatColor.BOLD +  "SONS",
-                colorBase + "" + ChatColor.BOLD + "STATIC" + colorLight + "" + ChatColor.BOLD +  " " + colorDark + "" + ChatColor.BOLD +  "PRI" + colorLight + "" + ChatColor.BOLD +  "S" + colorBase + "" + ChatColor.BOLD +  "ONS",
-                colorBase + "" + ChatColor.BOLD + "STATIC " + colorLight + "" + ChatColor.BOLD +  "P" + colorDark + "" + ChatColor.BOLD +  "RIS" + colorLight + "" + ChatColor.BOLD +  "O" + colorBase + "" + ChatColor.BOLD +  "NS",
-                colorBase + "" + ChatColor.BOLD + "STATIC P" + colorLight + "" + ChatColor.BOLD +  "R" + colorDark + "" + ChatColor.BOLD +  "ISO" + colorLight + "" + ChatColor.BOLD +  "N" + colorBase + "" + ChatColor.BOLD +  "S",
-                colorBase + "" + ChatColor.BOLD + "STATIC PR" + colorLight + "" + ChatColor.BOLD +  "I" + colorDark + "" + ChatColor.BOLD +  "SON" + colorLight + "" + ChatColor.BOLD +  "S",
-                colorBase + "" + ChatColor.BOLD + "STATIC PRI" + colorLight + "" + ChatColor.BOLD +  "S" + colorDark + "" + ChatColor.BOLD +  "ONS",
-                colorBase + "" + ChatColor.BOLD + "STATIC PRIS" + colorLight + "" + ChatColor.BOLD +  "O" + colorDark + "" + ChatColor.BOLD +  "NS",
-                colorBase + "" + ChatColor.BOLD + "STATIC PRISO" + colorLight + "" + ChatColor.BOLD +  "N" + colorDark + "" + ChatColor.BOLD +  "S",
-                colorBase + "" + ChatColor.BOLD + "STATIC PRISON" + colorLight + "" + ChatColor.BOLD +  "S",
+                colorLight + "" + ChatColor.BOLD + "S" + colorBase + "" + ChatColor.BOLD + "TATIC PRISONS",
+                colorDark + "" + ChatColor.BOLD + "S" + colorLight + "" + ChatColor.BOLD + "T" + colorBase + "" + ChatColor.BOLD + "ATIC PRISONS",
+                colorDark + "" + ChatColor.BOLD + "ST" + colorLight + "" + ChatColor.BOLD + "A" + colorBase + "" + ChatColor.BOLD + "TIC PRISONS",
+                colorDark + "" + ChatColor.BOLD + "STA" + colorLight + "" + ChatColor.BOLD + "T" + colorBase + "" + ChatColor.BOLD + "IC PRISONS",
+                colorLight + "" + ChatColor.BOLD + "S" + colorDark + "" + ChatColor.BOLD + "TAT" + colorLight + "" + ChatColor.BOLD + "I" + colorBase + "" + ChatColor.BOLD + "C PRISONS",
+                colorBase + "" + ChatColor.BOLD + "S" + colorLight + "" + ChatColor.BOLD + "T" + colorDark + "" + ChatColor.BOLD + "ATI" + colorLight + "" + ChatColor.BOLD + "C" + colorBase + "" + ChatColor.BOLD + " PRISONS",
+                colorBase + "" + ChatColor.BOLD + "ST" + colorLight + "" + ChatColor.BOLD + "A" + colorDark + "" + ChatColor.BOLD + "TIC" + colorLight + "" + ChatColor.BOLD + " " + colorBase + "" + ChatColor.BOLD + "PRISONS",
+                colorBase + "" + ChatColor.BOLD + "STA" + colorLight + "" + ChatColor.BOLD + "T" + colorDark + "" + ChatColor.BOLD + "IC " + colorLight + "" + ChatColor.BOLD + "P" + colorBase + "" + ChatColor.BOLD + "RISONS",
+                colorBase + "" + ChatColor.BOLD + "STAT" + colorLight + "" + ChatColor.BOLD + "I" + colorDark + "" + ChatColor.BOLD + "C P" + colorLight + "" + ChatColor.BOLD + "R" + colorBase + "" + ChatColor.BOLD + "ISONS",
+                colorBase + "" + ChatColor.BOLD + "STATI" + colorLight + "" + ChatColor.BOLD + "C" + colorDark + "" + ChatColor.BOLD + " PR" + colorLight + "" + ChatColor.BOLD + "I" + colorBase + "" + ChatColor.BOLD + "SONS",
+                colorBase + "" + ChatColor.BOLD + "STATIC" + colorLight + "" + ChatColor.BOLD + " " + colorDark + "" + ChatColor.BOLD + "PRI" + colorLight + "" + ChatColor.BOLD + "S" + colorBase + "" + ChatColor.BOLD + "ONS",
+                colorBase + "" + ChatColor.BOLD + "STATIC " + colorLight + "" + ChatColor.BOLD + "P" + colorDark + "" + ChatColor.BOLD + "RIS" + colorLight + "" + ChatColor.BOLD + "O" + colorBase + "" + ChatColor.BOLD + "NS",
+                colorBase + "" + ChatColor.BOLD + "STATIC P" + colorLight + "" + ChatColor.BOLD + "R" + colorDark + "" + ChatColor.BOLD + "ISO" + colorLight + "" + ChatColor.BOLD + "N" + colorBase + "" + ChatColor.BOLD + "S",
+                colorBase + "" + ChatColor.BOLD + "STATIC PR" + colorLight + "" + ChatColor.BOLD + "I" + colorDark + "" + ChatColor.BOLD + "SON" + colorLight + "" + ChatColor.BOLD + "S",
+                colorBase + "" + ChatColor.BOLD + "STATIC PRI" + colorLight + "" + ChatColor.BOLD + "S" + colorDark + "" + ChatColor.BOLD + "ONS",
+                colorBase + "" + ChatColor.BOLD + "STATIC PRIS" + colorLight + "" + ChatColor.BOLD + "O" + colorDark + "" + ChatColor.BOLD + "NS",
+                colorBase + "" + ChatColor.BOLD + "STATIC PRISO" + colorLight + "" + ChatColor.BOLD + "N" + colorDark + "" + ChatColor.BOLD + "S",
+                colorBase + "" + ChatColor.BOLD + "STATIC PRISON" + colorLight + "" + ChatColor.BOLD + "S",
                 colorBase + "" + ChatColor.BOLD + "STATIC PRISONS",
                 colorBase + "" + ChatColor.BOLD + "STATIC PRISONS",
                 colorBase + "" + ChatColor.BOLD + "STATIC PRISONS",
-                colorBase + "" + ChatColor.BOLD + "STATIC PRISON" + colorLight + "" + ChatColor.BOLD +  "S",
-                colorBase + "" + ChatColor.BOLD + "STATIC PRISO" + colorLight + "" + ChatColor.BOLD +  "N" + colorDark + "" + ChatColor.BOLD +  "S",
-                colorBase + "" + ChatColor.BOLD + "STATIC PRIS" + colorLight + "" + ChatColor.BOLD +  "O" + colorDark + "" + ChatColor.BOLD +  "NS",
-                colorBase + "" + ChatColor.BOLD + "STATIC PRI" + colorLight + "" + ChatColor.BOLD +  "S" + colorDark + "" + ChatColor.BOLD +  "ONS",
-                colorBase + "" + ChatColor.BOLD + "STATIC PR" + colorLight + "" + ChatColor.BOLD +  "I" + colorDark + "" + ChatColor.BOLD +  "SON" + colorLight + "" + ChatColor.BOLD +  "S",
-                colorBase + "" + ChatColor.BOLD + "STATIC P" + colorLight + "" + ChatColor.BOLD +  "R" + colorDark + "" + ChatColor.BOLD +  "ISO" + colorLight + "" + ChatColor.BOLD +  "N" + colorBase + "" + ChatColor.BOLD +  "S",
-                colorBase + "" + ChatColor.BOLD + "STATIC " + colorLight + "" + ChatColor.BOLD +  "P" + colorDark + "" + ChatColor.BOLD +  "RIS" + colorLight + "" + ChatColor.BOLD +  "O" + colorBase + "" + ChatColor.BOLD +  "NS",
-                colorBase + "" + ChatColor.BOLD + "STATIC" + colorLight + "" + ChatColor.BOLD +  " " + colorDark + "" + ChatColor.BOLD +  "PRI" + colorLight + "" + ChatColor.BOLD +  "S" + colorBase + "" + ChatColor.BOLD +  "ONS",
-                colorBase + "" + ChatColor.BOLD + "STATI" + colorLight + "" + ChatColor.BOLD +  "C" + colorDark + "" + ChatColor.BOLD +  " PR" + colorLight + "" + ChatColor.BOLD +  "I" + colorBase + "" + ChatColor.BOLD +  "SONS",
-                colorBase + "" + ChatColor.BOLD + "STAT" + colorLight + "" + ChatColor.BOLD +  "I" + colorDark + "" + ChatColor.BOLD +  "C P" + colorLight + "" + ChatColor.BOLD +  "R" + colorBase + "" + ChatColor.BOLD +  "ISONS",
-                colorBase + "" + ChatColor.BOLD + "STA" + colorLight + "" + ChatColor.BOLD +  "T" + colorDark + "" + ChatColor.BOLD +  "IC " + colorLight + "" + ChatColor.BOLD +  "P" + colorBase + "" + ChatColor.BOLD +  "RISONS",
-                colorBase + "" + ChatColor.BOLD + "ST" + colorLight + "" + ChatColor.BOLD +  "A" + colorDark + "" + ChatColor.BOLD +  "TIC" + colorLight + "" + ChatColor.BOLD +  " " + colorBase + "" + ChatColor.BOLD +  "PRISONS",
-                colorBase + "" + ChatColor.BOLD + "S" + colorLight + "" + ChatColor.BOLD +  "T" + colorDark + "" + ChatColor.BOLD +  "ATI" + colorLight + "" + ChatColor.BOLD +  "C" + colorBase + "" + ChatColor.BOLD +  " PRISONS",
-                colorLight + "" + ChatColor.BOLD + "S" + colorDark + "" + ChatColor.BOLD +  "TAT" + colorLight + "" + ChatColor.BOLD +  "I" + colorBase + "" + ChatColor.BOLD +  "C PRISONS",
-                colorDark + "" + ChatColor.BOLD + "STA" + colorLight + "" + ChatColor.BOLD +  "T" + colorBase + "" + ChatColor.BOLD +  "IC PRISONS",
-                colorDark + "" + ChatColor.BOLD + "ST" + colorLight + "" + ChatColor.BOLD +  "A" + colorBase + "" + ChatColor.BOLD +  "TIC PRISONS",
-                colorDark + "" + ChatColor.BOLD + "S" + colorLight + "" + ChatColor.BOLD +  "T" + colorBase + "" + ChatColor.BOLD +  "ATIC PRISONS",
-                colorLight + "" + ChatColor.BOLD + "S" + colorBase + "" + ChatColor.BOLD +  "TATIC PRISONS",
+                colorBase + "" + ChatColor.BOLD + "STATIC PRISON" + colorLight + "" + ChatColor.BOLD + "S",
+                colorBase + "" + ChatColor.BOLD + "STATIC PRISO" + colorLight + "" + ChatColor.BOLD + "N" + colorDark + "" + ChatColor.BOLD + "S",
+                colorBase + "" + ChatColor.BOLD + "STATIC PRIS" + colorLight + "" + ChatColor.BOLD + "O" + colorDark + "" + ChatColor.BOLD + "NS",
+                colorBase + "" + ChatColor.BOLD + "STATIC PRI" + colorLight + "" + ChatColor.BOLD + "S" + colorDark + "" + ChatColor.BOLD + "ONS",
+                colorBase + "" + ChatColor.BOLD + "STATIC PR" + colorLight + "" + ChatColor.BOLD + "I" + colorDark + "" + ChatColor.BOLD + "SON" + colorLight + "" + ChatColor.BOLD + "S",
+                colorBase + "" + ChatColor.BOLD + "STATIC P" + colorLight + "" + ChatColor.BOLD + "R" + colorDark + "" + ChatColor.BOLD + "ISO" + colorLight + "" + ChatColor.BOLD + "N" + colorBase + "" + ChatColor.BOLD + "S",
+                colorBase + "" + ChatColor.BOLD + "STATIC " + colorLight + "" + ChatColor.BOLD + "P" + colorDark + "" + ChatColor.BOLD + "RIS" + colorLight + "" + ChatColor.BOLD + "O" + colorBase + "" + ChatColor.BOLD + "NS",
+                colorBase + "" + ChatColor.BOLD + "STATIC" + colorLight + "" + ChatColor.BOLD + " " + colorDark + "" + ChatColor.BOLD + "PRI" + colorLight + "" + ChatColor.BOLD + "S" + colorBase + "" + ChatColor.BOLD + "ONS",
+                colorBase + "" + ChatColor.BOLD + "STATI" + colorLight + "" + ChatColor.BOLD + "C" + colorDark + "" + ChatColor.BOLD + " PR" + colorLight + "" + ChatColor.BOLD + "I" + colorBase + "" + ChatColor.BOLD + "SONS",
+                colorBase + "" + ChatColor.BOLD + "STAT" + colorLight + "" + ChatColor.BOLD + "I" + colorDark + "" + ChatColor.BOLD + "C P" + colorLight + "" + ChatColor.BOLD + "R" + colorBase + "" + ChatColor.BOLD + "ISONS",
+                colorBase + "" + ChatColor.BOLD + "STA" + colorLight + "" + ChatColor.BOLD + "T" + colorDark + "" + ChatColor.BOLD + "IC " + colorLight + "" + ChatColor.BOLD + "P" + colorBase + "" + ChatColor.BOLD + "RISONS",
+                colorBase + "" + ChatColor.BOLD + "ST" + colorLight + "" + ChatColor.BOLD + "A" + colorDark + "" + ChatColor.BOLD + "TIC" + colorLight + "" + ChatColor.BOLD + " " + colorBase + "" + ChatColor.BOLD + "PRISONS",
+                colorBase + "" + ChatColor.BOLD + "S" + colorLight + "" + ChatColor.BOLD + "T" + colorDark + "" + ChatColor.BOLD + "ATI" + colorLight + "" + ChatColor.BOLD + "C" + colorBase + "" + ChatColor.BOLD + " PRISONS",
+                colorLight + "" + ChatColor.BOLD + "S" + colorDark + "" + ChatColor.BOLD + "TAT" + colorLight + "" + ChatColor.BOLD + "I" + colorBase + "" + ChatColor.BOLD + "C PRISONS",
+                colorDark + "" + ChatColor.BOLD + "STA" + colorLight + "" + ChatColor.BOLD + "T" + colorBase + "" + ChatColor.BOLD + "IC PRISONS",
+                colorDark + "" + ChatColor.BOLD + "ST" + colorLight + "" + ChatColor.BOLD + "A" + colorBase + "" + ChatColor.BOLD + "TIC PRISONS",
+                colorDark + "" + ChatColor.BOLD + "S" + colorLight + "" + ChatColor.BOLD + "T" + colorBase + "" + ChatColor.BOLD + "ATIC PRISONS",
+                colorLight + "" + ChatColor.BOLD + "S" + colorBase + "" + ChatColor.BOLD + "TATIC PRISONS",
 
         };
         titlePos++;
@@ -124,7 +126,7 @@ public class CustomScoreboard { //todo make a custom thing instead of fastboard
                 colorLight + "│ " + colorBase + "Current Rank: " + colorLight + PrisonUtils.getMineRankLetterFromMineRank(playerData.getMineRank()),
                 colorLight + "│ " + colorBase + (playerData.getMineRank() == 25 ? "Prestige: " : "Rank Up: ") + colorLight + "$" + cost,
                 ChatColor.BLUE + "",
-                colorDark + "" + ChatColor.BOLD + player.getName() ,
+                colorDark + "" + ChatColor.BOLD + player.getName(),
                 colorLight + "│ " + colorBase + "Rank: " + colorLight + sidebarRank,
                 colorLight + "│ " + colorBase + "Balance: " + colorLight + "$" + PrisonUtils.prettyNum(playerData.getMoney()),
                 colorLight + "│ " + colorBase + "Tokens: " + colorLight + "⛃" + PrisonUtils.prettyNum(playerData.getTokens()),

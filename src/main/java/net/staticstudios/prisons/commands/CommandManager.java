@@ -28,7 +28,6 @@ public class CommandManager {
         registerCommand("trash", new TrashCommand());
 
 
-
         registerCommand("shards", new ShardsCommand());
         registerCommand("tokens", new TokensCommand());
         registerCommand("balance", new BalanceCommand());
@@ -49,7 +48,7 @@ public class CommandManager {
         registerCommand("spawn", new SpawnCommand());
         registerCommand("coinflip", new CoinFlipCommand());
         registerCommand("tokenflip", new TokenFlipCommand());
-        registerCommand("discord", new DiscordCommand());
+//        registerCommand("discord", new DiscordCommand());
         registerCommand("stats", new StatsCommand());
         registerCommand("color", new ColorCommand());
         registerCommand("mobilesupport", new MobileSupportCommand());
@@ -59,8 +58,6 @@ public class CommandManager {
         registerCommand("enderchest", new EnderChestCommand());
 
         registerCommand("settings", new SettingsCommand());
-
-
 
 
         registerCommand("gui", new GUICommand());
@@ -74,7 +71,6 @@ public class CommandManager {
         registerCommand("_", new VoteStoreListener());
 
         //Normal commands - end
-
 
 
     }

@@ -19,6 +19,7 @@ public class PickaxeCommand implements CommandExecutor, TabCompleter {
         PickaxeMenus.mainMenu(player);
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

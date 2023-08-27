@@ -33,6 +33,7 @@ public final class StaticMines implements Listener {
     private static final StaticMinesListener eventListener = new StaticMinesListener();
 
     private static JavaPlugin parent;
+
     public static JavaPlugin getParent() {
         return parent;
     }
@@ -49,6 +50,7 @@ public final class StaticMines implements Listener {
 
     /**
      * Register a mine.
+     *
      * @param mine The mine to register.
      */
     static void registerMine(StaticMine mine) {
@@ -67,6 +69,7 @@ public final class StaticMines implements Listener {
 
     /**
      * Unregister a mine.
+     *
      * @param mine The mine to unregister.
      */
     static void unregisterMine(StaticMine mine) {
@@ -76,7 +79,6 @@ public final class StaticMines implements Listener {
         mines.remove(mine);
         WORLD_MINES.put(mine.getBukkitWorld(), mines);
     }
-
 
 
     /**
@@ -154,6 +156,7 @@ public final class StaticMines implements Listener {
 
     /**
      * Log a message with the StaticMines prefix.
+     *
      * @param str The message to log.
      */
     public static void log(String str) {
@@ -162,8 +165,9 @@ public final class StaticMines implements Listener {
 
     /**
      * Log a message with the StaticMines prefix.
+     *
      * @param ignoreDisabled Whether to ignore the disable_logger setting.
-     * @param str The message to log.
+     * @param str            The message to log.
      */
     public static void log(boolean ignoreDisabled, String str) {
         if (!ignoreDisabled && StaticMinesConfig.getConfig().getBoolean("disable_logger")) return;
@@ -294,9 +298,6 @@ public final class StaticMines implements Listener {
     }
 
 
-
-
-
     /**
      * Cleans up anything left behind by StaticMines. This will be called when StaticMines is disabled.
      */
@@ -328,6 +329,7 @@ public final class StaticMines implements Listener {
 
     /**
      * Get a mine from its location
+     *
      * @param yAxis Whether the Y-Axis should be factored in, otherwise it will return the first mine containing the location's X and Z coordinates.
      * @return A StaticMine instance that contains that location. Null if no mine contains that location.
      */

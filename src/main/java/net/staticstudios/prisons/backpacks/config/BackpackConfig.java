@@ -2,8 +2,6 @@ package net.staticstudios.prisons.backpacks.config;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.NamespacedKey;

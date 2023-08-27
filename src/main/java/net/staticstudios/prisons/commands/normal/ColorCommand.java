@@ -19,6 +19,7 @@ public class ColorCommand implements CommandExecutor, TabCompleter {
         SettingsMenus.openChatSettings(player, true);
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         return new ArrayList<>();

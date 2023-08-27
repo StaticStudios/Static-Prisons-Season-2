@@ -68,13 +68,13 @@ public enum MultiPouch implements Pouch<ItemStack>, CustomItem {
                 .append(name)
                 .append(text(" >> ").color(ComponentUtil.DARK_GRAY).decorate(TextDecoration.BOLD))
                 .append(Component.text("You won a ")
-                .color(ComponentUtil.LIGHT_PURPLE)
-                .append(text('+' + formatter.format(multiplierAmount) + "x")
-                        .color(ComponentUtil.WHITE))
-                .append(text(" multiplier for ")
-                        .color(ComponentUtil.LIGHT_PURPLE))
-                .append(text(PrisonUtils.formatTime(multiplierTime * 60 * 1000L))
-                        .color(ComponentUtil.WHITE)));
+                        .color(ComponentUtil.LIGHT_PURPLE)
+                        .append(text('+' + formatter.format(multiplierAmount) + "x")
+                                .color(ComponentUtil.WHITE))
+                        .append(text(" multiplier for ")
+                                .color(ComponentUtil.LIGHT_PURPLE))
+                        .append(text(PrisonUtils.formatTime(multiplierTime * 60 * 1000L))
+                                .color(ComponentUtil.WHITE)));
 
         ItemStack reward = MultiplierVoucher.getMultiplierNote(multiplierAmount, multiplierTime);
 

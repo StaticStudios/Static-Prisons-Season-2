@@ -3,9 +3,9 @@ package net.staticstudios.prisons.privatemines;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
+import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.mines.MineBlock;
-import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -45,6 +45,7 @@ public class PrivateMineConfigManager {
         });
         return future;
     }
+
     private static void loadConfigOptions() {
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "private_mines_config.yml"));
         DEFAULT_SELL_PERCENTAGE = config.getDouble("default_sell_percentage");
@@ -102,6 +103,7 @@ public class PrivateMineConfigManager {
             STATS_PER_LEVEL[i] = STATS_PER_LEVEL[i - 1];
         }
     }
+
     private static CompletableFuture<Void> loadSchematics() {
         CompletableFuture<Void> future = new CompletableFuture<>();
         long startTime = System.currentTimeMillis();

@@ -3,20 +3,12 @@ package net.staticstudios.prisons.fishing;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.commands.CommandManager;
 import net.staticstudios.prisons.enchants.EnchantableItemStack;
 import net.staticstudios.prisons.fishing.enchants.handler.FishingEnchants;
-import net.staticstudios.prisons.pickaxe.PickaxeListener;
-import net.staticstudios.prisons.pickaxe.commands.AddPickaxeBlocksMinedCommand;
-import net.staticstudios.prisons.pickaxe.commands.AddPickaxeXPCommand;
-import net.staticstudios.prisons.pickaxe.commands.EnchantCommand;
-import net.staticstudios.prisons.pickaxe.commands.PickaxeCommand;
-import net.staticstudios.prisons.pickaxe.enchants.handler.PickaxeEnchants;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.StaticFileSystemManager;
 import net.staticstudios.prisons.utils.items.SpreadOutExecutor;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -38,7 +30,7 @@ public class FishingManager {
 
         FishingEnchants.init();
 
-        FishingRewardOutline.load();
+//        FishingRewardOutline.load();
 
         loadData();
     }

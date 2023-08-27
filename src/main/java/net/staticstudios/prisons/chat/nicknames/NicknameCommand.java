@@ -62,6 +62,7 @@ public class NicknameCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(Component.text("Nickname successfully changed!").color(NamedTextColor.GREEN));
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) {

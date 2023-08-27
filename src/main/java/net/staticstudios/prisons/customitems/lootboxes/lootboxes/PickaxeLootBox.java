@@ -14,7 +14,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class PickaxeLootBox extends LootBox {
 

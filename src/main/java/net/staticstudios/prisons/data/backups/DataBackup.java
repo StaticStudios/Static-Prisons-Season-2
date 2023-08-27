@@ -64,6 +64,7 @@ public class DataBackup {
         //todo compress long term backups
         StaticPrisons.log("[Data-Backup] Saved a long term backup");
     }
+
     private static void shiftShortTermBackups(File shortTermBackUpFolder, File longTermBackUpFolder) throws IOException {
         if (!shortTermBackUpFolder.exists()) shortTermBackUpFolder.mkdirs();
         String[] directoryNames = shortTermBackUpFolder.list();
@@ -80,7 +81,8 @@ public class DataBackup {
         FileUtils.deleteDirectory(oldestDirectory);
         directoryNames = shortTermBackUpFolder.list();
         if (directoryNames == null) return;
-        if (directoryNames.length >= 8) shiftShortTermBackups(shortTermBackUpFolder, longTermBackUpFolder); //If there are still more than 7 days of data saved, recursively call this method again
+        if (directoryNames.length >= 8)
+            shiftShortTermBackups(shortTermBackUpFolder, longTermBackUpFolder); //If there are still more than 7 days of data saved, recursively call this method again
         StaticPrisons.log("[Data-Backup] Shifted short term backups");
     }
 

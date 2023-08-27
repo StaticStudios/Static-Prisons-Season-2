@@ -2,11 +2,7 @@ package net.staticstudios.prisons.data.datahandling;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigInteger;
 import java.util.*;
 
 
@@ -53,6 +49,7 @@ public class Data {
         }
         return stringList;
     }
+
     public Map<String, UUID> getStringUuidMap() {
         if (valueType.isEmpty()) {
             valueType = "stringUuidMap";
@@ -61,6 +58,7 @@ public class Data {
         }
         return stringUuidMap;
     }
+
     public Map<UUID, String> getUuidStringMap() {
         if (valueType.isEmpty()) {
             valueType = "uuidStringMap";
@@ -69,6 +67,7 @@ public class Data {
         }
         return uuidStringMap;
     }
+
     public boolean getBoolean() {
         if (valueType.isEmpty()) {
             valueType = "boolean";
@@ -77,6 +76,7 @@ public class Data {
         }
         return _boolean;
     }
+
     public int getInt() {
         if (valueType.isEmpty()) {
             valueType = "int";
@@ -85,6 +85,7 @@ public class Data {
         }
         return _int;
     }
+
     public long getLong() {
         if (valueType.isEmpty()) {
             valueType = "long";
@@ -93,6 +94,7 @@ public class Data {
         }
         return _long;
     }
+
     public double getDouble() {
         if (valueType.isEmpty()) {
             valueType = "double";
@@ -101,6 +103,7 @@ public class Data {
         }
         return _double;
     }
+
     public String getString() {
         if (valueType.isEmpty()) {
             valueType = "string";
@@ -114,30 +117,37 @@ public class Data {
         this.stringList = stringList;
         valueType = "stringList";
     }
+
     public void setStringUuidMap(Map<String, UUID> stringUuidMap) {
         this.stringUuidMap = stringUuidMap;
         valueType = "stringUuidMap";
     }
+
     public void setUuidStringMap(Map<UUID, String> uuidStringMap) {
         this.uuidStringMap = uuidStringMap;
         valueType = "uuidStringMap";
     }
+
     public void setBoolean(boolean _boolean) {
         this._boolean = _boolean;
         valueType = "boolean";
     }
+
     public void setInt(int _int) {
         this._int = _int;
         valueType = "int";
     }
+
     public void setLong(long _long) {
         this._long = _long;
         valueType = "long";
     }
+
     public void setDouble(double _double) {
         this._double = _double;
         valueType = "double";
     }
+
     public void setString(String _string) {
         this._string = _string;
         valueType = "string";
@@ -166,6 +176,7 @@ public class Data {
         section.set("valueType", valueType);
         return section;
     }
+
     public static Data fromConfigurationSection(String key, ConfigurationSection section) {
         Data data = new Data(key);
         String valueType = section.getString("valueType");

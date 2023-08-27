@@ -49,10 +49,12 @@ public class KeyallCommand implements CommandExecutor, TabCompleter {
         }
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
-        if (args.length == 1) list.addAll(StaticMineUtils.filterStrings(List.of("common", "rare", "epic", "legendary", "static", "staticp", "vote", "kit", "pickaxe"), args[0]));
+        if (args.length == 1)
+            list.addAll(StaticMineUtils.filterStrings(List.of("common", "rare", "epic", "legendary", "static", "staticp", "vote", "kit", "pickaxe"), args[0]));
         return list;
     }
 }

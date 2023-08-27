@@ -1,16 +1,6 @@
 package net.staticstudios.prisons.pickaxe.abilities;
 
-import net.staticstudios.mines.StaticMine;
-import net.staticstudios.prisons.blockbreak.BlockBreak;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
-import net.staticstudios.prisons.utils.PrisonUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.entity.Player;
-import java.util.LinkedList;
-import java.util.List;
 
 public class BlackHoleAbility extends BaseAbility {
 //

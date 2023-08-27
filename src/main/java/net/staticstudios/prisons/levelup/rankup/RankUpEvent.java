@@ -9,6 +9,7 @@ public class RankUpEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
     private final int from;
     private final int to;
+
     public RankUpEvent(Player player, int from, int to) {
         super(player);
         this.from = from;

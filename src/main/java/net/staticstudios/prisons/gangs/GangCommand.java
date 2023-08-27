@@ -38,7 +38,8 @@ public class GangCommand implements CommandExecutor, TabCompleter {
                     gang.removeMember(player.getUniqueId());
                     player.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&bYou left &a" + gang.getName() + "!"));
                     gang.messageAllMembers(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&c" + player.getName() + "&f left your gang!"));
-                } else player.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&cAre you sure you want to leave &a" + gang.getName() + "? &7&o/gang leave confirm"));
+                } else
+                    player.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&cAre you sure you want to leave &a" + gang.getName() + "? &7&o/gang leave confirm"));
             }
             case "kick" -> {
                 if (gang == null) {

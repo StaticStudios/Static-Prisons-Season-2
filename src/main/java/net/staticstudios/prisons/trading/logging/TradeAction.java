@@ -1,7 +1,5 @@
 package net.staticstudios.prisons.trading.logging;
 
-import org.bukkit.entity.Player;
-
 public enum TradeAction {
     REQUEST("Request Trade"),
     ACCEPT("Accept Trade"),

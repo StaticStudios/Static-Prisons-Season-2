@@ -10,7 +10,7 @@ import java.util.Objects;
 public class SetRankCommand {
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean validateArgs(CommandSender sender, String[] args ) {
+    public boolean validateArgs(CommandSender sender, String[] args) {
         if (!ServerData.PLAYERS.getAllNamesLowercase().contains(args[0].toLowerCase())) {
             sender.sendMessage(ChatColor.RED + "Player not found!");
             return false;

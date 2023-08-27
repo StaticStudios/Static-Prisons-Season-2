@@ -24,7 +24,8 @@ public abstract class EnchantableItemStack implements Enchantable, SpreadOutExec
 
     /**
      * Get an EnchantableItemStack from an ItemStack.
-     * @param clazz The class of the EnchantableItemStack.
+     *
+     * @param clazz     The class of the EnchantableItemStack.
      * @param itemStack The ItemStack.
      * @return The EnchantableItemStack.
      */
@@ -41,6 +42,7 @@ public abstract class EnchantableItemStack implements Enchantable, SpreadOutExec
 
     /**
      * Get a list of all the EnchantableItemStacks on an ItemStack.
+     *
      * @param itemStack The ItemStack.
      * @return The list of EnchantableItemStacks, it will be empty if it is not an EnchantableItemStack.
      */
@@ -69,7 +71,7 @@ public abstract class EnchantableItemStack implements Enchantable, SpreadOutExec
         return NAMESPACED_KEYS.get(clazz);
     }
 
-    public static void setNamespacedKey(Class<? extends  EnchantableItemStack> clazz, NamespacedKey key) {
+    public static void setNamespacedKey(Class<? extends EnchantableItemStack> clazz, NamespacedKey key) {
         NAMESPACED_KEYS.put(clazz, key);
     }
 

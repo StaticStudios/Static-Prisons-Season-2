@@ -1,18 +1,13 @@
 package net.staticstudios.prisons.fishing;
 
 import net.kyori.adventure.text.Component;
-import net.staticstudios.prisons.blockbreak.BlockBreak;
-import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
+import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.fishing.events.FishCaughtEvent;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.enchants.TokenatorEnchant;
 import net.staticstudios.prisons.pvp.PvPManager;
-import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.Prefix;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,9 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.persistence.PersistentDataType;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public class FishingListener implements Listener {
@@ -37,7 +30,7 @@ public class FishingListener implements Listener {
             e.setCancelled(true);
             player.sendMessage(Prefix.FISHING
                     .append(Component.text("You can only fish in the PvP arena!")
-                    .color(ComponentUtil.RED)));
+                            .color(ComponentUtil.RED)));
             return;
         }
 
@@ -46,7 +39,7 @@ public class FishingListener implements Listener {
             //This is not a prison fishing rod so make it unable to catch fish
             player.sendMessage(Prefix.FISHING
                     .append(Component.text("You cannot fish with this fishing rod!")
-                    .color(ComponentUtil.RED)));
+                            .color(ComponentUtil.RED)));
             e.getHook().remove();
         }
 
@@ -55,7 +48,7 @@ public class FishingListener implements Listener {
         if (fishingRod.getDurability() <= 0) {
             player.sendMessage(Prefix.FISHING
                     .append(Component.text("Your fishing rod has broken!")
-                    .color(ComponentUtil.RED)));
+                            .color(ComponentUtil.RED)));
             e.setCancelled(true);
         }
 
@@ -99,7 +92,7 @@ public class FishingListener implements Listener {
     @EventHandler
     void onEat(PlayerItemConsumeEvent e) {
         if (e.getItem().getItemMeta() == null) return;
-        if (e.getItem().getItemMeta().getPersistentDataContainer().has(FishingRewardOutline.KEY, PersistentDataType.INTEGER)) e.setCancelled(true);
+//        if (e.getItem().getItemMeta().getPersistentDataContainer().has(FishingRewardOutline.KEY, PersistentDataType.INTEGER)) e.setCancelled(true);
     }
 
     @EventHandler

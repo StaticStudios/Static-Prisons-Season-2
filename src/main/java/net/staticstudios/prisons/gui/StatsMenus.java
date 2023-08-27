@@ -1,11 +1,11 @@
 package net.staticstudios.prisons.gui;
 
 import net.kyori.adventure.text.Component;
-import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.gui.GUIPlaceholders;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.gui.builder.ButtonBuilder;
 import net.staticstudios.gui.builder.GUIBuilder;
+import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.ui.tablist.TeamPrefix;
@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.AQUA;

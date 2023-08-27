@@ -1,6 +1,5 @@
 package net.staticstudios.mines;
 
-import com.sk89q.worldedit.math.BlockVector3;
 import net.staticstudios.mines.api.events.BlockBrokenInMineEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,6 +16,7 @@ public class StaticMinesListener implements Listener {
         if (mine == null) return;
         Bukkit.getPluginManager().callEvent(new BlockBrokenInMineEvent(e, mine.getId()));
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     void onBlockBroken(BlockBrokenInMineEvent e) {
         e.getMine().removeBlocks(1);

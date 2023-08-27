@@ -1,7 +1,6 @@
 package net.staticstudios.prisons.chat.tags;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.chat.tags.commands.AddAllPlayerChatTagsCommand;
 import net.staticstudios.prisons.chat.tags.commands.AddPlayerChatTagCommand;

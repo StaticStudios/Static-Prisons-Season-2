@@ -19,6 +19,7 @@ public class PrestigeCommand implements CommandExecutor, TabCompleter {
         PrestigeMenus.open(player, true);
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         return Collections.emptyList();

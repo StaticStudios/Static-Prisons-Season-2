@@ -12,6 +12,7 @@ public class ServerDataServer extends DataSet {
     public int getVoteParty() {
         return getInt("voteParty");
     }
+
     public ServerDataServer setVoteParty(int value) {
         setInt("voteParty", value);
         return this;

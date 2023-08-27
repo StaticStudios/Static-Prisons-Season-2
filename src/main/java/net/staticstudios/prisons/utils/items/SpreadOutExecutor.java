@@ -56,7 +56,6 @@ public class SpreadOutExecutor {
     }
 
     /**
-     *
      * @return true if there is more to do, false if the que is ready to be rebuilt
      */
     private static boolean completeNextIteration() {

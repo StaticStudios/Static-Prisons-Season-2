@@ -45,9 +45,9 @@ public final class CustomChatMessage {
 
         Component rankTag = TeamPrefix.getFromIdDeserialized(
                 !"member".equals(playerData.getStaffRank()) ?
-                playerData.getStaffRank() :
-                !"member".equals(playerData.getPlayerRank()) ? playerData.getPlayerRank() :
-                        playerData.getIsNitroBoosting() ? "nitro" : "member"
+                        playerData.getStaffRank() :
+                        !"member".equals(playerData.getPlayerRank()) ? playerData.getPlayerRank() :
+                                playerData.getIsNitroBoosting() ? "nitro" : "member"
         );
 
         String discordName = playerData.getDiscordName();

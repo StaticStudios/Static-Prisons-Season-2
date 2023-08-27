@@ -36,7 +36,7 @@ public class WeightedElements<T> {
     /**
      * Create a new WeightedElements object.
      *
-     * @param o The object to hold.
+     * @param o      The object to hold.
      * @param weight The weight of the object.
      * @return A new WeightedElements object.
      */
@@ -58,16 +58,15 @@ public class WeightedElements<T> {
     /**
      * @param index Where to get the element from in the list
      * @return The element at the given index.
-     *
      * @throws IndexOutOfBoundsException If the index is out of bounds.
      */
     public WeightedElement<T> getElement(int index) {
         return elements.get(index);
     }
+
     /**
      * @param index The position of the object in the list.
      * @return The object at the given index.
-     *
      * @throws IndexOutOfBoundsException If the index is out of bounds.
      */
     public T getObject(int index) {
@@ -78,12 +77,12 @@ public class WeightedElements<T> {
     /**
      * @param index The position of the object in the list.
      * @return The weight of the object at the given index.
-     *
      * @throws IndexOutOfBoundsException If the index is out of bounds.
      */
     public double getChance(int index) {
         return (elements.get(index).weight() / totalWeight) * 100;
     }
+
     /**
      * @param o The object to look for in the list.
      * @return The weight of the object if it is contained in the list, otherwise it will return 0.
@@ -137,6 +136,7 @@ public class WeightedElements<T> {
         totalWeight -= e.weight();
         return this;
     }
+
     /**
      * Creates a new WeightedElement and remove any element from the internal list that matches the newly created object.
      *
@@ -173,6 +173,7 @@ public class WeightedElements<T> {
 
     /**
      * Get the total weight of all elements in the list.
+     *
      * @return The total weight of all elements in the list.
      */
     public double getTotalWeight() {
@@ -190,7 +191,6 @@ public class WeightedElements<T> {
     public boolean equals(WeightedElements<T> we) {
         return we == this || we.totalWeight == this.totalWeight && we.elements.equals(this.elements);
     }
-
 
 
 //    public static String example() {

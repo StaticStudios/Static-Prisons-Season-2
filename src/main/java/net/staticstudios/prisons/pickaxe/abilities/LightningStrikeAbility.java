@@ -1,16 +1,6 @@
 package net.staticstudios.prisons.pickaxe.abilities;
 
-import net.staticstudios.mines.StaticMine;
-import net.staticstudios.prisons.blockbreak.BlockBreak;
-import net.staticstudios.prisons.minebombs.MultiBombMineBomb;
-import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
-import net.staticstudios.prisons.utils.PrisonUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class LightningStrikeAbility extends BaseAbility {
 //

@@ -3,12 +3,12 @@ package net.staticstudios.prisons.chat.games;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customitems.CustomItems;
 import net.staticstudios.prisons.utils.ItemUtils;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -41,7 +41,7 @@ public class ChatGames {
         WORLD_LIST.addAll(config.getStringList("words"));
         config.addDefault("math", new YamlConfiguration());
         for (String question : config.getConfigurationSection("math").getKeys(false)) {
-            MATH_LIST.add(new String[] {question.replace('#', '.'), config.getString("math." + question)});
+            MATH_LIST.add(new String[]{question.replace('#', '.'), config.getString("math." + question)});
         }
 
         //Timer to run the events
@@ -120,7 +120,7 @@ public class ChatGames {
                     PlayerUtils.addToInventory(player, reward);
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + player.getName() + " correctly unscrambled &b" + event.question + "!&f Correct answer: &a" + event.correctAnswer + "!&f " +
-                        player.getName() + " won " + reward.getAmount() + "x " + ItemUtils.getPrettyItemName(reward) + "!"));
+                                player.getName() + " won " + reward.getAmount() + "x " + ItemUtils.getPrettyItemName(reward) + "!"));
                     }
                 }, question.toString(), answer);
                 for (Player p : Bukkit.getOnlinePlayers()) {
@@ -141,10 +141,12 @@ public class ChatGames {
             this.question = question;
             this.correctAnswer = correctAnswer;
         }
+
         void onAnswer(Player player) {
             ChatGames.activeEvents.remove(this);
             rewards.accept(player, this);
         }
+
         public long expireAt = Instant.now().getEpochSecond() + 120;
     }
 }

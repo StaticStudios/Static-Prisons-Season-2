@@ -38,6 +38,7 @@ public class CellBlockShop {
     }
 
     public static final int BLOCKS_PER_PAGE = 45;
+
     public static void openMenu(Player player, int page, boolean fromCommand) {
         GUICreator c = new GUICreator(54, "Cell Block Shop");
         int startIndex = page * BLOCKS_PER_PAGE;

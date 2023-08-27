@@ -19,13 +19,16 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class PickaxeManager {
     public static final Component DEFAULT_PICKAXE_NAME = Component.empty().append(Component.text("Prison Pickaxe"))
             .color(ComponentUtil.AQUA)
             .decorate(TextDecoration.BOLD)
             .decoration(TextDecoration.ITALIC, false);
+
     /**
      * Load all pickaxe data from disk
      */

@@ -151,7 +151,6 @@ public class StaticMine {
     }
 
 
-
     public StaticMine(String id, org.bukkit.World bukkitWorld,
                       BlockVector3 corner1, BlockVector3 corner2,
                       WeightedElements<BlockType> blocks) {
@@ -184,6 +183,7 @@ public class StaticMine {
 
     /**
      * Refills the mine. This may or may not be asynchronous.
+     *
      * @return A future that will be completed when the refill operation has been completed.
      */
     public CompletableFuture<StaticMine> refill() {
@@ -220,6 +220,7 @@ public class StaticMine {
 
     /**
      * Set a callback to be run each time the mine is refilled.
+     *
      * @param consumer The callback to be run. If it is null, then no callback will be run.
      */
     public void runOnRefill(@Nullable Consumer<StaticMine> consumer) {
@@ -251,6 +252,7 @@ public class StaticMine {
 
     /**
      * Call this method to update the mine's current block count, specifying the amount of blocks that were broken.
+     *
      * @param blocksToRemove The amount of blocks to remove from the mine's block count.
      * @return true if the mine was refilled, false if it was not.
      */

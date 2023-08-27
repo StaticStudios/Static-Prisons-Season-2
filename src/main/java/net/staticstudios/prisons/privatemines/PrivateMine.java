@@ -15,6 +15,8 @@ import com.sk89q.worldedit.world.block.BlockType;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import net.staticstudios.mines.StaticMine;
 import net.staticstudios.mines.builder.StaticMineBuilder;
+import net.staticstudios.mines.utils.WeightedElement;
+import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.data.PlayerData;
@@ -22,8 +24,6 @@ import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.mines.MineBlock;
 import net.staticstudios.prisons.utils.PrisonUtils;
 import net.staticstudios.prisons.utils.Warps;
-import net.staticstudios.mines.utils.WeightedElement;
-import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -51,21 +51,21 @@ public class PrivateMine {
 
     private static final int BASE_XP_PER_LEVEL = 1000;
     private static final double LEVEL_RATE_OF_INCREASE = 1.9;
+
     public static long getLevelRequirement(int level) {
         if (level <= 0) return BASE_XP_PER_LEVEL;
         return (long) ((long) BASE_XP_PER_LEVEL * level + level * Math.pow(LEVEL_RATE_OF_INCREASE * level, LEVEL_RATE_OF_INCREASE));
     }
 
 
-
-
-
     private boolean isLoading = false; //True if the build or mine is being created for the first time. Gets set to false when both of these operations are complete.
     public boolean isLoaded = false; //True once the schematic and mine have been loaded for the first time.
 
-    @NotNull public UUID privateMineId; //Unique ID of the private mine
+    @NotNull
+    public UUID privateMineId; //Unique ID of the private mine
     public int gridPosition; //The position of the private mine in the grid, used to find the x and z coordinates of the private mine
-    @NotNull public UUID owner; //The UUID of the owner of the private mine
+    @NotNull
+    public UUID owner; //The UUID of the owner of the private mine
     public String name; //The name of the private mine
     private final Set<UUID> whitelist = new HashSet<>(); //The UUIDs of the players who are whitelisted in the private mine and can access it even when it is not open to the public
     private long xp = 0; //The amount of XP that the private mine has, it should increase by 1 whenever someone breaks a block in the mine (raw blocks)
@@ -74,19 +74,37 @@ public class PrivateMine {
     private int nextAvailableUpgradeLevel = 0; //The next level that an upgrade will be unlocked at.
     private final List<Integer> availableUpgrades = new ArrayList<>(); //List containing the levels of the available upgrades for the private mine. A level is put into this list when some stat of the private mine will change from an upgrade
 
-    public boolean isLoading() { return isLoading; }
-    public UUID getPrivateMineId() { return privateMineId; }
-    public int getGridPosition() { return gridPosition; }
-    public UUID getOwner() { return owner; }
-    public String getName() { return name; }
+    public boolean isLoading() {
+        return isLoading;
+    }
 
-    public Set<UUID> getWhitelist() { return whitelist; }
+    public UUID getPrivateMineId() {
+        return privateMineId;
+    }
+
+    public int getGridPosition() {
+        return gridPosition;
+    }
+
+    public UUID getOwner() {
+        return owner;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Set<UUID> getWhitelist() {
+        return whitelist;
+    }
+
     public void addToWhitelist(UUID player) {
         whitelist.add(player);
         Set<PrivateMine> invites = PrivateMineManager.INVITED_MINES.getOrDefault(player, new HashSet<>());
         invites.add(this);
         PrivateMineManager.INVITED_MINES.put(player, invites);
     }
+
     public void removeFromWhitelist(UUID player) {
         whitelist.remove(player);
         Set<PrivateMine> invites = PrivateMineManager.INVITED_MINES.getOrDefault(player, new HashSet<>());
@@ -96,19 +114,30 @@ public class PrivateMine {
     }
 
 
-    public long getXp() { return xp; }
-    public void setXp(long xp) { this.xp = xp; }
+    public long getXp() {
+        return xp;
+    }
+
+    public void setXp(long xp) {
+        this.xp = xp;
+    }
+
     public boolean setXpAndCalcLevel(long xp) {
         setXp(xp);
         return recalculateLevel();
     }
-    public int getLevel() { return level; }
+
+    public int getLevel() {
+        return level;
+    }
+
     public long getNextLevelRequirement() {
         return getLevelRequirement(getLevel() + 1);
     }
 
 
     private long xpRequiredForNextLevel = -1; //Cached value of the XP required for the next level, use this to check if the private mine has leveled up (compare the XP value) rather than recalculating it all the time
+
     /**
      * @return true if the level has changed, false otherwise
      */
@@ -122,7 +151,8 @@ public class PrivateMine {
             xpRequiredForNextLevel = getNextLevelRequirement();
             levelChanged = true;
         }
-        if (levelChanged) updateAvailableUpgrades(); //If the level has changed, we need to recalculate the available upgrades
+        if (levelChanged)
+            updateAvailableUpgrades(); //If the level has changed, we need to recalculate the available upgrades
         return levelChanged;
     }
 
@@ -145,10 +175,14 @@ public class PrivateMine {
             messageOwner("Your private mine has an upgrade available!");
         }
     }
-    public List<Integer> getAvailableUpgrades() { return availableUpgrades; }
+
+    public List<Integer> getAvailableUpgrades() {
+        return availableUpgrades;
+    }
 
     /**
      * Attempt to upgrade the private mine
+     *
      * @return true if the upgrade was successful, false otherwise. This will depend on if the owner has enough money to purchase the upgrade or not.
      */
     public boolean upgrade() {
@@ -178,13 +212,18 @@ public class PrivateMine {
     public int getMineSize() {
         return mineSize;
     }
+
     public Clipboard getSchematic() {
         return schematic;
     }
+
     public WeightedElements<MineBlock> getMineBlocks() {
         return mineBlocks;
     }
-    public int getLastUpgradePurchaseLevel() { return lastUpgradePurchaseLevel; }
+
+    public int getLastUpgradePurchaseLevel() {
+        return lastUpgradePurchaseLevel;
+    }
 
     /**
      * Update the physical properties of the private mine. This will include the schematic and the mine.
@@ -230,6 +269,7 @@ public class PrivateMine {
 
     /**
      * Update the build of the private mine. This will make use of the schematic.
+     *
      * @param completeFutureOnMainThread - if true, the completeable future will be completed on the main thread, otherwise, it will be completed on an async thread.
      */
     private CompletableFuture<PrivateMine> updateBuild(boolean completeFutureOnMainThread) {
@@ -252,10 +292,14 @@ public class PrivateMine {
 
     private StaticMine mine = null;
     private long lastRefilledAt = 0; //The time the mine was last refilled
-    public @Nullable StaticMine getMine() { return mine; }
+
+    public @Nullable StaticMine getMine() {
+        return mine;
+    }
 
     /**
      * Delete and create a new StaticMine instance for the private mine.
+     *
      * @param completeFutureOnMainThread true if the future should be completed on the main thread, false otherwise
      */
     private CompletableFuture<StaticMine> updateMine(boolean completeFutureOnMainThread) {
@@ -266,8 +310,10 @@ public class PrivateMine {
         future.complete(mine);
         return future;
     }
+
     /**
      * Create a new StaticMine instance for the private mine.
+     *
      * @param completeFutureOnMainThread true if the future should be completed on the main thread, false otherwise
      */
     private CompletableFuture<StaticMine> registerMine(boolean completeFutureOnMainThread) {
@@ -309,7 +355,6 @@ public class PrivateMine {
     }
 
 
-
     public double visitorTax; //When player's mine in someone else's private mine, a percentage of the blocks' value that they mine will be taxed by the owner of the mine. Invited players will not be taxed.
     public boolean isPublic; //Whether the private mine is public or not. If it is public, it will be visible to everyone. If it is not, it will be visible only to the owner and those that have been invited to it
     public double sellPercentage; //The percentage of a block's value that players will get when selling blocks that were mined in this private mine.
@@ -327,6 +372,7 @@ public class PrivateMine {
         loadPrivateMine(privateMineId).thenAccept(future::complete);
         return future;
     }
+
     /**
      * @param playerUUID - the UUID of the player to get the private mine of
      * @return a completable future that will be completed with the private mine, or null if the private mine does not exist. If the private mine is loaded, it will complete instantly, otherwise it will load the private mine on a separate set of threads
@@ -339,6 +385,7 @@ public class PrivateMine {
         loadPrivateMine(privateMine.privateMineId).thenAccept(future::complete);
         return future;
     }
+
     /**
      * @param player - the player to get the private mine of
      * @return a completable future that will be completed with the private mine, or null if the private mine does not exist. If the private mine is loaded, it will complete instantly, otherwise it will load the private mine on a separate set of threads
@@ -346,6 +393,7 @@ public class PrivateMine {
     public static CompletableFuture<PrivateMine> getPrivateMineFromPlayer(Player player) {
         return getPrivateMineFromPlayer(player.getUniqueId());
     }
+
     /**
      * @param player - the player to get the private mine of
      * @return A private mine that may or may not be loaded. If the private mine is not loaded, some of its properties will be null/not defined.
@@ -369,6 +417,7 @@ public class PrivateMine {
     public static boolean playerHasPrivateMine(UUID playerUUID) {
         return PLAYER_PRIVATE_MINES.containsKey(playerUUID);
     }
+
     /**
      * @param player - the player to check
      * @return true if the player has a private mine, false otherwise
@@ -398,6 +447,7 @@ public class PrivateMine {
         );
         return loadPrivateMine(privateMine.privateMineId);
     }
+
     public PrivateMine(@NotNull UUID privateMineId, int gridPosition, UUID owner, String name, long xp, double visitorTax, boolean isPublic, double sellPercentage, int lastUpgradePurchaseLevel) {
         this.privateMineId = privateMineId;
         this.gridPosition = gridPosition;
@@ -421,11 +471,13 @@ public class PrivateMine {
 
 
     CompletableFuture<PrivateMine> loadingFuture = new CompletableFuture<>();
+
     public static CompletableFuture<PrivateMine> loadPrivateMine(UUID privateMineId) {
         PrivateMine privateMine = PRIVATE_MINES.get(privateMineId);
         if (privateMine == null) return null;
         if (privateMine.isLoaded) return CompletableFuture.completedFuture(privateMine);
-        if (privateMine.isLoading) return privateMine.loadingFuture; //To prevent a private mine being loaded multiple times at once
+        if (privateMine.isLoading)
+            return privateMine.loadingFuture; //To prevent a private mine being loaded multiple times at once
         privateMine.isLoading = true;
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
             //Delete old builds since the private mine is being loaded for the first time
@@ -444,6 +496,7 @@ public class PrivateMine {
     }
 
     public static final int XP_PER_BLOCK_BROKEN = 1;
+
     public void blockBroken(BlockBreak blockBreak) {
         setXpAndCalcLevel(getXp() + XP_PER_BLOCK_BROKEN);
         blockBreak.stats().setMoneyMultiplier(blockBreak.stats().getMoneyMultiplier() * sellPercentage);
@@ -472,11 +525,13 @@ public class PrivateMine {
         int[] position = PrivateMineManager.getPosition(gridPosition);
         Warps.warpSomewhere(player, new Location(PRIVATE_MINES_WORLD, position[0] + 0.5, 100, position[1] + 0.5, -90, 0), true).thenRun(() -> showWorldBoarder(player));
     }
+
     public List<Player> getAllPlayersInPrivateMine() {
         List<Player> players = new ArrayList<>();
         for (Player player : PRIVATE_MINES_WORLD.getPlayers()) if (isPlayerInMine(player)) players.add(player);
         return players;
     }
+
     public boolean isPlayerInMine(Player player) {
         int[] position = PrivateMineManager.getPosition(gridPosition);
         Vector3 min = Vector3.at(position[0] - 300, 0, position[1] - 300);
@@ -485,13 +540,13 @@ public class PrivateMine {
     }
 
 
-
     public void sendInfo(Player player) {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&e&l" + name + ":" + "\n&a\n") + buildInfo());
     }
+
     public String buildInfo() {
         return ChatColor.translateAlternateColorCodes('&',
-                        "&cOwner: &f" + ServerData.PLAYERS.getName(owner) + "\n" +
+                "&cOwner: &f" + ServerData.PLAYERS.getName(owner) + "\n" +
                         "&cLevel: &f" + PrisonUtils.addCommasToNumber(getLevel()) + "\n" +
                         "&cExperience: &f" + PrisonUtils.prettyNum(getXp()) + " / " + PrisonUtils.prettyNum(getNextLevelRequirement()) + "\n" +
                         "&cSize: &f" + getMineSize() + "x" + getMineSize() + "\n" +
@@ -500,9 +555,11 @@ public class PrivateMine {
                         "&a" + "\n" +
                         "&c&lSpecial Attributes: &fnone");
     }
+
     public List<String> buildInfoAsList() {
         return List.of(buildInfo().split("\n"));
     }
+
     void showWorldBoarder(Player player) {
         int[] position = PrivateMineManager.getPosition(gridPosition);
         PrivateMineStats stats = PrivateMineConfigManager.STATS_PER_LEVEL[lastUpgradePurchaseLevel];
@@ -513,6 +570,7 @@ public class PrivateMine {
 
     /**
      * Sends a message to the private mine owner IF the owner is online.
+     *
      * @param message message to send
      * @return true if the message was sent, false if the owner is offline.
      */
@@ -524,15 +582,18 @@ public class PrivateMine {
 
     /**
      * Sends a message to all players currently in this private mine
+     *
      * @param message message to send
      */
     public void messageAll(String message) {
-        for (Player player : getAllPlayersInPrivateMine()) player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&l" + name + " &8&l>> &r" + message));
+        for (Player player : getAllPlayersInPrivateMine())
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&d&l" + name + " &8&l>> &r" + message));
     }
 
     /**
      * Send a formatted message to a player
-     * @param who player to send the message to
+     *
+     * @param who     player to send the message to
      * @param message message to send
      */
     public static void sendMessage(Player who, String message) {
@@ -540,11 +601,12 @@ public class PrivateMine {
     }
 
 
-
     private void updateTreeMap() {
         if (PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) PRIVATE_MINES_SORTED_BY_LEVEL.get(level).remove(this);
-        if (PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) if (PRIVATE_MINES_SORTED_BY_LEVEL.get(level).isEmpty()) PRIVATE_MINES_SORTED_BY_LEVEL.remove(level);
-        if (!PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level)) PRIVATE_MINES_SORTED_BY_LEVEL.put(level, new HashSet<>());
+        if (PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level))
+            if (PRIVATE_MINES_SORTED_BY_LEVEL.get(level).isEmpty()) PRIVATE_MINES_SORTED_BY_LEVEL.remove(level);
+        if (!PRIVATE_MINES_SORTED_BY_LEVEL.containsKey(level))
+            PRIVATE_MINES_SORTED_BY_LEVEL.put(level, new HashSet<>());
         PRIVATE_MINES_SORTED_BY_LEVEL.get(level).add(this);
     }
 

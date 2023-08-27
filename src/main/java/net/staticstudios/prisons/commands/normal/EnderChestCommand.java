@@ -18,6 +18,7 @@ public class EnderChestCommand implements CommandExecutor, TabCompleter {
         player.openInventory(player.getEnderChest());
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

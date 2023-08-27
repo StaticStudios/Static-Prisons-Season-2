@@ -35,6 +35,7 @@ public class GUISettings {
 
     /**
      * Returns whether the player's items will be given back to them when they close the GUI.
+     *
      * @return True if the player's items should be given back to them when they close the GUI, false otherwise.
      */
     public boolean givePlayerItemsBack() {
@@ -43,6 +44,7 @@ public class GUISettings {
 
     /**
      * Allow/disallow the player's items to be given back to them when the GUI is being closed.
+     *
      * @param givePlayerItemsBack true if the player's items should be given back to them when they close the GUI, false otherwise.
      */
     public void givePlayerItemsBack(boolean givePlayerItemsBack) {

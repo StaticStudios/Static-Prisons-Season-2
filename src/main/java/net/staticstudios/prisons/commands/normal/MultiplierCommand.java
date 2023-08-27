@@ -21,6 +21,7 @@ public class MultiplierCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(ChatColor.AQUA + "Current money multiplier: " + ChatColor.WHITE + "x" + new PlayerData(player).getMoneyMultiplier());
         return true;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

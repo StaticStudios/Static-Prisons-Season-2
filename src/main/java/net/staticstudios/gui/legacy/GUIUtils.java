@@ -51,6 +51,7 @@ public class GUIUtils {
         itemStack.setItemMeta(meta);
         return itemStack;
     }
+
     private static ItemStack createPlaceHolder(Material mat, String name) {
         ItemStack itemStack = new ItemStack(mat);
         ItemMeta meta = itemStack.getItemMeta();
@@ -59,93 +60,123 @@ public class GUIUtils {
         itemStack.setItemMeta(meta);
         return itemStack;
     }
+
     public static ItemStack createWhitePlaceHolder() {
         return createPlaceHolder(Material.WHITE_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createWhitePlaceHolder(String name) {
         return createPlaceHolder(Material.WHITE_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createOrangePlaceHolder() {
         return createPlaceHolder(Material.ORANGE_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createOrangePlaceHolder(String name) {
         return createPlaceHolder(Material.ORANGE_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createMagentaPlaceHolder() {
         return createPlaceHolder(Material.MAGENTA_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createMagentaPlaceHolder(String name) {
         return createPlaceHolder(Material.MAGENTA_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createLightBluePlaceHolder() {
         return createPlaceHolder(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createLightBluePlaceHolder(String name) {
         return createPlaceHolder(Material.LIGHT_BLUE_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createYellowPlaceHolder() {
         return createPlaceHolder(Material.YELLOW_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createYellowPlaceHolder(String name) {
         return createPlaceHolder(Material.YELLOW_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createLimePlaceHolder() {
         return createPlaceHolder(Material.LIME_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createLimePlaceHolder(String name) {
         return createPlaceHolder(Material.LIME_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createPinkPlaceHolder() {
         return createPlaceHolder(Material.PINK_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createPinkPlaceHolder(String name) {
         return createPlaceHolder(Material.PINK_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createGrayPlaceHolder() {
         return createPlaceHolder(Material.GRAY_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createGrayPlaceHolder(String name) {
         return createPlaceHolder(Material.GRAY_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createLightGrayPlaceHolder() {
         return createPlaceHolder(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createLightGrayPlaceHolder(String name) {
         return createPlaceHolder(Material.LIGHT_GRAY_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createCyanPlaceHolder() {
         return createPlaceHolder(Material.CYAN_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createCyanPlaceHolder(String name) {
         return createPlaceHolder(Material.CYAN_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createBluePlaceHolder() {
         return createPlaceHolder(Material.BLUE_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createBluePlaceHolder(String name) {
         return createPlaceHolder(Material.BLUE_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createBrownPlaceHolder() {
         return createPlaceHolder(Material.BROWN_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createBrownPlaceHolder(String name) {
         return createPlaceHolder(Material.BROWN_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createGreenPlaceHolder() {
         return createPlaceHolder(Material.GREEN_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createGreenPlaceHolder(String name) {
         return createPlaceHolder(Material.GREEN_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createRedPlaceHolder() {
         return createPlaceHolder(Material.RED_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createRedPlaceHolder(String name) {
         return createPlaceHolder(Material.RED_STAINED_GLASS_PANE, name);
     }
+
     public static ItemStack createBlackPlaceHolder() {
         return createPlaceHolder(Material.BLACK_STAINED_GLASS_PANE);
     }
+
     public static ItemStack createBlackPlaceHolder(String name) {
         return createPlaceHolder(Material.BLACK_STAINED_GLASS_PANE, name);
     }

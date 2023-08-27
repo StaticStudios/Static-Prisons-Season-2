@@ -11,6 +11,7 @@ public class GUICreator extends StaticGUI {
         super(size, title);
         setDestroyOnClose(true);
     }
+
     public GUICreator(String title, InventoryType inventoryType) {
         super(title, inventoryType);
         setDestroyOnClose(true);

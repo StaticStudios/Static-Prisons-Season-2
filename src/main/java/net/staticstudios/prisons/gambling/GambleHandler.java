@@ -25,6 +25,7 @@ public class GambleHandler { //todo more gambling thinsg
         TokenFlip.createTokenFlip(player, amount, isHeads);
         player.sendMessage(ChatColor.AQUA + "You have successfully created a TokenFlip for " + ChatColor.GOLD + PrisonUtils.prettyNum(amount) + "Token(s)");
     }
+
     public void addCoinFlip(Player player, long amount, boolean isHeads) {
         if (coinFlips.containsKey(player.getUniqueId().toString())) {
             player.sendMessage(ChatColor.RED + "You cannot create a new CoinFlip as you already have an active CoinFlip!");

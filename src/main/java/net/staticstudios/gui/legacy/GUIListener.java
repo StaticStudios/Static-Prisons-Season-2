@@ -38,6 +38,7 @@ public class GUIListener implements Listener {
         }
         listener.accept(e);
     }
+
     @EventHandler
     void onDrag(InventoryDragEvent e) { //Prevent players from being able to lose items that they attempt to put into the GUI's inventory
         if (e.getInventory().getHolder() instanceof StaticGUI) e.setCancelled(true);
@@ -48,12 +49,13 @@ public class GUIListener implements Listener {
         if (!(e.getInventory().getHolder() instanceof StaticGUI gui)) return;
         Player player = (Player) e.getPlayer();
         if (gui.destroyOnClose) gui.destroy();
-        if (e.getReason().equals(InventoryCloseEvent.Reason.PLAYER)) if (gui.getMenuToOpenOnClose() != null)  {
+        if (e.getReason().equals(InventoryCloseEvent.Reason.PLAYER)) if (gui.getMenuToOpenOnClose() != null) {
             Bukkit.getScheduler().runTaskLater(StaticGUI.getParent(), () -> gui.getMenuToOpenOnClose().open(player), 1);
         } else if (gui.getOnCloseRun() != null) {
             Bukkit.getScheduler().runTaskLater(StaticGUI.getParent(), () -> gui.getOnCloseRun().run(player, null), 1);
         }
     }
+
     @EventHandler
     void invOpened(InventoryOpenEvent e) {
         if (!(e.getInventory().getHolder() instanceof StaticGUI)) return;

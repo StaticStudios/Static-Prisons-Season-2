@@ -77,8 +77,6 @@ public class EnchantItemStackListener implements Listener {
         if (firstEmpty == -1 || firstEmpty != player.getInventory().getHeldItemSlot()) return;
 
 
-
-
         ItemStack itemStack = e.getItem().getItemStack();
         List<EnchantableItemStack> enchantableItemStacks = EnchantableItemStack.fromGenericItem(itemStack);
         if (enchantableItemStacks.isEmpty()) return;

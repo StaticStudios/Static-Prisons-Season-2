@@ -2,11 +2,11 @@ package net.staticstudios.prisons.levelup.xp;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.gui.GUIPlaceholders;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.gui.builder.ButtonBuilder;
 import net.staticstudios.gui.builder.GUIBuilder;
+import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -67,7 +67,7 @@ public class LevelCommand extends GUIUtils implements CommandExecutor, TabComple
                 .name("&a&lCurrent XP: " + PrisonUtils.prettyNum(playerData.getPlayerXP()) + " XP")
                 .lore(List.of(
                         Component.empty(),
-                        Component.empty().append(Component.text("Next level: ").color(ComponentUtil.GREEN)).append(Component.text( PrisonUtils.addCommasToNumber(playerData.getNextLevelRequirement()) + " XP").color(ComponentUtil.WHITE)),
+                        Component.empty().append(Component.text("Next level: ").color(ComponentUtil.GREEN)).append(Component.text(PrisonUtils.addCommasToNumber(playerData.getNextLevelRequirement()) + " XP").color(ComponentUtil.WHITE)),
                         Component.empty().append(Component.text("Level up progress: ").color(ComponentUtil.GREEN)).append(Component.text(levelUpPercentage).color(ComponentUtil.WHITE))
                 ))
                 .build());
@@ -84,6 +84,7 @@ public class LevelCommand extends GUIUtils implements CommandExecutor, TabComple
 //        c.open(player);
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         return Collections.emptyList();

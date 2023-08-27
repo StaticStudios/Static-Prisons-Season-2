@@ -50,6 +50,7 @@ public class MultiBombMineBomb {
         this.world = origin.getWorld();
         this.radius = radius;
     }
+
     public MultiBombMineBomb(double radius) {
         this.radius = radius;
     }
@@ -89,6 +90,7 @@ public class MultiBombMineBomb {
         blocksChanges.remove(null);
         return blocksChanges;
     }
+
     void explodeAtComputedPositions(int particles) {
         for (BlockVector3 pos : positions) {
             setBlock(pos.getBlockX() + originX, pos.getBlockY() + originY, pos.getBlockZ() + originZ, pattern);

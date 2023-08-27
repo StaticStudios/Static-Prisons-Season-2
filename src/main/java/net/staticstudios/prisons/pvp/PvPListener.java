@@ -69,8 +69,8 @@ class PvPListener implements org.bukkit.event.Listener {
             ItemStack moneyNote = MoneyNote.getMoneyNote(player, moneyToDrop);
 
             moneyNote.editMeta(meta -> meta.displayName(ComponentUtil.BLANK
-                            .append(Component.text("(From Death) ")
-                                    .color(ComponentUtil.RED)).append(Objects.requireNonNull(meta.displayName()))));
+                    .append(Component.text("(From Death) ")
+                            .color(ComponentUtil.RED)).append(Objects.requireNonNull(meta.displayName()))));
 
             e.getDrops().add(moneyNote);
         }

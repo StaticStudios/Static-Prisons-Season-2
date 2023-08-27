@@ -65,6 +65,7 @@ public class CoinFlipCommand implements CommandExecutor, TabCompleter {
 
         return true;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

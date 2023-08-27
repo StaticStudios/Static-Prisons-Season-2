@@ -5,12 +5,15 @@ import net.kyori.adventure.text.format.TextColor;
 import net.staticstudios.gui.StaticGUI;
 import net.staticstudios.gui.builder.ButtonBuilder;
 import net.staticstudios.gui.builder.GUIBuilder;
+import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.PlayerUtils;
 import net.staticstudios.prisons.utils.Prefix;
-import net.staticstudios.mines.utils.WeightedElements;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -66,7 +69,7 @@ public class Crate {
 
         Component rewardMessage = Prefix.CRATES
                 .append(Component.text((chance <= 2.5 ? player.getName() : "You") + " won " + itemReward.getAmount() + "x "))
-                    .append(Objects.requireNonNull(itemReward.getItemMeta().displayName()).append(Component.text("!")));
+                .append(Objects.requireNonNull(itemReward.getItemMeta().displayName()).append(Component.text("!")));
         rewardMessage = rewardMessage.append(Component.text(" (" + new DecimalFormat("0.0").format(chance) + "% chance) ").color(color))
                 .append(Component.text("from a " + DISPLAY_NAME + "!").color(ComponentUtil.WHITE));
 

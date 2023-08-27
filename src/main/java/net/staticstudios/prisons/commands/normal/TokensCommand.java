@@ -21,6 +21,7 @@ public class TokensCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(ChatColor.AQUA + "Current token balance: " + PrisonUtils.addCommasToNumber(new PlayerData(player).getTokens()));
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

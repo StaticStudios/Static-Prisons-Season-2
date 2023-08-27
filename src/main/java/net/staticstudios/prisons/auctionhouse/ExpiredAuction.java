@@ -24,9 +24,11 @@ public class ExpiredAuction {
         if (!playerFile.exists()) return expiredAuctions;
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(playerFile);
         fileData.addDefault("expiredAuctions", new ArrayList<String>());
-        for (String str : fileData.getStringList("expiredAuctions")) expiredAuctions.add(new ExpiredAuction(playerUUID, str));
+        for (String str : fileData.getStringList("expiredAuctions"))
+            expiredAuctions.add(new ExpiredAuction(playerUUID, str));
         return expiredAuctions;
     }
+
     public static void clearPlayerExpiredAuctions(UUID playerUUID) {
         new File(StaticPrisons.getInstance().getDataFolder(), "data/auctionHouse/" + playerUUID + ".yml").delete();
     }
@@ -65,6 +67,7 @@ public class ExpiredAuction {
             e.printStackTrace();
         }
     }
+
     public void saveToFile() {
         File folder = new File(StaticPrisons.getInstance().getDataFolder(), "data/auctionHouse");
         folder.mkdir();

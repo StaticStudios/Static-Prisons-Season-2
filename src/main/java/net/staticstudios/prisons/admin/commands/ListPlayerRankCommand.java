@@ -25,10 +25,12 @@ public class ListPlayerRankCommand implements CommandExecutor, TabCompleter {
             return false;
         }
         List<String> names = new ArrayList<>();
-        for (UUID uuid : ServerData.PLAYERS.getAllUUIDs()) if (new PlayerData(uuid).getPlayerRank().equals(args[0])) names.add(ServerData.PLAYERS.getName(uuid));
+        for (UUID uuid : ServerData.PLAYERS.getAllUUIDs())
+            if (new PlayerData(uuid).getPlayerRank().equals(args[0])) names.add(ServerData.PLAYERS.getName(uuid));
         sender.sendMessage("The following players have this rank: " + names);
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

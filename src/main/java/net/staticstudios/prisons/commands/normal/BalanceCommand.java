@@ -21,6 +21,7 @@ public class BalanceCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(ChatColor.GREEN + "Current balance: $" + PrisonUtils.addCommasToNumber(new PlayerData(player).getMoney()));
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         return new ArrayList<>();

@@ -23,7 +23,6 @@ public enum BackpackCustomItem implements CustomItem {
     TIER_10("backpack_tier_10", 10);
 
 
-
     private final String id;
     private final int tier;
 

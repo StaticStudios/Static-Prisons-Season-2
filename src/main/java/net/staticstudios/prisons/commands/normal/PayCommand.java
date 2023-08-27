@@ -23,7 +23,7 @@ public class PayCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
         PlayerData playerData = new PlayerData(player);
-        if (args.length < 3 ) {
+        if (args.length < 3) {
             player.sendMessage(CommandUtils.getCorrectUsage("/pay <who> <money/tokens> <amount>"));
             return false;
         }
@@ -79,6 +79,7 @@ public class PayCommand implements CommandExecutor, TabCompleter {
         }
         return true;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

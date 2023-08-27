@@ -33,6 +33,7 @@ public class GiveVoteCommand implements CommandExecutor, TabCompleter {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "_ vote " + Objects.requireNonNull(Bukkit.getPlayer(args[0])).getName());
         return true;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

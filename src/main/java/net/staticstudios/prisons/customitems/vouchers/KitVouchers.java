@@ -3,14 +3,10 @@ package net.staticstudios.prisons.customitems.vouchers;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.customitems.old.Kits;
-import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.ComponentUtil;
-import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -71,8 +67,6 @@ public class KitVouchers {
                 Kits.WEAPON.addItemsToPlayersInventory(player);
                 return true;
             });
-
-
 
 
     private static ItemStack makeItem(Material icon, String kitDisplayName, TextColor color) {

@@ -4,7 +4,8 @@ import com.sk89q.worldedit.function.pattern.RandomPattern;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.block.BlockType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class StaticMineUtils {
     /**

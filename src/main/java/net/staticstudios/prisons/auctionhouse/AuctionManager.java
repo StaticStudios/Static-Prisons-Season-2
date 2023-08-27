@@ -132,7 +132,8 @@ public class AuctionManager {
             player.sendMessage(AH_PREFIX + ChatColor.RED + "You do not have any auction(s) to claim");
             return;
         }
-        for (ExpiredAuction expiredAuction : expiredAuctions) PlayerUtils.addToInventory(player, expiredAuction.getItem());
+        for (ExpiredAuction expiredAuction : expiredAuctions)
+            PlayerUtils.addToInventory(player, expiredAuction.getItem());
         ExpiredAuction.clearPlayerExpiredAuctions(player.getUniqueId());
         player.sendMessage(AH_PREFIX + "You claimed all of your expired auctions");
     }

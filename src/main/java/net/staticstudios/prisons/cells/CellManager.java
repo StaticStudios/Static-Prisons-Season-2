@@ -43,6 +43,7 @@ public class CellManager {
 
     public static Map<UUID, Cell> cells = new HashMap<>();
     public static Map<UUID, UUID> playersToCell = new HashMap<>();
+
     public static void saveSync() {
         FileConfiguration fileData = new YamlConfiguration();
         for (Map.Entry<UUID, Cell> entry : cells.entrySet()) {
@@ -57,6 +58,7 @@ public class CellManager {
             e.printStackTrace();
         }
     }
+
     public static void save() {
         Map<UUID, Cell> temp = new HashMap<>(cells);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
@@ -74,6 +76,7 @@ public class CellManager {
             }
         });
     }
+
     public static void load() {
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data/cells.yml"));
         for (String key : fileData.getKeys(false)) {
@@ -88,19 +91,21 @@ public class CellManager {
 
     /**
      * @return the grid position of the new island which can be used to find the x and z location of the island with the getPosOfIslandOnGrid method
-     *
+     * <p>
      * Increments the amount of islands on the grid by 1
      */
     public static int createNewIslandOnGrid() {
         ServerData.ISLANDS.setAmountOfIslandsOnGrid(ServerData.ISLANDS.getAmountOfIslandsOnGrid() + 1);
         return ServerData.ISLANDS.getAmountOfIslandsOnGrid();
     }
+
     public static int[] getCellPosition(int pos) {
         int[] positions = getGridPos(pos);
         positions[0] *= DISTANCE_BETWEEN_GRID_POSITIONS;
         positions[1] *= DISTANCE_BETWEEN_GRID_POSITIONS;
         return positions;
     }
+
     static int[] getGridPos(int pos) {
         int[] posXY = new int[]{0, 0};
         int step = (int) Math.sqrt(pos - 1) + 1;

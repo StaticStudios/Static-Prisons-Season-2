@@ -74,21 +74,29 @@ public class DataSet {
 
     /**
      * The key that gets built when a new instance of this class is created
-     *<br> Ex: "SERVER-players-" | The container key is then appended onto this key to create the actual key for the data in the map
-     *<br> Ex: "SERVER-players-namesToUUIDs" or "PLAYERS-1234567890-money"
+     * <br> Ex: "SERVER-players-" | The container key is then appended onto this key to create the actual key for the data in the map
+     * <br> Ex: "SERVER-players-namesToUUIDs" or "PLAYERS-1234567890-money"
      */
     private final String key;
-    public DataSet(DataTypes dataType, String container) { key = dataType.name() + "-" + container + "-"; }
+
+    public DataSet(DataTypes dataType, String container) {
+        key = dataType.name() + "-" + container + "-";
+    }
 
     /**
      * Put a new data object into the map using the key that was built in the constructor and the container key
-     * @param value The data object to put into the map
+     *
+     * @param value        The data object to put into the map
      * @param containerKey The final part of the key that will be put into the map, EX: "playerNames", "money", "timePlayed", etc.
      */
-    private void setData(String containerKey, Data value) { ALL_DATA.put(this.key + containerKey, value); }
+    private void setData(String containerKey, Data value) {
+        ALL_DATA.put(this.key + containerKey, value);
+    }
 
     @Nullable
-    private Data getData(String containerKey) { return ALL_DATA.get(this.key + containerKey); }
+    private Data getData(String containerKey) {
+        return ALL_DATA.get(this.key + containerKey);
+    }
 
 
     /**
@@ -110,10 +118,12 @@ public class DataSet {
         data.setString(value);
         setData(key, data);
     }
+
     @NotNull
     public String getString(String key) {
         return getDataNotNull(key).getString();
     }
+
     public void setInt(String key, int value) {
         Data data = new Data(key);
         data.setInt(value);
@@ -123,6 +133,7 @@ public class DataSet {
     public int getInt(String key) {
         return getDataNotNull(key).getInt();
     }
+
     public void setDouble(String key, double value) {
         Data data = new Data(key);
         data.setDouble(value);
@@ -132,6 +143,7 @@ public class DataSet {
     public double getDouble(String key) {
         return getDataNotNull(key).getDouble();
     }
+
     public void setLong(String key, long value) {
         Data data = new Data(key);
         data.setLong(value);
@@ -141,6 +153,7 @@ public class DataSet {
     public long getLong(String key) {
         return getDataNotNull(key).getLong();
     }
+
     public void setBoolean(String key, boolean value) {
         Data data = new Data(key);
         data.setBoolean(value);
@@ -150,15 +163,18 @@ public class DataSet {
     public boolean getBoolean(String key) {
         return getDataNotNull(key).getBoolean();
     }
+
     public void setStringList(String key, List<String> value) {
         Data data = new Data(key);
         data.setStringList(value);
         setData(key, data);
     }
+
     @NotNull
     public List<String> getStringList(String key) {
         return getDataNotNull(key).getStringList();
     }
+
     /**
      * This has not yet been tested and is not guaranteed to work.
      */
@@ -167,11 +183,13 @@ public class DataSet {
     public Map<UUID, String> getUUIDStringMap(String key) {
         return getDataNotNull(key).getUuidStringMap();
     }
+
     public void setStringUUIDMap(String key, Map<String, UUID> value) {
         Data data = new Data(key);
         data.setStringUuidMap(value);
         setData(key, data);
     }
+
     @NotNull
     public Map<String, UUID> getStringUUIDMap(String key) {
         return getDataNotNull(key).getStringUuidMap();

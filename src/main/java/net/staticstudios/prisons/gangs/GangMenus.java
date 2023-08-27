@@ -43,6 +43,7 @@ public class GangMenus extends GUIUtils {
             if (!fromCommand) MainMenus.open(p);
         });
     }
+
     public static void openYourGang(Player player, boolean fromCommand) {
         if (!Gang.hasGang(player)) {
             openCreateGang(player, fromCommand);
@@ -81,7 +82,7 @@ public class GangMenus extends GUIUtils {
                 "- Friendly Fire: " + (gang.isFriendlyFire() ? "Enabled" : "Disabled"),
                 "- Accepting Invites: " + (gang.isAcceptingInvites() ? "Yes" : "No"),
                 "- Can Withdraw From Bank: " + (gang.canMembersWithdrawFomBank() ? "Yes" : "No")
-                ), (p, t) -> {
+        ), (p, t) -> {
             if (!gang.getOwner().equals(p.getUniqueId())) {
                 p.sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&cOnly the gang owner can do this action!"));
                 return;
@@ -94,6 +95,7 @@ public class GangMenus extends GUIUtils {
             if (!fromCommand) MainMenus.open(p);
         });
     }
+
     public static void openGangSettings(Player player, boolean fromCommand) {
         if (!Gang.hasGang(player)) {
             openCreateGang(player, fromCommand);
@@ -122,6 +124,7 @@ public class GangMenus extends GUIUtils {
         c.setOnCloseRun((p, t) -> openYourGang(p, fromCommand));
 
     }
+
     public static void openGangInvite(Player player, GangInvite invite, boolean fromCommand) {
         if (Gang.hasGang(player)) {
             openYourGang(player, fromCommand);
@@ -144,6 +147,7 @@ public class GangMenus extends GUIUtils {
             openGangInvites(p, fromCommand);
         });
     }
+
     public static void openGangInvites(Player player, boolean fromCommand) {
         if (Gang.hasGang(player)) {
             openYourGang(player, fromCommand);
@@ -165,6 +169,7 @@ public class GangMenus extends GUIUtils {
         });
 
     }
+
     public static void openGangMembers(Player player, boolean fromCommand) {
         if (!Gang.hasGang(player)) {
             openCreateGang(player, fromCommand);
@@ -198,6 +203,7 @@ public class GangMenus extends GUIUtils {
             openYourGang(p, fromCommand);
         });
     }
+
     public static void openGangManageMember(UUID member, Player player, boolean fromCommand) {
         if (!Gang.hasGang(player)) {
             openCreateGang(player, fromCommand);
@@ -212,7 +218,8 @@ public class GangMenus extends GUIUtils {
         ), (p, t) -> {
             gang.removeMember(member);
             gang.messageAllMembers(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&c" + ServerData.PLAYERS.getName(member) + "&f was kicked from your gang!"));
-            if (Bukkit.getPlayer(member) != null) Bukkit.getPlayer(member).sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You were kicked from &c" + gang.getName()));
+            if (Bukkit.getPlayer(member) != null)
+                Bukkit.getPlayer(member).sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You were kicked from &c" + gang.getName()));
             openGangMembers(p, fromCommand);
         }));
         c.setItem(12, createLightGrayPlaceHolder());
@@ -225,7 +232,8 @@ public class GangMenus extends GUIUtils {
         ), (p, t) -> {
             gang.setOwner(member);
             gang.messageAllMembers(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&b" + ServerData.PLAYERS.getName(member) + "&f is now the owner of your gang!"));
-            if (Bukkit.getPlayer(member) != null) Bukkit.getPlayer(member).sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You are now the owner of &b" + gang.getName()));
+            if (Bukkit.getPlayer(member) != null)
+                Bukkit.getPlayer(member).sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You are now the owner of &b" + gang.getName()));
             p.closeInventory();
         }));
         c.fill(createGrayPlaceHolder());
@@ -234,6 +242,7 @@ public class GangMenus extends GUIUtils {
             openGangMembers(p, fromCommand);
         });
     }
+
     public static void openGangStats(Player player, boolean fromCommand) {
         if (!Gang.hasGang(player)) {
             openCreateGang(player, fromCommand);
@@ -259,6 +268,7 @@ public class GangMenus extends GUIUtils {
         c.open(player);
         c.setOnCloseRun((p, t) -> openYourGang(p, fromCommand));
     }
+
     public static void openGangBank(Player player, boolean fromCommand) {
         if (!Gang.hasGang(player)) {
             openCreateGang(player, fromCommand);
@@ -276,6 +286,7 @@ public class GangMenus extends GUIUtils {
         c.open(player);
         c.setOnCloseRun((p, t) -> openYourGang(p, fromCommand));
     }
+
     public static void openGangBankMoney(Player player, boolean fromCommand) {
         if (!Gang.hasGang(player)) {
             openCreateGang(player, fromCommand);
@@ -303,6 +314,7 @@ public class GangMenus extends GUIUtils {
         c.open(player);
         c.setOnCloseRun((p, t) -> openGangBank(p, fromCommand));
     }
+
     public static void openGangBankTokens(Player player, boolean fromCommand) {
         if (!Gang.hasGang(player)) {
             openCreateGang(player, fromCommand);
@@ -330,7 +342,6 @@ public class GangMenus extends GUIUtils {
         c.open(player);
         c.setOnCloseRun((p, t) -> openGangBank(p, fromCommand));
     }
-
 
 
 }

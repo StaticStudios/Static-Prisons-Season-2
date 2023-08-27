@@ -36,6 +36,7 @@ public class RemovePlayerChatTagCommand implements CommandExecutor, TabCompleter
         playerData.removeChatTag(args[1]);
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

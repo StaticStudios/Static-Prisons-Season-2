@@ -39,7 +39,8 @@ public interface Enchantable {
      * @return The ConfigurationSection.
      */
     default ConfigurationSection serialize() {
-        return serialize((a, b) -> {});
+        return serialize((a, b) -> {
+        });
     }
 
     /**
@@ -68,14 +69,15 @@ public interface Enchantable {
      * @param config The ConfigurationSection.
      */
     default void deserialize(ConfigurationSection config) {
-        deserialize(config, (a, b) -> {});
+        deserialize(config, (a, b) -> {
+        });
     }
 
     /**
      * Apply all the enchants defined in the ConfigurationSection to this object.
      *
      * @param config The ConfigurationSection.
-     * @param extra Extra data to process from each ConfigurationSection.
+     * @param extra  Extra data to process from each ConfigurationSection.
      */
     default void deserialize(ConfigurationSection config, BiConsumer<Enchantment, ConfigurationSection> extra) {
         if (config == null) return;
@@ -112,6 +114,7 @@ public interface Enchantable {
 
     /**
      * Get a specific enchant holder on an Enchantable, from the enchantment class.
+     *
      * @param enchantment The enchantment class.
      * @return The enchantment holder.
      */
@@ -219,6 +222,7 @@ public interface Enchantable {
 
     /**
      * Get a set containing all the disabled enchantments on this item
+     *
      * @return A set containing all the disabled enchantments on this item
      */
     default Set<EnchantHolder> getDisabledEnchantments() {
@@ -242,6 +246,7 @@ public interface Enchantable {
 
     /**
      * Get a set containing all the enabled enchantments on this item
+     *
      * @return A set containing all the enabled enchantments on this item
      */
     default Set<EnchantHolder> getEnabledEnchantments() {

@@ -2,7 +2,6 @@ package net.staticstudios.prisons.levelup.prestige.gui;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.gui.legacy.GUICreator;
 import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.mines.utils.WeightedElements;

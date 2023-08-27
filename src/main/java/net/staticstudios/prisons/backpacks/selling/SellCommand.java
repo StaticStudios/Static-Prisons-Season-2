@@ -19,6 +19,7 @@ public class SellCommand implements CommandExecutor, TabCompleter {
         BackpackManager.sell(player);
         return true;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         return Collections.emptyList();

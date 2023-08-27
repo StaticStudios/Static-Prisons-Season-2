@@ -4,12 +4,12 @@ import com.destroystokyo.paper.event.server.ServerTickStartEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.ui.scoreboard.CustomScoreboard;
-import net.staticstudios.prisons.ui.tablist.TabList;
 import net.staticstudios.prisons.admin.AdminManager;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import net.staticstudios.prisons.external.DiscordLink;
+import net.staticstudios.prisons.ui.scoreboard.CustomScoreboard;
+import net.staticstudios.prisons.ui.tablist.TabList;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,7 +17,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.Objects;
@@ -28,6 +31,7 @@ public class EventListener implements Listener {
     void onNewTick(ServerTickStartEvent e) {
         StaticPrisons.currentTick += 1;
     }
+
     @EventHandler(priority = EventPriority.LOW)
     void playerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -54,6 +58,7 @@ public class EventListener implements Listener {
         //Updates a player's discord name
         DiscordLink.playerJoined(player);
     }
+
     @EventHandler
     void playerQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
@@ -72,12 +77,14 @@ public class EventListener implements Listener {
         PlayerData playerData = new PlayerData(player);
         playerData.setIsNitroBoosting(false);
     }
+
     @EventHandler
     void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
 
         if (e.getTo().getY() < 0) {
-            if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE) || e.getPlayer().getGameMode().equals(GameMode.SPECTATOR)) return;
+            if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE) || e.getPlayer().getGameMode().equals(GameMode.SPECTATOR))
+                return;
             Warps.warpToSpawn(player);
             return;
         }
@@ -116,7 +123,8 @@ public class EventListener implements Listener {
         if (e.getClickedBlock() != null && !e.getClickedBlock().getType().equals(Material.AIR)) {
             //Check if it is also a block place event
             if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-                if (player.getInventory().getItemInMainHand().getType().isBlock() && !e.getClickedBlock().getType().isInteractable()) return;
+                if (player.getInventory().getItemInMainHand().getType().isBlock() && !e.getClickedBlock().getType().isInteractable())
+                    return;
             }
         }
     }

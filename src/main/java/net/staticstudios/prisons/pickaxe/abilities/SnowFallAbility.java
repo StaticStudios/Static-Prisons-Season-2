@@ -1,31 +1,6 @@
 package net.staticstudios.prisons.pickaxe.abilities;
 
-import net.staticstudios.mines.StaticMine;
-import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.backpacks.BackpackManager;
-import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.minebombs.MultiBombMineBomb;
-import net.staticstudios.prisons.mines.MineBlock;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
-import net.staticstudios.prisons.utils.PrisonUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Snowball;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.projectiles.ProjectileSource;
-import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class SnowFallAbility extends BaseAbility {
 //

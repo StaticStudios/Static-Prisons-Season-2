@@ -164,7 +164,7 @@ public class KingOfTheHillManager {
     }
 
     private static Component checkIfNameIsPlayer(Player toCheck, Player player) {
-            return toCheck.equals(player) ? Component.text(" - YOU") : Component.empty();
+        return toCheck.equals(player) ? Component.text(" - YOU") : Component.empty();
     }
 
     public static int getTimeLeft() {

@@ -58,6 +58,7 @@ public abstract class ConfigurableEnchantment<E extends Event> implements Enchan
 
     /**
      * Get the ConfigurationSection for this enchantment.
+     *
      * @return The ConfigurationSection for this enchantment.
      */
     public ConfigurationSection getConfig() {

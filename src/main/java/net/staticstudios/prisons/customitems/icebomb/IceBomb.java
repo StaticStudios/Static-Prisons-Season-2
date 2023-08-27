@@ -53,15 +53,15 @@ public class IceBomb implements CustomItem {
             meta.displayName(Component.empty().decoration(TextDecoration.ITALIC, false)
                     .append(Component.text("Ice Bomb")
                             .color(ComponentUtil.AQUA)
-                    .decorate(TextDecoration.BOLD)));
+                            .decorate(TextDecoration.BOLD)));
             meta.lore(List.of(
-                    Component.empty().append(Component.text("Throw me in a mine to freeze a portion of it!")
-                            .color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
-                    Component.empty().append(Component.text("Frozen blocks generate lots of tokens!")
-                            .color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
-                    Component.empty(),
-                    Component.empty().append(Component.text("Ice has a " + ((int) (TOKENATOR_PROC_CHANCE * 100)) + "% chance to activate Tokenator")
-                            .color(ComponentUtil.YELLOW)).decoration(TextDecoration.ITALIC, false)
+                            Component.empty().append(Component.text("Throw me in a mine to freeze a portion of it!")
+                                    .color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
+                            Component.empty().append(Component.text("Frozen blocks generate lots of tokens!")
+                                    .color(ComponentUtil.LIGHT_GRAY)).decoration(TextDecoration.ITALIC, false),
+                            Component.empty(),
+                            Component.empty().append(Component.text("Ice has a " + ((int) (TOKENATOR_PROC_CHANCE * 100)) + "% chance to activate Tokenator")
+                                    .color(ComponentUtil.YELLOW)).decoration(TextDecoration.ITALIC, false)
                     )
             );
             meta.getPersistentDataContainer().set(NAMESPACE, PersistentDataType.BYTE, (byte) 0);
@@ -75,7 +75,8 @@ public class IceBomb implements CustomItem {
     public boolean onInteract(PlayerInteractEvent e) {
         if (e.getItem() == null) return false;
         if (e.getItem().getType() != Material.SNOWBALL) return false;
-        if (!e.getItem().getItemMeta().getPersistentDataContainer().has(NAMESPACE, PersistentDataType.BYTE)) return false;
+        if (!e.getItem().getItemMeta().getPersistentDataContainer().has(NAMESPACE, PersistentDataType.BYTE))
+            return false;
 
         e.setCancelled(true);
 

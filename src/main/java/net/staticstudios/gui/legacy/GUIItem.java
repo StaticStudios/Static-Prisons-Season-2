@@ -33,18 +33,24 @@ public record GUIItem(ItemStack item) {
     }
 
     public GUIRunnable getRunnable() {
-        if (!hasRunnable()) return (p, t) -> {};
-        if (item.getItemMeta().getPersistentDataContainer().get(GUIUtils.RUNNABLE_TYPE, PersistentDataType.INTEGER) != 0) return (p, t) -> {};
+        if (!hasRunnable()) return (p, t) -> {
+        };
+        if (item.getItemMeta().getPersistentDataContainer().get(GUIUtils.RUNNABLE_TYPE, PersistentDataType.INTEGER) != 0)
+            return (p, t) -> {
+            };
         String runnableUUID = item.getItemMeta().getPersistentDataContainer().get(GUIUtils.RUNNABLE_UUID_NAMESPACE_KEY, PersistentDataType.STRING);
         UUID guiUUID = UUID.fromString(item.getItemMeta().getPersistentDataContainer().get(GUIUtils.GUI_UUID_NAMESPACE_KEY, PersistentDataType.STRING));
-        if (!StaticGUI.allMenus.containsKey(guiUUID)) return (p, t) -> {};
-        if (!StaticGUI.allMenus.get(guiUUID).callbacks.containsKey(runnableUUID)) return (p, t) -> {};
+        if (!StaticGUI.allMenus.containsKey(guiUUID)) return (p, t) -> {
+        };
+        if (!StaticGUI.allMenus.get(guiUUID).callbacks.containsKey(runnableUUID)) return (p, t) -> {
+        };
         return StaticGUI.allMenus.get(guiUUID).callbacks.get(runnableUUID);
     }
 
     public Consumer<InventoryClickEvent> getListener() {
         if (!hasRunnable()) return null;
-        if (item.getItemMeta().getPersistentDataContainer().get(GUIUtils.RUNNABLE_TYPE, PersistentDataType.INTEGER) != 1) return null;
+        if (item.getItemMeta().getPersistentDataContainer().get(GUIUtils.RUNNABLE_TYPE, PersistentDataType.INTEGER) != 1)
+            return null;
         String listenerUUID = item.getItemMeta().getPersistentDataContainer().get(GUIUtils.RUNNABLE_UUID_NAMESPACE_KEY, PersistentDataType.STRING);
         UUID guiUUID = UUID.fromString(item.getItemMeta().getPersistentDataContainer().get(GUIUtils.GUI_UUID_NAMESPACE_KEY, PersistentDataType.STRING));
         if (!StaticGUI.allMenus.containsKey(guiUUID)) return null;

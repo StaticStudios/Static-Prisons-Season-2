@@ -13,14 +13,19 @@ public abstract class Invite<U, W> {
     final U sender;
     final U receiver;
     final W what;
-    Consumer<Invite<U, W>> onAccept = (i) -> {};
-    Consumer<Invite<U, W>> onDecline = (i) -> {};
-    Consumer<Invite<U, W>> onExpire = (i) -> {};
-    Consumer<Invite<U, W>> onDelete = (i) -> {};
+    Consumer<Invite<U, W>> onAccept = (i) -> {
+    };
+    Consumer<Invite<U, W>> onDecline = (i) -> {
+    };
+    Consumer<Invite<U, W>> onExpire = (i) -> {
+    };
+    Consumer<Invite<U, W>> onDelete = (i) -> {
+    };
     long expireAt;
     protected boolean hasExpired = false;
 
     static boolean workerStarted = false;
+
     static void startWorker() {
         if (workerStarted) return;
         Bukkit.getScheduler().runTaskTimer(StaticPrisons.getInstance(), () -> {
@@ -39,8 +44,10 @@ public abstract class Invite<U, W> {
     }
 
     public Invite(W what, U sender, U receiver, long secondsToLive) {
-        this(what, sender, receiver, secondsToLive, i -> {});
+        this(what, sender, receiver, secondsToLive, i -> {
+        });
     }
+
     public Invite(W what, U sender, U receiver, long secondsToLive, Consumer<Invite<U, W>> onDelete) {
         this.what = what;
         this.sender = sender;
@@ -50,15 +57,19 @@ public abstract class Invite<U, W> {
         invites.put(inviteID, this);
         startWorker();
     }
+
     public void setOnAccept(Consumer<Invite<U, W>> onAccept) {
         this.onAccept = onAccept;
     }
+
     public void setOnDecline(Consumer<Invite<U, W>> onDecline) {
         this.onDecline = onDecline;
     }
+
     public void setOnExpire(Consumer<Invite<U, W>> onExpire) {
         this.onExpire = onExpire;
     }
+
     public boolean isExpired() {
         return System.currentTimeMillis() > expireAt;
     }
@@ -74,6 +85,7 @@ public abstract class Invite<U, W> {
         onDelete.accept(this);
         invites.remove(inviteID);
     }
+
     public void declineInvite() {
         if (isExpired() && !hasExpired) {
             expire();
@@ -96,9 +108,11 @@ public abstract class Invite<U, W> {
     public W getWhat() {
         return what;
     }
+
     public U getSender() {
         return sender;
     }
+
     public U getReceiver() {
         return receiver;
     }

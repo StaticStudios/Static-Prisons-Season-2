@@ -47,7 +47,7 @@ public class MultiDirectionalEnchant extends PickaxeEnchant {
 
         long totalBlocksBroken = 0;
         Map<Material, Long> blocksBroken = new HashMap<>();
-        for(int y = minY; y <= blockY; y++) {
+        for (int y = minY; y <= blockY; y++) {
             for (int x = mine.getMinPoint().getBlockX(); x < mine.getMaxPoint().getBlockX() + 1; x++) {
                 Material mat = new Location(mine.getBukkitWorld(), x, y, blockZ).getBlock().getType();
                 if (!mat.equals(Material.AIR)) {
@@ -76,7 +76,7 @@ public class MultiDirectionalEnchant extends PickaxeEnchant {
                 BlockVector3.at(mine.getMaxPoint().getBlockX(), blockY, blockZ)
         );
         Region lineZ = new CuboidRegion(mine.getWorld(),
-                BlockVector3.at(blockX, minY,mine.getMaxPoint().getBlockZ()),
+                BlockVector3.at(blockX, minY, mine.getMaxPoint().getBlockZ()),
                 BlockVector3.at(blockX, blockY, mine.getMinPoint().getBlockZ())
         );
         editSession.setBlocks(lineX, BlockTypes.AIR);

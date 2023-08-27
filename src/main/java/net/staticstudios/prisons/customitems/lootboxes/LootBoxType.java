@@ -4,7 +4,10 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.customitems.LootBoxCustomItem;
-import net.staticstudios.prisons.customitems.lootboxes.lootboxes.*;
+import net.staticstudios.prisons.customitems.lootboxes.lootboxes.MineBombLootBox;
+import net.staticstudios.prisons.customitems.lootboxes.lootboxes.MoneyLootBox;
+import net.staticstudios.prisons.customitems.lootboxes.lootboxes.PickaxeLootBox;
+import net.staticstudios.prisons.customitems.lootboxes.lootboxes.TokenLootBox;
 import net.staticstudios.prisons.customitems.lootboxes.rewards.LootBoxCurrencyOutline;
 import net.staticstudios.prisons.customitems.lootboxes.rewards.LootBoxItemOutline;
 import net.staticstudios.prisons.customitems.lootboxes.rewards.LootBoxItemReward;
@@ -22,8 +25,8 @@ public enum LootBoxType {
     TOKEN(TokenLootBox.class, Component.empty().append(Component.text("Token Loot Box").color(ComponentUtil.GOLD).decoration(TextDecoration.BOLD, true))),
     MONEY(MoneyLootBox.class, Component.empty().append(Component.text("Money Loot Box").color(ComponentUtil.GREEN).decoration(TextDecoration.BOLD, true))),
     MINE_BOMB(MineBombLootBox.class, Component.empty().append(Component.text("Mine Bomb Loot Box").color(ComponentUtil.RED).decoration(TextDecoration.BOLD, true))),
-    PICKAXE(PickaxeLootBox.class, Component.empty().append(Component.text("Pickaxe Loot Box").color(ComponentUtil.AQUA).decoration(TextDecoration.BOLD, true))),
-    FISHING_BOX(FishingLootBox.class, Component.empty().append(Component.text("Fishing Rod Package").color(ComponentUtil.BLUE).decoration(TextDecoration.BOLD, true)));
+    PICKAXE(PickaxeLootBox.class, Component.empty().append(Component.text("Pickaxe Loot Box").color(ComponentUtil.AQUA).decoration(TextDecoration.BOLD, true)));
+//    FISHING_BOX(FishingLootBox.class, Component.empty().append(Component.text("Fishing Rod Package").color(ComponentUtil.BLUE).decoration(TextDecoration.BOLD, true)));
 //    MULTIPLIER("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWUyZTRjZGYyN2UzMmRjMThiNjA2NGNkZGNmZTFmZmIxZjM4ZDE0ODFiZDdjNDcyZWExMjMwNzZhMDc4NTAzZiJ9fX0=",
 //            Component.empty().append(Component.text("Pickaxe Loot Box").color(ComponentUtil.AQUA).decoration(TextDecoration.BOLD, true)), null),
 
@@ -48,6 +51,7 @@ public enum LootBoxType {
 
     /**
      * Get the texture for this loot box type's item in base64 format.
+     *
      * @return The texture for this loot box type's item in base64 format.
      */
     public String getBase64Texture() {
@@ -56,6 +60,7 @@ public enum LootBoxType {
 
     /**
      * Get the display name for this loot box type.
+     *
      * @return The display name for this loot box type.
      */
     public Component getDisplayName() {
@@ -64,6 +69,7 @@ public enum LootBoxType {
 
     /**
      * Get the loot box class for this loot box type.
+     *
      * @return The loot box class for this loot box type.
      */
     public Class<? extends LootBox> getLootBoxClass() {
@@ -72,6 +78,7 @@ public enum LootBoxType {
 
     /**
      * Get the goal for this loot box type for a given tier.
+     *
      * @param tier The tier to get the goal for.
      * @return The goal for this loot box type for the given tier.
      */
@@ -85,6 +92,7 @@ public enum LootBoxType {
 
     /**
      * Get the minimum tier for this loot box type.
+     *
      * @return The minimum tier for this loot box type.
      */
     public int getMinTier() {
@@ -93,6 +101,7 @@ public enum LootBoxType {
 
     /**
      * Get the maximum tier for this loot box type.
+     *
      * @return The maximum tier for this loot box type.
      */
     public int getMaxTier() {
@@ -101,6 +110,7 @@ public enum LootBoxType {
 
     /**
      * Get the min reward for this loot box type for a given tier.
+     *
      * @param tier The tier to get the reward for.
      * @return The reward for this loot box type for the given tier.
      */
@@ -113,6 +123,7 @@ public enum LootBoxType {
 
     /**
      * Get the max reward for this loot box type for a given tier.
+     *
      * @param tier The tier to get the reward for.
      * @return The reward for this loot box type for the given tier.
      */
@@ -125,6 +136,7 @@ public enum LootBoxType {
 
     /**
      * Get the rewards for this loot box type for a given tier.
+     *
      * @param tier The tier to get the reward for.
      * @return The reward for this loot box type for the given tier.
      */
@@ -137,6 +149,7 @@ public enum LootBoxType {
 
     /**
      * Get the reward type for this loot box type.
+     *
      * @return The reward type for this loot box type.
      */
     public LootBoxRewardType getRewardType() {
@@ -145,6 +158,7 @@ public enum LootBoxType {
 
     /**
      * This method will load the outline and rewards for this loot box type.
+     *
      * @param config The configuration section to load from.
      */
     private void loadRewards(ConfigurationSection config) {
@@ -190,6 +204,7 @@ public enum LootBoxType {
     /**
      * This method will figure out the min and max tiers for this loot box type.
      * This will also register the custom item for loot boxes of this type.
+     *
      * @param tier The tier to load.
      */
     private void loadedTier(int tier) {

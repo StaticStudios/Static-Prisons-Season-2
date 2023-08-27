@@ -14,7 +14,7 @@ import org.bukkit.Material;
 public class TokenatorEnchant extends PickaxeEnchant {
 
     public TokenatorEnchant() {
-        super( TokenatorEnchant.class, "pickaxe-tokenator");
+        super(TokenatorEnchant.class, "pickaxe-tokenator");
     }
 
     @Override

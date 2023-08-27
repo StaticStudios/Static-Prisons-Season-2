@@ -10,6 +10,7 @@ public class PrestigeEvent extends PlayerEvent {
     private final long from;
     private final long to;
     private final long moneySpent;
+
     public PrestigeEvent(Player player, long from, long to, long moneySpent) {
         super(player);
         this.from = from;

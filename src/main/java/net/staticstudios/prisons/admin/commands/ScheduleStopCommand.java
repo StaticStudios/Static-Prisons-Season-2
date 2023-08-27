@@ -34,6 +34,7 @@ public class ScheduleStopCommand implements TabExecutor {
         }, 20 * 60 * 15);
         return true;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         return Collections.emptyList();

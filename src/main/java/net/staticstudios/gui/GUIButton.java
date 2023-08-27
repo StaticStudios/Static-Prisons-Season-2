@@ -48,15 +48,19 @@ public class GUIButton {
     public Consumer<Player> onLeftClick() {
         return onLeftClick;
     }
+
     public Consumer<Player> onRightClick() {
         return onRightClick;
     }
+
     public Consumer<Player> onMiddleClick() {
         return onMiddleClick;
     }
+
     public BiConsumer<InventoryClickEvent, StaticGUI> onClick() {
         return onClick;
     }
+
     public ItemStack item() {
         return item;
     }

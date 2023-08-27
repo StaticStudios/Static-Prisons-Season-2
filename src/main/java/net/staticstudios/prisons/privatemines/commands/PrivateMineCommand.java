@@ -85,12 +85,14 @@ public class PrivateMineCommand implements CommandExecutor, TabCompleter {
                 }
                 unloadedPrivateMine.addToWhitelist(uuid);
                 player.sendMessage("You Invited " + ChatColor.AQUA + args[1] + ChatColor.WHITE + " to your private mine!");
-                if (Bukkit.getPlayer(uuid) != null) PrivateMine.sendMessage(Bukkit.getPlayer(uuid), ChatColor.AQUA + player.getName() + ChatColor.WHITE + " invited you to their private mine!");
+                if (Bukkit.getPlayer(uuid) != null)
+                    PrivateMine.sendMessage(Bukkit.getPlayer(uuid), ChatColor.AQUA + player.getName() + ChatColor.WHITE + " invited you to their private mine!");
             }
             case "upgrade" -> PrivateMineMenus.upgrade(player, true);
         }
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
@@ -101,7 +103,8 @@ public class PrivateMineCommand implements CommandExecutor, TabCompleter {
             list.add("invite");
             list.add("inv");
         } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("invite")) list.addAll(StaticMineUtils.filterStrings(ServerData.PLAYERS.getAllNames(), args[1]));
+            if (args[0].equalsIgnoreCase("invite"))
+                list.addAll(StaticMineUtils.filterStrings(ServerData.PLAYERS.getAllNames(), args[1]));
         }
         return list;
     }

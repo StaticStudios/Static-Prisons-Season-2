@@ -23,6 +23,7 @@ public class CrateReward {
             StaticPrisons.log("Display item for reward " + rewardItemID + " is null!");
         }
     }
+
     public CrateReward setRewardItemAmount(int rewardItemAmount) {
         this.rewardItemAmount = rewardItemAmount;
         this.icon.setAmount(rewardItemAmount);

@@ -14,7 +14,10 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class PreComputedMineBomb {
     static final Pattern pattern = BlockTypes.AIR;
@@ -75,6 +78,7 @@ public class PreComputedMineBomb {
         blocksChanges.remove(null);
         return blocksChanges;
     }
+
     void explode(int particles) {
         for (BlockVector3 pos : positions) {
             setBlock(pos.getBlockX() + originX, pos.getBlockY() + originY, pos.getBlockZ() + originZ, pattern);

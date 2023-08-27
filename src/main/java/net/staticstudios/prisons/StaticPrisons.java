@@ -80,7 +80,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
     private boolean isDevServer = false;
 
 
-
     public static StaticPrisons getInstance() {
         return plugin;
     }
@@ -155,7 +154,6 @@ public final class StaticPrisons extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new EventListener(), plugin);
 
     }
-
 
 
     private void enableCitizens() {

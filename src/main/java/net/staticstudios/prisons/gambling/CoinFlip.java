@@ -3,10 +3,10 @@ package net.staticstudios.prisons.gambling;
 import net.staticstudios.gui.legacy.GUICreator;
 import net.staticstudios.gui.legacy.GUIUtils;
 import net.staticstudios.gui.legacy.StaticGUI;
+import net.staticstudios.mines.utils.WeightedElements;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.PrisonUtils;
-import net.staticstudios.mines.utils.WeightedElements;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,21 +23,27 @@ public class CoinFlip extends Flip { //todo clean this and tokenflip up to use a
 
     public static final Material HEADS_ICON = Material.PLAYER_HEAD;
     public static final Material TAILS_ICON = Material.RABBIT_FOOT;
+
     public static void createCoinFlip(Player player, long amount, boolean isHeads) {
         new CoinFlip(player, amount, isHeads);
     }
+
     public static boolean checkIfExists(String uuid) {
         return GambleHandler.coinFlips.containsKey(uuid);
     }
+
     public static boolean checkIfThereAreTooManyActiveFlips() {
         return GambleHandler.coinFlips.size() >= GambleHandler.MAX_FLIP_COUNT;
     }
+
     public static void removeAFlip(String uuid) {
         GambleHandler.coinFlips.remove(uuid);
     }
+
     public void remove() {
         GambleHandler.coinFlips.remove(uuid);
     }
+
     public void runBet(Player challenger) {
         if (owner == null) {
             remove();
@@ -66,7 +72,8 @@ public class CoinFlip extends Flip { //todo clean this and tokenflip up to use a
             try {
                 c.setMenuID(uuid);
                 switch (animationsRun.get() % 3) {
-                    default -> c.setItem(13, c.createButton(Material.CLOCK, "&e&lHouse", List.of("House wins", "", "&c2% chance"))); //House
+                    default ->
+                            c.setItem(13, c.createButton(Material.CLOCK, "&e&lHouse", List.of("House wins", "", "&c2% chance"))); //House
                     case 1 -> {
                         if (isHeads)
                             c.setItem(13, c.createButton(headsIcon, "&a&lHeads", List.of(owner.getName() + " wins", "", "&c49% chance")));

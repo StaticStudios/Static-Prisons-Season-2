@@ -1,6 +1,5 @@
 package net.staticstudios.prisons.minebombs;
 
-import com.fastasyncworldedit.core.extent.processor.lighting.RelightMode;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -56,6 +55,7 @@ public class MineBomb {
         this.world = origin.getWorld();
         this.radius = radius;
     }
+
     public MineBomb(double radius) {
         this.radius = radius;
     }
@@ -67,14 +67,15 @@ public class MineBomb {
     }
 
 
-
     public Map<Material, Long> explode(StaticMine mine) {
         return explode(mine, (int) (radius / 2 * 25) + 75);
     }
+
     public Map<Material, Long> explode(StaticMine mine, int particles) {
         computePositions();
         return explodeAtComputedPositions(mine, particles);
     }
+
     public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, Location newOrigin) {
         location = newOrigin;
         this.world = newOrigin.getWorld();
@@ -83,6 +84,7 @@ public class MineBomb {
         this.originZ = newOrigin.getBlockZ();
         return explodeAtComputedPositions(mine, (int) (radius / 2 * 25) + 75);
     }
+
     public Map<Material, Long> explodeAtComputedPositions(StaticMine mine, int particles) {
         if (positions.isEmpty()) computePositions();
         blocksChanged = 0;
@@ -193,6 +195,7 @@ public class MineBomb {
         }
         return locations;
     }
+
     //If the block gets changed, it tracks the changes
     private void setBlock(int x, int y, int z, Pattern pattern) {
         BlockType blockType = editSession.getBlockType(x, y, z);

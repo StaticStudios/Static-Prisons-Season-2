@@ -5,20 +5,18 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Consumer;
-
-public class BlockBrokenInMineEvent extends Event{
+public class BlockBrokenInMineEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
 
     public @NotNull HandlerList getHandlers() {
         return handlers;
     }
+
     public static HandlerList getHandlerList() {
         return handlers;
     }
@@ -40,21 +38,27 @@ public class BlockBrokenInMineEvent extends Event{
     public BlockBreakEvent getBlockBreakEvent() {
         return blockBreakEvent;
     }
+
     public Block getBlock() {
         return block;
     }
+
     public Location getBlockLocation() {
         return block.getLocation().toBlockLocation();
     }
+
     public Material getBlockType() {
         return block.getType();
     }
+
     public Player getPlayer() {
         return player;
     }
+
     public String getMindID() {
         return mindID;
     }
+
     public StaticMine getMine() {
         return mine;
     }

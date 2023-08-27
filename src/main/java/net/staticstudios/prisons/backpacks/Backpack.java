@@ -32,6 +32,7 @@ public class Backpack implements SpreadOutExecution {
     long size = 0;
     long itemCount;
     long value;
+
     /**
      * Create a new Backpack object.
      *
@@ -49,6 +50,7 @@ public class Backpack implements SpreadOutExecution {
         updateItemNow();
         BackpackManager.ALL_BACKPACKS.put(uuid, this);
     }
+
     /**
      * Create a new Backpack object without knowing the ItemStack.
      *

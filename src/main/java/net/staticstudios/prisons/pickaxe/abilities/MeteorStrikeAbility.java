@@ -1,7 +1,6 @@
 package net.staticstudios.prisons.pickaxe.abilities;
 
 import net.staticstudios.prisons.pickaxe.abilities.handler.BaseAbility;
-import net.staticstudios.prisons.utils.PrisonUtils;
 
 public class MeteorStrikeAbility extends BaseAbility { //todo
 //

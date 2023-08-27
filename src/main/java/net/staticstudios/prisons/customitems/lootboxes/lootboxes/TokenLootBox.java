@@ -2,9 +2,9 @@ package net.staticstudios.prisons.customitems.lootboxes.lootboxes;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.customitems.lootboxes.LootBox;
 import net.staticstudios.prisons.customitems.lootboxes.LootBoxType;
+import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.Prefix;
 import net.staticstudios.prisons.utils.PrisonUtils;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public class TokenLootBox extends LootBox {
 
-    public TokenLootBox(int tier){
+    public TokenLootBox(int tier) {
         this(tier, UUID.randomUUID(), true);
     }
 

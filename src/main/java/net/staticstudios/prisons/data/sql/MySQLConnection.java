@@ -22,18 +22,19 @@ public class MySQLConnection {
         return false;
     }
 
-    public static Connection connect()  {
+    public static Connection connect() {
         try {
             if (!isConnected()) {
                 connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false",
                         username, password);
             }
-        } catch (SQLException ignore) {}
+        } catch (SQLException ignore) {
+        }
         return null;
     }
 
     public static void disconnect() {
-        if(isConnected()) {
+        if (isConnected()) {
             try {
                 connection.close();
             } catch (SQLException e) {

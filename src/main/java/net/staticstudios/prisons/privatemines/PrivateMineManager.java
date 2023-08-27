@@ -1,7 +1,6 @@
 package net.staticstudios.prisons.privatemines;
 
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockbreak.BlockBreak;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
@@ -15,7 +14,7 @@ import java.util.*;
 
 public class PrivateMineManager {
 
-    public static Map<UUID, Set<PrivateMine>> INVITED_MINES  = new HashMap<>();
+    public static Map<UUID, Set<PrivateMine>> INVITED_MINES = new HashMap<>();
 
     public static final int DISTANCE_BETWEEN_GRID_POSITIONS = 1000;
 
@@ -43,6 +42,7 @@ public class PrivateMineManager {
             e.printStackTrace();
         }
     }
+
     public static void save() {
         Map<UUID, PrivateMine> temp = new HashMap<>(PrivateMine.PRIVATE_MINES);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
@@ -70,6 +70,7 @@ public class PrivateMineManager {
             }
         });
     }
+
     public static void init() {
         PrivateMine.PRIVATE_MINES_WORLD = new WorldCreator("private_mines").createWorld();
         PrivateMineConfigManager.init().thenRun(() -> {
@@ -102,19 +103,21 @@ public class PrivateMineManager {
 
     /**
      * @return the grid position of the new island which can be used to find the x and z location of the island with the getPosOfIslandOnGrid method
-     *
+     * <p>
      * Increments the amount of islands on the grid by 1
      */
     public static int createNewIslandOnGrid() {
         ServerData.PRIVATE_MINES.setAmountOfMinesOnGrid(ServerData.PRIVATE_MINES.getAmountOfMinesOnGrid() + 1);
         return ServerData.PRIVATE_MINES.getAmountOfMinesOnGrid();
     }
+
     public static int[] getPosition(int pos) {
         int[] positions = getGridPos(pos);
         positions[0] *= DISTANCE_BETWEEN_GRID_POSITIONS;
         positions[1] *= DISTANCE_BETWEEN_GRID_POSITIONS;
         return positions;
     }
+
     static int[] getGridPos(int pos) {
         int[] posXY = new int[]{0, 0};
         int step = (int) Math.sqrt(pos - 1) + 1;

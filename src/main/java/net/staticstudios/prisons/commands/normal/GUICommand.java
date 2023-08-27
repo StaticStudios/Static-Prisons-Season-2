@@ -1,6 +1,7 @@
 package net.staticstudios.prisons.commands.normal;
 
-import net.staticstudios.prisons.fishing.gui.FishermanMenus;
+//import net.staticstudios.prisons.fishing.gui.FishermanMenus;
+
 import net.staticstudios.prisons.gui.MainMenus;
 import net.staticstudios.prisons.pvp.PvPManager;
 import org.bukkit.Location;
@@ -23,7 +24,7 @@ public class GUICommand implements CommandExecutor, TabCompleter {
             switch (args[0].toLowerCase()) {
                 case "fisherman" -> {
                     if (player.getWorld().equals(PvPManager.PVP_WORLD) && player.getLocation().distance(new Location(player.getWorld(), -102.5, 101, 52.5)) < 6) { //the hard-coded location of the fisherman. This should probably soft-coded
-                        FishermanMenus.mainMenu(player);
+//                        FishermanMenus.mainMenu(player);
                     }
                     return true;
                 }
@@ -32,6 +33,7 @@ public class GUICommand implements CommandExecutor, TabCompleter {
         MainMenus.open(player);
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

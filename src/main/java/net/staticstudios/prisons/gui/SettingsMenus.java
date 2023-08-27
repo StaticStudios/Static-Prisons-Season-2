@@ -84,12 +84,14 @@ public class SettingsMenus extends GUIUtils {
         Component currentChat = getCurrentChat(playerData);
 
 
-        Component boldToggle = Component.text( "Click to toggle off").color(NamedTextColor.RED);
+        Component boldToggle = Component.text("Click to toggle off").color(NamedTextColor.RED);
         if (!playerData.getIsChatBold()) boldToggle = Component.text("Click to toggle on").color(NamedTextColor.GREEN);
-        Component italicToggle = Component.text( "Click to toggle off").color(NamedTextColor.RED);
-        if (!playerData.getIsChatItalic()) italicToggle = Component.text("Click to toggle on").color(NamedTextColor.GREEN);
-        Component underlineToggle = Component.text( "Click to toggle off").color(NamedTextColor.RED);
-        if (!playerData.getIsChatUnderlined()) underlineToggle = Component.text("Click to toggle on").color(NamedTextColor.GREEN);
+        Component italicToggle = Component.text("Click to toggle off").color(NamedTextColor.RED);
+        if (!playerData.getIsChatItalic())
+            italicToggle = Component.text("Click to toggle on").color(NamedTextColor.GREEN);
+        Component underlineToggle = Component.text("Click to toggle off").color(NamedTextColor.RED);
+        if (!playerData.getIsChatUnderlined())
+            underlineToggle = Component.text("Click to toggle on").color(NamedTextColor.GREEN);
 
         c.setItem(1, c.createButton(Material.ORANGE_DYE, Component.text("Color").color(NamedTextColor.GOLD), List.of(Component.text("Change your chat color!").decorate(TextDecoration.ITALIC), Component.empty(), currentChat), (p, t) -> {
             if (!playerData.getPlayerRanks().contains("warrior")) {
@@ -127,6 +129,7 @@ public class SettingsMenus extends GUIUtils {
         c.open(player);
         c.setOnCloseRun((p, t) -> open(p, fromCommand));
     }
+
     static final TextColor[] CUSTOM_COLORS = new TextColor[]{
             TextColor.fromHexString("#8945ff"), //Twitch Purple
             TextColor.fromHexString("#d452ff"), //Pink
@@ -346,6 +349,7 @@ public class SettingsMenus extends GUIUtils {
             openChatSettings(p, fromCommand);
         });
     }
+
     public static void openUISettings(Player player, boolean fromCommand) {
         GUICreator c = new GUICreator(9, "UI Settings");
         PlayerData playerData = new PlayerData(player);

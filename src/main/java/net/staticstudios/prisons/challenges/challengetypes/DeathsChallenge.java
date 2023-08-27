@@ -5,7 +5,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.challenges.ChallengeType;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 

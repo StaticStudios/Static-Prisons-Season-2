@@ -2,7 +2,6 @@ package net.staticstudios.prisons.fishing;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.staticstudios.prisons.data.PlayerData;
 import net.staticstudios.prisons.enchants.EnchantHolder;
 import net.staticstudios.prisons.enchants.Enchantable;
 import net.staticstudios.prisons.enchants.EnchantableItemStack;
@@ -26,6 +25,7 @@ public class PrisonFishingRod extends EnchantableItemStack {
     private int caughtNothing;
     private double durability = 10;
     private List<Component> cachedLore = null;
+
     public PrisonFishingRod() {
         super(UUID.randomUUID());
         setItem(new ItemStack(Material.FISHING_ROD));
@@ -304,6 +304,7 @@ public class PrisonFishingRod extends EnchantableItemStack {
 
     private static final int BASE_XP_PER_LEVEL = 85;
     private static final double LEVEL_RATE_OF_INCREASE = 1.6;
+
     public long getXpRequired(int level) {
         if (level < 0) {
             return BASE_XP_PER_LEVEL;

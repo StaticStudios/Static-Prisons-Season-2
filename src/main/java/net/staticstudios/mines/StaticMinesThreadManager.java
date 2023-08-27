@@ -26,6 +26,7 @@ public class StaticMinesThreadManager {
 
     /**
      * Queue a task to be run on the thread pool.
+     *
      * @param runnable The task to run.
      */
     public static Future<?> submit(Runnable runnable) {
@@ -37,6 +38,7 @@ public class StaticMinesThreadManager {
 
     /**
      * Queue a task to be run on the thread pool.
+     *
      * @param runnable The task to run.
      */
     public static void execute(Runnable runnable) {

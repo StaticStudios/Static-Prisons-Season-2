@@ -5,7 +5,6 @@ import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.staticstudios.prisons.StaticPrisons;
 import net.staticstudios.prisons.data.PlayerData;
-import net.staticstudios.prisons.ui.tablist.TeamPrefix;
 import net.staticstudios.prisons.utils.ComponentUtil;
 import net.staticstudios.prisons.utils.Prefix;
 import org.bukkit.Material;

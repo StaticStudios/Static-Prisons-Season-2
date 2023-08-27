@@ -11,6 +11,7 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.projectiles.ProjectileSource;
+import org.bukkit.util.Consumer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,6 +42,11 @@ public record IceBombSource(Player player) implements ProjectileSource {
 
     @Override
     public <T extends Projectile> @NotNull T launchProjectile(@NotNull Class<? extends T> projectile, @Nullable Vector velocity) {
+        return null;
+    }
+
+    @Override
+    public <T extends Projectile> @NotNull T launchProjectile(@NotNull Class<? extends T> projectile, @Nullable Vector velocity, @Nullable Consumer<T> function) {
         return null;
     }
 }

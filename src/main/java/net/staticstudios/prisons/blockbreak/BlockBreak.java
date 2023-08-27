@@ -59,7 +59,6 @@ public class BlockBreak {
     }
 
 
-
     public BlockBreak(BlockBreakEvent e) {
         this.blockBreakEvent = e;
         this.block = e.getBlock();
@@ -79,6 +78,7 @@ public class BlockBreak {
         this.mine = mine;
         this.block = block;
     }
+
     public BlockBreak(Player player, PrisonPickaxe pickaxe, Block block) {
         this.player = player;
         this.playerData = new PlayerData(player);
@@ -87,6 +87,7 @@ public class BlockBreak {
         this.mine = StaticMines.fromLocation(blockLocation, false);
         this.block = block;
     }
+
     public BlockBreak(@NotNull PlayerData playerData, PrisonPickaxe pickaxe, Block block) {
         this.playerData = playerData;
         this.pickaxe = pickaxe;
@@ -94,6 +95,7 @@ public class BlockBreak {
         this.mine = StaticMines.fromLocation(blockLocation, false);
         this.block = block;
     }
+
     public BlockBreak(@NotNull PlayerData playerData, PrisonPickaxe pickaxe, StaticMine mine, Block block) {
         this.playerData = playerData;
         this.pickaxe = pickaxe;
@@ -101,27 +103,33 @@ public class BlockBreak {
         this.mine = mine;
         this.block = block;
     }
+
     public BlockBreak setPlayer(Player player) {
         this.player = player;
         return this;
     }
+
     public BlockBreak setPlayerData(PlayerData playerData) {
         this.playerData = playerData;
         return this;
     }
+
     public BlockBreak setPickaxe(PrisonPickaxe pickaxe) {
         this.pickaxe = pickaxe;
         return this;
     }
+
     public BlockBreak setBlockLocation(Location blockLocation) {
         this.blockLocation = blockLocation;
         this.mine = StaticMines.fromLocation(blockLocation, false);
         return this;
     }
+
     public BlockBreak setIsSimulated(boolean isSimulated) {
         this.isSimulated = isSimulated;
         return this;
     }
+
     public BlockBreak setBlockBreakEvent(BlockBreakEvent blockBreakEvent) {
         this.blockBreakEvent = blockBreakEvent;
         return this;
@@ -134,18 +142,23 @@ public class BlockBreak {
     public Player getPlayer() {
         return player;
     }
+
     public PlayerData getPlayerData() {
         return playerData;
     }
+
     public PrisonPickaxe getPickaxe() {
         return pickaxe;
     }
+
     public Location getBlockLocation() {
         return blockLocation;
     }
+
     public StaticMine getMine() {
         return mine;
     }
+
     public boolean isSimulated() {
         return isSimulated;
     }

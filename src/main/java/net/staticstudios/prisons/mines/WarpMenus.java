@@ -232,12 +232,13 @@ public class WarpMenus extends GUIUtils {
                 createGrayPlaceHolder(),
                 createGrayPlaceHolder()
 
-                );
+        );
 
 
         c.setOnCloseRun((p, t) -> mainMenu(p));
         c.open(player);
     }
+
     public static void minesMenuPrestige(Player player) {
         PlayerData playerData = new PlayerData(player);
         GUICreator c = new GUICreator(27, "Warp to a mine (Prestige mines)");
@@ -450,6 +451,7 @@ public class WarpMenus extends GUIUtils {
         c.setOnCloseRun((p, t) -> mainMenu(p));
         c.open(player);
     }
+
     public static void minesMenuRanked(Player player) {
         PlayerData playerData = new PlayerData(player);
         GUICreator c = new GUICreator(18, "Warp to a mine (Ranked mines)");
@@ -521,6 +523,7 @@ public class WarpMenus extends GUIUtils {
         if (unlockCondition) return c.createButton(matUnlocked, nameUnlocked, List.of(loreUnlocked), callbackUnlocked);
         return c.createButton(matLocked, nameLocked, List.of(loreLocked), callbackLocked);
     }
+
     private static ItemStack createMineWarp(GUICreator c, boolean unlockCondition, String nameLocked, String nameUnlocked, String[] loreLocked, String[] loreUnlocked, Material matLocked, Material matUnlocked, GUIRunnable callbackLocked, GUIRunnable callbackUnlocked, boolean enchantIfUnlocked) {
         ItemStack item = createMineWarp(c, unlockCondition, nameLocked, nameUnlocked, loreLocked, loreUnlocked, matLocked, matUnlocked, callbackLocked, callbackUnlocked);
         if (enchantIfUnlocked && unlockCondition) ench(item);

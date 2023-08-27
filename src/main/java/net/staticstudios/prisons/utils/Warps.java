@@ -45,17 +45,17 @@ public class Warps {
     public static final Location MINE_Z = new Location(Bukkit.getWorld("mines"), 58.5 + DISTANCE_BETWEEN_MINES * 25, 105, -54.5, 52.5f, 5);
 
     public static final Location PRESTIGE_MINE_1 = new Location(Bukkit.getWorld("mines"), 25.5 + DISTANCE_BETWEEN_MINES * 26, 117, 43.5, 145, 17.5f);
-//    public static final Location PRESTIGE_MINE_2 = new Location(Bukkit.getWorld("mines"), 25.5 + DISTANCE_BETWEEN_MINES * 27, 117, 43.5, 145, 17.5f);
+    //    public static final Location PRESTIGE_MINE_2 = new Location(Bukkit.getWorld("mines"), 25.5 + DISTANCE_BETWEEN_MINES * 27, 117, 43.5, 145, 17.5f);
 //    public static final Location PRESTIGE_MINE_3 = new Location(Bukkit.getWorld("mines"), 25.5 + DISTANCE_BETWEEN_MINES * 28, 117, 43.5, 145, 17.5f);
 //    public static final Location PRESTIGE_MINE_4 = new Location(Bukkit.getWorld("mines"), 25.5 + DISTANCE_BETWEEN_MINES * 29, 117, 43.5, 145, 17.5f);
 //    public static final Location PRESTIGE_MINE_5 = new Location(Bukkit.getWorld("mines"), 25.5 + DISTANCE_BETWEEN_MINES * 30, 117, 43.5, 145, 17.5f);
     public static final Location PRESTIGE_MINE_2 = new Location(Bukkit.getWorld("mines"), 54.5 + DISTANCE_BETWEEN_MINES * 31, 104, -36.5, 45, 0);
     public static final Location PRESTIGE_MINE_3 = new Location(Bukkit.getWorld("mines"), 54.5 + DISTANCE_BETWEEN_MINES * 32, 104, -36.5, 45, 0);
-//    public static final Location PRESTIGE_MINE_8 = new Location(Bukkit.getWorld("mines"), 54.5 + DISTANCE_BETWEEN_MINES * 33, 104, -36.5, 45, 0);
+    //    public static final Location PRESTIGE_MINE_8 = new Location(Bukkit.getWorld("mines"), 54.5 + DISTANCE_BETWEEN_MINES * 33, 104, -36.5, 45, 0);
 //    public static final Location PRESTIGE_MINE_9 = new Location(Bukkit.getWorld("mines"), 54.5 + DISTANCE_BETWEEN_MINES * 34, 104, -36.5, 45, 0);
 //    public static final Location PRESTIGE_MINE_10 = new Location(Bukkit.getWorld("mines"), 54.5 + DISTANCE_BETWEEN_MINES * 35, 104, -36.5, 45, 0);
     public static final Location PRESTIGE_MINE_4 = new Location(Bukkit.getWorld("mines"), 63.5 + DISTANCE_BETWEEN_MINES * 36, 103, -21.5, 90, 0);
-//    public static final Location PRESTIGE_MINE_12 = new Location(Bukkit.getWorld("mines"), 63.5 + DISTANCE_BETWEEN_MINES * 37, 103, -21.5, 90, 0);
+    //    public static final Location PRESTIGE_MINE_12 = new Location(Bukkit.getWorld("mines"), 63.5 + DISTANCE_BETWEEN_MINES * 37, 103, -21.5, 90, 0);
 //    public static final Location PRESTIGE_MINE_13 = new Location(Bukkit.getWorld("mines"), 63.5 + DISTANCE_BETWEEN_MINES * 38, 103, -21.5, 90, 0);
 //    public static final Location PRESTIGE_MINE_14 = new Location(Bukkit.getWorld("mines"), 63.5 + DISTANCE_BETWEEN_MINES * 39, 103, -21.5, 90, 0);
     public static final Location PRESTIGE_MINE_5 = new Location(Bukkit.getWorld("mines"), 41.5 + DISTANCE_BETWEEN_MINES * 40, 103, 87.5, 135, 0);
@@ -71,21 +71,26 @@ public class Warps {
 
     public static CompletableFuture<Boolean> warpSomewhere(Player player, Location where, boolean flight) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
-        PaperLib.teleportAsync(player, where).thenRun(() -> player.setAllowFlight(flight)).thenRun(() -> future.complete(true));
+        player.teleportAsync(where).thenRun(() -> player.setAllowFlight(flight)).thenRun(() -> future.complete(true));
         return future;
     }
+
     public static void warpToSpawn(Player player) {
         warpSomewhere(player, SPAWN, true);
     }
+
     public static void warpToPvP(Player player) {
         warpSomewhere(player, PVP, false);
     }
+
     public static void warpToCrates(Player player) {
         warpSomewhere(player, CRATES, true);
     }
+
     public static void warpToLeaderboards(Player player) {
         warpSomewhere(player, LEADERBOARDS, true);
     }
+
     public static void warpToMine(Player player, int mine) {
         switch (mine) {
             case 0 -> warpSomewhere(player, MINE_A, true);
@@ -116,6 +121,7 @@ public class Warps {
             case 25 -> warpSomewhere(player, MINE_Z, true);
         }
     }
+
     public static void warpToPrestigeMine(Player player, int mine) {
         switch (mine) {
             case 0 -> warpSomewhere(player, PRESTIGE_MINE_1, true);
@@ -135,6 +141,7 @@ public class Warps {
 //            case 14 -> warpSomewhere(player, PRESTIGE_MINE_15, true);
         }
     }
+
     public static void warpToRankMine(Player player, int mine) {
         switch (mine) {
             case 0 -> warpSomewhere(player, RANK_MINE_1, true);
@@ -144,6 +151,7 @@ public class Warps {
             case 4 -> warpSomewhere(player, RANK_MINE_5, true);
         }
     }
+
     public static void warEventMine(Player player) {
         warpSomewhere(player, EVENT_MINE, true);
     }

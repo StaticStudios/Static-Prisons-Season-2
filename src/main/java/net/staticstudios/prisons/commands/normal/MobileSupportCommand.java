@@ -25,6 +25,7 @@ public class MobileSupportCommand implements CommandExecutor, TabCompleter { //t
         } else player.sendMessage(ChatColor.GREEN + "You have disabled mobile support.");
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

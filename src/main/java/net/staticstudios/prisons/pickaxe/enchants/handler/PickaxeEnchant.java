@@ -48,13 +48,16 @@ public abstract class PickaxeEnchant extends ConfigurableEnchantment<BlockBreakP
     }
 
     @Override
-    public void onHold(Enchantable enchantable, Player player) {}
+    public void onHold(Enchantable enchantable, Player player) {
+    }
 
     @Override
-    public void onUnHold(Enchantable enchantable, Player player) {}
+    public void onUnHold(Enchantable enchantable, Player player) {
+    }
 
     @Override
-    public void onUpgrade(Enchantable enchantable, Player player, int oldLevel, int newLevel) {}
+    public void onUpgrade(Enchantable enchantable, Player player, int oldLevel, int newLevel) {
+    }
 
     protected void setTiers(EnchantTier... tiers) {
         this.tiers = tiers;

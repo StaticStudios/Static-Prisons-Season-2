@@ -2,16 +2,12 @@ package net.staticstudios.prisons.gangs;
 
 import net.md_5.bungee.api.ChatColor;
 import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockbreak.BlockBreak;
-import net.staticstudios.prisons.blockbreak.BlockBreakProcessEvent;
 import net.staticstudios.prisons.data.serverdata.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,12 +35,15 @@ public class Gang {
     public UUID getOwner() {
         return owner;
     }
+
     public String getName() {
         return name;
     }
+
     public List<UUID> getMembers() {
         return members;
     }
+
     public void setOwner(UUID owner) {
         this.owner = owner;
     }
@@ -54,27 +53,35 @@ public class Gang {
     private boolean acceptingInvites = true;
     private boolean friendlyFire = false;
     private boolean canMembersWithdrawFomBank = true;
+
     public boolean isPublic() {
         return isPublic;
     }
+
     public boolean isAcceptingInvites() {
         return acceptingInvites;
     }
+
     public boolean isFriendlyFire() {
         return friendlyFire;
     }
+
     public boolean canMembersWithdrawFomBank() {
         return canMembersWithdrawFomBank;
     }
+
     public void setPublic(boolean isPublic) {
         this.isPublic = isPublic;
     }
+
     public void setAcceptingInvites(boolean acceptingInvites) {
         this.acceptingInvites = acceptingInvites;
     }
+
     public void setFriendlyFire(boolean friendlyFire) {
         this.friendlyFire = friendlyFire;
     }
+
     public void setCanMembersWithdrawFomBank(boolean canMembersWithdrawFomBank) {
         this.canMembersWithdrawFomBank = canMembersWithdrawFomBank;
     }
@@ -85,33 +92,43 @@ public class Gang {
     private long secondsPlayed = 0;
     private long moneyMade = 0;
     private long tokensFound = 0;
+
     public long getRawBlocksMined() {
         return rawBlocksMined;
     }
+
     public long getBlocksMined() {
         return blocksMined;
     }
+
     public long getSecondsPlayed() {
         return secondsPlayed;
     }
+
     public long getMoneyMade() {
         return moneyMade;
     }
+
     public long getTokensFound() {
         return tokensFound;
     }
+
     public void addRawBlocksMined(long rawBlocksMined) {
         this.rawBlocksMined += rawBlocksMined;
     }
+
     public void addBlocksMined(long blocksMined) {
         this.blocksMined += blocksMined;
     }
+
     public void addSecondsPlayed(long secondsPlayed) {
         this.secondsPlayed += secondsPlayed;
     }
+
     public void addMoneyMade(long moneyMade) {
         this.moneyMade = this.moneyMade + moneyMade;
     }
+
     public void addTokensFound(long tokensFound) {
         this.tokensFound = this.tokensFound + tokensFound;
     }
@@ -123,42 +140,53 @@ public class Gang {
     //Bank
     private long bankMoney = 0;
     private long bankTokens = 0;
+
     public long getBankMoney() {
         return bankMoney;
     }
+
     public long getBankTokens() {
         return bankTokens;
     }
+
     public void addBankMoney(long bankMoney) {
         this.bankMoney = this.bankMoney + bankMoney;
     }
+
     public void addBankTokens(long bankTokens) {
         this.bankTokens = this.bankTokens + bankTokens;
     }
+
     public void removeBankMoney(long bankMoney) {
         this.bankMoney = this.bankMoney - bankMoney;
     }
+
     public void removeBankTokens(long bankTokens) {
         this.bankTokens = this.bankTokens - bankTokens;
     }
 
     //Chest
     private GangChest gangChest;
+
     public GangChest getGangChest() {
         return gangChest;
     }
 
-    private Gang() {}
+    private Gang() {
+    }
 
     public static Gang getGang(UUID gang) {
         return GANGS.get(gang);
     }
+
     public static Gang getGangFromPlayerUUID(UUID playerUUID) {
         return PLAYER_GANGS.get(playerUUID);
     }
+
     public static Gang getGang(Player player) {
         return PLAYER_GANGS.get(player.getUniqueId());
     }
+
     public static boolean hasGang(Player player) {
         return PLAYER_GANGS.containsKey(player.getUniqueId());
     }
@@ -175,6 +203,7 @@ public class Gang {
         gang.gangChest = new GangChest(new ArrayList<>());
         return gang;
     }
+
     public static Gang loadGang(UUID uuid,
                                 UUID owner, String name, List<UUID> members,
                                 boolean isPublic, boolean acceptingInvites, boolean friendlyFire, boolean canMembersWithdrawFomBank,
@@ -201,6 +230,7 @@ public class Gang {
         for (UUID member : members) PLAYER_GANGS.put(member, gang);
         return gang;
     }
+
     public static ConfigurationSection saveGang(Gang gang) {
         ConfigurationSection section = new YamlConfiguration();
         section.set("uuid", gang.uuid.toString());
@@ -223,6 +253,7 @@ public class Gang {
         section.set("gangChest", gang.gangChest.serializeContents());
         return section;
     }
+
     public static void saveAllSync() {
         try {
             FileConfiguration fileData = new YamlConfiguration();
@@ -232,6 +263,7 @@ public class Gang {
             e.printStackTrace();
         }
     }
+
     public static void saveAll() {
         Map<UUID, Gang> temp = new HashMap<>(GANGS);
         Bukkit.getScheduler().runTaskAsynchronously(StaticPrisons.getInstance(), () -> {
@@ -244,6 +276,7 @@ public class Gang {
             }
         });
     }
+
     public static void init() {
         FileConfiguration fileData = YamlConfiguration.loadConfiguration(new File(StaticPrisons.getInstance().getDataFolder(), "data/gangs.yml"));
         for (String key : fileData.getKeys(false)) {
@@ -287,15 +320,18 @@ public class Gang {
         if (members.size() >= MAX_GANG_SIZE) return false;
         if (members.contains(member)) return false;
         messageAllMembers(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&a" + ServerData.PLAYERS.getName(member) + "&f joined your gang!"));
-        if (Bukkit.getPlayer(member) != null) Bukkit.getPlayer(member).sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You joined &b" + name + "!"));
+        if (Bukkit.getPlayer(member) != null)
+            Bukkit.getPlayer(member).sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "You joined &b" + name + "!"));
         members.add(member);
         PLAYER_GANGS.put(member, this);
         return true;
     }
+
     public void removeMember(UUID member) {
         members.remove(member);
         PLAYER_GANGS.remove(member);
     }
+
     public boolean isFull() {
         return members.size() >= MAX_GANG_SIZE;
     }
@@ -309,7 +345,8 @@ public class Gang {
         GANGS.remove(uuid);
         for (UUID member : members) {
             PLAYER_GANGS.remove(member);
-            if (Bukkit.getPlayer(member) != null) Bukkit.getPlayer(member).sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&cYour gang was deleted"));
+            if (Bukkit.getPlayer(member) != null)
+                Bukkit.getPlayer(member).sendMessage(Gang.PREFIX + ChatColor.translateAlternateColorCodes('&', "&cYour gang was deleted"));
         }
         members.clear();
     }

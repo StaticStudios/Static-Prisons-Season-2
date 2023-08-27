@@ -46,6 +46,7 @@ public class Cell { //TODO: currently cells are built on the main thread, consid
     public static Cell getCell(Player player) {
         return CellManager.cells.get(CellManager.playersToCell.get(player.getUniqueId()));
     }
+
     public static Cell getCell(UUID cellUuid) {
         return CellManager.cells.get(cellUuid);
     }

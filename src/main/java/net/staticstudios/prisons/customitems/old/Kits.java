@@ -17,8 +17,8 @@ public class Kits {
     public static List<Kit> kits = new ArrayList<>();
 
 
-
-    public static Kit TIER1 = new Kit() {};
+    public static Kit TIER1 = new Kit() {
+    };
     public static Kit TIER2 = new Kit();
     public static Kit TIER3 = new Kit();
     public static Kit TIER4 = new Kit();

@@ -183,8 +183,6 @@ public class EnchantMenus {
     }
 
 
-
-
     static void upgradeEnchant(Player player, Class<? extends Enchantment> enchantClass, PrisonPickaxe pickaxe) {
         PickaxeEnchant pickaxeEnchantment = (PickaxeEnchant) Enchantable.getEnchant(enchantClass);
         PlayerData playerData = new PlayerData(player);
@@ -197,7 +195,6 @@ public class EnchantMenus {
         gui.setButtons(MenuUtils.makeUpgradeMenuButtons(enchantClass, pickaxeEnchantment, playerData, pickaxe, gui));
         gui.open(player);
     }
-
 
 
     private static class MenuUtils {
@@ -285,6 +282,7 @@ public class EnchantMenus {
                     .onLeftClick(plr -> enchantDisabled(disabled, plr, pickaxe, enchantClass))
                     .build();
         }
+
         static void enchantDisabled(boolean disabled, Player player, PrisonPickaxe pickaxe, Class<? extends Enchantment> enchantClass) {
             if (disabled) {
                 pickaxe.enableEnchantment(enchantClass, player);

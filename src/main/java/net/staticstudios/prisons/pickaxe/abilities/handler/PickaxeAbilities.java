@@ -1,14 +1,5 @@
 package net.staticstudios.prisons.pickaxe.abilities.handler;
 
-import net.staticstudios.prisons.StaticPrisons;
-import net.staticstudios.prisons.blockbreak.BlockBreak;
-import net.staticstudios.prisons.pickaxe.PrisonPickaxe;
-import net.staticstudios.prisons.pickaxe.abilities.*;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
-import java.util.*;
-
 public class PickaxeAbilities {
 //
 //    public static BaseAbility LIGHTNING_STRIKE;

@@ -70,6 +70,7 @@ public class PrivateMineMenus extends GUIUtils {
         c.setOnCloseRun(onClose);
         c.open(player);
     }
+
     public static void manageMine(Player player, boolean fromCommand) {
 
         player.sendMessage(ChatColor.RED + "This feature has been disabled.");
@@ -87,7 +88,8 @@ public class PrivateMineMenus extends GUIUtils {
             PrivateMine unloadedPrivateMine = PrivateMine.getPrivateMineFromPlayerWithoutLoading(player);
             c.setItem(11, ench(c.createButton(Material.COMPASS, "&b&lWarp to Mine", List.of("Warp to your private mine"), (p, t) -> {
                 p.closeInventory();
-                if (!PrivateMine.getPrivateMineFromPlayerWithoutLoading(player).isLoaded) p.sendMessage(ChatColor.AQUA + "Loading your private mine...");
+                if (!PrivateMine.getPrivateMineFromPlayerWithoutLoading(player).isLoaded)
+                    p.sendMessage(ChatColor.AQUA + "Loading your private mine...");
                 PrivateMine.getPrivateMineFromPlayer(p).thenAccept(pm -> pm.warpTo(p));
             })));
             c.setItem(12, ench(c.createButton(Material.AMETHYST_SHARD, "&d&lRefill Mine", List.of("Refill your private mine (/pmine refill)", "", "&c&oThis action can only be done once every 30 seconds!"), (p, t) -> {
@@ -224,6 +226,7 @@ public class PrivateMineMenus extends GUIUtils {
     }
 
     public static final int MINES_PER_PAGE = 45;
+
     public static void publicMines(Player player, int page, boolean fromCommand) {
 
         player.sendMessage(ChatColor.RED + "This feature has been disabled.");
@@ -316,6 +319,7 @@ public class PrivateMineMenus extends GUIUtils {
         c.fill(createGrayPlaceHolder());
         c.open(player);
     }
+
     public static void upgrade(Player player, boolean fromCommand) {
 
         player.sendMessage(ChatColor.RED + "This feature has been disabled.");

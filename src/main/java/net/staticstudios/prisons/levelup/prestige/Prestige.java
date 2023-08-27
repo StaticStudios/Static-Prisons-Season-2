@@ -15,6 +15,7 @@ public class Prestige {
 
     /**
      * Attempt to prestige a player
+     *
      * @param player The player to prestige
      * @param amount The amount of prestiges to buy
      * @return true if the player was able to prestige, false otherwise

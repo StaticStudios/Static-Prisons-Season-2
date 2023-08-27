@@ -6,7 +6,10 @@ import net.staticstudios.prisons.pvp.commands.PvPEventCommand;
 import net.staticstudios.prisons.pvp.koth.KingOfTheHillManager;
 import net.staticstudios.prisons.pvp.outposts.OutpostManager;
 import net.staticstudios.prisons.utils.Warps;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

@@ -36,10 +36,12 @@ public class StaticMineBuilder {
     private boolean refillOnTimer = false;
 
 
-    public StaticMineBuilder() {}
+    public StaticMineBuilder() {
+    }
 
     /**
      * Set the mine's ID.
+     *
      * @param id The mine's ID.
      * @return This builder instance.
      */
@@ -50,6 +52,7 @@ public class StaticMineBuilder {
 
     /**
      * Set the corners of the mine.
+     *
      * @param corner1 The mine's corner 1.
      * @param corner2 The mine's corner 2.
      * @return This builder instance.
@@ -62,6 +65,7 @@ public class StaticMineBuilder {
 
     /**
      * Set the mine's world.
+     *
      * @param world The mine's world.
      * @return This builder instance.
      */
@@ -72,6 +76,7 @@ public class StaticMineBuilder {
 
     /**
      * Set the mine's world.
+     *
      * @param world The mine's world.
      * @return This builder instance.
      */
@@ -82,6 +87,7 @@ public class StaticMineBuilder {
 
     /**
      * Set the mine's blocks.
+     *
      * @param blocks The mine's blocks.
      * @return This builder instance.
      */
@@ -92,6 +98,7 @@ public class StaticMineBuilder {
 
     /**
      * Set whether the mine should refill synchronously.
+     *
      * @param refillSync The mine's refill sync setting.
      * @return This builder instance.
      */
@@ -102,6 +109,7 @@ public class StaticMineBuilder {
 
     /**
      * Set whether the mine should save to file.
+     *
      * @param saveToFile The mine's save to file setting.
      * @return This builder instance.
      */
@@ -112,6 +120,7 @@ public class StaticMineBuilder {
 
     /**
      * Set the amount of the mine left before it should refill automatically.
+     *
      * @param refillAtPercentFull The mine's refill at percent full setting (0 - 100).
      * @return This builder instance.
      */
@@ -122,6 +131,7 @@ public class StaticMineBuilder {
 
     /**
      * Set the amount of time between automatic refills.
+     *
      * @param secondsBetweenRefill The mine's seconds between refills setting.
      * @return This builder instance.
      */
@@ -132,6 +142,7 @@ public class StaticMineBuilder {
 
     /**
      * Set whether the mine should refill on timer.
+     *
      * @param refillOnTimer The mine's refill on timer setting.
      * @return This builder instance.
      */
@@ -142,6 +153,7 @@ public class StaticMineBuilder {
 
     /**
      * Set whether the mine should refill asynchronously.
+     *
      * @param async The mine's async setting.
      * @return This builder instance.
      */
@@ -152,6 +164,7 @@ public class StaticMineBuilder {
 
     /**
      * Set the mine's on refill callback.
+     *
      * @param consumer The mine's on refill callback.
      * @return This builder instance.
      */
@@ -162,6 +175,7 @@ public class StaticMineBuilder {
 
     /**
      * Build the mine.
+     *
      * @return The built mine.
      */
     public StaticMine build() {

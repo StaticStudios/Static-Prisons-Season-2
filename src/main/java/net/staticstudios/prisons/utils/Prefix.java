@@ -9,9 +9,9 @@ import static net.kyori.adventure.text.format.TextDecoration.BOLD;
 public class Prefix {
 
     public static final Component PVP = Component.textOfChildren(
-                    Component.text("PVP").color(ComponentUtil.RED).decoration(TextDecoration.BOLD, true),
-                    Component.text(" >> ").color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true)
-            );
+            Component.text("PVP").color(ComponentUtil.RED).decoration(TextDecoration.BOLD, true),
+            Component.text(" >> ").color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true)
+    );
 
     //koth - dark red
     public static final Component KOTH = Component.textOfChildren(
@@ -95,19 +95,19 @@ public class Prefix {
     );
 
     public static final Component FISHING = Component.textOfChildren(
-                    Component.text("Fishing").color(ComponentUtil.YELLOW).decoration(TextDecoration.BOLD, true),
-                    Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true)
-            );
+            Component.text("Fishing").color(ComponentUtil.YELLOW).decoration(TextDecoration.BOLD, true),
+            Component.text(" >> ").color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true)
+    );
 
     public static final Component RANKS = Component.textOfChildren(
-                    Component.text("Ranks").color(ComponentUtil.RED).decoration(TextDecoration.BOLD, true),
-                    Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true)
-            );
+            Component.text("Ranks").color(ComponentUtil.RED).decoration(TextDecoration.BOLD, true),
+            Component.text(" >> ").color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true)
+    );
 
     public static final Component STATIC_PRISONS = Component.textOfChildren(
             Component.text("Static Prisons").color(ComponentUtil.LIGHT_PURPLE).decoration(TextDecoration.BOLD, true),
-            Component.text(" >> " ).color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true)
-            );
+            Component.text(" >> ").color(ComponentUtil.DARK_GRAY).decoration(TextDecoration.BOLD, true)
+    );
 
     public static final Component STAFF_CHAT = Component.textOfChildren(
             Component.text("[").color(NamedTextColor.DARK_GRAY),

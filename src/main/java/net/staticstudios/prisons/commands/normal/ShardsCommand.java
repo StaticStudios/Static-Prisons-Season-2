@@ -21,6 +21,7 @@ public class ShardsCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(ChatColor.LIGHT_PURPLE + "Current shards: " + PrisonUtils.addCommasToNumber(new PlayerData(player).getShards()));
         return false;
     }
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();

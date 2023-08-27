@@ -29,7 +29,11 @@ import java.util.function.Consumer;
 public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
 
     private static JavaPlugin parent;
-    public static JavaPlugin getParent() { return parent; }
+
+    public static JavaPlugin getParent() {
+        return parent;
+    }
+
     public static void enable(JavaPlugin parent) {
         StaticGUI.parent = parent;
         init();
@@ -41,6 +45,7 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
     public static boolean checkIfPlayerIsViewingAMenu(Player player) {
         return player.getOpenInventory().getTopInventory().getHolder() instanceof StaticGUI;
     }
+
     public static StaticGUI getMenuBeingViewedByPlayer(Player player) {
         if (!checkIfPlayerIsViewingAMenu(player)) return null;
         return (StaticGUI) player.getOpenInventory().getTopInventory().getHolder();
@@ -49,6 +54,7 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
     private final UUID guiUUID = UUID.randomUUID();
 
     private final Inventory inventory;
+
     @NotNull
     @Override
     public Inventory getInventory() {
@@ -61,29 +67,60 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
     private Consumer<InventoryClickEvent> onClickEmptySlot = null;
 
 
-    public StaticGUI getMenuToOpenOnClose() { return openOnClose; }
-    public void setInventoryToOpenOnClose(StaticGUI menu) { openOnClose = menu; }
-    public GUIRunnable getOnCloseRun() { return onCloseRun; }
-    public void setOnCloseRun(GUIRunnable r) { onCloseRun = r; }
-    public GUIRunnable getOnOpenRun() { return onOpenRun; }
-    public void setOnOpenRun(GUIRunnable r) { onOpenRun = r; }
-    public Consumer<InventoryClickEvent> getOnClickEmptySlot() { return onClickEmptySlot; }
-    public void setOnClickEmptySlot(Consumer<InventoryClickEvent> c) { onClickEmptySlot = c; }
+    public StaticGUI getMenuToOpenOnClose() {
+        return openOnClose;
+    }
 
+    public void setInventoryToOpenOnClose(StaticGUI menu) {
+        openOnClose = menu;
+    }
+
+    public GUIRunnable getOnCloseRun() {
+        return onCloseRun;
+    }
+
+    public void setOnCloseRun(GUIRunnable r) {
+        onCloseRun = r;
+    }
+
+    public GUIRunnable getOnOpenRun() {
+        return onOpenRun;
+    }
+
+    public void setOnOpenRun(GUIRunnable r) {
+        onOpenRun = r;
+    }
+
+    public Consumer<InventoryClickEvent> getOnClickEmptySlot() {
+        return onClickEmptySlot;
+    }
+
+    public void setOnClickEmptySlot(Consumer<InventoryClickEvent> c) {
+        onClickEmptySlot = c;
+    }
 
 
     // An ID that can be used to check what menu a player has opened.
     // For example, the ID could be "shop-food" and if you called the getMenuID() method
     // on the menu that the player has opened, then you would know that they are looking at the food shop menu.
     private String menuID = "";
-    public String getMenuID() { return menuID; }
-    public void setMenuID(String menuID) { this.menuID = menuID; }
+
+    public String getMenuID() {
+        return menuID;
+    }
+
+    public void setMenuID(String menuID) {
+        this.menuID = menuID;
+    }
+
     public boolean destroyOnClose = false;
+
     public void setDestroyOnClose(boolean destroy) {
         destroyOnClose = destroy;
     }
-    public Map<String , GUIRunnable> callbacks = new HashMap<>();
-    public Map<String , Consumer<InventoryClickEvent>> listeners = new HashMap<>();
+
+    public Map<String, GUIRunnable> callbacks = new HashMap<>();
+    public Map<String, Consumer<InventoryClickEvent>> listeners = new HashMap<>();
 
 
     public StaticGUI(int size, String title) {
@@ -96,7 +133,9 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
         allMenus.put(guiUUID, this);
     }
 
-    public void destroy() { allMenus.remove(guiUUID); }
+    public void destroy() {
+        allMenus.remove(guiUUID);
+    }
 
     public void open(Player player) {
         if (player == null) return;
@@ -113,10 +152,12 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
         }
         return this;
     }
+
     public StaticGUI setItem(int index, ItemStack item) {
         inventory.setItem(index, item);
         return this;
     }
+
     public StaticGUI addItem(ItemStack... item) {
         inventory.addItem(item);
         return this;
@@ -124,6 +165,7 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
 
     /**
      * Fills all empty slots with the item specified
+     *
      * @param item to replace empty slots
      */
     public StaticGUI fill(ItemStack item) {
@@ -179,6 +221,7 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
         applyCallbackToItem(item, callback);
         return item;
     }
+
     public ItemStack createButton(ItemStack item, Consumer<InventoryClickEvent> listener) {
         applyAdditionalListener(item, listener);
         return item;
@@ -211,7 +254,8 @@ public abstract class StaticGUI extends GUIUtils implements InventoryHolder {
         ItemStack itemStack = createCustomSkull(player);
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&r" + name));
-        for (int i = 0; i < lore.size(); i++) lore.set(i, ChatColor.translateAlternateColorCodes('&', "&7" + lore.get(i)));
+        for (int i = 0; i < lore.size(); i++)
+            lore.set(i, ChatColor.translateAlternateColorCodes('&', "&7" + lore.get(i)));
         meta.setLore(lore);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemStack.setItemMeta(meta);

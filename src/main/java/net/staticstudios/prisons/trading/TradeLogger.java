@@ -10,7 +10,10 @@ import org.bukkit.inventory.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
@@ -33,7 +36,6 @@ public class TradeLogger {
     private final TradeActionLogger actionLogger = new TradeActionLogger(this);
 
     private boolean finished = false;
-
 
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

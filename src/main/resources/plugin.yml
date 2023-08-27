@@ -4,7 +4,7 @@ prefix: Static-Prisons
 description: This plugin allows static prisons to run!
 main: net.staticstudios.prisons.StaticPrisons
 api-version: 1.18
-depend: [ WorldEdit, WorldGuard, LuckPerms, WorldBorderAPI, ProtocolLib, Citizens ]
+depend: [ WorldEdit, WorldGuard, LuckPerms, WorldBorderAPI, ProtocolLib ]
 permissions:
   static:
     description: "Root node for the Static-Prisons plugin"
